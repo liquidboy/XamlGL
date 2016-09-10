@@ -1,0 +1,21 @@
+{
+  "name": "xamlgl",
+  "version": "0.0.4",
+  "main": "dist/xamlgl.js",
+  "homepage": "http://advertboy.wordpress.com",
+  "authors": [
+    "Jose <fajardo_jf@hotmail.com>"
+  ],
+  "ignore": [
+    "bower.json",
+    "package.json",
+    "Gruntfile.js"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.15",
+    "requirejs-text": "~2.0.12"
+  },
+  "devDependencies": {
+    "qunit": "~1.18.0"
+  }
+}

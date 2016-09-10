@@ -23,19 +23,43 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="gulpfile.js" />
+    <Content Include="gulp\bump.js" />
+    <Content Include="gulp\default.js" />
+    <Content Include="gulp\dist.js" />
+    <Content Include="gulp\reset.js" />
+    <Content Include="gulp\testsite.js" />
     <Content Include="index.html" />
+    <Content Include="testsite\index.html" />
+    <Content Include="testsite\test.html" />
+    <Content Include="testsite\xamlload.html" />
+    <Content Include="themes\Metro.theme.xml" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="src\Engine\Application.ts" />
+    <TypeScriptCompile Include="src\Runtime\Bootstrap.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bower.json" />
+    <Content Include=".bowerrc" />
+    <Content Include="package.json" />
+    <Content Include="testsite\xamlgl.json" />
+    <None Include="testsite\Shapes\rectangle-basic.xap" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
+    <Content Include="xamlgl.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="themes\assets\metro\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

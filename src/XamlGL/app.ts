@@ -1,4 +1,4 @@
-﻿class Greeter {
+﻿class XamlGLApp {
     element: HTMLElement;
     span: HTMLElement;
     timerToken: number;
@@ -9,6 +9,7 @@
         this.span = document.createElement('span');
         this.element.appendChild(this.span);
         this.span.innerText = new Date().toUTCString();
+        
     }
 
     start() {
@@ -23,6 +24,6 @@
 
 window.onload = () => {
     var el = document.getElementById('content');
-    var greeter = new Greeter(el);
+    var greeter = new XamlGLApp(el);
     greeter.start();
 };
