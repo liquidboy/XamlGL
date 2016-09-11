@@ -1,6 +1,6 @@
 {
   "name": "xamlgl",
-  "version": "0.0.4",
+  "version": "0.0.12",
   "description": "Xaml WebGL",
   "main": "Gruntfile.js",
   "directories": {
