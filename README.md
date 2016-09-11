@@ -2,8 +2,8 @@
 
 shhhhh
 
-gulp dist
-gulp reset
+gulp dist, 
+gulp reset, 
 gulp testsite
 
 
