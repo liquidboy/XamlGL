@@ -1,4 +1,5 @@
-﻿module XamlGL {
+﻿/// <reference path="Interface.ts" />
+module XamlGL {
     export interface IEnumerator<T> {
         current: T;
         moveNext(): boolean;

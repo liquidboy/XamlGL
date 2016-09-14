@@ -1,11 +1,10 @@
-﻿module XamlGL.Markup.Xaml {
+﻿/// <reference path="../../Memoizer.ts" />
+module XamlGL.Markup.Xaml {
     var parser = new DOMParser();
-    var xcache = new Memoizer<XamlMarkup>((key) => new XamlMarkup(key));
-
     export class XamlMarkup extends Markup<Element> {
         static create (uri: string): XamlMarkup;
         static create (uri: Uri): XamlMarkup;
-        static create (uri: any): XamlMarkup {
+        static create(uri: any): XamlMarkup {
             return xcache.memoize(uri.toString());
         }
 
@@ -18,4 +17,5 @@
             return doc.documentElement;
         }
     }
+    var xcache = new Memoizer<XamlMarkup>((key) => new XamlMarkup(key));
 }

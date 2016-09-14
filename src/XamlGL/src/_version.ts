@@ -1,3 +1,3 @@
 module xamlgl {
-    export var version = '0.0.12';
+    export var version = '0.0.26';
 }

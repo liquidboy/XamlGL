@@ -14,7 +14,7 @@
     }
 
     function bootstrapApp(appUrl: string) {
-        
+        alert(appUrl);
     }
 
 }
