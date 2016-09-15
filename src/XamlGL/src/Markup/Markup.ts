@@ -1,4 +1,6 @@
 ﻿module XamlGL.Markup {
+    import XamlMarkup = XamlGL.Markup.Xaml.XamlMarkup;
+
     export class Markup<T> {
         uri: Uri;
         root: T;
@@ -41,5 +43,27 @@
             this.root = markup;
             return this;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+    export function Retrieve(uri: string): Promise<XamlMarkup>;
+    export function Retrieve(uri: Uri): Promise<XamlMarkup>;
+    export function Retrieve(uri: any): Promise<XamlMarkup> {
+        var xm = XamlMarkup.create(uri);
+        if (xm.isLoaded)
+            return Promise.resolve(xm);
+        return xm.loadAsync();
     }
 }
