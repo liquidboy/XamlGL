@@ -5,6 +5,6 @@
     }
 
     public Test(): void {
-        alert("Test20");
+        alert("Test21");
     }
 }

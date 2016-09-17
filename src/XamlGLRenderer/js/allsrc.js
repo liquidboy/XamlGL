@@ -9,7 +9,7 @@ System.register("XamlGL/Renderer", [], function(exports_1, context_1) {
                 constructor() {
                 }
                 Test() {
-                    alert("Test20");
+                    alert("Test21");
                 }
             };
             exports_1("Renderer", Renderer);

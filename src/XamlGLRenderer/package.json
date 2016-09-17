@@ -18,7 +18,6 @@
   "author": "Jose Fajardo <fajardo_jf@hotmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "bower-typings": "^0.1.0",
-    "pixi.js": "^4.0.1"
+    "bower-typings": "^0.1.0"
   }
 }
