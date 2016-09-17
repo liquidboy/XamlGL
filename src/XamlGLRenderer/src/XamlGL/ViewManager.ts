@@ -11,9 +11,9 @@ export class ViewManager {
     public static RenderView(view: string, model: any): void {
         console.log(PIXI);
 
-        $.get("/views/" + view).done((data) => {
+        $.get(`/views/${view}.html`).done((data) => {
             $("#content").html(data);
-            rivets.bind($(".pixi-test"), { model: model });
+            rivets.bind($(`.${view}`), { model: model });
         });
         
     }

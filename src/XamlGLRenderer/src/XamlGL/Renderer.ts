@@ -11,8 +11,8 @@ export class Renderer {
     }
 
     public Start(): void {
-        console.log(PIXI);
+        console.log(PIXI); // todo : remove and find a better way for debugging stuff
 
-        ViewManager.RenderView("pixi-test.html", PIXI);
+        ViewManager.RenderView("pixi-home", PIXI);
     }
 }

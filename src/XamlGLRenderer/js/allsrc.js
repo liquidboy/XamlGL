@@ -10,9 +10,9 @@ System.register("XamlGL/ViewManager", [], function(exports_1, context_1) {
                 }
                 static RenderView(view, model) {
                     console.log(PIXI);
-                    $.get("/views/" + view).done((data) => {
+                    $.get(`/views/${view}.html`).done((data) => {
                         $("#content").html(data);
-                        rivets.bind($(".pixi-test"), { model: model });
+                        rivets.bind($(`.${view}`), { model: model });
                     });
                 }
             };
@@ -36,7 +36,7 @@ System.register("XamlGL/Renderer", ["XamlGL/ViewManager"], function(exports_2, c
                 }
                 Start() {
                     console.log(PIXI);
-                    ViewManager_1.ViewManager.RenderView("pixi-test.html", PIXI);
+                    ViewManager_1.ViewManager.RenderView("pixi-home", PIXI);
                 }
             };
             exports_2("Renderer", Renderer);
