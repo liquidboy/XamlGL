@@ -9,7 +9,7 @@ System.register("XamlGL/Renderer", [], function(exports_1, context_1) {
                 constructor() {
                 }
                 Test() {
-                    console.log(PIXI.VERSION);
+                    console.log(PIXI);
                     rivets.bind($("#test"), { model: PIXI });
                 }
             };
@@ -56,6 +56,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_3, contex
                     this.span.innerText = new Date().toUTCString();
                 }
                 Start() {
+                    this.Configure();
                     this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
                     var url = document.body.getAttribute("xamlgl-app");
                     if (!url) {
@@ -67,6 +68,17 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_3, contex
                 }
                 Stop() {
                     clearTimeout(this.timerToken);
+                }
+                Configure() {
+                    rivets.configure({
+                        prefix: 'rv',
+                        preloadData: true,
+                        rootInterface: '.',
+                        templateDelimiters: ['{', '}'],
+                        handler: function (target, event, binding) {
+                            this.call(target, event, binding.view.models);
+                        }
+                    });
                 }
             };
             exports_3("XamlApp", XamlApp);

@@ -9,7 +9,7 @@ export class Renderer {
     }
 
     public Test(): void {
-        console.log(PIXI.VERSION);
+        console.log(PIXI);
         rivets.bind($("#test"), { model: PIXI });
     }
 }
