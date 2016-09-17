@@ -36,3 +36,5 @@ src/XamlGL/src/**/*.js.map
 src/XamlGLRenderer/bower_components/*
 src/XamlGLRenderer/node_modules/*
 src/XamlGLRenderer/typings/*
+src/XamlGLRenderer/js/*.ts
+src/XamlGLRenderer/js/*.js.map

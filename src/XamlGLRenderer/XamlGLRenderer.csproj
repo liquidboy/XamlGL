@@ -447,6 +447,7 @@
     <Content Include="bower_components\system.js\dist\system.js" />
     <Content Include="bower_components\system.js\dist\system.src.js" />
     <Content Include="index.html" />
+    <Content Include="js\allsrc.js" />
     <Content Include="node_modules\bower-typings\index.js" />
     <Content Include="node_modules\bower-typings\node_modules\fayde-unify\bin\unify.js" />
     <Content Include="node_modules\bower-typings\node_modules\fayde-unify\lib\asyncpromise\index.js" />
@@ -3306,7 +3307,7 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Bootstrap\XamlApp.ts" />
+    <TypeScriptCompile Include="src\Bootstrap\XamlApp.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\src\core\expressions\compiler.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx-lite.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.aggregates.d.ts" />
@@ -3329,8 +3330,8 @@
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time-lite.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.virtualtime.d.ts" />
-    <TypeScriptCompile Include="XamlGL\Core.ts" />
-    <TypeScriptCompile Include="XamlGL\Renderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Renderer.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bower.json" />
@@ -4065,7 +4066,7 @@
     <Content Include="node_modules\pixi.js\src\filters\noise\noise.frag" />
     <Content Include="node_modules\pixi.js\src\filters\void\void.frag" />
     <Content Include="typings.json" />
-    <Content Include="tsconfig.json" />
+    <Content Include="src\tsconfig.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -4081,9 +4082,7 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="js\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>
@@ -4111,19 +4110,20 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
     <TypeScriptTarget>ES6</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptModuleKind>System</TypeScriptModuleKind>
-    <TypeScriptOutFile>all.js</TypeScriptOutFile>
-    <TypeScriptOutDir>./</TypeScriptOutDir>
+    <TypeScriptOutFile>./src/all.js</TypeScriptOutFile>
+    <TypeScriptOutDir>
+    </TypeScriptOutDir>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptMapRoot />
-    <TypeScriptSourceRoot>./</TypeScriptSourceRoot>
+    <TypeScriptSourceRoot>E:\Source\gh\liquidboy\XamlGL\src</TypeScriptSourceRoot>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptRemoveComments>true</TypeScriptRemoveComments>

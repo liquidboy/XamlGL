@@ -10,13 +10,12 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outFile": "all.js",
-    "outDir": "./js",
-    "sourceRoot": "./js"
+    "outFile": "./../js/allsrc.js"
   },
   "exclude": [
-    "node_modules",
-    "bower_components",
-    "typings"
+    "./node_modules",
+    "./bower_components",
+    "./typings",
+    "./js"
   ]
 }
