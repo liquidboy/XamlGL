@@ -4066,6 +4066,7 @@
     <Content Include="node_modules\pixi.js\src\filters\noise\noise.frag" />
     <Content Include="node_modules\pixi.js\src\filters\void\void.frag" />
     <Content Include="typings.json" />
+    <Content Include="tsconfig.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -4097,7 +4098,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32425</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32425/</IISUrl>
+          <IISUrl>http://localhost:32426/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

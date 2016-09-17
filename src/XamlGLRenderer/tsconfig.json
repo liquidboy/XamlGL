@@ -1,0 +1,22 @@
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "es6",
+    "module": "system",
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "declaration": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outFile": "all.js",
+    "outDir": "./",
+    "sourceRoot": "./"
+  },
+  "exclude": [
+    "node_modules",
+    "bower_components",
+    "typings"
+  ]
+}
