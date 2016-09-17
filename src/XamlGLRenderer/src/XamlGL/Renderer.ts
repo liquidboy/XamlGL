@@ -10,7 +10,15 @@ export class Renderer {
 
     public Start(): void {
         console.log(PIXI); // todo : remove and find a better way for debugging stuff
+        
+        ViewManager.RenderView("pixi-home", PIXI, (jqView: JQuery) => {    
+            let renderer = PIXI.autoDetectRenderer(500, 500);
+            jqView.find(".pixi-canvas").append(renderer.view);
+            let stage = new PIXI.Container();
+            renderer.render(stage);
+        });
+        
 
-        ViewManager.RenderView("pixi-home", PIXI);
+
     }
 }

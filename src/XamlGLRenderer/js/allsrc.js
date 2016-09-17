@@ -12,14 +12,17 @@ System.register("XamlGL/ViewManager", [], function(exports_1, context_1) {
                     this.ContentElementId = contentId;
                     this._isReady = true;
                 }
-                static RenderView(view, model) {
+                static RenderView(view, model, done) {
                     if (!this._isReady) {
                         console.warn("ViewManager: you tried to render a view BUT the ViewManager was not ready!");
                         return;
                     }
+                    let jqContent = $(`#${this.ContentElementId}`);
                     $.get(`/views/${view}.html`).done((data) => {
-                        $(`#${this.ContentElementId}`).html(data);
+                        jqContent.html(data);
                         rivets.bind($(`.${view}`), { model: model });
+                        if (done)
+                            done.call(this, jqContent);
                     });
                 }
             };
@@ -44,7 +47,12 @@ System.register("XamlGL/Renderer", ["XamlGL/ViewManager"], function(exports_2, c
                 }
                 Start() {
                     console.log(PIXI);
-                    ViewManager_1.ViewManager.RenderView("pixi-home", PIXI);
+                    ViewManager_1.ViewManager.RenderView("pixi-home", PIXI, (jqView) => {
+                        let renderer = PIXI.autoDetectRenderer(500, 500);
+                        jqView.find(".pixi-canvas").append(renderer.view);
+                        let stage = new PIXI.Container();
+                        renderer.render(stage);
+                    });
                 }
             };
             exports_2("Renderer", Renderer);

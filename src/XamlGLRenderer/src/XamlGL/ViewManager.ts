@@ -15,16 +15,18 @@ export class ViewManager {
         this._isReady = true;
     }
 
-    public static RenderView(view: string, model: any): void {
+    public static RenderView(view: string, model: any, done: Function): void {
         if (!this._isReady) {
             console.warn("ViewManager: you tried to render a view BUT the ViewManager was not ready!");
             return;
         }
 
+        let jqContent :JQuery = $(`#${this.ContentElementId}`);
+
         $.get(`/views/${view}.html`).done((data) => {
-            $(`#${this.ContentElementId}`).html(data);
+            jqContent.html(data);
             rivets.bind($(`.${view}`), { model: model });
+            if (done) done.call(this, jqContent); 
         });
-        
     }
 }
