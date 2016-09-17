@@ -1,7 +1,0 @@
-{
-  "directory": "lib",
-  "scriptsxxx": {
-    "postinstall": "unify update",
-    "preuninstall": "unify update -un %"
-  }
-}

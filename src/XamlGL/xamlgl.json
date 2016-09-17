@@ -1,8 +1,0 @@
-﻿{
-  "libs": { },
-  "themes": { },
-  "debug": {
-    "warnMissingThemes": false,
-    "warnBrokenPath": false
-  }
-}

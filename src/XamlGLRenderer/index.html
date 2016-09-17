@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <script src="bower_components/system.js/dist/System.js"></script>
+    <script src="bower_components/pixi.js/bin/pixi.js"></script>
+    <script src="all.js"></script>
+    <script type="text/javascript">
+        window.onload = () => {
+            
+            var el = document.getElementById('content');
+
+            System.import('Bootstrap/XamlApp').then(function (m) {
+                let app = new m.XamlApp(el);
+                app.Start();
+            }, console.log.bind(console));
+
+           
+        };
+    </script>
+</head>
+<body xamlgl-app="rectangle">
+    <h1>TypeScript HTML App</h1>
+
+    <div id="content"></div>
+</body>
+</html>

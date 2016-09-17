@@ -1,0 +1,24 @@
+{
+  "name": "xamlgl",
+  "version": "0.0.46",
+  "description": "Xaml WebGL",
+  "directories": {
+  },
+  "scripts": {
+  },
+  "homepage": "https://github.com/liquidboy/XamlGL",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/liquidboy/XamlGL"
+  },
+  "keywords": [
+    "xaml",
+    "webgl"
+  ],
+  "author": "Jose Fajardo <fajardo_jf@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "bower-typings": "^0.1.0",
+    "pixi.js": "^4.0.1"
+  }
+}

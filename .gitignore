@@ -33,3 +33,6 @@ src/XamlGL/dist/*
 src/XamlGL/testsite/lib/*
 src/XamlGL/src/**/*.js
 src/XamlGL/src/**/*.js.map
+src/XamlGLRenderer/bower_components/*
+src/XamlGLRenderer/node_modules/*
+src/XamlGLRenderer/typings/*
