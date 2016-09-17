@@ -9,7 +9,7 @@ System.register("XamlGL/Renderer", [], function(exports_1, context_1) {
                 constructor() {
                 }
                 Test() {
-                    console.log(_RendererLib);
+                    console.log(PIXI.VERSION);
                 }
             };
             exports_1("Renderer", Renderer);

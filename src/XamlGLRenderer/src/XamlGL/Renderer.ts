@@ -1,4 +1,4 @@
-﻿declare var _RendererLib: any;
+﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
 
 export class Renderer {
 
@@ -7,6 +7,6 @@ export class Renderer {
     }
 
     public Test(): void {
-        console.log(_RendererLib);
+        console.log(PIXI.VERSION);
     }
 }

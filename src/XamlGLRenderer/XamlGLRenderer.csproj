@@ -1184,6 +1184,8 @@
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.virtualtime.d.ts" />
     <TypeScriptCompile Include="src\XamlGL\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Renderer.ts" />
+    <TypeScriptCompile Include="typings\globals\pixi.js\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bower.json" />
@@ -1383,6 +1385,7 @@
     <Content Include="bower_components\pixi.js\src\filters\fxaa\fxaa.vert" />
     <Content Include="bower_components\pixi.js\src\filters\noise\noise.frag" />
     <Content Include="bower_components\pixi.js\src\filters\void\void.frag" />
+    <Content Include="typings\globals\pixi.js\typings.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
