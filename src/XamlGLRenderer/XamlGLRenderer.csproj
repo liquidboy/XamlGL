@@ -287,6 +287,7 @@
     <Content Include="bower_components\system.js\dist\system.src.js" />
     <Content Include="index.html" />
     <Content Include="js\allsrc.js" />
+    <Content Include="js\jquery.min.js" />
     <Content Include="js\jquery.slim.min.js" />
     <Content Include="js\pixi.min.js" />
     <Content Include="js\rivets.bundled.min.js" />
@@ -1340,6 +1341,7 @@
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.virtualtime.d.ts" />
     <TypeScriptCompile Include="src\XamlGL\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />
     <TypeScriptCompile Include="src\XamlGL\Renderer.ts" />
     <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\pixi.js\index.d.ts" />

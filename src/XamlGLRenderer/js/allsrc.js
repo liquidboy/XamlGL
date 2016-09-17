@@ -1,44 +1,73 @@
-System.register("XamlGL/Renderer", [], function(exports_1, context_1) {
+System.register("XamlGL/ViewManager", [], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var Renderer;
+    var ViewManager;
     return {
         setters:[],
+        execute: function() {
+            ViewManager = class ViewManager {
+                constructor() {
+                }
+                static RenderView(view, model) {
+                    console.log(PIXI);
+                    $.get("/views/" + view).done((data) => {
+                        $("#content").html(data);
+                        rivets.bind($(".pixi-test"), { model: model });
+                    });
+                }
+            };
+            exports_1("ViewManager", ViewManager);
+        }
+    }
+});
+System.register("XamlGL/Renderer", ["XamlGL/ViewManager"], function(exports_2, context_2) {
+    "use strict";
+    var __moduleName = context_2 && context_2.id;
+    var ViewManager_1;
+    var Renderer;
+    return {
+        setters:[
+            function (ViewManager_1_1) {
+                ViewManager_1 = ViewManager_1_1;
+            }],
         execute: function() {
             Renderer = class Renderer {
                 constructor() {
                 }
-                Test() {
+                Start() {
                     console.log(PIXI);
-                    rivets.bind($("#test"), { model: PIXI });
+                    ViewManager_1.ViewManager.RenderView("pixi-test.html", PIXI);
                 }
             };
-            exports_1("Renderer", Renderer);
+            exports_2("Renderer", Renderer);
         }
     }
 });
-System.register("XamlGL/Core", ["XamlGL/Renderer"], function(exports_2, context_2) {
+System.register("XamlGL/Core", ["XamlGL/Renderer", "XamlGL/ViewManager"], function(exports_3, context_3) {
     "use strict";
-    var __moduleName = context_2 && context_2.id;
+    var __moduleName = context_3 && context_3.id;
     function exportStar_1(m) {
         var exports = {};
         for(var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_2(exports);
+        exports_3(exports);
     }
     return {
         setters:[
             function (Renderer_1_1) {
                 exportStar_1(Renderer_1_1);
+            },
+            function (ViewManager_2_1) {
+                exportStar_1(ViewManager_2_1);
             }],
         execute: function() {
         }
     }
 });
-System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_3, context_3) {
+System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_4, context_4) {
     "use strict";
-    var __moduleName = context_3 && context_3.id;
+    var __moduleName = context_4 && context_4.id;
     var XamlGLCore;
     var XamlApp;
     return {
@@ -49,25 +78,18 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_3, contex
         execute: function() {
             XamlApp = class XamlApp {
                 constructor(element) {
-                    this.element = element;
-                    this.element.innerHTML += "The time is: ";
-                    this.span = document.createElement('span');
-                    this.element.appendChild(this.span);
-                    this.span.innerText = new Date().toUTCString();
                 }
                 Start() {
                     this.Configure();
-                    this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
                     var url = document.body.getAttribute("xamlgl-app");
                     if (!url) {
                         console.warn("No application specified.");
                         return;
                     }
                     let xm = new XamlGLCore.Renderer();
-                    xm.Test();
+                    xm.Start();
                 }
                 Stop() {
-                    clearTimeout(this.timerToken);
                 }
                 Configure() {
                     rivets.configure({
@@ -81,7 +103,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_3, contex
                     });
                 }
             };
-            exports_3("XamlApp", XamlApp);
+            exports_4("XamlApp", XamlApp);
         }
     }
 });

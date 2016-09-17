@@ -2,17 +2,19 @@
 /// <reference path="../../typings/globals/jquery/index.d.ts" />
 /// <reference path="../../typings/globals/rivets/index.d.ts" />
 
-import { ViewManager } from "./ViewManager"
-
-export class Renderer {
+export class ViewManager {
 
     constructor() {
 
     }
 
-    public Start(): void {
+    public static RenderView(view: string, model: any): void {
         console.log(PIXI);
 
-        ViewManager.RenderView("pixi-test.html", PIXI);
+        $.get("/views/" + view).done((data) => {
+            $("#content").html(data);
+            rivets.bind($(".pixi-test"), { model: model });
+        });
+        
     }
 }
