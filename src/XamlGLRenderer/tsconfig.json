@@ -1,7 +1,7 @@
 ﻿{
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES6",
     "module": "system",
     "noImplicitAny": false,
     "noEmitOnError": true,
@@ -11,8 +11,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outFile": "all.js",
-    "outDir": "./",
-    "sourceRoot": "./"
+    "outDir": "./js",
+    "sourceRoot": "./js"
   },
   "exclude": [
     "node_modules",
