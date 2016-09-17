@@ -1,10 +1,12 @@
-﻿export class Renderer {
+﻿declare var _RendererLib: any;
+
+export class Renderer {
 
     constructor() {
 
     }
 
     public Test(): void {
-        alert("Test21");
+        console.log(_RendererLib);
     }
 }

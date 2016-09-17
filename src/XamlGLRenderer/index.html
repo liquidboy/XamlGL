@@ -9,6 +9,8 @@
     <script src="./js/pixi.min.js"></script>
     <script src="js/allsrc.js"></script>
     <script type="text/javascript">
+        let _RendererLib = PIXI;
+
         window.onload = () => {
             
             var el = document.getElementById('content');
@@ -18,13 +20,11 @@
                 app.Start();
             }, console.log.bind(console));
 
-            console.log(PIXI);
+            //console.log(PIXI);
         };
     </script>
 </head>
 <body xamlgl-app="rectangle">
-    <h1>TypeScript HTML App</h1>
-
     <div id="content"></div>
 </body>
 </html>
