@@ -1,7 +1,14 @@
-﻿body {
+﻿* {padding: 0; margin: 0}
+
+body {
     font-family: 'Segoe UI', sans-serif;
 }
 
 span {
     font-style: italic;
+}
+
+
+.pixi-home {
+    margin:5px;
 }

@@ -48,11 +48,23 @@ System.register("XamlGL/Renderer", ["XamlGL/ViewManager"], function(exports_2, c
                 Start() {
                     console.log(PIXI);
                     ViewManager_1.ViewManager.RenderView("pixi-home", PIXI, (jqView) => {
-                        let renderer = PIXI.autoDetectRenderer(500, 500);
-                        jqView.find(".pixi-canvas").append(renderer.view);
-                        let stage = new PIXI.Container();
-                        renderer.render(stage);
+                        this.InitPixi(jqView.find(".pixi-canvas"));
                     });
+                }
+                InitPixi(pixiHostElement) {
+                    this._renderer = PIXI.autoDetectRenderer(512, 512, {
+                        antialias: false,
+                        transparent: true,
+                        resolution: 1
+                    });
+                    this._renderer.view.style.border = "1px solid whitesmoke";
+                    pixiHostElement.append(this._renderer.view);
+                    let stage = new PIXI.Container();
+                    this._renderer.render(stage);
+                }
+                Resize(w, h) {
+                    this._renderer.autoResize = true;
+                    this._renderer.resize(w, h);
                 }
             };
             exports_2("Renderer", Renderer);
