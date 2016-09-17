@@ -10,6 +10,7 @@ System.register("XamlGL/Renderer", [], function(exports_1, context_1) {
                 }
                 Test() {
                     console.log(PIXI.VERSION);
+                    rivets.bind($("#test"), { model: PIXI });
                 }
             };
             exports_1("Renderer", Renderer);

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="app.css" type="text/css" />
     <script src="./bower_components/system.js/dist/System.js"></script>
     <script src="./js/pixi.min.js"></script>
+    <script src="./js/rivets.bundled.min.js"></script>
     <script src="js/allsrc.js"></script>
     <script type="text/javascript">
         window.onload = () => {
@@ -24,5 +25,10 @@
 </head>
 <body xamlgl-app="rectangle">
     <div id="content"></div>
+    <div id="test">
+        <section class="pixi-test">
+            <span>version : { renderer.VERSION }</span>
+        </section>
+    </div>
 </body>
 </html>

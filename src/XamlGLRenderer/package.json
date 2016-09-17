@@ -18,6 +18,7 @@
   "author": "Jose Fajardo <fajardo_jf@hotmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "bower-typings": "^0.1.0"
+    "bower-typings": "^0.1.0",
+    "rivets": "^0.9.4"
   }
 }
