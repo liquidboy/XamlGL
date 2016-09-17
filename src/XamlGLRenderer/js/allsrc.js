@@ -8,14 +8,22 @@ System.register("XamlGL/ViewManager", [], function(exports_1, context_1) {
             ViewManager = class ViewManager {
                 constructor() {
                 }
+                static Configure(contentId) {
+                    this.ContentElementId = contentId;
+                    this._isReady = true;
+                }
                 static RenderView(view, model) {
-                    console.log(PIXI);
+                    if (!this._isReady) {
+                        console.warn("ViewManager: you tried to render a view BUT the ViewManager was not ready!");
+                        return;
+                    }
                     $.get(`/views/${view}.html`).done((data) => {
-                        $("#content").html(data);
+                        $(`#${this.ContentElementId}`).html(data);
                         rivets.bind($(`.${view}`), { model: model });
                     });
                 }
             };
+            ViewManager._isReady = false;
             exports_1("ViewManager", ViewManager);
         }
     }
@@ -92,6 +100,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_4, contex
                 Stop() {
                 }
                 Configure() {
+                    XamlGLCore.ViewManager.Configure("content");
                     rivets.configure({
                         prefix: 'rv',
                         preloadData: true,

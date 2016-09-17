@@ -28,6 +28,7 @@ export class XamlApp {
     }
 
     Configure() {
+        XamlGLCore.ViewManager.Configure("content");
 
         rivets.configure({
             prefix: 'rv',

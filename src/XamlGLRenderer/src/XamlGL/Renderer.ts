@@ -1,6 +1,4 @@
 ﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
-/// <reference path="../../typings/globals/jquery/index.d.ts" />
-/// <reference path="../../typings/globals/rivets/index.d.ts" />
 
 import { ViewManager } from "./ViewManager"
 
