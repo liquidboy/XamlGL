@@ -7,3 +7,6 @@ gulp reset,
 gulp testsite
 
 
+, typings install dt~[LIB] --global
+
+
