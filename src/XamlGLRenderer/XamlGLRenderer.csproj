@@ -24,6 +24,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="assets\cat.png" />
+    <Content Include="assets\silverlight_anims.jpg" />
     <Content Include="bower_components\jquery\AUTHORS.txt" />
     <Content Include="bower_components\jquery\dist\core.js" />
     <Content Include="bower_components\jquery\dist\jquery.js" />
