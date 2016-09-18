@@ -24,7 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
-    <Content Include="assets\cat.png" />
     <Content Include="assets\silverlight_anims.jpg" />
     <Content Include="bower_components\jquery\AUTHORS.txt" />
     <Content Include="bower_components\jquery\dist\core.js" />
@@ -1343,6 +1342,9 @@
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.virtualtime.d.ts" />
     <TypeScriptCompile Include="src\XamlGL\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Reader\XamlMarkup.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Reader\XamlParser.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
     <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />
     <TypeScriptCompile Include="src\XamlGL\Renderer.ts" />
     <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
@@ -1681,6 +1683,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="XamlGL - Web Deploy.pubxml" />
+    <Content Include="xaml\rectangle-shape.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

@@ -86,15 +86,72 @@ System.register("XamlGL/Renderer", ["XamlGL/ViewManager"], function(exports_2, c
         }
     }
 });
-System.register("XamlGL/Core", ["XamlGL/Renderer", "XamlGL/ViewManager"], function(exports_3, context_3) {
+System.register("XamlGL/Reader/XamlMarkup", [], function(exports_3, context_3) {
     "use strict";
     var __moduleName = context_3 && context_3.id;
+    var parser, XamlMarkup;
+    return {
+        setters:[],
+        execute: function() {
+            parser = new DOMParser();
+            XamlMarkup = class XamlMarkup {
+                constructor() {
+                }
+                LoadRootViaUri(uri, done) {
+                    $.get(uri).done((data) => {
+                        if (done)
+                            done.call(this, data);
+                    });
+                }
+                LoadRoot(data, done) {
+                    var doc = parser.parseFromString(data, "text/xml");
+                    if (done) {
+                        this.rootElement = doc.documentElement;
+                        done.call(this, doc.documentElement);
+                    }
+                }
+            };
+            exports_3("XamlMarkup", XamlMarkup);
+        }
+    }
+});
+System.register("XamlGL/Reader/XamlReader", ["XamlGL/Reader/XamlMarkup"], function(exports_4, context_4) {
+    "use strict";
+    var __moduleName = context_4 && context_4.id;
+    var XamlMarkup_1;
+    var XamlReader;
+    return {
+        setters:[
+            function (XamlMarkup_1_1) {
+                XamlMarkup_1 = XamlMarkup_1_1;
+            }],
+        execute: function() {
+            XamlReader = class XamlReader {
+                static LoadUri(uri, done) {
+                    if (!this._xm)
+                        this._xm = new XamlMarkup_1.XamlMarkup();
+                    this._xm.LoadRootViaUri(uri, (data) => {
+                        if (done) {
+                            this._xm.LoadRoot(data, (xamlDom) => { if (done)
+                                done.call(this); });
+                        }
+                    });
+                    return this._xm;
+                }
+            };
+            exports_4("XamlReader", XamlReader);
+        }
+    }
+});
+System.register("XamlGL/Core", ["XamlGL/Renderer", "XamlGL/ViewManager", "XamlGL/Reader/XamlReader"], function(exports_5, context_5) {
+    "use strict";
+    var __moduleName = context_5 && context_5.id;
     function exportStar_1(m) {
         var exports = {};
         for(var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_3(exports);
+        exports_5(exports);
     }
     return {
         setters:[
@@ -103,14 +160,32 @@ System.register("XamlGL/Core", ["XamlGL/Renderer", "XamlGL/ViewManager"], functi
             },
             function (ViewManager_2_1) {
                 exportStar_1(ViewManager_2_1);
+            },
+            function (XamlReader_1_1) {
+                exportStar_1(XamlReader_1_1);
             }],
         execute: function() {
         }
     }
 });
-System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_4, context_4) {
+System.register("XamlGL/Reader/XamlParser", [], function(exports_6, context_6) {
     "use strict";
-    var __moduleName = context_4 && context_4.id;
+    var __moduleName = context_6 && context_6.id;
+    var XamlParser;
+    return {
+        setters:[],
+        execute: function() {
+            XamlParser = class XamlParser {
+                constructor() {
+                }
+            };
+            exports_6("XamlParser", XamlParser);
+        }
+    }
+});
+System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_7, context_7) {
+    "use strict";
+    var __moduleName = context_7 && context_7.id;
     var XamlGLCore;
     var XamlApp;
     return {
@@ -129,8 +204,9 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_4, contex
                         console.warn("No application specified.");
                         return;
                     }
-                    let xm = new XamlGLCore.Renderer();
-                    xm.Start();
+                    let renderer = new XamlGLCore.Renderer();
+                    renderer.Start();
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/rectangle-shape.xap", (el) => { console.log(xm.rootElement); });
                 }
                 Stop() {
                 }
@@ -147,7 +223,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_4, contex
                     });
                 }
             };
-            exports_4("XamlApp", XamlApp);
+            exports_7("XamlApp", XamlApp);
         }
     }
 });
