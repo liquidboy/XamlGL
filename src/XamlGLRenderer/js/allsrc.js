@@ -2343,18 +2343,43 @@ System.register("XamlGL/Core", ["XamlGL/AppDomain", "XamlGL/VisualTree", "XamlGL
         }
     }
 });
-System.register("XamlGL/Controls/LoadingBalls", [], function(exports_26, context_26) {
+System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_26, context_26) {
     "use strict";
     var __moduleName = context_26 && context_26.id;
-    var LoadingBalls;
+    var XamlGLCore;
+    var XamlApp;
     return {
-        setters:[],
+        setters:[
+            function (XamlGLCore_1) {
+                XamlGLCore = XamlGLCore_1;
+            }],
         execute: function() {
-            LoadingBalls = class LoadingBalls {
-                constructor() {
+            XamlApp = class XamlApp {
+                Start() {
+                    this.Configure();
+                    let url = document.body.getAttribute("xamlgl-app");
+                    if (!url) {
+                        console.warn("No application specified.");
+                        return;
+                    }
+                    let app = new XamlGLCore.AppDomain();
+                    app.Start();
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight.xap", (el) => { console.log(xm.rootElement); });
+                }
+                Configure() {
+                    XamlGLCore.ViewManager.Configure("content");
+                    rivets.configure({
+                        prefix: "rv",
+                        preloadData: true,
+                        rootInterface: ".",
+                        templateDelimiters: ["{", "}"],
+                        handler: function (target, event, binding) {
+                            this.call(target, event, binding.view.models);
+                        }
+                    });
                 }
             };
-            exports_26("LoadingBalls", LoadingBalls);
+            exports_26("XamlApp", XamlApp);
         }
     }
 });
@@ -2438,43 +2463,18 @@ System.register("Tests/XamlGL/VisualTree", ["XamlGL/Core", "Tests/TestBase"], fu
         }
     }
 });
-System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_29, context_29) {
+System.register("XamlGL/Controls/LoadingBalls", [], function(exports_29, context_29) {
     "use strict";
     var __moduleName = context_29 && context_29.id;
-    var XamlGLCore;
-    var XamlApp;
+    var LoadingBalls;
     return {
-        setters:[
-            function (XamlGLCore_1) {
-                XamlGLCore = XamlGLCore_1;
-            }],
+        setters:[],
         execute: function() {
-            XamlApp = class XamlApp {
-                Start() {
-                    this.Configure();
-                    let url = document.body.getAttribute("xamlgl-app");
-                    if (!url) {
-                        console.warn("No application specified.");
-                        return;
-                    }
-                    let app = new XamlGLCore.AppDomain();
-                    app.Start();
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/rectangle-shape.xap", (el) => { console.log(xm.rootElement); });
-                }
-                Configure() {
-                    XamlGLCore.ViewManager.Configure("content");
-                    rivets.configure({
-                        prefix: "rv",
-                        preloadData: true,
-                        rootInterface: ".",
-                        templateDelimiters: ["{", "}"],
-                        handler: function (target, event, binding) {
-                            this.call(target, event, binding.view.models);
-                        }
-                    });
+            LoadingBalls = class LoadingBalls {
+                constructor() {
                 }
             };
-            exports_29("XamlApp", XamlApp);
+            exports_29("LoadingBalls", LoadingBalls);
         }
     }
 });

@@ -16,8 +16,9 @@ export class XamlApp {
 
         let app: XamlGLCore.AppDomain = new XamlGLCore.AppDomain();
         app.Start();
+        // todo: move this XAML stuff into the AppDomain
         let xm: XamlGLCore.XamlMarkup = XamlGLCore.XamlReader.LoadUri(
-            "/xaml/rectangle-shape.xap",
+            "/xaml/image-silverlight.xap",
             (el: any) => { console.log(xm.rootElement); });
 
     }
@@ -25,6 +26,7 @@ export class XamlApp {
     public Configure(): void {
         XamlGLCore.ViewManager.Configure("content");
 
+        // keep VIEW stuff outside of the AppDomain ??!! [not sure if i want to or not]
         rivets.configure({
             prefix: "rv",
             preloadData: true,

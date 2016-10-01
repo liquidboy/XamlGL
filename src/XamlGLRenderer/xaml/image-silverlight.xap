@@ -1,0 +1,8 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+    <Grid>
+        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="200" Source="/assets/silverlight_anims.jpg"></Image>
+    </Grid>
+</Application>

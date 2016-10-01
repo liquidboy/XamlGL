@@ -1312,15 +1312,12 @@
     <Content Include="node_modules\rivets\spec\rivets\routines.js" />
     <Content Include="node_modules\rivets\spec\rivets\text_template_parser.js" />
     <Content Include="node_modules\rivets\spec\runner.html" />
-    <Content Include="Scripts\collections.js" />
     <Content Include="views\pixi-home.html" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\collections.d.ts" />
-    <TypeScriptCompile Include="Scripts\collections.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="src\Bootstrap\XamlApp.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\src\core\expressions\compiler.ts" />
@@ -1710,6 +1707,7 @@
     </None>
     <None Include="XamlGL - Web Deploy.pubxml" />
     <Content Include="xaml\rectangle-shape.xap" />
+    <Content Include="xaml\image-silverlight.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
