@@ -1,30 +1,30 @@
 ﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
 
-import { Renderer, RendererFactory } from "./Renderer"
-import { VisualTree } from "./VisualTree"
+import { Renderer } from "./Renderer";
+import { VisualTree } from "./VisualTree";
 
 export class Window {
 
     private _renderer: Renderer;
     get Renderer(): Renderer { return this._renderer; }
-    
+
     private _visualTree: VisualTree;
 
 
     constructor(width: number, height: number, antialias: boolean, transparent: boolean) {
         this._renderer = new Renderer(width, height, antialias, transparent);
-        
+
         this.InitializeShell();
         this.InitializeVisualTree();
     }
-    
-    private InitializeShell() {
+
+    private InitializeShell(): void {
         this._renderer.PixiRenderer.view.style.border = "1px solid lightgray";
         this._renderer.PixiRenderer.backgroundColor = 0xf9f9f9;
     }
 
-    private InitializeVisualTree() {
-
+    private InitializeVisualTree(): void {
+        this._visualTree = new VisualTree();
     }
 
 
@@ -49,7 +49,7 @@ export class Window {
                 .load(this.Renderer.LoadingAnimation.bind(this.Renderer))
                 .load(this.Renderer.LoadAppDomain);
 
-            //this._window.ResizeFullWindow();
+            // this._window.ResizeFullWindow();
         }
     }
 

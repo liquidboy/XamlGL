@@ -1,45 +1,38 @@
 ﻿/// <reference path="../../typings/globals/rivets/index.d.ts" />
 
-import * as XamlGLCore from './../XamlGL/Core';
+import * as XamlGLCore from "./../XamlGL/Core";
 
 export class XamlApp {
-    
-    constructor(element: HTMLElement) {
-    
-    }
 
-    Start() {
+    public Start(): void {
         this.Configure();
-    
-        var url = document.body.getAttribute("xamlgl-app");
+
+        let url: string = document.body.getAttribute("xamlgl-app");
 
         if (!url) {
             console.warn("No application specified.");
             return;
         }
 
-        let app = new XamlGLCore.AppDomain();
+        let app: XamlGLCore.AppDomain = new XamlGLCore.AppDomain();
         app.Start();
-        let xm = XamlGLCore.XamlReader.LoadUri("/xaml/rectangle-shape.xap", (el) => { console.log(xm.rootElement); });
+        let xm: XamlGLCore.XamlMarkup = XamlGLCore.XamlReader.LoadUri(
+            "/xaml/rectangle-shape.xap",
+            (el: any) => { console.log(xm.rootElement); });
 
     }
 
-    Stop() {
-        
-    }
-
-    Configure() {
+    public Configure(): void {
         XamlGLCore.ViewManager.Configure("content");
 
         rivets.configure({
-            prefix: 'rv',
+            prefix: "rv",
             preloadData: true,
-            rootInterface: '.',
-            templateDelimiters: ['{', '}'],
-            handler: function (target, event, binding) {
-                this.call(target, event, binding.view.models)
+            rootInterface: ".",
+            templateDelimiters: ["{", "}"],
+            handler: function (target: any, event: any, binding: any): void {
+                this.call(target, event, binding.view.models);
             }
         });
     }
-    
 }

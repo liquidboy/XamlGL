@@ -19,6 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "bower-typings": "^0.1.0",
-    "rivets": "^0.9.4"
+    "rivets": "^0.9.4",
+    "typescript-collections": "^1.2.2"  
   }
 }
