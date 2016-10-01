@@ -1,23 +1,21 @@
 ﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
 
-// import * as Collections from "typescript-collections";
+import * as Collections from "./../Libs/typescript-collections/src/lib";
 
 export class VisualTree {
-
-    // private _tree: Collections.LinkedList<VisualTreeNode>;
+    private _children: Collections.LinkedList<VisualTreeNode>;
+    get Children(): Collections.LinkedList<VisualTreeNode> { return this._children; }
 
     constructor() {
-        // this._tree.add(new VisualTreeNode("test1"));
-
-        // alert(this._tree.size());
+        this._children = new Collections.LinkedList<VisualTreeNode>();
     }
 }
 
 
-class VisualTreeNode {
+export class VisualTreeNode {
+    private _children: Collections.LinkedList<VisualTreeNode>;
+    get Children(): Collections.LinkedList<VisualTreeNode> { return this._children; }
 
-    constructor(public Name: string) {
-
-    }
+    constructor(public Name: string = null, public ID: string = null) {}
 
 }

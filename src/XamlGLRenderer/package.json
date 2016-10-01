@@ -2,10 +2,8 @@
   "name": "xamlgl",
   "version": "0.0.46",
   "description": "Xaml WebGL",
-  "directories": {
-  },
-  "scripts": {
-  },
+  "directories": {},
+  "scripts": {},
   "homepage": "https://github.com/liquidboy/XamlGL",
   "repository": {
     "type": "git",
@@ -19,7 +17,9 @@
   "license": "MIT",
   "devDependencies": {
     "bower-typings": "^0.1.0",
-    "rivets": "^0.9.4",
-    "typescript-collections": "^1.2.2"  
+    "rivets": "^0.9.4"
+  },
+  "dependencies": {
+
   }
 }

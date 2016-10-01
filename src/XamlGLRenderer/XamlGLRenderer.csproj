@@ -1312,24 +1312,6 @@
     <Content Include="node_modules\rivets\spec\rivets\routines.js" />
     <Content Include="node_modules\rivets\spec\rivets\text_template_parser.js" />
     <Content Include="node_modules\rivets\spec\runner.html" />
-    <Content Include="node_modules\typescript-collections\dist\lib\arrays.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Bag.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\BSTree.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Dictionary.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\FactoryDictionary.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Heap.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\index.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\LinkedDictionary.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\LinkedList.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\MultiDictionary.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\MultiRootTree.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\PriorityQueue.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Queue.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Set.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Stack.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\umd.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\umd.min.js" />
-    <Content Include="node_modules\typescript-collections\dist\lib\util.js" />
     <Content Include="Scripts\collections.js" />
     <Content Include="views\pixi-home.html" />
     <Content Include="web.config">
@@ -1337,22 +1319,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\arrays.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\Bag.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\BSTree.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\Dictionary.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\FactoryDictionary.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\Heap.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\index.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\LinkedDictionary.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\LinkedList.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\MultiDictionary.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\MultiRootTree.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\PriorityQueue.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\Queue.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\Set.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\Stack.d.ts" />
-    <TypeScriptCompile Include="node_modules\typescript-collections\dist\lib\util.d.ts" />
     <TypeScriptCompile Include="Scripts\collections.d.ts" />
     <TypeScriptCompile Include="Scripts\collections.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
@@ -1379,6 +1345,24 @@
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time-lite.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.virtualtime.d.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\arrays.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Bag.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\BSTree.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Dictionary.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\FactoryDictionary.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Heap.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\index.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\LinkedDictionary.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\LinkedList.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\MultiDictionary.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\MultiRootTree.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\PriorityQueue.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Queue.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Set.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Stack.ts" />
+    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\util.ts" />
+    <TypeScriptCompile Include="src\Tests\TestBase.ts" />
+    <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\LoadingBalls.ts" />
     <TypeScriptCompile Include="src\XamlGL\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlMarkup.ts" />
@@ -1718,26 +1702,6 @@
     <Content Include="bower_components\jquery\external\sizzle\dist\sizzle.min.map" />
     <Content Include="bower_components\jquery\README.md" />
     <Content Include="bower_components\jquery\src\.eslintrc" />
-    <Content Include="node_modules\typescript-collections\.npmignore" />
-    <Content Include="node_modules\typescript-collections\dist\lib\arrays.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Bag.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\BSTree.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Dictionary.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\FactoryDictionary.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Heap.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\index.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\LinkedDictionary.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\LinkedList.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\MultiDictionary.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\MultiRootTree.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\PriorityQueue.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Queue.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Set.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\Stack.js.map" />
-    <Content Include="node_modules\typescript-collections\dist\lib\util.js.map" />
-    <Content Include="node_modules\typescript-collections\package.json" />
-    <Content Include="node_modules\typescript-collections\README.md" />
-    <Content Include="node_modules\typescript-collections\typings.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -1768,16 +1732,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>32425</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32426/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
