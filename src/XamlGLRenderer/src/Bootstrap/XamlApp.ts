@@ -18,9 +18,8 @@ export class XamlApp {
             return;
         }
 
-        let renderer = new XamlGLCore.Renderer();
-        renderer.Start();
-
+        let app = new XamlGLCore.AppDomain();
+        app.Start();
         let xm = XamlGLCore.XamlReader.LoadUri("/xaml/rectangle-shape.xap", (el) => { console.log(xm.rootElement); });
 
     }

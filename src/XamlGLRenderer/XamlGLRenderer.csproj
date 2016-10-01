@@ -1341,10 +1341,14 @@
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time-lite.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.time.d.ts" />
     <TypeScriptCompile Include="node_modules\bower-typings\node_modules\fayde-unify\node_modules\inquirer\node_modules\rx\ts\rx.virtualtime.d.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\LoadingBalls.ts" />
     <TypeScriptCompile Include="src\XamlGL\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlMarkup.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlParser.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
+    <TypeScriptCompile Include="src\XamlGL\VisualTree.ts" />
+    <TypeScriptCompile Include="src\XamlGL\AppDomain.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Window.ts" />
     <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />
     <TypeScriptCompile Include="src\XamlGL\Renderer.ts" />
     <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />

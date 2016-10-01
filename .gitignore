@@ -38,3 +38,4 @@ src/XamlGLRenderer/node_modules/*
 src/XamlGLRenderer/typings/*
 src/XamlGLRenderer/js/*.ts
 src/XamlGLRenderer/js/*.js.map
+src/UpgradeLog*

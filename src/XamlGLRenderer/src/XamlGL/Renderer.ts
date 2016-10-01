@@ -1,52 +1,23 @@
 ﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
 
+import { Window } from "./Window"
 import { ViewManager } from "./ViewManager"
 
 export class Renderer {
 
-    private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private _stage: PIXI.Container;
+    get PixiStage(): PIXI.Container { return this._stage; }
 
-    constructor() {
+    private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+    get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
 
-    }
-
-    public Start(): void {
-        console.log(PIXI); // todo : remove and find a better way for debugging stuff
-        
-        ViewManager.RenderView("pixi-home", PIXI, (jqView: JQuery) => {    
-            this.InitPixi(jqView.find(".pixi-canvas"));
-        });
-    }
-
-    public InitPixi(pixiHostElement: JQuery) {
+    constructor(width: number, height: number, antialias: boolean, transparent: boolean) {
         this._stage = new PIXI.Container();
-        this._renderer = PIXI.autoDetectRenderer(
-            512,
-            512,
-            {
-                antialias: false,
-                transparent: false,
-                resolution: 1
-            }
-        );
-
-        this._renderer.view.style.border = "1px solid lightgray";
-        this._renderer.backgroundColor = 0xf9f9f9;
-
-        pixiHostElement.append(this._renderer.view);
-        
-        PIXI.loader
-            .add("assets/silverlight_anims.jpg")
-            .load(this.LoadingAnimation.bind(this))
-            .load(this.LoadAppDomain);
+        this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
     }
 
-    public Resize(w: number, h: number) {
-        this._renderer.autoResize = true;
-        this._renderer.resize(w, h);
-    }
 
+    
     public LoadingAnimation(): void{
         let rect = new PIXI.Rectangle(0, 0, 165, 165);
         let texture = PIXI.loader.resources["assets/silverlight_anims.jpg"].texture;
@@ -59,4 +30,25 @@ export class Renderer {
     }
 
     public LoadAppDomain(): void { }
+}
+
+
+export class RendererFactory {
+
+    private static _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+
+    public static GetRenderer(width: number, height: number, antialias: boolean, transparent: boolean): PIXI.WebGLRenderer | PIXI.CanvasRenderer {
+
+        this._renderer = PIXI.autoDetectRenderer(
+            width,
+            height,
+            {
+                antialias: antialias,
+                transparent: transparent,
+                resolution: 1
+            }
+        );
+        
+        return this._renderer;
+    }
 }
