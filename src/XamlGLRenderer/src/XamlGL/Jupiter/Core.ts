@@ -2,8 +2,15 @@
 export * from "./DebugSettings";
 export * from "./ApplicationTheme";
 export * from "./ResourceDictionary";
+export * from "./IUIElement";
 export * from "./UIElement";
+export * from "./IView";
+export * from "./View";
+export * from "./IDependencyObject";
 export * from "./DependencyObject";
-
+export * from "./IFrameworkElement";
+export * from "./FrameworkElement";
 export * from "./Platform/IPlatform";
+export * from "./Platform/IRenderer";
 export * from "./Platform/PlatformWebGL";
+export * from "./Platform/RendererWebGL";

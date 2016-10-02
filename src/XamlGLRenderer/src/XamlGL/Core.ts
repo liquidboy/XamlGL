@@ -11,6 +11,7 @@ export * from "./Events/EventDispatcher";
 export * from "./Events/EventList";
 
 export * from "./DataTypes/Guid";
+export * from "./DataTypes/Thickness";
 
 export * from "./Jupiter/Platform/IPlatform";
 export * from "./Jupiter/Platform/IRenderer";
