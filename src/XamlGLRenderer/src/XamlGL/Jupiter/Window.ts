@@ -39,8 +39,8 @@ export class Window {
     }
 
     private InitializeShell(): void {
-        this.Platform.Renderer.PixiRenderer.view.style.border = "1px solid lightgray";
-        this.Platform.Renderer.PixiRenderer.backgroundColor = 0xf9f9f9;
+        this.Platform.Renderer.Border = "1px solid lightgray";
+        this.Platform.Renderer.BackgroundColor = 0xf9f9f9;
     }
 
     private InitializeVisualTree(): void {

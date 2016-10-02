@@ -13,6 +13,9 @@ export class Renderer implements IRenderer {
     get PixiStage(): PIXI.Container { return this._stage; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
 
+    set Border(value: string) { this.PixiRenderer.view.style.border = value; }
+    set BackgroundColor(value: number) { this.PixiRenderer.backgroundColor = value; }
+
     constructor(width: number, height: number, antialias: boolean, transparent: boolean) {
         this._uniqueId = Guid.newGuid();
         this._stage = new PIXI.Container();
