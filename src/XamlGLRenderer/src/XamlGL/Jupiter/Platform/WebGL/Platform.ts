@@ -1,6 +1,6 @@
-﻿import { IPlatform } from "./IPlatform";
+﻿import { IPlatform } from "./../IPlatform";
 
-import { Renderer } from "./RendererWebGL";
+import { Renderer } from "./Renderer";
 
 export class Platform implements IPlatform {
 

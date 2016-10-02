@@ -5,15 +5,12 @@ export * from "./Reader/XamlReader";
 export * from "./Reader/XamlParser";
 export * from "./Reader/XamlMarkup";
 
-export * from "./Events/IEvent";
-export * from "./Events/IEventArgs";
-export * from "./Events/EventDispatcher";
-export * from "./Events/EventList";
+import * as _controls from "./Controls/Core";
+export let Controls: any = _controls;
+
+import * as _events from "./Events/Core";
+export let Events: any = _events;
 
 export * from "./DataTypes/Guid";
 export * from "./DataTypes/Thickness";
-
-export * from "./Jupiter/Platform/IPlatform";
-export * from "./Jupiter/Platform/IRenderer";
-export * from "./Jupiter/Platform/PlatformWebGL";
-export * from "./Jupiter/Platform/RendererWebGL";
+export * from "./DataTypes/CornerRadius";

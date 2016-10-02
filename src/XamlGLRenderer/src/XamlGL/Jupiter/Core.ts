@@ -7,6 +7,7 @@ export * from "./ImageSource";
 export * from "./ResourceDictionary";
 export * from "./Stretch";
 export * from "./UIElement";
+export * from "./UIElementCollection";
 export * from "./View";
 
 // media
@@ -14,11 +15,13 @@ export * from "./Media/BitmapImage";
 export * from "./Media/BitmapSource";
 
 // platform
-export * from "./Platform/PlatformWebGL";
-export * from "./Platform/RendererWebGL";
+export * from "./Platform/WebGL/Platform";
+export * from "./Platform/WebGL/Renderer";
+export * from "./Platform/WebGL/ImageRenderer";
 
 export * from "./Platform/IPlatform";
 export * from "./Platform/IRenderer";
+export * from "./Platform/IImageRenderer";
 
 // interfaces
 export * from "./IDependencyObject";

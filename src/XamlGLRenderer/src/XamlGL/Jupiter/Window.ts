@@ -3,7 +3,7 @@ import { UIElement } from "./UIElement";
 import { EventList } from "./../Events/EventList";
 import { IEventArgs } from "./../Events/IEventArgs";
 import { IEvent } from "./../Events/IEvent";
-import { Platform } from "./../Jupiter/Platform/PlatformWebGL";
+import { Platform } from "./../Jupiter/Platform/WebGL/Platform";
 import { IPlatform } from "./../Jupiter/Platform/IPlatform";
 
 export class Window {
