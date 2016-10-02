@@ -2,12 +2,14 @@
 
 import { Guid } from "./../../DataTypes/Guid";
 import { IRenderer } from "./IRenderer";
+import { Dictionary } from "../../../Libs/typescript-collections/src/lib/index";
 
 export class Renderer implements IRenderer {
 
     private _uniqueId: string;
     private _stage: PIXI.Container;
     private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+    private _resourceIds: Dictionary<string, string>;
 
     get UniqueID(): string { return this.UniqueID; }
     get PixiStage(): PIXI.Container { return this._stage; }
@@ -18,6 +20,7 @@ export class Renderer implements IRenderer {
 
     constructor(width: number, height: number, antialias: boolean, transparent: boolean, htmlCanvasHost: JQuery) {
         this._uniqueId = Guid.newGuid();
+        this._resourceIds = new Dictionary<string, string>();
         this._stage = new PIXI.Container();
         this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
 
@@ -36,9 +39,10 @@ export class Renderer implements IRenderer {
         this.Resize(window.innerWidth, window.innerHeight);
     }
 
-    public LoadingAnimation(): void {
+    public ShowLoading(): void {
+        let resourceId: string = this._resourceIds.getValue("loading");
         let rect: PIXI.Rectangle = new PIXI.Rectangle(0, 0, 165, 165);
-        let texture: PIXI.Texture = PIXI.loader.resources["assets/silverlight_anims.jpg"].texture;
+        let texture: PIXI.Texture = PIXI.loader.resources[resourceId].texture;
         texture.frame = rect;
         let blueDots: PIXI.Sprite = new PIXI.Sprite(texture);
         blueDots.x = 170;
@@ -47,10 +51,12 @@ export class Renderer implements IRenderer {
         this._renderer.render(this._stage);
     }
 
-    public LoadImage(url: string): PIXI.loaders.Loader {
-        return PIXI.loader
-            .add(url)
-            .load(this.LoadingAnimation.bind(this));
+    public InitializeLoadingResource(url: string): PIXI.loaders.Loader {
+        this._resourceIds.setValue("loading", url);
+        return this.LoadResourceImage(url);
+    }
+    public LoadResourceImage(url: string): PIXI.loaders.Loader {
+        return PIXI.loader.add(url);
     }
 }
 

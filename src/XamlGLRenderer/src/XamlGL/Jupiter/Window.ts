@@ -52,8 +52,12 @@ export class Window {
 
     set IsLoading(value: boolean) {
         if (value) {
-            this.Platform.Renderer.LoadImage("assets/silverlight_anims.jpg")
-                .load(() => { this.Activate(); });
+            this.Platform.Renderer.InitializeLoadingResource("assets/silverlight_anims.jpg")
+                .load(() => {
+                    //this.Platform.Renderer.ResizeFull();
+                    this.Platform.Renderer.ShowLoading();
+                    this.Activate();
+                });
 
             // this.ResizeFullWindow();
         }

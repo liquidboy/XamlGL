@@ -2220,20 +2220,24 @@ System.register("XamlGL/DataTypes/Guid", [], function(exports_26, context_26) {
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/RendererWebGL", ["XamlGL/DataTypes/Guid"], function(exports_27, context_27) {
+System.register("XamlGL/Jupiter/Platform/RendererWebGL", ["XamlGL/DataTypes/Guid", "Libs/typescript-collections/src/lib/index"], function(exports_27, context_27) {
     "use strict";
     var __moduleName = context_27 && context_27.id;
-    var Guid_1;
+    var Guid_1, index_1;
     var Renderer, RendererFactory;
     return {
         setters:[
             function (Guid_1_1) {
                 Guid_1 = Guid_1_1;
+            },
+            function (index_1_1) {
+                index_1 = index_1_1;
             }],
         execute: function() {
             Renderer = class Renderer {
                 constructor(width, height, antialias, transparent, htmlCanvasHost) {
                     this._uniqueId = Guid_1.Guid.newGuid();
+                    this._resourceIds = new index_1.Dictionary();
                     this._stage = new PIXI.Container();
                     this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
                     htmlCanvasHost.append(this.PixiRenderer.view);
@@ -2253,9 +2257,10 @@ System.register("XamlGL/Jupiter/Platform/RendererWebGL", ["XamlGL/DataTypes/Guid
                     this.PixiRenderer.view.style.border = "0";
                     this.Resize(window.innerWidth, window.innerHeight);
                 }
-                LoadingAnimation() {
+                ShowLoading() {
+                    let resourceId = this._resourceIds.getValue("loading");
                     let rect = new PIXI.Rectangle(0, 0, 165, 165);
-                    let texture = PIXI.loader.resources["assets/silverlight_anims.jpg"].texture;
+                    let texture = PIXI.loader.resources[resourceId].texture;
                     texture.frame = rect;
                     let blueDots = new PIXI.Sprite(texture);
                     blueDots.x = 170;
@@ -2263,10 +2268,12 @@ System.register("XamlGL/Jupiter/Platform/RendererWebGL", ["XamlGL/DataTypes/Guid
                     this._stage.addChild(blueDots);
                     this._renderer.render(this._stage);
                 }
-                LoadImage(url) {
-                    return PIXI.loader
-                        .add(url)
-                        .load(this.LoadingAnimation.bind(this));
+                InitializeLoadingResource(url) {
+                    this._resourceIds.setValue("loading", url);
+                    return this.LoadResourceImage(url);
+                }
+                LoadResourceImage(url) {
+                    return PIXI.loader.add(url);
                 }
             };
             exports_27("Renderer", Renderer);
@@ -2351,8 +2358,11 @@ System.register("XamlGL/Jupiter/Window", ["XamlGL/VisualTree", "XamlGL/Events/Ev
                 }
                 set IsLoading(value) {
                     if (value) {
-                        this.Platform.Renderer.LoadImage("assets/silverlight_anims.jpg")
-                            .load(() => { this.Activate(); });
+                        this.Platform.Renderer.InitializeLoadingResource("assets/silverlight_anims.jpg")
+                            .load(() => {
+                            this.Platform.Renderer.ShowLoading();
+                            this.Activate();
+                        });
                     }
                 }
                 dispatch(name) {
