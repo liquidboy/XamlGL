@@ -38,7 +38,7 @@ export class Application {
         this._events.get(name).dispatch( this, new ApplicationEventArgs(this.SessionID) );
     }
 
-
+    //this.dispatch('onReset');
 
 }
 
