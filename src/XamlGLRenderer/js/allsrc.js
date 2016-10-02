@@ -2303,15 +2303,116 @@ System.register("XamlGL/Reader/XamlParser", [], function(exports_24, context_24)
         }
     }
 });
-System.register("XamlGL/Core", ["XamlGL/AppDomain", "XamlGL/VisualTree", "XamlGL/Window", "XamlGL/Renderer", "XamlGL/ViewManager", "XamlGL/Reader/XamlReader", "XamlGL/Reader/XamlParser", "XamlGL/Reader/XamlMarkup"], function(exports_25, context_25) {
+System.register("XamlGL/Events/IEvent", [], function(exports_25, context_25) {
     "use strict";
     var __moduleName = context_25 && context_25.id;
+    return {
+        setters:[],
+        execute: function() {
+        }
+    }
+});
+System.register("XamlGL/Events/IEventArgs", [], function(exports_26, context_26) {
+    "use strict";
+    var __moduleName = context_26 && context_26.id;
+    return {
+        setters:[],
+        execute: function() {
+        }
+    }
+});
+System.register("XamlGL/Events/EventDispatcher", [], function(exports_27, context_27) {
+    "use strict";
+    var __moduleName = context_27 && context_27.id;
+    var EventDispatcher;
+    return {
+        setters:[],
+        execute: function() {
+            EventDispatcher = class EventDispatcher {
+                constructor() {
+                    this._subscriptions = new Array();
+                }
+                subscribe(fn) {
+                    if (fn) {
+                        this._subscriptions.push(fn);
+                    }
+                }
+                unsubscribe(fn) {
+                    let i = this._subscriptions.indexOf(fn);
+                    if (i > -1) {
+                        this._subscriptions.splice(i, 1);
+                    }
+                }
+                dispatch(sender, args) {
+                    for (let handler of this._subscriptions) {
+                        handler(sender, args);
+                    }
+                }
+            };
+            exports_27("EventDispatcher", EventDispatcher);
+        }
+    }
+});
+System.register("XamlGL/Events/EventList", ["XamlGL/Events/EventDispatcher"], function(exports_28, context_28) {
+    "use strict";
+    var __moduleName = context_28 && context_28.id;
+    var EventDispatcher_1;
+    var EventList;
+    return {
+        setters:[
+            function (EventDispatcher_1_1) {
+                EventDispatcher_1 = EventDispatcher_1_1;
+            }],
+        execute: function() {
+            EventList = class EventList {
+                constructor() {
+                    this._events = {};
+                }
+                get(name) {
+                    let event = this._events[name];
+                    if (event) {
+                        return event;
+                    }
+                    event = new EventDispatcher_1.EventDispatcher();
+                    this._events[name] = event;
+                    return event;
+                }
+                remove(name) {
+                    this._events[name] = null;
+                }
+            };
+            exports_28("EventList", EventList);
+        }
+    }
+});
+System.register("XamlGL/DataTypes/Guid", [], function(exports_29, context_29) {
+    "use strict";
+    var __moduleName = context_29 && context_29.id;
+    var Guid;
+    return {
+        setters:[],
+        execute: function() {
+            Guid = class Guid {
+                static newGuid() {
+                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
+                    });
+                }
+            };
+            exports_29("Guid", Guid);
+        }
+    }
+});
+System.register("XamlGL/Core", ["XamlGL/AppDomain", "XamlGL/VisualTree", "XamlGL/Window", "XamlGL/Renderer", "XamlGL/ViewManager", "XamlGL/Reader/XamlReader", "XamlGL/Reader/XamlParser", "XamlGL/Reader/XamlMarkup", "XamlGL/Events/EventDispatcher", "XamlGL/Events/EventList", "XamlGL/DataTypes/Guid"], function(exports_30, context_30) {
+    "use strict";
+    var __moduleName = context_30 && context_30.id;
     function exportStar_1(m) {
         var exports = {};
         for(var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_25(exports);
+        exports_30(exports);
     }
     return {
         setters:[
@@ -2338,54 +2439,147 @@ System.register("XamlGL/Core", ["XamlGL/AppDomain", "XamlGL/VisualTree", "XamlGL
             },
             function (XamlMarkup_2_1) {
                 exportStar_1(XamlMarkup_2_1);
+            },
+            function (EventDispatcher_2_1) {
+                exportStar_1(EventDispatcher_2_1);
+            },
+            function (EventList_1_1) {
+                exportStar_1(EventList_1_1);
+            },
+            function (Guid_1_1) {
+                exportStar_1(Guid_1_1);
             }],
         execute: function() {
         }
     }
 });
-System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_26, context_26) {
+System.register("XamlGL/Jupiter/DebugSettings", [], function(exports_31, context_31) {
     "use strict";
-    var __moduleName = context_26 && context_26.id;
-    var XamlGLCore;
-    var XamlApp;
+    var __moduleName = context_31 && context_31.id;
+    var DebugSettings;
+    return {
+        setters:[],
+        execute: function() {
+            DebugSettings = class DebugSettings {
+            };
+            exports_31("DebugSettings", DebugSettings);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/ApplicationTheme", [], function(exports_32, context_32) {
+    "use strict";
+    var __moduleName = context_32 && context_32.id;
+    var ApplicationTheme;
+    return {
+        setters:[],
+        execute: function() {
+            ApplicationTheme = class ApplicationTheme {
+            };
+            exports_32("ApplicationTheme", ApplicationTheme);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/ResourceDictionary", [], function(exports_33, context_33) {
+    "use strict";
+    var __moduleName = context_33 && context_33.id;
+    var ResourceDictionary;
+    return {
+        setters:[],
+        execute: function() {
+            ResourceDictionary = class ResourceDictionary {
+            };
+            exports_33("ResourceDictionary", ResourceDictionary);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/Events/EventList"], function(exports_34, context_34) {
+    "use strict";
+    var __moduleName = context_34 && context_34.id;
+    var Guid_2, EventList_2;
+    var Application, ApplicationEventArgs;
     return {
         setters:[
-            function (XamlGLCore_1) {
-                XamlGLCore = XamlGLCore_1;
+            function (Guid_2_1) {
+                Guid_2 = Guid_2_1;
+            },
+            function (EventList_2_1) {
+                EventList_2 = EventList_2_1;
             }],
         execute: function() {
-            XamlApp = class XamlApp {
-                Start() {
-                    this.Configure();
-                    let url = document.body.getAttribute("xamlgl-app");
-                    if (!url) {
-                        console.warn("No application specified.");
-                        return;
-                    }
-                    let app = new XamlGLCore.AppDomain();
-                    app.Start();
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight.xap", (el) => { console.log(xm.rootElement); });
+            Application = class Application {
+                constructor() {
+                    this._events = new EventList_2.EventList();
+                    this._sessionId = Guid_2.Guid.newGuid();
                 }
-                Configure() {
-                    XamlGLCore.ViewManager.Configure("content");
-                    rivets.configure({
-                        prefix: "rv",
-                        preloadData: true,
-                        rootInterface: ".",
-                        templateDelimiters: ["{", "}"],
-                        handler: function (target, event, binding) {
-                            this.call(target, event, binding.view.models);
-                        }
-                    });
+                get SessionID() { return this._sessionId; }
+                get ResourceDictionary() { return this._resourceDictionary; }
+                get ApplicationTheme() { return this._applicationTheme; }
+                get DebugSettings() { return this._debugSettings; }
+                get EnteredBackground() { return this._events.get('EnteredBackground'); }
+                get LeavingBackground() { return this._events.get('LeavingBackground'); }
+                get Resuming() { return this._events.get('Resuming'); }
+                get Suspending() { return this._events.get('Suspending'); }
+                get UnhandledException() { return this._events.get('UnhandledException'); }
+                dispatch(name) {
+                    this._events.get(name).dispatch(this, new ApplicationEventArgs(this.SessionID));
                 }
             };
-            exports_26("XamlApp", XamlApp);
+            exports_34("Application", Application);
+            ApplicationEventArgs = class ApplicationEventArgs {
+                constructor(SessionID) {
+                    this.SessionID = SessionID;
+                }
+            };
+            exports_34("ApplicationEventArgs", ApplicationEventArgs);
         }
     }
 });
-System.register("Tests/TestBase", ["Libs/typescript-collections/src/lib/index"], function(exports_27, context_27) {
+System.register("XamlGL/Jupiter/Core", ["XamlGL/Jupiter/Application", "XamlGL/Jupiter/DebugSettings", "XamlGL/Jupiter/ApplicationTheme", "XamlGL/Jupiter/ResourceDictionary"], function(exports_35, context_35) {
     "use strict";
-    var __moduleName = context_27 && context_27.id;
+    var __moduleName = context_35 && context_35.id;
+    function exportStar_2(m) {
+        var exports = {};
+        for(var n in m) {
+            if (n !== "default") exports[n] = m[n];
+        }
+        exports_35(exports);
+    }
+    return {
+        setters:[
+            function (Application_1_1) {
+                exportStar_2(Application_1_1);
+            },
+            function (DebugSettings_1_1) {
+                exportStar_2(DebugSettings_1_1);
+            },
+            function (ApplicationTheme_1_1) {
+                exportStar_2(ApplicationTheme_1_1);
+            },
+            function (ResourceDictionary_1_1) {
+                exportStar_2(ResourceDictionary_1_1);
+            }],
+        execute: function() {
+        }
+    }
+});
+System.register("XamlGL/Controls/LoadingBalls", [], function(exports_36, context_36) {
+    "use strict";
+    var __moduleName = context_36 && context_36.id;
+    var LoadingBalls;
+    return {
+        setters:[],
+        execute: function() {
+            LoadingBalls = class LoadingBalls {
+                constructor() {
+                }
+            };
+            exports_36("LoadingBalls", LoadingBalls);
+        }
+    }
+});
+System.register("Tests/TestBase", ["Libs/typescript-collections/src/lib/index"], function(exports_37, context_37) {
+    "use strict";
+    var __moduleName = context_37 && context_37.id;
     var Collections;
     var TestBase;
     return {
@@ -2423,13 +2617,13 @@ System.register("Tests/TestBase", ["Libs/typescript-collections/src/lib/index"],
                     }
                 }
             };
-            exports_27("TestBase", TestBase);
+            exports_37("TestBase", TestBase);
         }
     }
 });
-System.register("Tests/XamlGL/VisualTree", ["XamlGL/Core", "Tests/TestBase"], function(exports_28, context_28) {
+System.register("Tests/XamlGL/VisualTree", ["XamlGL/Core", "Tests/TestBase"], function(exports_38, context_38) {
     "use strict";
-    var __moduleName = context_28 && context_28.id;
+    var __moduleName = context_38 && context_38.id;
     var XamlGL, TestBase_1;
     var Tests;
     return {
@@ -2459,22 +2653,47 @@ System.register("Tests/XamlGL/VisualTree", ["XamlGL/Core", "Tests/TestBase"], fu
                     this.EndUnitTest(testDescription);
                 }
             };
-            exports_28("Tests", Tests);
+            exports_38("Tests", Tests);
         }
     }
 });
-System.register("XamlGL/Controls/LoadingBalls", [], function(exports_29, context_29) {
+System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_39, context_39) {
     "use strict";
-    var __moduleName = context_29 && context_29.id;
-    var LoadingBalls;
+    var __moduleName = context_39 && context_39.id;
+    var XamlGLCore;
+    var XamlApp;
     return {
-        setters:[],
+        setters:[
+            function (XamlGLCore_1) {
+                XamlGLCore = XamlGLCore_1;
+            }],
         execute: function() {
-            LoadingBalls = class LoadingBalls {
-                constructor() {
+            XamlApp = class XamlApp {
+                Start() {
+                    this.Configure();
+                    let url = document.body.getAttribute("xamlgl-app");
+                    if (!url) {
+                        console.warn("No application specified.");
+                        return;
+                    }
+                    let app = new XamlGLCore.AppDomain();
+                    app.Start();
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight.xap", (el) => { console.log(xm.rootElement); });
+                }
+                Configure() {
+                    XamlGLCore.ViewManager.Configure("content");
+                    rivets.configure({
+                        prefix: "rv",
+                        preloadData: true,
+                        rootInterface: ".",
+                        templateDelimiters: ["{", "}"],
+                        handler: function (target, event, binding) {
+                            this.call(target, event, binding.view.models);
+                        }
+                    });
                 }
             };
-            exports_29("LoadingBalls", LoadingBalls);
+            exports_39("XamlApp", XamlApp);
         }
     }
 });

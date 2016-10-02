@@ -6,3 +6,10 @@ export * from './ViewManager';
 export * from './Reader/XamlReader';
 export * from './Reader/XamlParser';
 export * from './Reader/XamlMarkup';
+
+export * from './Events/IEvent';
+export * from './Events/IEventArgs';
+export * from './Events/EventDispatcher';
+export * from './Events/EventList';
+
+export * from './DataTypes/Guid';
