@@ -71,6 +71,12 @@ System.register("XamlGL/Jupiter/Platform/RendererWebGL", ["XamlGL/DataTypes/Guid
                 }
                 LoadAppDomain() {
                 }
+                LoadImage(url) {
+                    return PIXI.loader
+                        .add(url)
+                        .load(this.LoadingAnimation.bind(this))
+                        .load(this.LoadAppDomain);
+                }
             };
             exports_3("Renderer", Renderer);
             RendererFactory = class RendererFactory {
@@ -2348,10 +2354,7 @@ System.register("XamlGL/Jupiter/Window", ["XamlGL/VisualTree", "XamlGL/Events/Ev
                 }
                 set IsLoading(value) {
                     if (value) {
-                        PIXI.loader
-                            .add("assets/silverlight_anims.jpg")
-                            .load(this.Platform.Renderer.LoadingAnimation.bind(this.Platform.Renderer))
-                            .load(this.Platform.Renderer.LoadAppDomain)
+                        this.Platform.Renderer.LoadImage("assets/silverlight_anims.jpg")
                             .load(() => { this.Activate(); });
                     }
                 }

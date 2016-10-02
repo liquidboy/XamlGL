@@ -1,7 +1,4 @@
-﻿/// <reference path="../../../typings/globals/pixi.js/index.d.ts" />
-
-
-import { VisualTree } from "./../VisualTree";
+﻿import { VisualTree } from "./../VisualTree";
 import { UIElement } from "./UIElement";
 import { EventList } from "./../Events/EventList";
 import { IEventArgs } from "./../Events/IEventArgs";
@@ -55,13 +52,10 @@ export class Window {
 
     set IsLoading(value: boolean) {
         if (value) {
-            PIXI.loader
-                .add("assets/silverlight_anims.jpg")
-                .load(this.Platform.Renderer.LoadingAnimation.bind(this.Platform.Renderer))
-                .load(this.Platform.Renderer.LoadAppDomain)
+            this.Platform.Renderer.LoadImage("assets/silverlight_anims.jpg")
                 .load(() => { this.Activate(); });
 
-            // this.Platform.Renderer.ResizeFull();
+            // this.ResizeFullWindow();
         }
     }
 
