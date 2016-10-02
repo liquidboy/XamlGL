@@ -16,6 +16,7 @@ export class Window {
     private _isVisible: boolean;
     private _visualTree: VisualTree;
     private _platform: IPlatform;
+    private _htmlCanvasHost: JQuery;
 
     get Content(): UIElement { return this._content; }
     get IsVisible(): boolean { return this._isVisible; }
@@ -27,8 +28,11 @@ export class Window {
     get VisibilityChanged(): IEvent<Window, WindowEventArgs> { return this._events.get("VisibilityChanged"); }
 
 
-    constructor(width: number, height: number, antialias: boolean, transparent: boolean) {
+    constructor(width: number, height: number, antialias: boolean, transparent: boolean, htmlCanvasHost: JQuery) {
+
         this._platform = new Platform(width, height, antialias, transparent);
+        this._htmlCanvasHost = htmlCanvasHost;
+        this.InitializePixi();
 
         this.InitializeShell();
         this.InitializeVisualTree();
@@ -43,6 +47,9 @@ export class Window {
         this._visualTree = new VisualTree();
     }
 
+    private InitializePixi(): void {
+        this._htmlCanvasHost.append(this.Platform.Renderer.PixiRenderer.view);
+    }
 
     public Resize(w: number, h: number): void {
         this.Platform.Renderer.PixiRenderer.autoResize = true;

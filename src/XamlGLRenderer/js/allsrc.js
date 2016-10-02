@@ -2307,9 +2307,11 @@ System.register("XamlGL/Jupiter/Window", ["XamlGL/VisualTree", "XamlGL/Events/Ev
             }],
         execute: function() {
             Window = class Window {
-                constructor(width, height, antialias, transparent) {
+                constructor(width, height, antialias, transparent, htmlCanvasHost) {
                     this._events = new EventList_1.EventList();
                     this._platform = new PlatformWebGL_1.Platform(width, height, antialias, transparent);
+                    this._htmlCanvasHost = htmlCanvasHost;
+                    this.InitializePixi();
                     this.InitializeShell();
                     this.InitializeVisualTree();
                 }
@@ -2326,6 +2328,9 @@ System.register("XamlGL/Jupiter/Window", ["XamlGL/VisualTree", "XamlGL/Events/Ev
                 }
                 InitializeVisualTree() {
                     this._visualTree = new VisualTree_1.VisualTree();
+                }
+                InitializePixi() {
+                    this._htmlCanvasHost.append(this.Platform.Renderer.PixiRenderer.view);
                 }
                 Resize(w, h) {
                     this.Platform.Renderer.PixiRenderer.autoResize = true;
@@ -2412,12 +2417,11 @@ System.register("XamlGL/AppDomain", ["XamlGL/Jupiter/Window", "XamlGL/ViewManage
                 Start() {
                     console.log(PIXI);
                     ViewManager_1.ViewManager.RenderView("pixi-home", PIXI, (jqView) => {
-                        this.InitPixi(jqView.find(".pixi-canvas"));
+                        this.CreateWindow(jqView.find(".pixi-canvas"));
                     });
                 }
-                InitPixi(pixiHostElement) {
-                    this._window = new Window_1.Window(512, 512, false, false);
-                    pixiHostElement.append(this._window.Platform.Renderer.PixiRenderer.view);
+                CreateWindow(htmlCanvasHost) {
+                    this._window = new Window_1.Window(512, 512, false, false, htmlCanvasHost);
                     this._window.IsLoading = true;
                 }
             };
