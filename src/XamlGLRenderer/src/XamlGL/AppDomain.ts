@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
 
-import { Window } from "./Window";
+import { Window } from "./Jupiter/Window";
 import { ViewManager } from "./ViewManager";
 
 export class AppDomain {

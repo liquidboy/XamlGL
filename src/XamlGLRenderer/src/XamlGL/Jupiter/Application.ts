@@ -8,7 +8,7 @@ import { IEvent } from "./../Events/IEvent";
 
 export class Application {
 
-    //properties
+    // properties
     private _sessionId: string;
     private _resourceDictionary: ResourceDictionary;
     private _applicationTheme: ApplicationTheme;
@@ -19,14 +19,14 @@ export class Application {
     get ApplicationTheme(): ApplicationTheme { return this._applicationTheme; }
     get DebugSettings(): DebugSettings { return this._debugSettings; }
 
-    //events
+    // events
     private _events: EventList<Application, ApplicationEventArgs> = new EventList<Application, ApplicationEventArgs>();
 
-    get EnteredBackground(): IEvent<Application, ApplicationEventArgs> { return this._events.get('EnteredBackground'); }
-    get LeavingBackground(): IEvent<Application, ApplicationEventArgs> { return this._events.get('LeavingBackground'); }
-    get Resuming(): IEvent<Application, ApplicationEventArgs> { return this._events.get('Resuming'); }
-    get Suspending(): IEvent<Application, ApplicationEventArgs> { return this._events.get('Suspending'); }
-    get UnhandledException(): IEvent<Application, ApplicationEventArgs> { return this._events.get('UnhandledException'); }
+    get EnteredBackground(): IEvent<Application, ApplicationEventArgs> { return this._events.get("EnteredBackground"); }
+    get LeavingBackground(): IEvent<Application, ApplicationEventArgs> { return this._events.get("LeavingBackground"); }
+    get Resuming(): IEvent<Application, ApplicationEventArgs> { return this._events.get("Resuming"); }
+    get Suspending(): IEvent<Application, ApplicationEventArgs> { return this._events.get("Suspending"); }
+    get UnhandledException(): IEvent<Application, ApplicationEventArgs> { return this._events.get("UnhandledException"); }
 
 
 
@@ -34,11 +34,11 @@ export class Application {
         this._sessionId = Guid.newGuid();
     }
 
-    private dispatch(name: string) {
+    private dispatch(name: string): void {
         this._events.get(name).dispatch( this, new ApplicationEventArgs(this.SessionID) );
     }
 
-    //this.dispatch('onReset');
+    // this.dispatch('onReset');
 
 }
 
