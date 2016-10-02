@@ -54,9 +54,19 @@ export class Window {
         if (value) {
             this.Platform.Renderer.InitializeLoadingResource("assets/silverlight_anims.jpg")
                 .load(() => {
-                    //this.Platform.Renderer.ResizeFull();
-                    this.Platform.Renderer.ShowLoading();
+                    // this.Platform.Renderer.ResizeFull();
+                    this.Platform.Renderer.ShowLoading(160,160,165,165);
                     this.Activate();
+
+                    setTimeout(() => {
+                        this.Platform.Renderer.HideLoading();
+
+                        setTimeout(() => {
+                            this.Platform.Renderer.ShowLoading(20,20,165,165);
+                        }, 3000);
+
+                    }, 3000);
+
                 });
 
             // this.ResizeFullWindow();
