@@ -1,6 +1,5 @@
 ﻿export * from "./AppDomain";
 export * from "./VisualTree";
-export * from "./Renderer";
 export * from "./ViewManager";
 export * from "./Reader/XamlReader";
 export * from "./Reader/XamlParser";
@@ -12,3 +11,8 @@ export * from "./Events/EventDispatcher";
 export * from "./Events/EventList";
 
 export * from "./DataTypes/Guid";
+
+export * from "./Jupiter/Platform/IPlatform";
+export * from "./Jupiter/Platform/IRenderer";
+export * from "./Jupiter/Platform/PlatformWebGL";
+export * from "./Jupiter/Platform/RendererWebGL";

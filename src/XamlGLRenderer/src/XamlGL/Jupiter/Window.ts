@@ -1,23 +1,25 @@
 ﻿/// <reference path="../../../typings/globals/pixi.js/index.d.ts" />
 
-import { Renderer } from "./../Renderer";
+
 import { VisualTree } from "./../VisualTree";
 import { UIElement } from "./UIElement";
 import { EventList } from "./../Events/EventList";
 import { IEventArgs } from "./../Events/IEventArgs";
 import { IEvent } from "./../Events/IEvent";
+import { Platform } from "./../Jupiter/Platform/PlatformWebGL";
+import { IPlatform } from "./../Jupiter/Platform/IPlatform";
 
 export class Window {
 
     private _events: EventList<Window, WindowEventArgs> = new EventList<Window, WindowEventArgs>();
     private _content: UIElement;
-    private _renderer: Renderer;
     private _isVisible: boolean;
     private _visualTree: VisualTree;
+    private _platform: IPlatform;
 
     get Content(): UIElement { return this._content; }
-    get Renderer(): Renderer { return this._renderer; }
-    get IsVisible(): boolean { return this.IsVisible; }
+    get IsVisible(): boolean { return this._isVisible; }
+    get Platform(): IPlatform { return this._platform; }
 
     get Activated(): IEvent<Window, WindowEventArgs> { return this._events.get("Activated"); }
     get Closed(): IEvent<Window, WindowEventArgs> { return this._events.get("Closed"); }
@@ -26,15 +28,15 @@ export class Window {
 
 
     constructor(width: number, height: number, antialias: boolean, transparent: boolean) {
-        this._renderer = new Renderer(width, height, antialias, transparent);
+        this._platform = new Platform(width, height, antialias, transparent);
 
         this.InitializeShell();
         this.InitializeVisualTree();
     }
 
     private InitializeShell(): void {
-        this._renderer.PixiRenderer.view.style.border = "1px solid lightgray";
-        this._renderer.PixiRenderer.backgroundColor = 0xf9f9f9;
+        this.Platform.Renderer.PixiRenderer.view.style.border = "1px solid lightgray";
+        this.Platform.Renderer.PixiRenderer.backgroundColor = 0xf9f9f9;
     }
 
     private InitializeVisualTree(): void {
@@ -43,16 +45,16 @@ export class Window {
 
 
     public Resize(w: number, h: number): void {
-        this._renderer.PixiRenderer.autoResize = true;
-        this._renderer.PixiRenderer.resize(w, h);
+        this.Platform.Renderer.PixiRenderer.autoResize = true;
+        this.Platform.Renderer.PixiRenderer.resize(w, h);
     }
 
     public ResizeFullWindow(): void {
-        this._renderer.PixiRenderer.view.style.position = "absolute";
-        this._renderer.PixiRenderer.view.style.display = "block";
-        this._renderer.PixiRenderer.view.style.border = "0";
-        this._renderer.PixiRenderer.autoResize = true;
-        this._renderer.PixiRenderer.resize(window.innerWidth, window.innerHeight);
+        this.Platform.Renderer.PixiRenderer.view.style.position = "absolute";
+        this.Platform.Renderer.PixiRenderer.view.style.display = "block";
+        this.Platform.Renderer.PixiRenderer.view.style.border = "0";
+        this.Platform.Renderer.PixiRenderer.autoResize = true;
+        this.Platform.Renderer.PixiRenderer.resize(window.innerWidth, window.innerHeight);
     }
 
 
@@ -60,8 +62,8 @@ export class Window {
         if (value) {
             PIXI.loader
                 .add("assets/silverlight_anims.jpg")
-                .load(this.Renderer.LoadingAnimation.bind(this.Renderer))
-                .load(this.Renderer.LoadAppDomain)
+                .load(this.Platform.Renderer.LoadingAnimation.bind(this.Platform.Renderer))
+                .load(this.Platform.Renderer.LoadAppDomain)
                 .load(() => { this.Activate(); });
 
             // this._window.ResizeFullWindow();

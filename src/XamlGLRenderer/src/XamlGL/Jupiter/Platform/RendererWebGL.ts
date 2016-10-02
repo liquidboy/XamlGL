@@ -1,17 +1,18 @@
-﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
+﻿/// <reference path="../../../../typings/globals/pixi.js/index.d.ts" />
 
-import { Guid } from "./DataTypes/Guid";
+import { Guid } from "./../../DataTypes/Guid";
+import { IRenderer } from "./IRenderer";
 
-export class Renderer {
+export class Renderer implements IRenderer {
 
     private _uniqueId: string;
     private _stage: PIXI.Container;
     private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    
+
     get UniqueID(): string { return this.UniqueID; }
     get PixiStage(): PIXI.Container { return this._stage; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
-    
+
     constructor(width: number, height: number, antialias: boolean, transparent: boolean) {
         this._uniqueId = Guid.newGuid();
         this._stage = new PIXI.Container();
@@ -38,7 +39,7 @@ export class Renderer {
 export class RendererFactory {
 
     private static _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    
+
     public static GetRenderer(width: number, height: number, antialias: boolean, transparent: boolean)
         : PIXI.WebGLRenderer | PIXI.CanvasRenderer {
 

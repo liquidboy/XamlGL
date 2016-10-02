@@ -17,7 +17,7 @@ export class AppDomain {
 
     private InitPixi(pixiHostElement: JQuery): void {
         this._window = new Window(512, 512, false, false);
-        pixiHostElement.append(this._window.Renderer.PixiRenderer.view);
+        pixiHostElement.append(this._window.Platform.Renderer.PixiRenderer.view);
         this._window.IsLoading = true;
     }
 }

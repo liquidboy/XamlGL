@@ -1366,6 +1366,7 @@
     <TypeScriptCompile Include="src\XamlGL\Events\IEventArgs.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\IEvent.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\DependencyObject.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IPlatform.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\PlatformWebGL.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\UIElement.ts" />
@@ -1383,7 +1384,7 @@
     <TypeScriptCompile Include="src\XamlGL\AppDomain.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Window.ts" />
     <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Renderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\RendererWebGL.ts" />
     <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\pixi.js\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\rivets\index.d.ts" />
