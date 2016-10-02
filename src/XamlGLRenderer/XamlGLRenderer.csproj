@@ -1361,6 +1361,8 @@
     <TypeScriptCompile Include="src\Tests\TestBase.ts" />
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Image.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapImage.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapSource.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Stretch.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\ImageSource.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Thickness.ts" />
