@@ -2700,9 +2700,43 @@ System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/
         }
     }
 });
-System.register("XamlGL/Jupiter/IView", [], function(exports_43, context_43) {
+System.register("XamlGL/Jupiter/ImageSource", ["XamlGL/Jupiter/DependencyObject"], function(exports_43, context_43) {
     "use strict";
     var __moduleName = context_43 && context_43.id;
+    var DependencyObject_2;
+    var ImageSource;
+    return {
+        setters:[
+            function (DependencyObject_2_1) {
+                DependencyObject_2 = DependencyObject_2_1;
+            }],
+        execute: function() {
+            ImageSource = class ImageSource extends DependencyObject_2.DependencyObject {
+            };
+            exports_43("ImageSource", ImageSource);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/Stretch", [], function(exports_44, context_44) {
+    "use strict";
+    var __moduleName = context_44 && context_44.id;
+    var Stretch;
+    return {
+        setters:[],
+        execute: function() {
+            (function (Stretch) {
+                Stretch[Stretch["None"] = 0] = "None";
+                Stretch[Stretch["Fill"] = 1] = "Fill";
+                Stretch[Stretch["Uniform"] = 2] = "Uniform";
+                Stretch[Stretch["UniformToFill"] = 3] = "UniformToFill";
+            })(Stretch || (Stretch = {}));
+            exports_44("Stretch", Stretch);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/IView", [], function(exports_45, context_45) {
+    "use strict";
+    var __moduleName = context_45 && context_45.id;
     var HorizontalAlignment, VerticalAlignment;
     return {
         setters:[],
@@ -2713,29 +2747,29 @@ System.register("XamlGL/Jupiter/IView", [], function(exports_43, context_43) {
                 HorizontalAlignment[HorizontalAlignment["Right"] = 2] = "Right";
                 HorizontalAlignment[HorizontalAlignment["Stretch"] = 3] = "Stretch";
             })(HorizontalAlignment || (HorizontalAlignment = {}));
-            exports_43("HorizontalAlignment", HorizontalAlignment);
+            exports_45("HorizontalAlignment", HorizontalAlignment);
             (function (VerticalAlignment) {
                 VerticalAlignment[VerticalAlignment["Top"] = 0] = "Top";
                 VerticalAlignment[VerticalAlignment["Center"] = 1] = "Center";
                 VerticalAlignment[VerticalAlignment["Bottom"] = 2] = "Bottom";
                 VerticalAlignment[VerticalAlignment["Stretch"] = 3] = "Stretch";
             })(VerticalAlignment || (VerticalAlignment = {}));
-            exports_43("VerticalAlignment", VerticalAlignment);
+            exports_45("VerticalAlignment", VerticalAlignment);
         }
     }
 });
-System.register("XamlGL/Jupiter/IFrameworkElement", [], function(exports_44, context_44) {
+System.register("XamlGL/Jupiter/IFrameworkElement", [], function(exports_46, context_46) {
     "use strict";
-    var __moduleName = context_44 && context_44.id;
+    var __moduleName = context_46 && context_46.id;
     return {
         setters:[],
         execute: function() {
         }
     }
 });
-System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement"], function(exports_45, context_45) {
+System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement"], function(exports_47, context_47) {
     "use strict";
-    var __moduleName = context_45 && context_45.id;
+    var __moduleName = context_47 && context_47.id;
     var UIElement_1;
     var FrameworkElement;
     return {
@@ -2745,14 +2779,18 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement"],
             }],
         execute: function() {
             FrameworkElement = class FrameworkElement extends UIElement_1.UIElement {
+                get Width() { return this._width; }
+                get Height() { return this._height; }
+                set Width(value) { this._width = value; }
+                set Height(value) { this._height = value; }
             };
-            exports_45("FrameworkElement", FrameworkElement);
+            exports_47("FrameworkElement", FrameworkElement);
         }
     }
 });
-System.register("XamlGL/Jupiter/View", ["XamlGL/Jupiter/FrameworkElement"], function(exports_46, context_46) {
+System.register("XamlGL/Jupiter/View", ["XamlGL/Jupiter/FrameworkElement"], function(exports_48, context_48) {
     "use strict";
-    var __moduleName = context_46 && context_46.id;
+    var __moduleName = context_48 && context_48.id;
     var FrameworkElement_1;
     var View;
     return {
@@ -2769,33 +2807,39 @@ System.register("XamlGL/Jupiter/View", ["XamlGL/Jupiter/FrameworkElement"], func
                 set VerticalAlignment(value) { this._verticalAlignment = value; }
                 set Margin(value) { this._margin = value; }
             };
-            exports_46("View", View);
+            exports_48("View", View);
         }
     }
 });
-System.register("XamlGL/Jupiter/Core", ["XamlGL/Jupiter/Application", "XamlGL/Jupiter/DebugSettings", "XamlGL/Jupiter/ApplicationTheme", "XamlGL/Jupiter/ResourceDictionary", "XamlGL/Jupiter/UIElement", "XamlGL/Jupiter/IView", "XamlGL/Jupiter/View", "XamlGL/Jupiter/DependencyObject", "XamlGL/Jupiter/FrameworkElement", "XamlGL/Jupiter/Platform/PlatformWebGL", "XamlGL/Jupiter/Platform/RendererWebGL"], function(exports_47, context_47) {
+System.register("XamlGL/Jupiter/Core", ["XamlGL/Jupiter/Application", "XamlGL/Jupiter/ApplicationTheme", "XamlGL/Jupiter/DebugSettings", "XamlGL/Jupiter/ImageSource", "XamlGL/Jupiter/ResourceDictionary", "XamlGL/Jupiter/Stretch", "XamlGL/Jupiter/UIElement", "XamlGL/Jupiter/IView", "XamlGL/Jupiter/View", "XamlGL/Jupiter/DependencyObject", "XamlGL/Jupiter/FrameworkElement", "XamlGL/Jupiter/Platform/PlatformWebGL", "XamlGL/Jupiter/Platform/RendererWebGL"], function(exports_49, context_49) {
     "use strict";
-    var __moduleName = context_47 && context_47.id;
+    var __moduleName = context_49 && context_49.id;
     function exportStar_2(m) {
         var exports = {};
         for(var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_47(exports);
+        exports_49(exports);
     }
     return {
         setters:[
             function (Application_1_1) {
                 exportStar_2(Application_1_1);
             },
-            function (DebugSettings_1_1) {
-                exportStar_2(DebugSettings_1_1);
-            },
             function (ApplicationTheme_1_1) {
                 exportStar_2(ApplicationTheme_1_1);
             },
+            function (DebugSettings_1_1) {
+                exportStar_2(DebugSettings_1_1);
+            },
+            function (ImageSource_1_1) {
+                exportStar_2(ImageSource_1_1);
+            },
             function (ResourceDictionary_1_1) {
                 exportStar_2(ResourceDictionary_1_1);
+            },
+            function (Stretch_1_1) {
+                exportStar_2(Stretch_1_1);
             },
             function (UIElement_2_1) {
                 exportStar_2(UIElement_2_1);
@@ -2806,8 +2850,8 @@ System.register("XamlGL/Jupiter/Core", ["XamlGL/Jupiter/Application", "XamlGL/Ju
             function (View_1_1) {
                 exportStar_2(View_1_1);
             },
-            function (DependencyObject_2_1) {
-                exportStar_2(DependencyObject_2_1);
+            function (DependencyObject_3_1) {
+                exportStar_2(DependencyObject_3_1);
             },
             function (FrameworkElement_2_1) {
                 exportStar_2(FrameworkElement_2_1);
@@ -2822,9 +2866,32 @@ System.register("XamlGL/Jupiter/Core", ["XamlGL/Jupiter/Application", "XamlGL/Ju
         }
     }
 });
-System.register("XamlGL/Controls/LoadingBalls", [], function(exports_48, context_48) {
+System.register("XamlGL/Controls/Image", ["XamlGL/Jupiter/Core"], function(exports_50, context_50) {
     "use strict";
-    var __moduleName = context_48 && context_48.id;
+    var __moduleName = context_50 && context_50.id;
+    var Jupiter;
+    var Image;
+    return {
+        setters:[
+            function (Jupiter_1) {
+                Jupiter = Jupiter_1;
+            }],
+        execute: function() {
+            Image = class Image extends Jupiter.View {
+                get Source() { return this._source; }
+                get NineGrid() { return this._nineGrid; }
+                get Stretch() { return this._stretch; }
+                set Source(value) { this._source = value; }
+                set NineGrid(value) { this._nineGrid = value; }
+                set Stretch(value) { this._stretch = value; }
+            };
+            exports_50("Image", Image);
+        }
+    }
+});
+System.register("XamlGL/Controls/LoadingBalls", [], function(exports_51, context_51) {
+    "use strict";
+    var __moduleName = context_51 && context_51.id;
     var LoadingBalls;
     return {
         setters:[],
@@ -2833,13 +2900,13 @@ System.register("XamlGL/Controls/LoadingBalls", [], function(exports_48, context
                 constructor() {
                 }
             };
-            exports_48("LoadingBalls", LoadingBalls);
+            exports_51("LoadingBalls", LoadingBalls);
         }
     }
 });
-System.register("Tests/TestBase", ["Libs/typescript-collections/src/lib/index"], function(exports_49, context_49) {
+System.register("Tests/TestBase", ["Libs/typescript-collections/src/lib/index"], function(exports_52, context_52) {
     "use strict";
-    var __moduleName = context_49 && context_49.id;
+    var __moduleName = context_52 && context_52.id;
     var Collections;
     var TestBase;
     return {
@@ -2877,13 +2944,13 @@ System.register("Tests/TestBase", ["Libs/typescript-collections/src/lib/index"],
                     }
                 }
             };
-            exports_49("TestBase", TestBase);
+            exports_52("TestBase", TestBase);
         }
     }
 });
-System.register("Tests/XamlGL/VisualTree", ["XamlGL/Core", "Tests/TestBase"], function(exports_50, context_50) {
+System.register("Tests/XamlGL/VisualTree", ["XamlGL/Core", "Tests/TestBase"], function(exports_53, context_53) {
     "use strict";
-    var __moduleName = context_50 && context_50.id;
+    var __moduleName = context_53 && context_53.id;
     var XamlGL, TestBase_1;
     var Tests;
     return {
@@ -2913,13 +2980,13 @@ System.register("Tests/XamlGL/VisualTree", ["XamlGL/Core", "Tests/TestBase"], fu
                     this.EndUnitTest(testDescription);
                 }
             };
-            exports_50("Tests", Tests);
+            exports_53("Tests", Tests);
         }
     }
 });
-System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_51, context_51) {
+System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_54, context_54) {
     "use strict";
-    var __moduleName = context_51 && context_51.id;
+    var __moduleName = context_54 && context_54.id;
     var XamlGLCore;
     var XamlApp;
     return {
@@ -2953,7 +3020,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_51, conte
                     });
                 }
             };
-            exports_51("XamlApp", XamlApp);
+            exports_54("XamlApp", XamlApp);
         }
     }
 });

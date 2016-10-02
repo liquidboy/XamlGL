@@ -1360,6 +1360,9 @@
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src\Tests\TestBase.ts" />
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\Image.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Stretch.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\ImageSource.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Thickness.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Guid.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\EventDispatcher.ts" />
