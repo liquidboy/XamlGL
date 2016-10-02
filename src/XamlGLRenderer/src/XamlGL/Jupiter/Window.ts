@@ -58,14 +58,14 @@ export class Window {
                     this.Platform.Renderer.ShowLoading(160,160,165,165);
                     this.Activate();
 
-                    setTimeout(() => {
-                        this.Platform.Renderer.HideLoading();
+                    // setTimeout(() => {
+                    //    this.Platform.Renderer.HideLoading();
 
-                        setTimeout(() => {
-                            this.Platform.Renderer.ShowLoading(20,20,165,165);
-                        }, 3000);
+                    //    setTimeout(() => {
+                    //        this.Platform.Renderer.ShowLoading(20,20,165,165);
+                    //    }, 3000);
 
-                    }, 3000);
+                    // }, 3000);
 
                 });
 
