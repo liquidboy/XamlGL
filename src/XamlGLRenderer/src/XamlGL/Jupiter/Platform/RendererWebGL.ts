@@ -47,15 +47,10 @@ export class Renderer implements IRenderer {
         this._renderer.render(this._stage);
     }
 
-    public LoadAppDomain(): void {
-        // todo : fill
-    }
-
     public LoadImage(url: string): PIXI.loaders.Loader {
         return PIXI.loader
             .add(url)
-            .load(this.LoadingAnimation.bind(this))
-            .load(this.LoadAppDomain);
+            .load(this.LoadingAnimation.bind(this));
     }
 }
 
