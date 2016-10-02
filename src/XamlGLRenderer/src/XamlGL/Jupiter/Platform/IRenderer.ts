@@ -9,5 +9,6 @@ export interface IRenderer {
 
     LoadingAnimation(): void;
     LoadAppDomain(): void;
-
+    Resize(width: number, height: number): void;
+    ResizeFull(): void;
 }

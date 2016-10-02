@@ -16,10 +16,24 @@ export class Renderer implements IRenderer {
     set Border(value: string) { this.PixiRenderer.view.style.border = value; }
     set BackgroundColor(value: number) { this.PixiRenderer.backgroundColor = value; }
 
-    constructor(width: number, height: number, antialias: boolean, transparent: boolean) {
+    constructor(width: number, height: number, antialias: boolean, transparent: boolean, htmlCanvasHost: JQuery) {
         this._uniqueId = Guid.newGuid();
         this._stage = new PIXI.Container();
         this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
+
+        htmlCanvasHost.append(this.PixiRenderer.view);
+    }
+
+    public Resize(width: number, height: number): void {
+        this.PixiRenderer.autoResize = true;
+        this.PixiRenderer.resize(width, height);
+    }
+
+    public ResizeFull(): void {
+        this.PixiRenderer.view.style.position = "absolute";
+        this.PixiRenderer.view.style.display = "block";
+        this.PixiRenderer.view.style.border = "0";
+        this.Resize(window.innerWidth, window.innerHeight);
     }
 
     public LoadingAnimation(): void {

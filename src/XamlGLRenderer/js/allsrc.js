@@ -38,16 +38,27 @@ System.register("XamlGL/Jupiter/Platform/RendererWebGL", ["XamlGL/DataTypes/Guid
             }],
         execute: function() {
             Renderer = class Renderer {
-                constructor(width, height, antialias, transparent) {
+                constructor(width, height, antialias, transparent, htmlCanvasHost) {
                     this._uniqueId = Guid_1.Guid.newGuid();
                     this._stage = new PIXI.Container();
                     this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
+                    htmlCanvasHost.append(this.PixiRenderer.view);
                 }
                 get UniqueID() { return this.UniqueID; }
                 get PixiStage() { return this._stage; }
                 get PixiRenderer() { return this._renderer; }
                 set Border(value) { this.PixiRenderer.view.style.border = value; }
                 set BackgroundColor(value) { this.PixiRenderer.backgroundColor = value; }
+                Resize(width, height) {
+                    this.PixiRenderer.autoResize = true;
+                    this.PixiRenderer.resize(width, height);
+                }
+                ResizeFull() {
+                    this.PixiRenderer.view.style.position = "absolute";
+                    this.PixiRenderer.view.style.display = "block";
+                    this.PixiRenderer.view.style.border = "0";
+                    this.Resize(window.innerWidth, window.innerHeight);
+                }
                 LoadingAnimation() {
                     let rect = new PIXI.Rectangle(0, 0, 165, 165);
                     let texture = PIXI.loader.resources["assets/silverlight_anims.jpg"].texture;
@@ -2282,8 +2293,8 @@ System.register("XamlGL/Jupiter/Platform/PlatformWebGL", ["XamlGL/Jupiter/Platfo
             }],
         execute: function() {
             Platform = class Platform {
-                constructor(width, height, antialias, transparent) {
-                    this._renderer = new RendererWebGL_1.Renderer(width, height, antialias, transparent);
+                constructor(width, height, antialias, transparent, htmlCanvasHost) {
+                    this._renderer = new RendererWebGL_1.Renderer(width, height, antialias, transparent, htmlCanvasHost);
                 }
                 get Renderer() { return this._renderer; }
             };
@@ -2311,9 +2322,7 @@ System.register("XamlGL/Jupiter/Window", ["XamlGL/VisualTree", "XamlGL/Events/Ev
             Window = class Window {
                 constructor(width, height, antialias, transparent, htmlCanvasHost) {
                     this._events = new EventList_1.EventList();
-                    this._platform = new PlatformWebGL_1.Platform(width, height, antialias, transparent);
-                    this._htmlCanvasHost = htmlCanvasHost;
-                    this.InitializePixi();
+                    this._platform = new PlatformWebGL_1.Platform(width, height, antialias, transparent, htmlCanvasHost);
                     this.InitializeShell();
                     this.InitializeVisualTree();
                 }
@@ -2331,19 +2340,11 @@ System.register("XamlGL/Jupiter/Window", ["XamlGL/VisualTree", "XamlGL/Events/Ev
                 InitializeVisualTree() {
                     this._visualTree = new VisualTree_1.VisualTree();
                 }
-                InitializePixi() {
-                    this._htmlCanvasHost.append(this.Platform.Renderer.PixiRenderer.view);
-                }
-                Resize(w, h) {
-                    this.Platform.Renderer.PixiRenderer.autoResize = true;
-                    this.Platform.Renderer.PixiRenderer.resize(w, h);
+                Resize(width, height) {
+                    this.Platform.Renderer.Resize(width, height);
                 }
                 ResizeFullWindow() {
-                    this.Platform.Renderer.PixiRenderer.view.style.position = "absolute";
-                    this.Platform.Renderer.PixiRenderer.view.style.display = "block";
-                    this.Platform.Renderer.PixiRenderer.view.style.border = "0";
-                    this.Platform.Renderer.PixiRenderer.autoResize = true;
-                    this.Platform.Renderer.PixiRenderer.resize(window.innerWidth, window.innerHeight);
+                    this.Platform.Renderer.ResizeFull();
                 }
                 set IsLoading(value) {
                     if (value) {
