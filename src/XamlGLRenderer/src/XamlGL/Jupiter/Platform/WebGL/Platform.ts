@@ -1,6 +1,7 @@
 ﻿import { IPlatform } from "./../IPlatform";
 
 import { Renderer } from "./Renderer";
+// import { Page } from "./../../Page";
 
 export class Platform implements IPlatform {
 
