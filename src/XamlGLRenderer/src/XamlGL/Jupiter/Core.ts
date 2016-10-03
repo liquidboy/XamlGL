@@ -20,16 +20,13 @@ export * from "./Media/BitmapSource";
 // platform
 export * from "./Platform/WebGL/Platform";
 export * from "./Platform/WebGL/Renderer";
-export * from "./Platform/WebGL/ImageRenderer";
 export * from "./Platform/WebGL/PlatformPage";
-export * from "./Platform/WebGL/FrameworkElementRenderer";
-export * from "./Platform/WebGL/ViewRenderer";
 
 export * from "./Platform/IPlatform";
 export * from "./Platform/IPlatformPage";
 export * from "./Platform/IRenderer";
 export * from "./Platform/IImageRenderer";
-export * from "./Platform/IFrameworkElementRenderer";
+export * from "./Platform/IControlRenderer";
 
 // interfaces
 export * from "./IDependencyObject";

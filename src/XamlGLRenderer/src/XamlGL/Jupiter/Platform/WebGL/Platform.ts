@@ -3,9 +3,11 @@
 import { Renderer } from "./Renderer";
 import { IUIElement } from "./../../IUIElement";
 import { IFrameworkElement } from "./../../IFrameworkElement";
-import { IFrameworkElementRenderer } from "./../IFrameworkElementRenderer";
-import { Grid } from "./../../../Controls/Grid";
-import { Image } from "./../../../Controls/Image";
+import { FrameworkElement } from "./../../FrameworkElement";
+// import { IFrameworkElementRenderer } from "./../IFrameworkElementRenderer";
+import { IControlRenderer } from "./../IControlRenderer";
+// import { Grid } from "./../../../Controls/Grid";
+// import { Image } from "./../../../Controls/Image";
 import { RendererHelper } from "./../../../utils/RendererHelper";
 
 export class Platform implements IPlatform {
@@ -19,12 +21,15 @@ export class Platform implements IPlatform {
         console.log("Platform:constructor");
     }
 
-    public SetCurrent(content: IUIElement): void {
+    public SetCurrent(content: FrameworkElement): void {
         console.log("Platform:SetCurrent");
-        content.Platform = this;
+        (<IUIElement>content).Platform = this;
+        let fe: IControlRenderer = this.CreateControlRenderer(content);
+        fe.Element = content;
+
     }
 
-    public CreateControlRenderer(element: IFrameworkElement): IFrameworkElementRenderer {
+    public CreateControlRenderer(element: IFrameworkElement): IControlRenderer {
         return RendererHelper.FrameworkElementToRenderer(element);
     }
 

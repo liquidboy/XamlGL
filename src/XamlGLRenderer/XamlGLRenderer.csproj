@@ -1374,16 +1374,12 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Page.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IControlRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IImageRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IFrameworkElementRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IPlatformPage.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DefaultRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\GridRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ImageRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\FrameworkElementRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\ImageRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\PlatformPage.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\ViewRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Stretch.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\ImageSource.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Thickness.ts" />

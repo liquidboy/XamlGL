@@ -1,5 +1,5 @@
 ﻿import { IFrameworkElement } from "./../Jupiter/IFrameworkElement";
-import { IFrameworkElementRenderer } from "./../Jupiter/Platform/IFrameworkElementRenderer";
+import { IControlRenderer } from "./../Jupiter/Platform/IControlRenderer";
 import { DefaultRenderer } from "./../Jupiter/Platform/WebGL/Controls/DefaultRenderer";
 
 import { Grid } from "./../Controls/Grid";
@@ -9,7 +9,7 @@ import { Image } from "./../Controls/Image";
 import { ImageRenderer } from "./../Jupiter/Platform/WebGL/Controls/ImageRenderer";
 
 export class RendererHelper {
-    public static FrameworkElementToRenderer(element: IFrameworkElement): IFrameworkElementRenderer {
+    public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
         if (element instanceof Grid) {
             return new GridRenderer();
         }

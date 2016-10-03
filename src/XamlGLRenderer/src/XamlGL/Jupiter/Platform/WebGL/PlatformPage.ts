@@ -3,6 +3,7 @@ import { IPlatformPage } from "./../IPlatformPage";
 import { Platform } from "./Platform";
 import { IPlatform } from "./../IPlatform";
 import { UIElement } from "./../../UIElement";
+import { FrameworkElement } from "./../../FrameworkElement";
 import { EventList } from "./../../../Events/EventList";
 import { IEventArgs } from "./../../../Events/IEventArgs";
 import { IEvent } from "./../../../Events/IEvent";
@@ -11,15 +12,15 @@ import { IEvent } from "./../../../Events/IEvent";
 export class PlatformPage extends Page implements IPlatformPage {
 
     private _events: EventList<PlatformPage, WindowEventArgs> = new EventList<PlatformPage, WindowEventArgs>();
-    private _content: UIElement;
+    private _content: FrameworkElement;
 
     private _antialias: boolean;
     private _transparent: boolean;
     private _htmlCanvasHost: JQuery;
 
-    get Content(): UIElement { return this._content; }
+    get Content(): FrameworkElement { return this._content; }
 
-    set Content(value: UIElement) { this.DoContentChanged(value); }
+    set Content(value: FrameworkElement) { this.DoContentChanged(value); }
 
     get Activated(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Activated"); }
     get Closed(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Closed"); }
@@ -59,7 +60,7 @@ export class PlatformPage extends Page implements IPlatformPage {
         this.Platform.Renderer.ResizeFull();
     }
 
-    private DoContentChanged(content: UIElement): void {
+    private DoContentChanged(content: FrameworkElement): void {
         console.log("PlatformPage.DoContentChanged");
         this.Platform.SetCurrent(content);
     }

@@ -1,11 +1,12 @@
 ﻿import { IRenderer } from "./IRenderer";
 import { IUIElement } from "./../IUIElement";
-import { IFrameworkElementRenderer } from "./IFrameworkElementRenderer";
+import { IControlRenderer } from "./IControlRenderer";
 import { IFrameworkElement } from "./../IFrameworkElement";
+import { FrameworkElement } from "./../FrameworkElement";
 
 export interface IPlatform {
     Renderer: IRenderer;
 
-    SetCurrent(content: IUIElement): void;
-    CreateControlRenderer(element: IFrameworkElement): IFrameworkElementRenderer;
+    SetCurrent(content: FrameworkElement): void;
+    CreateControlRenderer(element: IFrameworkElement): IControlRenderer;
 }
