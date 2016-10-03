@@ -2498,7 +2498,7 @@ System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/
     "use strict";
     var __moduleName = context_36 && context_36.id;
     var Guid_2, EventList_2;
-    var Application, ApplicationEventArgs;
+    var Application, ActivatedEventArgs, LaunchActivatedEventArgs, ApplicationEventArgs;
     return {
         setters:[
             function (Guid_2_1) {
@@ -2512,7 +2512,6 @@ System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/
                 constructor() {
                     this._events = new EventList_2.EventList();
                     this._sessionId = Guid_2.Guid.newGuid();
-                    this.setupApplication();
                 }
                 get SessionID() { return this._sessionId; }
                 get ResourceDictionary() { return this._resourceDictionary; }
@@ -2523,15 +2522,29 @@ System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/
                 get Resuming() { return this._events.get("Resuming"); }
                 get Suspending() { return this._events.get("Suspending"); }
                 get UnhandledException() { return this._events.get("UnhandledException"); }
-                get LoadedApplication() { return this._events.get("LoadedApplication"); }
-                setupApplication() {
-                    setTimeout(() => { this.dispatch("LoadedApplication"); }, 3000);
+                get OnActivated() { return this._events.get("OnActivated"); }
+                get OnLaunched() { return this._events.get("OnLaunched"); }
+                SetupApplication() {
+                    this.dispatch("OnActivated");
+                    setTimeout(() => { this.dispatch("OnLaunched"); }, 3000);
                 }
                 dispatch(name) {
                     this._events.get(name).dispatch(this, new ApplicationEventArgs(this.SessionID));
                 }
             };
             exports_36("Application", Application);
+            ActivatedEventArgs = class ActivatedEventArgs {
+                constructor(SessionID) {
+                    this.SessionID = SessionID;
+                }
+            };
+            exports_36("ActivatedEventArgs", ActivatedEventArgs);
+            LaunchActivatedEventArgs = class LaunchActivatedEventArgs {
+                constructor(SessionID) {
+                    this.SessionID = SessionID;
+                }
+            };
+            exports_36("LaunchActivatedEventArgs", LaunchActivatedEventArgs);
             ApplicationEventArgs = class ApplicationEventArgs {
                 constructor(SessionID) {
                     this.SessionID = SessionID;
@@ -2561,17 +2574,24 @@ System.register("XamlGL/App", ["XamlGL/Jupiter/Window", "XamlGL/ViewManager", "X
             App = class App extends Application_1.Application {
                 constructor() {
                     super();
-                    this.LoadedApplication.subscribe(() => { this._window.IsLoading = false; });
+                    this.OnLaunched.subscribe(this.Launched.bind(this));
+                    this.OnActivated.subscribe(this.Activated.bind(this));
                 }
                 Start() {
                     console.log(PIXI);
                     ViewManager_1.ViewManager.RenderView("pixi-home", PIXI, (jqView) => {
-                        this.CreateWindow(jqView.find(".pixi-canvas"));
+                        this.SetupWindow(jqView.find(".pixi-canvas"));
+                        this.SetupApplication();
                     });
                 }
-                CreateWindow(htmlCanvasHost) {
-                    this._window = new Window_1.Window(512, 512, false, false, htmlCanvasHost);
+                Activated() {
                     this._window.IsLoading = true;
+                }
+                Launched() {
+                    this._window.IsLoading = false;
+                }
+                SetupWindow(htmlCanvasHost) {
+                    this._window = new Window_1.Window(512, 512, false, false, htmlCanvasHost);
                 }
             };
             exports_37("App", App);

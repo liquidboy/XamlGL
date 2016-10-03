@@ -27,18 +27,20 @@ export class Application {
     get Resuming(): IEvent<Application, ApplicationEventArgs> { return this._events.get("Resuming"); }
     get Suspending(): IEvent<Application, ApplicationEventArgs> { return this._events.get("Suspending"); }
     get UnhandledException(): IEvent<Application, ApplicationEventArgs> { return this._events.get("UnhandledException"); }
-    get LoadedApplication(): IEvent<Application, ApplicationEventArgs> { return this._events.get("LoadedApplication"); }
+
+    get OnActivated(): IEvent<Application, ActivatedEventArgs> { return this._events.get("OnActivated"); }
+    get OnLaunched(): IEvent<Application, LaunchActivatedEventArgs> { return this._events.get("OnLaunched"); }
 
 
 
     constructor() {
         this._sessionId = Guid.newGuid();
-        this.setupApplication();
     }
 
-    private setupApplication(): void {
+    public SetupApplication(): void {
         // todo: do whatever we need to to setup this application
-        setTimeout(() => { this.dispatch("LoadedApplication"); }, 3000);
+        this.dispatch("OnActivated");
+        setTimeout(() => { this.dispatch("OnLaunched"); }, 3000);
     }
 
     private dispatch(name: string): void {
@@ -46,6 +48,12 @@ export class Application {
     }
 }
 
+export class ActivatedEventArgs implements IEventArgs {
+    constructor(public SessionID: string) { }
+}
+export class LaunchActivatedEventArgs implements IEventArgs {
+    constructor(public SessionID: string) { }
+}
 export class ApplicationEventArgs implements IEventArgs {
     constructor(public SessionID: string) { }
 }
