@@ -1,9 +1,15 @@
 ﻿import { Window } from "./Jupiter/Window";
 import { ViewManager } from "./ViewManager";
+import { Application } from "./Jupiter/Application";
 
-export class AppDomain {
+export class App extends Application {
 
     private _window: Window;
+
+    constructor() {
+        super();
+        this.LoadedApplication.subscribe(() => { this._window.IsLoading = false; });
+    }
 
     public Start(): void {
         console.log(PIXI); // todo : remove and find a better way for debugging stuff

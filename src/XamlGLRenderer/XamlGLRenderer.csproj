@@ -1401,7 +1401,7 @@
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlParser.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
     <TypeScriptCompile Include="src\XamlGL\VisualTree.ts" />
-    <TypeScriptCompile Include="src\XamlGL\AppDomain.ts" />
+    <TypeScriptCompile Include="src\XamlGL\App.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Window.ts" />
     <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Renderer.ts" />

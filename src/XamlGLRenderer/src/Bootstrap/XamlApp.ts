@@ -14,7 +14,7 @@ export class XamlApp {
             return;
         }
 
-        let app: XamlGLCore.AppDomain = new XamlGLCore.AppDomain();
+        let app: XamlGLCore.App = new XamlGLCore.App();
         app.Start();
         // todo: move this XAML stuff into the AppDomain
         let xm: XamlGLCore.XamlMarkup = XamlGLCore.XamlReader.LoadUri(

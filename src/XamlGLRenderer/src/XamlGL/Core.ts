@@ -1,4 +1,4 @@
-﻿export * from "./AppDomain";
+﻿export * from "./App";
 export * from "./VisualTree";
 export * from "./ViewManager";
 export * from "./Reader/XamlReader";

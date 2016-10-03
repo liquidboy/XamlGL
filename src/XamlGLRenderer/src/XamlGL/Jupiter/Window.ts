@@ -55,7 +55,7 @@ export class Window {
             this.Platform.Renderer.InitializeLoadingResource("assets/silverlight_anims.jpg")
                 .load(() => {
                     // this.Platform.Renderer.ResizeFull();
-                    this.Platform.Renderer.ShowLoading(160,160,165,165);
+                    this.Platform.Renderer.ShowLoading(160, 160, 165, 165);
                     this.Activate();
 
                     // setTimeout(() => {
@@ -70,8 +70,10 @@ export class Window {
                 });
 
             // this.ResizeFullWindow();
+        } else {
+            this.Platform.Renderer.HideLoading();
         }
-    }
+     }
 
     private dispatch(name: string): void {
         this._events.get(name).dispatch(this, new WindowEventArgs());

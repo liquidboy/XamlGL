@@ -27,19 +27,23 @@ export class Application {
     get Resuming(): IEvent<Application, ApplicationEventArgs> { return this._events.get("Resuming"); }
     get Suspending(): IEvent<Application, ApplicationEventArgs> { return this._events.get("Suspending"); }
     get UnhandledException(): IEvent<Application, ApplicationEventArgs> { return this._events.get("UnhandledException"); }
+    get LoadedApplication(): IEvent<Application, ApplicationEventArgs> { return this._events.get("LoadedApplication"); }
 
 
 
     constructor() {
         this._sessionId = Guid.newGuid();
+        this.setupApplication();
+    }
+
+    private setupApplication(): void {
+        // todo: do whatever we need to to setup this application
+        setTimeout(() => { this.dispatch("LoadedApplication"); }, 3000);
     }
 
     private dispatch(name: string): void {
         this._events.get(name).dispatch( this, new ApplicationEventArgs(this.SessionID) );
     }
-
-    // this.dispatch('onReset');
-
 }
 
 export class ApplicationEventArgs implements IEventArgs {
