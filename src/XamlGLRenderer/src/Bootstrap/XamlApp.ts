@@ -14,13 +14,13 @@ export class XamlApp {
             return;
         }
 
-        let app: XamlGLCore.App = new XamlGLCore.App();
-        app.Start();
         // todo: move this XAML stuff into the AppDomain
         let xm: XamlGLCore.XamlMarkup = XamlGLCore.XamlReader.LoadUri(
             "/xaml/image-silverlight.xap",
             (el: any) => { console.log(xm.rootElement); });
 
+        let app: XamlGLCore.App = new XamlGLCore.App();
+        app.Start(xm);
     }
 
     public Configure(): void {

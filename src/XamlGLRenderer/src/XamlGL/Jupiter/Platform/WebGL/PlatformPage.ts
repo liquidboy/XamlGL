@@ -19,14 +19,13 @@ export class PlatformPage extends Page implements IPlatformPage {
 
     get Content(): UIElement { return this._content; }
 
-
-    set Content(value: UIElement) { this._content = value; }
+    set Content(value: UIElement) { this.DoContentChanged(value); }
 
     get Activated(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Activated"); }
     get Closed(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Closed"); }
     get SizeChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("SizeChanged"); }
     get VisibilityChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("VisibilityChanged"); }
-
+    get OnContentChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("OnContentChanged"); }
 
 
     constructor(width: number,height: number, antialias: boolean, transparent: boolean, htmlCanvasHost: JQuery) {
@@ -60,6 +59,10 @@ export class PlatformPage extends Page implements IPlatformPage {
         this.Platform.Renderer.ResizeFull();
     }
 
+    private DoContentChanged(content: UIElement): void {
+        console.log("PlatformPage.DoContentChanged");
+        this.Platform.SetCurrent(content);
+    }
 
     set IsLoading(value: boolean) {
         if (value) {

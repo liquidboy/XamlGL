@@ -1372,9 +1372,14 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapImage.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapSource.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Page.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IControlRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IImageRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IFrameworkElementRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IPlatformPage.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DefaultRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\GridRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ImageRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\FrameworkElementRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\ImageRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\PlatformPage.ts" />
@@ -1411,6 +1416,8 @@
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlMarkup.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlParser.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Utils\RendererHelper.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Utils\XamlHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\App.ts" />
     <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />

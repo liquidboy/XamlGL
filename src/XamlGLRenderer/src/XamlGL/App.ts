@@ -1,10 +1,12 @@
 ﻿import { PlatformPage } from "./Jupiter/Platform/WebGL/PlatformPage";
 import { ViewManager } from "./ViewManager";
 import { Application } from "./Jupiter/Application";
+import { XamlMarkup } from "./Reader/XamlMarkup";
+import { XamlHelper } from "./Utils/XamlHelper";
 
 export class App extends Application {
 
-    private _page: PlatformPage;
+    private _platformPage: PlatformPage;
     private _jqView: JQuery;
 
     constructor() {
@@ -13,25 +15,32 @@ export class App extends Application {
         this.OnActivated.subscribe(this.Activated.bind(this));
     }
 
-    public Start(): void {
+    public Start(xaml: XamlMarkup): void {
         console.log(PIXI); // todo : remove and find a better way for debugging stuff
 
         ViewManager.RenderView("pixi-home", PIXI, (jqView: JQuery) => {
             this._jqView = jqView;
             this.SetupWindow(jqView.find(".pixi-canvas"));
             this.SetupApplication(); // important : needs to be done AFTER "SetupWindow" as PIXI & Window needs to be setup
+            this.SetupContent(xaml);
         });
     }
 
     private Activated(): void {
-        this._page.IsLoading = true;
+        this._platformPage.IsLoading = true;
     }
 
     private Launched(): void {
-        this._page.IsLoading = false;
+        this._platformPage.IsLoading = false;
     }
 
     private SetupWindow(htmlCanvasHost: JQuery): void {
-        this._page = new PlatformPage(512, 512, false, false, htmlCanvasHost);
+        this._platformPage = new PlatformPage(512, 512, false, false, htmlCanvasHost);
     }
+
+    private SetupContent(content: XamlMarkup): void {
+        this._platformPage.Content = XamlHelper.XamlMarkupToUIElement(content);
+    }
+
+
 }

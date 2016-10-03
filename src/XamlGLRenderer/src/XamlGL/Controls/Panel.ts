@@ -9,4 +9,9 @@ export class Panel extends FrameworkElement {
 
     set Children(value: UIElementCollection) { this._children = value; }
     set Background(value: string) { this._background = value; }
+
+    constructor() {
+        super();
+        this._children = new UIElementCollection();
+    }
 }
