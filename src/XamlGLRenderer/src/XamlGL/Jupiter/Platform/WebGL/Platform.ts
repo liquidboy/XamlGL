@@ -26,7 +26,6 @@ export class Platform implements IPlatform {
         (<IUIElement>content).Platform = this;
         let fe: IControlRenderer = this.CreateControlRenderer(content);
         fe.Element = content;
-
     }
 
     public CreateControlRenderer(element: IFrameworkElement): IControlRenderer {
