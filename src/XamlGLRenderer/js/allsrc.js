@@ -3054,10 +3054,10 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_61, context_61)
         }
     }
 });
-System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Controls/Image", "XamlGL/Controls/Rectangle"], function(exports_62, context_62) {
+System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/Rectangle"], function(exports_62, context_62) {
     "use strict";
     var __moduleName = context_62 && context_62.id;
-    var Grid_2, Image_2, Rectangle_2;
+    var Grid_2, Image_2, Panel_5, Rectangle_2;
     var XamlHelper;
     return {
         setters:[
@@ -3066,6 +3066,9 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
             },
             function (Image_2_1) {
                 Image_2 = Image_2_1;
+            },
+            function (Panel_5_1) {
+                Panel_5 = Panel_5_1;
             },
             function (Rectangle_2_1) {
                 Rectangle_2 = Rectangle_2_1;
@@ -3093,24 +3096,33 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                     return rootPanel;
                 }
                 static ProcessNode(el) {
-                    return this.GetFrameworkElement(el.nodeName, el);
+                    return this.GetFrameworkElementByNode(el);
                 }
                 static ProcessElement(el) {
-                    let grid = new Grid_2.Grid();
-                    return this.ProcessCollectionNodes(grid, el.childNodes);
+                    let container = this.GetFrameworkElementByElement(el);
+                    if (container !== null && container instanceof Panel_5.Panel) {
+                        return this.ProcessCollectionNodes(container, el.childNodes);
+                    }
                 }
                 static ProcessHTMLElement(el) {
                     return this.ProcessCollection(el.children);
                 }
-                static GetFrameworkElement(name, node) {
-                    if (name === "Rectangle") {
+                static GetFrameworkElementByElement(el) {
+                    if (el.nodeName === "Grid") {
+                        let grid = new Grid_2.Grid();
+                        return grid;
+                    }
+                    return null;
+                }
+                static GetFrameworkElementByNode(node) {
+                    if (node.nodeName === "Rectangle") {
                         let rect = new Rectangle_2.Rectangle();
                         rect.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
                         rect.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
                         rect.Background = "Red";
                         return rect;
                     }
-                    else if (name === "Image") {
+                    else if (node.nodeName === "Image") {
                         let img = new Image_2.Image();
                         img.Source = node.attributes.getNamedItem("Source").value;
                         img.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
@@ -3529,8 +3541,8 @@ System.register("XamlGL/Controls/Core", ["XamlGL/Controls/ContentControl", "Xaml
             function (LoadingBalls_1_1) {
                 exportStar_2(LoadingBalls_1_1);
             },
-            function (Panel_5_1) {
-                exportStar_2(Panel_5_1);
+            function (Panel_6_1) {
+                exportStar_2(Panel_6_1);
             },
             function (Rectangle_3_1) {
                 exportStar_2(Rectangle_3_1);

@@ -32,26 +32,35 @@ export class XamlHelper {
         return rootPanel;
     }
     private static ProcessNode(el: Node): FrameworkElement {
-        return this.GetFrameworkElement(el.nodeName, el);
+        return this.GetFrameworkElementByNode(el);
     }
     private static ProcessElement(el: Element): FrameworkElement {
-        let grid: Grid = new Grid();
-        return this.ProcessCollectionNodes(grid, el.childNodes);
+        let container: FrameworkElement = this.GetFrameworkElementByElement(el);
+
+        if (container !== null && container instanceof Panel) {
+            return this.ProcessCollectionNodes(<Panel>container, el.childNodes);
+        }
     }
     private static ProcessHTMLElement(el: HTMLElement): FrameworkElement {
         return this.ProcessCollection(el.children);
     }
+    private static GetFrameworkElementByElement(el: Element): FrameworkElement {
+        if (el.nodeName === "Grid") {
+            let grid: Grid = new Grid();
+            return grid;
+        }
+        return null;
+    }
 
+    private static GetFrameworkElementByNode(node: Node): FrameworkElement {
 
-    private static GetFrameworkElement(name: string, node: Node): FrameworkElement {
-
-        if (name === "Rectangle") {
+        if (node.nodeName === "Rectangle") {
             let rect: Rectangle = new Rectangle();
             rect.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
             rect.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
             rect.Background = "Red";
             return rect;
-        } else if (name === "Image") {
+        } else if (node.nodeName === "Image") {
             let img: Image = new Image();
             img.Source = node.attributes.getNamedItem("Source").value;
             img.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
