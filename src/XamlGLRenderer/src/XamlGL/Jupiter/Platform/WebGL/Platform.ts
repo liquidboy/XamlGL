@@ -24,8 +24,30 @@ export class Platform implements IPlatform {
     public SetCurrent(content: FrameworkElement): void {
         console.log("Platform:SetCurrent");
         (<IUIElement>content).Platform = this;
+
+        content.PropertyChanged.subscribe(this.OnPropertyChanged);
+        content.FocusChanged.subscribe(this.OnFocusChanged);
+        content.ChildAdded.subscribe(this.OnChildAdded);
+        content.ChildRemoved.subscribe(this.OnChildRemoved);
+
+
         let fe: IControlRenderer = this.CreateControlRenderer(content);
         fe.Element = content;
+
+
+    }
+
+    private OnPropertyChanged(): void {
+        // todo
+    }
+    private OnFocusChanged(): void {
+        // todo
+    }
+    private OnChildAdded(): void {
+        // todo
+    }
+    private OnChildRemoved(): void {
+        // todo
     }
 
     public CreateControlRenderer(element: IFrameworkElement): IControlRenderer {

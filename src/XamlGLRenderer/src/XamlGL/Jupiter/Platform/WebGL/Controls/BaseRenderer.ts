@@ -17,5 +17,13 @@ export class BaseRenderer implements IControlRenderer {
     get ElementChanged(): IEvent<BaseRenderer, IEventArgs> { return this._elementChanged; }
 
     set GodRenderer(value: Renderer) { this._godRenderer = value; }
-    set Element(value: FrameworkElement) { this._element = value; }
+    set Element(value: FrameworkElement) {
+        this._element = value;
+        // 1. set FrameworkElement propertychanged/focuschanged
+        // 2. instantiate packager and do a Load
+        //      ->  renderer.Element.ChildAdded
+        //      ->  renderer.Element.ChildRemoved
+        // 3. call OnElementChanged
+
+    }
 }
