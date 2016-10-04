@@ -4,40 +4,42 @@ import { Platform } from "./Platform";
 import { IPlatform } from "./../IPlatform";
 import { UIElement } from "./../../UIElement";
 import { FrameworkElement } from "./../../FrameworkElement";
+import { IFrameworkElement } from "./../../IFrameworkElement";
 import { EventList } from "./../../../Events/EventList";
 import { IEventArgs } from "./../../../Events/IEventArgs";
 import { IEvent } from "./../../../Events/IEvent";
-
+import { XamlMarkup } from "./../../../Reader/XamlMarkup";
+import { XamlHelper } from "./../../../utils/XamlHelper";
 
 export class PlatformPage extends Page implements IPlatformPage {
 
     private _events: EventList<PlatformPage, WindowEventArgs> = new EventList<PlatformPage, WindowEventArgs>();
-    private _content: FrameworkElement;
 
     private _antialias: boolean;
     private _transparent: boolean;
     private _htmlCanvasHost: JQuery;
-
-    get Content(): FrameworkElement { return this._content; }
-
-    set Content(value: FrameworkElement) { this.DoContentChanged(value); }
+    private _xaml: XamlMarkup;
 
     get Activated(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Activated"); }
     get Closed(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Closed"); }
     get SizeChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("SizeChanged"); }
     get VisibilityChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("VisibilityChanged"); }
-    get OnContentChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("OnContentChanged"); }
 
-
-    constructor(width: number,height: number, antialias: boolean, transparent: boolean, htmlCanvasHost: JQuery) {
+    constructor(width: number, height: number, antialias: boolean, transparent: boolean,
+        htmlCanvasHost: JQuery, xaml: XamlMarkup) {
         super();
+
+        this.ContentChanged.subscribe(this.DoContentChanged);
+
         this.Width = width;
         this.Height = height;
         this._antialias = antialias;
         this._transparent = transparent;
         this._htmlCanvasHost = htmlCanvasHost;
+        this._xaml = xaml;
 
         this.Platform = this.CreatePlatform();
+        this.Content = XamlHelper.XamlMarkupToUIElement(xaml);
 
         this.InitializeShell();
     }
@@ -60,9 +62,10 @@ export class PlatformPage extends Page implements IPlatformPage {
         this.Platform.Renderer.ResizeFull();
     }
 
-    private DoContentChanged(content: FrameworkElement): void {
+    private DoContentChanged(obj: IFrameworkElement,ea: IEventArgs): void {
         console.log("PlatformPage.DoContentChanged");
-        this.Platform.SetCurrent(content);
+        let pp = <PlatformPage>obj;
+        pp.Platform.SetCurrent(<FrameworkElement>pp.Content);
     }
 
     set IsLoading(value: boolean) {

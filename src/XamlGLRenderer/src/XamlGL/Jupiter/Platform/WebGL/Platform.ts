@@ -1,7 +1,7 @@
 ﻿import { IPlatform } from "./../IPlatform";
 
 import { Renderer } from "./Renderer";
-import { IUIElement } from "./../../IUIElement";
+// import { IUIElement } from "./../../IUIElement";
 import { IFrameworkElement } from "./../../IFrameworkElement";
 import { FrameworkElement } from "./../../FrameworkElement";
 // import { IFrameworkElementRenderer } from "./../IFrameworkElementRenderer";
@@ -16,38 +16,18 @@ export class Platform implements IPlatform {
 
     get Renderer(): Renderer { return this._godRenderer; }
 
-    constructor(width: number, height: number, antialias: boolean, transparent: boolean, htmlCanvasHost: JQuery) {
+    constructor(width: number, height: number, antialias: boolean,
+        transparent: boolean, htmlCanvasHost: JQuery) {
         this._godRenderer = new Renderer(width, height, antialias, transparent, htmlCanvasHost);
         console.log("Platform:constructor");
     }
 
     public SetCurrent(content: FrameworkElement): void {
         console.log("Platform:SetCurrent");
-        (<IUIElement>content).Platform = this;
-
-        content.PropertyChanged.subscribe(this.OnPropertyChanged);
-        content.FocusChanged.subscribe(this.OnFocusChanged);
-        content.ChildAdded.subscribe(this.OnChildAdded);
-        content.ChildRemoved.subscribe(this.OnChildRemoved);
-
+        content.Platform = this;
 
         let fe: IControlRenderer = this.CreateControlRenderer(content);
         fe.Element = content;
-
-
-    }
-
-    private OnPropertyChanged(): void {
-        // todo
-    }
-    private OnFocusChanged(): void {
-        // todo
-    }
-    private OnChildAdded(): void {
-        // todo
-    }
-    private OnChildRemoved(): void {
-        // todo
     }
 
     public CreateControlRenderer(element: IFrameworkElement): IControlRenderer {

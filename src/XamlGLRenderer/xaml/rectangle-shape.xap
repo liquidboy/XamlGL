@@ -2,10 +2,10 @@
     xmlns="http://schemas.xamlgl.com/xamlgl"
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
-    <StackPanel>
+    <Grid>
         <Rectangle Fill="#222222" Stroke="Red" StrokeThickness="5"
                    RadiusX="10" RadiusY="20"
                    Width="100" Height="200">
         </Rectangle>
-    </StackPanel>
+    </Grid>
 </Application>

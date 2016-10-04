@@ -2,7 +2,6 @@
 import { ViewManager } from "./ViewManager";
 import { Application } from "./Jupiter/Application";
 import { XamlMarkup } from "./Reader/XamlMarkup";
-import { XamlHelper } from "./Utils/XamlHelper";
 
 export class App extends Application {
 
@@ -20,9 +19,8 @@ export class App extends Application {
 
         ViewManager.RenderView("pixi-home", PIXI, (jqView: JQuery) => {
             this._jqView = jqView;
-            this.SetupWindow(jqView.find(".pixi-canvas"));
+            this.SetupWindow(jqView.find(".pixi-canvas"), xaml);
             this.SetupApplication(); // important : needs to be done AFTER "SetupWindow" as PIXI & Window needs to be setup
-            this.SetupContent(xaml);
         });
     }
 
@@ -34,13 +32,7 @@ export class App extends Application {
         this._platformPage.IsLoading = false;
     }
 
-    private SetupWindow(htmlCanvasHost: JQuery): void {
-        this._platformPage = new PlatformPage(512, 512, false, false, htmlCanvasHost);
+    private SetupWindow(htmlCanvasHost: JQuery, xaml: XamlMarkup): void {
+        this._platformPage = new PlatformPage(512, 512, false, false, htmlCanvasHost, xaml);
     }
-
-    private SetupContent(content: XamlMarkup): void {
-        this._platformPage.Content = XamlHelper.XamlMarkupToUIElement(content);
-    }
-
-
 }
