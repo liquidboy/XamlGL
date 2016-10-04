@@ -14,6 +14,7 @@ import { RendererHelper } from "./../../../utils/RendererHelper";
 export class Platform implements IPlatform {
 
     private _godRenderer: Renderer;
+    private _content: FrameworkElement;
 
     get Renderer(): Renderer { return this._godRenderer; }
 
@@ -25,6 +26,7 @@ export class Platform implements IPlatform {
 
     public SetCurrent(content: FrameworkElement): void {
         console.log("Platform:SetCurrent  ====================== ");
+        this._content = content;
         content.Platform = this;
 
         // process root
@@ -39,6 +41,17 @@ export class Platform implements IPlatform {
             });
         }
 
+    }
+
+    public Draw(): void {
+        console.log("_____________");
+        console.log("Platform:Draw");
+        console.log("\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E");
+        if (this._godRenderer && this._content) {
+            if (this._content instanceof Panel) {
+                RendererHelper.DrawPanel(<Panel>this._content);
+            }
+        }
     }
 
     public CreateControlRenderer(element: IFrameworkElement): IControlRenderer {

@@ -42,6 +42,7 @@ export class PlatformPage extends Page implements IPlatformPage {
         this.Content = XamlHelper.XamlMarkupToUIElement(xaml);
 
         this.InitializeShell();
+        this.Platform.Draw();
     }
 
     public CreatePlatform(): IPlatform {

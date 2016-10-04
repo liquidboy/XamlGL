@@ -11,6 +11,8 @@ import { ImageRenderer } from "./../Jupiter/Platform/WebGL/Controls/ImageRendere
 import { Rectangle } from "./../Controls/Rectangle";
 import { RectangleRenderer } from "./../Jupiter/Platform/WebGL/Controls/RectangleRenderer";
 
+import { Panel } from "./../Controls/Panel";
+
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
         if (element instanceof Grid) {
@@ -22,5 +24,8 @@ export class RendererHelper {
         } else {
             return new DefaultRenderer();
         }
+    }
+    public static DrawPanel(panel: Panel): void {
+        // todo : itterate panel and attem to render
     }
 }

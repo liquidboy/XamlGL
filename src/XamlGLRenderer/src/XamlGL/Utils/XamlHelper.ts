@@ -4,6 +4,7 @@ import { Grid } from "./../Controls/Grid";
 import { Image } from "./../Controls/Image";
 import { Panel } from "./../Controls/Panel";
 import { Rectangle } from "./../Controls/Rectangle";
+import { Thickness } from "./../DataTypes/Thickness";
 
 
 export class XamlHelper {
@@ -35,8 +36,7 @@ export class XamlHelper {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
         if (newFE instanceof Panel) {
             return this.ProcessCollectionNodes(newFE, el.childNodes);
-        }
-        else {
+        } else {
             return newFE;
         }
     }
@@ -65,7 +65,10 @@ export class XamlHelper {
             let rect: Rectangle = new Rectangle();
             rect.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
             rect.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
-            rect.Background = "Red";
+            rect.Background = node.attributes.getNamedItem("Fill").value;
+            rect.BorderBrush = node.attributes.getNamedItem("Stroke").value;
+            let stokeThickness: number = Number.parseInt(node.attributes.getNamedItem("StrokeThickness").value);
+            rect.BorderThickness = new Thickness(stokeThickness);
             return rect;
         } else if (node.nodeName === "Image") {
             let img: Image = new Image();
