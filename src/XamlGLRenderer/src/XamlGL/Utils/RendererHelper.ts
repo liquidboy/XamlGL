@@ -12,8 +12,7 @@ export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
         if (element instanceof Grid) {
             return new GridRenderer();
-        }
-        else if (element instanceof Image) {
+        } else if (element instanceof Image) {
             return new ImageRenderer();
         } else {
             return new DefaultRenderer();

@@ -64,7 +64,7 @@ export class PlatformPage extends Page implements IPlatformPage {
 
     private DoContentChanged(obj: IFrameworkElement,ea: IEventArgs): void {
         console.log("PlatformPage.DoContentChanged");
-        let pp = <PlatformPage>obj;
+        let pp: PlatformPage = <PlatformPage>obj;
         pp.Platform.SetCurrent(<FrameworkElement>pp.Content);
     }
 
