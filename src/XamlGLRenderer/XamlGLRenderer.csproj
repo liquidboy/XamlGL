@@ -1364,6 +1364,7 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\Frame.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Control.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\Rectangle.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Grid.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Image.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Panel.ts" />
