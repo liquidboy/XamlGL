@@ -3073,18 +3073,51 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
         execute: function() {
             XamlHelper = class XamlHelper {
                 static XamlMarkupToUIElement(xaml) {
-                    let sampleUI = new Grid_2.Grid();
-                    let img = new Image_2.Image();
-                    let rect = new Rectangle_2.Rectangle();
-                    img.Source = "\assets\silverlight_anims.jpg";
-                    img.Width = 80;
-                    img.Height = 80;
-                    sampleUI.Children.add(img);
-                    rect.Width = 500;
-                    rect.Height = 300;
-                    rect.Background = "Red";
-                    sampleUI.Children.add(rect);
-                    return sampleUI;
+                    let ret = this.ProcessHTMLElement(xaml.rootElement);
+                    return ret;
+                }
+                static ProcessCollection(col) {
+                    for (let x = 0; x < col.length; x++) {
+                        let child = col.item(x);
+                        return this.ProcessElement(child);
+                    }
+                }
+                static ProcessCollectionNodes(rootPanel, col) {
+                    for (let x = 0; x < col.length; x++) {
+                        let node = col.item(x);
+                        let newFE = this.ProcessNode(node);
+                        if (newFE !== null) {
+                            rootPanel.Children.add(newFE);
+                        }
+                    }
+                    return rootPanel;
+                }
+                static ProcessNode(el) {
+                    return this.GetFrameworkElement(el.nodeName, el);
+                }
+                static ProcessElement(el) {
+                    let grid = new Grid_2.Grid();
+                    return this.ProcessCollectionNodes(grid, el.childNodes);
+                }
+                static ProcessHTMLElement(el) {
+                    return this.ProcessCollection(el.children);
+                }
+                static GetFrameworkElement(name, node) {
+                    if (name === "Rectangle") {
+                        let rect = new Rectangle_2.Rectangle();
+                        rect.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
+                        rect.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
+                        rect.Background = "Red";
+                        return rect;
+                    }
+                    else if (name === "Image") {
+                        let img = new Image_2.Image();
+                        img.Source = node.attributes.getNamedItem("Source").value;
+                        img.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
+                        img.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
+                        return img;
+                    }
+                    return null;
                 }
             };
             exports_62("XamlHelper", XamlHelper);
