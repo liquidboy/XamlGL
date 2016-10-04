@@ -32,7 +32,13 @@ export class XamlHelper {
         return rootPanel;
     }
     private static ProcessNode(el: Node): FrameworkElement {
-        return this.GetFrameworkElementByNode(el);
+        let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
+        if (newFE instanceof Panel) {
+            return this.ProcessCollectionNodes(newFE, el.childNodes);
+        }
+        else {
+            return newFE;
+        }
     }
     private static ProcessElement(el: Element): FrameworkElement {
         let container: FrameworkElement = this.GetFrameworkElementByElement(el);
@@ -45,6 +51,7 @@ export class XamlHelper {
         return this.ProcessCollection(el.children);
     }
     private static GetFrameworkElementByElement(el: Element): FrameworkElement {
+        console.log(el.nodeName);
         if (el.nodeName === "Grid") {
             let grid: Grid = new Grid();
             return grid;
@@ -53,7 +60,7 @@ export class XamlHelper {
     }
 
     private static GetFrameworkElementByNode(node: Node): FrameworkElement {
-
+        // console.log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
         if (node.nodeName === "Rectangle") {
             let rect: Rectangle = new Rectangle();
             rect.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
@@ -66,6 +73,9 @@ export class XamlHelper {
             img.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
             img.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
             return img;
+        } else if (node.nodeName === "Grid") {
+            let grid: Grid = new Grid();
+            return grid;
         }
         return null;
     }

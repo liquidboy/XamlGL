@@ -3096,7 +3096,13 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                     return rootPanel;
                 }
                 static ProcessNode(el) {
-                    return this.GetFrameworkElementByNode(el);
+                    let newFE = this.GetFrameworkElementByNode(el);
+                    if (newFE instanceof Panel_5.Panel) {
+                        return this.ProcessCollectionNodes(newFE, el.childNodes);
+                    }
+                    else {
+                        return newFE;
+                    }
                 }
                 static ProcessElement(el) {
                     let container = this.GetFrameworkElementByElement(el);
@@ -3108,6 +3114,7 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                     return this.ProcessCollection(el.children);
                 }
                 static GetFrameworkElementByElement(el) {
+                    console.log(el.nodeName);
                     if (el.nodeName === "Grid") {
                         let grid = new Grid_2.Grid();
                         return grid;
@@ -3128,6 +3135,10 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         img.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
                         img.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
                         return img;
+                    }
+                    else if (node.nodeName === "Grid") {
+                        let grid = new Grid_2.Grid();
+                        return grid;
                     }
                     return null;
                 }

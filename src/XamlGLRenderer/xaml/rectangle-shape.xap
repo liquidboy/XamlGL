@@ -3,9 +3,19 @@
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
     <Grid>
-        <Rectangle Fill="#222222" Stroke="Red" StrokeThickness="5"
-                   RadiusX="10" RadiusY="20"
-                   Width="100" Height="200">
+      <Rectangle Fill="#222222" Stroke="Red" StrokeThickness="5"
+                  RadiusX="10" RadiusY="20"
+                  Width="100" Height="200">
+      </Rectangle>
+      <Grid>
+        <Rectangle Fill="#333333" Stroke="Green" StrokeThickness="5"
+                      RadiusX="3" RadiusY="3"
+                      Width="400" Height="300">
         </Rectangle>
+        <Rectangle Fill="#444444" Stroke="Purple" StrokeThickness="8"
+                    RadiusX="15" RadiusY="15"
+                    Width="800" Height="500">
+        </Rectangle>
+      </Grid>
     </Grid>
 </Application>
