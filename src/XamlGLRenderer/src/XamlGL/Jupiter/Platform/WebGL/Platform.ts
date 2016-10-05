@@ -15,7 +15,7 @@ import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
 export class Platform implements IPlatform {
 
     private _godRenderer: Renderer;
-    private _content: FrameworkElement;
+
 
     get Renderer(): Renderer { return this._godRenderer; }
 
@@ -27,7 +27,6 @@ export class Platform implements IPlatform {
 
     public SetCurrent(content: FrameworkElement): void {
         ConsoleHelper.LogSection("Platform:SetCurrent");
-        this._content = content;
         content.Platform = this;
 
         // process root
@@ -37,23 +36,31 @@ export class Platform implements IPlatform {
         // process each child and so on
         if (content instanceof Panel) {
             let panel: Panel = <Panel>content;
-            panel.Children.reverse(); // <==== xaml is rendered from bottom to top
+            // panel.Children.reverse(); // <==== xaml is rendered from bottom to top
             panel.Children.forEach((x: IUIElement) => {
                 this.SetCurrent.call(this, x);
             });
         }
 
         // now draw layer
-        fe.Draw();
+        // fe.Draw();
     }
 
-    public Draw(): void {
-        ConsoleHelper.LogSectionHeader("Platform:Draw");
-        if (this._godRenderer && this._content) {
-            if (this._content instanceof Panel) {
-                RendererHelper.DrawPanel(<Panel>this._content);
-            }
+    public DrawAll(content: FrameworkElement): void {
+        // consoleHelper.LogSectionHeader("Platform:DrawAll");
+        content.Renderer.Draw();
+        if (content instanceof Panel) {
+            let panel: Panel = <Panel>content;
+            // panel.Children.reverse(); // <==== xaml is rendered from bottom to top
+            panel.Children.forEach((x: IUIElement) => {
+                this.DrawAll(<FrameworkElement>x);
+            });
         }
+    }
+
+    public Draw(content: IFrameworkElement): void {
+        ConsoleHelper.LogSectionHeader("Platform:Draw");
+        RendererHelper.DrawPanel(<Panel>content, false);
     }
 
     public CreateControlRenderer(element: IFrameworkElement): IControlRenderer {

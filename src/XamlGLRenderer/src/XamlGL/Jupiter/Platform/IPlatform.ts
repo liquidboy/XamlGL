@@ -7,7 +7,8 @@ import { FrameworkElement } from "./../FrameworkElement";
 export interface IPlatform {
     Renderer: IRenderer;
 
-    Draw(): void;
+    DrawAll(content: FrameworkElement): void;
+    Draw(content: IFrameworkElement): void;
     SetCurrent(content: FrameworkElement): void;
     CreateControlRenderer(element: IFrameworkElement): IControlRenderer;
 }

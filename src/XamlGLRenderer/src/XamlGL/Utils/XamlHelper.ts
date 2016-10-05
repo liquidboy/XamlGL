@@ -22,7 +22,10 @@ export class XamlHelper {
         }
     }
     private static ProcessCollectionNodes(rootPanel: Panel, col: NodeList): FrameworkElement {
-        if (!col) return null;
+        if (!col) {
+            return null;
+        }
+
         for (let x: number = 0; x < col.length; x++) {
             let node: Node = col.item(x);
             let newFE: FrameworkElement = this.ProcessNode(node);
@@ -67,6 +70,7 @@ export class XamlHelper {
             rect.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
             rect.Background = node.attributes.getNamedItem("Fill").value;
             rect.BorderBrush = node.attributes.getNamedItem("Stroke").value;
+            rect.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin").value);
             let stokeThickness: number = Number.parseInt(node.attributes.getNamedItem("StrokeThickness").value);
             rect.BorderThickness = new Thickness(stokeThickness);
             return rect;
@@ -81,6 +85,16 @@ export class XamlHelper {
             return grid;
         }
         return null;
+    }
+    // 0,0,0,0 = left, top, right, bottom<--
+    private static StringToThickness(value: string): Thickness {
+        let margin: Thickness = new Thickness(0);
+        let parts: string[] = value.split(",");
+        margin.Left = Number.parseInt(parts[0]);
+        margin.Top = Number.parseInt(parts[1]);
+        margin.Right = Number.parseInt(parts[2]);
+        margin.Bottom = Number.parseInt(parts[3]);
+        return margin;
     }
 
 }

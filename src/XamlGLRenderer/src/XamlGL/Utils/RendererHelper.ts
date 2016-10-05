@@ -27,18 +27,24 @@ export class RendererHelper {
             return new DefaultRenderer();
         }
     }
-    public static DrawPanel(panel: Panel): void {
+    public static DrawPanel(panel: Panel, processChildren: boolean): void {
         ConsoleHelper.Log("RendererHelper.DrawPanel");
         panel.Renderer.Draw();
 
-        panel.Children.forEach((uielement: IUIElement) => {
-            if (uielement instanceof Panel) {
-                this.DrawPanel(uielement);
-            } else {
-                ConsoleHelper.Log("??");
-            }
-        });
+        if (processChildren) {
+            panel.Children.forEach((uielement: IUIElement) => {
+                if (uielement instanceof Panel) {
+                    this.DrawPanel(uielement, processChildren);
+                } else {
+                    ConsoleHelper.Log("??");
+                }
+            });
+        }
 
         // todo : itterate panel and attem to render
+    }
+    public static HashToColorNumber(hashedColor: string): any {
+        // #FFC9006E
+        return Number.parseInt("0x" + hashedColor.substring(3, 9));
     }
 }

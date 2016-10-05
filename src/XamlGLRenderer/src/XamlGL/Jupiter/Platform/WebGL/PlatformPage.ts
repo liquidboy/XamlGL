@@ -67,6 +67,9 @@ export class PlatformPage extends Page implements IPlatformPage {
         ConsoleHelper.Log("PlatformPage.DoContentChanged");
         let pp: PlatformPage = <PlatformPage>obj;
         pp.Platform.SetCurrent(<FrameworkElement>pp.Content);
+
+        ConsoleHelper.LogSectionHeader("DrawAll");
+        pp.Platform.DrawAll(<FrameworkElement>pp.Content);
     }
 
     set IsLoading(value: boolean) {
