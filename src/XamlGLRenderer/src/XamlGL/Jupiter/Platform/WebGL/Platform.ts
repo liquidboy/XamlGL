@@ -10,6 +10,7 @@ import { IControlRenderer } from "./../IControlRenderer";
 import { Panel } from "./../../../Controls/Panel";
 // import { Image } from "./../../../Controls/Image";
 import { RendererHelper } from "./../../../utils/RendererHelper";
+import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
 
 export class Platform implements IPlatform {
 
@@ -21,11 +22,11 @@ export class Platform implements IPlatform {
     constructor(width: number, height: number, antialias: boolean,
         transparent: boolean, htmlCanvasHost: JQuery) {
         this._godRenderer = new Renderer(width, height, antialias, transparent, htmlCanvasHost);
-        console.log("Platform:constructor");
+        ConsoleHelper.Log("Platform:constructor");
     }
 
     public SetCurrent(content: FrameworkElement): void {
-        console.log("Platform:SetCurrent  ====================== ");
+        ConsoleHelper.LogSection("Platform:SetCurrent");
         this._content = content;
         content.Platform = this;
 
@@ -44,9 +45,7 @@ export class Platform implements IPlatform {
     }
 
     public Draw(): void {
-        console.log("_____________");
-        console.log("Platform:Draw");
-        console.log("\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E\u203E");
+        ConsoleHelper.LogSectionHeader("Platform:Draw");
         if (this._godRenderer && this._content) {
             if (this._content instanceof Panel) {
                 RendererHelper.DrawPanel(<Panel>this._content);

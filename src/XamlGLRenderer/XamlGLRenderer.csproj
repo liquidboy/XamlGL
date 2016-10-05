@@ -1415,6 +1415,7 @@
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlMarkup.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlParser.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Utils\ConsoleHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\Utils\RendererHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\Utils\XamlHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\VisualTree.ts" />

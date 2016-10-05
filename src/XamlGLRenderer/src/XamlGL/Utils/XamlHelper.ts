@@ -5,14 +5,13 @@ import { Image } from "./../Controls/Image";
 import { Panel } from "./../Controls/Panel";
 import { Rectangle } from "./../Controls/Rectangle";
 import { Thickness } from "./../DataTypes/Thickness";
-
+import { ConsoleHelper } from "./ConsoleHelper";
 
 export class XamlHelper {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
-
+        ConsoleHelper.Log("XamlHelper.XamlMarkupToUIElement");
         let ret: FrameworkElement = this.ProcessHTMLElement(xaml.rootElement);
-        // console.log("XamlHelper.XamlMarkupToUIElement");
-        // console.log(ret);
+        // consoleHelper.Log(ret);
         return ret;
     }
 
@@ -51,7 +50,7 @@ export class XamlHelper {
         return this.ProcessCollection(el.children);
     }
     private static GetFrameworkElementByElement(el: Element): FrameworkElement {
-        console.log(el.nodeName);
+        // consoleHelper.Log(el.nodeName);
         if (el.nodeName === "Grid") {
             let grid: Grid = new Grid();
             return grid;
@@ -60,7 +59,7 @@ export class XamlHelper {
     }
 
     private static GetFrameworkElementByNode(node: Node): FrameworkElement {
-        // console.log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
+        // consoleHelper.Log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
         if (node.nodeName === "Rectangle") {
             let rect: Rectangle = new Rectangle();
             rect.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);

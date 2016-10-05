@@ -10,6 +10,7 @@ import { IEventArgs } from "./../../../Events/IEventArgs";
 import { IEvent } from "./../../../Events/IEvent";
 import { XamlMarkup } from "./../../../Reader/XamlMarkup";
 import { XamlHelper } from "./../../../utils/XamlHelper";
+import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
 
 export class PlatformPage extends Page implements IPlatformPage {
 
@@ -63,8 +64,8 @@ export class PlatformPage extends Page implements IPlatformPage {
         this.Platform.Renderer.ResizeFull();
     }
 
-    private DoContentChanged(obj: IFrameworkElement,ea: IEventArgs): void {
-        console.log("PlatformPage.DoContentChanged");
+    private DoContentChanged(obj: IFrameworkElement, ea: IEventArgs): void {
+        ConsoleHelper.Log("PlatformPage.DoContentChanged");
         let pp: PlatformPage = <PlatformPage>obj;
         pp.Platform.SetCurrent(<FrameworkElement>pp.Content);
     }

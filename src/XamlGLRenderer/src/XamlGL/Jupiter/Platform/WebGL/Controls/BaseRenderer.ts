@@ -6,6 +6,7 @@ import { Panel } from "./../../../../Controls/Panel";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { IEvent } from "./../../../../Events/IEvent";
 import { EventDispatcher } from "./../../../../Events/EventDispatcher";
+import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 
 export class BaseRenderer implements IControlRenderer {
 
@@ -35,12 +36,13 @@ export class BaseRenderer implements IControlRenderer {
         //      ->  renderer.Element.ChildAdded
         //      ->  renderer.Element.ChildRemoved
         if (value instanceof Panel) {
-            console.log("BaseRenderer.Element : value was a panel");
+            
+            ConsoleHelper.Log("BaseRenderer.Element : value was a panel");
             let castPanel: Panel = <Panel>this._element;
             castPanel.ChildAdded.subscribe(this.OnChildAdded);
             castPanel.ChildRemoved.subscribe(this.OnChildRemoved);
         } else {
-            console.log("BaseRenderer.Element : value was a native element");
+            ConsoleHelper.Log("BaseRenderer.Element : value was a native element");
         }
 
         // 3. call OnElementChanged
@@ -52,19 +54,19 @@ export class BaseRenderer implements IControlRenderer {
 
     private OnPropertyChanged(): void {
         // todo
-        console.log("Platform.OnPropertyChanged");
+        ConsoleHelper.Log("Platform.OnPropertyChanged");
     }
     private OnFocusChanged(): void {
         // todo
-        console.log("Platform.OnFocusChanged");
+        ConsoleHelper.Log("Platform.OnFocusChanged");
     }
     private OnChildAdded(): void {
         // todo
-        console.log("Platform.OnChildAdded");
+        ConsoleHelper.Log("Platform.OnChildAdded");
     }
     private OnChildRemoved(): void {
         // todo
-        console.log("Platform.OnChildRemoved");
+        ConsoleHelper.Log("Platform.OnChildRemoved");
     }
 
 }
