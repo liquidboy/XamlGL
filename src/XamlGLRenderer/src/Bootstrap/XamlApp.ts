@@ -16,8 +16,8 @@ export class XamlApp {
 
         // todo: move this XAML stuff into the AppDomain
         let xm: XamlGLCore.XamlMarkup = XamlGLCore.XamlReader.LoadUri(
-            //"/xaml/grid-1.xap",
-            "/xaml/rectangle-shape.xap",
+            "/xaml/grid-1.xap",
+            // "/xaml/rectangle-shape.xap",
             // "/xaml/image-silverlight.xap",
             (el: any) => { console.log(xm.rootElement); });
 
