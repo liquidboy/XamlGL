@@ -9,6 +9,6 @@ export interface IPlatform {
 
     DrawAll(content: FrameworkElement): void;
     Draw(content: IFrameworkElement): void;
-    SetCurrent(content: FrameworkElement): void;
+    SetCurrent(content: FrameworkElement, parent: IFrameworkElement): void;
     CreateControlRenderer(element: IFrameworkElement): IControlRenderer;
 }

@@ -1762,6 +1762,7 @@
     <None Include="XamlGL - Web Deploy.pubxml" />
     <Content Include="xaml\rectangle-shape.xap" />
     <Content Include="xaml\image-silverlight.xap" />
+    <Content Include="xaml\grid-1.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

@@ -15,6 +15,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _renderer: IControlRenderer;
     private _horizontalAlignment: HorizontalAlignment;
     private _verticalAlignment: VerticalAlignment;
+    private _parent: FrameworkElement;
 
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
@@ -28,6 +29,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     get Renderer(): IControlRenderer { return this._renderer; }
     get HorizontalAlignment(): HorizontalAlignment { return this._horizontalAlignment; }
     get VerticalAlignment(): VerticalAlignment { return this._verticalAlignment; }
+    get Parent(): FrameworkElement { return this._parent; }
 
     set Width(value: number) { this._width = value; }
     set Height(value: number) { this._height = value; }
@@ -35,6 +37,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     set Renderer(value: IControlRenderer) { this._renderer = value; }
     set HorizontalAlignment(value: HorizontalAlignment) { this._horizontalAlignment = value; }
     set VerticalAlignment(value: VerticalAlignment) { this._verticalAlignment = value; }
+    set Parent(value: FrameworkElement) { this._parent = value; }
 
     // get ChildAdded(): IEvent<FrameworkElement, IEventArgs> { return this._childAdded; }
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }

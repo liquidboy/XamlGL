@@ -56,9 +56,14 @@ export class XamlHelper {
         return this.ProcessCollection(el.children);
     }
     private static GetFrameworkElementByElement(el: Element): FrameworkElement {
-        // consoleHelper.Log(el.nodeName);
+        // consoleHelper.Log("XamlHelper.GetFrameworkElementByElement : " + el.nodeName);
         if (el.nodeName === "Grid") {
             let grid: Grid = new Grid();
+            grid.HorizontalAlignment = this.StringToHorizontalAlignment(el.attributes.getNamedItem("HorizontalAlignment"));
+            grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
+            if (el.hasAttribute("Background")) {
+                grid.Background = el.attributes.getNamedItem("Background").value;
+            }
             return grid;
         }
         return null;
@@ -86,6 +91,9 @@ export class XamlHelper {
             let grid: Grid = new Grid();
             grid.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             grid.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            if (node.attributes.getNamedItem("Background") !== null) {
+                grid.Background = node.attributes.getNamedItem("Background").value;
+            }
             return grid;
         }
         return null;

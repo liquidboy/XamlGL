@@ -25,9 +25,10 @@ export class Platform implements IPlatform {
         ConsoleHelper.Log("Platform:constructor");
     }
 
-    public SetCurrent(content: FrameworkElement): void {
+    public SetCurrent(content: FrameworkElement, parent: FrameworkElement): void {
         ConsoleHelper.LogSection("Platform:SetCurrent");
         content.Platform = this;
+        content.Parent = parent;
 
         // process root
         let fe: IControlRenderer = this.CreateControlRenderer(content);
@@ -38,7 +39,7 @@ export class Platform implements IPlatform {
             let panel: Panel = <Panel>content;
             // panel.Children.reverse(); // <==== xaml is rendered from bottom to top
             panel.Children.forEach((x: IUIElement) => {
-                this.SetCurrent.call(this, x);
+                this.SetCurrent.call(this, x, content);
             });
         }
 

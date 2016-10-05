@@ -17,6 +17,7 @@ import { ConsoleHelper } from "./ConsoleHelper";
 
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
+
         if (element instanceof Grid) {
             return new GridRenderer();
         } else if (element instanceof Image) {
