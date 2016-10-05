@@ -22,6 +22,7 @@ export class XamlHelper {
         }
     }
     private static ProcessCollectionNodes(rootPanel: Panel, col: NodeList): FrameworkElement {
+        if (!col) return null;
         for (let x: number = 0; x < col.length; x++) {
             let node: Node = col.item(x);
             let newFE: FrameworkElement = this.ProcessNode(node);
