@@ -37,11 +37,14 @@ export class Platform implements IPlatform {
         // process each child and so on
         if (content instanceof Panel) {
             let panel: Panel = <Panel>content;
+            panel.Children.reverse(); // <==== xaml is rendered from bottom to top
             panel.Children.forEach((x: IUIElement) => {
                 this.SetCurrent.call(this, x);
             });
         }
 
+        // now draw layer
+        fe.Draw();
     }
 
     public Draw(): void {

@@ -1,4 +1,5 @@
 ﻿import { IFrameworkElement } from "./../Jupiter/IFrameworkElement";
+import { IUIElement } from "./../Jupiter/IUIElement";
 import { IControlRenderer } from "./../Jupiter/Platform/IControlRenderer";
 import { DefaultRenderer } from "./../Jupiter/Platform/WebGL/Controls/DefaultRenderer";
 
@@ -12,6 +13,7 @@ import { Rectangle } from "./../Controls/Rectangle";
 import { RectangleRenderer } from "./../Jupiter/Platform/WebGL/Controls/RectangleRenderer";
 
 import { Panel } from "./../Controls/Panel";
+import { ConsoleHelper } from "./ConsoleHelper";
 
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
@@ -26,6 +28,17 @@ export class RendererHelper {
         }
     }
     public static DrawPanel(panel: Panel): void {
+        ConsoleHelper.Log("RendererHelper.DrawPanel");
+        panel.Renderer.Draw();
+
+        panel.Children.forEach((uielement: IUIElement) => {
+            if (uielement instanceof Panel) {
+                this.DrawPanel(uielement);
+            } else {
+                ConsoleHelper.Log("??");
+            }
+        });
+
         // todo : itterate panel and attem to render
     }
 }

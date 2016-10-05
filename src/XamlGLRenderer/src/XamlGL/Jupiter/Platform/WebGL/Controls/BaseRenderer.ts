@@ -36,7 +36,6 @@ export class BaseRenderer implements IControlRenderer {
         //      ->  renderer.Element.ChildAdded
         //      ->  renderer.Element.ChildRemoved
         if (value instanceof Panel) {
-            
             ConsoleHelper.Log("BaseRenderer.Element : value was a panel");
             let castPanel: Panel = <Panel>this._element;
             castPanel.ChildAdded.subscribe(this.OnChildAdded);
@@ -69,4 +68,7 @@ export class BaseRenderer implements IControlRenderer {
         ConsoleHelper.Log("Platform.OnChildRemoved");
     }
 
+    Draw(): void {
+        // consoleHelper.Log("BaseRenderer.Draw");
+    }
 }

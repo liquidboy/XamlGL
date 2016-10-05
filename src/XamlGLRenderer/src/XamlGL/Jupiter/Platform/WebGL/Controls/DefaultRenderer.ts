@@ -6,7 +6,11 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
+import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 
 export class DefaultRenderer extends BaseRenderer implements IControlRenderer {
-
+    Draw(): void {
+        super.Draw();
+        ConsoleHelper.Log("DefaultRenderer.Draw");
+    }
 }

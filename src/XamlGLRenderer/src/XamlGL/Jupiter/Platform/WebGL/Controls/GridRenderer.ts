@@ -7,6 +7,11 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 
-export class GridRenderer extends BaseRenderer implements IControlRenderer {
+import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 
+export class GridRenderer extends BaseRenderer implements IControlRenderer {
+    Draw(): void {
+        super.Draw();
+        ConsoleHelper.Log("GridRenderer.Draw");
+    }
 }

@@ -6,4 +6,5 @@ import { IEvent } from "./../../Events/IEvent";
 export interface IControlRenderer {
     Element: FrameworkElement;
     ElementChanged: IEvent<IControlRenderer, IEventArgs>;
+    Draw(): void;
 }
