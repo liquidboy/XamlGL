@@ -1369,6 +1369,8 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\Image.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Panel.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\CornerRadius.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\HorizontalAlignment.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\VerticalAlignment.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapImage.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapSource.ts" />

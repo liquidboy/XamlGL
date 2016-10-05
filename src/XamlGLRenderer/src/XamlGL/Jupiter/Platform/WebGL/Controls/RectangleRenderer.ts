@@ -6,12 +6,25 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
+import { Rectangle } from "./../../../../Controls/Rectangle";
 
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
+import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class RectangleRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("RectangleRenderer.Draw");
+        // super.Element.Platform.Renderer.PixiRenderer
+
+        let rectEl: Rectangle = <Rectangle>super.Element;
+        let rectangle: PIXI.Graphics = new PIXI.Graphics();
+        rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
+        rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background)); // 0x66CCFF);
+        rectangle.drawRect(0, 0, super.Element.Width, super.Element.Height);
+        rectangle.endFill();
+        rectangle.x = rectEl.Margin.Left;
+        rectangle.y = rectEl.Margin.Top;
+        super.Element.Platform.Renderer.PixiStage.addChild(rectangle);
     }
 }

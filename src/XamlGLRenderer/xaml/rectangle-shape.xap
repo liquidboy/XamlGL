@@ -2,19 +2,22 @@
     xmlns="http://schemas.xamlgl.com/xamlgl"
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
-    <Grid>
-      <Rectangle Fill="#222222" Stroke="Red" StrokeThickness="5"
-                  RadiusX="10" RadiusY="20"
-                  Width="100" Height="200">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <Rectangle Fill="#FF8F1515" Stroke="#FFC9006E" StrokeThickness="5"
+                 Margin="10,10,0,0" 
+                 RadiusX="10" RadiusY="20"
+                 Width="100" Height="200">
       </Rectangle>
-      <Grid>
-        <Rectangle Fill="#333333" Stroke="Green" StrokeThickness="5"
-                      RadiusX="3" RadiusY="3"
-                      Width="400" Height="300">
+      <Grid VerticalAlignment="Top" Margin="100,100,0,0">
+        <Rectangle Fill="#FF05A6E2" Stroke="#FF508B95" StrokeThickness="5"
+                   Margin="70,110,0,0" 
+                   RadiusX="3" RadiusY="3"
+                   Width="250" Height="300">
         </Rectangle>
-        <Rectangle Fill="#444444" Stroke="Purple" StrokeThickness="8"
-                    RadiusX="15" RadiusY="15"
-                    Width="800" Height="500">
+        <Rectangle Fill="#FFFBD902" Stroke="#FFFFF19A" StrokeThickness="8"
+                   Margin="40,150,0,0"
+                   RadiusX="15" RadiusY="15"
+                   Width="150" Height="80">
         </Rectangle>
       </Grid>
     </Grid>

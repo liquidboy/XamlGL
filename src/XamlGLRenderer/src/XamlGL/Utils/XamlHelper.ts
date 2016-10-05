@@ -5,6 +5,8 @@ import { Image } from "./../Controls/Image";
 import { Panel } from "./../Controls/Panel";
 import { Rectangle } from "./../Controls/Rectangle";
 import { Thickness } from "./../DataTypes/Thickness";
+import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
+import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
 import { ConsoleHelper } from "./ConsoleHelper";
 
 export class XamlHelper {
@@ -66,22 +68,24 @@ export class XamlHelper {
         // consoleHelper.Log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
         if (node.nodeName === "Rectangle") {
             let rect: Rectangle = new Rectangle();
-            rect.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
-            rect.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
+            rect.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            rect.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             rect.Background = node.attributes.getNamedItem("Fill").value;
             rect.BorderBrush = node.attributes.getNamedItem("Stroke").value;
             rect.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin").value);
-            let stokeThickness: number = Number.parseInt(node.attributes.getNamedItem("StrokeThickness").value);
+            let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
             rect.BorderThickness = new Thickness(stokeThickness);
             return rect;
         } else if (node.nodeName === "Image") {
             let img: Image = new Image();
             img.Source = node.attributes.getNamedItem("Source").value;
-            img.Width = Number.parseInt(node.attributes.getNamedItem("Width").value);
-            img.Height = Number.parseInt(node.attributes.getNamedItem("Height").value);
+            img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             return img;
         } else if (node.nodeName === "Grid") {
             let grid: Grid = new Grid();
+            grid.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            grid.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             return grid;
         }
         return null;
@@ -96,5 +100,41 @@ export class XamlHelper {
         margin.Bottom = Number.parseInt(parts[3]);
         return margin;
     }
+    private static StringToHorizontalAlignment(attr: Attr): HorizontalAlignment {
+        if (attr === null) {
+            return HorizontalAlignment.Stretch;
+        }
 
+        if (attr.value === "Left") {
+            return HorizontalAlignment.Left;
+        } else if (attr.value === "Center") {
+            return HorizontalAlignment.Center;
+        } else if (attr.value === "Right") {
+            return HorizontalAlignment.Right;
+        } else if (attr.value === "Stretch") {
+            return HorizontalAlignment.Stretch;
+        }
+    }
+    private static StringToNumber(attr: Attr): number {
+        if (attr === null) {
+            return 0;
+        }
+
+        return Number.parseInt(attr.value);
+    }
+    private static StringToVerticalAlignment(attr: Attr): VerticalAlignment {
+        if (attr === null) {
+            return VerticalAlignment.Stretch;
+        }
+
+        if (attr.value === "Bottom") {
+            return VerticalAlignment.Bottom;
+        } else if (attr.value === "Center") {
+            return VerticalAlignment.Center;
+        } else if (attr.value === "Top") {
+            return VerticalAlignment.Top;
+        } else if (attr.value === "Stretch") {
+            return VerticalAlignment.Stretch;
+        }
+    }
 }
