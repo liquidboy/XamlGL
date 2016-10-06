@@ -20,9 +20,9 @@ export class XamlApp {
             // "/xaml/grid-2.xap",
             // "/xaml/grid-3.xap",
             // "/xaml/grid-4.xap",
-            "/xaml/grid-5.xap",
+            // "/xaml/grid-5.xap",
             // "/xaml/rectangle-shape.xap",
-            // "/xaml/image-silverlight.xap",
+            "/xaml/image-silverlight.xap",
             (el: any) => { console.log(xm.rootElement); });
 
         let app: XamlGLCore.App = new XamlGLCore.App();

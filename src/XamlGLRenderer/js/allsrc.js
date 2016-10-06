@@ -2708,7 +2708,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     ConsoleHelper_3.ConsoleHelper.Log("GridRenderer.Draw");
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
-                    if (gridEl.Height !== null) {
+                    if (gridEl.Height !== null && gridEl.Height > 0) {
                         containerGrid.height = gridEl.Height;
                         if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Bottom) {
                             super.Element.CalculatedY = super.Element.Parent.Height - gridEl.Height;
@@ -2724,7 +2724,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedY = 0;
                         }
                     }
-                    if (gridEl.Width !== null) {
+                    if (gridEl.Width !== null && gridEl.Width > 0) {
                         containerGrid.width = gridEl.Width;
                         if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Left) {
                             super.Element.CalculatedX = 0;
@@ -2742,9 +2742,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     }
                     containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
                     if (gridEl.Background !== undefined) {
+                        let widthToUse = (gridEl.Width === null || gridEl.Width === 0) ? super.Element.Parent.Width : gridEl.Width;
+                        let heightToUse = (gridEl.Height === null || gridEl.Height === 0) ? super.Element.Parent.Height : gridEl.Height;
                         let rectangle = new PIXI.Graphics();
                         rectangle.beginFill(RendererHelper_1.RendererHelper.HashToColorNumber(gridEl.Background));
-                        rectangle.drawRect(0, 0, gridEl.Width, gridEl.Height);
+                        rectangle.drawRect(0, 0, widthToUse, heightToUse);
                         rectangle.endFill();
                         containerGrid.addChild(rectangle);
                     }
@@ -3954,7 +3956,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_80, conte
                         console.warn("No application specified.");
                         return;
                     }
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/grid-5.xap", (el) => { console.log(xm.rootElement); });
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight.xap", (el) => { console.log(xm.rootElement); });
                     let app = new XamlGLCore.App();
                     app.Start(xm);
                 }

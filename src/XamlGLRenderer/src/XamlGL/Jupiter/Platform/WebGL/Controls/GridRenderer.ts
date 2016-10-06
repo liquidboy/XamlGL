@@ -20,9 +20,11 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         // console.log(super.Element);
         let gridEl: Grid = <Grid>super.Element;
         let containerGrid: PIXI.Container = new PIXI.Container();
-
+        // super.Element.CalculatedY = 0;
+        // super.Element.CalculatedX = 0;
+        
         // calculate y position
-        if (gridEl.Height !== null) {
+        if (gridEl.Height !== null && gridEl.Height > 0) {
             containerGrid.height = gridEl.Height;
             if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
                 super.Element.CalculatedY = super.Element.Parent.Height - gridEl.Height;
@@ -37,7 +39,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         }
 
         // calculate X position
-        if (gridEl.Width !== null) {
+        if (gridEl.Width !== null && gridEl.Width > 0) {
             containerGrid.width = gridEl.Width;
             if (gridEl.HorizontalAlignment === HorizontalAlignment.Left) {
                 super.Element.CalculatedX = 0;
@@ -56,10 +58,11 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
 
         // set background if its available
         if (gridEl.Background !== undefined) {
-
+            let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? super.Element.Parent.Width : gridEl.Width;
+            let heightToUse: number = (gridEl.Height === null || gridEl.Height === 0) ? super.Element.Parent.Height : gridEl.Height;
             let rectangle: PIXI.Graphics = new PIXI.Graphics();
             rectangle.beginFill(RendererHelper.HashToColorNumber(gridEl.Background));
-            rectangle.drawRect(0, 0, gridEl.Width, gridEl.Height);
+            rectangle.drawRect(0, 0, widthToUse, heightToUse);
             rectangle.endFill();
             containerGrid.addChild(rectangle);
         }
