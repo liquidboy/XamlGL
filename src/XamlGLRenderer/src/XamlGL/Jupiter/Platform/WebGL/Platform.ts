@@ -27,6 +27,7 @@ export class Platform implements IPlatform {
 
     public SetCurrent(content: FrameworkElement, parent: FrameworkElement): void {
         ConsoleHelper.LogSection("Platform:SetCurrent");
+
         content.Platform = this;
         content.Parent = parent;
 

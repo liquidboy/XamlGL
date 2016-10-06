@@ -30,7 +30,7 @@ export class PlatformPage extends Page implements IPlatformPage {
         htmlCanvasHost: JQuery, xaml: XamlMarkup) {
         super();
 
-        this.ContentChanged.subscribe(this.DoContentChanged);
+        this.ContentChanged.subscribe(this.DoContentChanged.bind(this));
 
         this.Width = width;
         this.Height = height;
@@ -66,7 +66,7 @@ export class PlatformPage extends Page implements IPlatformPage {
     private DoContentChanged(obj: IFrameworkElement, ea: IEventArgs): void {
         ConsoleHelper.Log("PlatformPage.DoContentChanged");
         let pp: PlatformPage = <PlatformPage>obj;
-        pp.Platform.SetCurrent(<FrameworkElement>pp.Content, null);
+        pp.Platform.SetCurrent(<FrameworkElement>pp.Content, this);
 
         ConsoleHelper.LogSectionHeader("DrawAll");
         pp.Platform.DrawAll(<FrameworkElement>pp.Content);

@@ -7,6 +7,7 @@ import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { IEvent } from "./../../../../Events/IEvent";
 import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
+// import { Page } from "./../../../Page";
 
 export class BaseRenderer implements IControlRenderer {
 
@@ -25,8 +26,6 @@ export class BaseRenderer implements IControlRenderer {
     set Element(value: FrameworkElement) {
         this._element = value;
         this._element.Renderer = this;  // <-- HELP : this leads to a circular reference due to above lines reference
-
-        console.log(this._element);
 
         // 1. set FrameworkElement propertychanged/focuschanged (VERenderer.SetElement)
         this._element.PropertyChanged.subscribe(this.OnPropertyChanged);
@@ -70,5 +69,19 @@ export class BaseRenderer implements IControlRenderer {
 
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
+    }
+
+    private GetParentWidth():number {
+        if(this._element.Parent !== null) {
+            return this._element.Parent.Width;
+        }
+        return 0;
+    }
+
+    private GetParentHeight():number {
+        if(this._element.Parent !== null) {
+            return this._element.Parent.Height;
+        }
+        return 0;
     }
 }

@@ -1,0 +1,8 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="200" Height="200" Background="#FF05A6E2">
+      
+    </Grid>
+</Application>

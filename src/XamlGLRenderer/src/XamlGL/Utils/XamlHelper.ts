@@ -61,6 +61,8 @@ export class XamlHelper {
             let grid: Grid = new Grid();
             grid.HorizontalAlignment = this.StringToHorizontalAlignment(el.attributes.getNamedItem("HorizontalAlignment"));
             grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
+            grid.Width = this.StringToNumber(el.attributes.getNamedItem("Width"));
+            grid.Height = this.StringToNumber(el.attributes.getNamedItem("Height"));
             if (el.hasAttribute("Background")) {
                 grid.Background = el.attributes.getNamedItem("Background").value;
             }
@@ -91,6 +93,8 @@ export class XamlHelper {
             let grid: Grid = new Grid();
             grid.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             grid.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            grid.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            grid.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             if (node.attributes.getNamedItem("Background") !== null) {
                 grid.Background = node.attributes.getNamedItem("Background").value;
             }

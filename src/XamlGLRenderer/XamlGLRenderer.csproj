@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.9</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -1763,6 +1763,10 @@
     <Content Include="xaml\rectangle-shape.xap" />
     <Content Include="xaml\image-silverlight.xap" />
     <Content Include="xaml\grid-1.xap" />
+    <Content Include="xaml\grid-2.xap" />
+    <Content Include="xaml\grid-3.xap" />
+    <Content Include="xaml\grid-4.xap" />
+    <Content Include="xaml\grid-5.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
