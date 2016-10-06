@@ -83,36 +83,61 @@ System.register("XamlGL/Jupiter/IUIElement", [], function(exports_9, context_9) 
         }
     }
 });
-System.register("XamlGL/Jupiter/UIElement", ["XamlGL/Jupiter/DependencyObject"], function(exports_10, context_10) {
+System.register("XamlGL/DataTypes/Guid", [], function(exports_10, context_10) {
     "use strict";
     var __moduleName = context_10 && context_10.id;
-    var DependencyObject_1;
+    var Guid;
+    return {
+        setters:[],
+        execute: function() {
+            Guid = class Guid {
+                static newGuid() {
+                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
+                    });
+                }
+            };
+            exports_10("Guid", Guid);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/UIElement", ["XamlGL/Jupiter/DependencyObject", "XamlGL/DataTypes/Guid"], function(exports_11, context_11) {
+    "use strict";
+    var __moduleName = context_11 && context_11.id;
+    var DependencyObject_1, Guid_1;
     var UIElement;
     return {
         setters:[
             function (DependencyObject_1_1) {
                 DependencyObject_1 = DependencyObject_1_1;
+            },
+            function (Guid_1_1) {
+                Guid_1 = Guid_1_1;
             }],
         execute: function() {
             UIElement = class UIElement extends DependencyObject_1.DependencyObject {
                 constructor() {
-                    super(...arguments);
+                    super();
                     this._isDirty = true;
+                    this._uniqueId = Guid_1.Guid.newGuid();
                 }
                 get IsVisible() { return this._isVisible; }
                 get IsDirty() { return this._isDirty; }
                 get Platform() { return this._platform; }
+                get UniqueID() { return this._uniqueId; }
                 set IsVisible(value) { this._isVisible = value; }
                 set IsDirty(value) { this._isDirty = value; }
                 set Platform(value) { this._platform = value; }
+                set UniqueID(value) { this._uniqueId = value; }
             };
-            exports_10("UIElement", UIElement);
+            exports_11("UIElement", UIElement);
         }
     }
 });
-System.register("XamlGL/Events/EventDispatcher", [], function(exports_11, context_11) {
+System.register("XamlGL/Events/EventDispatcher", [], function(exports_12, context_12) {
     "use strict";
-    var __moduleName = context_11 && context_11.id;
+    var __moduleName = context_12 && context_12.id;
     var EventDispatcher;
     return {
         setters:[],
@@ -138,13 +163,13 @@ System.register("XamlGL/Events/EventDispatcher", [], function(exports_11, contex
                     }
                 }
             };
-            exports_11("EventDispatcher", EventDispatcher);
+            exports_12("EventDispatcher", EventDispatcher);
         }
     }
 });
-System.register("XamlGL/DataTypes/Thickness", [], function(exports_12, context_12) {
+System.register("XamlGL/DataTypes/Thickness", [], function(exports_13, context_13) {
     "use strict";
-    var __moduleName = context_12 && context_12.id;
+    var __moduleName = context_13 && context_13.id;
     var Thickness;
     return {
         setters:[],
@@ -157,13 +182,13 @@ System.register("XamlGL/DataTypes/Thickness", [], function(exports_12, context_1
                     this.Bottom = value;
                 }
             };
-            exports_12("Thickness", Thickness);
+            exports_13("Thickness", Thickness);
         }
     }
 });
-System.register("XamlGL/DataTypes/HorizontalAlignment", [], function(exports_13, context_13) {
+System.register("XamlGL/DataTypes/HorizontalAlignment", [], function(exports_14, context_14) {
     "use strict";
-    var __moduleName = context_13 && context_13.id;
+    var __moduleName = context_14 && context_14.id;
     var HorizontalAlignment;
     return {
         setters:[],
@@ -174,13 +199,13 @@ System.register("XamlGL/DataTypes/HorizontalAlignment", [], function(exports_13,
                 HorizontalAlignment[HorizontalAlignment["Right"] = 2] = "Right";
                 HorizontalAlignment[HorizontalAlignment["Stretch"] = 3] = "Stretch";
             })(HorizontalAlignment || (HorizontalAlignment = {}));
-            exports_13("HorizontalAlignment", HorizontalAlignment);
+            exports_14("HorizontalAlignment", HorizontalAlignment);
         }
     }
 });
-System.register("XamlGL/DataTypes/VerticalAlignment", [], function(exports_14, context_14) {
+System.register("XamlGL/DataTypes/VerticalAlignment", [], function(exports_15, context_15) {
     "use strict";
-    var __moduleName = context_14 && context_14.id;
+    var __moduleName = context_15 && context_15.id;
     var VerticalAlignment;
     return {
         setters:[],
@@ -191,13 +216,13 @@ System.register("XamlGL/DataTypes/VerticalAlignment", [], function(exports_14, c
                 VerticalAlignment[VerticalAlignment["Bottom"] = 2] = "Bottom";
                 VerticalAlignment[VerticalAlignment["Stretch"] = 3] = "Stretch";
             })(VerticalAlignment || (VerticalAlignment = {}));
-            exports_14("VerticalAlignment", VerticalAlignment);
+            exports_15("VerticalAlignment", VerticalAlignment);
         }
     }
 });
-System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", "XamlGL/Events/EventDispatcher"], function(exports_15, context_15) {
+System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", "XamlGL/Events/EventDispatcher"], function(exports_16, context_16) {
     "use strict";
-    var __moduleName = context_15 && context_15.id;
+    var __moduleName = context_16 && context_16.id;
     var UIElement_1, EventDispatcher_1;
     var FrameworkElement;
     return {
@@ -240,13 +265,13 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 get PropertyChanged() { return this._propertyChanged; }
                 get FocusChanged() { return this._focusChanged; }
             };
-            exports_15("FrameworkElement", FrameworkElement);
+            exports_16("FrameworkElement", FrameworkElement);
         }
     }
 });
-System.register("XamlGL/Jupiter/Control", ["XamlGL/Jupiter/FrameworkElement"], function(exports_16, context_16) {
+System.register("XamlGL/Jupiter/Control", ["XamlGL/Jupiter/FrameworkElement"], function(exports_17, context_17) {
     "use strict";
-    var __moduleName = context_16 && context_16.id;
+    var __moduleName = context_17 && context_17.id;
     var FrameworkElement_1;
     var Control;
     return {
@@ -257,13 +282,13 @@ System.register("XamlGL/Jupiter/Control", ["XamlGL/Jupiter/FrameworkElement"], f
         execute: function() {
             Control = class Control extends FrameworkElement_1.FrameworkElement {
             };
-            exports_16("Control", Control);
+            exports_17("Control", Control);
         }
     }
 });
-System.register("XamlGL/Jupiter/UserControl", ["XamlGL/Jupiter/Control"], function(exports_17, context_17) {
+System.register("XamlGL/Jupiter/UserControl", ["XamlGL/Jupiter/Control"], function(exports_18, context_18) {
     "use strict";
-    var __moduleName = context_17 && context_17.id;
+    var __moduleName = context_18 && context_18.id;
     var Control_1;
     var UserControl;
     return {
@@ -274,13 +299,13 @@ System.register("XamlGL/Jupiter/UserControl", ["XamlGL/Jupiter/Control"], functi
         execute: function() {
             UserControl = class UserControl extends Control_1.Control {
             };
-            exports_17("UserControl", UserControl);
+            exports_18("UserControl", UserControl);
         }
     }
 });
-System.register("XamlGL/Jupiter/Page", ["XamlGL/Jupiter/UserControl", "XamlGL/Events/EventDispatcher"], function(exports_18, context_18) {
+System.register("XamlGL/Jupiter/Page", ["XamlGL/Jupiter/UserControl", "XamlGL/Events/EventDispatcher"], function(exports_19, context_19) {
     "use strict";
-    var __moduleName = context_18 && context_18.id;
+    var __moduleName = context_19 && context_19.id;
     var UserControl_1, EventDispatcher_2;
     var Page;
     return {
@@ -304,35 +329,16 @@ System.register("XamlGL/Jupiter/Page", ["XamlGL/Jupiter/UserControl", "XamlGL/Ev
                     this._contentChanged.dispatch(this, null);
                 }
             };
-            exports_18("Page", Page);
+            exports_19("Page", Page);
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/IPlatformPage", [], function(exports_19, context_19) {
-    "use strict";
-    var __moduleName = context_19 && context_19.id;
-    return {
-        setters:[],
-        execute: function() {
-        }
-    }
-});
-System.register("XamlGL/DataTypes/Guid", [], function(exports_20, context_20) {
+System.register("XamlGL/Jupiter/Platform/IPlatformPage", [], function(exports_20, context_20) {
     "use strict";
     var __moduleName = context_20 && context_20.id;
-    var Guid;
     return {
         setters:[],
         execute: function() {
-            Guid = class Guid {
-                static newGuid() {
-                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                        return v.toString(16);
-                    });
-                }
-            };
-            exports_20("Guid", Guid);
         }
     }
 });
@@ -2386,12 +2392,12 @@ System.register("Libs/typescript-collections/src/lib/index", ["Libs/typescript-c
 System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Guid", "Libs/typescript-collections/src/lib/index"], function(exports_37, context_37) {
     "use strict";
     var __moduleName = context_37 && context_37.id;
-    var Guid_1, index_1;
+    var Guid_2, index_1;
     var Renderer, RendererFactory, RendererResource;
     return {
         setters:[
-            function (Guid_1_1) {
-                Guid_1 = Guid_1_1;
+            function (Guid_2_1) {
+                Guid_2 = Guid_2_1;
             },
             function (index_1_1) {
                 index_1 = index_1_1;
@@ -2399,7 +2405,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
         execute: function() {
             Renderer = class Renderer {
                 constructor(width, height, antialias, transparent, htmlCanvasHost) {
-                    this._uniqueId = Guid_1.Guid.newGuid();
+                    this._uniqueId = Guid_2.Guid.newGuid();
                     this._resourceIds = new index_1.Dictionary();
                     this._stage = new PIXI.Container();
                     this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
@@ -2600,13 +2606,13 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                 get ElementChanged() { return this._elementChanged; }
                 get ParentWidth() {
                     if (this._element.Parent !== null) {
-                        return this._element.Parent.Width;
+                        return this._element.Parent.Width === 0 ? this._element.Parent.CalculatedWidth : this._element.Parent.Width;
                     }
                     return null;
                 }
                 get ParentHeight() {
                     if (this._element.Parent !== null) {
-                        return this._element.Parent.Height;
+                        return this._element.Parent.Height === 0 ? this._element.Parent.CalculatedHeight : this._element.Parent.Height;
                     }
                     return null;
                 }
@@ -2662,6 +2668,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["Xaml
                 Draw() {
                     super.Draw();
                     ConsoleHelper_2.ConsoleHelper.Log("DefaultRenderer.Draw");
+                    let defaultEl = super.Element;
+                    if (!defaultEl.IsDirty) {
+                        return;
+                    }
+                    defaultEl.IsDirty = false;
                 }
             };
             exports_42("DefaultRenderer", DefaultRenderer);
@@ -2786,9 +2797,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedX = 0;
                         }
                     }
-                    containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
-                    containerGrid.height = super.Element.CalculatedHeight;
-                    containerGrid.width = super.Element.CalculatedWidth;
                     if (gridEl.Background !== undefined) {
                         let widthToUse = (gridEl.Width === null || gridEl.Width === 0) ? super.ParentWidth : gridEl.Width;
                         let heightToUse = (gridEl.Height === null || gridEl.Height === 0) ? super.ParentHeight : gridEl.Height;
@@ -2798,7 +2806,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                         rectangle.endFill();
                         containerGrid.addChild(rectangle);
                     }
+                    containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
+                    containerGrid.height = super.Element.CalculatedHeight;
+                    containerGrid.width = super.Element.CalculatedWidth;
                     super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+                    gridEl.IsDirty = false;
                 }
             };
             exports_45("GridRenderer", GridRenderer);
@@ -2879,12 +2891,12 @@ System.register("XamlGL/Events/EventList", ["XamlGL/Events/EventDispatcher"], fu
 System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/Events/EventList"], function(exports_50, context_50) {
     "use strict";
     var __moduleName = context_50 && context_50.id;
-    var Guid_2, EventList_1;
+    var Guid_3, EventList_1;
     var Application, ActivatedEventArgs, LaunchActivatedEventArgs, ApplicationEventArgs;
     return {
         setters:[
-            function (Guid_2_1) {
-                Guid_2 = Guid_2_1;
+            function (Guid_3_1) {
+                Guid_3 = Guid_3_1;
             },
             function (EventList_1_1) {
                 EventList_1 = EventList_1_1;
@@ -2893,7 +2905,7 @@ System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/
             Application = class Application {
                 constructor() {
                     this._events = new EventList_1.EventList();
-                    this._sessionId = Guid_2.Guid.newGuid();
+                    this._sessionId = Guid_3.Guid.newGuid();
                 }
                 get SessionID() { return this._sessionId; }
                 get ResourceDictionary() { return this._resourceDictionary; }
@@ -3131,9 +3143,11 @@ System.register("XamlGL/Controls/Image", ["XamlGL/Jupiter/Core"], function(expor
         execute: function() {
             Image = class Image extends Jupiter.View {
                 get Source() { return this._source; }
+                get SourceUrl() { return this._sourceUrl; }
                 get NineGrid() { return this._nineGrid; }
                 get Stretch() { return this._stretch; }
                 set Source(value) { this._source = value; }
+                set SourceUrl(value) { this._sourceUrl = value; }
                 set NineGrid(value) { this._nineGrid = value; }
                 set Stretch(value) { this._stretch = value; }
             };
@@ -3166,6 +3180,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                     super.Draw();
                     ConsoleHelper_4.ConsoleHelper.Log("ImagetRenderer.Draw");
                     let imageEl = super.Element;
+                    if (!imageEl.IsDirty) {
+                        return;
+                    }
                     if (imageEl.Height !== null && imageEl.Height > 0) {
                         super.Element.CalculatedHeight = imageEl.Height;
                         if (imageEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
@@ -3208,10 +3225,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                             super.Element.CalculatedX = 0;
                         }
                     }
-                    super.Element.Platform.Renderer.InitializeResource("glitter1", "/assets/glitter-1.jpg")
+                    super.Element.Platform.Renderer.InitializeResource(imageEl.UniqueID, imageEl.SourceUrl)
                         .load(() => {
-                        super.Element.Platform.Renderer.ShowResource("glitter1", super.Element.Platform.Renderer.PixiStage, super.Element.CalculatedX, super.Element.CalculatedY, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
+                        super.Element.Platform.Renderer.ShowResource(imageEl.UniqueID, super.Element.Platform.Renderer.PixiStage, super.Element.CalculatedX, super.Element.CalculatedY, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
                     });
+                    imageEl.IsDirty = false;
                 }
             };
             exports_60("ImageRenderer", ImageRenderer);
@@ -3263,6 +3281,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
                     super.Draw();
                     ConsoleHelper_5.ConsoleHelper.Log("RectangleRenderer.Draw");
                     let rectEl = super.Element;
+                    if (!rectEl.IsDirty) {
+                        return;
+                    }
                     let rectangle = new PIXI.Graphics();
                     rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_2.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
                     rectangle.beginFill(RendererHelper_2.RendererHelper.HashToColorNumber(rectEl.Background));
@@ -3271,6 +3292,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
                     rectangle.x = rectEl.Margin.Left;
                     rectangle.y = rectEl.Margin.Top;
                     super.Element.Platform.Renderer.PixiStage.addChild(rectangle);
+                    rectEl.IsDirty = false;
                 }
             };
             exports_62("RectangleRenderer", RectangleRenderer);
@@ -3541,7 +3563,7 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                     }
                     else if (node.nodeName === "Image") {
                         let img = new Image_2.Image();
-                        img.Source = node.attributes.getNamedItem("Source").value;
+                        img.SourceUrl = node.attributes.getNamedItem("Source").value;
                         img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
                         img.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
@@ -4025,8 +4047,8 @@ System.register("XamlGL/Core", ["XamlGL/App", "XamlGL/VisualTree", "XamlGL/ViewM
             function (_events_1) {
                 _events = _events_1;
             },
-            function (Guid_3_1) {
-                exportStar_4(Guid_3_1);
+            function (Guid_4_1) {
+                exportStar_4(Guid_4_1);
             },
             function (Thickness_2_1) {
                 exportStar_4(Thickness_2_1);
@@ -4059,7 +4081,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_80, conte
                         console.warn("No application specified.");
                         return;
                     }
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-6.xap", (el) => { console.log(xm.rootElement); });
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-7.xap", (el) => { console.log(xm.rootElement); });
                     let app = new XamlGLCore.App();
                     app.Start(xm);
                 }

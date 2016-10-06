@@ -19,6 +19,10 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
 
         let imageEl: Image = <Image>super.Element;
 
+        if (!imageEl.IsDirty) {
+            return;
+        }
+
         // calculate y position
         if (imageEl.Height !== null && imageEl.Height > 0) {
             super.Element.CalculatedHeight = imageEl.Height;
@@ -37,7 +41,7 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
                 super.Element.CalculatedY = 0;
             }
         }
-        
+
         // calculate X position
         if (imageEl.Width !== null && imageEl.Width > 0) {
             super.Element.CalculatedWidth = imageEl.Width;
@@ -57,11 +61,13 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
-        super.Element.Platform.Renderer.InitializeResource("glitter1", "/assets/glitter-1.jpg")
+        super.Element.Platform.Renderer.InitializeResource(imageEl.UniqueID, imageEl.SourceUrl)
             .load(() => {
                 // todo: if parent is panel we need to get the pixi container from it and use that
-                super.Element.Platform.Renderer.ShowResource("glitter1", super.Element.Platform.Renderer.PixiStage,
+                super.Element.Platform.Renderer.ShowResource(imageEl.UniqueID, super.Element.Platform.Renderer.PixiStage,
                     super.Element.CalculatedX, super.Element.CalculatedY, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
             });
+
+        imageEl.IsDirty = false;
     }
 }

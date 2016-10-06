@@ -18,6 +18,11 @@ export class RectangleRenderer extends BaseRenderer implements IControlRenderer 
         // super.Element.Platform.Renderer.PixiRenderer
 
         let rectEl: Rectangle = <Rectangle>super.Element;
+
+        if (!rectEl.IsDirty) {
+            return;
+        }
+
         let rectangle: PIXI.Graphics = new PIXI.Graphics();
         rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
         rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background)); // 0x66CCFF);
@@ -26,5 +31,7 @@ export class RectangleRenderer extends BaseRenderer implements IControlRenderer 
         rectangle.x = rectEl.Margin.Left;
         rectangle.y = rectEl.Margin.Top;
         super.Element.Platform.Renderer.PixiStage.addChild(rectangle);
+
+        rectEl.IsDirty = false;
     }
 }

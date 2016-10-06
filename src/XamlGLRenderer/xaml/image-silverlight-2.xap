@@ -3,6 +3,6 @@
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
-        <Image HorizontalAlignment="Right" VerticalAlignment="Top" Width="300" Height="200" Source="/assets/silverlight_anims.jpg"></Image>
+        <Image HorizontalAlignment="Right" VerticalAlignment="Top" Width="300" Height="200" Source="/assets/glitter-1.jpg"></Image>
     </Grid>
 </Application>

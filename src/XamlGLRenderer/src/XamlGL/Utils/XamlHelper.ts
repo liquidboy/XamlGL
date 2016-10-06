@@ -85,7 +85,7 @@ export class XamlHelper {
             return rect;
         } else if (node.nodeName === "Image") {
             let img: Image = new Image();
-            img.Source = node.attributes.getNamedItem("Source").value;
+            img.SourceUrl = node.attributes.getNamedItem("Source").value;
             img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             img.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));

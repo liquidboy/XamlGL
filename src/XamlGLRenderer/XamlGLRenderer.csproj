@@ -25,6 +25,10 @@
   <ItemGroup>
     <Content Include="app.css" />
     <Content Include="assets\glitter-1.jpg" />
+    <Content Include="assets\glitter-2.jpg" />
+    <Content Include="assets\glitter-3.jpg" />
+    <Content Include="assets\glitter-4.jpg" />
+    <Content Include="assets\glitter-5.jpg" />
     <Content Include="assets\silverlight_anims.jpg" />
     <Content Include="bower_components\jquery\AUTHORS.txt" />
     <Content Include="bower_components\jquery\dist\core.js" />
@@ -1773,6 +1777,7 @@
     <Content Include="xaml\image-silverlight-4.xap" />
     <Content Include="xaml\image-silverlight-5.xap" />
     <Content Include="xaml\image-silverlight-6.xap" />
+    <Content Include="xaml\image-silverlight-7.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

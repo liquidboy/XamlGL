@@ -27,7 +27,8 @@ export class XamlApp {
             // "/xaml/image-silverlight-3.xap",
             // "/xaml/image-silverlight-4.xap",
             // "/xaml/image-silverlight-5.xap",
-            "/xaml/image-silverlight-6.xap",
+            // "/xaml/image-silverlight-6.xap",
+            "/xaml/image-silverlight-7.xap",
             (el: any) => { console.log(xm.rootElement); });
 
         let app: XamlGLCore.App = new XamlGLCore.App();

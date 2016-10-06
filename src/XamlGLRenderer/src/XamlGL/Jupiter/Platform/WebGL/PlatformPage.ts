@@ -76,6 +76,8 @@ export class PlatformPage extends Page implements IPlatformPage {
         pp.Platform.DrawAll(<FrameworkElement>pp.Content);
     }
 
+
+
     set IsLoading(value: boolean) {
         if (value) {
             this.Platform.Renderer.InitializeLoadingResource("assets/silverlight_anims.jpg")

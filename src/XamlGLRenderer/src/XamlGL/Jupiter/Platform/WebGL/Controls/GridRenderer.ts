@@ -22,11 +22,11 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         let containerGrid: PIXI.Container = new PIXI.Container();
         // super.Element.CalculatedY = 0;
         // super.Element.CalculatedX = 0;
-
+        
         if (!gridEl.IsDirty) {
             return;
         }
-
+        
         // calculate y position
         if (gridEl.Height !== null && gridEl.Height > 0) {
             super.Element.CalculatedHeight = gridEl.Height;
@@ -46,7 +46,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
                 super.Element.CalculatedY = 0;
             }
         }
-
+        
         // calculate X position
         if (gridEl.Width !== null && gridEl.Width > 0) {
             super.Element.CalculatedWidth = gridEl.Width;
@@ -68,10 +68,6 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
-        containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
-        containerGrid.height = super.Element.CalculatedHeight;
-        containerGrid.width = super.Element.CalculatedWidth;
-
         // set background if its available
         if (gridEl.Background !== undefined) {
             let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? super.ParentWidth : gridEl.Width;
@@ -82,7 +78,12 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             rectangle.endFill();
             containerGrid.addChild(rectangle);
         }
+        containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
+        containerGrid.height = super.Element.CalculatedHeight;
+        containerGrid.width = super.Element.CalculatedWidth;
 
         super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+
+        gridEl.IsDirty = false;
     }
 }

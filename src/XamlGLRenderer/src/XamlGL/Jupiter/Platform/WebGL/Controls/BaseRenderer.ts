@@ -25,13 +25,13 @@ export class BaseRenderer implements IControlRenderer {
     get ParentWidth(): number {
         // if !(this._element.Parent instanceof Panel) {  }
         if (this._element.Parent !== null) {
-            return this._element.Parent.Width;
+            return this._element.Parent.Width === 0 ? this._element.Parent.CalculatedWidth : this._element.Parent.Width;
         }
         return null;
     }
     get ParentHeight(): number {
         if (this._element.Parent !== null) {
-            return this._element.Parent.Height;
+            return this._element.Parent.Height === 0 ? this._element.Parent.CalculatedHeight: this._element.Parent.Height;
         }
         return null;
     }
