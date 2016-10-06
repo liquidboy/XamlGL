@@ -2751,9 +2751,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedY = 0;
                         }
                     }
-                    else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
-                        super.Element.CalculatedHeight = super.Element.Parent.Height;
-                        super.Element.CalculatedY = 0;
+                    else {
+                        if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
+                            super.Element.CalculatedHeight = super.Element.Parent.Height;
+                            super.Element.CalculatedY = 0;
+                        }
                     }
                     if (gridEl.Width !== null && gridEl.Width > 0) {
                         super.Element.CalculatedWidth = gridEl.Width;
@@ -3158,6 +3160,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                     ConsoleHelper_4.ConsoleHelper.Log("ImagetRenderer.Draw");
                     let imageEl = super.Element;
                     if (imageEl.Height !== null && imageEl.Height > 0) {
+                        super.Element.CalculatedHeight = imageEl.Height;
                         if (imageEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
                             super.Element.CalculatedY = super.Element.Parent.CalculatedHeight - imageEl.Height;
                         }
@@ -3171,7 +3174,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                             super.Element.CalculatedY = 0;
                         }
                     }
+                    else {
+                        if (imageEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
+                            super.Element.CalculatedHeight = super.Element.Parent.CalculatedHeight;
+                            super.Element.CalculatedY = 0;
+                        }
+                    }
                     if (imageEl.Width !== null && imageEl.Width > 0) {
+                        super.Element.CalculatedWidth = imageEl.Width;
                         if (imageEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
                             super.Element.CalculatedX = 0;
                         }
@@ -3185,9 +3195,15 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                             super.Element.CalculatedX = (super.Element.Parent.CalculatedWidth - imageEl.Width) / 2;
                         }
                     }
+                    else {
+                        if (imageEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
+                            super.Element.CalculatedWidth = super.Element.Parent.CalculatedWidth;
+                            super.Element.CalculatedX = 0;
+                        }
+                    }
                     super.Element.Platform.Renderer.InitializeResource("glitter1", "/assets/glitter-1.jpg")
                         .load(() => {
-                        super.Element.Platform.Renderer.ShowResource("glitter1", super.Element.Platform.Renderer.PixiStage, super.Element.CalculatedX, super.Element.CalculatedY, imageEl.Width, imageEl.Height);
+                        super.Element.Platform.Renderer.ShowResource("glitter1", super.Element.Platform.Renderer.PixiStage, super.Element.CalculatedX, super.Element.CalculatedY, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
                     });
                 }
             };
@@ -4036,7 +4052,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_80, conte
                         console.warn("No application specified.");
                         return;
                     }
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-1.xap", (el) => { console.log(xm.rootElement); });
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-6.xap", (el) => { console.log(xm.rootElement); });
                     let app = new XamlGLCore.App();
                     app.Start(xm);
                 }

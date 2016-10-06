@@ -36,9 +36,11 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
                 super.Element.CalculatedY = 0;
             }
-        } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
-            super.Element.CalculatedHeight = super.Element.Parent.Height;
-            super.Element.CalculatedY = 0;
+        } else {
+            if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
+                super.Element.CalculatedHeight = super.Element.Parent.Height;
+                super.Element.CalculatedY = 0;
+            }
         }
 
         // calculate X position
