@@ -29,10 +29,13 @@ export class XamlApp {
             // "/xaml/image-silverlight-5.xap",
             // "/xaml/image-silverlight-6.xap",
             // "/xaml/image-silverlight-7.xap",
-            "/xaml/image-silverlight-8.xap",
+            // "/xaml/image-silverlight-8.xap",
             // "/xaml/image-silverlight-9.xap",
             // "/xaml/image-silverlight-10.xap",
             // "/xaml/image-silverlight-11.xap",
+            // "/xaml/image-silverlight-12.xap",
+            // "/xaml/image-silverlight-13.xap",
+            "/xaml/image-silverlight-14.xap",
             (el: any) => { console.log(xm.rootElement); });
 
         let app: XamlGLCore.App = new XamlGLCore.App();

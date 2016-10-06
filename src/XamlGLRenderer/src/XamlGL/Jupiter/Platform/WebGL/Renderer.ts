@@ -77,18 +77,7 @@ export class Renderer implements IRenderer {
 
     // loading
     public ShowLoading(x: number, y: number, width: number, height: number): void {
-        let resource: RendererResource = this._resourceIds.getValue("loading");
-        if (resource.Sprite === null) {
-            let resourceId: string = resource.Url;
-            let rect: PIXI.Rectangle = new PIXI.Rectangle(0, 0, width, height);
-            let texture: PIXI.Texture = PIXI.loader.resources[resourceId].texture;
-            texture.frame = rect;
-            resource.Sprite = new PIXI.Sprite(texture);
-        }
-        resource.Sprite.x = x;
-        resource.Sprite.y = y;
-        this._stage.addChild(resource.Sprite);
-        this._renderer.render(this._stage);
+        this.ShowResource("loading", this._stage, x, y, width, height);
     }
 
     public HideLoading(): void {

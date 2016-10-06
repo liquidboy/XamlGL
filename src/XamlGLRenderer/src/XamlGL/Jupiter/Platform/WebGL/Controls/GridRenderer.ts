@@ -36,7 +36,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
                 super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Center) {
-                ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> VerticalAlignment Center");
+                super.Element.CalculatedY = (super.Element.Parent.CalculatedHeight - gridEl.Height) / 2;
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
                 super.Element.CalculatedHeight = super.ParentHeight;
                 super.Element.CalculatedY = 0;
@@ -61,8 +61,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
                 super.Element.CalculatedWidth = super.ParentWidth;
                 super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
             } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Center) {
-                ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> HorizontalAlignment Center");
-                // super.Element.CalculatedX = 0;
+                super.Element.CalculatedX = (super.Element.Parent.CalculatedWidth - gridEl.Width) / 2;
             }
         } else {
             if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {

@@ -2459,18 +2459,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     this._renderer.render(container);
                 }
                 ShowLoading(x, y, width, height) {
-                    let resource = this._resourceIds.getValue("loading");
-                    if (resource.Sprite === null) {
-                        let resourceId = resource.Url;
-                        let rect = new PIXI.Rectangle(0, 0, width, height);
-                        let texture = PIXI.loader.resources[resourceId].texture;
-                        texture.frame = rect;
-                        resource.Sprite = new PIXI.Sprite(texture);
-                    }
-                    resource.Sprite.x = x;
-                    resource.Sprite.y = y;
-                    this._stage.addChild(resource.Sprite);
-                    this._renderer.render(this._stage);
+                    this.ShowResource("loading", this._stage, x, y, width, height);
                 }
                 HideLoading() {
                     let resource = this._resourceIds.getValue("loading");
@@ -2760,7 +2749,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Center) {
-                            ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> VerticalAlignment Center");
+                            super.Element.CalculatedY = (super.Element.Parent.CalculatedHeight - gridEl.Height) / 2;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
                             super.Element.CalculatedHeight = super.ParentHeight;
@@ -2789,7 +2778,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
                         }
                         else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Center) {
-                            ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> HorizontalAlignment Center");
+                            super.Element.CalculatedX = (super.Element.Parent.CalculatedWidth - gridEl.Width) / 2;
                         }
                     }
                     else {
@@ -4109,7 +4098,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_80, conte
                         console.warn("No application specified.");
                         return;
                     }
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-8.xap", (el) => { console.log(xm.rootElement); });
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-14.xap", (el) => { console.log(xm.rootElement); });
                     let app = new XamlGLCore.App();
                     app.Start(xm);
                 }
