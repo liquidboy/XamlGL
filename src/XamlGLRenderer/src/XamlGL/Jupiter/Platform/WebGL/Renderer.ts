@@ -75,17 +75,21 @@ export class Renderer implements IRenderer {
         this._renderer.render(container);
     }
 
+    public HideResource(key: string, container: PIXI.Container): void {
+        let resource: RendererResource = this._resourceIds.getValue(key);
+        if (resource.Sprite !== null) {
+            container.removeChild(resource.Sprite);
+            this._renderer.render(container);
+        }
+    }
+
     // loading
     public ShowLoading(x: number, y: number, width: number, height: number): void {
         this.ShowResource("loading", this._stage, x, y, width, height);
     }
 
     public HideLoading(): void {
-        let resource: RendererResource = this._resourceIds.getValue("loading");
-        if (resource.Sprite !== null) {
-            this._stage.removeChild(resource.Sprite);
-            this._renderer.render(this._stage);
-        }
+        this.HideResource("loading", this._stage);
     }
 
     public InitializeLoadingResource(url: string): PIXI.loaders.Loader {

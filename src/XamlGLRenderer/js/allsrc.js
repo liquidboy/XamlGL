@@ -2458,15 +2458,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     container.addChild(resource.Sprite);
                     this._renderer.render(container);
                 }
+                HideResource(key, container) {
+                    let resource = this._resourceIds.getValue(key);
+                    if (resource.Sprite !== null) {
+                        container.removeChild(resource.Sprite);
+                        this._renderer.render(container);
+                    }
+                }
                 ShowLoading(x, y, width, height) {
                     this.ShowResource("loading", this._stage, x, y, width, height);
                 }
                 HideLoading() {
-                    let resource = this._resourceIds.getValue("loading");
-                    if (resource.Sprite !== null) {
-                        this._stage.removeChild(resource.Sprite);
-                        this._renderer.render(this._stage);
-                    }
+                    this.HideResource("loading", this._stage);
                 }
                 InitializeLoadingResource(url) {
                     return this.InitializeResource("loading", url);
