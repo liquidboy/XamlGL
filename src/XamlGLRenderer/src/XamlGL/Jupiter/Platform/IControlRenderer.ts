@@ -7,4 +7,6 @@ export interface IControlRenderer {
     Element: FrameworkElement;
     ElementChanged: IEvent<IControlRenderer, IEventArgs>;
     Draw(): void;
+    ParentHeight: number;
+    ParentWidth: number;
 }

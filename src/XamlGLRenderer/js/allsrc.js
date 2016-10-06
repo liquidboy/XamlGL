@@ -95,6 +95,10 @@ System.register("XamlGL/Jupiter/UIElement", ["XamlGL/Jupiter/DependencyObject"],
             }],
         execute: function() {
             UIElement = class UIElement extends DependencyObject_1.DependencyObject {
+                constructor() {
+                    super(...arguments);
+                    this._isDirty = true;
+                }
                 get IsVisible() { return this._isVisible; }
                 get IsDirty() { return this._isDirty; }
                 get Platform() { return this._platform; }
@@ -2594,6 +2598,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                 }
                 get Element() { return this._element; }
                 get ElementChanged() { return this._elementChanged; }
+                get ParentWidth() {
+                    if (this._element.Parent !== null) {
+                        return this._element.Parent.Width;
+                    }
+                    return null;
+                }
+                get ParentHeight() {
+                    if (this._element.Parent !== null) {
+                        return this._element.Parent.Height;
+                    }
+                    return null;
+                }
                 set Element(value) {
                     this._element = value;
                     this._element.Renderer = this;
@@ -2622,18 +2638,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     ConsoleHelper_1.ConsoleHelper.Log("Platform.OnChildRemoved");
                 }
                 Draw() {
-                }
-                GetParentWidth() {
-                    if (this._element.Parent !== null) {
-                        return this._element.Parent.Width;
-                    }
-                    return 0;
-                }
-                GetParentHeight() {
-                    if (this._element.Parent !== null) {
-                        return this._element.Parent.Height;
-                    }
-                    return 0;
                 }
             };
             exports_41("BaseRenderer", BaseRenderer);
@@ -2735,16 +2739,19 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     ConsoleHelper_3.ConsoleHelper.Log("GridRenderer.Draw");
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
+                    if (!gridEl.IsDirty) {
+                        return;
+                    }
                     if (gridEl.Height !== null && gridEl.Height > 0) {
                         super.Element.CalculatedHeight = gridEl.Height;
                         if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Bottom) {
-                            super.Element.CalculatedY = super.Element.Parent.Height - gridEl.Height;
+                            super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Center) {
                             ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> VerticalAlignment Center");
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
-                            super.Element.CalculatedHeight = super.Element.Parent.Height;
+                            super.Element.CalculatedHeight = super.ParentHeight;
                             super.Element.CalculatedY = 0;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Top) {
@@ -2753,7 +2760,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     }
                     else {
                         if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
-                            super.Element.CalculatedHeight = super.Element.Parent.Height;
+                            super.Element.CalculatedHeight = super.ParentHeight;
                             super.Element.CalculatedY = 0;
                         }
                     }
@@ -2763,11 +2770,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedX = 0;
                         }
                         else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Right) {
-                            super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
+                            super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
                         }
                         else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
-                            super.Element.CalculatedWidth = super.Element.Parent.Width;
-                            super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
+                            super.Element.CalculatedWidth = super.ParentWidth;
+                            super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
                         }
                         else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Center) {
                             ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> HorizontalAlignment Center");
@@ -2775,7 +2782,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     }
                     else {
                         if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
-                            super.Element.CalculatedWidth = super.Element.Parent.Width;
+                            super.Element.CalculatedWidth = super.ParentWidth;
                             super.Element.CalculatedX = 0;
                         }
                     }
@@ -2783,8 +2790,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     containerGrid.height = super.Element.CalculatedHeight;
                     containerGrid.width = super.Element.CalculatedWidth;
                     if (gridEl.Background !== undefined) {
-                        let widthToUse = (gridEl.Width === null || gridEl.Width === 0) ? super.Element.Parent.Width : gridEl.Width;
-                        let heightToUse = (gridEl.Height === null || gridEl.Height === 0) ? super.Element.Parent.Height : gridEl.Height;
+                        let widthToUse = (gridEl.Width === null || gridEl.Width === 0) ? super.ParentWidth : gridEl.Width;
+                        let heightToUse = (gridEl.Height === null || gridEl.Height === 0) ? super.ParentHeight : gridEl.Height;
                         let rectangle = new PIXI.Graphics();
                         rectangle.beginFill(RendererHelper_1.RendererHelper.HashToColorNumber(gridEl.Background));
                         rectangle.drawRect(0, 0, widthToUse, heightToUse);

@@ -16,10 +16,10 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _horizontalAlignment: HorizontalAlignment;
     private _verticalAlignment: VerticalAlignment;
     private _parent: FrameworkElement;
-    private _calculatedX: number;
-    private _calculatedY: number;
-    private _calculatedWidth: number;
-    private _calculatedHeight: number;
+    private _calculatedX: number; // <- normally updated from a *renderer
+    private _calculatedY: number; // <- normally updated from a *renderer
+    private _calculatedWidth: number; // <- normally updated from a *renderer
+    private _calculatedHeight: number; // <- normally updated from a *renderer
 
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();

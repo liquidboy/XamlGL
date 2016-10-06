@@ -1762,12 +1762,17 @@
     </None>
     <None Include="XamlGL - Web Deploy.pubxml" />
     <Content Include="xaml\rectangle-shape.xap" />
-    <Content Include="xaml\image-silverlight.xap" />
+    <Content Include="xaml\image-silverlight-1.xap" />
     <Content Include="xaml\grid-1.xap" />
     <Content Include="xaml\grid-2.xap" />
     <Content Include="xaml\grid-3.xap" />
     <Content Include="xaml\grid-4.xap" />
     <Content Include="xaml\grid-5.xap" />
+    <Content Include="xaml\image-silverlight-2.xap" />
+    <Content Include="xaml\image-silverlight-3.xap" />
+    <Content Include="xaml\image-silverlight-4.xap" />
+    <Content Include="xaml\image-silverlight-5.xap" />
+    <Content Include="xaml\image-silverlight-6.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

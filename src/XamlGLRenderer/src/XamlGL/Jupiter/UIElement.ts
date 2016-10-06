@@ -5,7 +5,7 @@ import { IPlatform } from "./Platform/IPlatform";
 export class UIElement extends DependencyObject implements IUIElement {
 
     private _isVisible: boolean;
-    private _isDirty: boolean;
+    private _isDirty: boolean = true;
     private _platform: IPlatform;
 
     get IsVisible(): boolean { return this._isVisible; }

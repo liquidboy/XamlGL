@@ -22,6 +22,19 @@ export class BaseRenderer implements IControlRenderer {
 
     get Element(): FrameworkElement { return this._element; }
     get ElementChanged(): IEvent<BaseRenderer, IEventArgs> { return this._elementChanged; }
+    get ParentWidth(): number {
+        // if !(this._element.Parent instanceof Panel) {  }
+        if (this._element.Parent !== null) {
+            return this._element.Parent.Width;
+        }
+        return null;
+    }
+    get ParentHeight(): number {
+        if (this._element.Parent !== null) {
+            return this._element.Parent.Height;
+        }
+        return null;
+    }
 
     set Element(value: FrameworkElement) {
         this._element = value;
@@ -69,20 +82,5 @@ export class BaseRenderer implements IControlRenderer {
 
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
-    }
-
-    private GetParentWidth(): number {
-        // if !(this._element.Parent instanceof Panel) {  }
-        if(this._element.Parent !== null) {
-            return this._element.Parent.Width;
-        }
-        return 0;
-    }
-
-    private GetParentHeight():number {
-        if(this._element.Parent !== null) {
-            return this._element.Parent.Height;
-        }
-        return 0;
     }
 }

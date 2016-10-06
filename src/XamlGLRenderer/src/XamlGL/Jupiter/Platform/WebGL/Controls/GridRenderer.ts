@@ -23,22 +23,26 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         // super.Element.CalculatedY = 0;
         // super.Element.CalculatedX = 0;
 
+        if (!gridEl.IsDirty) {
+            return;
+        }
+
         // calculate y position
         if (gridEl.Height !== null && gridEl.Height > 0) {
             super.Element.CalculatedHeight = gridEl.Height;
             if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
-                super.Element.CalculatedY = super.Element.Parent.Height - gridEl.Height;
+                super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Center) {
                 ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> VerticalAlignment Center");
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
-                super.Element.CalculatedHeight = super.Element.Parent.Height;
+                super.Element.CalculatedHeight = super.ParentHeight;
                 super.Element.CalculatedY = 0;
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
                 super.Element.CalculatedY = 0;
             }
         } else {
             if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
-                super.Element.CalculatedHeight = super.Element.Parent.Height;
+                super.Element.CalculatedHeight = super.ParentHeight;
                 super.Element.CalculatedY = 0;
             }
         }
@@ -49,17 +53,17 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             if (gridEl.HorizontalAlignment === HorizontalAlignment.Left) {
                 super.Element.CalculatedX = 0;
             } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Right) {
-                super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
+                super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
             } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
-                super.Element.CalculatedWidth = super.Element.Parent.Width;
-                super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
+                super.Element.CalculatedWidth = super.ParentWidth;
+                super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
             } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Center) {
                 ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> HorizontalAlignment Center");
                 // super.Element.CalculatedX = 0;
             }
         } else {
             if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
-                super.Element.CalculatedWidth = super.Element.Parent.Width;
+                super.Element.CalculatedWidth = super.ParentWidth;
                 super.Element.CalculatedX = 0;
             }
         }
@@ -70,8 +74,8 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
 
         // set background if its available
         if (gridEl.Background !== undefined) {
-            let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? super.Element.Parent.Width : gridEl.Width;
-            let heightToUse: number = (gridEl.Height === null || gridEl.Height === 0) ? super.Element.Parent.Height : gridEl.Height;
+            let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? super.ParentWidth : gridEl.Width;
+            let heightToUse: number = (gridEl.Height === null || gridEl.Height === 0) ? super.ParentHeight : gridEl.Height;
             let rectangle: PIXI.Graphics = new PIXI.Graphics();
             rectangle.beginFill(RendererHelper.HashToColorNumber(gridEl.Background));
             rectangle.drawRect(0, 0, widthToUse, heightToUse);
