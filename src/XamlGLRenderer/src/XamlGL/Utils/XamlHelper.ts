@@ -88,6 +88,8 @@ export class XamlHelper {
             img.Source = node.attributes.getNamedItem("Source").value;
             img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            img.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            img.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             return img;
         } else if (node.nodeName === "Grid") {
             let grid: Grid = new Grid();

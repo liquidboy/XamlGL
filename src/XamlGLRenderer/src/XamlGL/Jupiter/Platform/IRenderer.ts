@@ -9,8 +9,10 @@ export interface IRenderer {
 
     ShowLoading(x: number, y: number, width: number, height: number): void;
     HideLoading(): void;
-    LoadResourceImage(url: string): PIXI.loaders.Loader;
+    // loadResourceImage(url: string): PIXI.loaders.Loader;
+    ShowResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void;
     InitializeLoadingResource(url: string): PIXI.loaders.Loader;
+    InitializeResource(key: string, url: string): PIXI.loaders.Loader;
     Resize(width: number, height: number): void;
     ResizeFull(): void;
 }

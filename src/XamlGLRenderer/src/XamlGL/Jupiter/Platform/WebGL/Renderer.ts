@@ -46,6 +46,36 @@ export class Renderer implements IRenderer {
         pp.Height = window.innerHeight;
     }
 
+    public InitializeResource(key: string, url: string): PIXI.loaders.Loader {
+        let rr: RendererResource = this._resourceIds.getValue(key);
+        if (rr === undefined) {
+            this._resourceIds.setValue(key, new RendererResource(url));
+            return this.LoadResourceImage(url);
+        } else {
+            return null;
+        }
+    }
+
+    private LoadResourceImage(url: string): PIXI.loaders.Loader {
+        return PIXI.loader.add(url);
+    }
+
+    public ShowResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void {
+        let resource: RendererResource = this._resourceIds.getValue(key);
+        if (resource.Sprite === null) {
+            let resourceId: string = resource.Url;
+            let rect: PIXI.Rectangle = new PIXI.Rectangle(0, 0, width, height);
+            let texture: PIXI.Texture = PIXI.loader.resources[resourceId].texture;
+            texture.frame = rect;
+            resource.Sprite = new PIXI.Sprite(texture);
+        }
+        resource.Sprite.x = x;
+        resource.Sprite.y = y;
+        container.addChild(resource.Sprite);
+        this._renderer.render(container);
+    }
+
+    // loading
     public ShowLoading(x: number, y: number, width: number, height: number): void {
         let resource: RendererResource = this._resourceIds.getValue("loading");
         if (resource.Sprite === null) {
@@ -70,11 +100,7 @@ export class Renderer implements IRenderer {
     }
 
     public InitializeLoadingResource(url: string): PIXI.loaders.Loader {
-        this._resourceIds.setValue("loading", new RendererResource(url));
-        return this.LoadResourceImage(url);
-    }
-    public LoadResourceImage(url: string): PIXI.loaders.Loader {
-        return PIXI.loader.add(url);
+        return this.InitializeResource("loading", url);
     }
 }
 

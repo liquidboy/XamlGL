@@ -220,6 +220,8 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 get Parent() { return this._parent; }
                 get CalculatedX() { return this._calculatedX; }
                 get CalculatedY() { return this._calculatedY; }
+                get CalculatedWidth() { return this._calculatedWidth; }
+                get CalculatedHeight() { return this._calculatedHeight; }
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
                 set Margin(value) { this._margin = value; }
@@ -229,6 +231,8 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 set Parent(value) { this._parent = value; }
                 set CalculatedX(value) { this._calculatedX = value; }
                 set CalculatedY(value) { this._calculatedY = value; }
+                set CalculatedWidth(value) { this._calculatedWidth = value; }
+                set CalculatedHeight(value) { this._calculatedHeight = value; }
                 get PropertyChanged() { return this._propertyChanged; }
                 get FocusChanged() { return this._focusChanged; }
             };
@@ -2417,6 +2421,33 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     pp.Width = window.innerWidth;
                     pp.Height = window.innerHeight;
                 }
+                InitializeResource(key, url) {
+                    let rr = this._resourceIds.getValue(key);
+                    if (rr === undefined) {
+                        this._resourceIds.setValue(key, new RendererResource(url));
+                        return this.LoadResourceImage(url);
+                    }
+                    else {
+                        return null;
+                    }
+                }
+                LoadResourceImage(url) {
+                    return PIXI.loader.add(url);
+                }
+                ShowResource(key, container, x, y, width, height) {
+                    let resource = this._resourceIds.getValue(key);
+                    if (resource.Sprite === null) {
+                        let resourceId = resource.Url;
+                        let rect = new PIXI.Rectangle(0, 0, width, height);
+                        let texture = PIXI.loader.resources[resourceId].texture;
+                        texture.frame = rect;
+                        resource.Sprite = new PIXI.Sprite(texture);
+                    }
+                    resource.Sprite.x = x;
+                    resource.Sprite.y = y;
+                    container.addChild(resource.Sprite);
+                    this._renderer.render(container);
+                }
                 ShowLoading(x, y, width, height) {
                     let resource = this._resourceIds.getValue("loading");
                     if (resource.Sprite === null) {
@@ -2439,11 +2470,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     }
                 }
                 InitializeLoadingResource(url) {
-                    this._resourceIds.setValue("loading", new RendererResource(url));
-                    return this.LoadResourceImage(url);
-                }
-                LoadResourceImage(url) {
-                    return PIXI.loader.add(url);
+                    return this.InitializeResource("loading", url);
                 }
             };
             exports_37("Renderer", Renderer);
@@ -2709,7 +2736,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
                     if (gridEl.Height !== null && gridEl.Height > 0) {
-                        containerGrid.height = gridEl.Height;
+                        super.Element.CalculatedHeight = gridEl.Height;
                         if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Bottom) {
                             super.Element.CalculatedY = super.Element.Parent.Height - gridEl.Height;
                         }
@@ -2717,15 +2744,19 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> VerticalAlignment Center");
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
-                            containerGrid.width = super.Element.Parent.Width;
+                            super.Element.CalculatedHeight = super.Element.Parent.Height;
                             super.Element.CalculatedY = 0;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Top) {
                             super.Element.CalculatedY = 0;
                         }
                     }
+                    else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
+                        super.Element.CalculatedHeight = super.Element.Parent.Height;
+                        super.Element.CalculatedY = 0;
+                    }
                     if (gridEl.Width !== null && gridEl.Width > 0) {
-                        containerGrid.width = gridEl.Width;
+                        super.Element.CalculatedWidth = gridEl.Width;
                         if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Left) {
                             super.Element.CalculatedX = 0;
                         }
@@ -2733,14 +2764,22 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
                         }
                         else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
-                            containerGrid.width = super.Element.Parent.Width;
+                            super.Element.CalculatedWidth = super.Element.Parent.Width;
                             super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
                         }
                         else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Center) {
                             ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> HorizontalAlignment Center");
                         }
                     }
+                    else {
+                        if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
+                            super.Element.CalculatedWidth = super.Element.Parent.Width;
+                            super.Element.CalculatedX = 0;
+                        }
+                    }
                     containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
+                    containerGrid.height = super.Element.CalculatedHeight;
+                    containerGrid.width = super.Element.CalculatedWidth;
                     if (gridEl.Background !== undefined) {
                         let widthToUse = (gridEl.Width === null || gridEl.Width === 0) ? super.Element.Parent.Width : gridEl.Width;
                         let heightToUse = (gridEl.Height === null || gridEl.Height === 0) ? super.Element.Parent.Height : gridEl.Height;
@@ -3093,10 +3132,10 @@ System.register("XamlGL/Controls/Image", ["XamlGL/Jupiter/Core"], function(expor
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper"], function(exports_60, context_60) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment"], function(exports_60, context_60) {
     "use strict";
     var __moduleName = context_60 && context_60.id;
-    var BaseRenderer_3, ConsoleHelper_4;
+    var BaseRenderer_3, ConsoleHelper_4, HorizontalAlignment_2, VerticalAlignment_2;
     var ImageRenderer;
     return {
         setters:[
@@ -3105,12 +3144,51 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
             },
             function (ConsoleHelper_4_1) {
                 ConsoleHelper_4 = ConsoleHelper_4_1;
+            },
+            function (HorizontalAlignment_2_1) {
+                HorizontalAlignment_2 = HorizontalAlignment_2_1;
+            },
+            function (VerticalAlignment_2_1) {
+                VerticalAlignment_2 = VerticalAlignment_2_1;
             }],
         execute: function() {
             ImageRenderer = class ImageRenderer extends BaseRenderer_3.BaseRenderer {
                 Draw() {
                     super.Draw();
                     ConsoleHelper_4.ConsoleHelper.Log("ImagetRenderer.Draw");
+                    let imageEl = super.Element;
+                    if (imageEl.Height !== null && imageEl.Height > 0) {
+                        if (imageEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
+                            super.Element.CalculatedY = super.Element.Parent.CalculatedHeight - imageEl.Height;
+                        }
+                        else if (imageEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Center) {
+                            super.Element.CalculatedY = (super.Element.Parent.CalculatedHeight - imageEl.Height) / 2;
+                        }
+                        else if (imageEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
+                            super.Element.CalculatedY = 0;
+                        }
+                        else if (imageEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
+                            super.Element.CalculatedY = 0;
+                        }
+                    }
+                    if (imageEl.Width !== null && imageEl.Width > 0) {
+                        if (imageEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
+                            super.Element.CalculatedX = 0;
+                        }
+                        else if (imageEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
+                            super.Element.CalculatedX = super.Element.Parent.CalculatedWidth - imageEl.Width;
+                        }
+                        else if (imageEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
+                            super.Element.CalculatedX = super.Element.Parent.CalculatedWidth - imageEl.Width;
+                        }
+                        else if (imageEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Center) {
+                            super.Element.CalculatedX = (super.Element.Parent.CalculatedWidth - imageEl.Width) / 2;
+                        }
+                    }
+                    super.Element.Platform.Renderer.InitializeResource("glitter1", "/assets/glitter-1.jpg")
+                        .load(() => {
+                        super.Element.Platform.Renderer.ShowResource("glitter1", super.Element.Platform.Renderer.PixiStage, super.Element.CalculatedX, super.Element.CalculatedY, imageEl.Width, imageEl.Height);
+                    });
                 }
             };
             exports_60("ImageRenderer", ImageRenderer);
@@ -3340,7 +3418,7 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_65, context_65)
 System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/utils/ConsoleHelper"], function(exports_66, context_66) {
     "use strict";
     var __moduleName = context_66 && context_66.id;
-    var Grid_2, Image_2, Panel_6, Rectangle_2, Thickness_1, HorizontalAlignment_2, VerticalAlignment_2, ConsoleHelper_8;
+    var Grid_2, Image_2, Panel_6, Rectangle_2, Thickness_1, HorizontalAlignment_3, VerticalAlignment_3, ConsoleHelper_8;
     var XamlHelper;
     return {
         setters:[
@@ -3359,11 +3437,11 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
             function (Thickness_1_1) {
                 Thickness_1 = Thickness_1_1;
             },
-            function (HorizontalAlignment_2_1) {
-                HorizontalAlignment_2 = HorizontalAlignment_2_1;
+            function (HorizontalAlignment_3_1) {
+                HorizontalAlignment_3 = HorizontalAlignment_3_1;
             },
-            function (VerticalAlignment_2_1) {
-                VerticalAlignment_2 = VerticalAlignment_2_1;
+            function (VerticalAlignment_3_1) {
+                VerticalAlignment_3 = VerticalAlignment_3_1;
             },
             function (ConsoleHelper_8_1) {
                 ConsoleHelper_8 = ConsoleHelper_8_1;
@@ -3443,6 +3521,8 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         img.Source = node.attributes.getNamedItem("Source").value;
                         img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+                        img.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+                        img.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
                         return img;
                     }
                     else if (node.nodeName === "Grid") {
@@ -3469,19 +3549,19 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                 }
                 static StringToHorizontalAlignment(attr) {
                     if (attr === null) {
-                        return HorizontalAlignment_2.HorizontalAlignment.Stretch;
+                        return HorizontalAlignment_3.HorizontalAlignment.Stretch;
                     }
                     if (attr.value === "Left") {
-                        return HorizontalAlignment_2.HorizontalAlignment.Left;
+                        return HorizontalAlignment_3.HorizontalAlignment.Left;
                     }
                     else if (attr.value === "Center") {
-                        return HorizontalAlignment_2.HorizontalAlignment.Center;
+                        return HorizontalAlignment_3.HorizontalAlignment.Center;
                     }
                     else if (attr.value === "Right") {
-                        return HorizontalAlignment_2.HorizontalAlignment.Right;
+                        return HorizontalAlignment_3.HorizontalAlignment.Right;
                     }
                     else if (attr.value === "Stretch") {
-                        return HorizontalAlignment_2.HorizontalAlignment.Stretch;
+                        return HorizontalAlignment_3.HorizontalAlignment.Stretch;
                     }
                 }
                 static StringToNumber(attr) {
@@ -3492,19 +3572,19 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                 }
                 static StringToVerticalAlignment(attr) {
                     if (attr === null) {
-                        return VerticalAlignment_2.VerticalAlignment.Stretch;
+                        return VerticalAlignment_3.VerticalAlignment.Stretch;
                     }
                     if (attr.value === "Bottom") {
-                        return VerticalAlignment_2.VerticalAlignment.Bottom;
+                        return VerticalAlignment_3.VerticalAlignment.Bottom;
                     }
                     else if (attr.value === "Center") {
-                        return VerticalAlignment_2.VerticalAlignment.Center;
+                        return VerticalAlignment_3.VerticalAlignment.Center;
                     }
                     else if (attr.value === "Top") {
-                        return VerticalAlignment_2.VerticalAlignment.Top;
+                        return VerticalAlignment_3.VerticalAlignment.Top;
                     }
                     else if (attr.value === "Stretch") {
-                        return VerticalAlignment_2.VerticalAlignment.Stretch;
+                        return VerticalAlignment_3.VerticalAlignment.Stretch;
                     }
                 }
             };
@@ -3956,7 +4036,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_80, conte
                         console.warn("No application specified.");
                         return;
                     }
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight.xap", (el) => { console.log(xm.rootElement); });
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-1.xap", (el) => { console.log(xm.rootElement); });
                     let app = new XamlGLCore.App();
                     app.Start(xm);
                 }

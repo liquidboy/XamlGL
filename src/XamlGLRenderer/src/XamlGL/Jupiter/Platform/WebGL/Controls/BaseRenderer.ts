@@ -71,7 +71,8 @@ export class BaseRenderer implements IControlRenderer {
         // consoleHelper.Log("BaseRenderer.Draw");
     }
 
-    private GetParentWidth():number {
+    private GetParentWidth(): number {
+        // if !(this._element.Parent instanceof Panel) {  }
         if(this._element.Parent !== null) {
             return this._element.Parent.Width;
         }
