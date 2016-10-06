@@ -19,6 +19,7 @@ export class BaseRenderer implements IControlRenderer {
     private _element: FrameworkElement;
     private _elementChanged: EventDispatcher<BaseRenderer, IEventArgs> =
     new EventDispatcher<BaseRenderer, IEventArgs>();
+    private _pixiElement: PIXI.DisplayObject;
 
     get Element(): FrameworkElement { return this._element; }
     get ElementChanged(): IEvent<BaseRenderer, IEventArgs> { return this._elementChanged; }
@@ -35,6 +36,7 @@ export class BaseRenderer implements IControlRenderer {
         }
         return null;
     }
+    get PixiElement(): PIXI.DisplayObject { return this._pixiElement; }
 
     set Element(value: FrameworkElement) {
         this._element = value;
@@ -62,6 +64,7 @@ export class BaseRenderer implements IControlRenderer {
         //
 
     }
+    set PixiElement(value: PIXI.DisplayObject) { this._pixiElement = value; }
 
     private OnPropertyChanged(): void {
         // todo

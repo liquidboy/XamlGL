@@ -3,11 +3,10 @@
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
-      <Grid>
-        <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-1.jpg"></Image>
-      </Grid>
+      <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Height="500" Source="/assets/glitter-1.jpg"></Image>
       <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" Height="80" Background="#FF663399">
         <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-2.jpg"></Image>
       </Grid>
+      <Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="120" Height="80" Source="/assets/glitter-3.jpg"></Image>
     </Grid>
 </Application>

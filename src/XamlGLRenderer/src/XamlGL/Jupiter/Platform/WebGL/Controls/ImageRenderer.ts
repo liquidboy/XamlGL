@@ -62,10 +62,24 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
         }
 
         super.Element.Platform.Renderer.InitializeResource(imageEl.UniqueID, imageEl.SourceUrl)
-            .load(() => {
-                // todo: if parent is panel we need to get the pixi container from it and use that
-                super.Element.Platform.Renderer.ShowResource(imageEl.UniqueID, super.Element.Platform.Renderer.PixiStage,
-                    super.Element.CalculatedX, super.Element.CalculatedY, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
+            .load((loader: any, object: any) => {
+                // determine container to use
+
+                // let parentContainer: PIXI.Container =
+                //    (super.Element.Renderer.PixiElement === undefined) ?
+                //        <PIXI.Container>super.Element.Parent.Renderer.PixiElement
+                //        : <PIXI.Container>super.Element.Renderer.PixiElement
+                // console.log(super.Element.Parent.Renderer.PixiElement);
+
+                let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
+                super.Element.Platform.Renderer.ShowResource(
+                    imageEl.UniqueID,
+                    parentContainer,
+                    super.Element.CalculatedX,
+                    super.Element.CalculatedY,
+                    super.Element.CalculatedWidth,
+                    super.Element.CalculatedHeight);
+
             });
 
         imageEl.IsDirty = false;

@@ -2616,6 +2616,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     }
                     return null;
                 }
+                get PixiElement() { return this._pixiElement; }
                 set Element(value) {
                     this._element = value;
                     this._element.Renderer = this;
@@ -2631,6 +2632,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                         ConsoleHelper_1.ConsoleHelper.Log("BaseRenderer.Element : value was a native element");
                     }
                 }
+                set PixiElement(value) { this._pixiElement = value; }
                 OnPropertyChanged() {
                     ConsoleHelper_1.ConsoleHelper.Log("Platform.OnPropertyChanged");
                 }
@@ -2750,6 +2752,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     ConsoleHelper_3.ConsoleHelper.Log("GridRenderer.Draw");
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
+                    super.PixiElement = containerGrid;
                     if (!gridEl.IsDirty) {
                         return;
                     }
@@ -2797,6 +2800,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             super.Element.CalculatedX = 0;
                         }
                     }
+                    containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
+                    containerGrid.height = super.Element.CalculatedHeight;
+                    containerGrid.width = super.Element.CalculatedWidth;
                     if (gridEl.Background !== undefined) {
                         let widthToUse = (gridEl.Width === null || gridEl.Width === 0) ? super.ParentWidth : gridEl.Width;
                         let heightToUse = (gridEl.Height === null || gridEl.Height === 0) ? super.ParentHeight : gridEl.Height;
@@ -2806,10 +2812,15 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                         rectangle.endFill();
                         containerGrid.addChild(rectangle);
                     }
-                    containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
-                    containerGrid.height = super.Element.CalculatedHeight;
-                    containerGrid.width = super.Element.CalculatedWidth;
-                    super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+                    if (super.Element.Parent.Renderer === undefined) {
+                        super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+                    }
+                    else {
+                        if (super.Element.Parent.Renderer.PixiElement && super.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                            let parentContainer = super.Element.Parent.Renderer.PixiElement;
+                            parentContainer.addChild(containerGrid);
+                        }
+                    }
                     gridEl.IsDirty = false;
                 }
             };
@@ -3226,8 +3237,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                         }
                     }
                     super.Element.Platform.Renderer.InitializeResource(imageEl.UniqueID, imageEl.SourceUrl)
-                        .load(() => {
-                        super.Element.Platform.Renderer.ShowResource(imageEl.UniqueID, super.Element.Platform.Renderer.PixiStage, super.Element.CalculatedX, super.Element.CalculatedY, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
+                        .load((loader, object) => {
+                        let parentContainer = super.Element.Parent.Renderer.PixiElement;
+                        super.Element.Platform.Renderer.ShowResource(imageEl.UniqueID, parentContainer, super.Element.CalculatedX, super.Element.CalculatedY, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
                     });
                     imageEl.IsDirty = false;
                 }
@@ -3411,6 +3423,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                     }
                 }
                 DrawAll(content) {
+                    console.log(content);
                     content.Renderer.Draw();
                     if (content instanceof Panel_5.Panel) {
                         let panel = content;

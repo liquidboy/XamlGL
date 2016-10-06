@@ -19,14 +19,17 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         ConsoleHelper.Log("GridRenderer.Draw");
         // console.log(super.Element);
         let gridEl: Grid = <Grid>super.Element;
+
         let containerGrid: PIXI.Container = new PIXI.Container();
+        super.PixiElement = containerGrid;
+
         // super.Element.CalculatedY = 0;
         // super.Element.CalculatedX = 0;
-        
+
         if (!gridEl.IsDirty) {
             return;
         }
-        
+
         // calculate y position
         if (gridEl.Height !== null && gridEl.Height > 0) {
             super.Element.CalculatedHeight = gridEl.Height;
@@ -46,7 +49,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
                 super.Element.CalculatedY = 0;
             }
         }
-        
+
         // calculate X position
         if (gridEl.Width !== null && gridEl.Width > 0) {
             super.Element.CalculatedWidth = gridEl.Width;
@@ -68,6 +71,10 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
+        containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
+        containerGrid.height = super.Element.CalculatedHeight;
+        containerGrid.width = super.Element.CalculatedWidth;
+
         // set background if its available
         if (gridEl.Background !== undefined) {
             let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? super.ParentWidth : gridEl.Width;
@@ -78,11 +85,15 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             rectangle.endFill();
             containerGrid.addChild(rectangle);
         }
-        containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
-        containerGrid.height = super.Element.CalculatedHeight;
-        containerGrid.width = super.Element.CalculatedWidth;
 
-        super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+        if (super.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
+            super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+        } else {
+            if (super.Element.Parent.Renderer.PixiElement && super.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
+                parentContainer.addChild(containerGrid);
+            }
+        }
 
         gridEl.IsDirty = false;
     }

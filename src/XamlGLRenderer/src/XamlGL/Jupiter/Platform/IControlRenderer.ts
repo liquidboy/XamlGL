@@ -9,4 +9,5 @@ export interface IControlRenderer {
     Draw(): void;
     ParentHeight: number;
     ParentWidth: number;
+    PixiElement: PIXI.DisplayObject;
 }

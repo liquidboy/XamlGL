@@ -50,6 +50,7 @@ export class Platform implements IPlatform {
 
     public DrawAll(content: FrameworkElement): void {
         // consoleHelper.LogSectionHeader("Platform:DrawAll");
+        console.log(content);
         content.Renderer.Draw();
         if (content instanceof Panel) {
             let panel: Panel = <Panel>content;
