@@ -30,6 +30,9 @@ export class PlatformPage extends Page implements IPlatformPage {
         htmlCanvasHost: JQuery, xaml: XamlMarkup) {
         super();
 
+        let win: any = window;
+        win.PlatformPage = this;
+
         this.ContentChanged.subscribe(this.DoContentChanged.bind(this));
 
         this.Width = width;
@@ -40,6 +43,7 @@ export class PlatformPage extends Page implements IPlatformPage {
         this._xaml = xaml;
 
         this.Platform = this.CreatePlatform();
+        // this.ResizeFullWindow(); <== test full screen
         this.Content = XamlHelper.XamlMarkupToUIElement(xaml);
 
         this.InitializeShell();

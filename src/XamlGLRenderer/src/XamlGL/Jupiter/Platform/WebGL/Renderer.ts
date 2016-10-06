@@ -2,6 +2,7 @@
 
 import { Guid } from "./../../../DataTypes/Guid";
 import { IRenderer } from "./../IRenderer";
+import { PlatformPage } from "./PlatformPage";
 import { Dictionary } from "../../../../Libs/typescript-collections/src/lib/index";
 
 export class Renderer implements IRenderer {
@@ -37,6 +38,12 @@ export class Renderer implements IRenderer {
         this.PixiRenderer.view.style.display = "block";
         this.PixiRenderer.view.style.border = "0";
         this.Resize(window.innerWidth, window.innerHeight);
+        document.body.style.overflow = "hidden";
+
+        let win: any = window;
+        let pp: PlatformPage = win.PlatformPage;
+        pp.Width = window.innerWidth;
+        pp.Height = window.innerHeight;
     }
 
     public ShowLoading(x: number, y: number, width: number, height: number): void {

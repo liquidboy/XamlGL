@@ -16,6 +16,8 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _horizontalAlignment: HorizontalAlignment;
     private _verticalAlignment: VerticalAlignment;
     private _parent: FrameworkElement;
+    private _calculatedX: number;
+    private _calculatedY: number;
 
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
@@ -30,6 +32,8 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     get HorizontalAlignment(): HorizontalAlignment { return this._horizontalAlignment; }
     get VerticalAlignment(): VerticalAlignment { return this._verticalAlignment; }
     get Parent(): FrameworkElement { return this._parent; }
+    get CalculatedX(): number { return this._calculatedX; }
+    get CalculatedY(): number { return this._calculatedY; }
 
     set Width(value: number) { this._width = value; }
     set Height(value: number) { this._height = value; }
@@ -38,6 +42,8 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     set HorizontalAlignment(value: HorizontalAlignment) { this._horizontalAlignment = value; }
     set VerticalAlignment(value: VerticalAlignment) { this._verticalAlignment = value; }
     set Parent(value: FrameworkElement) { this._parent = value; }
+    set CalculatedX(value: number) { this._calculatedX = value; }
+    set CalculatedY(value: number) { this._calculatedY = value; }
 
     // get ChildAdded(): IEvent<FrameworkElement, IEventArgs> { return this._childAdded; }
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }

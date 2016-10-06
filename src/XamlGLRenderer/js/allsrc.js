@@ -218,6 +218,8 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 get HorizontalAlignment() { return this._horizontalAlignment; }
                 get VerticalAlignment() { return this._verticalAlignment; }
                 get Parent() { return this._parent; }
+                get CalculatedX() { return this._calculatedX; }
+                get CalculatedY() { return this._calculatedY; }
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
                 set Margin(value) { this._margin = value; }
@@ -225,6 +227,8 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 set HorizontalAlignment(value) { this._horizontalAlignment = value; }
                 set VerticalAlignment(value) { this._verticalAlignment = value; }
                 set Parent(value) { this._parent = value; }
+                set CalculatedX(value) { this._calculatedX = value; }
+                set CalculatedY(value) { this._calculatedY = value; }
                 get PropertyChanged() { return this._propertyChanged; }
                 get FocusChanged() { return this._focusChanged; }
             };
@@ -2407,6 +2411,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     this.PixiRenderer.view.style.display = "block";
                     this.PixiRenderer.view.style.border = "0";
                     this.Resize(window.innerWidth, window.innerHeight);
+                    document.body.style.overflow = "hidden";
+                    let win = window;
+                    let pp = win.PlatformPage;
+                    pp.Width = window.innerWidth;
+                    pp.Height = window.innerHeight;
                 }
                 ShowLoading(x, y, width, height) {
                     let resource = this._resourceIds.getValue("loading");
@@ -2511,7 +2520,7 @@ System.register("XamlGL/Controls/Panel", ["XamlGL/Jupiter/FrameworkElement", "Xa
         }
     }
 });
-System.register("XamlGL/Utils/ConsoleHelper", [], function(exports_40, context_40) {
+System.register("XamlGL/utils/ConsoleHelper", [], function(exports_40, context_40) {
     "use strict";
     var __moduleName = context_40 && context_40.id;
     var ConsoleHelper;
@@ -2535,7 +2544,7 @@ System.register("XamlGL/Utils/ConsoleHelper", [], function(exports_40, context_4
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/Controls/Panel", "XamlGL/Events/EventDispatcher", "XamlGL/Utils/ConsoleHelper"], function(exports_41, context_41) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/Controls/Panel", "XamlGL/Events/EventDispatcher", "XamlGL/utils/ConsoleHelper"], function(exports_41, context_41) {
     "use strict";
     var __moduleName = context_41 && context_41.id;
     var Panel_1, EventDispatcher_4, ConsoleHelper_1;
@@ -2604,7 +2613,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper"], function(exports_42, context_42) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper"], function(exports_42, context_42) {
     "use strict";
     var __moduleName = context_42 && context_42.id;
     var BaseRenderer_1, ConsoleHelper_2;
@@ -2670,7 +2679,7 @@ System.register("XamlGL/Controls/Grid", ["XamlGL/Controls/Panel"], function(expo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment"], function(exports_45, context_45) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment"], function(exports_45, context_45) {
     "use strict";
     var __moduleName = context_45 && context_45.id;
     var BaseRenderer_2, ConsoleHelper_3, RendererHelper_1, HorizontalAlignment_1, VerticalAlignment_1;
@@ -2699,41 +2708,39 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     ConsoleHelper_3.ConsoleHelper.Log("GridRenderer.Draw");
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
-                    let containerX = 0;
-                    let containerY = 0;
-                    if (gridEl.Width !== null) {
-                        containerGrid.width = gridEl.Width;
-                        if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Left) {
-                            containerX = 0;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Right) {
-                            containerX = super.Element.Parent.Width - gridEl.Width;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
-                            containerGrid.width = super.Element.Parent.Width;
-                            containerX = super.Element.Parent.Width - gridEl.Width;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Center) {
-                            ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> HorizontalAlignment Center");
-                        }
-                    }
                     if (gridEl.Height !== null) {
                         containerGrid.height = gridEl.Height;
                         if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Bottom) {
-                            containerY = super.Element.Parent.Height - gridEl.Height;
+                            super.Element.CalculatedY = super.Element.Parent.Height - gridEl.Height;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Center) {
                             ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> VerticalAlignment Center");
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
                             containerGrid.width = super.Element.Parent.Width;
-                            containerY = 0;
+                            super.Element.CalculatedY = 0;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Top) {
-                            containerY = 0;
+                            super.Element.CalculatedY = 0;
                         }
                     }
-                    containerGrid.position.set(containerX, containerY);
+                    if (gridEl.Width !== null) {
+                        containerGrid.width = gridEl.Width;
+                        if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Left) {
+                            super.Element.CalculatedX = 0;
+                        }
+                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Right) {
+                            super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
+                        }
+                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
+                            containerGrid.width = super.Element.Parent.Width;
+                            super.Element.CalculatedX = super.Element.Parent.Width - gridEl.Width;
+                        }
+                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Center) {
+                            ConsoleHelper_3.ConsoleHelper.Log("todo : implement GridRenderer.Draw  -> HorizontalAlignment Center");
+                        }
+                    }
+                    containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
                     if (gridEl.Background !== undefined) {
                         let rectangle = new PIXI.Graphics();
                         rectangle.beginFill(RendererHelper_1.RendererHelper.HashToColorNumber(gridEl.Background));
@@ -3084,7 +3091,7 @@ System.register("XamlGL/Controls/Image", ["XamlGL/Jupiter/Core"], function(expor
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper"], function(exports_60, context_60) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper"], function(exports_60, context_60) {
     "use strict";
     var __moduleName = context_60 && context_60.id;
     var BaseRenderer_3, ConsoleHelper_4;
@@ -3131,7 +3138,7 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel"], function
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_62, context_62) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_62, context_62) {
     "use strict";
     var __moduleName = context_62 && context_62.id;
     var BaseRenderer_4, ConsoleHelper_5, RendererHelper_2;
@@ -3167,7 +3174,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
         }
     }
 });
-System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper"], function(exports_63, context_63) {
+System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/utils/ConsoleHelper"], function(exports_63, context_63) {
     "use strict";
     var __moduleName = context_63 && context_63.id;
     var DefaultRenderer_1, Grid_1, GridRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_4, ConsoleHelper_6;
@@ -3239,7 +3246,7 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_64, context_64) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/utils/RendererHelper", "XamlGL/utils/ConsoleHelper"], function(exports_64, context_64) {
     "use strict";
     var __moduleName = context_64 && context_64.id;
     var Renderer_2, Panel_5, RendererHelper_3, ConsoleHelper_7;
@@ -3328,7 +3335,7 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_65, context_65)
         }
     }
 });
-System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/Utils/ConsoleHelper"], function(exports_66, context_66) {
+System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/utils/ConsoleHelper"], function(exports_66, context_66) {
     "use strict";
     var __moduleName = context_66 && context_66.id;
     var Grid_2, Image_2, Panel_6, Rectangle_2, Thickness_1, HorizontalAlignment_2, VerticalAlignment_2, ConsoleHelper_8;
@@ -3503,7 +3510,7 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/WebGL/Platform", "XamlGL/Events/EventList", "XamlGL/Utils/XamlHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_67, context_67) {
+System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/WebGL/Platform", "XamlGL/Events/EventList", "XamlGL/utils/XamlHelper", "XamlGL/utils/ConsoleHelper"], function(exports_67, context_67) {
     "use strict";
     var __moduleName = context_67 && context_67.id;
     var Page_2, Platform_2, EventList_2, XamlHelper_1, ConsoleHelper_9;
@@ -3530,6 +3537,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/P
                 constructor(width, height, antialias, transparent, htmlCanvasHost, xaml) {
                     super();
                     this._events = new EventList_2.EventList();
+                    let win = window;
+                    win.PlatformPage = this;
                     this.ContentChanged.subscribe(this.DoContentChanged.bind(this));
                     this.Width = width;
                     this.Height = height;
