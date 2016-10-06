@@ -71,6 +71,22 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
+        // take margin into account
+        if (gridEl.Margin !== null || gridEl.Margin !== undefined) {
+            if (gridEl.HorizontalAlignment === HorizontalAlignment.Left) {
+                super.Element.CalculatedX += super.Element.Margin.Left;
+            } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Right) {
+                super.Element.CalculatedX -= super.Element.Margin.Right;
+            }
+
+            if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
+                super.Element.CalculatedY += super.Element.Margin.Top;
+            } else if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
+                super.Element.CalculatedY -= super.Element.Margin.Bottom;
+            }
+        }
+
+        // position/size container
         containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
         containerGrid.height = super.Element.CalculatedHeight;
         containerGrid.width = super.Element.CalculatedWidth;

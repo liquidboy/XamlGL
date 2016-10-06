@@ -1779,6 +1779,9 @@
     <Content Include="xaml\image-silverlight-6.xap" />
     <Content Include="xaml\image-silverlight-7.xap" />
     <Content Include="xaml\image-silverlight-8.xap" />
+    <Content Include="xaml\image-silverlight-9.xap" />
+    <Content Include="xaml\image-silverlight-10.xap" />
+    <Content Include="xaml\image-silverlight-11.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

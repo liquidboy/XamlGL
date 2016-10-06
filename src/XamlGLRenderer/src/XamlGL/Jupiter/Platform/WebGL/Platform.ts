@@ -26,7 +26,7 @@ export class Platform implements IPlatform {
     }
 
     public SetCurrent(content: FrameworkElement, parent: FrameworkElement): void {
-        ConsoleHelper.LogSection("Platform:SetCurrent");
+        // consoleHelper.LogSection("Platform:SetCurrent");
 
         content.Platform = this;
         content.Parent = parent;
@@ -50,7 +50,7 @@ export class Platform implements IPlatform {
 
     public DrawAll(content: FrameworkElement): void {
         // consoleHelper.LogSectionHeader("Platform:DrawAll");
-        console.log(content);
+        // console.log(content);
         content.Renderer.Draw();
         if (content instanceof Panel) {
             let panel: Panel = <Panel>content;

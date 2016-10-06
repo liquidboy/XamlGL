@@ -1,13 +1,12 @@
 ﻿<Application
     xmlns="http://schemas.xamlgl.com/xamlgl"
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
-    IsFullScreen="False"
     ThemeName="Metro">
   <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
     <Grid>
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-1.jpg"></Image>
     </Grid>
-    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" Height="80" Background="#FF663399" Margin="0,0,20,20">
+    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="80" Background="#FF663399" Margin="0,20,20,0">
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-2.jpg"></Image>
     </Grid>
   </Grid>

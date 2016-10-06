@@ -50,12 +50,12 @@ export class BaseRenderer implements IControlRenderer {
         //      ->  renderer.Element.ChildAdded
         //      ->  renderer.Element.ChildRemoved
         if (value instanceof Panel) {
-            ConsoleHelper.Log("BaseRenderer.Element : value was a panel");
+            // consoleHelper.Log("BaseRenderer.Element : value was a panel");
             let castPanel: Panel = <Panel>this._element;
             castPanel.ChildAdded.subscribe(this.OnChildAdded);
             castPanel.ChildRemoved.subscribe(this.OnChildRemoved);
         } else {
-            ConsoleHelper.Log("BaseRenderer.Element : value was a native element");
+            // consoleHelper.Log("BaseRenderer.Element : value was a native element");
         }
 
         // 3. call OnElementChanged

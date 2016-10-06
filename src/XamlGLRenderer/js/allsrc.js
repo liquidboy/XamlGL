@@ -2623,13 +2623,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     this._element.PropertyChanged.subscribe(this.OnPropertyChanged);
                     this._element.FocusChanged.subscribe(this.OnFocusChanged);
                     if (value instanceof Panel_1.Panel) {
-                        ConsoleHelper_1.ConsoleHelper.Log("BaseRenderer.Element : value was a panel");
                         let castPanel = this._element;
                         castPanel.ChildAdded.subscribe(this.OnChildAdded);
                         castPanel.ChildRemoved.subscribe(this.OnChildRemoved);
                     }
                     else {
-                        ConsoleHelper_1.ConsoleHelper.Log("BaseRenderer.Element : value was a native element");
                     }
                 }
                 set PixiElement(value) { this._pixiElement = value; }
@@ -2798,6 +2796,20 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                         if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
                             super.Element.CalculatedWidth = super.ParentWidth;
                             super.Element.CalculatedX = 0;
+                        }
+                    }
+                    if (gridEl.Margin !== null || gridEl.Margin !== undefined) {
+                        if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Left) {
+                            super.Element.CalculatedX += super.Element.Margin.Left;
+                        }
+                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Right) {
+                            super.Element.CalculatedX -= super.Element.Margin.Right;
+                        }
+                        if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Top) {
+                            super.Element.CalculatedY += super.Element.Margin.Top;
+                        }
+                        else if (gridEl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Bottom) {
+                            super.Element.CalculatedY -= super.Element.Margin.Bottom;
                         }
                     }
                     containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
@@ -3410,7 +3422,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                 }
                 get Renderer() { return this._godRenderer; }
                 SetCurrent(content, parent) {
-                    ConsoleHelper_7.ConsoleHelper.LogSection("Platform:SetCurrent");
                     content.Platform = this;
                     content.Parent = parent;
                     let fe = this.CreateControlRenderer(content);
@@ -3423,7 +3434,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                     }
                 }
                 DrawAll(content) {
-                    console.log(content);
                     content.Renderer.Draw();
                     if (content instanceof Panel_5.Panel) {
                         let panel = content;
@@ -3555,6 +3565,7 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
                         grid.Width = this.StringToNumber(el.attributes.getNamedItem("Width"));
                         grid.Height = this.StringToNumber(el.attributes.getNamedItem("Height"));
+                        grid.Margin = this.StringToThickness(el.attributes.getNamedItem("Margin"));
                         if (el.hasAttribute("Background")) {
                             grid.Background = el.attributes.getNamedItem("Background").value;
                         }
@@ -3569,7 +3580,7 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         rect.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
                         rect.Background = node.attributes.getNamedItem("Fill").value;
                         rect.BorderBrush = node.attributes.getNamedItem("Stroke").value;
-                        rect.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin").value);
+                        rect.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         let stokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
                         rect.BorderThickness = new Thickness_1.Thickness(stokeThickness);
                         return rect;
@@ -3589,6 +3600,7 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         grid.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
                         grid.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         grid.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+                        grid.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         if (node.attributes.getNamedItem("Background") !== null) {
                             grid.Background = node.attributes.getNamedItem("Background").value;
                         }
@@ -3596,9 +3608,12 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                     }
                     return null;
                 }
-                static StringToThickness(value) {
+                static StringToThickness(attr) {
+                    if (attr === null) {
+                        return new Thickness_1.Thickness(0);
+                    }
                     let margin = new Thickness_1.Thickness(0);
-                    let parts = value.split(",");
+                    let parts = attr.value.split(",");
                     margin.Left = Number.parseInt(parts[0]);
                     margin.Top = Number.parseInt(parts[1]);
                     margin.Right = Number.parseInt(parts[2]);
@@ -4094,7 +4109,7 @@ System.register("Bootstrap/XamlApp", ["XamlGL/Core"], function(exports_80, conte
                         console.warn("No application specified.");
                         return;
                     }
-                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-7.xap", (el) => { console.log(xm.rootElement); });
+                    let xm = XamlGLCore.XamlReader.LoadUri("/xaml/image-silverlight-8.xap", (el) => { console.log(xm.rootElement); });
                     let app = new XamlGLCore.App();
                     app.Start(xm);
                 }

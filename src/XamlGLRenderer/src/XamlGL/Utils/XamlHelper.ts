@@ -63,6 +63,7 @@ export class XamlHelper {
             grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
             grid.Width = this.StringToNumber(el.attributes.getNamedItem("Width"));
             grid.Height = this.StringToNumber(el.attributes.getNamedItem("Height"));
+            grid.Margin = this.StringToThickness(el.attributes.getNamedItem("Margin"));
             if (el.hasAttribute("Background")) {
                 grid.Background = el.attributes.getNamedItem("Background").value;
             }
@@ -79,7 +80,7 @@ export class XamlHelper {
             rect.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             rect.Background = node.attributes.getNamedItem("Fill").value;
             rect.BorderBrush = node.attributes.getNamedItem("Stroke").value;
-            rect.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin").value);
+            rect.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
             rect.BorderThickness = new Thickness(stokeThickness);
             return rect;
@@ -97,6 +98,7 @@ export class XamlHelper {
             grid.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             grid.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             grid.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            grid.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             if (node.attributes.getNamedItem("Background") !== null) {
                 grid.Background = node.attributes.getNamedItem("Background").value;
             }
@@ -105,9 +107,13 @@ export class XamlHelper {
         return null;
     }
     // 0,0,0,0 = left, top, right, bottom<--
-    private static StringToThickness(value: string): Thickness {
+    private static StringToThickness(attr: Attr): Thickness {
+        if (attr === null) {
+            return new Thickness(0);
+        }
+
         let margin: Thickness = new Thickness(0);
-        let parts: string[] = value.split(",");
+        let parts: string[] = attr.value.split(",");
         margin.Left = Number.parseInt(parts[0]);
         margin.Top = Number.parseInt(parts[1]);
         margin.Right = Number.parseInt(parts[2]);
