@@ -72,7 +72,7 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
                 // determine container to use
                 let parentXStart: number = 0;
                 let parentYStart: number = 0;
-                
+
                 if (this.Element.Parent instanceof StackPanel) {
                     // get from the parent stackpanel the next slot available to render in
                     let sp: StackPanel = <StackPanel>this.Element.Parent;
@@ -107,7 +107,7 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
 
             });
 
-       
+
 
         imageEl.IsDirty = false;
     }

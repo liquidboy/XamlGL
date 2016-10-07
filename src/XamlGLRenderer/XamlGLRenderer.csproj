@@ -1379,6 +1379,8 @@
     <TypeScriptCompile Include="src\XamlGL\DataTypes\CornerRadius.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\HorizontalAlignment.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Orientation.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\TextWrappingAlign.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\TextWrapping.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\VerticalAlignment.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapImage.ts" />

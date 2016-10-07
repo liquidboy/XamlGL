@@ -15,7 +15,7 @@ export class App extends Application {
     }
 
     public Start(xaml: XamlMarkup): void {
-        console.log(PIXI); // todo : remove and find a better way for debugging stuff
+        // console.log(PIXI); // todo : remove and find a better way for debugging stuff
 
         ViewManager.RenderView("pixi-home", PIXI, (jqView: JQuery) => {
             this._jqView = jqView;

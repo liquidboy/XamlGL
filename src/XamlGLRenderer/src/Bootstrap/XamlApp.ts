@@ -3,26 +3,12 @@
 import * as XamlGLCore from "./../XamlGL/Core";
 
 export class XamlApp {
-
-
-
-    private parseQueryString(url: string): any {
-        var urlParams = {};
-        url.replace(
-            new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-            function ($0, $1, $2, $3): string {
-                return urlParams[$1] = $3;
-            }
-        );
-
-        return urlParams;
-    }
     public Start(): void {
         this.Configure();
-        
-        let url: string = document.body.getAttribute("xamlgl-app");
+
+        // let url: string = document.body.getAttribute("xamlgl-app");
         let xaml: string = this.parseQueryString(location.search).xaml;
-        
+
         if (!xaml) {
             console.warn("No application specified.");
             return;
@@ -54,5 +40,17 @@ export class XamlApp {
                 this.call(target, event, binding.view.models);
             }
         });
+    }
+
+    private parseQueryString(url: string): any {
+        var urlParams: any = {};
+        url.replace(
+            new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+            function ($0: any, $1: any, $2: any, $3: any): string {
+                return urlParams[$1] = $3;
+            }
+        );
+
+        return urlParams;
     }
 }

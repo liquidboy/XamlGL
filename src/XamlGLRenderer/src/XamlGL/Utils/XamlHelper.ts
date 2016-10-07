@@ -10,6 +10,8 @@ import { Thickness } from "./../DataTypes/Thickness";
 import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
 import { Orientation } from "./../DataTypes/Orientation";
+import { TextWrapping } from "./../DataTypes/TextWrapping";
+import { TextWrappingAlign } from "./../DataTypes/TextWrappingAlign";
 import { ConsoleHelper } from "./ConsoleHelper";
 
 export class XamlHelper {
@@ -130,6 +132,9 @@ export class XamlHelper {
             text.FontSize = this.StringToNumber(node.attributes.getNamedItem("FontSize"));
             text.FontFamily = node.attributes.getNamedItem("FontFamily").value;
             text.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            text.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            text.TextWrapping = this.StringToTextWrapping(node.attributes.getNamedItem("TextWrapping"));
+            text.TextWrappingAlign = this.StringToTextWrappingAlign(node.attributes.getNamedItem("TextWrappingAlign"));
             return text;
         }
         return null;
@@ -194,6 +199,32 @@ export class XamlHelper {
             return Orientation.Horizontal;
         } else if (attr.value === "Vertical") {
             return Orientation.Vertical;
+        }
+    }
+    private static StringToTextWrapping(attr: Attr): TextWrapping {
+        if (attr === null) {
+            return TextWrapping.NoWrap;
+        }
+
+        if (attr.value === "NoWrap") {
+            return TextWrapping.NoWrap;
+        } else if (attr.value === "WrapWholeWords") {
+            return TextWrapping.WrapWholeWords;
+        } else if (attr.value === "Wrap") {
+            return TextWrapping.Wrap;
+        }
+    }
+    private static StringToTextWrappingAlign(attr: Attr): TextWrappingAlign {
+        if (attr === null) {
+            return TextWrappingAlign.Left;
+        }
+
+        if (attr.value === "Left") {
+            return TextWrappingAlign.Left;
+        } else if (attr.value === "Center") {
+            return TextWrappingAlign.Center;
+        } else if (attr.value === "Right") {
+            return TextWrappingAlign.Right;
         }
     }
 }
