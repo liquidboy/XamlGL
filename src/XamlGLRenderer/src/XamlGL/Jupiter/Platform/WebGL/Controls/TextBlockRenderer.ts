@@ -40,24 +40,11 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         );
 
         // calculate y position
+        this.CalculateYHeight(textEl);
         if (textEl.Height !== null && textEl.Height > 0) {
-            this.Element.CalculatedHeight = textEl.Height;
-            if (textEl.VerticalAlignment === VerticalAlignment.Bottom) {
-                this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - textEl.Height;
-            } else if (textEl.VerticalAlignment === VerticalAlignment.Center) {
-                this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - textEl.Height) / 2;
-            } else if (textEl.VerticalAlignment === VerticalAlignment.Stretch) {
-                this.Element.CalculatedY = 0;
-            } else if (textEl.VerticalAlignment === VerticalAlignment.Top) {
-                this.Element.CalculatedY = 0;
-            }
+            // nothing
         } else {
-            if (textEl.VerticalAlignment === VerticalAlignment.Stretch) {
-                this.Element.CalculatedHeight = this.Element.Parent.CalculatedHeight;
-                this.Element.CalculatedY = 0;
-            } else if (textEl.VerticalAlignment === VerticalAlignment.Top) {
-                this.Element.CalculatedY = 0;
-            } else if (textEl.VerticalAlignment === VerticalAlignment.Bottom) {
+            if (textEl.VerticalAlignment === VerticalAlignment.Bottom) {
                 this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - text.height;
             } else if (textEl.VerticalAlignment === VerticalAlignment.Center) {
                 this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - text.height) / 2;
@@ -65,44 +52,19 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         }
 
         // calculate X position
+        this.CalculateXWidth(textEl);
         if (textEl.Width !== null && textEl.Width > 0) {
-            this.Element.CalculatedWidth = textEl.Width;
-            if (textEl.HorizontalAlignment === HorizontalAlignment.Left) {
-                this.Element.CalculatedX = 0;
-            } else if (textEl.HorizontalAlignment === HorizontalAlignment.Right) {
-                this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - textEl.Width;
-            } else if (textEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
-                this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - textEl.Width;
-            } else if (textEl.HorizontalAlignment === HorizontalAlignment.Center) {
-                this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - textEl.Width) / 2;
-            }
+           // nothing
         } else {
-            if (textEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
-                this.Element.CalculatedWidth = super.Element.Parent.CalculatedWidth;
-                this.Element.CalculatedX = 0;
-            } else if (textEl.HorizontalAlignment === HorizontalAlignment.Right) {
+            if (textEl.HorizontalAlignment === HorizontalAlignment.Right) {
                 this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - text.width;
-            } else if (textEl.HorizontalAlignment === HorizontalAlignment.Left) {
-                this.Element.CalculatedX = 0;
             } else if (textEl.HorizontalAlignment === HorizontalAlignment.Center) {
                 this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - text.width) / 2;
             }
         }
 
         // take margin into account
-        if (textEl.Margin !== null || textEl.Margin !== undefined) {
-            if (textEl.HorizontalAlignment === HorizontalAlignment.Left) {
-                super.Element.CalculatedX += super.Element.Margin.Left;
-            } else if (textEl.HorizontalAlignment === HorizontalAlignment.Right) {
-                super.Element.CalculatedX -= super.Element.Margin.Right;
-            }
-
-            if (textEl.VerticalAlignment === VerticalAlignment.Top) {
-                super.Element.CalculatedY += super.Element.Margin.Top;
-            } else if (textEl.VerticalAlignment === VerticalAlignment.Bottom) {
-                super.Element.CalculatedY -= super.Element.Margin.Bottom;
-            }
-        }
+        this.UpdateCalculatedValuesUsingMargin(textEl);
 
         // determine container to use
         let parentXStart: number = 0;

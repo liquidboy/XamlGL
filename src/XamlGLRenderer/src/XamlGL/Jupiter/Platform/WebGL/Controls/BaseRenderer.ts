@@ -109,6 +109,8 @@ export class BaseRenderer implements IControlRenderer {
             if (backingControl.VerticalAlignment === VerticalAlignment.Stretch) {
                 this.Element.CalculatedHeight = this.ParentHeight;
                 this.Element.CalculatedY = 0;
+            } else if (backingControl.VerticalAlignment === VerticalAlignment.Top) {
+                this.Element.CalculatedY = 0;
             }
         }
     }
@@ -131,7 +133,9 @@ export class BaseRenderer implements IControlRenderer {
            if (backingControl.HorizontalAlignment === HorizontalAlignment.Stretch) {
                this.Element.CalculatedWidth = this.ParentWidth;
                this.Element.CalculatedX = 0;
-            }
+           } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Left) {
+               this.Element.CalculatedX = 0;
+           }
         }
     }
 

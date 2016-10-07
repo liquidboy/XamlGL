@@ -2687,6 +2687,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                             this.Element.CalculatedHeight = this.ParentHeight;
                             this.Element.CalculatedY = 0;
                         }
+                        else if (backingControl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Top) {
+                            this.Element.CalculatedY = 0;
+                        }
                     }
                 }
                 CalculateXWidth(backingControl) {
@@ -2710,6 +2713,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     else {
                         if (backingControl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
                             this.Element.CalculatedWidth = this.ParentWidth;
+                            this.Element.CalculatedX = 0;
+                        }
+                        else if (backingControl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Left) {
                             this.Element.CalculatedX = 0;
                         }
                     }
@@ -3562,80 +3568,29 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
                         wordWrapWidth: textEl.Width,
                         align: TextWrappingAlign_2.TextWrappingAlign[textEl.TextWrappingAlign].toLowerCase()
                     });
+                    this.CalculateYHeight(textEl);
                     if (textEl.Height !== null && textEl.Height > 0) {
-                        this.Element.CalculatedHeight = textEl.Height;
-                        if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
-                            this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - textEl.Height;
-                        }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Center) {
-                            this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - textEl.Height) / 2;
-                        }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
-                            this.Element.CalculatedY = 0;
-                        }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
-                            this.Element.CalculatedY = 0;
-                        }
                     }
                     else {
-                        if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
-                            this.Element.CalculatedHeight = this.Element.Parent.CalculatedHeight;
-                            this.Element.CalculatedY = 0;
-                        }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
-                            this.Element.CalculatedY = 0;
-                        }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
+                        if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
                             this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - text.height;
                         }
                         else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Center) {
                             this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - text.height) / 2;
                         }
                     }
+                    this.CalculateXWidth(textEl);
                     if (textEl.Width !== null && textEl.Width > 0) {
-                        this.Element.CalculatedWidth = textEl.Width;
-                        if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
-                            this.Element.CalculatedX = 0;
-                        }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
-                            this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - textEl.Width;
-                        }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
-                            this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - textEl.Width;
-                        }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Center) {
-                            this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - textEl.Width) / 2;
-                        }
                     }
                     else {
-                        if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
-                            this.Element.CalculatedWidth = super.Element.Parent.CalculatedWidth;
-                            this.Element.CalculatedX = 0;
-                        }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
+                        if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
                             this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - text.width;
-                        }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
-                            this.Element.CalculatedX = 0;
                         }
                         else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Center) {
                             this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - text.width) / 2;
                         }
                     }
-                    if (textEl.Margin !== null || textEl.Margin !== undefined) {
-                        if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
-                            super.Element.CalculatedX += super.Element.Margin.Left;
-                        }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
-                            super.Element.CalculatedX -= super.Element.Margin.Right;
-                        }
-                        if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
-                            super.Element.CalculatedY += super.Element.Margin.Top;
-                        }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
-                            super.Element.CalculatedY -= super.Element.Margin.Bottom;
-                        }
-                    }
+                    this.UpdateCalculatedValuesUsingMargin(textEl);
                     let parentXStart = 0;
                     let parentYStart = 0;
                     if (this.Element.Parent instanceof StackPanel_2.StackPanel) {
