@@ -10,6 +10,7 @@ import { Rectangle } from "./../Controls/Rectangle";
 import { Thickness } from "./../DataTypes/Thickness";
 import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
+import { CornerRadius } from "./../DataTypes/CornerRadius";
 import { Orientation } from "./../DataTypes/Orientation";
 import { TextWrapping } from "./../DataTypes/TextWrapping";
 import { TextWrappingAlign } from "./../DataTypes/TextWrappingAlign";
@@ -134,6 +135,7 @@ export class XamlHelper {
             button.BorderBrush = node.attributes.getNamedItem("Stroke").value;
             let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
             button.BorderThickness = new Thickness(stokeThickness);
+            button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
             return button;
         }
         return null;
@@ -151,6 +153,22 @@ export class XamlHelper {
         margin.Right = Number.parseInt(parts[2]);
         margin.Bottom = Number.parseInt(parts[3]);
         return margin;
+    }
+    private static StringToCornerRadius(attr: Attr): CornerRadius {
+        if (attr === null) {
+            return new CornerRadius(0);
+        }
+        if (attr.value.indexOf(",") > 0) {
+            let radius: CornerRadius = new CornerRadius(0);
+            let parts: string[] = attr.value.split(",");
+            radius.BottomLeft = Number.parseInt(parts[0]);
+            radius.TopLeft = Number.parseInt(parts[1]);
+            radius.TopRight = Number.parseInt(parts[2]);
+            radius.BottomLeft = Number.parseInt(parts[3]);
+            return radius;
+        } else {
+            return new CornerRadius(Number.parseInt(attr.value));
+        }
     }
     private static StringToHorizontalAlignment(attr: Attr): HorizontalAlignment {
         if (attr === null) {

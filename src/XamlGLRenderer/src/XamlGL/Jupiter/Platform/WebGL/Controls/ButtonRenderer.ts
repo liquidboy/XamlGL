@@ -50,7 +50,12 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 rectangle.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
             }
             rectangle.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background));
-            rectangle.drawRect(0, 0, widthToUse, heightToUse);
+            if (buttonEl.CornerRadius.TopLeft > 0) {
+                rectangle.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
+            } else {
+                rectangle.drawRect(0, 0, widthToUse, heightToUse);
+            }
+            
             rectangle.endFill();
             containerGrid.addChild(rectangle);
         }
