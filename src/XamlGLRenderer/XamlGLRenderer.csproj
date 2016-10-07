@@ -1765,26 +1765,27 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="XamlGL - Web Deploy.pubxml" />
-    <Content Include="xaml\rectangle-shape.xap" />
-    <Content Include="xaml\image-silverlight-1.xap" />
-    <Content Include="xaml\grid-1.xap" />
-    <Content Include="xaml\grid-2.xap" />
-    <Content Include="xaml\grid-3.xap" />
-    <Content Include="xaml\grid-4.xap" />
-    <Content Include="xaml\grid-5.xap" />
-    <Content Include="xaml\image-silverlight-2.xap" />
-    <Content Include="xaml\image-silverlight-3.xap" />
-    <Content Include="xaml\image-silverlight-4.xap" />
-    <Content Include="xaml\image-silverlight-5.xap" />
-    <Content Include="xaml\image-silverlight-6.xap" />
-    <Content Include="xaml\image-silverlight-7.xap" />
-    <Content Include="xaml\image-silverlight-8.xap" />
-    <Content Include="xaml\image-silverlight-9.xap" />
-    <Content Include="xaml\image-silverlight-10.xap" />
-    <Content Include="xaml\image-silverlight-11.xap" />
-    <Content Include="xaml\image-silverlight-12.xap" />
-    <Content Include="xaml\image-silverlight-13.xap" />
-    <Content Include="xaml\image-silverlight-14.xap" />
+    <Content Include="xaml\sample-6.xap" />
+    <Content Include="xaml\sample-7.xap" />
+    <Content Include="xaml\sample-1.xap" />
+    <Content Include="xaml\sample-2.xap" />
+    <Content Include="xaml\sample-3.xap" />
+    <Content Include="xaml\sample-4.xap" />
+    <Content Include="xaml\sample-5.xap" />
+    <Content Include="xaml\sample-8.xap" />
+    <Content Include="xaml\sample-9.xap" />
+    <Content Include="xaml\sample-10.xap" />
+    <Content Include="xaml\sample-11.xap" />
+    <Content Include="xaml\sample-12.xap" />
+    <Content Include="xaml\sample-13.xap" />
+    <Content Include="xaml\sample-14.xap" />
+    <Content Include="xaml\sample-15.xap" />
+    <Content Include="xaml\sample-16.xap" />
+    <Content Include="xaml\sample-17.xap" />
+    <Content Include="xaml\sample-18.xap" />
+    <Content Include="xaml\sample-19.xap" />
+    <Content Include="xaml\sample-20.xap" />
+    <Content Include="xaml\sample-21.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

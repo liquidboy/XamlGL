@@ -43,7 +43,7 @@ export class PlatformPage extends Page implements IPlatformPage {
         this._xaml = xaml;
 
         this.Platform = this.CreatePlatform();
-        // this.ResizeFullWindow(); <== test full screen
+        // this.ResizeFullWindow(); // <== test full screen
         this.Content = XamlHelper.XamlMarkupToUIElement(xaml);
 
         this.InitializeShell();
