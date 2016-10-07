@@ -6,6 +6,9 @@ import { DefaultRenderer } from "./../Jupiter/Platform/WebGL/Controls/DefaultRen
 import { Grid } from "./../Controls/Grid";
 import { GridRenderer } from "./../Jupiter/Platform/WebGL/Controls/GridRenderer";
 
+import { StackPanel } from "./../Controls/StackPanel";
+import { StackPanelRenderer } from "./../Jupiter/Platform/WebGL/Controls/StackPanelRenderer";
+
 import { Image } from "./../Controls/Image";
 import { ImageRenderer } from "./../Jupiter/Platform/WebGL/Controls/ImageRenderer";
 
@@ -24,6 +27,8 @@ export class RendererHelper {
 
         if (element instanceof Grid) {
             return new GridRenderer();
+        } else if (element instanceof StackPanel) {
+            return new StackPanelRenderer();
         } else if (element instanceof Image) {
             return new ImageRenderer();
         } else if (element instanceof Rectangle) {

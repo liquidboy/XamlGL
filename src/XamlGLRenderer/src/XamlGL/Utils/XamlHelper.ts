@@ -1,6 +1,7 @@
 ﻿import { XamlMarkup } from "./../Reader/XamlMarkup";
 import { FrameworkElement } from "./../Jupiter/FrameworkElement";
 import { Grid } from "./../Controls/Grid";
+import { StackPanel } from "./../Controls/StackPanel";
 import { Image } from "./../Controls/Image";
 import { Panel } from "./../Controls/Panel";
 import { TextBlock } from "./../Controls/TextBlock";
@@ -8,6 +9,7 @@ import { Rectangle } from "./../Controls/Rectangle";
 import { Thickness } from "./../DataTypes/Thickness";
 import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
+import { Orientation } from "./../DataTypes/Orientation";
 import { ConsoleHelper } from "./ConsoleHelper";
 
 export class XamlHelper {
@@ -106,6 +108,18 @@ export class XamlHelper {
                 grid.Background = node.attributes.getNamedItem("Background").value;
             }
             return grid;
+        } else if (node.nodeName === "StackPanel") {
+            let stackpanel: StackPanel = new StackPanel();
+            stackpanel.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            stackpanel.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            stackpanel.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            stackpanel.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            stackpanel.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            stackpanel.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
+            if (node.attributes.getNamedItem("Background") !== null) {
+                stackpanel.Background = node.attributes.getNamedItem("Background").value;
+            }
+            return stackpanel;
         } else if (node.nodeName === "Text") {
             let text: TextBlock = new TextBlock();
             text.Text = node.attributes.getNamedItem("Text").value;
@@ -168,6 +182,17 @@ export class XamlHelper {
             return VerticalAlignment.Top;
         } else if (attr.value === "Stretch") {
             return VerticalAlignment.Stretch;
+        }
+    }
+    private static StringToOrientation(attr: Attr): Orientation {
+        if (attr === null) {
+            return Orientation.Horizontal;
+        }
+
+        if (attr.value === "Horizontal") {
+            return Orientation.Horizontal;
+        } else if (attr.value === "Vertical") {
+            return Orientation.Vertical;
         }
     }
 }

@@ -40,7 +40,7 @@ export class Application {
     public SetupApplication(): void {
         // todo: do whatever we need to to setup this application
         this.dispatch("OnActivated");
-        setTimeout(() => { this.dispatch("OnLaunched"); }, 3000);
+        setTimeout(() => { this.dispatch("OnLaunched"); }, 1000);
     }
 
     private dispatch(name: string): void {
