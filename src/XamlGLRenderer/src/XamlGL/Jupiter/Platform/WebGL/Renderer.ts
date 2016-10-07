@@ -105,7 +105,6 @@ export class Renderer implements IRenderer {
             this._loadingText.position.set(((this._stage.width - 90) / 2), (((this._stage.height - 22) / 2) + 90));
             this._stage.addChild(this._loadingText);
         }
-
         this.ShowResource("loading", this._stage, ((this._stage.width - 165) / 2), ((this._stage.height - 165) / 2), 165, 165);
     }
 

@@ -57,22 +57,22 @@ export class XamlHelper {
             }
         }
     }
-    private static GetFrameworkElementByElement(el: Element): FrameworkElement {
-        // consoleHelper.Log("XamlHelper.GetFrameworkElementByElement : " + el.nodeName);
-        if (el.nodeName === "Grid") {
-            let grid: Grid = new Grid();
-            grid.HorizontalAlignment = this.StringToHorizontalAlignment(el.attributes.getNamedItem("HorizontalAlignment"));
-            grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
-            grid.Width = this.StringToNumber(el.attributes.getNamedItem("Width"));
-            grid.Height = this.StringToNumber(el.attributes.getNamedItem("Height"));
-            grid.Margin = this.StringToThickness(el.attributes.getNamedItem("Margin"));
-            if (el.hasAttribute("Background")) {
-                grid.Background = el.attributes.getNamedItem("Background").value;
-            }
-            return grid;
-        }
-        return null;
-    }
+    // private static GetFrameworkElementByElement(el: Element): FrameworkElement {
+    //    // consoleHelper.Log("XamlHelper.GetFrameworkElementByElement : " + el.nodeName);
+    //    if (el.nodeName === "Grid") {
+    //        let grid: Grid = new Grid();
+    //        grid.HorizontalAlignment = this.StringToHorizontalAlignment(el.attributes.getNamedItem("HorizontalAlignment"));
+    //        grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
+    //        grid.Width = this.StringToNumber(el.attributes.getNamedItem("Width"));
+    //        grid.Height = this.StringToNumber(el.attributes.getNamedItem("Height"));
+    //        grid.Margin = this.StringToThickness(el.attributes.getNamedItem("Margin"));
+    //        if (el.hasAttribute("Background")) {
+    //            grid.Background = el.attributes.getNamedItem("Background").value;
+    //        }
+    //        return grid;
+    //    }
+    //    return null;
+    // }
 
     private static GetFrameworkElementByNode(node: Node): FrameworkElement {
         // consoleHelper.Log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);

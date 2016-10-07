@@ -3574,21 +3574,6 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         }
                     }
                 }
-                static GetFrameworkElementByElement(el) {
-                    if (el.nodeName === "Grid") {
-                        let grid = new Grid_2.Grid();
-                        grid.HorizontalAlignment = this.StringToHorizontalAlignment(el.attributes.getNamedItem("HorizontalAlignment"));
-                        grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
-                        grid.Width = this.StringToNumber(el.attributes.getNamedItem("Width"));
-                        grid.Height = this.StringToNumber(el.attributes.getNamedItem("Height"));
-                        grid.Margin = this.StringToThickness(el.attributes.getNamedItem("Margin"));
-                        if (el.hasAttribute("Background")) {
-                            grid.Background = el.attributes.getNamedItem("Background").value;
-                        }
-                        return grid;
-                    }
-                    return null;
-                }
                 static GetFrameworkElementByNode(node) {
                     if (node.nodeName === "Rectangle") {
                         let rect = new Rectangle_2.Rectangle();
