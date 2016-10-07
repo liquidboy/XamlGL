@@ -8,9 +8,9 @@
     </Grid>
     <StackPanel HorizontalAlignment="Stretch" Height="80" VerticalAlignment="Bottom" 
                 Orientations="Horizontal" Background="#FF663399" Margin="10,10,10,10">
-      <Image Width="80" Height="80" Source="/assets/glitter-2.jpg"></Image>
-      <Image Width="80" Height="80" Source="/assets/glitter-3.jpg"></Image>
-      <Image Width="80" Height="80" Source="/assets/glitter-4.jpg"></Image>
+      <Image Width="80" Height="80" Source="/assets/glitter-2.jpg" HorizontalAlignment="Left"></Image>
+      <Image Width="80" Height="80" Source="/assets/glitter-3.jpg" HorizontalAlignment="Left"></Image>
+      <Image Width="80" Height="80" Source="/assets/glitter-4.jpg" HorizontalAlignment="Left"></Image>
     </StackPanel>
     
     <Text Text="Jose Fajardo" FontFamily="Sans-Serif" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Color="white" Margin="0,20,20,0"></Text>

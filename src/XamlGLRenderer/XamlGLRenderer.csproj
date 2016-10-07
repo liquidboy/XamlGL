@@ -25,7 +25,6 @@
   <ItemGroup>
     <Content Include="app.css" />
     <Content Include="assets\glitter-1.jpg" />
-    <Content Include="assets\glitter-1o.jpg" />
     <Content Include="assets\glitter-2.jpg" />
     <Content Include="assets\glitter-3.jpg" />
     <Content Include="assets\glitter-3o.jpg" />

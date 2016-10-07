@@ -2,6 +2,10 @@
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 import { FrameworkElement } from "./../../../FrameworkElement";
+import { IFrameworkElement } from "./../../../IFrameworkElement";
+import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
+import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
+// import { Orientation } from "./../../../../DataTypes/Orientation";
 import { Panel } from "./../../../../Controls/Panel";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { IEvent } from "./../../../../Events/IEvent";
@@ -86,4 +90,64 @@ export class BaseRenderer implements IControlRenderer {
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
     }
+
+
+    public CalculateYHeight(backingControl: IFrameworkElement): void {
+        if (backingControl.Height !== null && backingControl.Height > 0) {
+            this.Element.CalculatedHeight = backingControl.Height;
+            if (backingControl.VerticalAlignment === VerticalAlignment.Bottom) {
+                this.Element.CalculatedY = this.ParentHeight - backingControl.Height;
+            } else if (backingControl.VerticalAlignment === VerticalAlignment.Center) {
+                this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - backingControl.Height) / 2;
+            } else if (backingControl.VerticalAlignment === VerticalAlignment.Stretch) {
+                this.Element.CalculatedHeight = this.ParentHeight;
+                this.Element.CalculatedY = 0;
+            } else if (backingControl.VerticalAlignment === VerticalAlignment.Top) {
+                this.Element.CalculatedY = 0;
+            }
+        } else {
+            if (backingControl.VerticalAlignment === VerticalAlignment.Stretch) {
+                this.Element.CalculatedHeight = this.ParentHeight;
+                this.Element.CalculatedY = 0;
+            }
+        }
+    }
+
+   public CalculateXWidth(backingControl: IFrameworkElement): void {
+       if (backingControl.Width !== null && backingControl.Width > 0) {
+           this.Element.CalculatedWidth = backingControl.Width;
+           this.Element.CalculatedX = 0;
+           if (backingControl.HorizontalAlignment === HorizontalAlignment.Left) {
+               this.Element.CalculatedX = 0;
+            } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Right) {
+               this.Element.CalculatedX = this.ParentWidth - backingControl.Width;
+            } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Stretch) {
+               this.Element.CalculatedWidth = this.ParentWidth;
+               this.Element.CalculatedX = this.ParentWidth - backingControl.Width;
+            } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Center) {
+               this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - backingControl.Width) / 2;
+            }
+        } else {
+           if (backingControl.HorizontalAlignment === HorizontalAlignment.Stretch) {
+               this.Element.CalculatedWidth = this.ParentWidth;
+               this.Element.CalculatedX = 0;
+            }
+        }
+    }
+
+   public UpdateCalculatedValuesUsingMargin(backingControl: IFrameworkElement): void {
+       if (backingControl.Margin !== null || backingControl.Margin !== undefined) {
+           if (backingControl.HorizontalAlignment === HorizontalAlignment.Left) {
+               this.Element.CalculatedX += this.Element.Margin.Left;
+           } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Right) {
+               this.Element.CalculatedX -= this.Element.Margin.Right;
+           }
+
+           if (backingControl.VerticalAlignment === VerticalAlignment.Top) {
+               this.Element.CalculatedY += this.Element.Margin.Top;
+           } else if (backingControl.VerticalAlignment === VerticalAlignment.Bottom) {
+               this.Element.CalculatedY -= this.Element.Margin.Bottom;
+           }
+       }
+   }
 }

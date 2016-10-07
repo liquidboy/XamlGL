@@ -8,11 +8,11 @@
     </Grid>
     <StackPanel HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Bottom" 
                 Orientation="Horizontal" Margin="10,10,10,10">
-      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-2.jpg"></Image>
-      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-3.jpg"></Image>
-      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-4.jpg"></Image>
-      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-5.jpg"></Image>
-      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-6.jpg"></Image>
+      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-2.jpg" HorizontalAlignment="Left"></Image>
+      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-3.jpg" HorizontalAlignment="Left"></Image>
+      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-4.jpg" HorizontalAlignment="Left"></Image>
+      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-5.jpg" HorizontalAlignment="Left"></Image>
+      <Image Width="90" Height="90" Margin="0,0,10,0" Source="/assets/glitter-6.jpg" HorizontalAlignment="Left"></Image>
     </StackPanel>
     
     <Text Text="Jose Fajardo" FontFamily="Sans-Serif" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Color="white" Margin="0,20,20,0"></Text>
