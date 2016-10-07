@@ -3647,7 +3647,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
             TextBlockRenderer = class TextBlockRenderer extends BaseRenderer_6.BaseRenderer {
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_7.ConsoleHelper.Log("TextRenderer.Draw");
+                    ConsoleHelper_7.ConsoleHelper.Log("TextBlockRenderer.Draw");
                     let textEl = super.Element;
                     if (!textEl.IsDirty) {
                         return;

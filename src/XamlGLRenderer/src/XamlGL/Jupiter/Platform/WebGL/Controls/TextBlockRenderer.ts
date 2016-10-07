@@ -19,7 +19,7 @@ import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 export class TextBlockRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("TextRenderer.Draw");
+        ConsoleHelper.Log("TextBlockRenderer.Draw");
 
         let textEl: TextBlock = <TextBlock>super.Element;
 
