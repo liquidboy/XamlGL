@@ -3510,14 +3510,8 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
             XamlHelper = class XamlHelper {
                 static XamlMarkupToUIElement(xaml) {
                     ConsoleHelper_8.ConsoleHelper.Log("XamlHelper.XamlMarkupToUIElement");
-                    let ret = this.ProcessHTMLElement(xaml.rootElement);
+                    let ret = this.ProcessRoot(xaml.rootElement);
                     return ret;
-                }
-                static ProcessCollection(col) {
-                    for (let x = 0; x < col.length; x++) {
-                        let child = col.item(x);
-                        return this.ProcessElement(child);
-                    }
                 }
                 static ProcessCollectionNodes(rootPanel, col) {
                     if (!col) {
@@ -3532,6 +3526,13 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                     }
                     return rootPanel;
                 }
+                static ProcessRootNode(el) {
+                    let newFE = this.GetFrameworkElementByNode(el);
+                    if (newFE !== null && newFE instanceof Panel_6.Panel) {
+                        return this.ProcessCollectionNodes(newFE, el.childNodes);
+                    }
+                    return null;
+                }
                 static ProcessNode(el) {
                     let newFE = this.GetFrameworkElementByNode(el);
                     if (newFE instanceof Panel_6.Panel) {
@@ -3541,14 +3542,15 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         return newFE;
                     }
                 }
-                static ProcessElement(el) {
-                    let container = this.GetFrameworkElementByElement(el);
-                    if (container !== null && container instanceof Panel_6.Panel) {
-                        return this.ProcessCollectionNodes(container, el.childNodes);
+                static ProcessRoot(el) {
+                    let col = el.childNodes;
+                    for (let x = 0; x < col.length; x++) {
+                        let child = col.item(x);
+                        let el = this.ProcessRootNode(child);
+                        if (el !== null) {
+                            return el;
+                        }
                     }
-                }
-                static ProcessHTMLElement(el) {
-                    return this.ProcessCollection(el.children);
                 }
                 static GetFrameworkElementByElement(el) {
                     if (el.nodeName === "Grid") {

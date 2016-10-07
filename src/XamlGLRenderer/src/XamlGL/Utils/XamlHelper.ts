@@ -12,16 +12,9 @@ import { ConsoleHelper } from "./ConsoleHelper";
 export class XamlHelper {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
         ConsoleHelper.Log("XamlHelper.XamlMarkupToUIElement");
-        let ret: FrameworkElement = this.ProcessHTMLElement(xaml.rootElement);
+        let ret: FrameworkElement = this.ProcessRoot(xaml.rootElement);
         // consoleHelper.Log(ret);
         return ret;
-    }
-
-    private static ProcessCollection(col: HTMLCollection): FrameworkElement {
-        for (let x: number = 0; x < col.length; x++) {
-            let child: Element = col.item(x);
-            return this.ProcessElement(child);
-        }
     }
     private static ProcessCollectionNodes(rootPanel: Panel, col: NodeList): FrameworkElement {
         if (!col) {
@@ -37,6 +30,13 @@ export class XamlHelper {
         }
         return rootPanel;
     }
+    private static ProcessRootNode(el: Node): FrameworkElement {
+        let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
+        if (newFE !== null && newFE instanceof Panel) {
+            return this.ProcessCollectionNodes(newFE, el.childNodes);
+        }
+        return null;
+    }
     private static ProcessNode(el: Node): FrameworkElement {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
         if (newFE instanceof Panel) {
@@ -45,15 +45,17 @@ export class XamlHelper {
             return newFE;
         }
     }
-    private static ProcessElement(el: Element): FrameworkElement {
-        let container: FrameworkElement = this.GetFrameworkElementByElement(el);
-
-        if (container !== null && container instanceof Panel) {
-            return this.ProcessCollectionNodes(<Panel>container, el.childNodes);
+    private static ProcessRoot(el: HTMLElement): FrameworkElement {
+        // normally Application root xaml comes back as  #Text #Grid #Text , we only care about #Grid . 
+        // #Text comes back as null from ProcessRootNode
+        let col: NodeList =  el.childNodes;
+        for (let x: number = 0; x < col.length; x++) {
+            let child: Node = col.item(x);
+            let el: FrameworkElement = this.ProcessRootNode(child);
+            if (el !== null) {
+                return el;
+            }
         }
-    }
-    private static ProcessHTMLElement(el: HTMLElement): FrameworkElement {
-        return this.ProcessCollection(el.children);
     }
     private static GetFrameworkElementByElement(el: Element): FrameworkElement {
         // consoleHelper.Log("XamlHelper.GetFrameworkElementByElement : " + el.nodeName);
