@@ -31,10 +31,14 @@ export class XamlApp {
         // todo: move this XAML stuff into the AppDomain
         let xm: XamlGLCore.XamlMarkup = XamlGLCore.XamlReader.LoadUri(
             `/xaml/${xaml}`,
-            (el: any) => { console.log(xm.rootElement); });
+            (el: any) => {
+                console.log(xm.rootElement);
 
-        let app: XamlGLCore.App = new XamlGLCore.App();
-        app.Start(xm);
+                let app: XamlGLCore.App = new XamlGLCore.App();
+                app.Start(xm);
+            });
+
+
     }
 
     public Configure(): void {

@@ -29,6 +29,7 @@
     <Content Include="assets\glitter-3.jpg" />
     <Content Include="assets\glitter-4.jpg" />
     <Content Include="assets\glitter-5.jpg" />
+    <Content Include="assets\glitter-6.jpg" />
     <Content Include="assets\silverlight_anims.jpg" />
     <Content Include="bower_components\jquery\AUTHORS.txt" />
     <Content Include="bower_components\jquery\dist\core.js" />
@@ -1801,6 +1802,9 @@
     <Content Include="xaml\sample-29.xap" />
     <Content Include="xaml\sample-30.xap" />
     <Content Include="xaml\sample-31.xap" />
+    <Content Include="xaml\sample-32.xap" />
+    <Content Include="xaml\sample-33.xap" />
+    <Content Include="xaml\sample-34.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
