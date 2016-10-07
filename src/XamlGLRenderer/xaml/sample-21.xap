@@ -6,8 +6,9 @@
     <Grid>
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-1.jpg"></Image>
     </Grid>
-    <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="80" Background="#FF663399" Margin="0,20,20,0">
+    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" Height="80" Background="#FF663399" Margin="0,0,20,20">
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-2.jpg"></Image>
     </Grid>
+    <Text Text="Jose Fajardo" FontSize="16" Color="white"></Text>
   </Grid>
 </Application>

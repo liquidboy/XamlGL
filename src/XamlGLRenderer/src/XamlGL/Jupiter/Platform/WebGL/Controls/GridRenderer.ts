@@ -23,9 +23,6 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         let containerGrid: PIXI.Container = new PIXI.Container();
         super.PixiElement = containerGrid;
 
-        // super.Element.CalculatedY = 0;
-        // super.Element.CalculatedX = 0;
-
         if (!gridEl.IsDirty) {
             return;
         }

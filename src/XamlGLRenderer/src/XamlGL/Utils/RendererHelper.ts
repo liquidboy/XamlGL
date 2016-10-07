@@ -15,6 +15,10 @@ import { RectangleRenderer } from "./../Jupiter/Platform/WebGL/Controls/Rectangl
 import { Panel } from "./../Controls/Panel";
 import { ConsoleHelper } from "./ConsoleHelper";
 
+import { Text } from "./../Controls/Text";
+import { TextRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextRenderer";
+
+
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
 
@@ -24,6 +28,10 @@ export class RendererHelper {
             return new ImageRenderer();
         } else if (element instanceof Rectangle) {
             return new RectangleRenderer();
+
+        } else if (element instanceof Text) {
+            return new TextRenderer();
+
         } else {
             return new DefaultRenderer();
         }

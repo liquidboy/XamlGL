@@ -6,4 +6,5 @@ export * from "./Image";
 export * from "./LoadingBalls";
 export * from "./Panel";
 export * from "./Rectangle";
+export * from "./Text";
 
