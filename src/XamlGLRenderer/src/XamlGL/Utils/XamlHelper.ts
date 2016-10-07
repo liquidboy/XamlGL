@@ -94,6 +94,7 @@ export class XamlHelper {
             img.SourceUrl = node.attributes.getNamedItem("Source").value;
             img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            img.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             img.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             img.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             return img;

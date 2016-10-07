@@ -3455,10 +3455,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                         if (this.Element.Parent instanceof StackPanel_1.StackPanel) {
                             let sp = this.Element.Parent;
                             if (sp.Orientation === Orientation_1.Orientation.Horizontal) {
-                                sp.CurrentItemRenderXY += this.Element.CalculatedWidth;
+                                sp.CurrentItemRenderXY += this.Element.CalculatedWidth
+                                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
                             }
                             else {
-                                sp.CurrentItemRenderXY += this.Element.CalculatedHeight;
+                                sp.CurrentItemRenderXY += this.Element.CalculatedHeight
+                                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
                             }
                         }
                     });
@@ -3953,6 +3955,7 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         img.SourceUrl = node.attributes.getNamedItem("Source").value;
                         img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+                        img.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         img.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
                         img.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
                         return img;
