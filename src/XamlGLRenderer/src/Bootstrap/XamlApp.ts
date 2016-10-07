@@ -4,39 +4,33 @@ import * as XamlGLCore from "./../XamlGL/Core";
 
 export class XamlApp {
 
+
+
+    private parseQueryString(url: string): any {
+        var urlParams = {};
+        url.replace(
+            new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+            function ($0, $1, $2, $3): string {
+                return urlParams[$1] = $3;
+            }
+        );
+
+        return urlParams;
+    }
     public Start(): void {
         this.Configure();
-
+        
         let url: string = document.body.getAttribute("xamlgl-app");
-
-        if (!url) {
+        let xaml: string = this.parseQueryString(location.search).xaml;
+        
+        if (!xaml) {
             console.warn("No application specified.");
             return;
         }
 
         // todo: move this XAML stuff into the AppDomain
         let xm: XamlGLCore.XamlMarkup = XamlGLCore.XamlReader.LoadUri(
-            // "/xaml/sample-1.xap",
-            // "/xaml/sample-2.xap",
-            // "/xaml/sample-3.xap",
-            // "/xaml/sample-4.xap",
-            // "/xaml/sample-5.xap",
-            // "/xaml/sample-6.xap",
-            // "/xaml/sample-7.xap",
-            // "/xaml/sample-8.xap",
-            // "/xaml/sample-9.xap",
-            // "/xaml/sample-10.xap",
-            // "/xaml/sample-11.xap",
-            // "/xaml/sample-12.xap",
-            // "/xaml/sample-13.xap",
-            // "/xaml/sample-14.xap",
-            // "/xaml/sample-15.xap",
-            // "/xaml/sample-16.xap",
-            // "/xaml/sample-17.xap",
-            // "/xaml/sample-18.xap",
-            // "/xaml/sample-19.xap",
-            // "/xaml/sample-20.xap",
-            "/xaml/sample-21.xap",
+            `/xaml/${xaml}`,
             (el: any) => { console.log(xm.rootElement); });
 
         let app: XamlGLCore.App = new XamlGLCore.App();

@@ -9,6 +9,7 @@
     <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" Height="80" Background="#FF663399" Margin="0,0,20,20">
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-2.jpg"></Image>
     </Grid>
-    <Text Text="Jose Fajardo" FontFamily="Sans-Serif" HorizontalAlignment="Right" FontSize="16" Color="white"></Text>
+    <Text Text="Jose Fajardo" FontFamily="Sans-Serif" HorizontalAlignment="Left" VerticalAlignment="Top" 
+          FontSize="16" Color="white" Margin="20,20,0,0"></Text>
   </Grid>
 </Application>

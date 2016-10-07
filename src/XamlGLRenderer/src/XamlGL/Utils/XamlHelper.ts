@@ -112,6 +112,9 @@ export class XamlHelper {
             text.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             text.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             text.Color = node.attributes.getNamedItem("Color").value;
+            text.FontSize = this.StringToNumber(node.attributes.getNamedItem("FontSize"));
+            text.FontFamily = node.attributes.getNamedItem("FontFamily").value;
+            text.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             return text;
         }
         return null;
