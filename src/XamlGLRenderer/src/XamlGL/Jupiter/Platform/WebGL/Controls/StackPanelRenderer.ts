@@ -9,8 +9,8 @@ import { BaseRenderer } from "./BaseRenderer";
 import { Grid } from "./../../../../Controls/Grid";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
-import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
-import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
+// import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
+// import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 
 
 export class StackPanelRenderer extends BaseRenderer implements IControlRenderer {
@@ -28,67 +28,70 @@ export class StackPanelRenderer extends BaseRenderer implements IControlRenderer
         }
 
         // calculate y position
-        if (gridEl.Height !== null && gridEl.Height > 0) {
-            super.Element.CalculatedHeight = gridEl.Height;
-            if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
-                super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
-            } else if (gridEl.VerticalAlignment === VerticalAlignment.Center) {
-                super.Element.CalculatedY = (super.Element.Parent.CalculatedHeight - gridEl.Height) / 2;
-            } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
-                super.Element.CalculatedHeight = super.ParentHeight;
-                super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
-            } else if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
-                super.Element.CalculatedY = 0;
-            }
-        } else {
-            if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
-                super.Element.CalculatedHeight = super.ParentHeight;
-                super.Element.CalculatedY = 0;
-            }
-        }
+        this.CalculateYHeight(gridEl);
+        // if (gridEl.Height !== null && gridEl.Height > 0) {
+        //    super.Element.CalculatedHeight = gridEl.Height;
+        //    if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
+        //        super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
+        //    } else if (gridEl.VerticalAlignment === VerticalAlignment.Center) {
+        //        super.Element.CalculatedY = (super.Element.Parent.CalculatedHeight - gridEl.Height) / 2;
+        //    } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
+        //        super.Element.CalculatedHeight = super.ParentHeight;
+        //        super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
+        //    } else if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
+        //        super.Element.CalculatedY = 0;
+        //    }
+        // } else {
+        //    if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
+        //        super.Element.CalculatedHeight = super.ParentHeight;
+        //        super.Element.CalculatedY = 0;
+        //    }
+        // }
 
         // calculate X position
-        if (gridEl.Width !== null && gridEl.Width > 0) {
-            super.Element.CalculatedWidth = gridEl.Width;
-            if (gridEl.HorizontalAlignment === HorizontalAlignment.Left) {
-                super.Element.CalculatedX = 0;
-            } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Right) {
-                super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
-            } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
-                super.Element.CalculatedWidth = super.ParentWidth;
-                super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
-            } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Center) {
-                super.Element.CalculatedX = (super.Element.Parent.CalculatedWidth - gridEl.Width) / 2;
-            }
-        } else {
-            if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
-                super.Element.CalculatedWidth = super.ParentWidth;
-                super.Element.CalculatedX = 0;
-            }
-        }
+        this.CalculateXWidth(gridEl);
+        // if (gridEl.Width !== null && gridEl.Width > 0) {
+        //    super.Element.CalculatedWidth = gridEl.Width;
+        //    if (gridEl.HorizontalAlignment === HorizontalAlignment.Left) {
+        //        super.Element.CalculatedX = 0;
+        //    } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Right) {
+        //        super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
+        //    } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
+        //        super.Element.CalculatedWidth = super.ParentWidth;
+        //        super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
+        //    } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Center) {
+        //        super.Element.CalculatedX = (super.Element.Parent.CalculatedWidth - gridEl.Width) / 2;
+        //    }
+        // } else {
+        //    if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
+        //        super.Element.CalculatedWidth = super.ParentWidth;
+        //        super.Element.CalculatedX = 0;
+        //    }
+        // }
 
         // take margin into account
-        if (gridEl.Margin !== null || gridEl.Margin !== undefined) {
-            if (gridEl.HorizontalAlignment === HorizontalAlignment.Left) {
-                super.Element.CalculatedX += super.Element.Margin.Left;
-            } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Right) {
-                super.Element.CalculatedX -= super.Element.Margin.Right;
-            } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
-                this.Element.CalculatedX += super.Element.Margin.Left;
-                this.Element.CalculatedWidth -= (this.Element.Margin.Right + super.Element.Margin.Left);
-            }
+        this.UpdateCalculatedValuesUsingMargin(gridEl);
+        // if (gridEl.Margin !== null || gridEl.Margin !== undefined) {
+        //    if (gridEl.HorizontalAlignment === HorizontalAlignment.Left) {
+        //        super.Element.CalculatedX += super.Element.Margin.Left;
+        //    } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Right) {
+        //        super.Element.CalculatedX -= super.Element.Margin.Right;
+        //    } else if (gridEl.HorizontalAlignment === HorizontalAlignment.Stretch) {
+        //        this.Element.CalculatedX += super.Element.Margin.Left;
+        //        this.Element.CalculatedWidth -= (this.Element.Margin.Right + super.Element.Margin.Left);
+        //    }
 
-            if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
-                super.Element.CalculatedY += super.Element.Margin.Top;
-            } else if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
-                this.Element.CalculatedY -= this.Element.Margin.Bottom;
-                // alert(this.Element.Renderer.ParentHeight - this.Element.CalculatedHeight);
-                // this.Element.CalculatedHeight -= (this.Element.Margin.Right + super.Element.Margin.Left);
-            } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
-                this.Element.CalculatedY += super.Element.Margin.Top;
-                this.Element.CalculatedHeight -= (this.Element.Margin.Top + super.Element.Margin.Bottom);
-            }
-        }
+        //    if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
+        //        super.Element.CalculatedY += super.Element.Margin.Top;
+        //    } else if (gridEl.VerticalAlignment === VerticalAlignment.Bottom) {
+        //        this.Element.CalculatedY -= this.Element.Margin.Bottom;
+        //        // alert(this.Element.Renderer.ParentHeight - this.Element.CalculatedHeight);
+        //        // this.Element.CalculatedHeight -= (this.Element.Margin.Right + super.Element.Margin.Left);
+        //    } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
+        //        this.Element.CalculatedY += super.Element.Margin.Top;
+        //        this.Element.CalculatedHeight -= (this.Element.Margin.Top + super.Element.Margin.Bottom);
+        //    }
+        // }
 
         // position/size container
         containerGrid.position.set(this.Element.CalculatedX, this.Element.CalculatedY);

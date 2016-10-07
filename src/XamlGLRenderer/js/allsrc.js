@@ -2571,7 +2571,7 @@ System.register("XamlGL/Controls/Panel", ["XamlGL/Jupiter/FrameworkElement", "Xa
         }
     }
 });
-System.register("XamlGL/utils/ConsoleHelper", [], function(exports_40, context_40) {
+System.register("XamlGL/Utils/ConsoleHelper", [], function(exports_40, context_40) {
     "use strict";
     var __moduleName = context_40 && context_40.id;
     var ConsoleHelper;
@@ -2595,7 +2595,7 @@ System.register("XamlGL/utils/ConsoleHelper", [], function(exports_40, context_4
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/Controls/Panel", "XamlGL/Events/EventDispatcher", "XamlGL/utils/ConsoleHelper"], function(exports_41, context_41) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/Controls/Panel", "XamlGL/Events/EventDispatcher", "XamlGL/Utils/ConsoleHelper"], function(exports_41, context_41) {
     "use strict";
     var __moduleName = context_41 && context_41.id;
     var HorizontalAlignment_1, VerticalAlignment_1, Panel_1, EventDispatcher_4, ConsoleHelper_1;
@@ -2722,11 +2722,19 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                         else if (backingControl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Right) {
                             this.Element.CalculatedX -= this.Element.Margin.Right;
                         }
+                        else if (backingControl.HorizontalAlignment === HorizontalAlignment_1.HorizontalAlignment.Stretch) {
+                            this.Element.CalculatedX += this.Element.Margin.Left;
+                            this.Element.CalculatedWidth -= (this.Element.Margin.Right + this.Element.Margin.Left);
+                        }
                         if (backingControl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Top) {
                             this.Element.CalculatedY += this.Element.Margin.Top;
                         }
                         else if (backingControl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Bottom) {
                             this.Element.CalculatedY -= this.Element.Margin.Bottom;
+                        }
+                        else if (backingControl.VerticalAlignment === VerticalAlignment_1.VerticalAlignment.Stretch) {
+                            this.Element.CalculatedY += this.Element.Margin.Top;
+                            this.Element.CalculatedHeight -= (this.Element.Margin.Top + this.Element.Margin.Bottom);
                         }
                     }
                 }
@@ -2735,7 +2743,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper"], function(exports_42, context_42) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper"], function(exports_42, context_42) {
     "use strict";
     var __moduleName = context_42 && context_42.id;
     var BaseRenderer_1, ConsoleHelper_2;
@@ -2806,7 +2814,7 @@ System.register("XamlGL/Controls/Grid", ["XamlGL/Controls/Panel"], function(expo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_45, context_45) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_45, context_45) {
     "use strict";
     var __moduleName = context_45 && context_45.id;
     var BaseRenderer_2, ConsoleHelper_3, RendererHelper_1;
@@ -2910,10 +2918,10 @@ System.register("XamlGL/Controls/StackPanel", ["XamlGL/Controls/Panel"], functio
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment"], function(exports_48, context_48) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_48, context_48) {
     "use strict";
     var __moduleName = context_48 && context_48.id;
-    var BaseRenderer_3, ConsoleHelper_4, RendererHelper_2, HorizontalAlignment_2, VerticalAlignment_2;
+    var BaseRenderer_3, ConsoleHelper_4, RendererHelper_2;
     var StackPanelRenderer;
     return {
         setters:[
@@ -2925,12 +2933,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
             },
             function (RendererHelper_2_1) {
                 RendererHelper_2 = RendererHelper_2_1;
-            },
-            function (HorizontalAlignment_2_1) {
-                HorizontalAlignment_2 = HorizontalAlignment_2_1;
-            },
-            function (VerticalAlignment_2_1) {
-                VerticalAlignment_2 = VerticalAlignment_2_1;
             }],
         execute: function() {
             StackPanelRenderer = class StackPanelRenderer extends BaseRenderer_3.BaseRenderer {
@@ -2943,72 +2945,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
                     if (!gridEl.IsDirty) {
                         return;
                     }
-                    if (gridEl.Height !== null && gridEl.Height > 0) {
-                        super.Element.CalculatedHeight = gridEl.Height;
-                        if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
-                            super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
-                        }
-                        else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Center) {
-                            super.Element.CalculatedY = (super.Element.Parent.CalculatedHeight - gridEl.Height) / 2;
-                        }
-                        else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
-                            super.Element.CalculatedHeight = super.ParentHeight;
-                            super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
-                        }
-                        else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
-                            super.Element.CalculatedY = 0;
-                        }
-                    }
-                    else {
-                        if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
-                            super.Element.CalculatedHeight = super.ParentHeight;
-                            super.Element.CalculatedY = 0;
-                        }
-                    }
-                    if (gridEl.Width !== null && gridEl.Width > 0) {
-                        super.Element.CalculatedWidth = gridEl.Width;
-                        if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
-                            super.Element.CalculatedX = 0;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
-                            super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
-                            super.Element.CalculatedWidth = super.ParentWidth;
-                            super.Element.CalculatedX = super.ParentWidth - gridEl.Width;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Center) {
-                            super.Element.CalculatedX = (super.Element.Parent.CalculatedWidth - gridEl.Width) / 2;
-                        }
-                    }
-                    else {
-                        if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
-                            super.Element.CalculatedWidth = super.ParentWidth;
-                            super.Element.CalculatedX = 0;
-                        }
-                    }
-                    if (gridEl.Margin !== null || gridEl.Margin !== undefined) {
-                        if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
-                            super.Element.CalculatedX += super.Element.Margin.Left;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
-                            super.Element.CalculatedX -= super.Element.Margin.Right;
-                        }
-                        else if (gridEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
-                            this.Element.CalculatedX += super.Element.Margin.Left;
-                            this.Element.CalculatedWidth -= (this.Element.Margin.Right + super.Element.Margin.Left);
-                        }
-                        if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
-                            super.Element.CalculatedY += super.Element.Margin.Top;
-                        }
-                        else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
-                            this.Element.CalculatedY -= this.Element.Margin.Bottom;
-                        }
-                        else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
-                            this.Element.CalculatedY += super.Element.Margin.Top;
-                            this.Element.CalculatedHeight -= (this.Element.Margin.Top + super.Element.Margin.Bottom);
-                        }
-                    }
+                    this.CalculateYHeight(gridEl);
+                    this.CalculateXWidth(gridEl);
+                    this.UpdateCalculatedValuesUsingMargin(gridEl);
                     containerGrid.position.set(this.Element.CalculatedX, this.Element.CalculatedY);
                     containerGrid.height = super.Element.CalculatedHeight;
                     containerGrid.width = super.Element.CalculatedWidth;
@@ -3373,7 +3312,7 @@ System.register("XamlGL/Controls/Image", ["XamlGL/Jupiter/Core"], function(expor
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/Controls/StackPanel", "XamlGL/DataTypes/Orientation"], function(exports_63, context_63) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/StackPanel", "XamlGL/DataTypes/Orientation"], function(exports_63, context_63) {
     "use strict";
     var __moduleName = context_63 && context_63.id;
     var BaseRenderer_4, ConsoleHelper_5, StackPanel_1, Orientation_1;
@@ -3461,7 +3400,7 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel"], function
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_65, context_65) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_65, context_65) {
     "use strict";
     var __moduleName = context_65 && context_65.id;
     var BaseRenderer_5, ConsoleHelper_6, RendererHelper_3;
@@ -3575,10 +3514,10 @@ System.register("XamlGL/Controls/TextBlock", ["XamlGL/Jupiter/Core", "XamlGL/Dat
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/utils/ConsoleHelper", "XamlGL/Controls/StackPanel", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign"], function(exports_69, context_69) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/StackPanel", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign"], function(exports_69, context_69) {
     "use strict";
     var __moduleName = context_69 && context_69.id;
-    var BaseRenderer_6, ConsoleHelper_7, StackPanel_2, HorizontalAlignment_3, VerticalAlignment_3, Orientation_2, TextWrapping_2, TextWrappingAlign_2;
+    var BaseRenderer_6, ConsoleHelper_7, StackPanel_2, HorizontalAlignment_2, VerticalAlignment_2, Orientation_2, TextWrapping_2, TextWrappingAlign_2;
     var TextBlockRenderer;
     return {
         setters:[
@@ -3591,11 +3530,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
             function (StackPanel_2_1) {
                 StackPanel_2 = StackPanel_2_1;
             },
-            function (HorizontalAlignment_3_1) {
-                HorizontalAlignment_3 = HorizontalAlignment_3_1;
+            function (HorizontalAlignment_2_1) {
+                HorizontalAlignment_2 = HorizontalAlignment_2_1;
             },
-            function (VerticalAlignment_3_1) {
-                VerticalAlignment_3 = VerticalAlignment_3_1;
+            function (VerticalAlignment_2_1) {
+                VerticalAlignment_2 = VerticalAlignment_2_1;
             },
             function (Orientation_2_1) {
                 Orientation_2 = Orientation_2_1;
@@ -3625,75 +3564,75 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
                     });
                     if (textEl.Height !== null && textEl.Height > 0) {
                         this.Element.CalculatedHeight = textEl.Height;
-                        if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Bottom) {
+                        if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
                             this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - textEl.Height;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Center) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Center) {
                             this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - textEl.Height) / 2;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Stretch) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
                             this.Element.CalculatedY = 0;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Top) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
                             this.Element.CalculatedY = 0;
                         }
                     }
                     else {
-                        if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Stretch) {
+                        if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
                             this.Element.CalculatedHeight = this.Element.Parent.CalculatedHeight;
                             this.Element.CalculatedY = 0;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Top) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
                             this.Element.CalculatedY = 0;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Bottom) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
                             this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - text.height;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Center) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Center) {
                             this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - text.height) / 2;
                         }
                     }
                     if (textEl.Width !== null && textEl.Width > 0) {
                         this.Element.CalculatedWidth = textEl.Width;
-                        if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Left) {
+                        if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
                             this.Element.CalculatedX = 0;
                         }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Right) {
+                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
                             this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - textEl.Width;
                         }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Stretch) {
+                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
                             this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - textEl.Width;
                         }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Center) {
+                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Center) {
                             this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - textEl.Width) / 2;
                         }
                     }
                     else {
-                        if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Stretch) {
+                        if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Stretch) {
                             this.Element.CalculatedWidth = super.Element.Parent.CalculatedWidth;
                             this.Element.CalculatedX = 0;
                         }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Right) {
+                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
                             this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - text.width;
                         }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Left) {
+                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
                             this.Element.CalculatedX = 0;
                         }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Center) {
+                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Center) {
                             this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - text.width) / 2;
                         }
                     }
                     if (textEl.Margin !== null || textEl.Margin !== undefined) {
-                        if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Left) {
+                        if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Left) {
                             super.Element.CalculatedX += super.Element.Margin.Left;
                         }
-                        else if (textEl.HorizontalAlignment === HorizontalAlignment_3.HorizontalAlignment.Right) {
+                        else if (textEl.HorizontalAlignment === HorizontalAlignment_2.HorizontalAlignment.Right) {
                             super.Element.CalculatedX -= super.Element.Margin.Right;
                         }
-                        if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Top) {
+                        if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
                             super.Element.CalculatedY += super.Element.Margin.Top;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Bottom) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
                             super.Element.CalculatedY -= super.Element.Margin.Bottom;
                         }
                     }
@@ -3730,7 +3669,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
         }
     }
 });
-System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer"], function(exports_70, context_70) {
+System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer"], function(exports_70, context_70) {
     "use strict";
     var __moduleName = context_70 && context_70.id;
     var DefaultRenderer_1, Grid_1, GridRenderer_1, StackPanel_3, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_5, ConsoleHelper_8, TextBlock_1, TextBlockRenderer_1;
@@ -3820,7 +3759,7 @@ System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/utils/RendererHelper", "XamlGL/utils/ConsoleHelper"], function(exports_71, context_71) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_71, context_71) {
     "use strict";
     var __moduleName = context_71 && context_71.id;
     var Renderer_2, Panel_6, RendererHelper_4, ConsoleHelper_9;
@@ -3908,10 +3847,10 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_72, context_72)
         }
     }
 });
-System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/utils/ConsoleHelper"], function(exports_73, context_73) {
+System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/Utils/ConsoleHelper"], function(exports_73, context_73) {
     "use strict";
     var __moduleName = context_73 && context_73.id;
-    var Grid_2, StackPanel_4, Image_2, Panel_7, TextBlock_2, Rectangle_2, Thickness_1, HorizontalAlignment_4, VerticalAlignment_4, Orientation_3, TextWrapping_3, TextWrappingAlign_3, ConsoleHelper_10;
+    var Grid_2, StackPanel_4, Image_2, Panel_7, TextBlock_2, Rectangle_2, Thickness_1, HorizontalAlignment_3, VerticalAlignment_3, Orientation_3, TextWrapping_3, TextWrappingAlign_3, ConsoleHelper_10;
     var XamlHelper;
     return {
         setters:[
@@ -3936,11 +3875,11 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
             function (Thickness_1_1) {
                 Thickness_1 = Thickness_1_1;
             },
-            function (HorizontalAlignment_4_1) {
-                HorizontalAlignment_4 = HorizontalAlignment_4_1;
+            function (HorizontalAlignment_3_1) {
+                HorizontalAlignment_3 = HorizontalAlignment_3_1;
             },
-            function (VerticalAlignment_4_1) {
-                VerticalAlignment_4 = VerticalAlignment_4_1;
+            function (VerticalAlignment_3_1) {
+                VerticalAlignment_3 = VerticalAlignment_3_1;
             },
             function (Orientation_3_1) {
                 Orientation_3 = Orientation_3_1;
@@ -4077,19 +4016,19 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                 }
                 static StringToHorizontalAlignment(attr) {
                     if (attr === null) {
-                        return HorizontalAlignment_4.HorizontalAlignment.Stretch;
+                        return HorizontalAlignment_3.HorizontalAlignment.Stretch;
                     }
                     if (attr.value === "Left") {
-                        return HorizontalAlignment_4.HorizontalAlignment.Left;
+                        return HorizontalAlignment_3.HorizontalAlignment.Left;
                     }
                     else if (attr.value === "Center") {
-                        return HorizontalAlignment_4.HorizontalAlignment.Center;
+                        return HorizontalAlignment_3.HorizontalAlignment.Center;
                     }
                     else if (attr.value === "Right") {
-                        return HorizontalAlignment_4.HorizontalAlignment.Right;
+                        return HorizontalAlignment_3.HorizontalAlignment.Right;
                     }
                     else if (attr.value === "Stretch") {
-                        return HorizontalAlignment_4.HorizontalAlignment.Stretch;
+                        return HorizontalAlignment_3.HorizontalAlignment.Stretch;
                     }
                 }
                 static StringToNumber(attr) {
@@ -4100,19 +4039,19 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                 }
                 static StringToVerticalAlignment(attr) {
                     if (attr === null) {
-                        return VerticalAlignment_4.VerticalAlignment.Stretch;
+                        return VerticalAlignment_3.VerticalAlignment.Stretch;
                     }
                     if (attr.value === "Bottom") {
-                        return VerticalAlignment_4.VerticalAlignment.Bottom;
+                        return VerticalAlignment_3.VerticalAlignment.Bottom;
                     }
                     else if (attr.value === "Center") {
-                        return VerticalAlignment_4.VerticalAlignment.Center;
+                        return VerticalAlignment_3.VerticalAlignment.Center;
                     }
                     else if (attr.value === "Top") {
-                        return VerticalAlignment_4.VerticalAlignment.Top;
+                        return VerticalAlignment_3.VerticalAlignment.Top;
                     }
                     else if (attr.value === "Stretch") {
-                        return VerticalAlignment_4.VerticalAlignment.Stretch;
+                        return VerticalAlignment_3.VerticalAlignment.Stretch;
                     }
                 }
                 static StringToOrientation(attr) {
@@ -4159,7 +4098,7 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/WebGL/Platform", "XamlGL/Events/EventList", "XamlGL/utils/XamlHelper", "XamlGL/utils/ConsoleHelper"], function(exports_74, context_74) {
+System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/WebGL/Platform", "XamlGL/Events/EventList", "XamlGL/Utils/XamlHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_74, context_74) {
     "use strict";
     var __moduleName = context_74 && context_74.id;
     var Page_2, Platform_2, EventList_2, XamlHelper_1, ConsoleHelper_11;

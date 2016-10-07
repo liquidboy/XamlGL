@@ -141,12 +141,18 @@ export class BaseRenderer implements IControlRenderer {
                this.Element.CalculatedX += this.Element.Margin.Left;
            } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Right) {
                this.Element.CalculatedX -= this.Element.Margin.Right;
+           } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Stretch) {
+               this.Element.CalculatedX += this.Element.Margin.Left;
+               this.Element.CalculatedWidth -= (this.Element.Margin.Right + this.Element.Margin.Left);
            }
 
            if (backingControl.VerticalAlignment === VerticalAlignment.Top) {
                this.Element.CalculatedY += this.Element.Margin.Top;
            } else if (backingControl.VerticalAlignment === VerticalAlignment.Bottom) {
                this.Element.CalculatedY -= this.Element.Margin.Bottom;
+           } else if (backingControl.VerticalAlignment === VerticalAlignment.Stretch) {
+               this.Element.CalculatedY += this.Element.Margin.Top;
+               this.Element.CalculatedHeight -= (this.Element.Margin.Top + this.Element.Margin.Bottom);
            }
        }
    }
