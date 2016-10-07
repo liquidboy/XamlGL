@@ -7,7 +7,7 @@ export interface IRenderer {
     Border: string;
     BackgroundColor: number;
 
-    ShowLoading(x: number, y: number, width: number, height: number): void;
+    ShowLoading(): void;
     HideLoading(): void;
     // loadResourceImage(url: string): PIXI.loaders.Loader;
     ShowResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void;

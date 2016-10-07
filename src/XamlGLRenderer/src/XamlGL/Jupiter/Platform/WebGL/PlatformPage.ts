@@ -82,7 +82,7 @@ export class PlatformPage extends Page implements IPlatformPage {
         if (value) {
             this.Platform.Renderer.InitializeLoadingResource("assets/silverlight_anims.jpg")
                 .load(() => {
-                    this.Platform.Renderer.ShowLoading(160, 160, 165, 165);
+                    this.Platform.Renderer.ShowLoading();
                     this.Activate();
                 });
         } else {

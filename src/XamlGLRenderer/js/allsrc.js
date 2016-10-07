@@ -2405,6 +2405,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
         execute: function() {
             Renderer = class Renderer {
                 constructor(width, height, antialias, transparent, htmlCanvasHost) {
+                    this._loadingBackground = null;
                     this._uniqueId = Guid_2.Guid.newGuid();
                     this._resourceIds = new index_1.Dictionary();
                     this._stage = new PIXI.Container();
@@ -2465,10 +2466,21 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                         this._renderer.render(container);
                     }
                 }
-                ShowLoading(x, y, width, height) {
-                    this.ShowResource("loading", this._stage, x, y, width, height);
+                ShowLoading() {
+                    if (this._loadingBackground === null) {
+                        this._loadingBackground = new PIXI.Graphics();
+                        this._loadingBackground.beginFill(0xF9F9F9);
+                        this._loadingBackground.drawRect(0, 0, this._stage.width, this._stage.height);
+                        this._loadingBackground.endFill();
+                        this._stage.addChild(this._loadingBackground);
+                    }
+                    this.ShowResource("loading", this._stage, ((this._stage.width - 165) / 2), ((this._stage.height - 165) / 2), 165, 165);
                 }
                 HideLoading() {
+                    if (this._loadingBackground !== null) {
+                        this._stage.removeChild(this._loadingBackground);
+                        this._loadingBackground = null;
+                    }
                     this.HideResource("loading", this._stage);
                 }
                 InitializeLoadingResource(url) {
@@ -3727,7 +3739,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/P
                     if (value) {
                         this.Platform.Renderer.InitializeLoadingResource("assets/silverlight_anims.jpg")
                             .load(() => {
-                            this.Platform.Renderer.ShowLoading(160, 160, 165, 165);
+                            this.Platform.Renderer.ShowLoading();
                             this.Activate();
                         });
                     }

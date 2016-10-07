@@ -84,11 +84,26 @@ export class Renderer implements IRenderer {
     }
 
     // loading
-    public ShowLoading(x: number, y: number, width: number, height: number): void {
-        this.ShowResource("loading", this._stage, x, y, width, height);
+    private _loadingBackground: PIXI.Graphics = null;
+    public ShowLoading(): void {
+        if (this._loadingBackground === null) {
+            this._loadingBackground = new PIXI.Graphics();
+            this._loadingBackground.beginFill(0xF9F9F9);
+            this._loadingBackground.drawRect(0, 0, this._stage.width, this._stage.height);
+            this._loadingBackground.endFill();
+            // rectangle.x = rectEl.Margin.Left;
+            // rectangle.y = rectEl.Margin.Top;
+            this._stage.addChild(this._loadingBackground);
+        }
+
+        this.ShowResource("loading", this._stage, ((this._stage.width - 165) / 2), ((this._stage.height - 165) / 2), 165, 165);
     }
 
     public HideLoading(): void {
+        if (this._loadingBackground !== null) {
+            this._stage.removeChild(this._loadingBackground);
+            this._loadingBackground = null;
+        }
         this.HideResource("loading", this._stage);
     }
 
