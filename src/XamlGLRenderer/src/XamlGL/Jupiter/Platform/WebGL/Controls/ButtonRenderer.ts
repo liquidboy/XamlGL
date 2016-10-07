@@ -45,6 +45,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         if (buttonEl.Background !== undefined) {
             let widthToUse: number = (buttonEl.Width === null || buttonEl.Width === 0) ? super.ParentWidth : buttonEl.Width;
             let heightToUse: number = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
+
+            // background
             let rectangle: PIXI.Graphics = new PIXI.Graphics();
             if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                 rectangle.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
@@ -55,8 +57,9 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             } else {
                 rectangle.drawRect(0, 0, widthToUse, heightToUse);
             }
-            
             rectangle.endFill();
+
+            // now render
             containerGrid.addChild(rectangle);
         }
 

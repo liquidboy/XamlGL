@@ -129,9 +129,9 @@ export class XamlHelper {
             button.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             button.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             button.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
-            button.Background = node.attributes.getNamedItem("Background").value;
-            button.Foreground = node.attributes.getNamedItem("Foreground").value;
-            button.Content = node.attributes.getNamedItem("Content").value;
+            if (node.attributes.getNamedItem("Background") !== null) {
+                button.Background = node.attributes.getNamedItem("Background").value;
+            }
             button.BorderBrush = node.attributes.getNamedItem("Stroke").value;
             let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
             button.BorderThickness = new Thickness(stokeThickness);

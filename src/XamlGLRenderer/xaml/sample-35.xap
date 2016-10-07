@@ -6,9 +6,13 @@
     <Grid>
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-2.jpg"></Image>
     </Grid>
-    <Button HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF05A6E2"
-            Width="200" Height="50" Foreground="#FF000000" Content="Bang" 
-            Stroke="#FFFFFFFF" StrokeThickness="2" CornerRadius="10">
-    </Button>
+    <Grid>
+      <Button HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF05A6E2"
+              Width="200" Height="50" Stroke="#FFFFFFFF" StrokeThickness="2" CornerRadius="10">
+        <Grid>
+          <Text Text="XamlGL Button" FontFamily="Sans-Serif" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Color="white"></Text>
+        </Grid>
+      </Button>
+    </Grid>
   </Grid>
 </Application>
