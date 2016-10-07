@@ -25,9 +25,12 @@
   <ItemGroup>
     <Content Include="app.css" />
     <Content Include="assets\glitter-1.jpg" />
+    <Content Include="assets\glitter-1o.jpg" />
     <Content Include="assets\glitter-2.jpg" />
     <Content Include="assets\glitter-3.jpg" />
+    <Content Include="assets\glitter-3o.jpg" />
     <Content Include="assets\glitter-4.jpg" />
+    <Content Include="assets\glitter-4o.jpg" />
     <Content Include="assets\glitter-5.jpg" />
     <Content Include="assets\glitter-6.jpg" />
     <Content Include="assets\silverlight_anims.jpg" />
