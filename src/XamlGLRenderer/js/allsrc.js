@@ -2406,6 +2406,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
             Renderer = class Renderer {
                 constructor(width, height, antialias, transparent, htmlCanvasHost) {
                     this._loadingBackground = null;
+                    this._loadingText = null;
                     this._uniqueId = Guid_2.Guid.newGuid();
                     this._resourceIds = new index_1.Dictionary();
                     this._stage = new PIXI.Container();
@@ -2474,12 +2475,21 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                         this._loadingBackground.endFill();
                         this._stage.addChild(this._loadingBackground);
                     }
+                    if (this._loadingText === null) {
+                        this._loadingText = new PIXI.Text("loading...", { font: "20px sans-serif", fill: "black" });
+                        this._loadingText.position.set(((this._stage.width - 90) / 2), (((this._stage.height - 22) / 2) + 90));
+                        this._stage.addChild(this._loadingText);
+                    }
                     this.ShowResource("loading", this._stage, ((this._stage.width - 165) / 2), ((this._stage.height - 165) / 2), 165, 165);
                 }
                 HideLoading() {
                     if (this._loadingBackground !== null) {
                         this._stage.removeChild(this._loadingBackground);
                         this._loadingBackground = null;
+                    }
+                    if (this._loadingText !== null) {
+                        this._stage.removeChild(this._loadingText);
+                        this._loadingText = null;
                     }
                     this.HideResource("loading", this._stage);
                 }

@@ -75,6 +75,7 @@ export class Renderer implements IRenderer {
         this._renderer.render(container);
     }
 
+
     public HideResource(key: string, container: PIXI.Container): void {
         let resource: RendererResource = this._resourceIds.getValue(key);
         if (resource.Sprite !== null) {
@@ -85,6 +86,7 @@ export class Renderer implements IRenderer {
 
     // loading
     private _loadingBackground: PIXI.Graphics = null;
+    private _loadingText: PIXI.Text = null;
     public ShowLoading(): void {
         if (this._loadingBackground === null) {
             this._loadingBackground = new PIXI.Graphics();
@@ -95,6 +97,14 @@ export class Renderer implements IRenderer {
             // rectangle.y = rectEl.Margin.Top;
             this._stage.addChild(this._loadingBackground);
         }
+        if (this._loadingText === null) {
+            this._loadingText = new PIXI.Text(
+                "loading...",
+                { font: "20px sans-serif", fill: "black" }
+            );
+            this._loadingText.position.set(((this._stage.width - 90) / 2), (((this._stage.height - 22) / 2) + 90));
+            this._stage.addChild(this._loadingText);
+        }
 
         this.ShowResource("loading", this._stage, ((this._stage.width - 165) / 2), ((this._stage.height - 165) / 2), 165, 165);
     }
@@ -103,6 +113,10 @@ export class Renderer implements IRenderer {
         if (this._loadingBackground !== null) {
             this._stage.removeChild(this._loadingBackground);
             this._loadingBackground = null;
+        }
+        if (this._loadingText !== null) {
+            this._stage.removeChild(this._loadingText);
+            this._loadingText = null;
         }
         this.HideResource("loading", this._stage);
     }
