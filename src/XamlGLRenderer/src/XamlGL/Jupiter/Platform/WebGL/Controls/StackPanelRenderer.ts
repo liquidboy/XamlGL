@@ -36,7 +36,7 @@ export class StackPanelRenderer extends BaseRenderer implements IControlRenderer
                 super.Element.CalculatedY = (super.Element.Parent.CalculatedHeight - gridEl.Height) / 2;
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
                 super.Element.CalculatedHeight = super.ParentHeight;
-                super.Element.CalculatedY = 0;
+                super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
             } else if (gridEl.VerticalAlignment === VerticalAlignment.Top) {
                 super.Element.CalculatedY = 0;
             }
@@ -84,6 +84,9 @@ export class StackPanelRenderer extends BaseRenderer implements IControlRenderer
                 this.Element.CalculatedY -= this.Element.Margin.Bottom;
                 // alert(this.Element.Renderer.ParentHeight - this.Element.CalculatedHeight);
                 // this.Element.CalculatedHeight -= (this.Element.Margin.Right + super.Element.Margin.Left);
+            } else if (gridEl.VerticalAlignment === VerticalAlignment.Stretch) {
+                this.Element.CalculatedY += super.Element.Margin.Top;
+                this.Element.CalculatedHeight -= (this.Element.Margin.Top + super.Element.Margin.Bottom);
             }
         }
 

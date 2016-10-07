@@ -2943,7 +2943,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
                             super.Element.CalculatedHeight = super.ParentHeight;
-                            super.Element.CalculatedY = 0;
+                            super.Element.CalculatedY = super.ParentHeight - gridEl.Height;
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Top) {
                             super.Element.CalculatedY = 0;
@@ -2993,6 +2993,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
                         }
                         else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Bottom) {
                             this.Element.CalculatedY -= this.Element.Margin.Bottom;
+                        }
+                        else if (gridEl.VerticalAlignment === VerticalAlignment_2.VerticalAlignment.Stretch) {
+                            this.Element.CalculatedY += super.Element.Margin.Top;
+                            this.Element.CalculatedHeight -= (this.Element.Margin.Top + super.Element.Margin.Bottom);
                         }
                     }
                     containerGrid.position.set(this.Element.CalculatedX, this.Element.CalculatedY);
