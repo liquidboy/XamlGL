@@ -21,6 +21,8 @@ import { ConsoleHelper } from "./ConsoleHelper";
 import { TextBlock } from "./../Controls/TextBlock";
 import { TextBlockRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextBlockRenderer";
 
+import { Button } from "./../Controls/Button";
+import { ButtonRenderer } from "./../Jupiter/Platform/WebGL/Controls/ButtonRenderer";
 
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
@@ -33,10 +35,10 @@ export class RendererHelper {
             return new ImageRenderer();
         } else if (element instanceof Rectangle) {
             return new RectangleRenderer();
-
         } else if (element instanceof TextBlock) {
             return new TextBlockRenderer();
-
+        } else if (element instanceof Button) {
+            return new ButtonRenderer();
         } else {
             return new DefaultRenderer();
         }

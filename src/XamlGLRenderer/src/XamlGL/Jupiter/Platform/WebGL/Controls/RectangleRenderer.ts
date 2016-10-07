@@ -23,6 +23,15 @@ export class RectangleRenderer extends BaseRenderer implements IControlRenderer 
             return;
         }
 
+        // calculate y position
+        this.CalculateYHeight(rectEl);
+
+        // calculate X position
+        this.CalculateXWidth(rectEl);
+
+        // take margin into account
+        this.UpdateCalculatedValuesUsingMargin(rectEl);
+
         let rectangle: PIXI.Graphics = new PIXI.Graphics();
         rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
         rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background)); // 0x66CCFF);

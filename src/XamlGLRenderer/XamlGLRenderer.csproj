@@ -1372,6 +1372,7 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\Frame.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Control.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\Button.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\StackPanel.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\TextBlock.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Rectangle.ts" />
@@ -1394,6 +1395,7 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\BaseRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DefaultRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ButtonRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\StackPanelRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TextBlockRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\RectangleRenderer.ts" />
@@ -1809,6 +1811,7 @@
     <Content Include="xaml\sample-32.xap" />
     <Content Include="xaml\sample-33.xap" />
     <Content Include="xaml\sample-34.xap" />
+    <Content Include="xaml\sample-35.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

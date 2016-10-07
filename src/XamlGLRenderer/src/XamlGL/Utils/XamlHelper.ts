@@ -1,6 +1,7 @@
 ﻿import { XamlMarkup } from "./../Reader/XamlMarkup";
 import { FrameworkElement } from "./../Jupiter/FrameworkElement";
 import { Grid } from "./../Controls/Grid";
+import { Button } from "./../Controls/Button";
 import { StackPanel } from "./../Controls/StackPanel";
 import { Image } from "./../Controls/Image";
 import { Panel } from "./../Controls/Panel";
@@ -62,22 +63,6 @@ export class XamlHelper {
             }
         }
     }
-    // private static GetFrameworkElementByElement(el: Element): FrameworkElement {
-    //    // consoleHelper.Log("XamlHelper.GetFrameworkElementByElement : " + el.nodeName);
-    //    if (el.nodeName === "Grid") {
-    //        let grid: Grid = new Grid();
-    //        grid.HorizontalAlignment = this.StringToHorizontalAlignment(el.attributes.getNamedItem("HorizontalAlignment"));
-    //        grid.VerticalAlignment = this.StringToVerticalAlignment(el.attributes.getNamedItem("VerticalAlignment"));
-    //        grid.Width = this.StringToNumber(el.attributes.getNamedItem("Width"));
-    //        grid.Height = this.StringToNumber(el.attributes.getNamedItem("Height"));
-    //        grid.Margin = this.StringToThickness(el.attributes.getNamedItem("Margin"));
-    //        if (el.hasAttribute("Background")) {
-    //            grid.Background = el.attributes.getNamedItem("Background").value;
-    //        }
-    //        return grid;
-    //    }
-    //    return null;
-    // }
 
     private static GetFrameworkElementByNode(node: Node): FrameworkElement {
         // consoleHelper.Log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
@@ -136,6 +121,20 @@ export class XamlHelper {
             text.TextWrapping = this.StringToTextWrapping(node.attributes.getNamedItem("TextWrapping"));
             text.TextWrappingAlign = this.StringToTextWrappingAlign(node.attributes.getNamedItem("TextWrappingAlign"));
             return text;
+        } else if (node.nodeName === "Button") {
+            let button: Button = new Button();
+            button.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            button.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            button.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            button.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            button.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            button.Background = node.attributes.getNamedItem("Background").value;
+            button.Foreground = node.attributes.getNamedItem("Foreground").value;
+            button.Content = node.attributes.getNamedItem("Content").value;
+            button.BorderBrush = node.attributes.getNamedItem("Stroke").value;
+            let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
+            button.BorderThickness = new Thickness(stokeThickness);
+            return button;
         }
         return null;
     }
