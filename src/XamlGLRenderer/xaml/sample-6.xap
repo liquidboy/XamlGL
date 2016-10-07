@@ -2,7 +2,7 @@
     xmlns="http://schemas.xamlgl.com/xamlgl"
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFFFFFFF">
       <Rectangle Fill="#FF8F1515" Stroke="#FFC9006E" StrokeThickness="5"
                  Margin="10,10,0,0" 
                  RadiusX="10" RadiusY="20"
