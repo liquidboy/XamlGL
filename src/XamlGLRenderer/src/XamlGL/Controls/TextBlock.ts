@@ -1,7 +1,7 @@
 ﻿import * as Jupiter from "./../Jupiter/Core";
 import { Thickness } from "./../DataTypes/Thickness";
 
-export class Text extends Jupiter.View {
+export class TextBlock extends Jupiter.View {
     private _text: string;
     private _stretch: Jupiter.Stretch;
     private _color: string;

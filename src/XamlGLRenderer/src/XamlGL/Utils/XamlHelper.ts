@@ -3,7 +3,7 @@ import { FrameworkElement } from "./../Jupiter/FrameworkElement";
 import { Grid } from "./../Controls/Grid";
 import { Image } from "./../Controls/Image";
 import { Panel } from "./../Controls/Panel";
-import { Text } from "./../Controls/Text";
+import { TextBlock } from "./../Controls/TextBlock";
 import { Rectangle } from "./../Controls/Rectangle";
 import { Thickness } from "./../DataTypes/Thickness";
 import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
@@ -107,7 +107,7 @@ export class XamlHelper {
             }
             return grid;
         } else if (node.nodeName === "Text") {
-            let text: Text = new Text();
+            let text: TextBlock = new TextBlock();
             text.Text = node.attributes.getNamedItem("Text").value;
             text.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             text.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));

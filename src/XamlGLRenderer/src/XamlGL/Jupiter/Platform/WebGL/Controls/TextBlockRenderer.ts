@@ -7,17 +7,17 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
-import { Text } from "./../../../../Controls/Text";
+import { TextBlock } from "./../../../../Controls/TextBlock";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 
-export class TextRenderer extends BaseRenderer implements IControlRenderer {
+export class TextBlockRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("TextRenderer.Draw");
 
-        let textEl: Text = <Text>super.Element;
+        let textEl: TextBlock = <TextBlock>super.Element;
 
         if (!textEl.IsDirty) {
             return;

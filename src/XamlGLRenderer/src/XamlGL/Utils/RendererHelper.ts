@@ -15,8 +15,8 @@ import { RectangleRenderer } from "./../Jupiter/Platform/WebGL/Controls/Rectangl
 import { Panel } from "./../Controls/Panel";
 import { ConsoleHelper } from "./ConsoleHelper";
 
-import { Text } from "./../Controls/Text";
-import { TextRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextRenderer";
+import { TextBlock } from "./../Controls/TextBlock";
+import { TextBlockRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextBlockRenderer";
 
 
 export class RendererHelper {
@@ -29,8 +29,8 @@ export class RendererHelper {
         } else if (element instanceof Rectangle) {
             return new RectangleRenderer();
 
-        } else if (element instanceof Text) {
-            return new TextRenderer();
+        } else if (element instanceof TextBlock) {
+            return new TextBlockRenderer();
 
         } else {
             return new DefaultRenderer();
