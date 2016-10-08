@@ -3740,6 +3740,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         else {
                             background.drawRect(0, 0, widthToUse, heightToUse);
                         }
+                        background.boundsPadding = buttonEl.BlurAmount;
                         background.endFill();
                         var texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
                         var backgroundSprite = new PIXI.Sprite(texture);
