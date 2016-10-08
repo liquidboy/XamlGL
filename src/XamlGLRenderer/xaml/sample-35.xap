@@ -8,7 +8,7 @@
     </Grid>
     <Grid>
       <Button HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFffa500"
-              Width="200" Height="50" Stroke="#FFf1be55" StrokeThickness="2" CornerRadius="8">
+              Width="200" Height="50" Stroke="#FFf1be55" StrokeThickness="1" CornerRadius="10">
         <Grid>
           <Text Text="XamlGL Button" FontFamily="Sans-Serif" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Color="white"></Text>
         </Grid>

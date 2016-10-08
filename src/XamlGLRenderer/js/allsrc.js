@@ -3736,11 +3736,15 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             background.drawRect(0, 0, widthToUse, heightToUse);
                         }
                         background.endFill();
-                        containerGrid.addChild(background);
+                        var texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
+                        var backgroundSprite = new PIXI.Sprite(texture);
+                        backgroundSprite.anchor.set(0.5, 0.5);
+                        backgroundSprite.setTransform(buttonEl.Width / 2, buttonEl.Height / 2);
+                        containerGrid.addChild(backgroundSprite);
                         if (buttonEl.BlurAmount > 0) {
                             let filter = new PIXI.filters.BlurFilter();
                             filter.blur = buttonEl.BlurAmount;
-                            background.filters = [filter];
+                            backgroundSprite.filters = [filter];
                         }
                     }
                     if (this.Element.Parent.Renderer === undefined) {
@@ -3754,11 +3758,13 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     }
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
-                            background.alpha = 1;
+                            backgroundSprite.alpha = 1;
+                            backgroundSprite.scale.set(1.1, 1.1);
                             r.Pointer.cursor = "pointer";
                         }
                         else {
-                            background.alpha = 0.95;
+                            backgroundSprite.alpha = 0.95;
+                            backgroundSprite.scale.set(1, 1);
                             r.Pointer.cursor = "auto";
                         }
                     });

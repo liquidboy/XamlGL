@@ -42,6 +42,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         containerGrid.height = super.Element.CalculatedHeight;
         containerGrid.width = super.Element.CalculatedWidth;
 
+
+
         // set background if its available
         let background: PIXI.Graphics = null;
         if (buttonEl.Background !== undefined) {
@@ -51,6 +53,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             // background
             // let background: PIXI.Graphics = new PIXI.Graphics();
             background = new PIXI.Graphics();
+            
             if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                 background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
             }
@@ -62,14 +65,27 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             }
             background.endFill();
 
-            // now render
-            containerGrid.addChild(background);
+            // generate a texture
+            var texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
+            var backgroundSprite = new PIXI.Sprite(texture);
+            backgroundSprite.anchor.set(0.5, 0.5);
+            backgroundSprite.setTransform(buttonEl.Width/2, buttonEl.Height/2);
 
+            // now render
+            //containerGrid.addChild(background);
+            containerGrid.addChild(backgroundSprite);
+
+            // filters
             if (buttonEl.BlurAmount > 0) {
                 let filter: PIXI.filters.BlurFilter = new PIXI.filters.BlurFilter();
                 filter.blur = buttonEl.BlurAmount;
-                background.filters = [filter];
+                //background.filters = [filter];
+                backgroundSprite.filters = [filter];
+                //background.boundsPadding = buttonEl.BlurAmount;
             }
+            
+            
+
         }
 
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
@@ -81,12 +97,16 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
+        
+
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
-                background.alpha = 1;
+                backgroundSprite.alpha = 1;
+                backgroundSprite.scale.set(1.1, 1.1);
                 r.Pointer.cursor = "pointer";
             } else {
-                background.alpha = 0.95;
+                backgroundSprite.alpha = 0.95;
+                backgroundSprite.scale.set(1, 1);
                 r.Pointer.cursor = "auto";
             }
         });
