@@ -113,7 +113,9 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 this._blurToUse = 1.0;
                 r.Pointer.cursor = "auto";
             }
-            blurFilter.blur = this._blurToUse;
+            if (buttonEl.BlurAmount > 0) {
+                blurFilter.blur = this._blurToUse;
+            }
             backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
         });
 

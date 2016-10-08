@@ -84,3 +84,5 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
         imageEl.IsDirty = false;
     }
 }
+
+// http://www.html5gamedevs.com/topic/10866-best-way-to-load-image-from-url/
