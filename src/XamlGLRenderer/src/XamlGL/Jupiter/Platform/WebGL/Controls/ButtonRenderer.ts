@@ -77,18 +77,17 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
-                // console.log("over");
                 background.alpha = 0.95;
-                // containerGrid.scale.x = 1.1;
-                // containerGrid.scale.y = 1.1;
-
                 r.Pointer.cursor = "pointer";
             } else {
-                // console.log("out");
                 background.alpha = 0.8;
-                // containerGrid.scale.x = 1;
-                // containerGrid.scale.y = 1;
                 r.Pointer.cursor = "auto";
+            }
+        });
+
+        this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(containerGrid)) {
+                ConsoleHelper.Log("Button Tapped");
             }
         });
 

@@ -2436,6 +2436,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
             Renderer = class Renderer {
                 constructor(width, height, antialias, transparent, htmlCanvasHost) {
                     this._draw = new EventDispatcher_3.EventDispatcher();
+                    this._pointerPressed = new EventDispatcher_3.EventDispatcher();
+                    this._pointerReleased = new EventDispatcher_3.EventDispatcher();
+                    this._pointerTapped = new EventDispatcher_3.EventDispatcher();
                     this._loadingBackground = null;
                     this._loadingText = null;
                     ConsoleHelper_1.ConsoleHelper.Log("Renderer.constructor");
@@ -2452,6 +2455,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                 get Pointer() { return this._tinkPointer; }
                 get PixiRenderer() { return this._renderer; }
                 get Draw() { return this._draw; }
+                get PointerPressed() { return this._pointerPressed; }
+                get PointerReleased() { return this._pointerReleased; }
+                get PointerTapped() { return this._pointerTapped; }
                 set Border(value) { this.PixiRenderer.view.style.border = value; }
                 set BackgroundColor(value) { this.PixiRenderer.backgroundColor = value; }
                 Resize(width, height) {
@@ -2483,9 +2489,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     this._tink = new TinkLib(PIXI, this.PixiRenderer.view);
                     this._tinkPointer = this._tink.makePointer();
                     this._tinkPointer.visible = true;
-                    this._tinkPointer.press = () => ConsoleHelper_1.ConsoleHelper.Log("Renderer.Tink -> pointer pressed");
-                    this._tinkPointer.release = () => ConsoleHelper_1.ConsoleHelper.Log("Renderer.Tink -> pointer released");
-                    this._tinkPointer.tap = () => ConsoleHelper_1.ConsoleHelper.Log("Renderer.Tink -> pointer tapped");
+                    this._tinkPointer.press = () => this._pointerPressed.dispatch(this, null);
+                    this._tinkPointer.release = () => this._pointerReleased.dispatch(this, null);
+                    this._tinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
                 }
                 LoadResourceImage(url) {
                     return PIXI.loader.add(url);
@@ -3747,6 +3753,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         else {
                             background.alpha = 0.8;
                             r.Pointer.cursor = "auto";
+                        }
+                    });
+                    this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
+                        if (r.Pointer.hitTestSprite(containerGrid)) {
+                            ConsoleHelper_9.ConsoleHelper.Log("Button Tapped");
                         }
                     });
                     buttonEl.IsDirty = false;

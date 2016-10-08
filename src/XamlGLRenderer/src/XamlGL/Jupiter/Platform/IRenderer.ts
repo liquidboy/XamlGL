@@ -20,4 +20,7 @@ export interface IRenderer {
     Resize(width: number, height: number): void;
     ResizeFull(): void;
     Draw: IEvent<IRenderer, IEventArgs>;
+    PointerPressed: IEvent<IRenderer, IEventArgs>;
+    PointerReleased: IEvent<IRenderer, IEventArgs>;
+    PointerTapped: IEvent<IRenderer, IEventArgs>;
 }

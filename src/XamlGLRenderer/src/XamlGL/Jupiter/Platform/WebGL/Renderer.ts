@@ -21,12 +21,18 @@ export class Renderer implements IRenderer {
     private _tinkPointer: any;
     private _resourceIds: Dictionary<string, RendererResource>;
     private _draw: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
+    private _pointerPressed: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
+    private _pointerReleased: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
+    private _pointerTapped: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
 
     get UniqueID(): string { return this.UniqueID; }
     get PixiStage(): PIXI.Container { return this._stage; }
     get Pointer(): any { return this._tinkPointer; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
     get Draw(): IEvent<Renderer, IEventArgs> { return this._draw; }
+    get PointerPressed(): IEvent<Renderer, IEventArgs> { return this._pointerPressed; }
+    get PointerReleased(): IEvent<Renderer, IEventArgs> { return this._pointerReleased; }
+    get PointerTapped(): IEvent<Renderer, IEventArgs> { return this._pointerTapped; }
 
     set Border(value: string) { this.PixiRenderer.view.style.border = value; }
     set BackgroundColor(value: number) { this.PixiRenderer.backgroundColor = value; }
@@ -75,9 +81,9 @@ export class Renderer implements IRenderer {
         this._tink = new TinkLib(PIXI, this.PixiRenderer.view);
         this._tinkPointer = this._tink.makePointer();
         this._tinkPointer.visible = true;
-        this._tinkPointer.press = () => ConsoleHelper.Log("Renderer.Tink -> pointer pressed");
-        this._tinkPointer.release = () => ConsoleHelper.Log("Renderer.Tink -> pointer released");
-        this._tinkPointer.tap = () => ConsoleHelper.Log("Renderer.Tink -> pointer tapped");
+        this._tinkPointer.press = () => this._pointerPressed.dispatch(this, null);
+        this._tinkPointer.release = () => this._pointerReleased.dispatch(this, null);
+        this._tinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
     }
 
     private LoadResourceImage(url: string): PIXI.loaders.Loader {
