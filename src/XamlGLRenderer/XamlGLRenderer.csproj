@@ -1813,6 +1813,7 @@
     <Content Include="xaml\sample-33.xap" />
     <Content Include="xaml\sample-34.xap" />
     <Content Include="xaml\sample-35.xap" />
+    <Content Include="xaml\sample-36.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

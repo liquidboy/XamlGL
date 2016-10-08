@@ -15,4 +15,5 @@ export interface IFrameworkElement {
     CalculatedY: number; // <- normally updated from a *renderer
     CalculatedWidth: number; // <- normally updated from a *renderer
     CalculatedHeight: number; // <- norma
+    BlurAmount: number;
 }

@@ -20,6 +20,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _calculatedY: number; // <- normally updated from a *renderer
     private _calculatedWidth: number; // <- normally updated from a *renderer
     private _calculatedHeight: number; // <- normally updated from a *renderer
+    private _blurAmount: number;
 
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
@@ -38,6 +39,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     get CalculatedY(): number { return this._calculatedY; }
     get CalculatedWidth(): number { return this._calculatedWidth; }
     get CalculatedHeight(): number { return this._calculatedHeight; }
+    get BlurAmount(): number { return this._blurAmount; }
 
     set Width(value: number) { this._width = value; }
     set Height(value: number) { this._height = value; }
@@ -50,6 +52,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     set CalculatedY(value: number) { this._calculatedY = value; }
     set CalculatedWidth(value: number) { this._calculatedWidth = value; }
     set CalculatedHeight(value: number) { this._calculatedHeight = value; }
+    set BlurAmount(value: number) { this._blurAmount = value; }
 
     // get ChildAdded(): IEvent<FrameworkElement, IEventArgs> { return this._childAdded; }
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }

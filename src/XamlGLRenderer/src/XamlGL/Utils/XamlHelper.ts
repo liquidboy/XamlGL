@@ -136,6 +136,7 @@ export class XamlHelper {
             let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
             button.BorderThickness = new Thickness(stokeThickness);
             button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
+            button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
             return button;
         }
         return null;

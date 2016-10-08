@@ -251,6 +251,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 get CalculatedY() { return this._calculatedY; }
                 get CalculatedWidth() { return this._calculatedWidth; }
                 get CalculatedHeight() { return this._calculatedHeight; }
+                get BlurAmount() { return this._blurAmount; }
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
                 set Margin(value) { this._margin = value; }
@@ -262,6 +263,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 set CalculatedY(value) { this._calculatedY = value; }
                 set CalculatedWidth(value) { this._calculatedWidth = value; }
                 set CalculatedHeight(value) { this._calculatedHeight = value; }
+                set BlurAmount(value) { this._blurAmount = value; }
                 get PropertyChanged() { return this._propertyChanged; }
                 get FocusChanged() { return this._focusChanged; }
             };
@@ -3726,7 +3728,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                             background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
                         }
-                        background.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.Background), 0.8);
+                        background.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.Background), 0.95);
                         if (buttonEl.CornerRadius.TopLeft > 0) {
                             background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
                         }
@@ -3735,6 +3737,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         }
                         background.endFill();
                         containerGrid.addChild(background);
+                        if (buttonEl.BlurAmount > 0) {
+                            let filter = new PIXI.filters.BlurFilter();
+                            filter.blur = buttonEl.BlurAmount;
+                            background.filters = [filter];
+                        }
                     }
                     if (this.Element.Parent.Renderer === undefined) {
                         this.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
@@ -3747,11 +3754,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     }
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
-                            background.alpha = 0.95;
+                            background.alpha = 1;
                             r.Pointer.cursor = "pointer";
                         }
                         else {
-                            background.alpha = 0.8;
+                            background.alpha = 0.95;
                             r.Pointer.cursor = "auto";
                         }
                     });
@@ -4127,6 +4134,7 @@ System.register("XamlGL/utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         let stokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
                         button.BorderThickness = new Thickness_1.Thickness(stokeThickness);
                         button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
+                        button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
                         return button;
                     }
                     return null;

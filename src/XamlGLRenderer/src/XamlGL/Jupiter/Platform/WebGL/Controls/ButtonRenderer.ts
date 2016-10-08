@@ -54,7 +54,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                 background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
             }
-            background.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background), 0.8);
+            background.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background), 0.95);
             if (buttonEl.CornerRadius.TopLeft > 0) {
                 background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
             } else {
@@ -64,6 +64,12 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
             // now render
             containerGrid.addChild(background);
+
+            if (buttonEl.BlurAmount > 0) {
+                let filter: PIXI.filters.BlurFilter = new PIXI.filters.BlurFilter();
+                filter.blur = buttonEl.BlurAmount;
+                background.filters = [filter];
+            }
         }
 
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
@@ -77,10 +83,10 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
-                background.alpha = 0.95;
+                background.alpha = 1;
                 r.Pointer.cursor = "pointer";
             } else {
-                background.alpha = 0.8;
+                background.alpha = 0.95;
                 r.Pointer.cursor = "auto";
             }
         });
