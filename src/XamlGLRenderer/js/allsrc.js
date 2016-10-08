@@ -3708,6 +3708,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                 constructor() {
                     super(...arguments);
                     this._scaleToUse = 1.0;
+                    this._blurToUse = 0;
                     this._isPressed = false;
                 }
                 Draw() {
@@ -3726,6 +3727,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     containerGrid.height = super.Element.CalculatedHeight;
                     containerGrid.width = super.Element.CalculatedWidth;
                     let background = null;
+                    let blurFilter = null;
                     if (buttonEl.Background !== undefined) {
                         let widthToUse = (buttonEl.Width === null || buttonEl.Width === 0) ? super.ParentWidth : buttonEl.Width;
                         let heightToUse = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
@@ -3748,9 +3750,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         backgroundSprite.setTransform(buttonEl.Width / 2, buttonEl.Height / 2);
                         containerGrid.addChild(backgroundSprite);
                         if (buttonEl.BlurAmount > 0) {
-                            let filter = new PIXI.filters.BlurFilter();
-                            filter.blur = buttonEl.BlurAmount;
-                            backgroundSprite.filters = [filter];
+                            blurFilter = new PIXI.filters.BlurFilter();
+                            this._blurToUse = buttonEl.BlurAmount;
+                            blurFilter.blur = 0;
+                            backgroundSprite.filters = [blurFilter];
                         }
                     }
                     if (this.Element.Parent.Renderer === undefined) {
@@ -3766,13 +3769,16 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             backgroundSprite.alpha = 1;
                             this._scaleToUse = this._isPressed ? 0.98 : 1.02;
+                            this._blurToUse = buttonEl.BlurAmount;
                             r.Pointer.cursor = "pointer";
                         }
                         else {
                             backgroundSprite.alpha = 0.95;
                             this._scaleToUse = 1.0;
+                            this._blurToUse = 1.0;
                             r.Pointer.cursor = "auto";
                         }
+                        blurFilter.blur = this._blurToUse;
                         backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {

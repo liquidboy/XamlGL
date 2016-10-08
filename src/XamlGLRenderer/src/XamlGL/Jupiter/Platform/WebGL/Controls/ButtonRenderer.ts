@@ -15,7 +15,9 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _scaleToUse: number = 1.0;
+    private _blurToUse: number = 0;
     private _isPressed: boolean = false;
+
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("GridRenderer.Draw");
@@ -47,6 +49,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         // set background if its available
         let background: PIXI.Graphics = null;
+        let blurFilter: PIXI.filters.BlurFilter = null;
         if (buttonEl.Background !== undefined) {
             let widthToUse: number = (buttonEl.Width === null || buttonEl.Width === 0) ? super.ParentWidth : buttonEl.Width;
             let heightToUse: number = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
@@ -79,10 +82,11 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
             // filters
             if (buttonEl.BlurAmount > 0) {
-                let filter: PIXI.filters.BlurFilter = new PIXI.filters.BlurFilter();
-                filter.blur = buttonEl.BlurAmount;
+                blurFilter = new PIXI.filters.BlurFilter();
+                this._blurToUse = buttonEl.BlurAmount;
+                blurFilter.blur = 0;
                 // background.filters = [filter];
-                backgroundSprite.filters = [filter];
+                backgroundSprite.filters = [blurFilter];
                 // background.boundsPadding = buttonEl.BlurAmount;
             }
         }
@@ -101,13 +105,15 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 backgroundSprite.alpha = 1;
                 this._scaleToUse = this._isPressed ? 0.98 : 1.02;
+                this._blurToUse = buttonEl.BlurAmount;
                 r.Pointer.cursor = "pointer";
             } else {
                 backgroundSprite.alpha = 0.95;
                 this._scaleToUse = 1.0;
+                this._blurToUse = 1.0;
                 r.Pointer.cursor = "auto";
             }
-
+            blurFilter.blur = this._blurToUse;
             backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
         });
 
