@@ -1,10 +1,12 @@
 ﻿/// <reference path="../../../../typings/globals/pixi.js/index.d.ts" />
+import { IEventArgs } from "./../../Events/IEventArgs";
+import { IEvent } from "./../../Events/IEvent";
 
 export interface IRenderer {
     UniqueID: string;
     PixiStage: PIXI.Container;
     PixiRenderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    Pixi: PIXI;
+    Pointer: any;
     Border: string;
     BackgroundColor: number;
 
@@ -17,4 +19,5 @@ export interface IRenderer {
     InitializeResource(key: string, url: string): PIXI.loaders.Loader;
     Resize(width: number, height: number): void;
     ResizeFull(): void;
+    Render: IEvent<IRenderer, IEventArgs>;
 }

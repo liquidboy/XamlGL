@@ -13,6 +13,8 @@ import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Orientation } from "./../../../../DataTypes/Orientation";
+import { IRenderer } from "./../../IRenderer";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class ImageRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
@@ -20,6 +22,7 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
         ConsoleHelper.Log("ImagetRenderer.Draw");
 
         let imageEl: Image = <Image>super.Element;
+        let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
 
         if (!imageEl.IsDirty) {
             return;
@@ -51,7 +54,7 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
                 }
 
                 // render in the next available slot
-                let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
+                // let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
                 super.Element.Platform.Renderer.ShowResource(
                     imageEl.UniqueID,
                     parentContainer,
@@ -74,7 +77,9 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
 
             });
 
-
+        this.Element.Platform.Renderer.Render.subscribe((r: IRenderer, args: IEventArgs) => {
+            // this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
+        });
 
         imageEl.IsDirty = false;
     }

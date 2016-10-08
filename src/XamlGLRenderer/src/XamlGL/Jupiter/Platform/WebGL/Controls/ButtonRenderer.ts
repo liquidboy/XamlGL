@@ -1,9 +1,9 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-// import { Renderer } from "./../Renderer";
+import { IRenderer } from "./../../IRenderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
-// import { IEventArgs } from "./../../../../Events/IEventArgs";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { Button } from "./../../../../Controls/Button";
@@ -14,6 +14,7 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
+
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("GridRenderer.Draw");
@@ -47,30 +48,52 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             let heightToUse: number = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
 
             // background
-            let rectangle: PIXI.Graphics = new PIXI.Graphics();
+            let background: PIXI.Graphics = new PIXI.Graphics();
             if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
-                rectangle.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
+                background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
             }
-            rectangle.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background));
+            background.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background), 0.5);
             if (buttonEl.CornerRadius.TopLeft > 0) {
-                rectangle.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
+                background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
             } else {
-                rectangle.drawRect(0, 0, widthToUse, heightToUse);
+                background.drawRect(0, 0, widthToUse, heightToUse);
             }
-            rectangle.endFill();
+            background.endFill();
 
             // now render
-            containerGrid.addChild(rectangle);
+            containerGrid.addChild(background);
         }
 
-        if (super.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
-            super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+        if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
+            this.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
         } else {
-            if (super.Element.Parent.Renderer.PixiElement && super.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
-                let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
+            if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                let parentContainer: PIXI.Container = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
                 parentContainer.addChild(containerGrid);
             }
         }
+
+        this.Element.Platform.Renderer.Render.subscribe((r: IRenderer, args: IEventArgs) => {
+            // if (r.Pointer.hitTestSprite(containerGrid)) {
+            //    console.log("hit the button");
+            // }
+            if (r.Pointer.hitTestSprite(containerGrid)) {
+                // console.log("over");
+                containerGrid.alpha = 0.5;
+                // containerGrid.scale.x = 1.1;
+                // containerGrid.scale.y = 1.1;
+
+                r.Pointer.cursor = "pointer";
+            } else {
+                // console.log("out");
+                containerGrid.alpha = 1; // rendererHelper.HashToColorNumber(buttonEl.Background);
+                // containerGrid.scale.x = 1;
+                // containerGrid.scale.y = 1;
+                r.Pointer.cursor = "auto";
+            }
+
+            // this.Element.Platform.Renderer.PixiRenderer.render(containerGrid);
+        });
 
         buttonEl.IsDirty = false;
     }

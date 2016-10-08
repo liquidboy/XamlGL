@@ -3,7 +3,12 @@
 import { Guid } from "./../../../DataTypes/Guid";
 import { IRenderer } from "./../IRenderer";
 import { PlatformPage } from "./PlatformPage";
+// import { FrameworkElement } from "./../../FrameworkElement";
 import { Dictionary } from "../../../../Libs/typescript-collections/src/lib/index";
+import { ConsoleHelper } from "./../../../Utils/ConsoleHelper";
+import { IEventArgs } from "./../../../Events/IEventArgs";
+import { EventDispatcher } from "./../../../Events/EventDispatcher";
+import { IEvent } from "./../../../Events/IEvent";
 
 declare var TinkLib: any;
 
@@ -13,24 +18,28 @@ export class Renderer implements IRenderer {
     private _stage: PIXI.Container;
     private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private _tink: any;
+    private _tinkPointer: any;
     private _resourceIds: Dictionary<string, RendererResource>;
+    private _render: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
 
     get UniqueID(): string { return this.UniqueID; }
     get PixiStage(): PIXI.Container { return this._stage; }
-    get Pixi(): PIXI { return PIXI; }
+    get Pointer(): any { return this._tinkPointer; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
+    get Render(): IEvent<Renderer, IEventArgs> { return this._render; }
 
     set Border(value: string) { this.PixiRenderer.view.style.border = value; }
     set BackgroundColor(value: number) { this.PixiRenderer.backgroundColor = value; }
 
     constructor(width: number, height: number, antialias: boolean, transparent: boolean, htmlCanvasHost: JQuery) {
+        ConsoleHelper.Log("Renderer.constructor");
         this._uniqueId = Guid.newGuid();
         this._resourceIds = new Dictionary<string, RendererResource>();
         this._stage = new PIXI.Container();
         this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
 
         htmlCanvasHost.append(this.PixiRenderer.view);
-        this._tink = new TinkLib(PIXI, this.PixiRenderer.view);
+        this.InitializeTink();
         this.RenderLoop.call(this);
     }
 
@@ -60,6 +69,15 @@ export class Renderer implements IRenderer {
         } else {
             return null;
         }
+    }
+
+    private InitializeTink(): void {
+        this._tink = new TinkLib(PIXI, this.PixiRenderer.view);
+        this._tinkPointer = this._tink.makePointer();
+        this._tinkPointer.visible = true;
+        this._tinkPointer.press = () => ConsoleHelper.Log("Renderer.Tink -> pointer pressed");
+        this._tinkPointer.release = () => ConsoleHelper.Log("Renderer.Tink -> pointer released");
+        this._tinkPointer.tap = () => ConsoleHelper.Log("Renderer.Tink -> pointer tapped");
     }
 
     private LoadResourceImage(url: string): PIXI.loaders.Loader {
@@ -132,7 +150,9 @@ export class Renderer implements IRenderer {
 
     public RenderLoop(): void {
         window.requestAnimationFrame(this.RenderLoop.bind(this));
+
         this._tink.update();
+        this._render.dispatch(this, null);
     }
 
 }
