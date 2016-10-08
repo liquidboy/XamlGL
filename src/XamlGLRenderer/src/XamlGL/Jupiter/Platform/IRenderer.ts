@@ -19,5 +19,5 @@ export interface IRenderer {
     InitializeResource(key: string, url: string): PIXI.loaders.Loader;
     Resize(width: number, height: number): void;
     ResizeFull(): void;
-    Render: IEvent<IRenderer, IEventArgs>;
+    Draw: IEvent<IRenderer, IEventArgs>;
 }

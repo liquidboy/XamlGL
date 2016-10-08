@@ -13,8 +13,8 @@ import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Orientation } from "./../../../../DataTypes/Orientation";
-import { IRenderer } from "./../../IRenderer";
-import { IEventArgs } from "./../../../../Events/IEventArgs";
+// import { IRenderer } from "./../../IRenderer";
+// import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class ImageRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
@@ -74,12 +74,12 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
                             + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
                     }
                 }
-
+                this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
             });
 
-        this.Element.Platform.Renderer.Render.subscribe((r: IRenderer, args: IEventArgs) => {
-            // this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
-        });
+        // this.Element.Platform.Renderer.Render.subscribe((r: IRenderer, args: IEventArgs) => {
+        //    // this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
+        // });
 
         imageEl.IsDirty = false;
     }

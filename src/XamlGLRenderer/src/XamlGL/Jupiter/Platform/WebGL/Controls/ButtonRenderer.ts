@@ -43,16 +43,18 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         containerGrid.width = super.Element.CalculatedWidth;
 
         // set background if its available
+        let background: PIXI.Graphics = null;
         if (buttonEl.Background !== undefined) {
             let widthToUse: number = (buttonEl.Width === null || buttonEl.Width === 0) ? super.ParentWidth : buttonEl.Width;
             let heightToUse: number = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
 
             // background
-            let background: PIXI.Graphics = new PIXI.Graphics();
+            // let background: PIXI.Graphics = new PIXI.Graphics();
+            background = new PIXI.Graphics();
             if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                 background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
             }
-            background.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background), 0.5);
+            background.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background), 0.8);
             if (buttonEl.CornerRadius.TopLeft > 0) {
                 background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
             } else {
@@ -73,26 +75,21 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
-        this.Element.Platform.Renderer.Render.subscribe((r: IRenderer, args: IEventArgs) => {
-            // if (r.Pointer.hitTestSprite(containerGrid)) {
-            //    console.log("hit the button");
-            // }
+        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 // console.log("over");
-                containerGrid.alpha = 0.5;
+                background.alpha = 0.95;
                 // containerGrid.scale.x = 1.1;
                 // containerGrid.scale.y = 1.1;
 
                 r.Pointer.cursor = "pointer";
             } else {
                 // console.log("out");
-                containerGrid.alpha = 1; // rendererHelper.HashToColorNumber(buttonEl.Background);
+                background.alpha = 0.8;
                 // containerGrid.scale.x = 1;
                 // containerGrid.scale.y = 1;
                 r.Pointer.cursor = "auto";
             }
-
-            // this.Element.Platform.Renderer.PixiRenderer.render(containerGrid);
         });
 
         buttonEl.IsDirty = false;

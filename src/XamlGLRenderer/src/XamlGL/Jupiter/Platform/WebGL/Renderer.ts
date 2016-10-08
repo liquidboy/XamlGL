@@ -20,13 +20,13 @@ export class Renderer implements IRenderer {
     private _tink: any;
     private _tinkPointer: any;
     private _resourceIds: Dictionary<string, RendererResource>;
-    private _render: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
+    private _draw: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
 
     get UniqueID(): string { return this.UniqueID; }
     get PixiStage(): PIXI.Container { return this._stage; }
     get Pointer(): any { return this._tinkPointer; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
-    get Render(): IEvent<Renderer, IEventArgs> { return this._render; }
+    get Draw(): IEvent<Renderer, IEventArgs> { return this._draw; }
 
     set Border(value: string) { this.PixiRenderer.view.style.border = value; }
     set BackgroundColor(value: number) { this.PixiRenderer.backgroundColor = value; }
@@ -149,10 +149,12 @@ export class Renderer implements IRenderer {
     }
 
     public RenderLoop(): void {
-        window.requestAnimationFrame(this.RenderLoop.bind(this));
-
         this._tink.update();
-        this._render.dispatch(this, null);
+        this._draw.dispatch(this, null);
+
+        this._renderer.render(this.PixiStage);
+
+        window.requestAnimationFrame(this.RenderLoop.bind(this));
     }
 
 }

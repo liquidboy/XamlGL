@@ -2435,7 +2435,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
         execute: function() {
             Renderer = class Renderer {
                 constructor(width, height, antialias, transparent, htmlCanvasHost) {
-                    this._render = new EventDispatcher_3.EventDispatcher();
+                    this._draw = new EventDispatcher_3.EventDispatcher();
                     this._loadingBackground = null;
                     this._loadingText = null;
                     ConsoleHelper_1.ConsoleHelper.Log("Renderer.constructor");
@@ -2451,7 +2451,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                 get PixiStage() { return this._stage; }
                 get Pointer() { return this._tinkPointer; }
                 get PixiRenderer() { return this._renderer; }
-                get Render() { return this._render; }
+                get Draw() { return this._draw; }
                 set Border(value) { this.PixiRenderer.view.style.border = value; }
                 set BackgroundColor(value) { this.PixiRenderer.backgroundColor = value; }
                 Resize(width, height) {
@@ -2541,9 +2541,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     return this.InitializeResource("loading", url);
                 }
                 RenderLoop() {
-                    window.requestAnimationFrame(this.RenderLoop.bind(this));
                     this._tink.update();
-                    this._render.dispatch(this, null);
+                    this._draw.dispatch(this, null);
+                    this._renderer.render(this.PixiStage);
+                    window.requestAnimationFrame(this.RenderLoop.bind(this));
                 }
             };
             exports_38("Renderer", Renderer);
@@ -3402,8 +3403,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                                     + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
                             }
                         }
-                    });
-                    this.Element.Platform.Renderer.Render.subscribe((r, args) => {
+                        this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
                     });
                     imageEl.IsDirty = false;
                 }
@@ -3712,14 +3712,15 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
                     containerGrid.height = super.Element.CalculatedHeight;
                     containerGrid.width = super.Element.CalculatedWidth;
+                    let background = null;
                     if (buttonEl.Background !== undefined) {
                         let widthToUse = (buttonEl.Width === null || buttonEl.Width === 0) ? super.ParentWidth : buttonEl.Width;
                         let heightToUse = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
-                        let background = new PIXI.Graphics();
+                        background = new PIXI.Graphics();
                         if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                             background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
                         }
-                        background.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.Background), 0.5);
+                        background.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.Background), 0.8);
                         if (buttonEl.CornerRadius.TopLeft > 0) {
                             background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
                         }
@@ -3738,13 +3739,13 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             parentContainer.addChild(containerGrid);
                         }
                     }
-                    this.Element.Platform.Renderer.Render.subscribe((r, args) => {
+                    this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
-                            containerGrid.alpha = 0.5;
+                            background.alpha = 0.95;
                             r.Pointer.cursor = "pointer";
                         }
                         else {
-                            containerGrid.alpha = 1;
+                            background.alpha = 0.8;
                             r.Pointer.cursor = "auto";
                         }
                     });

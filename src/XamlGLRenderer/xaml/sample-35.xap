@@ -7,8 +7,8 @@
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-2.jpg"></Image>
     </Grid>
     <Grid>
-      <Button HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF05A6E2"
-              Width="200" Height="50" Stroke="#FFFFFFFF" StrokeThickness="2" CornerRadius="10">
+      <Button HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFffa500"
+              Width="200" Height="50" Stroke="#FFf1be55" StrokeThickness="2" CornerRadius="8">
         <Grid>
           <Text Text="XamlGL Button" FontFamily="Sans-Serif" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Color="white"></Text>
         </Grid>
