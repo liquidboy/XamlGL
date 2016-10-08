@@ -5,15 +5,19 @@ import { IRenderer } from "./../IRenderer";
 import { PlatformPage } from "./PlatformPage";
 import { Dictionary } from "../../../../Libs/typescript-collections/src/lib/index";
 
+declare var TinkLib: any;
+
 export class Renderer implements IRenderer {
 
     private _uniqueId: string;
     private _stage: PIXI.Container;
     private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+    private _tink: any;
     private _resourceIds: Dictionary<string, RendererResource>;
 
     get UniqueID(): string { return this.UniqueID; }
     get PixiStage(): PIXI.Container { return this._stage; }
+    get Pixi(): PIXI { return PIXI; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
 
     set Border(value: string) { this.PixiRenderer.view.style.border = value; }
@@ -26,6 +30,8 @@ export class Renderer implements IRenderer {
         this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
 
         htmlCanvasHost.append(this.PixiRenderer.view);
+        this._tink = new TinkLib(PIXI, this.PixiRenderer.view);
+        this.RenderLoop.call(this);
     }
 
     public Resize(width: number, height: number): void {
@@ -123,6 +129,12 @@ export class Renderer implements IRenderer {
     public InitializeLoadingResource(url: string): PIXI.loaders.Loader {
         return this.InitializeResource("loading", url);
     }
+
+    public RenderLoop(): void {
+        window.requestAnimationFrame(this.RenderLoop.bind(this));
+        this._tink.update();
+    }
+
 }
 
 

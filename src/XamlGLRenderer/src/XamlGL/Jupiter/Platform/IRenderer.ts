@@ -4,6 +4,7 @@ export interface IRenderer {
     UniqueID: string;
     PixiStage: PIXI.Container;
     PixiRenderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
+    Pixi: PIXI;
     Border: string;
     BackgroundColor: number;
 

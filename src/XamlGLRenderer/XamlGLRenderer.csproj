@@ -1320,6 +1320,7 @@
     <Content Include="node_modules\rivets\spec\rivets\routines.js" />
     <Content Include="node_modules\rivets\spec\rivets\text_template_parser.js" />
     <Content Include="node_modules\rivets\spec\runner.html" />
+    <Content Include="src\Libs\tink\tink.js" />
     <Content Include="views\pixi-home.html" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
