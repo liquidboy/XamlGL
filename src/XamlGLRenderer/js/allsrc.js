@@ -3705,6 +3705,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
             }],
         execute: function() {
             ButtonRenderer = class ButtonRenderer extends BaseRenderer_7.BaseRenderer {
+                constructor() {
+                    super(...arguments);
+                    this._scaleToUse = 1.0;
+                    this._isPressed = false;
+                }
                 Draw() {
                     super.Draw();
                     ConsoleHelper_9.ConsoleHelper.Log("GridRenderer.Draw");
@@ -3728,7 +3733,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                             background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
                         }
-                        background.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.Background), 0.95);
+                        background.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.Background), 1);
                         if (buttonEl.CornerRadius.TopLeft > 0) {
                             background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
                         }
@@ -3759,18 +3764,29 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             backgroundSprite.alpha = 1;
-                            backgroundSprite.scale.set(1.1, 1.1);
+                            this._scaleToUse = this._isPressed ? 0.98 : 1.02;
                             r.Pointer.cursor = "pointer";
                         }
                         else {
                             backgroundSprite.alpha = 0.95;
-                            backgroundSprite.scale.set(1, 1);
+                            this._scaleToUse = 1.0;
                             r.Pointer.cursor = "auto";
                         }
+                        backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             ConsoleHelper_9.ConsoleHelper.Log("Button Tapped");
+                        }
+                    });
+                    this.Element.Platform.Renderer.PointerPressed.subscribe((r, args) => {
+                        if (r.Pointer.hitTestSprite(containerGrid)) {
+                            this._isPressed = true;
+                        }
+                    });
+                    this.Element.Platform.Renderer.PointerReleased.subscribe((r, args) => {
+                        if (r.Pointer.hitTestSprite(containerGrid)) {
+                            this._isPressed = false;
                         }
                     });
                     buttonEl.IsDirty = false;

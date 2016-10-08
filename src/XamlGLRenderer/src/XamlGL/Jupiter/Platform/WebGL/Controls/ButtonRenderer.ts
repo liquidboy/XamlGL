@@ -14,7 +14,8 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
-
+    private _scaleToUse: number = 1.0;
+    private _isPressed: boolean = false;
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("GridRenderer.Draw");
@@ -57,7 +58,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                 background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
             }
-            background.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background), 0.95);
+            background.beginFill(RendererHelper.HashToColorNumber(buttonEl.Background), 1);
             if (buttonEl.CornerRadius.TopLeft > 0) {
                 background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
             } else {
@@ -95,15 +96,18 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         }
 
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+            // consoleHelper.Log("Button Draw");
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 backgroundSprite.alpha = 1;
-                backgroundSprite.scale.set(1.1, 1.1);
+                this._scaleToUse = this._isPressed ? 0.98 : 1.02;
                 r.Pointer.cursor = "pointer";
             } else {
                 backgroundSprite.alpha = 0.95;
-                backgroundSprite.scale.set(1, 1);
+                this._scaleToUse = 1.0;
                 r.Pointer.cursor = "auto";
             }
+
+            backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
         });
 
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
@@ -111,6 +115,19 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 ConsoleHelper.Log("Button Tapped");
             }
         });
+
+        this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(containerGrid)) {
+                this._isPressed = true;
+            }
+        });
+
+        this.Element.Platform.Renderer.PointerReleased.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(containerGrid)) {
+                this._isPressed = false;
+            }
+        });
+
 
         buttonEl.IsDirty = false;
     }
