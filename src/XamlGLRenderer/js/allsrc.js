@@ -3713,7 +3713,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                 }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_9.ConsoleHelper.Log("GridRenderer.Draw");
+                    ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw");
                     let buttonEl = super.Element;
                     let containerGrid = new PIXI.Container();
                     super.PixiElement = containerGrid;
@@ -3744,24 +3744,25 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         }
                         background.boundsPadding = buttonEl.BlurAmount;
                         background.endFill();
+                        var texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
+                        var backgroundSprite = new PIXI.Sprite(texture);
+                        backgroundSprite.anchor.set(0.5, 0.5);
+                        backgroundSprite.setTransform(buttonEl.Width / 2, buttonEl.Height / 2);
                         if (buttonEl.BlurAmount > 0) {
                             blurFilter = new PIXI.filters.BlurFilter();
                             this._blurToUse = buttonEl.BlurAmount;
                             blurFilter.blur = 0;
-                            background.filters = [blurFilter];
+                            backgroundSprite.filters = [blurFilter];
                         }
-                        var texture = this.Element.Parent.Renderer.PixiElement.generateTexture(this.Element.Platform.Renderer.PixiRenderer, 1, 1);
-                        var backgroundSprite = new PIXI.Sprite(texture);
-                        backgroundSprite.anchor.set(0.5, 0.5);
-                        backgroundSprite.setTransform(buttonEl.Width / 2, buttonEl.Height / 2);
-                        containerGrid.addChild(background);
+                        containerGrid.addChild(backgroundSprite);
                     }
+                    let parentContainer = null;
                     if (this.Element.Parent.Renderer === undefined) {
                         this.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
                     }
                     else {
                         if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
-                            let parentContainer = this.Element.Parent.Renderer.PixiElement;
+                            parentContainer = this.Element.Parent.Renderer.PixiElement;
                             parentContainer.addChild(containerGrid);
                         }
                     }
@@ -3782,7 +3783,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             blurFilter.blur = this._blurToUse;
                         }
                         backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
-                        this.Element.Platform.Renderer.PixiRenderer.render(backgroundSprite);
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {

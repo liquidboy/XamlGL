@@ -20,7 +20,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("GridRenderer.Draw");
+        ConsoleHelper.Log("ButtonRenderer.Draw");
         // console.log(super.Element);
         let buttonEl: Button = <Button>super.Element;
 
@@ -76,10 +76,6 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             backgroundSprite.anchor.set(0.5, 0.5); // now we can scale and it will do it around the center of button
             backgroundSprite.setTransform(buttonEl.Width/2, buttonEl.Height/2);
 
-            // now render
-            // containerGrid.addChild(background);
-            containerGrid.addChild(backgroundSprite);
-
             // filters
             if (buttonEl.BlurAmount > 0) {
                 blurFilter = new PIXI.filters.BlurFilter();
@@ -89,17 +85,24 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 backgroundSprite.filters = [blurFilter];
                 // background.boundsPadding = buttonEl.BlurAmount;
             }
+
+            // now render in container
+            // containerGrid.addChild(background);
+            containerGrid.addChild(backgroundSprite);
         }
 
+        // render graphics (DisplayObject) on PIXI stage
+        let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
             this.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
-                let parentContainer: PIXI.Container = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+                parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
                 parentContainer.addChild(containerGrid);
             }
         }
-
+        
+        // update the UI based on interaction events and the render DRAW loop
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             // consoleHelper.Log("Button Draw");
             if (r.Pointer.hitTestSprite(containerGrid)) {
@@ -117,6 +120,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 blurFilter.blur = this._blurToUse;
             }
             backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
+            // parentContainer.rotation += 0.001;
         });
 
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
