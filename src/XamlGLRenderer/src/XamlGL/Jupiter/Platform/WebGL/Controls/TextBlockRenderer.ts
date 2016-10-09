@@ -15,8 +15,8 @@ import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Orientation } from "./../../../../DataTypes/Orientation";
 import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
-import { IRenderer } from "./../../IRenderer";
-import { IEventArgs } from "./../../../../Events/IEventArgs";
+// import { IRenderer } from "./../../IRenderer";
+// import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class TextBlockRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
@@ -100,12 +100,12 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
             }
         }
 
-        // update the UI based on interaction events and the render DRAW loop
-        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            // console.log(this.Element.Parent.Parent.Renderer.Scale);
-            let scale: number = this.Element.Parent.Renderer.Scale;
-            text.scale.set(scale, scale);
-        });
+        // // update the UI based on interaction events and the render DRAW loop
+        // this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+        //    // console.log(this.Element.Parent.Parent.Renderer.Scale);
+        //    let scale: number = this.Element.Parent.Renderer.Scale;
+        //    text.scale.set(scale, scale);
+        // });
 
 
         textEl.IsDirty = false;
