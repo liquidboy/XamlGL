@@ -172,10 +172,10 @@ export class BaseRenderer implements IControlRenderer {
    }
 
     public CalculateCurrentAvailableSlot(): Point {
+        // determine starting SLOT if the parent is a PANEL that lays out its children
         let parentXStart: number = 0;
         let parentYStart: number = 0;
         if (this.Element.Parent instanceof StackPanel) {
-            // get from the parent stackpanel the next slot available to render in
             let sp: StackPanel = <StackPanel>this.Element.Parent;
             if (sp.Orientation === Orientation.Horizontal) {
                 parentXStart += sp.CurrentItemRenderXY;

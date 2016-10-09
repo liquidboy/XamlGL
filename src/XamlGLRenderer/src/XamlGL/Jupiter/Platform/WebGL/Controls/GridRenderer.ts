@@ -13,7 +13,7 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
-
+import { Point } from "./../../../../DataTypes/Point";
 
 export class GridRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
@@ -38,10 +38,15 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(gridEl);
 
-        // position/size container
-        containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
+        // size container
         containerGrid.height = super.Element.CalculatedHeight;
         containerGrid.width = super.Element.CalculatedWidth;
+
+        // determine starting SLOT if the parent is a PANEL that lays out its children
+        let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
+
+        // position container
+        containerGrid.position.set(super.Element.CalculatedX + parentXYStart.X, super.Element.CalculatedY + parentXYStart.Y);
 
         // set background if its available
         if (gridEl.Background !== undefined) {
@@ -51,8 +56,14 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             rectangle.beginFill(RendererHelper.HashToColorNumber(gridEl.Background));
             rectangle.drawRect(0, 0, widthToUse, heightToUse);
             rectangle.endFill();
+
+
+            // now render in container
             containerGrid.addChild(rectangle);
         }
+
+        // tell the parent stackpanel the next available slot
+        this.IncrementNextAvailableSlot();
 
         if (super.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
             super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);

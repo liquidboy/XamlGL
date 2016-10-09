@@ -69,20 +69,8 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(textEl);
 
-        // determine container to use
+        // determine starting SLOT if the parent is a PANEL that lays out its children
         let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
-        // let parentXStart: number = 0;
-        // let parentYStart: number = 0;
-
-        // if (this.Element.Parent instanceof StackPanel) {
-        //    // get from the parent stackpanel the next slot available to render in
-        //    let sp: StackPanel = <StackPanel>this.Element.Parent;
-        //    if (sp.Orientation === Orientation.Horizontal) {
-        //        parentXStart += sp.CurrentItemRenderXY;
-        //    } else {
-        //        parentYStart += sp.CurrentItemRenderXY;
-        //    }
-        // }
 
         // position text
         text.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
@@ -92,16 +80,6 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
 
         // tell the parent stackpanel the next available slot
         this.IncrementNextAvailableSlot();
-        // if (this.Element.Parent instanceof StackPanel) {
-        //    let sp: StackPanel = <StackPanel>this.Element.Parent;
-        //    if (sp.Orientation === Orientation.Horizontal) {
-        //        sp.CurrentItemRenderXY += this.Element.CalculatedWidth
-        //            + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
-        //    } else {
-        //        sp.CurrentItemRenderXY += this.Element.CalculatedHeight
-        //            + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
-        //    }
-        // }
 
         // // update the UI based on interaction events and the render DRAW loop
         // this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
