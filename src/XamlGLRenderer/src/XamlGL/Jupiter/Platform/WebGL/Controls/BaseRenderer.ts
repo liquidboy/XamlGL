@@ -124,7 +124,7 @@ export class BaseRenderer implements IControlRenderer {
            this.Element.CalculatedX = 0;
            if (backingControl.HorizontalAlignment === HorizontalAlignment.Left) {
                this.Element.CalculatedX = 0;
-            } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Right) {
+           } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Right) {
                this.Element.CalculatedX = this.ParentWidth - backingControl.Width;
             } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Stretch) {
                this.Element.CalculatedWidth = this.ParentWidth;
@@ -151,6 +151,9 @@ export class BaseRenderer implements IControlRenderer {
            } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Stretch) {
                this.Element.CalculatedX += this.Element.Margin.Left;
                this.Element.CalculatedWidth -= (this.Element.Margin.Right + this.Element.Margin.Left);
+           } else if (backingControl.HorizontalAlignment === HorizontalAlignment.Center) {
+               this.Element.CalculatedX += this.Element.Margin.Left;
+               this.Element.CalculatedWidth -= (this.Element.Margin.Right + this.Element.Margin.Left);
            }
 
            if (backingControl.VerticalAlignment === VerticalAlignment.Top) {
@@ -160,6 +163,8 @@ export class BaseRenderer implements IControlRenderer {
            } else if (backingControl.VerticalAlignment === VerticalAlignment.Stretch) {
                this.Element.CalculatedY += this.Element.Margin.Top;
                this.Element.CalculatedHeight -= (this.Element.Margin.Top + this.Element.Margin.Bottom);
+           } else if (backingControl.VerticalAlignment === VerticalAlignment.Center) {
+               this.Element.CalculatedY += this.Element.Margin.Top;
            }
        }
    }

@@ -11,7 +11,8 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-
+import { StackPanel } from "./../../../../Controls/StackPanel";
+import { Orientation } from "./../../../../DataTypes/Orientation";
 
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _blurToUse: number = 0;
@@ -39,8 +40,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(buttonEl);
 
-        // position/size container
-        containerGrid.position.set(super.Element.CalculatedX, super.Element.CalculatedY);
+        // size container
         containerGrid.height = super.Element.CalculatedHeight;
         containerGrid.width = super.Element.CalculatedWidth;
 
@@ -85,9 +85,36 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 // background.boundsPadding = buttonEl.BlurAmount;
             }
 
+            // determine container to use
+            let parentXStart: number = 0;
+            let parentYStart: number = 0;
+            if (this.Element.Parent instanceof StackPanel) {
+                // get from the parent stackpanel the next slot available to render in
+                let sp: StackPanel = <StackPanel>this.Element.Parent;
+                if (sp.Orientation === Orientation.Horizontal) {
+                    parentXStart += sp.CurrentItemRenderXY;
+                } else {
+                    parentYStart += sp.CurrentItemRenderXY;
+                }
+            }
+
+            // position/size container
+            containerGrid.position.set(super.Element.CalculatedX + parentXStart, super.Element.CalculatedY + parentYStart);
+
             // now render in container
-            // containerGrid.addChild(background);
             containerGrid.addChild(backgroundSprite);
+
+            // tell the parent stackpanel the next available slot
+            if (this.Element.Parent instanceof StackPanel) {
+                let sp: StackPanel = <StackPanel>this.Element.Parent;
+                if (sp.Orientation === Orientation.Horizontal) {
+                    sp.CurrentItemRenderXY += this.Element.CalculatedWidth
+                        + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
+                } else {
+                    sp.CurrentItemRenderXY += this.Element.CalculatedHeight
+                        + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
+                }
+            }
         }
 
         // render graphics (DisplayObject) on PIXI stage
