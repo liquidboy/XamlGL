@@ -1,0 +1,18 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
+    <Grid>
+      <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-11.jpg"></Image>
+    </Grid>
+    <Grid>
+      <Button HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF14a0e2"
+              Width="110" Height="110" Stroke="#FF8edaff" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
+        <Grid>
+          <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="55" Source="/assets/zune-logo-sml.png" Margin="21,25,0,0"></Image>
+        </Grid>
+      </Button>
+    </Grid>
+  </Grid>
+</Application>
