@@ -133,6 +133,9 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("Button Tapped");
+                if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
+                    eval(buttonEl.ClickStr);
+                }
             }
         });
 

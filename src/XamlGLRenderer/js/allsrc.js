@@ -3703,9 +3703,11 @@ System.register("XamlGL/Controls/Button", ["XamlGL/Controls/Panel"], function(ex
                 get BorderThickness() { return this._borderThickness; }
                 get BorderBrush() { return this._borderBrush; }
                 get CornerRadius() { return this._cornerRadius; }
+                get ClickStr() { return this._clickStr; }
                 set BorderThickness(value) { this._borderThickness = value; }
                 set BorderBrush(value) { this._borderBrush = value; }
                 set CornerRadius(value) { this._cornerRadius = value; }
+                set ClickStr(value) { this._clickStr = value; }
             };
             exports_71("Button", Button);
         }
@@ -3812,6 +3814,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             ConsoleHelper_9.ConsoleHelper.Log("Button Tapped");
+                            if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
+                                eval(buttonEl.ClickStr);
+                            }
                         }
                     });
                     this.Element.Platform.Renderer.PointerPressed.subscribe((r, args) => {
@@ -4192,6 +4197,7 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         button.BorderThickness = new Thickness_1.Thickness(stokeThickness);
                         button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
                         button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
+                        button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
                         return button;
                     }
                     return null;
@@ -4247,6 +4253,12 @@ System.register("XamlGL/Utils/XamlHelper", ["XamlGL/Controls/Grid", "XamlGL/Cont
                         return 0;
                     }
                     return Number.parseInt(attr.value);
+                }
+                static StringToEmpty(attr) {
+                    if (attr === null) {
+                        return "";
+                    }
+                    return attr.value;
                 }
                 static StringToVerticalAlignment(attr) {
                     if (attr === null) {

@@ -137,6 +137,7 @@ export class XamlHelper {
             button.BorderThickness = new Thickness(stokeThickness);
             button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
             button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
+            button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
             return button;
         }
         return null;
@@ -190,8 +191,13 @@ export class XamlHelper {
         if (attr === null) {
             return 0;
         }
-
         return Number.parseInt(attr.value);
+    }
+    private static StringToEmpty(attr: Attr): string {
+        if (attr === null) {
+            return "";
+        }
+        return attr.value;
     }
     private static StringToVerticalAlignment(attr: Attr): VerticalAlignment {
         if (attr === null) {
