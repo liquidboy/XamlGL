@@ -5,13 +5,15 @@ import { FrameworkElement } from "./../../../FrameworkElement";
 import { IFrameworkElement } from "./../../../IFrameworkElement";
 import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-// import { Orientation } from "./../../../../DataTypes/Orientation";
+import { Point } from "./../../../../DataTypes/Point";
 import { Panel } from "./../../../../Controls/Panel";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { IEvent } from "./../../../../Events/IEvent";
 import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 // import { Page } from "./../../../Page";
+import { StackPanel } from "./../../../../Controls/StackPanel";
+import { Orientation } from "./../../../../DataTypes/Orientation";
 
 export class BaseRenderer implements IControlRenderer {
 
@@ -118,7 +120,7 @@ export class BaseRenderer implements IControlRenderer {
         }
     }
 
-   public CalculateXWidth(backingControl: IFrameworkElement): void {
+    public CalculateXWidth(backingControl: IFrameworkElement): void {
        if (backingControl.Width !== null && backingControl.Width > 0) {
            this.Element.CalculatedWidth = backingControl.Width;
            this.Element.CalculatedX = 0;
@@ -142,7 +144,7 @@ export class BaseRenderer implements IControlRenderer {
         }
     }
 
-   public UpdateCalculatedValuesUsingMargin(backingControl: IFrameworkElement): void {
+    public UpdateCalculatedValuesUsingMargin(backingControl: IFrameworkElement): void {
        if (backingControl.Margin !== null || backingControl.Margin !== undefined) {
            if (backingControl.HorizontalAlignment === HorizontalAlignment.Left) {
                this.Element.CalculatedX += this.Element.Margin.Left;
@@ -168,4 +170,33 @@ export class BaseRenderer implements IControlRenderer {
            }
        }
    }
+
+    public CalculateCurrentAvailableSlot(): Point {
+        let parentXStart: number = 0;
+        let parentYStart: number = 0;
+        if (this.Element.Parent instanceof StackPanel) {
+            // get from the parent stackpanel the next slot available to render in
+            let sp: StackPanel = <StackPanel>this.Element.Parent;
+            if (sp.Orientation === Orientation.Horizontal) {
+                parentXStart += sp.CurrentItemRenderXY;
+            } else {
+                parentYStart += sp.CurrentItemRenderXY;
+            }
+        }
+        return new Point(parentXStart, parentYStart);
+    }
+
+    public IncrementNextAvailableSlot(): void {
+        // tell the parent stackpanel the next available slot
+        if (this.Element.Parent instanceof StackPanel) {
+            let sp: StackPanel = <StackPanel>this.Element.Parent;
+            if (sp.Orientation === Orientation.Horizontal) {
+                sp.CurrentItemRenderXY += this.Element.CalculatedWidth
+                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
+            } else {
+                sp.CurrentItemRenderXY += this.Element.CalculatedHeight
+                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
+            }
+        }
+    }
 }

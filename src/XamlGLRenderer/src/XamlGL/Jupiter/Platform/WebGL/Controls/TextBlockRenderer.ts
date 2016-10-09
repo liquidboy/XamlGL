@@ -8,11 +8,12 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { TextBlock } from "./../../../../Controls/TextBlock";
-import { StackPanel } from "./../../../../Controls/StackPanel";
+// import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-import { Orientation } from "./../../../../DataTypes/Orientation";
+// import { Orientation } from "./../../../../DataTypes/Orientation";
+import { Point } from "./../../../../DataTypes/Point";
 import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 // import { IRenderer } from "./../../IRenderer";
@@ -69,36 +70,38 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         this.UpdateCalculatedValuesUsingMargin(textEl);
 
         // determine container to use
-        let parentXStart: number = 0;
-        let parentYStart: number = 0;
+        let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
+        // let parentXStart: number = 0;
+        // let parentYStart: number = 0;
 
-        if (this.Element.Parent instanceof StackPanel) {
-            // get from the parent stackpanel the next slot available to render in
-            let sp: StackPanel = <StackPanel>this.Element.Parent;
-            if (sp.Orientation === Orientation.Horizontal) {
-                parentXStart += sp.CurrentItemRenderXY;
-            } else {
-                parentYStart += sp.CurrentItemRenderXY;
-            }
-        }
+        // if (this.Element.Parent instanceof StackPanel) {
+        //    // get from the parent stackpanel the next slot available to render in
+        //    let sp: StackPanel = <StackPanel>this.Element.Parent;
+        //    if (sp.Orientation === Orientation.Horizontal) {
+        //        parentXStart += sp.CurrentItemRenderXY;
+        //    } else {
+        //        parentYStart += sp.CurrentItemRenderXY;
+        //    }
+        // }
 
         // position text
-        text.position.set(this.Element.CalculatedX + parentXStart, this.Element.CalculatedY + parentYStart);
+        text.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
         parentContainer.addChild(text);
         this.Element.CalculatedHeight = text.height;
         this.Element.CalculatedWidth = text.width;
 
         // tell the parent stackpanel the next available slot
-        if (this.Element.Parent instanceof StackPanel) {
-            let sp: StackPanel = <StackPanel>this.Element.Parent;
-            if (sp.Orientation === Orientation.Horizontal) {
-                sp.CurrentItemRenderXY += this.Element.CalculatedWidth
-                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
-            } else {
-                sp.CurrentItemRenderXY += this.Element.CalculatedHeight
-                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
-            }
-        }
+        this.IncrementNextAvailableSlot();
+        // if (this.Element.Parent instanceof StackPanel) {
+        //    let sp: StackPanel = <StackPanel>this.Element.Parent;
+        //    if (sp.Orientation === Orientation.Horizontal) {
+        //        sp.CurrentItemRenderXY += this.Element.CalculatedWidth
+        //            + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
+        //    } else {
+        //        sp.CurrentItemRenderXY += this.Element.CalculatedHeight
+        //            + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
+        //    }
+        // }
 
         // // update the UI based on interaction events and the render DRAW loop
         // this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
