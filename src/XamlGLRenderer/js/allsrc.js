@@ -2910,6 +2910,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             parentContainer.addChild(containerGrid);
                         }
                     }
+                    this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
+                        if (this.Element && this.Element.Parent && this.Element.Parent.Renderer) {
+                            let scale = this.Element.Parent.Renderer.Scale;
+                            if (scale !== undefined) {
+                                containerGrid.scale.set(scale, scale);
+                            }
+                        }
+                    });
                     gridEl.IsDirty = false;
                 }
             };
@@ -3660,6 +3668,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
                                 + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
                         }
                     }
+                    this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
+                        let scale = this.Element.Parent.Renderer.Scale;
+                        text.scale.set(scale, scale);
+                    });
                     textEl.IsDirty = false;
                 }
             };
@@ -3744,7 +3756,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         else {
                             background.drawRect(0, 0, widthToUse, heightToUse);
                         }
-                        background.boundsPadding = buttonEl.BlurAmount;
+                        background.boundsPadding = buttonEl.BlurAmount * 2;
                         background.endFill();
                         var texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
                         var backgroundSprite = new PIXI.Sprite(texture);

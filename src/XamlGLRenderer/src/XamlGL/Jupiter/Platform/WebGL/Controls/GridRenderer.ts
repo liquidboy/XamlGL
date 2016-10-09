@@ -11,6 +11,8 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
+import { IRenderer } from "./../../IRenderer";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 
 export class GridRenderer extends BaseRenderer implements IControlRenderer {
@@ -60,6 +62,17 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
                 parentContainer.addChild(containerGrid);
             }
         }
+
+        // update the UI based on interaction events and the render DRAW loop
+        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+            // console.log(this.Element.Parent.Parent.Renderer.Scale);
+            if (this.Element && this.Element.Parent && this.Element.Parent.Renderer) {
+                let scale: number = this.Element.Parent.Renderer.Scale;
+                if (scale !== undefined) {
+                    containerGrid.scale.set(scale, scale);
+                }
+            }
+        });
 
         gridEl.IsDirty = false;
     }

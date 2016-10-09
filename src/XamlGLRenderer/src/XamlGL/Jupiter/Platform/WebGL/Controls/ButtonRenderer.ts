@@ -66,7 +66,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             } else {
                 background.drawRect(0, 0, widthToUse, heightToUse);
             }
-            background.boundsPadding = buttonEl.BlurAmount;
+            background.boundsPadding = buttonEl.BlurAmount * 2 ;
             background.endFill();
 
             // generate sprite from graphics displayobject so we can set anchor correctly and do a scale
