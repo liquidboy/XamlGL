@@ -8,4 +8,8 @@ span {
     font-style: italic;
 }
 
+.pixi-canvas {
+    min-height:600px;
+}
+
 

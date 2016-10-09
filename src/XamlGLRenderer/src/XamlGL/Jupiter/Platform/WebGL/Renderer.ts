@@ -55,16 +55,20 @@ export class Renderer implements IRenderer {
     }
 
     public ResizeFull(): void {
+        this.ResizeFullWidth(window.innerHeight);
+    }
+
+    public ResizeFullWidth(height: number): void {
         this.PixiRenderer.view.style.position = "absolute";
         this.PixiRenderer.view.style.display = "block";
         this.PixiRenderer.view.style.border = "0";
-        this.Resize(window.innerWidth, window.innerHeight);
+        this.Resize(window.innerWidth, height);
         document.body.style.overflow = "hidden";
 
         let win: any = window;
         let pp: PlatformPage = win.PlatformPage;
         pp.Width = window.innerWidth;
-        pp.Height = window.innerHeight;
+        pp.Height = height;
     }
 
     public InitializeResource(key: string, url: string): PIXI.loaders.Loader {

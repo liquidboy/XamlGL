@@ -43,7 +43,21 @@ export class PlatformPage extends Page implements IPlatformPage {
         this._xaml = xaml;
 
         this.Platform = this.CreatePlatform();
-        // this.ResizeFullWindow(); // <== test full screen
+
+        // process width/height
+        // process Application data
+        if (xaml.rootElement.hasAttribute("ShellType")) {
+            let shellType: string = xaml.rootElement.getAttribute("ShellType");
+
+            if (shellType === "FullWidth") {
+                let shellHeight: number = Number.parseInt(xaml.rootElement.getAttribute("ShellHeight"));
+                this.Height = shellHeight;
+                this.ResizeBanner(this.Height);
+            } else if (shellType === "FullWindow") {
+                this.ResizeFullWindow();
+            }
+        }
+
         this.Content = XamlHelper.XamlMarkupToUIElement(xaml);
 
         this.InitializeShell();
@@ -60,11 +74,16 @@ export class PlatformPage extends Page implements IPlatformPage {
     }
 
     public Resize(width: number, height: number): void {
+        alert(1);
         this.Platform.Renderer.Resize(width, height);
     }
 
     public ResizeFullWindow(): void {
         this.Platform.Renderer.ResizeFull();
+    }
+
+    public ResizeBanner(height: number): void {
+        this.Platform.Renderer.ResizeFullWidth(height);
     }
 
     private DoContentChanged(obj: IFrameworkElement, ea: IEventArgs): void {

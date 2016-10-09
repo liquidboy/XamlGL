@@ -30,6 +30,7 @@
     <Content Include="assets\glitter-10.jpg" />
     <Content Include="assets\glitter-11.jpg" />
     <Content Include="assets\glitter-12.jpg" />
+    <Content Include="assets\glitter-13.jpg" />
     <Content Include="assets\glitter-2.jpg" />
     <Content Include="assets\glitter-3.jpg" />
     <Content Include="assets\glitter-3o.jpg" />
@@ -1835,6 +1836,8 @@
     <Content Include="xaml\sample-36.xap" />
     <Content Include="xaml\sample-37.xap" />
     <Content Include="xaml\sample-38.xap" />
+    <Content Include="xaml\sample-39.xap" />
+    <Content Include="xaml\sample-40.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
