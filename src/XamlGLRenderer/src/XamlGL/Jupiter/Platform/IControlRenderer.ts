@@ -10,4 +10,5 @@ export interface IControlRenderer {
     ParentHeight: number;
     ParentWidth: number;
     PixiElement: PIXI.DisplayObject;
+    Scale: number;
 }

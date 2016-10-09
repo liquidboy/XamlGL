@@ -14,7 +14,6 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
-    private _scaleToUse: number = 1.0;
     private _blurToUse: number = 0;
     private _isPressed: boolean = false;
 
@@ -101,25 +100,25 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 parentContainer.addChild(containerGrid);
             }
         }
-        
+
         // update the UI based on interaction events and the render DRAW loop
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             // consoleHelper.Log("Button Draw");
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 backgroundSprite.alpha = 1;
-                this._scaleToUse = this._isPressed ? 0.98 : 1.02;
+                this.Scale = this._isPressed ? 0.98 : 1.02;
                 this._blurToUse = buttonEl.BlurAmount;
                 r.Pointer.cursor = "pointer";
             } else {
                 backgroundSprite.alpha = 0.95;
-                this._scaleToUse = 1.0;
+                this.Scale = 1.0;
                 this._blurToUse = 1.0;
                 r.Pointer.cursor = "auto";
             }
             if (buttonEl.BlurAmount > 0) {
                 blurFilter.blur = this._blurToUse;
             }
-            backgroundSprite.scale.set(this._scaleToUse, this._scaleToUse);
+            backgroundSprite.scale.set(this.Scale, this.Scale);
             // parentContainer.rotation += 0.001;
         });
 
