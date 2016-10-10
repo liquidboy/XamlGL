@@ -1,6 +1,7 @@
 ﻿import { XamlMarkup } from "./../Reader/XamlMarkup";
 import { FrameworkElement } from "./../Jupiter/FrameworkElement";
 import { Grid } from "./../Controls/Grid";
+import { ToolTip } from "./../Controls/ToolTip";
 import { Button } from "./../Controls/Button";
 import { StackPanel } from "./../Controls/StackPanel";
 import { Image } from "./../Controls/Image";
@@ -138,6 +139,17 @@ export class XamlParser {
             button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
             button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
             return button;
+        } else if (node.nodeName === "ToolTip") {
+            let tooltip: ToolTip = new ToolTip();
+            tooltip.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            tooltip.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            tooltip.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            tooltip.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            tooltip.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            if (node.attributes.getNamedItem("Background") !== null) {
+                tooltip.Background = node.attributes.getNamedItem("Background").value;
+            }
+            return tooltip;
         }
         return null;
     }

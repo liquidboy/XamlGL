@@ -7,7 +7,7 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <OutputPath>bin</OutputPath>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
@@ -1133,6 +1133,7 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\Control.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Button.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\ToolTip.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\StackPanel.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\TextBlock.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Rectangle.ts" />
@@ -1157,6 +1158,7 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\BaseRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DefaultRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ButtonRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToolTipRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\StackPanelRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TextBlockRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\RectangleRenderer.ts" />

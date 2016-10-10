@@ -24,11 +24,16 @@ import { TextBlockRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextBloc
 import { Button } from "./../Controls/Button";
 import { ButtonRenderer } from "./../Jupiter/Platform/WebGL/Controls/ButtonRenderer";
 
+import { ToolTip } from "./../Controls/ToolTip";
+import { ToolTipRenderer } from "./../Jupiter/Platform/WebGL/Controls/ToolTipRenderer";
+
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
 
         if (element instanceof Grid) {
             return new GridRenderer();
+        } else if (element instanceof ToolTip) {
+            return new ToolTipRenderer();
         } else if (element instanceof StackPanel) {
             return new StackPanelRenderer();
         } else if (element instanceof Image) {
