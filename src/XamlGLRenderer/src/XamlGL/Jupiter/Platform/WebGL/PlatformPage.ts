@@ -9,7 +9,7 @@ import { EventList } from "./../../../Events/EventList";
 import { IEventArgs } from "./../../../Events/IEventArgs";
 import { IEvent } from "./../../../Events/IEvent";
 import { XamlMarkup } from "./../../../Reader/XamlMarkup";
-import { XamlHelper } from "./../../../utils/XamlHelper";
+import { XamlParser } from "./../../../Reader/XamlParser";
 import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
 
 export class PlatformPage extends Page implements IPlatformPage {
@@ -58,7 +58,7 @@ export class PlatformPage extends Page implements IPlatformPage {
             }
         }
 
-        this.Content = XamlHelper.XamlMarkupToUIElement(xaml);
+        this.Content = XamlParser.XamlMarkupToUIElement(xaml);
 
         this.InitializeShell();
     }
