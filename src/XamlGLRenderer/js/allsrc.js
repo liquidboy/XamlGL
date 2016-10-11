@@ -3891,17 +3891,16 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             ConsoleHelper_9.ConsoleHelper.Log("Button Tapped");
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                                console.log(args);
-                                let rect = new ToolTip_1.ToolTip();
-                                rect.Width = rect.CalculatedWidth = 200;
-                                rect.Height = rect.CalculatedHeight = 120;
-                                rect.Margin.Left = r.Pointer.x - (rect.Width / 2);
-                                rect.Margin.Top = r.Pointer.y - rect.Height - 30;
-                                rect.CornerRadius = new CornerRadius_3.CornerRadius(10);
+                                let tooltip = new ToolTip_1.ToolTip();
+                                tooltip.Width = tooltip.CalculatedWidth = 200;
+                                tooltip.Height = tooltip.CalculatedHeight = 60;
+                                tooltip.Margin.Left = r.Pointer.x - (tooltip.Width / 2);
+                                tooltip.Margin.Top = r.Pointer.y - tooltip.Height - 30;
+                                tooltip.CornerRadius = new CornerRadius_3.CornerRadius(10);
                                 if (this.Element.Parent instanceof Panel_7.Panel) {
                                     let rectParent = this.Element.Parent;
-                                    rectParent.Platform.SetCurrent(rect, rectParent);
-                                    rectParent.Platform.Draw(rect);
+                                    rectParent.Platform.SetCurrent(tooltip, rectParent);
+                                    rectParent.Platform.Draw(tooltip);
                                 }
                             }
                         }
@@ -3951,14 +3950,27 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     this.CalculateYHeight(rectEl);
                     this.CalculateXWidth(rectEl);
                     this.UpdateCalculatedValuesUsingMargin(rectEl);
+                    let container = new PIXI.Container();
+                    container.x = rectEl.Margin.Left;
+                    container.y = rectEl.Margin.Top;
                     let rectangle = new PIXI.Graphics();
                     rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
                     rectangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
                     rectangle.drawRect(0, 0, super.Element.Width, super.Element.Height);
                     rectangle.endFill();
-                    rectangle.x = rectEl.Margin.Left;
-                    rectangle.y = rectEl.Margin.Top;
-                    super.Element.Platform.Renderer.PixiStage.addChild(rectangle);
+                    container.addChild(rectangle);
+                    var triangle = new PIXI.Graphics();
+                    triangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
+                    triangle.drawPolygon([
+                        0, 12,
+                        -12, 0,
+                        12, 0
+                    ]);
+                    triangle.endFill();
+                    triangle.x = this.Element.Width / 2;
+                    triangle.y = this.Element.Height;
+                    container.addChild(triangle);
+                    super.Element.Platform.Renderer.PixiStage.addChild(container);
                     rectEl.IsDirty = false;
                 }
             };

@@ -32,14 +32,31 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(rectEl);
 
+        let container: PIXI.Container = new PIXI.Container();
+        container.x = rectEl.Margin.Left;
+        container.y = rectEl.Margin.Top;
+
+
         let rectangle: PIXI.Graphics = new PIXI.Graphics();
         rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
         rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background)); // 0x66CCFF);
         rectangle.drawRect(0, 0, super.Element.Width, super.Element.Height);
         rectangle.endFill();
-        rectangle.x = rectEl.Margin.Left;
-        rectangle.y = rectEl.Margin.Top;
-        super.Element.Platform.Renderer.PixiStage.addChild(rectangle);
+        container.addChild(rectangle);
+
+        var triangle = new PIXI.Graphics();
+        triangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background));
+        triangle.drawPolygon([
+            0, 12,
+            -12, 0,
+            12, 0
+        ]);
+        triangle.endFill();
+        triangle.x = this.Element.Width/2;
+        triangle.y = this.Element.Height;
+        container.addChild(triangle);
+        
+        super.Element.Platform.Renderer.PixiStage.addChild(container);
 
         rectEl.IsDirty = false;
     }

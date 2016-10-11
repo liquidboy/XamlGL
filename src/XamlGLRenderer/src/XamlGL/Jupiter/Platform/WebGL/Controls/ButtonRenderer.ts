@@ -142,23 +142,19 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 ConsoleHelper.Log("Button Tapped");
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
                     // eval(buttonEl.ClickStr);
-                    console.log(args);
+
                     // todo: replace with a generic instance creator
                     // sample callout
-                    // let calloutCont: PIXI.Container = new PIXI.Container();
-
-                    let rect: ToolTip = new ToolTip();
-                    rect.Width = rect.CalculatedWidth = 200;
-                    rect.Height = rect.CalculatedHeight = 120;
-                    // rect.CalculatedX = 100;
-                    // rect.CalculatedY = 100;
-                    rect.Margin.Left = r.Pointer.x - (rect.Width / 2);
-                    rect.Margin.Top = r.Pointer.y - rect.Height - 30;
-                    rect.CornerRadius = new CornerRadius(10);
+                    let tooltip: ToolTip = new ToolTip();
+                    tooltip.Width = tooltip.CalculatedWidth = 200;
+                    tooltip.Height = tooltip.CalculatedHeight = 60;
+                    tooltip.Margin.Left = r.Pointer.x - (tooltip.Width / 2);
+                    tooltip.Margin.Top = r.Pointer.y - tooltip.Height - 30;
+                    tooltip.CornerRadius = new CornerRadius(10);
                     if (this.Element.Parent instanceof Panel) {
                         let rectParent: Panel = <Panel>this.Element.Parent;
-                        rectParent.Platform.SetCurrent(rect, rectParent);
-                        rectParent.Platform.Draw(rect);
+                        rectParent.Platform.SetCurrent(tooltip, rectParent);
+                        rectParent.Platform.Draw(tooltip);
                     }
                 }
             }
