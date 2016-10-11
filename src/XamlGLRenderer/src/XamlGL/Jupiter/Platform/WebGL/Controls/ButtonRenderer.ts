@@ -7,10 +7,16 @@ import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { Button } from "./../../../../Controls/Button";
+import { Panel } from "./../../../../Controls/Panel";
+import { Rectangle } from "./../../../../Controls/Rectangle";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 import { Point } from "./../../../../DataTypes/Point";
+import { Thickness } from "./../../../../DataTypes/Thickness";
+import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
+import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
+import { CornerRadius } from "./../../../../DataTypes/CornerRadius";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { Orientation } from "./../../../../DataTypes/Orientation";
 
@@ -134,7 +140,26 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("Button Tapped");
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                    eval(buttonEl.ClickStr);
+                    // eval(buttonEl.ClickStr);
+
+                    // todo: replace with a generic instance creator
+                    // sample callout
+                    // let calloutCont: PIXI.Container = new PIXI.Container();
+                    let rect: Rectangle = new Rectangle();
+                    rect.Width = rect.CalculatedWidth = 200;
+                    rect.Height = rect.CalculatedHeight = 120;
+                    rect.CalculatedX = 100;
+                    rect.CalculatedY = 100;
+                    rect.Margin.Left = 350;
+                    rect.Margin.Top = 200;
+                    rect.CornerRadius = new CornerRadius(10);
+                    if (this.Element.Parent instanceof Panel) {
+                        let rectParent: Panel = <Panel>this.Element.Parent;
+                        rectParent.Platform.SetCurrent(rect, rectParent);
+                        rectParent.Platform.Draw(rect);
+                    }
+                    // rectParent.Platform.Draw(rect);
+                    // calloutCont.addChild(rect.Renderer);
                 }
             }
         });
