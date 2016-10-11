@@ -55,6 +55,7 @@
     <Content Include="assets\zune-logo.png" />
     <Content Include="index.html" />
     <Content Include="js\allsrc.js" />
+    <Content Include="js\filters.min.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="js\jquery.slim.min.js" />
     <Content Include="js\pixi.min.js" />
