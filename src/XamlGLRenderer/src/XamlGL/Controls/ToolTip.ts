@@ -28,4 +28,12 @@ export class ToolTip extends Panel {
         this.Margin = new Thickness(0);
         this.CornerRadius = new CornerRadius(0);
     }
+
+    ShowToolTip(pointerX: number, pointerY: number, width: number, height: number): void {
+        this.Width = this.CalculatedWidth = 200;
+        this.Height = this.CalculatedHeight = 60;
+        this.Margin.Left = pointerX - (this.Width / 2);
+        this.Margin.Top = pointerY - this.Height - 30;
+        this.CornerRadius = new CornerRadius(10);
+    }
 }

@@ -17,7 +17,7 @@ import { Point } from "./../../../../DataTypes/Point";
 // import { Thickness } from "./../../../../DataTypes/Thickness";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-import { CornerRadius } from "./../../../../DataTypes/CornerRadius";
+// import { CornerRadius } from "./../../../../DataTypes/CornerRadius";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { Orientation } from "./../../../../DataTypes/Orientation";
 
@@ -146,11 +146,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                     // todo: replace with a generic instance creator
                     // sample callout
                     let tooltip: ToolTip = new ToolTip();
-                    tooltip.Width = tooltip.CalculatedWidth = 200;
-                    tooltip.Height = tooltip.CalculatedHeight = 60;
-                    tooltip.Margin.Left = r.Pointer.x - (tooltip.Width / 2);
-                    tooltip.Margin.Top = r.Pointer.y - tooltip.Height - 30;
-                    tooltip.CornerRadius = new CornerRadius(10);
+                    tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
+
                     if (this.Element.Parent instanceof Panel) {
                         let rectParent: Panel = <Panel>this.Element.Parent;
                         rectParent.Platform.SetCurrent(tooltip, rectParent);

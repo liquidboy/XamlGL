@@ -15,8 +15,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("ToolTipRenderer.Draw");
-        // super.Element.Platform.Renderer.PixiRenderer
-
+        
         let rectEl: Rectangle = <Rectangle>super.Element;
 
         if (!rectEl.IsDirty) {
@@ -40,11 +39,11 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         let rectangle: PIXI.Graphics = new PIXI.Graphics();
         rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
         rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background)); // 0x66CCFF);
-        rectangle.drawRect(0, 0, super.Element.Width, super.Element.Height);
+        rectangle.drawRoundedRect(0, 0, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
         rectangle.endFill();
         container.addChild(rectangle);
 
-        var triangle = new PIXI.Graphics();
+        var triangle: PIXI.Graphics = new PIXI.Graphics();
         triangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background));
         triangle.drawPolygon([
             0, 12,
@@ -55,7 +54,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         triangle.x = this.Element.Width/2;
         triangle.y = this.Element.Height;
         container.addChild(triangle);
-        
+
         super.Element.Platform.Renderer.PixiStage.addChild(container);
 
         rectEl.IsDirty = false;

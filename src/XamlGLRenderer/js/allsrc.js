@@ -3775,15 +3775,22 @@ System.register("XamlGL/Controls/ToolTip", ["XamlGL/Controls/Panel", "XamlGL/Dat
                 set BorderThickness(value) { this._borderThickness = value; }
                 set BorderBrush(value) { this._borderBrush = value; }
                 set CornerRadius(value) { this._cornerRadius = value; }
+                ShowToolTip(pointerX, pointerY, width, height) {
+                    this.Width = this.CalculatedWidth = 200;
+                    this.Height = this.CalculatedHeight = 60;
+                    this.Margin.Left = pointerX - (this.Width / 2);
+                    this.Margin.Top = pointerY - this.Height - 30;
+                    this.CornerRadius = new CornerRadius_2.CornerRadius(10);
+                }
             };
             exports_72("ToolTip", ToolTip);
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Controls/Panel", "XamlGL/Controls/ToolTip", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/DataTypes/CornerRadius"], function(exports_73, context_73) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Controls/Panel", "XamlGL/Controls/ToolTip", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_73, context_73) {
     "use strict";
     var __moduleName = context_73 && context_73.id;
-    var BaseRenderer_7, Panel_7, ToolTip_1, ConsoleHelper_9, RendererHelper_4, CornerRadius_3;
+    var BaseRenderer_7, Panel_7, ToolTip_1, ConsoleHelper_9, RendererHelper_4;
     var ButtonRenderer;
     return {
         setters:[
@@ -3801,9 +3808,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
             },
             function (RendererHelper_4_1) {
                 RendererHelper_4 = RendererHelper_4_1;
-            },
-            function (CornerRadius_3_1) {
-                CornerRadius_3 = CornerRadius_3_1;
             }],
         execute: function() {
             ButtonRenderer = class ButtonRenderer extends BaseRenderer_7.BaseRenderer {
@@ -3892,11 +3896,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             ConsoleHelper_9.ConsoleHelper.Log("Button Tapped");
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
                                 let tooltip = new ToolTip_1.ToolTip();
-                                tooltip.Width = tooltip.CalculatedWidth = 200;
-                                tooltip.Height = tooltip.CalculatedHeight = 60;
-                                tooltip.Margin.Left = r.Pointer.x - (tooltip.Width / 2);
-                                tooltip.Margin.Top = r.Pointer.y - tooltip.Height - 30;
-                                tooltip.CornerRadius = new CornerRadius_3.CornerRadius(10);
+                                tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
                                 if (this.Element.Parent instanceof Panel_7.Panel) {
                                     let rectParent = this.Element.Parent;
                                     rectParent.Platform.SetCurrent(tooltip, rectParent);
@@ -3956,7 +3956,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     let rectangle = new PIXI.Graphics();
                     rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
                     rectangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
-                    rectangle.drawRect(0, 0, super.Element.Width, super.Element.Height);
+                    rectangle.drawRoundedRect(0, 0, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
                     rectangle.endFill();
                     container.addChild(rectangle);
                     var triangle = new PIXI.Graphics();
@@ -4177,7 +4177,7 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_77, context_77)
 System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Controls/ToolTip", "XamlGL/Controls/Button", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/Utils/ConsoleHelper"], function(exports_78, context_78) {
     "use strict";
     var __moduleName = context_78 && context_78.id;
-    var Grid_2, ToolTip_3, Button_2, StackPanel_3, Image_2, Panel_10, TextBlock_2, Rectangle_2, Thickness_3, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_4, Orientation_2, TextWrapping_3, TextWrappingAlign_3, ConsoleHelper_13;
+    var Grid_2, ToolTip_3, Button_2, StackPanel_3, Image_2, Panel_10, TextBlock_2, Rectangle_2, Thickness_3, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_3, Orientation_2, TextWrapping_3, TextWrappingAlign_3, ConsoleHelper_13;
     var XamlParser;
     return {
         setters:[
@@ -4214,8 +4214,8 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
             function (VerticalAlignment_5_1) {
                 VerticalAlignment_5 = VerticalAlignment_5_1;
             },
-            function (CornerRadius_4_1) {
-                CornerRadius_4 = CornerRadius_4_1;
+            function (CornerRadius_3_1) {
+                CornerRadius_3 = CornerRadius_3_1;
             },
             function (Orientation_2_1) {
                 Orientation_2 = Orientation_2_1;
@@ -4382,10 +4382,10 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                 }
                 static StringToCornerRadius(attr) {
                     if (attr === null) {
-                        return new CornerRadius_4.CornerRadius(0);
+                        return new CornerRadius_3.CornerRadius(0);
                     }
                     if (attr.value.indexOf(",") > 0) {
-                        let radius = new CornerRadius_4.CornerRadius(0);
+                        let radius = new CornerRadius_3.CornerRadius(0);
                         let parts = attr.value.split(",");
                         radius.BottomLeft = Number.parseInt(parts[0]);
                         radius.TopLeft = Number.parseInt(parts[1]);
@@ -4394,7 +4394,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         return radius;
                     }
                     else {
-                        return new CornerRadius_4.CornerRadius(Number.parseInt(attr.value));
+                        return new CornerRadius_3.CornerRadius(Number.parseInt(attr.value));
                     }
                 }
                 static StringToHorizontalAlignment(attr) {
@@ -4905,8 +4905,8 @@ System.register("XamlGL/Core", ["XamlGL/App", "XamlGL/VisualTree", "XamlGL/ViewM
             function (Thickness_4_1) {
                 exportStar_4(Thickness_4_1);
             },
-            function (CornerRadius_5_1) {
-                exportStar_4(CornerRadius_5_1);
+            function (CornerRadius_4_1) {
+                exportStar_4(CornerRadius_4_1);
             }],
         execute: function() {
             exports_90("Controls", Controls = _controls);
