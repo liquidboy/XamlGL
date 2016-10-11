@@ -3891,13 +3891,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             ConsoleHelper_9.ConsoleHelper.Log("Button Tapped");
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
+                                console.log(args);
                                 let rect = new ToolTip_1.ToolTip();
                                 rect.Width = rect.CalculatedWidth = 200;
                                 rect.Height = rect.CalculatedHeight = 120;
-                                rect.CalculatedX = 100;
-                                rect.CalculatedY = 100;
-                                rect.Margin.Left = 350;
-                                rect.Margin.Top = 200;
+                                rect.Margin.Left = r.Pointer.x - (rect.Width / 2);
+                                rect.Margin.Top = r.Pointer.y - rect.Height - 30;
                                 rect.CornerRadius = new CornerRadius_3.CornerRadius(10);
                                 if (this.Element.Parent instanceof Panel_7.Panel) {
                                     let rectParent = this.Element.Parent;
