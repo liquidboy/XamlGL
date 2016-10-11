@@ -34,6 +34,6 @@ export class ToolTip extends Panel {
         this.Height = this.CalculatedHeight = 60;
         this.Margin.Left = pointerX - (this.Width / 2);
         this.Margin.Top = pointerY - this.Height - 30;
-        this.CornerRadius = new CornerRadius(10);
+        this.CornerRadius = new CornerRadius(1);
     }
 }

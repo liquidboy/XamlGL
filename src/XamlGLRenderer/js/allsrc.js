@@ -3780,7 +3780,7 @@ System.register("XamlGL/Controls/ToolTip", ["XamlGL/Controls/Panel", "XamlGL/Dat
                     this.Height = this.CalculatedHeight = 60;
                     this.Margin.Left = pointerX - (this.Width / 2);
                     this.Margin.Top = pointerY - this.Height - 30;
-                    this.CornerRadius = new CornerRadius_2.CornerRadius(10);
+                    this.CornerRadius = new CornerRadius_2.CornerRadius(1);
                 }
             };
             exports_72("ToolTip", ToolTip);
@@ -3897,6 +3897,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
                                 let tooltip = new ToolTip_1.ToolTip();
                                 tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
+                                tooltip.Background = "#FFff7300";
                                 if (this.Element.Parent instanceof Panel_7.Panel) {
                                     let rectParent = this.Element.Parent;
                                     rectParent.Platform.SetCurrent(tooltip, rectParent);
@@ -3950,14 +3951,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     this.CalculateYHeight(rectEl);
                     this.CalculateXWidth(rectEl);
                     this.UpdateCalculatedValuesUsingMargin(rectEl);
+                    let containerMain = new PIXI.Container();
+                    containerMain.x = rectEl.Margin.Left;
+                    containerMain.y = rectEl.Margin.Top;
                     let container = new PIXI.Container();
-                    container.x = rectEl.Margin.Left;
-                    container.y = rectEl.Margin.Top;
+                    container.x = 0;
+                    container.y = 5;
                     let rectangle = new PIXI.Graphics();
                     rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
                     rectangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
                     rectangle.drawRoundedRect(0, 0, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
                     rectangle.endFill();
+                    rectangle.boundsPadding = 5;
                     container.addChild(rectangle);
                     var triangle = new PIXI.Graphics();
                     triangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
@@ -3969,8 +3974,33 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     triangle.endFill();
                     triangle.x = this.Element.Width / 2;
                     triangle.y = this.Element.Height;
+                    triangle.boundsPadding = 5;
                     container.addChild(triangle);
-                    super.Element.Platform.Renderer.PixiStage.addChild(container);
+                    containerMain.addChild(container);
+                    let container2 = new PIXI.Container();
+                    container2.x = 0;
+                    container2.y = 0;
+                    let rectangle2 = new PIXI.Graphics();
+                    rectangle2.lineStyle(rectEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
+                    rectangle2.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"));
+                    rectangle2.drawRoundedRect(0, 5, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
+                    rectangle2.endFill();
+                    rectangle2.boundsPadding = 5;
+                    container2.addChild(rectangle2);
+                    var triangle2 = new PIXI.Graphics();
+                    triangle2.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"));
+                    triangle2.drawPolygon([
+                        0, 12,
+                        -12, 0,
+                        12, 0
+                    ]);
+                    triangle2.endFill();
+                    triangle2.x = this.Element.Width / 2;
+                    triangle2.y = this.Element.Height;
+                    triangle2.boundsPadding = 5;
+                    container2.addChild(triangle2);
+                    containerMain.addChild(container2);
+                    super.Element.Platform.Renderer.PixiStage.addChild(containerMain);
                     rectEl.IsDirty = false;
                 }
             };

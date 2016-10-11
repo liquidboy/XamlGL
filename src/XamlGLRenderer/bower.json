@@ -12,7 +12,8 @@
   "dependencies": {
     "system.js": "^0.19.38",
     "pixi.js": "4.0.1",
-    "jquery": "3.1.0"
+    "jquery": "3.1.0",
+    "pixi-filters": "1.0.6"
   },
   "devDependencies": {
 

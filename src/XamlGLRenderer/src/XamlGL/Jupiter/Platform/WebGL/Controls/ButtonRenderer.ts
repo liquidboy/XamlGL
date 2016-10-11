@@ -147,6 +147,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                     // sample callout
                     let tooltip: ToolTip = new ToolTip();
                     tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
+                    tooltip.Background = "#FFff7300";
 
                     if (this.Element.Parent instanceof Panel) {
                         let rectParent: Panel = <Panel>this.Element.Parent;
