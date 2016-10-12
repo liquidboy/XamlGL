@@ -138,6 +138,7 @@ export class XamlParser {
             button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
             button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
             button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
+            button.HasToolTip = this.StringToBoolean(node.attributes.getNamedItem("HasToolTip"));
             return button;
         } else if (node.nodeName === "ToolTip") {
             let tooltip: ToolTip = new ToolTip();
@@ -203,6 +204,16 @@ export class XamlParser {
             return 0;
         }
         return Number.parseInt(attr.value);
+    }
+    private static StringToBoolean(attr: Attr): boolean {
+        if (attr === null) {
+            return false;
+        }
+        if (attr.value.toLowerCase() === "true") {
+            return true;
+        } else {
+            return false;
+        }
     }
     private static StringToEmpty(attr: Attr): string {
         if (attr === null) {

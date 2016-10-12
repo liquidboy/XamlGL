@@ -237,6 +237,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
             FrameworkElement = class FrameworkElement extends UIElement_1.UIElement {
                 constructor() {
                     super(...arguments);
+                    this._hasToolTip = false;
                     this._propertyChanged = new EventDispatcher_1.EventDispatcher();
                     this._focusChanged = new EventDispatcher_1.EventDispatcher();
                 }
@@ -252,6 +253,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 get CalculatedWidth() { return this._calculatedWidth; }
                 get CalculatedHeight() { return this._calculatedHeight; }
                 get BlurAmount() { return this._blurAmount; }
+                get HasToolTip() { return this._hasToolTip; }
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
                 set Margin(value) { this._margin = value; }
@@ -264,6 +266,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 set CalculatedWidth(value) { this._calculatedWidth = value; }
                 set CalculatedHeight(value) { this._calculatedHeight = value; }
                 set BlurAmount(value) { this._blurAmount = value; }
+                set HasToolTip(value) { this._hasToolTip = value; }
                 get PropertyChanged() { return this._propertyChanged; }
                 get FocusChanged() { return this._focusChanged; }
             };
@@ -3915,19 +3918,24 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                             let buttonParent = this.Element.Parent;
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                                if (this._tooltip === null) {
-                                    this._tooltip = new ToolTip_1.ToolTip();
-                                    this._tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
-                                    this._tooltip.Background = "#FFff7300";
-                                    if (this.Element.Parent instanceof Panel_7.Panel) {
-                                        buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
-                                        buttonParent.Platform.Draw(this._tooltip);
+                                if (buttonEl.HasToolTip) {
+                                    if (this._tooltip === null) {
+                                        this._tooltip = new ToolTip_1.ToolTip();
+                                        this._tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
+                                        this._tooltip.Background = "#FFff7300";
+                                        if (this.Element.Parent instanceof Panel_7.Panel) {
+                                            buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
+                                            buttonParent.Platform.Draw(this._tooltip);
+                                        }
+                                    }
+                                    else {
+                                        this._tooltip.Renderer.Clear();
+                                        buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
+                                        this._tooltip = null;
                                     }
                                 }
                                 else {
-                                    this._tooltip.Renderer.Clear();
-                                    buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
-                                    this._tooltip = null;
+                                    eval(buttonEl.ClickStr);
                                 }
                             }
                         }
@@ -4442,6 +4450,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
                         button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
                         button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
+                        button.HasToolTip = this.StringToBoolean(node.attributes.getNamedItem("HasToolTip"));
                         return button;
                     }
                     else if (node.nodeName === "ToolTip") {
@@ -4509,6 +4518,17 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         return 0;
                     }
                     return Number.parseInt(attr.value);
+                }
+                static StringToBoolean(attr) {
+                    if (attr === null) {
+                        return false;
+                    }
+                    if (attr.value.toLowerCase() === "true") {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 static StringToEmpty(attr) {
                     if (attr === null) {

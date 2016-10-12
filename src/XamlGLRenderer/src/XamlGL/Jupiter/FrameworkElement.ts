@@ -21,7 +21,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _calculatedWidth: number; // <- normally updated from a *renderer
     private _calculatedHeight: number; // <- normally updated from a *renderer
     private _blurAmount: number;
-
+    private _hasToolTip: boolean = false;
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
     // private _childRemoved: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
@@ -40,6 +40,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     get CalculatedWidth(): number { return this._calculatedWidth; }
     get CalculatedHeight(): number { return this._calculatedHeight; }
     get BlurAmount(): number { return this._blurAmount; }
+    get HasToolTip(): boolean { return this._hasToolTip; }
 
     set Width(value: number) { this._width = value; }
     set Height(value: number) { this._height = value; }
@@ -53,6 +54,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     set CalculatedWidth(value: number) { this._calculatedWidth = value; }
     set CalculatedHeight(value: number) { this._calculatedHeight = value; }
     set BlurAmount(value: number) { this._blurAmount = value; }
+    set HasToolTip(value: boolean) { this._hasToolTip = value; }
 
     // get ChildAdded(): IEvent<FrameworkElement, IEventArgs> { return this._childAdded; }
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }

@@ -149,25 +149,28 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                 let buttonParent: Panel = <Panel>this.Element.Parent;
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                    // eval(buttonEl.ClickStr);
+                    
+                    // todo: split out this tooltip code somewhere more generic
+                    if (buttonEl.HasToolTip) {
+                        if (this._tooltip === null) {
+                            this._tooltip = new ToolTip();
+                            this._tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
+                            this._tooltip.Background = "#FFff7300";
 
-                    // todo: replace with a generic instance creator
-                    // sample callout
-                    if (this._tooltip === null) {
-                        this._tooltip = new ToolTip();
-                        this._tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
-                        this._tooltip.Background = "#FFff7300";
-
-                        if (this.Element.Parent instanceof Panel) {
-                            buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
-                            buttonParent.Platform.Draw(this._tooltip);
+                            if (this.Element.Parent instanceof Panel) {
+                                buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
+                                buttonParent.Platform.Draw(this._tooltip);
+                            }
+                        } else {
+                            this._tooltip.Renderer.Clear();
+                            buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
+                            // parentContainer.removeChild(this._tooltip);
+                            this._tooltip = null;
                         }
                     } else {
-                        this._tooltip.Renderer.Clear();
-                        buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
-                        // parentContainer.removeChild(this._tooltip);
-                        this._tooltip = null;
+                        eval(buttonEl.ClickStr);
                     }
+
                 }
             }
         });

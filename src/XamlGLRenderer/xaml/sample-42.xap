@@ -10,21 +10,25 @@
     </Grid>
     <Grid>
         <StackPanel Orientation="Horizontal" Width="390" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
-          <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF14a0e2" Click="alert('Zune was ahead of its time!');"
-                  Width="110" Height="110" Stroke="#FF8edaff" StrokeThickness="2" CornerRadius="5" BlurAmount="2" Margin="0,0,0,0">
+          <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF14a0e2" 
+                  Click="alert('Zune was ahead of its time!');" HasToolTip="true"
+                  Width="110" Height="110" Stroke="#FF8edaff" StrokeThickness="2" CornerRadius="5" BlurAmount="2" 
+                  Margin="0,0,0,0">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="55" Source="/assets/zune-logo-sml.png" Margin="21,20,0,0"></Image>
               <Text Text="Zune" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Sans-Serif" FontSize="12" Margin="10,0,0,10" Color="White"></Text> 
             </Grid>
           </Button>
-          <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF006d07" Margin="10,0,0,0" Click="alert('XBox the One and only gaming service!');"
+          <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF006d07" Margin="10,0,0,0" 
+                  Click="alert('XBox the One and only gaming service!');" HasToolTip="true"
                   Width="200" Height="200" Stroke="#FF33a93a" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="89" Height="99" Source="/assets/xbox-logo.png" Margin="50,40,0,0"></Image>
               <Text Text="Xbox One" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontFamily="Sans-Serif" FontSize="12" Margin="10,0,0,10" Color="White"></Text>
             </Grid>
           </Button>
-          <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF841700" Margin="10,0,0,0" Click="alert('Windows 10 out of 10');"
+          <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF841700" Margin="10,0,0,0" 
+                  Click="alert('Windows 10 out of 10');"  HasToolTip="true" 
                   Width="80" Height="80" Stroke="#FFd03636" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="50" Source="/assets/windows-logo-sml.png" Margin="12,10,0,0"></Image>
@@ -34,25 +38,29 @@
         </StackPanel>
       
         <StackPanel Orientation="Horizontal" Height="60" Width="240" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,105,0,0">
-          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFf160b2" Click="alert('MSEdge strong start out the gate');"
+          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFf160b2" 
+                  Click="alert('MSEdge strong start out the gate');"  HasToolTip="true"
                   Width="60" Height="60" Stroke="#FFde007e" StrokeThickness="2" CornerRadius="5" BlurAmount="2" Margin="0,0,0,0">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="32" Source="/assets/edge-logo.png" Margin="13,12,0,0"></Image>
             </Grid>
           </Button>
-          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFffffff" Click="alert('Silverlight will come back, xaml to unify all UI frameworks :)');"
+          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFffffff" 
+                  Click="alert('Silverlight will come back, xaml to unify all UI frameworks :)');"  HasToolTip="true"
                   Width="60" Height="60" Stroke="#FFffffff" StrokeThickness="2" CornerRadius="5" BlurAmount="2" Margin="10,0,0,0">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="30" Source="/assets/silverlight-logo.png" Margin="12,13,0,0"></Image>
             </Grid>
           </Button>
-          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFfeff00" Click="alert('Office is always reliable');"
+          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFfeff00" 
+                  Click="alert('Office is always reliable');"  HasToolTip="true"
                   Width="60" Height="60" Stroke="#FFdec000" StrokeThickness="2" CornerRadius="5" BlurAmount="2" Margin="10,0,0,0">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="28" Source="/assets/office-logo.png" Margin="12,13,0,0"></Image>
             </Grid>
           </Button>
-          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFffffff" Click="alert('Cortana, getting stuff done!');"
+          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFffffff" 
+                  Click="alert('Cortana, getting stuff done!');"  HasToolTip="true"
                   Width="60" Height="60" Stroke="#FFffffff" StrokeThickness="2" CornerRadius="5" BlurAmount="2" Margin="10,0,0,0">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="30" Source="/assets/cortana-logo.png" Margin="12,13,0,0"></Image>
