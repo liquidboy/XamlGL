@@ -31,9 +31,9 @@ export class ToolTip extends Panel {
 
     ShowToolTip(pointerX: number, pointerY: number, width: number, height: number): void {
         this.Width = this.CalculatedWidth = 200;
-        this.Height = this.CalculatedHeight = 60;
+        this.Height = this.CalculatedHeight = 80;
         this.Margin.Left = pointerX - (this.Width / 2);
-        this.Margin.Top = pointerY - this.Height - 30;
+        this.Margin.Top = pointerY - this.Height - 20;
         this.CornerRadius = new CornerRadius(1);
     }
 }

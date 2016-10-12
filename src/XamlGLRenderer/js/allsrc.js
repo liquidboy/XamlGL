@@ -3789,9 +3789,9 @@ System.register("XamlGL/Controls/ToolTip", ["XamlGL/Controls/Panel", "XamlGL/Dat
                 set CornerRadius(value) { this._cornerRadius = value; }
                 ShowToolTip(pointerX, pointerY, width, height) {
                     this.Width = this.CalculatedWidth = 200;
-                    this.Height = this.CalculatedHeight = 60;
+                    this.Height = this.CalculatedHeight = 80;
                     this.Margin.Left = pointerX - (this.Width / 2);
-                    this.Margin.Top = pointerY - this.Height - 30;
+                    this.Margin.Top = pointerY - this.Height - 20;
                     this.CornerRadius = new CornerRadius_2.CornerRadius(1);
                 }
             };
@@ -4033,6 +4033,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     triangle2.boundsPadding = 5;
                     container2.addChild(triangle2);
                     containerMain.addChild(container2);
+                    var dropShadowFilter = new PIXI.filters.BlurFilter();
+                    dropShadowFilter.blur = 0.5;
+                    containerMain.filters = [dropShadowFilter];
                     super.Element.Platform.Renderer.PixiStage.addChild(containerMain);
                     rectEl.IsDirty = false;
                 }
