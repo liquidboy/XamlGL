@@ -47,6 +47,22 @@ export class BaseRenderer implements IControlRenderer {
     get Scale(): number { return this._scale; }
 
     set Element(value: FrameworkElement) {
+
+        // clear
+        if (value === null && this._element instanceof Panel) {
+            let castPanel: Panel = <Panel>this._element;
+            castPanel.ChildAdded.unsubscribe(this.OnChildAdded);
+            castPanel.ChildRemoved.unsubscribe(this.OnChildRemoved);
+
+            this._element.Renderer = null;
+            this._element.PropertyChanged.unsubscribe(this.OnPropertyChanged);
+            this._element.FocusChanged.unsubscribe(this.OnFocusChanged);
+            this._element = null;
+
+            return;
+        }
+
+        // set
         this._element = value;
         this._element.Renderer = this;  // <-- HELP : this leads to a circular reference due to above lines reference
 
@@ -95,7 +111,9 @@ export class BaseRenderer implements IControlRenderer {
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
     }
+    Clear(): void {
 
+    }
 
     public CalculateYHeight(backingControl: IFrameworkElement): void {
         if (backingControl.Height !== null && backingControl.Height > 0) {

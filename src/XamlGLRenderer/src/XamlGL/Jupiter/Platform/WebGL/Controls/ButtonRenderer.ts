@@ -24,6 +24,7 @@ import { Point } from "./../../../../DataTypes/Point";
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _blurToUse: number = 0;
     private _isPressed: boolean = false;
+    private _tooltip: ToolTip = null;
 
     Draw(): void {
         super.Draw();
@@ -31,8 +32,14 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         // console.log(super.Element);
         let buttonEl: Button = <Button>super.Element;
 
-        let containerGrid: PIXI.Container = new PIXI.Container();
-        super.PixiElement = containerGrid;
+        let containerGrid: PIXI.Container = null;
+
+        if (this.PixiElement !== undefined) {
+            containerGrid = <PIXI.Container>this.PixiElement;
+        } else {
+            containerGrid = new PIXI.Container();
+            this.PixiElement = containerGrid;
+        }
 
         if (!buttonEl.IsDirty) {
             return;
@@ -48,8 +55,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         this.UpdateCalculatedValuesUsingMargin(buttonEl);
 
         // size container
-        containerGrid.height = super.Element.CalculatedHeight;
-        containerGrid.width = super.Element.CalculatedWidth;
+        containerGrid.height = this.Element.CalculatedHeight;
+        containerGrid.width = this.Element.CalculatedWidth;
 
 
 
@@ -57,8 +64,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         let background: PIXI.Graphics = null;
         let blurFilter: PIXI.filters.BlurFilter = null;
         if (buttonEl.Background !== undefined) {
-            let widthToUse: number = (buttonEl.Width === null || buttonEl.Width === 0) ? super.ParentWidth : buttonEl.Width;
-            let heightToUse: number = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
+            let widthToUse: number = (buttonEl.Width === null || buttonEl.Width === 0) ? this.ParentWidth : buttonEl.Width;
+            let heightToUse: number = (buttonEl.Height === null || buttonEl.Height === 0) ? this.ParentHeight : buttonEl.Height;
 
             // background
             // let background: PIXI.Graphics = new PIXI.Graphics();
@@ -96,7 +103,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
             // position/size container
-            containerGrid.position.set(super.Element.CalculatedX + parentXYStart.X, super.Element.CalculatedY + parentXYStart.Y);
+            containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
 
             // now render in container
             containerGrid.addChild(backgroundSprite);
@@ -139,20 +146,27 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
-                ConsoleHelper.Log("Button Tapped");
+                ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
+                let buttonParent: Panel = <Panel>this.Element.Parent;
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
                     // eval(buttonEl.ClickStr);
 
                     // todo: replace with a generic instance creator
                     // sample callout
-                    let tooltip: ToolTip = new ToolTip();
-                    tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
-                    tooltip.Background = "#FFff7300";
+                    if (this._tooltip === null) {
+                        this._tooltip = new ToolTip();
+                        this._tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
+                        this._tooltip.Background = "#FFff7300";
 
-                    if (this.Element.Parent instanceof Panel) {
-                        let rectParent: Panel = <Panel>this.Element.Parent;
-                        rectParent.Platform.SetCurrent(tooltip, rectParent);
-                        rectParent.Platform.Draw(tooltip);
+                        if (this.Element.Parent instanceof Panel) {
+                            buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
+                            buttonParent.Platform.Draw(this._tooltip);
+                        }
+                    } else {
+                        this._tooltip.Renderer.Clear();
+                        buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
+                        // parentContainer.removeChild(this._tooltip);
+                        this._tooltip = null;
                     }
                 }
             }

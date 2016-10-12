@@ -7,6 +7,7 @@ export interface IControlRenderer {
     Element: FrameworkElement;
     ElementChanged: IEvent<IControlRenderer, IEventArgs>;
     Draw(): void;
+    Clear(): void;
     ParentHeight: number;
     ParentWidth: number;
     PixiElement: PIXI.DisplayObject;

@@ -2770,6 +2770,16 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                 get PixiElement() { return this._pixiElement; }
                 get Scale() { return this._scale; }
                 set Element(value) {
+                    if (value === null && this._element instanceof Panel_2.Panel) {
+                        let castPanel = this._element;
+                        castPanel.ChildAdded.unsubscribe(this.OnChildAdded);
+                        castPanel.ChildRemoved.unsubscribe(this.OnChildRemoved);
+                        this._element.Renderer = null;
+                        this._element.PropertyChanged.unsubscribe(this.OnPropertyChanged);
+                        this._element.FocusChanged.unsubscribe(this.OnFocusChanged);
+                        this._element = null;
+                        return;
+                    }
                     this._element = value;
                     this._element.Renderer = this;
                     this._element.PropertyChanged.subscribe(this.OnPropertyChanged);
@@ -2797,6 +2807,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     ConsoleHelper_2.ConsoleHelper.Log("Platform.OnChildRemoved");
                 }
                 Draw() {
+                }
+                Clear() {
                 }
                 CalculateYHeight(backingControl) {
                     if (backingControl.Height !== null && backingControl.Height > 0) {
@@ -3815,26 +3827,33 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     super(...arguments);
                     this._blurToUse = 0;
                     this._isPressed = false;
+                    this._tooltip = null;
                 }
                 Draw() {
                     super.Draw();
                     ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw");
                     let buttonEl = super.Element;
-                    let containerGrid = new PIXI.Container();
-                    super.PixiElement = containerGrid;
+                    let containerGrid = null;
+                    if (this.PixiElement !== undefined) {
+                        containerGrid = this.PixiElement;
+                    }
+                    else {
+                        containerGrid = new PIXI.Container();
+                        this.PixiElement = containerGrid;
+                    }
                     if (!buttonEl.IsDirty) {
                         return;
                     }
                     this.CalculateYHeight(buttonEl);
                     this.CalculateXWidth(buttonEl);
                     this.UpdateCalculatedValuesUsingMargin(buttonEl);
-                    containerGrid.height = super.Element.CalculatedHeight;
-                    containerGrid.width = super.Element.CalculatedWidth;
+                    containerGrid.height = this.Element.CalculatedHeight;
+                    containerGrid.width = this.Element.CalculatedWidth;
                     let background = null;
                     let blurFilter = null;
                     if (buttonEl.Background !== undefined) {
-                        let widthToUse = (buttonEl.Width === null || buttonEl.Width === 0) ? super.ParentWidth : buttonEl.Width;
-                        let heightToUse = (buttonEl.Height === null || buttonEl.Height === 0) ? super.ParentHeight : buttonEl.Height;
+                        let widthToUse = (buttonEl.Width === null || buttonEl.Width === 0) ? this.ParentWidth : buttonEl.Width;
+                        let heightToUse = (buttonEl.Height === null || buttonEl.Height === 0) ? this.ParentHeight : buttonEl.Height;
                         background = new PIXI.Graphics();
                         if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
                             background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
@@ -3859,7 +3878,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             backgroundSprite.filters = [blurFilter];
                         }
                         let parentXYStart = this.CalculateCurrentAvailableSlot();
-                        containerGrid.position.set(super.Element.CalculatedX + parentXYStart.X, super.Element.CalculatedY + parentXYStart.Y);
+                        containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
                         containerGrid.addChild(backgroundSprite);
                         this.IncrementNextAvailableSlot();
                     }
@@ -3893,15 +3912,22 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
-                            ConsoleHelper_9.ConsoleHelper.Log("Button Tapped");
+                            ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
+                            let buttonParent = this.Element.Parent;
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                                let tooltip = new ToolTip_1.ToolTip();
-                                tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
-                                tooltip.Background = "#FFff7300";
-                                if (this.Element.Parent instanceof Panel_7.Panel) {
-                                    let rectParent = this.Element.Parent;
-                                    rectParent.Platform.SetCurrent(tooltip, rectParent);
-                                    rectParent.Platform.Draw(tooltip);
+                                if (this._tooltip === null) {
+                                    this._tooltip = new ToolTip_1.ToolTip();
+                                    this._tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
+                                    this._tooltip.Background = "#FFff7300";
+                                    if (this.Element.Parent instanceof Panel_7.Panel) {
+                                        buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
+                                        buttonParent.Platform.Draw(this._tooltip);
+                                    }
+                                }
+                                else {
+                                    this._tooltip.Renderer.Clear();
+                                    buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
+                                    this._tooltip = null;
                                 }
                             }
                         }
@@ -3951,9 +3977,16 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     this.CalculateYHeight(rectEl);
                     this.CalculateXWidth(rectEl);
                     this.UpdateCalculatedValuesUsingMargin(rectEl);
-                    let containerMain = new PIXI.Container();
-                    containerMain.x = rectEl.Margin.Left;
-                    containerMain.y = rectEl.Margin.Top;
+                    let containerMain = null;
+                    if (this.PixiElement === undefined) {
+                        containerMain = new PIXI.Container();
+                        containerMain.x = rectEl.Margin.Left;
+                        containerMain.y = rectEl.Margin.Top;
+                        this.PixiElement = containerMain;
+                    }
+                    else {
+                        containerMain = this.PixiElement;
+                    }
                     let container = new PIXI.Container();
                     container.x = 0;
                     container.y = 5;
@@ -4002,6 +4035,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     containerMain.addChild(container2);
                     super.Element.Platform.Renderer.PixiStage.addChild(containerMain);
                     rectEl.IsDirty = false;
+                }
+                Clear() {
+                    ConsoleHelper_10.ConsoleHelper.Log("ToolTipRenderer.Clear");
+                    let containerMain = null;
+                    if (this.PixiElement !== undefined) {
+                        containerMain = this.PixiElement;
+                        this.Element.Platform.Renderer.PixiStage.removeChild(containerMain);
+                    }
                 }
             };
             exports_74("ToolTipRenderer", ToolTipRenderer);
@@ -4153,6 +4194,22 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                             this.SetCurrent.call(this, x, content);
                         });
                     }
+                }
+                UnsetCurrent(content, parent) {
+                    if (content instanceof Panel_9.Panel) {
+                        let panel = content;
+                        panel.Children.forEach((x) => {
+                            this.UnsetCurrent.call(this, x, content);
+                        });
+                    }
+                    if (content.Renderer.Element) {
+                        content.Renderer.Element = null;
+                    }
+                    if (content.Renderer) {
+                        content.Renderer = null;
+                    }
+                    content.Parent = null;
+                    content.Platform = null;
                 }
                 DrawAll(content) {
                     content.Renderer.Draw();

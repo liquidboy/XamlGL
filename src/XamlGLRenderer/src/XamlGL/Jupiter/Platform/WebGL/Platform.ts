@@ -48,6 +48,25 @@ export class Platform implements IPlatform {
         // fe.Draw();
     }
 
+    public UnsetCurrent(content: FrameworkElement, parent: FrameworkElement): void {
+        if (content instanceof Panel) {
+            let panel: Panel = <Panel>content;
+            panel.Children.forEach((x: IUIElement) => {
+                this.UnsetCurrent.call(this, x, content);
+            });
+        }
+
+        if (content.Renderer.Element) {
+            content.Renderer.Element = null;
+        }
+        if (content.Renderer) {
+            content.Renderer = null;
+        }
+
+        content.Parent = null;
+        content.Platform = null;
+    }
+
     public DrawAll(content: FrameworkElement): void {
         // consoleHelper.LogSectionHeader("Platform:DrawAll");
         // console.log(content);

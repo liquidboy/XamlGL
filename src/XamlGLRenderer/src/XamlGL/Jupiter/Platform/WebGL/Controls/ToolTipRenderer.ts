@@ -32,9 +32,19 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         this.UpdateCalculatedValuesUsingMargin(rectEl);
 
 
-        let containerMain: PIXI.Container = new PIXI.Container();
-        containerMain.x = rectEl.Margin.Left;
-        containerMain.y = rectEl.Margin.Top;
+        let containerMain: PIXI.Container = null;
+
+
+        if (this.PixiElement === undefined) {
+            containerMain = new PIXI.Container();
+            containerMain.x = rectEl.Margin.Left;
+            containerMain.y = rectEl.Margin.Top;
+            this.PixiElement = containerMain;
+        } else {
+            containerMain = <PIXI.Container>this.PixiElement;
+        }
+
+
 
         // bottom
 
@@ -96,10 +106,20 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         // var dropShadowFilter = new PIXI.filters.BlurFilter();
         // dropShadowFilter.blur = 1;
         // containerMain.filters = [dropShadowFilter];
-        
+
         super.Element.Platform.Renderer.PixiStage.addChild(containerMain);
 
 
         rectEl.IsDirty = false;
+    }
+    Clear(): void {
+        ConsoleHelper.Log("ToolTipRenderer.Clear");
+
+        let containerMain: PIXI.Container = null;
+
+        if (this.PixiElement !== undefined) {
+            containerMain = <PIXI.Container>this.PixiElement;
+            this.Element.Platform.Renderer.PixiStage.removeChild(containerMain);
+        }
     }
 }
