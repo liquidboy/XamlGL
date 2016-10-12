@@ -1535,8 +1535,11 @@
     <Content Include="xaml\sample-38.xap" />
     <Content Include="xaml\sample-39.xap" />
     <Content Include="xaml\sample-40.xap" />
-    <Content Include="xaml\sample-41.xap" />
+    <Content Include="xaml\sample-41.xap">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="xaml\sample-42.xap" />
+    <Content Include="xaml\sample-43.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
