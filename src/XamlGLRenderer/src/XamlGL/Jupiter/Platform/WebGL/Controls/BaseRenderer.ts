@@ -14,6 +14,7 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 // import { Page } from "./../../../Page";
 import { StackPanel } from "./../../../../Controls/StackPanel";
 import { Orientation } from "./../../../../DataTypes/Orientation";
+import { ToolTip } from "./../../../../Controls/ToolTip";
 
 export class BaseRenderer implements IControlRenderer {
 
@@ -21,7 +22,7 @@ export class BaseRenderer implements IControlRenderer {
     // i introduce a clear separation between FrameworkElement & VisualElement or keep it
     // all in FrameworkElement (which is what im doing right now)
     // moto : keep it simple till you need the complexity
-
+    private _tooltip: ToolTip = null;
     private _element: FrameworkElement;
     private _elementChanged: EventDispatcher<BaseRenderer, IEventArgs> =
     new EventDispatcher<BaseRenderer, IEventArgs>();
@@ -112,7 +113,7 @@ export class BaseRenderer implements IControlRenderer {
         // consoleHelper.Log("BaseRenderer.Draw");
     }
     Clear(): void {
-
+        // todo : fill
     }
 
     public CalculateYHeight(backingControl: IFrameworkElement): void {
@@ -214,6 +215,27 @@ export class BaseRenderer implements IControlRenderer {
             } else {
                 sp.CurrentItemRenderXY += this.Element.CalculatedHeight
                     + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
+            }
+        }
+    }
+
+    public ShowHideTooltip(show: boolean, backgroundColor: string, x: number, y:number, width:number, height:number): void {
+        let buttonParent: Panel = <Panel>this.Element.Parent;
+        if (show === null) {
+            if (this._tooltip === null) {
+                this._tooltip = new ToolTip();
+                this._tooltip.ShowToolTip(x, y, width, height);
+                this._tooltip.Background = backgroundColor;
+
+                if (this.Element.Parent instanceof Panel) {
+                    buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
+                    buttonParent.Platform.Draw(this._tooltip);
+                }
+            } else {
+                this._tooltip.Renderer.Clear();
+                buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
+                // parentContainer.removeChild(this._tooltip);
+                this._tooltip = null;
             }
         }
     }

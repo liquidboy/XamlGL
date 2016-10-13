@@ -103,7 +103,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         containerMain.addChild(container2);
 
 
-        var dropShadowFilter = new PIXI.filters.BlurFilter();
+        var dropShadowFilter: PIXI.filters.BlurFilter = new PIXI.filters.BlurFilter();
         dropShadowFilter.blur = 0.5;
         containerMain.filters = [dropShadowFilter];
 

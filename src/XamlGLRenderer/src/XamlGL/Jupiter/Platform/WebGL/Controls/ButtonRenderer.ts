@@ -7,9 +7,8 @@ import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { Button } from "./../../../../Controls/Button";
-import { Panel } from "./../../../../Controls/Panel";
+// import { Panel } from "./../../../../Controls/Panel";
 // import { Rectangle } from "./../../../../Controls/Rectangle";
-import { ToolTip } from "./../../../../Controls/ToolTip";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
@@ -24,7 +23,6 @@ import { Point } from "./../../../../DataTypes/Point";
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _blurToUse: number = 0;
     private _isPressed: boolean = false;
-    private _tooltip: ToolTip = null;
 
     Draw(): void {
         super.Draw();
@@ -147,30 +145,13 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
-                let buttonParent: Panel = <Panel>this.Element.Parent;
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                    
                     // todo: split out this tooltip code somewhere more generic
                     if (buttonEl.HasToolTip) {
-                        if (this._tooltip === null) {
-                            this._tooltip = new ToolTip();
-                            this._tooltip.ShowToolTip(r.Pointer.x, r.Pointer.y, 200, 60);
-                            this._tooltip.Background = "#FFff7300";
-
-                            if (this.Element.Parent instanceof Panel) {
-                                buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
-                                buttonParent.Platform.Draw(this._tooltip);
-                            }
-                        } else {
-                            this._tooltip.Renderer.Clear();
-                            buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
-                            // parentContainer.removeChild(this._tooltip);
-                            this._tooltip = null;
-                        }
+                        this.ShowHideTooltip(null, "#FFff7300", r.Pointer.x, r.Pointer.y, 200, 60);
                     } else {
                         eval(buttonEl.ClickStr);
                     }
-
                 }
             }
         });
