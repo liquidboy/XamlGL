@@ -146,9 +146,15 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                    // todo: split out this tooltip code somewhere more generic
                     if (buttonEl.HasToolTip) {
-                        this.ShowHideTooltip(null, "#FFff7300", r.Pointer.x, r.Pointer.y, 200, 60);
+                        // this.ShowHideTooltip(null, "#FFff7300", r.Pointer.x, r.Pointer.y, 200, 60);
+                        this.ShowHideTooltip(
+                            null,
+                            "#FFff7300",
+                            parentContainer.x + containerGrid.position.x + (buttonEl.Width / 2),
+                            parentContainer.y + containerGrid.position.y - 5,
+                            200,
+                            60);
                     } else {
                         eval(buttonEl.ClickStr);
                     }
