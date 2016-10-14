@@ -1142,6 +1142,7 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\Image.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Panel.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\CornerRadius.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\DockPosition.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\HorizontalAlignment.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Orientation.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\TextWrappingAlign.ts" />
