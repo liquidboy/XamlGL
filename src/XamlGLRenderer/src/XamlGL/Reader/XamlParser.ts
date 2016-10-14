@@ -7,6 +7,7 @@ import { StackPanel } from "./../Controls/StackPanel";
 import { Image } from "./../Controls/Image";
 import { Panel } from "./../Controls/Panel";
 import { TextBlock } from "./../Controls/TextBlock";
+import { Path } from "./../Controls/Path";
 import { Rectangle } from "./../Controls/Rectangle";
 import { Thickness } from "./../DataTypes/Thickness";
 import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
@@ -153,6 +154,17 @@ export class XamlParser {
                 tooltip.Background = node.attributes.getNamedItem("Background").value;
             }
             return tooltip;
+        } else if (node.nodeName === "Path") {
+            let path: Path = new Path();
+            path.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            path.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            path.Data = node.attributes.getNamedItem("Data").value;
+            path.Stroke = node.attributes.getNamedItem("Stroke").value;
+            path.StrokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
+            if (node.attributes.getNamedItem("Fill")) {
+                path.Fill = node.attributes.getNamedItem("Fill").value;
+            }
+            return path;
         }
         return null;
     }

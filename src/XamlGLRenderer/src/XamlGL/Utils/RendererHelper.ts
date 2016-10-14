@@ -27,6 +27,9 @@ import { ButtonRenderer } from "./../Jupiter/Platform/WebGL/Controls/ButtonRende
 import { ToolTip } from "./../Controls/ToolTip";
 import { ToolTipRenderer } from "./../Jupiter/Platform/WebGL/Controls/ToolTipRenderer";
 
+import { Path } from "./../Controls/Path";
+import { PathRenderer } from "./../Jupiter/Platform/WebGL/Controls/PathRenderer";
+
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
 
@@ -44,6 +47,8 @@ export class RendererHelper {
             return new TextBlockRenderer();
         } else if (element instanceof Button) {
             return new ButtonRenderer();
+        } else if (element instanceof Path) {
+            return new PathRenderer();
         } else {
             return new DefaultRenderer();
         }

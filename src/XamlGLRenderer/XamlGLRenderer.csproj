@@ -31,6 +31,8 @@
     <Content Include="assets\glitter-11.jpg" />
     <Content Include="assets\glitter-12.jpg" />
     <Content Include="assets\glitter-13.jpg" />
+    <Content Include="assets\glitter-14.jpg" />
+    <Content Include="assets\glitter-14a.jpg" />
     <Content Include="assets\glitter-2.jpg" />
     <Content Include="assets\glitter-3.jpg" />
     <Content Include="assets\glitter-3o.jpg" />
@@ -1134,6 +1136,16 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\Control.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Button.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\BezierSegment.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\ArcSegment.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\QuadraticBezierSegment.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\Path.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\PathGeometry.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\PathFigure.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\PathIcon.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\LineSegment.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\PathSegment.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\PathFigureCollection.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\ToolTip.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\StackPanel.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\TextBlock.ts" />
@@ -1141,15 +1153,23 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\Grid.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Image.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Panel.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\PathSegmentCollection.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\CornerRadius.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\DockPosition.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\HorizontalAlignment.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Orientation.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\Size.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\TextWrappingAlign.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\TextWrapping.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\Point.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\FillRule.ts" />
+    <TypeScriptCompile Include="src\XamlGL\DataTypes\SweepDirection.ts" />
     <TypeScriptCompile Include="src\XamlGL\DataTypes\VerticalAlignment.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Geometry.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PathRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Shape.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\IconElement.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapImage.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapSource.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Page.ts" />
@@ -1541,6 +1561,9 @@
     </Content>
     <Content Include="xaml\sample-42.xap" />
     <Content Include="xaml\sample-43.xap" />
+    <Content Include="xaml\sample-44.xap">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

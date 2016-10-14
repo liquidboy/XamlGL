@@ -64,6 +64,12 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }
     get PropertyChanged(): IEvent<FrameworkElement, IEventArgs> { return this._propertyChanged; }
     get FocusChanged(): IEvent<FrameworkElement, IEventArgs> { return this._focusChanged; }
+
+    constructor() {
+        super();
+
+        this.Margin = new Thickness(0);
+    }
 }
 
 // in xamarin.forms this is "VisualElement" (thou it can be confusing because Xamarin also introduced a 

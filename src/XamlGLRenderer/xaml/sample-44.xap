@@ -1,0 +1,16 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ShellType="FullWidth"
+    ShellHeight="512"
+    ThemeName="Metro">
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
+    <Grid>
+      <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-14a.jpg"></Image>
+    </Grid>
+    <Grid>
+      <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#FFff00e0" StrokeThickness="2" 
+            Data="M12.970992,0L21.524992,0 11.658996,12.152008 8.5930022,15.931 8.6660002,16.020996 11.772003,19.846008 21.636,32 13.082,32 4.3889922,21.290009 4.3150023,21.200989 4.2769927,21.247009 0,15.977997 4.2769927,10.708008z" ></Path>
+    </Grid>
+  </Grid>
+</Application>
