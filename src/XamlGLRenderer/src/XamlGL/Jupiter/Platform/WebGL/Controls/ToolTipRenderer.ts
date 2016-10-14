@@ -6,7 +6,8 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
-import { Rectangle } from "./../../../../Controls/Rectangle";
+import { ToolTip } from "./../../../../Controls/ToolTip";
+import { DockPosition } from "./../../../../DataTypes/DockPosition";
 
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
@@ -16,7 +17,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         super.Draw();
         ConsoleHelper.Log("ToolTipRenderer.Draw");
 
-        let rectEl: Rectangle = <Rectangle>super.Element;
+        let rectEl: ToolTip = <ToolTip>super.Element;
 
         if (!rectEl.IsDirty) {
             return;
@@ -54,7 +55,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
 
         let rectangle: PIXI.Graphics = new PIXI.Graphics();
         rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
-        rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background)); // 0x66CCFF);
+        rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background));
         rectangle.drawRoundedRect(0, 0, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
         rectangle.endFill();
         rectangle.boundsPadding = 5;
@@ -62,14 +63,26 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
 
         var triangle: PIXI.Graphics = new PIXI.Graphics();
         triangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background));
-        triangle.drawPolygon([
-            0, 12,
-            -12, 0,
-            12, 0
-        ]);
+        if (rectEl.DockPosition === DockPosition.Top) {
+            triangle.drawPolygon([0, 12, -12, 0, 12, 0]);
+            triangle.y = this.Element.Height;
+            triangle.x = this.Element.Width / 2;
+        } else if (rectEl.DockPosition === DockPosition.Bottom) {
+            triangle.drawPolygon([0, -12, -12, 0, 12, 0]);
+            triangle.y = 0;
+            triangle.x = this.Element.Width / 2;
+        } else if (rectEl.DockPosition === DockPosition.Left) {
+            triangle.drawPolygon([-12, 0, 0, -12, 0, 12]);
+            triangle.y = this.Element.Height /2;
+            triangle.x = 0;
+        } else if (rectEl.DockPosition === DockPosition.Right) {
+            triangle.drawPolygon([12, 0, 0, -12, 0, 12]);
+            triangle.y = this.Element.Height / 2;
+            triangle.x = this.Element.Width;
+        }
         triangle.endFill();
-        triangle.x = this.Element.Width/2;
-        triangle.y = this.Element.Height;
+
+
         triangle.boundsPadding = 5;
         container.addChild(triangle);
         containerMain.addChild(container);
@@ -83,21 +96,39 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         let rectangle2: PIXI.Graphics = new PIXI.Graphics();
         rectangle2.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
         rectangle2.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"));
-        rectangle2.drawRoundedRect(0, 5, super.Element.Width, super.Element.Height-5, rectEl.CornerRadius.BottomLeft);
+        if (rectEl.DockPosition === DockPosition.Top) {
+            rectangle2.drawRoundedRect(0, 5, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
+        } else if (rectEl.DockPosition === DockPosition.Bottom) {
+            rectangle2.drawRoundedRect(0, 10, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
+        } else if (rectEl.DockPosition === DockPosition.Left) {
+            rectangle2.drawRoundedRect(5, 5, super.Element.Width, super.Element.Height , rectEl.CornerRadius.BottomLeft);
+        } else if (rectEl.DockPosition === DockPosition.Right) {
+            rectangle2.drawRoundedRect(-5, 5, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
+        }
         rectangle2.endFill();
         rectangle2.boundsPadding = 5;
         container2.addChild(rectangle2);
 
         var triangle2: PIXI.Graphics = new PIXI.Graphics();
         triangle2.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"));
-        triangle2.drawPolygon([
-            0, 12,
-            -12, 0,
-            12, 0
-        ]);
+        if (rectEl.DockPosition === DockPosition.Top) {
+            triangle2.drawPolygon([0, 12, -12, 0, 12, 0]);
+            triangle2.x = this.Element.Width / 2;
+            triangle2.y = this.Element.Height;
+        } else if (rectEl.DockPosition === DockPosition.Bottom) {
+            triangle2.drawPolygon([0, -12, -12, 0, 12, 0]);
+            triangle2.x = this.Element.Width / 2;
+            triangle2.y = 12;
+        } else if (rectEl.DockPosition === DockPosition.Left) {
+            triangle2.drawPolygon([-12, 0, 0, -12, 0, 12]);
+            triangle2.x = 7;
+            triangle2.y = (this.Element.Height / 2) + 5;
+        } else if (rectEl.DockPosition === DockPosition.Right) {
+            triangle2.drawPolygon([12, 0, 0, -12, 0, 12]);
+            triangle2.x = this.Element.Width - 6;
+            triangle2.y = (this.Element.Height / 2) + 5;
+        }
         triangle2.endFill();
-        triangle2.x = this.Element.Width / 2;
-        triangle2.y = this.Element.Height;
         triangle2.boundsPadding = 5;
         container2.addChild(triangle2);
         containerMain.addChild(container2);

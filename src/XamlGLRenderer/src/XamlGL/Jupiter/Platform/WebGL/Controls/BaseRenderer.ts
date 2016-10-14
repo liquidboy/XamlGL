@@ -6,6 +6,7 @@ import { IFrameworkElement } from "./../../../IFrameworkElement";
 import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Point } from "./../../../../DataTypes/Point";
+import { DockPosition } from "./../../../../DataTypes/DockPosition";
 import { Panel } from "./../../../../Controls/Panel";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { IEvent } from "./../../../../Events/IEvent";
@@ -219,14 +220,15 @@ export class BaseRenderer implements IControlRenderer {
         }
     }
 
-    public ShowHideTooltip(show: boolean, backgroundColor: string, x: number, y:number, width:number, height:number): void {
+    public ShowHideTooltip(show: boolean, position: DockPosition, backgroundColor: string, x: number, y: number, width: number,
+        height: number): void {
+
         let buttonParent: Panel = <Panel>this.Element.Parent;
         if (show === null) {
             if (this._tooltip === null) {
                 this._tooltip = new ToolTip();
-                this._tooltip.ShowToolTip(x, y, width, height);
+                this._tooltip.ShowToolTip(x, y, width, height, position);
                 this._tooltip.Background = backgroundColor;
-
                 if (this.Element.Parent instanceof Panel) {
                     buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
                     buttonParent.Platform.Draw(this._tooltip);

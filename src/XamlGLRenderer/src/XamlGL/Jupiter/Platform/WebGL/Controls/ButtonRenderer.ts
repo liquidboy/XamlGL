@@ -19,6 +19,7 @@ import { Point } from "./../../../../DataTypes/Point";
 // import { CornerRadius } from "./../../../../DataTypes/CornerRadius";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { Orientation } from "./../../../../DataTypes/Orientation";
+import { DockPosition } from "./../../../../DataTypes/DockPosition";
 
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _blurToUse: number = 0;
@@ -147,12 +148,15 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
                     if (buttonEl.HasToolTip) {
-                        // this.ShowHideTooltip(null, "#FFff7300", r.Pointer.x, r.Pointer.y, 200, 60);
                         this.ShowHideTooltip(
                             null,
+                            DockPosition.Top,
+                            // dockPosition.Bottom,
                             "#FFff7300",
                             parentContainer.x + containerGrid.position.x + (buttonEl.Width / 2),
                             parentContainer.y + containerGrid.position.y - 5,
+                            // parentContainer.x + containerGrid.position.x + (buttonEl.Width / 2),
+                            // parentContainer.y + containerGrid.position.y ,
                             200,
                             60);
                     } else {
