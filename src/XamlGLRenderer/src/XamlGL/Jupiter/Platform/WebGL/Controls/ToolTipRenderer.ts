@@ -35,7 +35,6 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
 
         let containerMain: PIXI.Container = null;
 
-
         if (this.PixiElement === undefined) {
             containerMain = new PIXI.Container();
             containerMain.x = rectEl.Margin.Left;
@@ -44,8 +43,6 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         } else {
             containerMain = <PIXI.Container>this.PixiElement;
         }
-
-
 
         // bottom
 
@@ -56,7 +53,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         let rectangle: PIXI.Graphics = new PIXI.Graphics();
         rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
         rectangle.beginFill(RendererHelper.HashToColorNumber(rectEl.Background));
-        rectangle.drawRoundedRect(0, 0, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
+        rectangle.drawRoundedRect(0, 0, this.Element.Width, this.Element.Height, rectEl.CornerRadius.BottomLeft);
         rectangle.endFill();
         rectangle.boundsPadding = 5;
         container.addChild(rectangle);
@@ -71,11 +68,11 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
             triangle.drawPolygon([0, -12, -12, 0, 12, 0]);
             triangle.y = 0;
             triangle.x = this.Element.Width / 2;
-        } else if (rectEl.DockPosition === DockPosition.Left) {
+        } else if (rectEl.DockPosition === DockPosition.Right) {
             triangle.drawPolygon([-12, 0, 0, -12, 0, 12]);
             triangle.y = this.Element.Height /2;
             triangle.x = 0;
-        } else if (rectEl.DockPosition === DockPosition.Right) {
+        } else if (rectEl.DockPosition === DockPosition.Left) {
             triangle.drawPolygon([12, 0, 0, -12, 0, 12]);
             triangle.y = this.Element.Height / 2;
             triangle.x = this.Element.Width;
@@ -100,9 +97,9 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
             rectangle2.drawRoundedRect(0, 5, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
         } else if (rectEl.DockPosition === DockPosition.Bottom) {
             rectangle2.drawRoundedRect(0, 10, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
-        } else if (rectEl.DockPosition === DockPosition.Left) {
-            rectangle2.drawRoundedRect(5, 5, super.Element.Width, super.Element.Height , rectEl.CornerRadius.BottomLeft);
         } else if (rectEl.DockPosition === DockPosition.Right) {
+            rectangle2.drawRoundedRect(5, 5, super.Element.Width, super.Element.Height , rectEl.CornerRadius.BottomLeft);
+        } else if (rectEl.DockPosition === DockPosition.Left) {
             rectangle2.drawRoundedRect(-5, 5, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
         }
         rectangle2.endFill();
@@ -119,11 +116,11 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
             triangle2.drawPolygon([0, -12, -12, 0, 12, 0]);
             triangle2.x = this.Element.Width / 2;
             triangle2.y = 12;
-        } else if (rectEl.DockPosition === DockPosition.Left) {
+        } else if (rectEl.DockPosition === DockPosition.Right) {
             triangle2.drawPolygon([-12, 0, 0, -12, 0, 12]);
             triangle2.x = 7;
             triangle2.y = (this.Element.Height / 2) + 5;
-        } else if (rectEl.DockPosition === DockPosition.Right) {
+        } else if (rectEl.DockPosition === DockPosition.Left) {
             triangle2.drawPolygon([12, 0, 0, -12, 0, 12]);
             triangle2.x = this.Element.Width - 6;
             triangle2.y = (this.Element.Height / 2) + 5;
@@ -138,7 +135,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         dropShadowFilter.blur = 0.5;
         containerMain.filters = [dropShadowFilter];
 
-        super.Element.Platform.Renderer.PixiStage.addChild(containerMain);
+        this.Element.Platform.Renderer.PixiStage.addChild(containerMain);
 
 
         rectEl.IsDirty = false;
