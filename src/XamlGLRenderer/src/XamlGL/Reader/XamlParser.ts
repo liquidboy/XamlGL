@@ -15,6 +15,7 @@ import { CornerRadius } from "./../DataTypes/CornerRadius";
 import { Orientation } from "./../DataTypes/Orientation";
 import { TextWrapping } from "./../DataTypes/TextWrapping";
 import { TextWrappingAlign } from "./../DataTypes/TextWrappingAlign";
+import { DockPosition } from "./../DataTypes/DockPosition";
 import { ConsoleHelper } from "./../Utils/ConsoleHelper";
 
 export class XamlParser {
@@ -139,6 +140,7 @@ export class XamlParser {
             button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
             button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
             button.HasToolTip = this.StringToBoolean(node.attributes.getNamedItem("HasToolTip"));
+            button.TooltipDockPosition = this.StringToDockPosition(node.attributes.getNamedItem("TooltipDockPosition"));
             return button;
         } else if (node.nodeName === "ToolTip") {
             let tooltip: ToolTip = new ToolTip();
@@ -271,6 +273,21 @@ export class XamlParser {
             return TextWrappingAlign.Center;
         } else if (attr.value === "Right") {
             return TextWrappingAlign.Right;
+        }
+    }
+    private static StringToDockPosition(attr: Attr): DockPosition {
+        if (attr === null) {
+            return DockPosition.Top;
+        }
+
+        if (attr.value === "Left") {
+            return DockPosition.Left;
+        } else if (attr.value === "Top") {
+            return DockPosition.Top;
+        } else if (attr.value === "Right") {
+            return DockPosition.Right;
+        } else if (attr.value === "Bottom") {
+            return DockPosition.Bottom;
         }
     }
 }

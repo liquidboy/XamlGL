@@ -220,10 +220,27 @@ System.register("XamlGL/Events/EventDispatcher", [], function(exports_15, contex
         }
     }
 });
-System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", "XamlGL/Events/EventDispatcher"], function(exports_16, context_16) {
+System.register("XamlGL/DataTypes/DockPosition", [], function(exports_16, context_16) {
     "use strict";
     var __moduleName = context_16 && context_16.id;
-    var UIElement_1, EventDispatcher_1;
+    var DockPosition;
+    return {
+        setters:[],
+        execute: function() {
+            (function (DockPosition) {
+                DockPosition[DockPosition["Left"] = 0] = "Left";
+                DockPosition[DockPosition["Top"] = 1] = "Top";
+                DockPosition[DockPosition["Right"] = 2] = "Right";
+                DockPosition[DockPosition["Bottom"] = 3] = "Bottom";
+            })(DockPosition || (DockPosition = {}));
+            exports_16("DockPosition", DockPosition);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", "XamlGL/Events/EventDispatcher", "XamlGL/DataTypes/DockPosition"], function(exports_17, context_17) {
+    "use strict";
+    var __moduleName = context_17 && context_17.id;
+    var UIElement_1, EventDispatcher_1, DockPosition_1;
     var FrameworkElement;
     return {
         setters:[
@@ -232,12 +249,16 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
             },
             function (EventDispatcher_1_1) {
                 EventDispatcher_1 = EventDispatcher_1_1;
+            },
+            function (DockPosition_1_1) {
+                DockPosition_1 = DockPosition_1_1;
             }],
         execute: function() {
             FrameworkElement = class FrameworkElement extends UIElement_1.UIElement {
                 constructor() {
                     super(...arguments);
                     this._hasToolTip = false;
+                    this._tooltipDockPosition = DockPosition_1.DockPosition.Top;
                     this._propertyChanged = new EventDispatcher_1.EventDispatcher();
                     this._focusChanged = new EventDispatcher_1.EventDispatcher();
                 }
@@ -254,6 +275,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 get CalculatedHeight() { return this._calculatedHeight; }
                 get BlurAmount() { return this._blurAmount; }
                 get HasToolTip() { return this._hasToolTip; }
+                get TooltipDockPosition() { return this._tooltipDockPosition; }
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
                 set Margin(value) { this._margin = value; }
@@ -267,16 +289,17 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 set CalculatedHeight(value) { this._calculatedHeight = value; }
                 set BlurAmount(value) { this._blurAmount = value; }
                 set HasToolTip(value) { this._hasToolTip = value; }
+                set TooltipDockPosition(value) { this._tooltipDockPosition = value; }
                 get PropertyChanged() { return this._propertyChanged; }
                 get FocusChanged() { return this._focusChanged; }
             };
-            exports_16("FrameworkElement", FrameworkElement);
+            exports_17("FrameworkElement", FrameworkElement);
         }
     }
 });
-System.register("XamlGL/Jupiter/Control", ["XamlGL/Jupiter/FrameworkElement"], function(exports_17, context_17) {
+System.register("XamlGL/Jupiter/Control", ["XamlGL/Jupiter/FrameworkElement"], function(exports_18, context_18) {
     "use strict";
-    var __moduleName = context_17 && context_17.id;
+    var __moduleName = context_18 && context_18.id;
     var FrameworkElement_1;
     var Control;
     return {
@@ -287,13 +310,13 @@ System.register("XamlGL/Jupiter/Control", ["XamlGL/Jupiter/FrameworkElement"], f
         execute: function() {
             Control = class Control extends FrameworkElement_1.FrameworkElement {
             };
-            exports_17("Control", Control);
+            exports_18("Control", Control);
         }
     }
 });
-System.register("XamlGL/Jupiter/UserControl", ["XamlGL/Jupiter/Control"], function(exports_18, context_18) {
+System.register("XamlGL/Jupiter/UserControl", ["XamlGL/Jupiter/Control"], function(exports_19, context_19) {
     "use strict";
-    var __moduleName = context_18 && context_18.id;
+    var __moduleName = context_19 && context_19.id;
     var Control_1;
     var UserControl;
     return {
@@ -304,13 +327,13 @@ System.register("XamlGL/Jupiter/UserControl", ["XamlGL/Jupiter/Control"], functi
         execute: function() {
             UserControl = class UserControl extends Control_1.Control {
             };
-            exports_18("UserControl", UserControl);
+            exports_19("UserControl", UserControl);
         }
     }
 });
-System.register("XamlGL/Jupiter/Page", ["XamlGL/Jupiter/UserControl", "XamlGL/Events/EventDispatcher"], function(exports_19, context_19) {
+System.register("XamlGL/Jupiter/Page", ["XamlGL/Jupiter/UserControl", "XamlGL/Events/EventDispatcher"], function(exports_20, context_20) {
     "use strict";
-    var __moduleName = context_19 && context_19.id;
+    var __moduleName = context_20 && context_20.id;
     var UserControl_1, EventDispatcher_2;
     var Page;
     return {
@@ -334,22 +357,22 @@ System.register("XamlGL/Jupiter/Page", ["XamlGL/Jupiter/UserControl", "XamlGL/Ev
                     this._contentChanged.dispatch(this, null);
                 }
             };
-            exports_19("Page", Page);
+            exports_20("Page", Page);
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/IPlatformPage", [], function(exports_20, context_20) {
+System.register("XamlGL/Jupiter/Platform/IPlatformPage", [], function(exports_21, context_21) {
     "use strict";
-    var __moduleName = context_20 && context_20.id;
+    var __moduleName = context_21 && context_21.id;
     return {
         setters:[],
         execute: function() {
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/util", [], function(exports_21, context_21) {
+System.register("Libs/typescript-collections/src/lib/util", [], function(exports_22, context_22) {
     "use strict";
-    var __moduleName = context_21 && context_21.id;
+    var __moduleName = context_22 && context_22.id;
     var _hasOwnProperty, has;
     function defaultCompare(a, b) {
         if (a < b) {
@@ -362,11 +385,11 @@ System.register("Libs/typescript-collections/src/lib/util", [], function(exports
             return 1;
         }
     }
-    exports_21("defaultCompare", defaultCompare);
+    exports_22("defaultCompare", defaultCompare);
     function defaultEquals(a, b) {
         return a === b;
     }
-    exports_21("defaultEquals", defaultEquals);
+    exports_22("defaultEquals", defaultEquals);
     function defaultToString(item) {
         if (item === null) {
             return 'COLLECTION_NULL';
@@ -381,7 +404,7 @@ System.register("Libs/typescript-collections/src/lib/util", [], function(exports
             return '$o' + item.toString();
         }
     }
-    exports_21("defaultToString", defaultToString);
+    exports_22("defaultToString", defaultToString);
     function makeString(item, join = ',') {
         if (item === null) {
             return 'COLLECTION_NULL';
@@ -409,19 +432,19 @@ System.register("Libs/typescript-collections/src/lib/util", [], function(exports
             return toret + '}';
         }
     }
-    exports_21("makeString", makeString);
+    exports_22("makeString", makeString);
     function isFunction(func) {
         return (typeof func) === 'function';
     }
-    exports_21("isFunction", isFunction);
+    exports_22("isFunction", isFunction);
     function isUndefined(obj) {
         return (typeof obj) === 'undefined';
     }
-    exports_21("isUndefined", isUndefined);
+    exports_22("isUndefined", isUndefined);
     function isString(obj) {
         return Object.prototype.toString.call(obj) === '[object String]';
     }
-    exports_21("isString", isString);
+    exports_22("isString", isString);
     function reverseCompareFunction(compareFunction) {
         if (!isFunction(compareFunction)) {
             return function (a, b) {
@@ -442,26 +465,26 @@ System.register("Libs/typescript-collections/src/lib/util", [], function(exports
             };
         }
     }
-    exports_21("reverseCompareFunction", reverseCompareFunction);
+    exports_22("reverseCompareFunction", reverseCompareFunction);
     function compareToEquals(compareFunction) {
         return function (a, b) {
             return compareFunction(a, b) === 0;
         };
     }
-    exports_21("compareToEquals", compareToEquals);
+    exports_22("compareToEquals", compareToEquals);
     return {
         setters:[],
         execute: function() {
             _hasOwnProperty = Object.prototype.hasOwnProperty;
-            exports_21("has", has = function (obj, prop) {
+            exports_22("has", has = function (obj, prop) {
                 return _hasOwnProperty.call(obj, prop);
             });
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-collections/src/lib/util"], function(exports_22, context_22) {
+System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-collections/src/lib/util"], function(exports_23, context_23) {
     "use strict";
-    var __moduleName = context_22 && context_22.id;
+    var __moduleName = context_23 && context_23.id;
     var util;
     function indexOf(array, item, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
@@ -473,7 +496,7 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
         }
         return -1;
     }
-    exports_22("indexOf", indexOf);
+    exports_23("indexOf", indexOf);
     function lastIndexOf(array, item, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
         const length = array.length;
@@ -484,11 +507,11 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
         }
         return -1;
     }
-    exports_22("lastIndexOf", lastIndexOf);
+    exports_23("lastIndexOf", lastIndexOf);
     function contains(array, item, equalsFunction) {
         return indexOf(array, item, equalsFunction) >= 0;
     }
-    exports_22("contains", contains);
+    exports_23("contains", contains);
     function remove(array, item, equalsFunction) {
         const index = indexOf(array, item, equalsFunction);
         if (index < 0) {
@@ -497,7 +520,7 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
         array.splice(index, 1);
         return true;
     }
-    exports_22("remove", remove);
+    exports_23("remove", remove);
     function frequency(array, item, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
         const length = array.length;
@@ -509,7 +532,7 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
         }
         return freq;
     }
-    exports_22("frequency", frequency);
+    exports_23("frequency", frequency);
     function equals(array1, array2, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
         if (array1.length !== array2.length) {
@@ -523,11 +546,11 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
         }
         return true;
     }
-    exports_22("equals", equals);
+    exports_23("equals", equals);
     function copy(array) {
         return array.concat();
     }
-    exports_22("copy", copy);
+    exports_23("copy", copy);
     function swap(array, i, j) {
         if (i < 0 || i >= array.length || j < 0 || j >= array.length) {
             return false;
@@ -537,11 +560,11 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
         array[j] = temp;
         return true;
     }
-    exports_22("swap", swap);
+    exports_23("swap", swap);
     function toString(array) {
         return '[' + array.toString() + ']';
     }
-    exports_22("toString", toString);
+    exports_23("toString", toString);
     function forEach(array, callback) {
         for (const ele of array) {
             if (callback(ele) === false) {
@@ -549,7 +572,7 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
             }
         }
     }
-    exports_22("forEach", forEach);
+    exports_23("forEach", forEach);
     return {
         setters:[
             function (util_1) {
@@ -559,9 +582,9 @@ System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/Dictionary", ["Libs/typescript-collections/src/lib/util"], function(exports_23, context_23) {
+System.register("Libs/typescript-collections/src/lib/Dictionary", ["Libs/typescript-collections/src/lib/util"], function(exports_24, context_24) {
     "use strict";
-    var __moduleName = context_23 && context_23.id;
+    var __moduleName = context_24 && context_24.id;
     var util;
     var Dictionary;
     return {
@@ -665,13 +688,13 @@ System.register("Libs/typescript-collections/src/lib/Dictionary", ["Libs/typescr
                     return toret + '\n}';
                 }
             };
-            exports_23("default", Dictionary);
+            exports_24("default", Dictionary);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/Set", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays", "Libs/typescript-collections/src/lib/Dictionary"], function(exports_24, context_24) {
+System.register("Libs/typescript-collections/src/lib/Set", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays", "Libs/typescript-collections/src/lib/Dictionary"], function(exports_25, context_25) {
     "use strict";
-    var __moduleName = context_24 && context_24.id;
+    var __moduleName = context_25 && context_25.id;
     var util, arrays, Dictionary_1;
     var Set;
     return {
@@ -769,13 +792,13 @@ System.register("Libs/typescript-collections/src/lib/Set", ["Libs/typescript-col
                     return arrays.toString(this.toArray());
                 }
             };
-            exports_24("default", Set);
+            exports_25("default", Set);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/Bag", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/Set"], function(exports_25, context_25) {
+System.register("Libs/typescript-collections/src/lib/Bag", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/Set"], function(exports_26, context_26) {
     "use strict";
-    var __moduleName = context_25 && context_25.id;
+    var __moduleName = context_26 && context_26.id;
     var util, Dictionary_2, Set_1;
     var Bag;
     return {
@@ -890,13 +913,13 @@ System.register("Libs/typescript-collections/src/lib/Bag", ["Libs/typescript-col
                     this.dictionary.clear();
                 }
             };
-            exports_25("default", Bag);
+            exports_26("default", Bag);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/LinkedList", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays"], function(exports_26, context_26) {
+System.register("Libs/typescript-collections/src/lib/LinkedList", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays"], function(exports_27, context_27) {
     "use strict";
-    var __moduleName = context_26 && context_26.id;
+    var __moduleName = context_27 && context_27.id;
     var util, arrays;
     var LinkedList;
     return {
@@ -1126,13 +1149,13 @@ System.register("Libs/typescript-collections/src/lib/LinkedList", ["Libs/typescr
                     };
                 }
             };
-            exports_26("default", LinkedList);
+            exports_27("default", LinkedList);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/Heap", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays"], function(exports_27, context_27) {
+System.register("Libs/typescript-collections/src/lib/Heap", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays"], function(exports_28, context_28) {
     "use strict";
-    var __moduleName = context_27 && context_27.id;
+    var __moduleName = context_28 && context_28.id;
     var collections, arrays;
     var Heap;
     return {
@@ -1237,13 +1260,13 @@ System.register("Libs/typescript-collections/src/lib/Heap", ["Libs/typescript-co
                     arrays.forEach(this.data, callback);
                 }
             };
-            exports_27("default", Heap);
+            exports_28("default", Heap);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/Queue", ["Libs/typescript-collections/src/lib/LinkedList"], function(exports_28, context_28) {
+System.register("Libs/typescript-collections/src/lib/Queue", ["Libs/typescript-collections/src/lib/LinkedList"], function(exports_29, context_29) {
     "use strict";
-    var __moduleName = context_28 && context_28.id;
+    var __moduleName = context_29 && context_29.id;
     var LinkedList_1;
     var Queue;
     return {
@@ -1292,13 +1315,13 @@ System.register("Libs/typescript-collections/src/lib/Queue", ["Libs/typescript-c
                     this.list.forEach(callback);
                 }
             };
-            exports_28("default", Queue);
+            exports_29("default", Queue);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/BSTree", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Queue"], function(exports_29, context_29) {
+System.register("Libs/typescript-collections/src/lib/BSTree", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Queue"], function(exports_30, context_30) {
     "use strict";
-    var __moduleName = context_29 && context_29.id;
+    var __moduleName = context_30 && context_30.id;
     var util, Queue_1;
     var BSTree;
     return {
@@ -1558,13 +1581,13 @@ System.register("Libs/typescript-collections/src/lib/BSTree", ["Libs/typescript-
                     };
                 }
             };
-            exports_29("default", BSTree);
+            exports_30("default", BSTree);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/LinkedDictionary", ["Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/util"], function(exports_30, context_30) {
+System.register("Libs/typescript-collections/src/lib/LinkedDictionary", ["Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/util"], function(exports_31, context_31) {
     "use strict";
-    var __moduleName = context_30 && context_30.id;
+    var __moduleName = context_31 && context_31.id;
     var Dictionary_3, util;
     var LinkedDictionaryPair, LinkedDictionary;
     return {
@@ -1683,13 +1706,13 @@ System.register("Libs/typescript-collections/src/lib/LinkedDictionary", ["Libs/t
                     }
                 }
             };
-            exports_30("default", LinkedDictionary);
+            exports_31("default", LinkedDictionary);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/MultiDictionary", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/arrays"], function(exports_31, context_31) {
+System.register("Libs/typescript-collections/src/lib/MultiDictionary", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/arrays"], function(exports_32, context_32) {
     "use strict";
-    var __moduleName = context_31 && context_31.id;
+    var __moduleName = context_32 && context_32.id;
     var util, Dictionary_4, arrays;
     var MultiDictionary;
     return {
@@ -1774,13 +1797,13 @@ System.register("Libs/typescript-collections/src/lib/MultiDictionary", ["Libs/ty
                     return this.dict.isEmpty();
                 }
             };
-            exports_31("default", MultiDictionary);
+            exports_32("default", MultiDictionary);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/FactoryDictionary", ["Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/util"], function(exports_32, context_32) {
+System.register("Libs/typescript-collections/src/lib/FactoryDictionary", ["Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/util"], function(exports_33, context_33) {
     "use strict";
-    var __moduleName = context_32 && context_32.id;
+    var __moduleName = context_33 && context_33.id;
     var Dictionary_5, util;
     var FactoryDictionary;
     return {
@@ -1809,13 +1832,13 @@ System.register("Libs/typescript-collections/src/lib/FactoryDictionary", ["Libs/
                     return this.setDefault(key, this.defaultFactoryFunction());
                 }
             };
-            exports_32("default", FactoryDictionary);
+            exports_33("default", FactoryDictionary);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/PriorityQueue", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Heap"], function(exports_33, context_33) {
+System.register("Libs/typescript-collections/src/lib/PriorityQueue", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Heap"], function(exports_34, context_34) {
     "use strict";
-    var __moduleName = context_33 && context_33.id;
+    var __moduleName = context_34 && context_34.id;
     var util, Heap_1;
     var PriorityQueue;
     return {
@@ -1864,13 +1887,13 @@ System.register("Libs/typescript-collections/src/lib/PriorityQueue", ["Libs/type
                     this.heap.forEach(callback);
                 }
             };
-            exports_33("default", PriorityQueue);
+            exports_34("default", PriorityQueue);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/Stack", ["Libs/typescript-collections/src/lib/LinkedList"], function(exports_34, context_34) {
+System.register("Libs/typescript-collections/src/lib/Stack", ["Libs/typescript-collections/src/lib/LinkedList"], function(exports_35, context_35) {
     "use strict";
-    var __moduleName = context_34 && context_34.id;
+    var __moduleName = context_35 && context_35.id;
     var LinkedList_2;
     var Stack;
     return {
@@ -1911,13 +1934,13 @@ System.register("Libs/typescript-collections/src/lib/Stack", ["Libs/typescript-c
                     this.list.forEach(callback);
                 }
             };
-            exports_34("default", Stack);
+            exports_35("default", Stack);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/MultiRootTree", [], function(exports_35, context_35) {
+System.register("Libs/typescript-collections/src/lib/MultiRootTree", [], function(exports_36, context_36) {
     "use strict";
-    var __moduleName = context_35 && context_35.id;
+    var __moduleName = context_36 && context_36.id;
     var Direction, MultiRootTree;
     return {
         setters:[],
@@ -2303,13 +2326,13 @@ System.register("Libs/typescript-collections/src/lib/MultiRootTree", [], functio
                     this.rootIds.push(id);
                 }
             };
-            exports_35("default", MultiRootTree);
+            exports_36("default", MultiRootTree);
         }
     }
 });
-System.register("Libs/typescript-collections/src/lib/index", ["Libs/typescript-collections/src/lib/arrays", "Libs/typescript-collections/src/lib/Bag", "Libs/typescript-collections/src/lib/BSTree", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/Heap", "Libs/typescript-collections/src/lib/LinkedDictionary", "Libs/typescript-collections/src/lib/LinkedList", "Libs/typescript-collections/src/lib/MultiDictionary", "Libs/typescript-collections/src/lib/FactoryDictionary", "Libs/typescript-collections/src/lib/Queue", "Libs/typescript-collections/src/lib/PriorityQueue", "Libs/typescript-collections/src/lib/Set", "Libs/typescript-collections/src/lib/Stack", "Libs/typescript-collections/src/lib/MultiRootTree", "Libs/typescript-collections/src/lib/util"], function(exports_36, context_36) {
+System.register("Libs/typescript-collections/src/lib/index", ["Libs/typescript-collections/src/lib/arrays", "Libs/typescript-collections/src/lib/Bag", "Libs/typescript-collections/src/lib/BSTree", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/Heap", "Libs/typescript-collections/src/lib/LinkedDictionary", "Libs/typescript-collections/src/lib/LinkedList", "Libs/typescript-collections/src/lib/MultiDictionary", "Libs/typescript-collections/src/lib/FactoryDictionary", "Libs/typescript-collections/src/lib/Queue", "Libs/typescript-collections/src/lib/PriorityQueue", "Libs/typescript-collections/src/lib/Set", "Libs/typescript-collections/src/lib/Stack", "Libs/typescript-collections/src/lib/MultiRootTree", "Libs/typescript-collections/src/lib/util"], function(exports_37, context_37) {
     "use strict";
-    var __moduleName = context_36 && context_36.id;
+    var __moduleName = context_37 && context_37.id;
     var _arrays, _util;
     var arrays, util;
     return {
@@ -2318,70 +2341,70 @@ System.register("Libs/typescript-collections/src/lib/index", ["Libs/typescript-c
                 _arrays = _arrays_1;
             },
             function (Bag_1_1) {
-                exports_36({
+                exports_37({
                     "Bag": Bag_1_1["default"]
                 });
             },
             function (BSTree_1_1) {
-                exports_36({
+                exports_37({
                     "BSTree": BSTree_1_1["default"]
                 });
             },
             function (Dictionary_6_1) {
-                exports_36({
+                exports_37({
                     "Dictionary": Dictionary_6_1["default"]
                 });
             },
             function (Heap_2_1) {
-                exports_36({
+                exports_37({
                     "Heap": Heap_2_1["default"]
                 });
             },
             function (LinkedDictionary_1_1) {
-                exports_36({
+                exports_37({
                     "LinkedDictionary": LinkedDictionary_1_1["default"]
                 });
             },
             function (LinkedList_3_1) {
-                exports_36({
+                exports_37({
                     "LinkedList": LinkedList_3_1["default"]
                 });
             },
             function (MultiDictionary_1_1) {
-                exports_36({
+                exports_37({
                     "MultiDictionary": MultiDictionary_1_1["default"]
                 });
             },
             function (FactoryDictionary_1_1) {
-                exports_36({
+                exports_37({
                     "FactoryDictionary": FactoryDictionary_1_1["default"]
                 });
-                exports_36({
+                exports_37({
                     "DefaultDictionary": FactoryDictionary_1_1["default"]
                 });
             },
             function (Queue_2_1) {
-                exports_36({
+                exports_37({
                     "Queue": Queue_2_1["default"]
                 });
             },
             function (PriorityQueue_1_1) {
-                exports_36({
+                exports_37({
                     "PriorityQueue": PriorityQueue_1_1["default"]
                 });
             },
             function (Set_2_1) {
-                exports_36({
+                exports_37({
                     "Set": Set_2_1["default"]
                 });
             },
             function (Stack_1_1) {
-                exports_36({
+                exports_37({
                     "Stack": Stack_1_1["default"]
                 });
             },
             function (MultiRootTree_1_1) {
-                exports_36({
+                exports_37({
                     "MultiRootTree": MultiRootTree_1_1["default"]
                 });
             },
@@ -2389,14 +2412,14 @@ System.register("Libs/typescript-collections/src/lib/index", ["Libs/typescript-c
                 _util = _util_1;
             }],
         execute: function() {
-            exports_36("arrays", arrays = _arrays);
-            exports_36("util", util = _util);
+            exports_37("arrays", arrays = _arrays);
+            exports_37("util", util = _util);
         }
     }
 });
-System.register("XamlGL/Utils/ConsoleHelper", [], function(exports_37, context_37) {
+System.register("XamlGL/Utils/ConsoleHelper", [], function(exports_38, context_38) {
     "use strict";
-    var __moduleName = context_37 && context_37.id;
+    var __moduleName = context_38 && context_38.id;
     var ConsoleHelper;
     return {
         setters:[],
@@ -2414,13 +2437,13 @@ System.register("XamlGL/Utils/ConsoleHelper", [], function(exports_37, context_3
                     console.log("\u2609 " + title);
                 }
             };
-            exports_37("ConsoleHelper", ConsoleHelper);
+            exports_38("ConsoleHelper", ConsoleHelper);
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Guid", "Libs/typescript-collections/src/lib/index", "XamlGL/Utils/ConsoleHelper", "XamlGL/Events/EventDispatcher"], function(exports_38, context_38) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Guid", "Libs/typescript-collections/src/lib/index", "XamlGL/Utils/ConsoleHelper", "XamlGL/Events/EventDispatcher"], function(exports_39, context_39) {
     "use strict";
-    var __moduleName = context_38 && context_38.id;
+    var __moduleName = context_39 && context_39.id;
     var Guid_2, index_1, ConsoleHelper_1, EventDispatcher_3;
     var Renderer, RendererFactory, RendererResource;
     return {
@@ -2561,7 +2584,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     window.requestAnimationFrame(this.RenderLoop.bind(this));
                 }
             };
-            exports_38("Renderer", Renderer);
+            exports_39("Renderer", Renderer);
             RendererFactory = class RendererFactory {
                 static GetRenderer(width, height, antialias, transparent) {
                     this._renderer = PIXI.autoDetectRenderer(width, height, {
@@ -2572,20 +2595,20 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     return this._renderer;
                 }
             };
-            exports_38("RendererFactory", RendererFactory);
+            exports_39("RendererFactory", RendererFactory);
             RendererResource = class RendererResource {
                 constructor(Url) {
                     this.Url = Url;
                     this.Sprite = null;
                 }
             };
-            exports_38("RendererResource", RendererResource);
+            exports_39("RendererResource", RendererResource);
         }
     }
 });
-System.register("XamlGL/Jupiter/UIElementCollection", ["Libs/typescript-collections/src/lib/index"], function(exports_39, context_39) {
+System.register("XamlGL/Jupiter/UIElementCollection", ["Libs/typescript-collections/src/lib/index"], function(exports_40, context_40) {
     "use strict";
-    var __moduleName = context_39 && context_39.id;
+    var __moduleName = context_40 && context_40.id;
     var index_2;
     var UIElementCollection;
     return {
@@ -2596,13 +2619,13 @@ System.register("XamlGL/Jupiter/UIElementCollection", ["Libs/typescript-collecti
         execute: function() {
             UIElementCollection = class UIElementCollection extends index_2.LinkedList {
             };
-            exports_39("UIElementCollection", UIElementCollection);
+            exports_40("UIElementCollection", UIElementCollection);
         }
     }
 });
-System.register("XamlGL/Controls/Panel", ["XamlGL/Jupiter/FrameworkElement", "XamlGL/Jupiter/UIElementCollection", "XamlGL/Events/EventDispatcher"], function(exports_40, context_40) {
+System.register("XamlGL/Controls/Panel", ["XamlGL/Jupiter/FrameworkElement", "XamlGL/Jupiter/UIElementCollection", "XamlGL/Events/EventDispatcher"], function(exports_41, context_41) {
     "use strict";
-    var __moduleName = context_40 && context_40.id;
+    var __moduleName = context_41 && context_41.id;
     var FrameworkElement_2, UIElementCollection_1, EventDispatcher_4;
     var Panel;
     return {
@@ -2633,13 +2656,13 @@ System.register("XamlGL/Controls/Panel", ["XamlGL/Jupiter/FrameworkElement", "Xa
                 set Background(value) { this._background = value; }
                 set Foreground(value) { this._foreground = value; }
             };
-            exports_40("Panel", Panel);
+            exports_41("Panel", Panel);
         }
     }
 });
-System.register("XamlGL/DataTypes/Point", [], function(exports_41, context_41) {
+System.register("XamlGL/DataTypes/Point", [], function(exports_42, context_42) {
     "use strict";
-    var __moduleName = context_41 && context_41.id;
+    var __moduleName = context_42 && context_42.id;
     var Point;
     return {
         setters:[],
@@ -2650,24 +2673,7 @@ System.register("XamlGL/DataTypes/Point", [], function(exports_41, context_41) {
                     this.Y = y;
                 }
             };
-            exports_41("Point", Point);
-        }
-    }
-});
-System.register("XamlGL/DataTypes/DockPosition", [], function(exports_42, context_42) {
-    "use strict";
-    var __moduleName = context_42 && context_42.id;
-    var DockPosition;
-    return {
-        setters:[],
-        execute: function() {
-            (function (DockPosition) {
-                DockPosition[DockPosition["Left"] = 0] = "Left";
-                DockPosition[DockPosition["Top"] = 1] = "Top";
-                DockPosition[DockPosition["Right"] = 2] = "Right";
-                DockPosition[DockPosition["Bottom"] = 3] = "Bottom";
-            })(DockPosition || (DockPosition = {}));
-            exports_42("DockPosition", DockPosition);
+            exports_42("Point", Point);
         }
     }
 });
@@ -2739,7 +2745,7 @@ System.register("XamlGL/Controls/StackPanel", ["XamlGL/Controls/Panel"], functio
 System.register("XamlGL/Controls/ToolTip", ["XamlGL/Controls/Panel", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/DockPosition"], function(exports_46, context_46) {
     "use strict";
     var __moduleName = context_46 && context_46.id;
-    var Panel_2, Thickness_1, CornerRadius_1, HorizontalAlignment_1, VerticalAlignment_1, DockPosition_1;
+    var Panel_2, Thickness_1, CornerRadius_1, HorizontalAlignment_1, VerticalAlignment_1, DockPosition_2;
     var ToolTip;
     return {
         setters:[
@@ -2758,8 +2764,8 @@ System.register("XamlGL/Controls/ToolTip", ["XamlGL/Controls/Panel", "XamlGL/Dat
             function (VerticalAlignment_1_1) {
                 VerticalAlignment_1 = VerticalAlignment_1_1;
             },
-            function (DockPosition_1_1) {
-                DockPosition_1 = DockPosition_1_1;
+            function (DockPosition_2_1) {
+                DockPosition_2 = DockPosition_2_1;
             }],
         execute: function() {
             ToolTip = class ToolTip extends Panel_2.Panel {
@@ -2772,7 +2778,7 @@ System.register("XamlGL/Controls/ToolTip", ["XamlGL/Controls/Panel", "XamlGL/Dat
                     this.Background = "#FFFFFFFF";
                     this.Margin = new Thickness_1.Thickness(0);
                     this.CornerRadius = new CornerRadius_1.CornerRadius(0);
-                    this.DockPosition = DockPosition_1.DockPosition.Top;
+                    this.DockPosition = DockPosition_2.DockPosition.Top;
                 }
                 get BorderThickness() { return this._borderThickness; }
                 get BorderBrush() { return this._borderBrush; }
@@ -3082,7 +3088,7 @@ System.register("XamlGL/Controls/Grid", ["XamlGL/Controls/Panel"], function(expo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_50, context_50) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_50, context_50) {
     "use strict";
     var __moduleName = context_50 && context_50.id;
     var BaseRenderer_2, ConsoleHelper_4, RendererHelper_1;
@@ -3150,7 +3156,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_51, context_51) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_51, context_51) {
     "use strict";
     var __moduleName = context_51 && context_51.id;
     var BaseRenderer_3, ConsoleHelper_5, RendererHelper_2;
@@ -3629,7 +3635,7 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel", "XamlGL/D
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_68, context_68) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_68, context_68) {
     "use strict";
     var __moduleName = context_68 && context_68.id;
     var BaseRenderer_5, ConsoleHelper_7, RendererHelper_3;
@@ -3849,10 +3855,10 @@ System.register("XamlGL/Controls/Button", ["XamlGL/Controls/Panel"], function(ex
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/DataTypes/DockPosition"], function(exports_74, context_74) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/DockPosition"], function(exports_74, context_74) {
     "use strict";
     var __moduleName = context_74 && context_74.id;
-    var BaseRenderer_7, ConsoleHelper_9, RendererHelper_4, DockPosition_2;
+    var BaseRenderer_7, ConsoleHelper_9, RendererHelper_4, DockPosition_3;
     var ButtonRenderer;
     return {
         setters:[
@@ -3865,8 +3871,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
             function (RendererHelper_4_1) {
                 RendererHelper_4 = RendererHelper_4_1;
             },
-            function (DockPosition_2_1) {
-                DockPosition_2 = DockPosition_2_1;
+            function (DockPosition_3_1) {
+                DockPosition_3 = DockPosition_3_1;
             }],
         execute: function() {
             ButtonRenderer = class ButtonRenderer extends BaseRenderer_7.BaseRenderer {
@@ -3960,29 +3966,28 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                                let tooltipHeight = 150;
-                                let tooltipWidth = 300;
-                                let dock = DockPosition_2.DockPosition.Top;
+                                let tooltipHeight = 80;
+                                let tooltipWidth = 120;
                                 let topStart = 0;
                                 let leftStart = 0;
-                                if (dock === DockPosition_2.DockPosition.Top) {
+                                if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Top) {
                                     topStart = parentContainer.y + containerGrid.position.y - tooltipHeight - 20;
                                     leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
                                 }
-                                else if (dock === DockPosition_2.DockPosition.Bottom) {
+                                else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Bottom) {
                                     topStart = parentContainer.y + containerGrid.position.y + buttonEl.Height + 10;
                                     leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
                                 }
-                                else if (dock === DockPosition_2.DockPosition.Left) {
+                                else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Left) {
                                     topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
                                     leftStart = parentContainer.x + containerGrid.position.x - tooltipWidth - 15;
                                 }
-                                else if (dock === DockPosition_2.DockPosition.Right) {
+                                else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Right) {
                                     topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
                                     leftStart = parentContainer.x + containerGrid.position.x + buttonEl.Width + 15;
                                 }
                                 if (buttonEl.HasToolTip) {
-                                    this.ShowHideTooltip(null, dock, "#FFff7300", leftStart, topStart, tooltipWidth, tooltipHeight);
+                                    this.ShowHideTooltip(null, buttonEl.TooltipDockPosition, "#FFff7300", leftStart, topStart, tooltipWidth, tooltipHeight);
                                 }
                                 else {
                                     eval(buttonEl.ClickStr);
@@ -4007,18 +4012,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_75, context_75) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_75, context_75) {
     "use strict";
     var __moduleName = context_75 && context_75.id;
-    var BaseRenderer_8, DockPosition_3, ConsoleHelper_10, RendererHelper_5;
+    var BaseRenderer_8, DockPosition_4, ConsoleHelper_10, RendererHelper_5;
     var ToolTipRenderer;
     return {
         setters:[
             function (BaseRenderer_8_1) {
                 BaseRenderer_8 = BaseRenderer_8_1;
             },
-            function (DockPosition_3_1) {
-                DockPosition_3 = DockPosition_3_1;
+            function (DockPosition_4_1) {
+                DockPosition_4 = DockPosition_4_1;
             },
             function (ConsoleHelper_10_1) {
                 ConsoleHelper_10 = ConsoleHelper_10_1;
@@ -4060,22 +4065,22 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     container.addChild(rectangle);
                     var triangle = new PIXI.Graphics();
                     triangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
-                    if (rectEl.DockPosition === DockPosition_3.DockPosition.Top) {
+                    if (rectEl.DockPosition === DockPosition_4.DockPosition.Top) {
                         triangle.drawPolygon([0, 12, -12, 0, 12, 0]);
                         triangle.y = this.Element.Height;
                         triangle.x = this.Element.Width / 2;
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Bottom) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Bottom) {
                         triangle.drawPolygon([0, -12, -12, 0, 12, 0]);
                         triangle.y = 0;
                         triangle.x = this.Element.Width / 2;
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Right) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Right) {
                         triangle.drawPolygon([-12, 0, 0, -12, 0, 12]);
                         triangle.y = this.Element.Height / 2;
                         triangle.x = 0;
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Left) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Left) {
                         triangle.drawPolygon([12, 0, 0, -12, 0, 12]);
                         triangle.y = this.Element.Height / 2;
                         triangle.x = this.Element.Width;
@@ -4090,16 +4095,16 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     let rectangle2 = new PIXI.Graphics();
                     rectangle2.lineStyle(rectEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
                     rectangle2.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"));
-                    if (rectEl.DockPosition === DockPosition_3.DockPosition.Top) {
+                    if (rectEl.DockPosition === DockPosition_4.DockPosition.Top) {
                         rectangle2.drawRoundedRect(0, 5, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Bottom) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Bottom) {
                         rectangle2.drawRoundedRect(0, 10, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Right) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Right) {
                         rectangle2.drawRoundedRect(5, 5, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Left) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Left) {
                         rectangle2.drawRoundedRect(-5, 5, super.Element.Width, super.Element.Height, rectEl.CornerRadius.BottomLeft);
                     }
                     rectangle2.endFill();
@@ -4107,22 +4112,22 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     container2.addChild(rectangle2);
                     var triangle2 = new PIXI.Graphics();
                     triangle2.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"));
-                    if (rectEl.DockPosition === DockPosition_3.DockPosition.Top) {
+                    if (rectEl.DockPosition === DockPosition_4.DockPosition.Top) {
                         triangle2.drawPolygon([0, 12, -12, 0, 12, 0]);
                         triangle2.x = this.Element.Width / 2;
                         triangle2.y = this.Element.Height;
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Bottom) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Bottom) {
                         triangle2.drawPolygon([0, -12, -12, 0, 12, 0]);
                         triangle2.x = this.Element.Width / 2;
                         triangle2.y = 12;
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Right) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Right) {
                         triangle2.drawPolygon([-12, 0, 0, -12, 0, 12]);
                         triangle2.x = 7;
                         triangle2.y = (this.Element.Height / 2) + 5;
                     }
-                    else if (rectEl.DockPosition === DockPosition_3.DockPosition.Left) {
+                    else if (rectEl.DockPosition === DockPosition_4.DockPosition.Left) {
                         triangle2.drawPolygon([12, 0, 0, -12, 0, 12]);
                         triangle2.x = this.Element.Width - 6;
                         triangle2.y = (this.Element.Height / 2) + 5;
@@ -4150,7 +4155,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
         }
     }
 });
-System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer"], function(exports_76, context_76) {
+System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer"], function(exports_76, context_76) {
     "use strict";
     var __moduleName = context_76 && context_76.id;
     var DefaultRenderer_1, Grid_1, GridRenderer_1, StackPanel_2, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_7, ConsoleHelper_11, TextBlock_1, TextBlockRenderer_1, Button_1, ButtonRenderer_1, ToolTip_2, ToolTipRenderer_1;
@@ -4258,7 +4263,7 @@ System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_77, context_77) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_77, context_77) {
     "use strict";
     var __moduleName = context_77 && context_77.id;
     var Renderer_2, Panel_8, RendererHelper_6, ConsoleHelper_12;
@@ -4362,10 +4367,10 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_78, context_78)
         }
     }
 });
-System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Controls/ToolTip", "XamlGL/Controls/Button", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/Utils/ConsoleHelper"], function(exports_79, context_79) {
+System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Controls/ToolTip", "XamlGL/Controls/Button", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper"], function(exports_79, context_79) {
     "use strict";
     var __moduleName = context_79 && context_79.id;
-    var Grid_2, ToolTip_3, Button_2, StackPanel_3, Image_2, Panel_9, TextBlock_2, Rectangle_2, Thickness_3, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_3, Orientation_2, TextWrapping_3, TextWrappingAlign_3, ConsoleHelper_13;
+    var Grid_2, ToolTip_3, Button_2, StackPanel_3, Image_2, Panel_9, TextBlock_2, Rectangle_2, Thickness_3, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_3, Orientation_2, TextWrapping_3, TextWrappingAlign_3, DockPosition_5, ConsoleHelper_13;
     var XamlParser;
     return {
         setters:[
@@ -4413,6 +4418,9 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
             },
             function (TextWrappingAlign_3_1) {
                 TextWrappingAlign_3 = TextWrappingAlign_3_1;
+            },
+            function (DockPosition_5_1) {
+                DockPosition_5 = DockPosition_5_1;
             },
             function (ConsoleHelper_13_1) {
                 ConsoleHelper_13 = ConsoleHelper_13_1;
@@ -4541,6 +4549,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
                         button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
                         button.HasToolTip = this.StringToBoolean(node.attributes.getNamedItem("HasToolTip"));
+                        button.TooltipDockPosition = this.StringToDockPosition(node.attributes.getNamedItem("TooltipDockPosition"));
                         return button;
                     }
                     else if (node.nodeName === "ToolTip") {
@@ -4680,6 +4689,23 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                     }
                     else if (attr.value === "Right") {
                         return TextWrappingAlign_3.TextWrappingAlign.Right;
+                    }
+                }
+                static StringToDockPosition(attr) {
+                    if (attr === null) {
+                        return DockPosition_5.DockPosition.Top;
+                    }
+                    if (attr.value === "Left") {
+                        return DockPosition_5.DockPosition.Left;
+                    }
+                    else if (attr.value === "Top") {
+                        return DockPosition_5.DockPosition.Top;
+                    }
+                    else if (attr.value === "Right") {
+                        return DockPosition_5.DockPosition.Right;
+                    }
+                    else if (attr.value === "Bottom") {
+                        return DockPosition_5.DockPosition.Bottom;
                     }
                 }
             };

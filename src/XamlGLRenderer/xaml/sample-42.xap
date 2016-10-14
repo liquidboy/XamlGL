@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel Orientation="Horizontal" Width="390" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
           <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF14a0e2" 
-                  Click="alert('Zune was ahead of its time!');" HasToolTip="true"
+                  Click="alert('Zune was ahead of its time!');" HasToolTip="true" TooltipDockPosition="Left"
                   Width="110" Height="110" Stroke="#FF8edaff" StrokeThickness="2" CornerRadius="5" BlurAmount="2" 
                   Margin="0,0,0,0">
             <Grid>
@@ -28,7 +28,7 @@
             </Grid>
           </Button>
           <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#FF841700" Margin="10,0,0,0" 
-                  Click="alert('Windows 10 out of 10');"  HasToolTip="true" 
+                  Click="alert('Windows 10 out of 10');"  HasToolTip="true" TooltipDockPosition="Right"
                   Width="80" Height="80" Stroke="#FFd03636" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="50" Source="/assets/windows-logo-sml.png" Margin="12,10,0,0"></Image>
@@ -45,7 +45,7 @@
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="32" Source="/assets/edge-logo.png" Margin="13,12,0,0"></Image>
             </Grid>
           </Button>
-          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFffffff" 
+          <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFffffff" TooltipDockPosition="Bottom"
                   Click="alert('Silverlight will come back, xaml to unify all UI frameworks :)');"  HasToolTip="true"
                   Width="60" Height="60" Stroke="#FFffffff" StrokeThickness="2" CornerRadius="5" BlurAmount="2" Margin="10,0,0,0">
             <Grid>
@@ -60,7 +60,7 @@
             </Grid>
           </Button>
           <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFffffff" 
-                  Click="alert('Cortana, getting stuff done!');"  HasToolTip="true"
+                  Click="alert('Cortana, getting stuff done!');"  HasToolTip="true" TooltipDockPosition="Bottom"
                   Width="60" Height="60" Stroke="#FFffffff" StrokeThickness="2" CornerRadius="5" BlurAmount="2" Margin="10,0,0,0">
             <Grid>
               <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="30" Source="/assets/cortana-logo.png" Margin="12,13,0,0"></Image>

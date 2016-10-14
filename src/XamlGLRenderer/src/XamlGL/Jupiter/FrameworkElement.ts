@@ -7,6 +7,7 @@ import { IEvent } from "./../Events/IEvent";
 import { Thickness } from "./../DataTypes/Thickness";
 import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
+import { DockPosition } from "./../DataTypes/DockPosition";
 
 export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _width: number;
@@ -22,6 +23,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _calculatedHeight: number; // <- normally updated from a *renderer
     private _blurAmount: number;
     private _hasToolTip: boolean = false;
+    private _tooltipDockPosition: DockPosition = DockPosition.Top;
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
     // private _childRemoved: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
@@ -41,6 +43,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     get CalculatedHeight(): number { return this._calculatedHeight; }
     get BlurAmount(): number { return this._blurAmount; }
     get HasToolTip(): boolean { return this._hasToolTip; }
+    get TooltipDockPosition(): DockPosition { return this._tooltipDockPosition; }
 
     set Width(value: number) { this._width = value; }
     set Height(value: number) { this._height = value; }
@@ -55,6 +58,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     set CalculatedHeight(value: number) { this._calculatedHeight = value; }
     set BlurAmount(value: number) { this._blurAmount = value; }
     set HasToolTip(value: boolean) { this._hasToolTip = value; }
+    set TooltipDockPosition(value: DockPosition) { this._tooltipDockPosition = value; }
 
     // get ChildAdded(): IEvent<FrameworkElement, IEventArgs> { return this._childAdded; }
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }
