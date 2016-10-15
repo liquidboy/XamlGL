@@ -6,13 +6,13 @@
     <Grid>
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-1.jpg"></Image>
     </Grid>
-    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+    <StackPanel HorizontalAlignment="Left" Width="90" VerticalAlignment="Stretch" 
                 Orientation="Vertical" Margin="10,10,0,0">
       <Image Width="90" Height="90" VerticalAlignment="Top" Margin="0,0,0,10" Source="/assets/glitter-2.jpg"></Image>
       <Image Width="90" Height="90" VerticalAlignment="Top" Margin="0,0,0,10" Source="/assets/glitter-3.jpg"></Image>
       <Image Width="90" Height="90" VerticalAlignment="Top" Margin="0,0,0,10" Source="/assets/glitter-4.jpg"></Image>
       <Image Width="90" Height="90" VerticalAlignment="Top" Margin="0,0,0,10" Source="/assets/glitter-5.jpg"></Image>
-      <Image Width="90" Height="90" VerticalAlignment="Top" Margin="0,0,0,10" Source="/assets/glitter-6.jpg"></Image>-->
+      <Image Width="90" Height="90" VerticalAlignment="Top" Margin="0,0,0,10" Source="/assets/glitter-6.jpg"></Image>
     </StackPanel>
     
     <Text Text="Jose Fajardo" FontFamily="Sans-Serif" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Color="white" Margin="0,20,20,0"></Text>
