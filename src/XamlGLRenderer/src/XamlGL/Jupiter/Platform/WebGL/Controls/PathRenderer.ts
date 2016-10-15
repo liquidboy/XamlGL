@@ -54,7 +54,7 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
         polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper.HashToColorNumber(pathEl.Stroke));
 
         // render path
-        let pg: PathGeometry = StringToPathGeometryConverter.parse(pathEl.Data, polygonGraphics);
+        let pg: PathGeometry = MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
 
         // console.log(pg.Figures);
         // pg.Figures.forEach((pf: PathFigure) => {
@@ -93,7 +93,7 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
 
 }
 
-class StringToPathGeometryConverter {
+class MiniPathLanguageHelper {
 
     static AllowSign: boolean  = true;
     static AllowComma: boolean = true;
@@ -491,13 +491,7 @@ class StringToPathGeometryConverter {
             return value * sign;
         } else {
             let subString: string = this._pathString.substr(start, this._curIndex - start);
-            // try {
-                return parseFloat(subString);
-            // }
-            // catch (FormatException except) {
-                //    throw new FormatException(string.Format("Unexpected character in path "{0}" 
-                // at position {1 } ", _pathString, _curIndex - 1), except);
-            // }
+            return parseFloat(subString);
         }
     }
 
@@ -590,89 +584,4 @@ class StringToPathGeometryConverter {
     static ThrowBadToken(): void {
         // throw new FormatException(string.Format("Unexpected character in path "{0}" at position {1}", _pathString, _curIndex - 1));
     }
-
-    // getNumericListSeparator(provider: any): string { //char
-    //    let numericSeparator: string = ",";
-
-    //    // get the NumberFormatInfo out of the provider, if possible
-    //    // If the IFormatProvider doesn"t not contain a NumberFormatInfo, then 
-    //    // this method returns the current culture"s NumberFormatInfo. 
-    //    numberFormatInfo numberFormat = NumberFormatInfo.GetInstance(provider);
-
-    //    // Is the decimal separator is the same as the list separator?
-    //    // If so, we use the ";". 
-    //    if ((numberFormat.NumberDecimalSeparator.Length > 0) && (numericSeparator == numberFormat.NumberDecimalSeparator[0])) {
-    //        numericSeparator = ";";
-    //    }
-
-    //    return numericSeparator;
-    // }
-
-    static parseBack(geometry: PathGeometry): string {  // 
-        return "wtf";
-        // system.Text.StringBuilder sb = new System.Text.StringBuilder();
-        // iFormatProvider provider = new System.Globalization.CultureInfo("en-us");
-        // string format = null;
-
-        // sb.Append("F" + (geometry.FillRule == FillRule.EvenOdd ? "0" : "1") + " ");
-
-        // foreach(PathFigure figure in geometry.Figures)
-        // {
-        //    sb.Append("M " + ((IFormattable)figure.StartPoint).ToString(format, provider) + " ");
-
-        //    foreach(PathSegment segment in figure.Segments)
-        //    {
-        //        char separator = GetNumericListSeparator(provider);
-
-        //        if (segment.GetType() == typeof (LineSegment)) {
-        //            lineSegment _lineSegment = segment as LineSegment;
-
-        //            sb.Append("L " + ((IFormattable)_lineSegment.Point).ToString(format, provider) + " ");
-        //        }
-        //        else if (segment.GetType() == typeof (BezierSegment)) {
-        //            bezierSegment _bezierSegment = segment as BezierSegment;
-
-        //            sb.Append(String.Format(provider,
-        //                "C{1:" + format + "}{0}{2:" + format + "}{0}{3:" + format + "} ",
-        //                separator,
-        //                _bezierSegment.Point1,
-        //                _bezierSegment.Point2,
-        //                _bezierSegment.Point3
-        //            ));
-        //        }
-        //        else if (segment.GetType() == typeof (QuadraticBezierSegment)) {
-        //            quadraticBezierSegment _quadraticBezierSegment = segment as QuadraticBezierSegment;
-
-        //            sb.Append(String.Format(provider,
-        //                "Q{1:" + format + "}{0}{2:" + format + "} ",
-        //                separator,
-        //                _quadraticBezierSegment.Point1,
-        //                _quadraticBezierSegment.Point2));
-        //        }
-        //        else if (segment.GetType() == typeof (ArcSegment)) {
-        //            arcSegment _arcSegment = segment as ArcSegment;
-
-        //            sb.Append(String.Format(provider,
-        //                "A{1:" + format + "}{0}{2:" + format + "}{0}{3}{0}{4}{0}{5:" + format + "} ",
-        //                separator,
-        //                _arcSegment.Size,
-        //                _arcSegment.RotationAngle,
-        //                _arcSegment.IsLargeArc ? "1" : "0",
-        //                _arcSegment.SweepDirection == SweepDirection.Clockwise ? "1" : "0",
-        //                _arcSegment.Point));
-        //        }
-        //    }
-
-        //    if (figure.IsClosed)
-        //        sb.Append("Z");
-        // }
-
-        // return sb.ToString();
-    }
-
-
 }
-
-
-
-// https://stringtopathgeometry.codeplex.com/SourceControl/latest#PathConverter/PathConverter/StringToPathGeometryConverter.cs

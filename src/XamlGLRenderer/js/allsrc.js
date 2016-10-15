@@ -4492,7 +4492,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
     "use strict";
     var __moduleName = context_91 && context_91.id;
     var BaseRenderer_9, ConsoleHelper_11, PathGeometry_1, PathFigure_1, LineSegment_1, BezierSegment_1, QuadraticBezierSegment_1, ArcSegment_1, FillRule_1, SweepDirection_1, Size_1, RendererHelper_6;
-    var PathRenderer, StringToPathGeometryConverter;
+    var PathRenderer, MiniPathLanguageHelper;
     return {
         setters:[
             function (BaseRenderer_9_1) {
@@ -4547,7 +4547,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     let polygonGraphics = new PIXI.Graphics();
                     polygonGraphics.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Fill), pathEl.Fill.length > 0 ? 1 : 0);
                     polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Stroke));
-                    let pg = StringToPathGeometryConverter.parse(pathEl.Data, polygonGraphics);
+                    let pg = MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
                     polygonGraphics.endFill();
                     let parentXYStart = this.CalculateCurrentAvailableSlot();
                     polygonGraphics.x = this.Element.CalculatedX + parentXYStart.X;
@@ -4559,7 +4559,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                 }
             };
             exports_91("PathRenderer", PathRenderer);
-            StringToPathGeometryConverter = class StringToPathGeometryConverter {
+            MiniPathLanguageHelper = class MiniPathLanguageHelper {
                 static parse(path, context) {
                     let _pathGeometry = null;
                     this._pathString = path;
@@ -4915,15 +4915,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                 }
                 static ThrowBadToken() {
                 }
-                static parseBack(geometry) {
-                    return "wtf";
-                }
             };
-            StringToPathGeometryConverter.AllowSign = true;
-            StringToPathGeometryConverter.AllowComma = true;
-            StringToPathGeometryConverter.IsFilled = true;
-            StringToPathGeometryConverter.IsClosed = true;
-            StringToPathGeometryConverter._figure = null;
+            MiniPathLanguageHelper.AllowSign = true;
+            MiniPathLanguageHelper.AllowComma = true;
+            MiniPathLanguageHelper.IsFilled = true;
+            MiniPathLanguageHelper.IsClosed = true;
+            MiniPathLanguageHelper._figure = null;
         }
     }
 });
