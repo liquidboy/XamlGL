@@ -157,7 +157,6 @@ class StringToPathGeometryConverter {
                     this._lastStart = this._lastPoint;
                     
                     while (this.IsNumber(this.AllowComma)) {
-                        alert(1);
                         this._lastPoint = this.ReadPoint(cmd, !this.AllowComma);
 
                         let _lineSegment: LineSegment = new LineSegment();
@@ -481,10 +480,9 @@ class StringToPathGeometryConverter {
                 // console.log(this._pathString[start]);
                 start++;
             }
-            alert(value);
             return value * sign;
         } else {
-            let subString: string = this._pathString.substring(start, this._curIndex - start);
+            let subString: string = this._pathString.substr(start, this._curIndex - start);
             // try {
                 return parseFloat(subString);
             // }
