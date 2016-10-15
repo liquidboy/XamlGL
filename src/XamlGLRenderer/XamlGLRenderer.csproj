@@ -1220,6 +1220,7 @@
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlParser.ts" />
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
     <TypeScriptCompile Include="src\XamlGL\Utils\ConsoleHelper.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Utils\MiniPathLanguageHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\Utils\RendererHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\App.ts" />
