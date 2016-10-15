@@ -55,7 +55,13 @@ export class PlatformPage extends Page implements IPlatformPage {
                 this.ResizeBanner(this.Height);
             } else if (shellType === "FullWindow") {
                 this.ResizeFullWindow();
-            }
+            } else if (shellType === "Fixed") {
+                let shellWidth: number = Number.parseInt(xaml.rootElement.getAttribute("ShellWidth"));
+                let shellHeight: number = Number.parseInt(xaml.rootElement.getAttribute("ShellHeight"));
+                this.Width = shellWidth;
+                this.Height = shellHeight;
+                this.Resize(this.Width, this.Height);
+            } 
         }
 
         this.Content = XamlParser.XamlMarkupToUIElement(xaml);
@@ -74,7 +80,6 @@ export class PlatformPage extends Page implements IPlatformPage {
     }
 
     public Resize(width: number, height: number): void {
-        alert(1);
         this.Platform.Renderer.Resize(width, height);
     }
 
