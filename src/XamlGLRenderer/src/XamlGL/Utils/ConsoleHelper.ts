@@ -10,6 +10,13 @@
     public static Log(title: string): void {
         console.log("\u2609 " + title);
     }
+    public static LogPad(title: string, padding: number): void {
+        let uc: string = "\u2609 ";
+        if (padding === 5) {
+            uc = "\u22EF ";
+        }
+        console.log(" ".repeat(padding) + uc + title);
+    }
 }
 
 // list of unicode symbols : https://en.wikibooks.org/wiki/Unicode/List_of_useful_symbols

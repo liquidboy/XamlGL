@@ -160,7 +160,7 @@ class StringToPathGeometryConverter {
                     this._figure.IsClosed = !this.IsClosed;
                     // context.BeginFigure(_lastPoint, IsFilled, !IsClosed);
                     context.moveTo(this._lastPoint[0], this._lastPoint[1]);
-                    console.log("M " + this._lastPoint[0] + " " + this._lastPoint[1]);
+                    ConsoleHelper.LogPad("M " + this._lastPoint[0] + " " + this._lastPoint[1], 5);
                     this._figureStarted = true;
                     this._lastStart = this._lastPoint;
 
@@ -171,7 +171,7 @@ class StringToPathGeometryConverter {
                         _lineSegment.Point = this._lastPoint;
                         this._figure.Segments.add(_lineSegment);
                         context.lineTo(this._lastPoint[0], this._lastPoint[1]);
-                        console.log("L " + this._lastPoint[0] + " " + this._lastPoint[1]);
+                        ConsoleHelper.LogPad("L " + this._lastPoint[0] + " " + this._lastPoint[1], 5);
                         // context.LineTo(_lastPoint, IsStroked, !IsSmoothJoin);
                         last_cmd = "L";
                     }
@@ -200,7 +200,7 @@ class StringToPathGeometryConverter {
                         this._figure.Segments.add(_lineSegment);
 
                         context.lineTo(this._lastPoint[0], this._lastPoint[1]);
-                        console.log("L " + this._lastPoint[0] + " " +  this._lastPoint[1]);
+                        ConsoleHelper.LogPad("L " + this._lastPoint[0] + " " +  this._lastPoint[1],5);
                         // context.LineTo(_lastPoint, IsStroked, !IsSmoothJoin);
                     }
                     while (this.IsNumber(this.AllowComma));
@@ -241,9 +241,9 @@ class StringToPathGeometryConverter {
                         // context.BezierTo(p, _secondLastPoint, _lastPoint, IsStroked, !IsSmoothJoin);
                         context.bezierCurveTo(_bizierSegment.Point1[0], _bizierSegment.Point1[1], _bizierSegment.Point2[0],
                             _bizierSegment.Point2[1], _bizierSegment.Point3[0], _bizierSegment.Point3[1]);
-                        console.log("B " + _bizierSegment.Point1[0] + " " + _bizierSegment.Point1[1] + " " +
+                        ConsoleHelper.LogPad("B " + _bizierSegment.Point1[0] + " " + _bizierSegment.Point1[1] + " " +
                             _bizierSegment.Point2[0] + " " +
-                            _bizierSegment.Point2[1] + " " + _bizierSegment.Point3[0] + " " +  _bizierSegment.Point3[1]);
+                            _bizierSegment.Point2[1] + " " + _bizierSegment.Point3[0] + " " +  _bizierSegment.Point3[1], 5);
                         last_cmd = "C";
                     }
                     while (this.IsNumber(this.AllowComma));
@@ -277,8 +277,8 @@ class StringToPathGeometryConverter {
                         // context.QuadraticBezierTo(_secondLastPoint, _lastPoint, IsStroked, !IsSmoothJoin);
                         context.quadraticCurveTo(_quadraticBezierSegment.Point1[0], _quadraticBezierSegment.Point1[1],
                             _quadraticBezierSegment.Point2[0], _quadraticBezierSegment.Point2[1]);
-                        console.log("B " + _quadraticBezierSegment.Point1[0] + " " + _quadraticBezierSegment.Point1[1] + " " +
-                            _quadraticBezierSegment.Point2[0] + " " +  _quadraticBezierSegment.Point2[1]);
+                        ConsoleHelper.LogPad("B " + _quadraticBezierSegment.Point1[0] + " " + _quadraticBezierSegment.Point1[1] + " " +
+                            _quadraticBezierSegment.Point2[0] + " " +  _quadraticBezierSegment.Point2[1], 5);
                         last_cmd = "Q";
                     }
                     while (this.IsNumber(this.AllowComma));
@@ -316,8 +316,8 @@ class StringToPathGeometryConverter {
                         //    !IsSmoothJoin
                         //    );
                         context.arcTo(this._lastPoint[0], this._lastPoint[1], this._lastPoint[0] + w, this._lastPoint[1] + h, rotation);
-                        console.log("A " + this._lastPoint[0] + " " + this._lastPoint[1] + " "
-                            + (this._lastPoint[0] + w) + " " + (this._lastPoint[1] + h) + " " + rotation);
+                        ConsoleHelper.LogPad("A " + this._lastPoint[0] + " " + this._lastPoint[1] + " "
+                            + (this._lastPoint[0] + w) + " " + (this._lastPoint[1] + h) + " " + rotation, 5);
                     }
                     while (this.IsNumber(this.AllowComma));
 
@@ -335,7 +335,7 @@ class StringToPathGeometryConverter {
 
                     this._lastPoint = this._lastStart; // set reference point to be first point of current figure
                     context.lineTo(this._lastPoint[0], this._lastPoint[1]);
-                    console.log("Z ");
+                    ConsoleHelper.LogPad("Z ", 5);
                     break;
 
                 default:

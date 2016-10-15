@@ -2440,6 +2440,13 @@ System.register("XamlGL/Utils/ConsoleHelper", [], function(exports_38, context_3
                 static Log(title) {
                     console.log("\u2609 " + title);
                 }
+                static LogPad(title, padding) {
+                    let uc = "\u2609 ";
+                    if (padding === 5) {
+                        uc = "\u22EF ";
+                    }
+                    console.log(" ".repeat(padding) + uc + title);
+                }
             };
             exports_38("ConsoleHelper", ConsoleHelper);
         }
@@ -4587,7 +4594,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                 this._figure.IsFilled = this.IsFilled;
                                 this._figure.IsClosed = !this.IsClosed;
                                 context.moveTo(this._lastPoint[0], this._lastPoint[1]);
-                                console.log("M " + this._lastPoint[0] + " " + this._lastPoint[1]);
+                                ConsoleHelper_11.ConsoleHelper.LogPad("M " + this._lastPoint[0] + " " + this._lastPoint[1], 5);
                                 this._figureStarted = true;
                                 this._lastStart = this._lastPoint;
                                 while (this.IsNumber(this.AllowComma)) {
@@ -4596,7 +4603,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _lineSegment.Point = this._lastPoint;
                                     this._figure.Segments.add(_lineSegment);
                                     context.lineTo(this._lastPoint[0], this._lastPoint[1]);
-                                    console.log("L " + this._lastPoint[0] + " " + this._lastPoint[1]);
+                                    ConsoleHelper_11.ConsoleHelper.LogPad("L " + this._lastPoint[0] + " " + this._lastPoint[1], 5);
                                     last_cmd = "L";
                                 }
                                 break;
@@ -4632,7 +4639,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _lineSegment.Point = this._lastPoint;
                                     this._figure.Segments.add(_lineSegment);
                                     context.lineTo(this._lastPoint[0], this._lastPoint[1]);
-                                    console.log("L " + this._lastPoint[0] + " " + this._lastPoint[1]);
+                                    ConsoleHelper_11.ConsoleHelper.LogPad("L " + this._lastPoint[0] + " " + this._lastPoint[1], 5);
                                 } while (this.IsNumber(this.AllowComma));
                                 last_cmd = "L";
                                 break;
@@ -4663,9 +4670,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _bizierSegment.Point3 = this._lastPoint;
                                     this._figure.Segments.add(_bizierSegment);
                                     context.bezierCurveTo(_bizierSegment.Point1[0], _bizierSegment.Point1[1], _bizierSegment.Point2[0], _bizierSegment.Point2[1], _bizierSegment.Point3[0], _bizierSegment.Point3[1]);
-                                    console.log("B " + _bizierSegment.Point1[0] + " " + _bizierSegment.Point1[1] + " " +
+                                    ConsoleHelper_11.ConsoleHelper.LogPad("B " + _bizierSegment.Point1[0] + " " + _bizierSegment.Point1[1] + " " +
                                         _bizierSegment.Point2[0] + " " +
-                                        _bizierSegment.Point2[1] + " " + _bizierSegment.Point3[0] + " " + _bizierSegment.Point3[1]);
+                                        _bizierSegment.Point2[1] + " " + _bizierSegment.Point3[0] + " " + _bizierSegment.Point3[1], 5);
                                     last_cmd = "C";
                                 } while (this.IsNumber(this.AllowComma));
                                 break;
@@ -4693,8 +4700,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _quadraticBezierSegment.Point2 = this._lastPoint;
                                     this._figure.Segments.add(_quadraticBezierSegment);
                                     context.quadraticCurveTo(_quadraticBezierSegment.Point1[0], _quadraticBezierSegment.Point1[1], _quadraticBezierSegment.Point2[0], _quadraticBezierSegment.Point2[1]);
-                                    console.log("B " + _quadraticBezierSegment.Point1[0] + " " + _quadraticBezierSegment.Point1[1] + " " +
-                                        _quadraticBezierSegment.Point2[0] + " " + _quadraticBezierSegment.Point2[1]);
+                                    ConsoleHelper_11.ConsoleHelper.LogPad("B " + _quadraticBezierSegment.Point1[0] + " " + _quadraticBezierSegment.Point1[1] + " " +
+                                        _quadraticBezierSegment.Point2[0] + " " + _quadraticBezierSegment.Point2[1], 5);
                                     last_cmd = "Q";
                                 } while (this.IsNumber(this.AllowComma));
                                 break;
@@ -4716,8 +4723,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _arcSegment.SweepDirection = sweep ? SweepDirection_1.SweepDirection.Clockwise : SweepDirection_1.SweepDirection.Counterclockwise;
                                     this._figure.Segments.add(_arcSegment);
                                     context.arcTo(this._lastPoint[0], this._lastPoint[1], this._lastPoint[0] + w, this._lastPoint[1] + h, rotation);
-                                    console.log("A " + this._lastPoint[0] + " " + this._lastPoint[1] + " "
-                                        + (this._lastPoint[0] + w) + " " + (this._lastPoint[1] + h) + " " + rotation);
+                                    ConsoleHelper_11.ConsoleHelper.LogPad("A " + this._lastPoint[0] + " " + this._lastPoint[1] + " "
+                                        + (this._lastPoint[0] + w) + " " + (this._lastPoint[1] + h) + " " + rotation, 5);
                                 } while (this.IsNumber(this.AllowComma));
                                 last_cmd = "A";
                                 break;
@@ -4729,7 +4736,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                 last_cmd = "Z";
                                 this._lastPoint = this._lastStart;
                                 context.lineTo(this._lastPoint[0], this._lastPoint[1]);
-                                console.log("Z ");
+                                ConsoleHelper_11.ConsoleHelper.LogPad("Z ", 5);
                                 break;
                             default:
                                 this.ThrowBadToken();
