@@ -48,29 +48,39 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
         parentContainer.x = 100;
         parentContainer.y = 100;
 
-        var polygonGraphics: PIXI.Graphics = new PIXI.Graphics();
+        let polygonGraphics: PIXI.Graphics = new PIXI.Graphics();
         polygonGraphics.beginFill(RendererHelper.HashToColorNumber(pathEl.Fill), 0);
 
-        var polygon: PIXI.Polygon = new PIXI.Polygon(this.DataToNumbers(pathEl.Data));
+
         polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper.HashToColorNumber(pathEl.Stroke));
-        polygonGraphics.drawShape(polygon);
+
+        let pg: PathGeometry = StringToPathGeometryConverter.parse(pathEl.Data, polygonGraphics);
+
+        // console.log(pg.Figures);
+        // pg.Figures.forEach((pf: PathFigure) => {
+
+        // });
+
+        // let polygon: PIXI.Polygon = new PIXI.Polygon(this.DataToNumbers(pathEl.Data));
+        // polygonGraphics.drawShape(polygon);
+
+
 
         polygonGraphics.endFill();
 
         parentContainer.addChild(polygonGraphics);
-
         this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
 
         pathEl.IsDirty = false;
     }
 
-    private DataToNumbers(data: string): number[] {
-        let dataToWorkWith: string = data.substr(1, data.length-1);
-        let ret: number[] = dataToWorkWith.split(",").map(function (item: string) {
-            return parseFloat(item);
-        });
-        return ret;
-    }
+    // private DataToNumbers(data: string): number[] {
+    //    let dataToWorkWith: string = data.substr(1, data.length-1);
+    //    let ret: number[] = dataToWorkWith.split(",").map(function (item: string) {
+    //        return parseFloat(item);
+    //    });
+    //    return ret;
+    // }
 
 
 }
@@ -94,28 +104,7 @@ class StringToPathGeometryConverter {
 
     static _token: string;             // non whitespace character returned by ReadToken
 
-
-
-    public static Convert(path: string): PathGeometry {
-        // if (null == path)
-            // throw new ArgumentException("Path string cannot be null!");
-
-        // if (path.length == 0)
-            // throw new ArgumentException("Path string cannot be empty!");
-
-        return this.parse(path);
-    }
-
-
-    public static ConvertBack(geometry: PathGeometry): string {
-        // if (null == geometry)
-        //    throw new ArgumentException("Path Geometry cannot be null!");
-
-        return this.parseBack(geometry);
-    }
-
-
-    static parse(path: string): PathGeometry {
+    static parse(path: string, context: PIXI.Graphics): PathGeometry {
         let _pathGeometry: PathGeometry = null;
 
 
@@ -162,16 +151,20 @@ class StringToPathGeometryConverter {
                     this._figure.IsFilled = this.IsFilled;
                     this._figure.IsClosed = !this.IsClosed;
                     // context.BeginFigure(_lastPoint, IsFilled, !IsClosed);
+                    context.moveTo(this._lastPoint[0], this._lastPoint[1]);
+                    console.log("M " + this._lastPoint[0] + " " + this._lastPoint[1]);
                     this._figureStarted = true;
                     this._lastStart = this._lastPoint;
-                    last_cmd = "M";
-
+                    
                     while (this.IsNumber(this.AllowComma)) {
+                        alert(1);
                         this._lastPoint = this.ReadPoint(cmd, !this.AllowComma);
 
                         let _lineSegment: LineSegment = new LineSegment();
                         _lineSegment.Point = this._lastPoint;
                         this._figure.Segments.add(_lineSegment);
+                        context.lineTo(this._lastPoint[0], this._lastPoint[1]);
+                        console.log("L " + this._lastPoint[0] + " " + this._lastPoint[1]);
                         // context.LineTo(_lastPoint, IsStroked, !IsSmoothJoin);
                         last_cmd = "L";
                     }
@@ -194,10 +187,13 @@ class StringToPathGeometryConverter {
                             case "v": this._lastPoint[1] += this.ReadNumber(!this.AllowComma); break;
                             case "V": this._lastPoint[1] = this.ReadNumber(!this.AllowComma); break;
                         }
-
+                        
                         let _lineSegment: LineSegment  = new LineSegment();
                         _lineSegment.Point = this._lastPoint;
                         this._figure.Segments.add(_lineSegment);
+
+                        context.lineTo(this._lastPoint[0], this._lastPoint[1]);
+                        console.log("L " + this._lastPoint[0] + " " +  this._lastPoint[1]);
                         // context.LineTo(_lastPoint, IsStroked, !IsSmoothJoin);
                     }
                     while (this.IsNumber(this.AllowComma));
@@ -236,7 +232,11 @@ class StringToPathGeometryConverter {
                         _bizierSegment.Point3 = this._lastPoint;
                         this._figure.Segments.add(_bizierSegment);
                         // context.BezierTo(p, _secondLastPoint, _lastPoint, IsStroked, !IsSmoothJoin);
-
+                        context.bezierCurveTo(_bizierSegment.Point1[0], _bizierSegment.Point1[1], _bizierSegment.Point2[0],
+                            _bizierSegment.Point2[1], _bizierSegment.Point3[0], _bizierSegment.Point3[1]);
+                        console.log("B " + _bizierSegment.Point1[0] + " " + _bizierSegment.Point1[1] + " " +
+                            _bizierSegment.Point2[0] + " " +
+                            _bizierSegment.Point2[1] + " " + _bizierSegment.Point3[0] + " " +  _bizierSegment.Point3[1]);
                         last_cmd = "C";
                     }
                     while (this.IsNumber(this.AllowComma));
@@ -268,7 +268,10 @@ class StringToPathGeometryConverter {
                         _quadraticBezierSegment.Point2 = this._lastPoint;
                         this._figure.Segments.add(_quadraticBezierSegment);
                         // context.QuadraticBezierTo(_secondLastPoint, _lastPoint, IsStroked, !IsSmoothJoin);
-
+                        context.quadraticCurveTo(_quadraticBezierSegment.Point1[0], _quadraticBezierSegment.Point1[1],
+                            _quadraticBezierSegment.Point2[0], _quadraticBezierSegment.Point2[1]);
+                        console.log("B " + _quadraticBezierSegment.Point1[0] + " " + _quadraticBezierSegment.Point1[1] + " " +
+                            _quadraticBezierSegment.Point2[0] + " " +  _quadraticBezierSegment.Point2[1]);
                         last_cmd = "Q";
                     }
                     while (this.IsNumber(this.AllowComma));
@@ -305,6 +308,9 @@ class StringToPathGeometryConverter {
                         //    isStroked,
                         //    !IsSmoothJoin
                         //    );
+                        context.arcTo(this._lastPoint[0], this._lastPoint[1], this._lastPoint[0] + w, this._lastPoint[1] + h, rotation);
+                        console.log("A " + this._lastPoint[0] + " " + this._lastPoint[1] + " "
+                            + (this._lastPoint[0] + w) + " " + (this._lastPoint[1] + h) + " " + rotation);
                     }
                     while (this.IsNumber(this.AllowComma));
 
@@ -321,6 +327,8 @@ class StringToPathGeometryConverter {
                     last_cmd = "Z";
 
                     this._lastPoint = this._lastStart; // set reference point to be first point of current figure
+
+                    console.log("Z ");
                     break;
 
                 default:
@@ -469,14 +477,14 @@ class StringToPathGeometryConverter {
             let value: number = 0;
 
             while (start < this._curIndex) {
-                value = value * 10 + parseInt(this._pathString[start]);  // (this._pathString[start] - "0");
+                value = value * 10 + parseFloat(this._pathString[start]);  // (this._pathString[start] - '0');
+                // console.log(this._pathString[start]);
                 start++;
             }
-
+            alert(value);
             return value * sign;
         } else {
             let subString: string = this._pathString.substring(start, this._curIndex - start);
-
             // try {
                 return parseFloat(subString);
             // }
@@ -508,7 +516,7 @@ class StringToPathGeometryConverter {
         return false;
     }
 
-    static ReadPoint(cmd: string, allowcomma: boolean): [number,number] { // point 
+    static ReadPoint(cmd: string, allowcomma: boolean): [number, number] { // point 
         let x: number = this.ReadNumber(this.AllowComma);
         let y: number = this.ReadNumber(this.AllowComma);
 

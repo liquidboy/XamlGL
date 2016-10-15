@@ -3092,7 +3092,7 @@ System.register("XamlGL/Controls/Grid", ["XamlGL/Controls/Panel"], function(expo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_50, context_50) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_50, context_50) {
     "use strict";
     var __moduleName = context_50 && context_50.id;
     var BaseRenderer_2, ConsoleHelper_4, RendererHelper_1;
@@ -3160,7 +3160,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_51, context_51) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_51, context_51) {
     "use strict";
     var __moduleName = context_51 && context_51.id;
     var BaseRenderer_3, ConsoleHelper_5, RendererHelper_2;
@@ -3639,7 +3639,7 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel", "XamlGL/D
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_68, context_68) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_68, context_68) {
     "use strict";
     var __moduleName = context_68 && context_68.id;
     var BaseRenderer_5, ConsoleHelper_7, RendererHelper_3;
@@ -3859,7 +3859,7 @@ System.register("XamlGL/Controls/Button", ["XamlGL/Controls/Panel"], function(ex
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/DockPosition"], function(exports_74, context_74) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/DataTypes/DockPosition"], function(exports_74, context_74) {
     "use strict";
     var __moduleName = context_74 && context_74.id;
     var BaseRenderer_7, ConsoleHelper_9, RendererHelper_4, DockPosition_3;
@@ -4016,7 +4016,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_75, context_75) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_75, context_75) {
     "use strict";
     var __moduleName = context_75 && context_75.id;
     var BaseRenderer_8, DockPosition_4, ConsoleHelper_10, RendererHelper_5;
@@ -4481,7 +4481,7 @@ System.register("XamlGL/Controls/ArcSegment", ["XamlGL/Controls/PathSegment"], f
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/RendererHelper"], function(exports_91, context_91) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/utils/RendererHelper"], function(exports_91, context_91) {
     "use strict";
     var __moduleName = context_91 && context_91.id;
     var BaseRenderer_9, ConsoleHelper_11, PathGeometry_1, PathFigure_1, LineSegment_1, BezierSegment_1, QuadraticBezierSegment_1, ArcSegment_1, FillRule_1, SweepDirection_1, Size_1, RendererHelper_6;
@@ -4539,33 +4539,19 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     this.UpdateCalculatedValuesUsingMargin(pathEl);
                     parentContainer.x = 100;
                     parentContainer.y = 100;
-                    var polygonGraphics = new PIXI.Graphics();
+                    let polygonGraphics = new PIXI.Graphics();
                     polygonGraphics.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Fill), 0);
-                    var polygon = new PIXI.Polygon(this.DataToNumbers(pathEl.Data));
                     polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Stroke));
-                    polygonGraphics.drawShape(polygon);
+                    let pg = StringToPathGeometryConverter.parse(pathEl.Data, polygonGraphics);
                     polygonGraphics.endFill();
                     parentContainer.addChild(polygonGraphics);
                     this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
                     pathEl.IsDirty = false;
                 }
-                DataToNumbers(data) {
-                    let dataToWorkWith = data.substr(1, data.length - 1);
-                    let ret = dataToWorkWith.split(",").map(function (item) {
-                        return parseFloat(item);
-                    });
-                    return ret;
-                }
             };
             exports_91("PathRenderer", PathRenderer);
             StringToPathGeometryConverter = class StringToPathGeometryConverter {
-                static Convert(path) {
-                    return this.parse(path);
-                }
-                static ConvertBack(geometry) {
-                    return this.parseBack(geometry);
-                }
-                static parse(path) {
+                static parse(path, context) {
                     let _pathGeometry = null;
                     this._pathString = path;
                     this._pathLength = path.length;
@@ -4598,14 +4584,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                 this._figure.StartPoint = this._lastPoint;
                                 this._figure.IsFilled = this.IsFilled;
                                 this._figure.IsClosed = !this.IsClosed;
+                                context.moveTo(this._lastPoint[0], this._lastPoint[1]);
+                                console.log("M " + this._lastPoint[0] + " " + this._lastPoint[1]);
                                 this._figureStarted = true;
                                 this._lastStart = this._lastPoint;
-                                last_cmd = "M";
                                 while (this.IsNumber(this.AllowComma)) {
+                                    alert(1);
                                     this._lastPoint = this.ReadPoint(cmd, !this.AllowComma);
                                     let _lineSegment = new LineSegment_1.LineSegment();
                                     _lineSegment.Point = this._lastPoint;
                                     this._figure.Segments.add(_lineSegment);
+                                    context.lineTo(this._lastPoint[0], this._lastPoint[1]);
+                                    console.log("L " + this._lastPoint[0] + " " + this._lastPoint[1]);
                                     last_cmd = "L";
                                 }
                                 break;
@@ -4640,6 +4630,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     let _lineSegment = new LineSegment_1.LineSegment();
                                     _lineSegment.Point = this._lastPoint;
                                     this._figure.Segments.add(_lineSegment);
+                                    context.lineTo(this._lastPoint[0], this._lastPoint[1]);
+                                    console.log("L " + this._lastPoint[0] + " " + this._lastPoint[1]);
                                 } while (this.IsNumber(this.AllowComma));
                                 last_cmd = "L";
                                 break;
@@ -4669,6 +4661,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _bizierSegment.Point2 = this._secondLastPoint;
                                     _bizierSegment.Point3 = this._lastPoint;
                                     this._figure.Segments.add(_bizierSegment);
+                                    context.bezierCurveTo(_bizierSegment.Point1[0], _bizierSegment.Point1[1], _bizierSegment.Point2[0], _bizierSegment.Point2[1], _bizierSegment.Point3[0], _bizierSegment.Point3[1]);
+                                    console.log("B " + _bizierSegment.Point1[0] + " " + _bizierSegment.Point1[1] + " " +
+                                        _bizierSegment.Point2[0] + " " +
+                                        _bizierSegment.Point2[1] + " " + _bizierSegment.Point3[0] + " " + _bizierSegment.Point3[1]);
                                     last_cmd = "C";
                                 } while (this.IsNumber(this.AllowComma));
                                 break;
@@ -4695,6 +4691,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _quadraticBezierSegment.Point1 = this._secondLastPoint;
                                     _quadraticBezierSegment.Point2 = this._lastPoint;
                                     this._figure.Segments.add(_quadraticBezierSegment);
+                                    context.quadraticCurveTo(_quadraticBezierSegment.Point1[0], _quadraticBezierSegment.Point1[1], _quadraticBezierSegment.Point2[0], _quadraticBezierSegment.Point2[1]);
+                                    console.log("B " + _quadraticBezierSegment.Point1[0] + " " + _quadraticBezierSegment.Point1[1] + " " +
+                                        _quadraticBezierSegment.Point2[0] + " " + _quadraticBezierSegment.Point2[1]);
                                     last_cmd = "Q";
                                 } while (this.IsNumber(this.AllowComma));
                                 break;
@@ -4715,6 +4714,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                     _arcSegment.IsLargeArc = large;
                                     _arcSegment.SweepDirection = sweep ? SweepDirection_1.SweepDirection.Clockwise : SweepDirection_1.SweepDirection.Counterclockwise;
                                     this._figure.Segments.add(_arcSegment);
+                                    context.arcTo(this._lastPoint[0], this._lastPoint[1], this._lastPoint[0] + w, this._lastPoint[1] + h, rotation);
+                                    console.log("A " + this._lastPoint[0] + " " + this._lastPoint[1] + " "
+                                        + (this._lastPoint[0] + w) + " " + (this._lastPoint[1] + h) + " " + rotation);
                                 } while (this.IsNumber(this.AllowComma));
                                 last_cmd = "A";
                                 break;
@@ -4725,6 +4727,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                 this._figureStarted = false;
                                 last_cmd = "Z";
                                 this._lastPoint = this._lastStart;
+                                console.log("Z ");
                                 break;
                             default:
                                 this.ThrowBadToken();
@@ -4825,9 +4828,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                         }
                         let value = 0;
                         while (start < this._curIndex) {
-                            value = value * 10 + parseInt(this._pathString[start]);
+                            value = value * 10 + parseFloat(this._pathString[start]);
                             start++;
                         }
+                        alert(value);
                         return value * sign;
                     }
                     else {
@@ -4915,7 +4919,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
         }
     }
 });
-System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", "XamlGL/Controls/Path", "XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer"], function(exports_92, context_92) {
+System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", "XamlGL/Controls/Path", "XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer"], function(exports_92, context_92) {
     "use strict";
     var __moduleName = context_92 && context_92.id;
     var DefaultRenderer_1, Grid_1, GridRenderer_1, StackPanel_2, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_7, ConsoleHelper_12, TextBlock_1, TextBlockRenderer_1, Button_1, ButtonRenderer_1, ToolTip_2, ToolTipRenderer_1, Path_1, PathRenderer_1;
@@ -5032,7 +5036,7 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_93, context_93) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_93, context_93) {
     "use strict";
     var __moduleName = context_93 && context_93.id;
     var Renderer_2, Panel_8, RendererHelper_7, ConsoleHelper_13;
