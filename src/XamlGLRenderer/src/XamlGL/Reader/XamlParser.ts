@@ -158,11 +158,16 @@ export class XamlParser {
             let path: Path = new Path();
             path.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             path.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            path.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            path.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            path.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             path.Data = node.attributes.getNamedItem("Data").value;
             path.Stroke = node.attributes.getNamedItem("Stroke").value;
             path.StrokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
             if (node.attributes.getNamedItem("Fill")) {
                 path.Fill = node.attributes.getNamedItem("Fill").value;
+            } else {
+                path.Fill = "";
             }
             return path;
         }

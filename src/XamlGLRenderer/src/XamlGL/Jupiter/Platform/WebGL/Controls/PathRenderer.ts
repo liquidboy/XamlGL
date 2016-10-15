@@ -8,6 +8,7 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { Path } from "./../../../../Controls/Path";
+// import { StackPanel } from "./../../../../Controls/StackPanel";
 import { PathGeometry } from "./../../../../Controls/PathGeometry";
 import { PathFigure } from "./../../../../Controls/PathFigure";
 import { LineSegment } from "./../../../../Controls/LineSegment";
@@ -23,6 +24,7 @@ import { Size } from "./../../../../DataTypes/Size";
 // import { IRenderer } from "./../../IRenderer";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
+import { Point } from "./../../../../DataTypes/Point";
 
 export class PathRenderer extends BaseRenderer implements IControlRenderer {
     Draw(): void {
@@ -45,15 +47,13 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(pathEl);
 
-        parentContainer.x = 100;
-        parentContainer.y = 100;
+        // console.log(this.Element);
 
         let polygonGraphics: PIXI.Graphics = new PIXI.Graphics();
-        polygonGraphics.beginFill(RendererHelper.HashToColorNumber(pathEl.Fill), 0);
-
-
+        polygonGraphics.beginFill(RendererHelper.HashToColorNumber(pathEl.Fill), pathEl.Fill.length>0?1:0);
         polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper.HashToColorNumber(pathEl.Stroke));
 
+        // render path
         let pg: PathGeometry = StringToPathGeometryConverter.parse(pathEl.Data, polygonGraphics);
 
         // console.log(pg.Figures);
@@ -64,12 +64,20 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
         // let polygon: PIXI.Polygon = new PIXI.Polygon(this.DataToNumbers(pathEl.Data));
         // polygonGraphics.drawShape(polygon);
 
-
-
         polygonGraphics.endFill();
 
+        // determine starting SLOT if the parent is a PANEL that lays out its children
+        let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
+
+        polygonGraphics.x = this.Element.CalculatedX + parentXYStart.X;
+        polygonGraphics.y = this.Element.CalculatedY + parentXYStart.Y;
+
         parentContainer.addChild(polygonGraphics);
+
         this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
+
+        // tell the parent stackpanel the next available slot
+        this.IncrementNextAvailableSlot();
 
         pathEl.IsDirty = false;
     }
@@ -155,7 +163,7 @@ class StringToPathGeometryConverter {
                     console.log("M " + this._lastPoint[0] + " " + this._lastPoint[1]);
                     this._figureStarted = true;
                     this._lastStart = this._lastPoint;
-                    
+
                     while (this.IsNumber(this.AllowComma)) {
                         this._lastPoint = this.ReadPoint(cmd, !this.AllowComma);
 
@@ -186,7 +194,7 @@ class StringToPathGeometryConverter {
                             case "v": this._lastPoint[1] += this.ReadNumber(!this.AllowComma); break;
                             case "V": this._lastPoint[1] = this.ReadNumber(!this.AllowComma); break;
                         }
-                        
+
                         let _lineSegment: LineSegment  = new LineSegment();
                         _lineSegment.Point = this._lastPoint;
                         this._figure.Segments.add(_lineSegment);
@@ -326,7 +334,7 @@ class StringToPathGeometryConverter {
                     last_cmd = "Z";
 
                     this._lastPoint = this._lastStart; // set reference point to be first point of current figure
-
+                    context.lineTo(this._lastPoint[0], this._lastPoint[1]);
                     console.log("Z ");
                     break;
 

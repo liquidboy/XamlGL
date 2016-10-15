@@ -4537,15 +4537,17 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     this.CalculateYHeight(pathEl);
                     this.CalculateXWidth(pathEl);
                     this.UpdateCalculatedValuesUsingMargin(pathEl);
-                    parentContainer.x = 100;
-                    parentContainer.y = 100;
                     let polygonGraphics = new PIXI.Graphics();
-                    polygonGraphics.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Fill), 0);
+                    polygonGraphics.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Fill), pathEl.Fill.length > 0 ? 1 : 0);
                     polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Stroke));
                     let pg = StringToPathGeometryConverter.parse(pathEl.Data, polygonGraphics);
                     polygonGraphics.endFill();
+                    let parentXYStart = this.CalculateCurrentAvailableSlot();
+                    polygonGraphics.x = this.Element.CalculatedX + parentXYStart.X;
+                    polygonGraphics.y = this.Element.CalculatedY + parentXYStart.Y;
                     parentContainer.addChild(polygonGraphics);
                     this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
+                    this.IncrementNextAvailableSlot();
                     pathEl.IsDirty = false;
                 }
             };
@@ -4589,7 +4591,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                 this._figureStarted = true;
                                 this._lastStart = this._lastPoint;
                                 while (this.IsNumber(this.AllowComma)) {
-                                    alert(1);
                                     this._lastPoint = this.ReadPoint(cmd, !this.AllowComma);
                                     let _lineSegment = new LineSegment_1.LineSegment();
                                     _lineSegment.Point = this._lastPoint;
@@ -4727,6 +4728,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                                 this._figureStarted = false;
                                 last_cmd = "Z";
                                 this._lastPoint = this._lastStart;
+                                context.lineTo(this._lastPoint[0], this._lastPoint[1]);
                                 console.log("Z ");
                                 break;
                             default:
@@ -4831,11 +4833,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                             value = value * 10 + parseFloat(this._pathString[start]);
                             start++;
                         }
-                        alert(value);
                         return value * sign;
                     }
                     else {
-                        let subString = this._pathString.substring(start, this._curIndex - start);
+                        let subString = this._pathString.substr(start, this._curIndex - start);
                         return parseFloat(subString);
                     }
                 }
@@ -5344,11 +5345,17 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         let path = new Path_2.Path();
                         path.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
                         path.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+                        path.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+                        path.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+                        path.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         path.Data = node.attributes.getNamedItem("Data").value;
                         path.Stroke = node.attributes.getNamedItem("Stroke").value;
                         path.StrokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
                         if (node.attributes.getNamedItem("Fill")) {
                             path.Fill = node.attributes.getNamedItem("Fill").value;
+                        }
+                        else {
+                            path.Fill = "";
                         }
                         return path;
                     }
