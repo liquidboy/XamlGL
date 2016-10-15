@@ -78,7 +78,7 @@ export function makeString<T>(item: T, join: string = ','): string {
     } else {
         let toret = '{';
         let first = true;
-        for (const prop in item) {
+        for (const prop in item) {  // fF issue http://stackoverflow.com/questions/39044803/syntaxerror-missing-in-const-declaration-firefox-50
             if (has(item, prop)) {
                 if (first) {
                     first = false;

@@ -11,13 +11,18 @@
     <script src="./js/filters.min.js"></script>
     <script src="./js/jquery.min.js"></script>
     <script src="./node_modules/rivets/dist/rivets.bundled.min.js"></script>
-    <script src="js/allsrc.js?v=7"></script>
+    <script src="js/allsrc.js?v=3"></script>
     <script type="text/javascript">
         var TinkLib = Tink;
         window.onload = () => {
             
             var el = document.getElementById('content');
 
+            //configure system loader
+            System.config({
+                defaultJSExtensions: false
+            });
+            //bootstrap xamlgl
             System.import('Bootstrap/XamlApp').then(function (m) {
                 let app = new m.XamlApp(el);
                 app.Start();
