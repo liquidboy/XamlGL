@@ -1578,6 +1578,9 @@
     <Content Include="xaml\sample-47.xap">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xaml\editor-1.xap">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

@@ -161,6 +161,9 @@ export class XamlParser {
             path.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             path.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             path.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            if (node.attributes.getNamedItem("Scale")) {
+                path.Scale = this.StringToNumberFloat(node.attributes.getNamedItem("Scale"));
+            }
             path.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             path.Data = node.attributes.getNamedItem("Data").value;
             path.Stroke = node.attributes.getNamedItem("Stroke").value;
@@ -169,6 +172,9 @@ export class XamlParser {
                 path.Fill = node.attributes.getNamedItem("Fill").value;
             } else {
                 path.Fill = "";
+            }
+            if (node.attributes.getNamedItem("IsSmooth")) {
+                path.IsSmooth = this.StringToBoolean(node.attributes.getNamedItem("IsSmooth"));
             }
             return path;
         } else if (node.nodeName === "CheckBox") {
@@ -244,6 +250,12 @@ export class XamlParser {
             return 0;
         }
         return Number.parseInt(attr.value);
+    }
+    private static StringToNumberFloat(attr: Attr): number {
+        if (attr === null) {
+            return 0;
+        }
+        return Number.parseFloat(attr.value);
     }
     private static StringToBoolean(attr: Attr): boolean {
         if (attr === null) {

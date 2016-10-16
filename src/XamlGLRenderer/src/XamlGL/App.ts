@@ -33,6 +33,6 @@ export class App extends Application {
     }
 
     private SetupWindow(htmlCanvasHost: JQuery, xaml: XamlMarkup): void {
-        this._platformPage = new PlatformPage(512, 512, false, false, htmlCanvasHost, xaml);
+        this._platformPage = new PlatformPage(512, 512, true, false, htmlCanvasHost, xaml);
     }
 }

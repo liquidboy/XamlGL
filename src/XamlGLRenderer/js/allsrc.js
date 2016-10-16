@@ -4208,9 +4208,15 @@ System.register("XamlGL/Controls/Path", ["XamlGL/Jupiter/Shape"], function(expor
                 constructor() {
                     super();
                     this._data = "";
+                    this._scale = 1;
+                    this._isSmooth = false;
                 }
                 get Data() { return this._data; }
+                get Scale() { return this._scale; }
+                get IsSmooth() { return this._isSmooth; }
                 set Data(value) { this._data = value; }
+                set Scale(value) { this._scale = value; }
+                set IsSmooth(value) { this._isSmooth = value; }
             };
             exports_77("Path", Path);
         }
@@ -4926,11 +4932,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     polygonGraphics.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Fill), pathEl.Fill.length > 0 ? 1 : 0);
                     polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Stroke));
                     MiniPathLanguageHelper_1.MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
+                    polygonGraphics.scale = new PIXI.Point(pathEl.Scale, pathEl.Scale);
                     polygonGraphics.endFill();
                     let parentXYStart = this.CalculateCurrentAvailableSlot();
                     polygonGraphics.x = this.Element.CalculatedX + parentXYStart.X;
                     polygonGraphics.y = this.Element.CalculatedY + parentXYStart.Y;
                     parentContainer.addChild(polygonGraphics);
+                    if (pathEl.IsSmooth) {
+                        let blurFilter = new PIXI.filters.BlurFilter();
+                        blurFilter.blur = 1;
+                        polygonGraphics.boundsPadding = pathEl.Width + 2;
+                        polygonGraphics.filters = [blurFilter];
+                    }
                     this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
                     this.IncrementNextAvailableSlot();
                     pathEl.IsDirty = false;
@@ -5532,6 +5545,9 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         path.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
                         path.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         path.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+                        if (node.attributes.getNamedItem("Scale")) {
+                            path.Scale = this.StringToNumberFloat(node.attributes.getNamedItem("Scale"));
+                        }
                         path.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         path.Data = node.attributes.getNamedItem("Data").value;
                         path.Stroke = node.attributes.getNamedItem("Stroke").value;
@@ -5541,6 +5557,9 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         }
                         else {
                             path.Fill = "";
+                        }
+                        if (node.attributes.getNamedItem("IsSmooth")) {
+                            path.IsSmooth = this.StringToBoolean(node.attributes.getNamedItem("IsSmooth"));
                         }
                         return path;
                     }
@@ -5618,6 +5637,12 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         return 0;
                     }
                     return Number.parseInt(attr.value);
+                }
+                static StringToNumberFloat(attr) {
+                    if (attr === null) {
+                        return 0;
+                    }
+                    return Number.parseFloat(attr.value);
                 }
                 static StringToBoolean(attr) {
                     if (attr === null) {
@@ -5895,7 +5920,7 @@ System.register("XamlGL/App", ["XamlGL/Jupiter/Platform/WebGL/PlatformPage", "Xa
                     this._platformPage.IsLoading = false;
                 }
                 SetupWindow(htmlCanvasHost, xaml) {
-                    this._platformPage = new PlatformPage_2.PlatformPage(512, 512, false, false, htmlCanvasHost, xaml);
+                    this._platformPage = new PlatformPage_2.PlatformPage(512, 512, true, false, htmlCanvasHost, xaml);
                 }
             };
             exports_102("App", App);

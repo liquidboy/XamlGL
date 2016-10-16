@@ -64,6 +64,7 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
 
         // let polygon: PIXI.Polygon = new PIXI.Polygon(this.DataToNumbers(pathEl.Data));
         // polygonGraphics.drawShape(polygon);
+        polygonGraphics.scale = new PIXI.Point(pathEl.Scale, pathEl.Scale);
 
         polygonGraphics.endFill();
 
@@ -72,8 +73,16 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
 
         polygonGraphics.x = this.Element.CalculatedX + parentXYStart.X;
         polygonGraphics.y = this.Element.CalculatedY + parentXYStart.Y;
-
+        
         parentContainer.addChild(polygonGraphics);
+
+        // filters
+        if (pathEl.IsSmooth) {
+            let blurFilter: PIXI.filters.BlurFilter = new PIXI.filters.BlurFilter();
+            blurFilter.blur = 1;
+            polygonGraphics.boundsPadding = pathEl.Width + 2;
+            polygonGraphics.filters = [blurFilter];
+        }
 
         this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
 
