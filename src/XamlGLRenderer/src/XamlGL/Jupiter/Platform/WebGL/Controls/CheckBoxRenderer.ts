@@ -85,12 +85,13 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         // position bits
         bottomGraphicsLayer.x = 0;
         bottomGraphicsLayer.y = 0;
-        topGraphicsLayer.x = 1;
-        topGraphicsLayer.y = 5;
+        topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
+        topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
 
 
         // position/size container
-        containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
+        containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X,
+            this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
 
         // now render in container
         containerGrid.addChild(bottomGraphicsLayer);

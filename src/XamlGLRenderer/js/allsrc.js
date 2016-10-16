@@ -4975,27 +4975,35 @@ System.register("XamlGL/Controls/ToggleButton", ["XamlGL/Controls/Button", "Xaml
         }
     }
 });
-System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton"], function(exports_94, context_94) {
+System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton", "XamlGL/DataTypes/Thickness"], function(exports_94, context_94) {
     "use strict";
     var __moduleName = context_94 && context_94.id;
-    var ToggleButton_1;
+    var ToggleButton_1, Thickness_4;
     var CheckBox;
     return {
         setters:[
             function (ToggleButton_1_1) {
                 ToggleButton_1 = ToggleButton_1_1;
+            },
+            function (Thickness_4_1) {
+                Thickness_4 = Thickness_4_1;
             }],
         execute: function() {
             CheckBox = class CheckBox extends ToggleButton_1.ToggleButton {
                 constructor() {
-                    super(...arguments);
+                    super();
                     this._checkedPath = "M29.403992,0L32,3.5860286 8.3720093,21.479001 5.7740173,17.895017 5.776001,17.893002 0,9.9110087 3.5079956,7.2570179 9.2829895,15.23602z";
                     this._uncheckedPath = "M1.7000008,1.6999989L1.7000008,30.299999 30.300015,30.299999 30.300015,1.6999989z M0,0L32.000016,0 32.000016,31.999999 0,31.999999z";
+                    this._checkedPadding = new Thickness_4.Thickness(0);
+                    this._checkedPadding.Left = 1;
+                    this._checkedPadding.Top = 5;
                 }
                 get CheckedPath() { return this._checkedPath; }
                 get UncheckedPath() { return this._uncheckedPath; }
+                get CheckedPadding() { return this._checkedPadding; }
                 set CheckedPath(value) { this._checkedPath = value; }
                 set UncheckedPath(value) { this._uncheckedPath = value; }
+                set CheckedPadding(value) { this._checkedPadding = value; }
             };
             exports_94("CheckBox", CheckBox);
         }
@@ -5055,8 +5063,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                     let parentXYStart = this.CalculateCurrentAvailableSlot();
                     bottomGraphicsLayer.x = 0;
                     bottomGraphicsLayer.y = 0;
-                    topGraphicsLayer.x = 1;
-                    topGraphicsLayer.y = 5;
+                    topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
+                    topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
                     containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
                     containerGrid.addChild(bottomGraphicsLayer);
                     containerGrid.addChild(topGraphicsLayer);
@@ -5318,7 +5326,7 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_98, context_98)
 System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Controls/ToolTip", "XamlGL/Controls/Button", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/CheckBox", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/Path", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper"], function(exports_99, context_99) {
     "use strict";
     var __moduleName = context_99 && context_99.id;
-    var Grid_2, ToolTip_3, Button_3, StackPanel_3, Image_2, CheckBox_2, Panel_9, TextBlock_2, Path_2, Rectangle_2, Thickness_4, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_3, Orientation_2, TextWrapping_3, TextWrappingAlign_3, DockPosition_5, ConsoleHelper_16;
+    var Grid_2, ToolTip_3, Button_3, StackPanel_3, Image_2, CheckBox_2, Panel_9, TextBlock_2, Path_2, Rectangle_2, Thickness_5, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_3, Orientation_2, TextWrapping_3, TextWrappingAlign_3, DockPosition_5, ConsoleHelper_16;
     var XamlParser;
     return {
         setters:[
@@ -5352,8 +5360,8 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
             function (Rectangle_2_1) {
                 Rectangle_2 = Rectangle_2_1;
             },
-            function (Thickness_4_1) {
-                Thickness_4 = Thickness_4_1;
+            function (Thickness_5_1) {
+                Thickness_5 = Thickness_5_1;
             },
             function (HorizontalAlignment_5_1) {
                 HorizontalAlignment_5 = HorizontalAlignment_5_1;
@@ -5434,7 +5442,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         rect.BorderBrush = node.attributes.getNamedItem("Stroke").value;
                         rect.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         let stokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
-                        rect.BorderThickness = new Thickness_4.Thickness(stokeThickness);
+                        rect.BorderThickness = new Thickness_5.Thickness(stokeThickness);
                         return rect;
                     }
                     else if (node.nodeName === "Image") {
@@ -5498,7 +5506,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         }
                         button.BorderBrush = node.attributes.getNamedItem("Stroke").value;
                         let stokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
-                        button.BorderThickness = new Thickness_4.Thickness(stokeThickness);
+                        button.BorderThickness = new Thickness_5.Thickness(stokeThickness);
                         button.CornerRadius = this.StringToCornerRadius(node.attributes.getNamedItem("CornerRadius"));
                         button.BlurAmount = this.StringToNumber(node.attributes.getNamedItem("BlurAmount"));
                         button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
@@ -5546,15 +5554,24 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         if (node.attributes.getNamedItem("Foreground")) {
                             cb.Foreground = node.attributes.getNamedItem("Foreground").value;
                         }
+                        if (node.attributes.getNamedItem("CheckedPath")) {
+                            cb.CheckedPath = node.attributes.getNamedItem("CheckedPath").value;
+                        }
+                        if (node.attributes.getNamedItem("UncheckedPath")) {
+                            cb.UncheckedPath = node.attributes.getNamedItem("UncheckedPath").value;
+                        }
+                        if (node.attributes.getNamedItem("CheckedPadding")) {
+                            cb.CheckedPadding = this.StringToThickness(node.attributes.getNamedItem("CheckedPadding"));
+                        }
                         return cb;
                     }
                     return null;
                 }
                 static StringToThickness(attr) {
                     if (attr === null) {
-                        return new Thickness_4.Thickness(0);
+                        return new Thickness_5.Thickness(0);
                     }
-                    let margin = new Thickness_4.Thickness(0);
+                    let margin = new Thickness_5.Thickness(0);
                     let parts = attr.value.split(",");
                     margin.Left = Number.parseInt(parts[0]);
                     margin.Top = Number.parseInt(parts[1]);
@@ -6118,8 +6135,8 @@ System.register("XamlGL/Core", ["XamlGL/App", "XamlGL/VisualTree", "XamlGL/ViewM
             function (Guid_5_1) {
                 exportStar_4(Guid_5_1);
             },
-            function (Thickness_5_1) {
-                exportStar_4(Thickness_5_1);
+            function (Thickness_6_1) {
+                exportStar_4(Thickness_6_1);
             },
             function (CornerRadius_4_1) {
                 exportStar_4(CornerRadius_4_1);

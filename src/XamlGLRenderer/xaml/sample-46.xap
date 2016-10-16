@@ -11,9 +11,12 @@
     </Grid>
     <Grid>
       <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Margin="0,-40,0,0">
-          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
-          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
-          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
+          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
+          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
+          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
       </StackPanel>
     </Grid>
   </Grid>

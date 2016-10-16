@@ -181,6 +181,15 @@ export class XamlParser {
             if (node.attributes.getNamedItem("Foreground")) {
                 cb.Foreground = node.attributes.getNamedItem("Foreground").value;
             }
+            if (node.attributes.getNamedItem("CheckedPath")) {
+                cb.CheckedPath = node.attributes.getNamedItem("CheckedPath").value;
+            }
+            if (node.attributes.getNamedItem("UncheckedPath")) {
+                cb.UncheckedPath = node.attributes.getNamedItem("UncheckedPath").value;
+            }
+            if (node.attributes.getNamedItem("CheckedPadding")) {
+                cb.CheckedPadding = this.StringToThickness(node.attributes.getNamedItem("CheckedPadding"));
+            }
             return cb;
         }
         return null;
