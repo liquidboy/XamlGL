@@ -8,7 +8,7 @@
       
     </Grid>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="45" Background="#FF525252" Margin="0,0,0,0">
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,14,0,0">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,8,0,0">
         <Grid Margin="0,0,0,0" Width="20" HorizontalAlignment="Left" VerticalAlignment="Top">
           <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20" Stroke="#FFff004a" Fill="#FFff004a" 
                 StrokeThickness="0" Margin="0,0,0,0" Scale="0.4"
@@ -26,12 +26,11 @@
         </Grid>
       </StackPanel>
 
-
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="80" VerticalAlignment="Top" Margin="0,14,0,0">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="80" VerticalAlignment="Top" Margin="0,7,0,0">
         <Text Text="editor_001.xap" FontFamily="Sans-Serif" HorizontalAlignment="Left" FontSize="12" Color="white"></Text>
       </StackPanel>
       
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="30" VerticalAlignment="Top" Margin="0,10,5,0">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Margin="0,7,7,0">
         <Grid Margin="0,0,0,0" Width="20" HorizontalAlignment="Left" VerticalAlignment="Top">
           <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20" Stroke="#FFffffff" Fill="#FFffffff" 
                 StrokeThickness="0" Margin="0,0,0,0" Scale="0.6"
@@ -41,8 +40,7 @@
     </Grid>
     <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="45" Background="#FF525252" Margin="0,48,0,0">
       
-      <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="45" VerticalAlignment="Top" Margin="0,20,0,0"
-                  Background="#FF000000" Height="300">
+      <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="45" Height="10" VerticalAlignment="Top" Margin="0,10,0,0">
         <Grid Margin="0,0,0,0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top">
           <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20" Stroke="#FFffffff" Fill="#FFffffff" 
                 StrokeThickness="0" Margin="18,0,0,0" Scale="0.6"
@@ -86,11 +84,10 @@
       </StackPanel>
     
     </Grid>
+    <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="45" Background="#FF525252" Margin="0,48,0,0">
     
-    <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="45" Background="#FF525252" Margin="0,48,0,0"></Grid>
-    
-      <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="45" Background="#FF000000" VerticalAlignment="Top" 
-                  Height="300" Margin="0,20,0,0">
+      <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="45" VerticalAlignment="Top" 
+                  Height="10" Margin="0,10,0,0">
         <Grid Margin="0,0,0,0" Width="45" Height="45" HorizontalAlignment="Right"  VerticalAlignment="Top">
           <Path HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Stroke="#FFffffff" Fill="#FFffffff" 
                 StrokeThickness="0" Margin="0,0,12,0" Scale="0.6"
@@ -117,9 +114,6 @@
               Data="M25.041004,26.554096L26.554008,28.067145C23.982011,30.320056,20.691018,31.759131,17.070008,32.000096L17.070008,29.859122C20.101997,29.626092,22.861006,28.424075,25.041004,26.554096z M6.9590063,26.554079C9.1390114,28.424064,11.898018,29.626054,14.930025,29.859053L14.930025,32.000035C11.309017,31.759037,8.0190086,30.320049,5.446003,28.068067z M29.860018,17.070055L32.001024,17.070055C31.760023,20.691051,30.321019,23.982048,28.068012,26.554046L26.555008,25.041047C28.425014,22.861049,29.628017,20.102052,29.860018,17.070055z M2.2888184E-05,17.069988L2.141017,17.069988C2.3730164,20.101985,3.5760136,22.860983,5.4460087,25.040981L3.933012,26.55398C1.6800184,23.980982,0.24102211,20.690985,2.2888184E-05,17.069988z M28.068012,5.4460773C30.321019,8.0180759,31.760023,11.309072,32.001024,14.930069L29.860018,14.930069C29.628017,11.898072,28.425014,9.1390743,26.555008,6.9590759z M3.933012,5.4460773L5.4460163,6.9590759C3.5760107,9.1390743,2.3730078,11.898072,2.1410065,14.930069L0,14.930069C0.24100113,11.309072,1.6800051,8.0180759,3.933012,5.4460773z M14.930019,0.0010128021L14.930019,2.1410332C11.898022,2.3740368,9.1390247,3.5760479,6.9590273,5.4460659L5.4460287,3.9330521C8.0180264,1.6800289,11.309023,0.24101448,14.930019,0.0010128021z M17.071,0C20.692008,0.24000359,23.982016,1.6800175,26.555021,3.9320393L25.042018,5.445055C22.862013,3.5760365,20.103007,2.373024,17.071,2.1410217z" ></Path>
         </Grid>
       </StackPanel>
-    <Grid>
-        
-      
     </Grid>
   </Grid>
 </Application>

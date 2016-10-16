@@ -3167,21 +3167,27 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_51, context_51) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Controls/Grid", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/DataTypes/VerticalAlignment"], function(exports_51, context_51) {
     "use strict";
     var __moduleName = context_51 && context_51.id;
-    var BaseRenderer_3, ConsoleHelper_5, RendererHelper_2;
+    var BaseRenderer_3, Grid_1, ConsoleHelper_5, RendererHelper_2, VerticalAlignment_3;
     var StackPanelRenderer;
     return {
         setters:[
             function (BaseRenderer_3_1) {
                 BaseRenderer_3 = BaseRenderer_3_1;
             },
+            function (Grid_1_1) {
+                Grid_1 = Grid_1_1;
+            },
             function (ConsoleHelper_5_1) {
                 ConsoleHelper_5 = ConsoleHelper_5_1;
             },
             function (RendererHelper_2_1) {
                 RendererHelper_2 = RendererHelper_2_1;
+            },
+            function (VerticalAlignment_3_1) {
+                VerticalAlignment_3 = VerticalAlignment_3_1;
             }],
         execute: function() {
             StackPanelRenderer = class StackPanelRenderer extends BaseRenderer_3.BaseRenderer {
@@ -3197,7 +3203,19 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
                     this.CalculateYHeight(gridEl);
                     this.CalculateXWidth(gridEl);
                     this.UpdateCalculatedValuesUsingMargin(gridEl);
-                    containerGrid.position.set(this.Element.CalculatedX, this.Element.CalculatedY);
+                    if (gridEl.Height !== null && gridEl.Height > 0) {
+                    }
+                    else {
+                        if (gridEl.VerticalAlignment === VerticalAlignment_3.VerticalAlignment.Top) {
+                            console.log(this.Element);
+                            this.Element.CalculatedY += this.Element.Parent.CalculatedY;
+                        }
+                    }
+                    let newY = this.Element.CalculatedY;
+                    if (this.Element.Parent instanceof Grid_1.Grid) {
+                        newY += this.Element.CalculatedY;
+                    }
+                    containerGrid.position.set(this.Element.CalculatedX, newY);
                     containerGrid.height = super.Element.CalculatedHeight;
                     containerGrid.width = super.Element.CalculatedWidth;
                     if (gridEl.Background !== undefined) {
@@ -3604,7 +3622,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
 System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment"], function(exports_67, context_67) {
     "use strict";
     var __moduleName = context_67 && context_67.id;
-    var Panel_5, Thickness_3, CornerRadius_2, HorizontalAlignment_3, VerticalAlignment_3;
+    var Panel_5, Thickness_3, CornerRadius_2, HorizontalAlignment_3, VerticalAlignment_4;
     var Rectangle;
     return {
         setters:[
@@ -3620,8 +3638,8 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel", "XamlGL/D
             function (HorizontalAlignment_3_1) {
                 HorizontalAlignment_3 = HorizontalAlignment_3_1;
             },
-            function (VerticalAlignment_3_1) {
-                VerticalAlignment_3 = VerticalAlignment_3_1;
+            function (VerticalAlignment_4_1) {
+                VerticalAlignment_4 = VerticalAlignment_4_1;
             }],
         execute: function() {
             Rectangle = class Rectangle extends Panel_5.Panel {
@@ -3630,7 +3648,7 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel", "XamlGL/D
                     this.BorderThickness = new Thickness_3.Thickness(0);
                     this.BorderBrush = "#FFFFFFFF";
                     this.HorizontalAlignment = HorizontalAlignment_3.HorizontalAlignment.Center;
-                    this.VerticalAlignment = VerticalAlignment_3.VerticalAlignment.Center;
+                    this.VerticalAlignment = VerticalAlignment_4.VerticalAlignment.Center;
                     this.Background = "#FFFFFFFF";
                     this.Margin = new Thickness_3.Thickness(0);
                     this.CornerRadius = new CornerRadius_2.CornerRadius(0);
@@ -3766,7 +3784,7 @@ System.register("XamlGL/Controls/TextBlock", ["XamlGL/Jupiter/Core", "XamlGL/Dat
 System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign"], function(exports_72, context_72) {
     "use strict";
     var __moduleName = context_72 && context_72.id;
-    var BaseRenderer_6, ConsoleHelper_8, HorizontalAlignment_4, VerticalAlignment_4, TextWrapping_2, TextWrappingAlign_2;
+    var BaseRenderer_6, ConsoleHelper_8, HorizontalAlignment_4, VerticalAlignment_5, TextWrapping_2, TextWrappingAlign_2;
     var TextBlockRenderer;
     return {
         setters:[
@@ -3779,8 +3797,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
             function (HorizontalAlignment_4_1) {
                 HorizontalAlignment_4 = HorizontalAlignment_4_1;
             },
-            function (VerticalAlignment_4_1) {
-                VerticalAlignment_4 = VerticalAlignment_4_1;
+            function (VerticalAlignment_5_1) {
+                VerticalAlignment_5 = VerticalAlignment_5_1;
             },
             function (TextWrapping_2_1) {
                 TextWrapping_2 = TextWrapping_2_1;
@@ -3809,10 +3827,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
                     if (textEl.Height !== null && textEl.Height > 0) {
                     }
                     else {
-                        if (textEl.VerticalAlignment === VerticalAlignment_4.VerticalAlignment.Bottom) {
+                        if (textEl.VerticalAlignment === VerticalAlignment_5.VerticalAlignment.Bottom) {
                             this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - text.height;
                         }
-                        else if (textEl.VerticalAlignment === VerticalAlignment_4.VerticalAlignment.Center) {
+                        else if (textEl.VerticalAlignment === VerticalAlignment_5.VerticalAlignment.Center) {
                             this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - text.height) / 2;
                         }
                     }
@@ -5109,15 +5127,15 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
 System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", "XamlGL/Controls/Path", "XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", "XamlGL/Controls/CheckBox", "XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer"], function(exports_96, context_96) {
     "use strict";
     var __moduleName = context_96 && context_96.id;
-    var DefaultRenderer_1, Grid_1, GridRenderer_1, StackPanel_2, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_7, ConsoleHelper_14, TextBlock_1, TextBlockRenderer_1, Button_2, ButtonRenderer_1, ToolTip_2, ToolTipRenderer_1, Path_1, PathRenderer_1, CheckBox_1, CheckBoxRenderer_1;
+    var DefaultRenderer_1, Grid_2, GridRenderer_1, StackPanel_2, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_7, ConsoleHelper_14, TextBlock_1, TextBlockRenderer_1, Button_2, ButtonRenderer_1, ToolTip_2, ToolTipRenderer_1, Path_1, PathRenderer_1, CheckBox_1, CheckBoxRenderer_1;
     var RendererHelper;
     return {
         setters:[
             function (DefaultRenderer_1_1) {
                 DefaultRenderer_1 = DefaultRenderer_1_1;
             },
-            function (Grid_1_1) {
-                Grid_1 = Grid_1_1;
+            function (Grid_2_1) {
+                Grid_2 = Grid_2_1;
             },
             function (GridRenderer_1_1) {
                 GridRenderer_1 = GridRenderer_1_1;
@@ -5179,7 +5197,7 @@ System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
         execute: function() {
             RendererHelper = class RendererHelper {
                 static FrameworkElementToRenderer(element) {
-                    if (element instanceof Grid_1.Grid) {
+                    if (element instanceof Grid_2.Grid) {
                         return new GridRenderer_1.GridRenderer();
                     }
                     else if (element instanceof ToolTip_2.ToolTip) {
@@ -5339,12 +5357,12 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_98, context_98)
 System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Controls/ToolTip", "XamlGL/Controls/Button", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/CheckBox", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/Path", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper"], function(exports_99, context_99) {
     "use strict";
     var __moduleName = context_99 && context_99.id;
-    var Grid_2, ToolTip_3, Button_3, StackPanel_3, Image_2, CheckBox_2, Panel_9, TextBlock_2, Path_2, Rectangle_2, Thickness_5, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_3, Orientation_2, TextWrapping_3, TextWrappingAlign_3, DockPosition_5, ConsoleHelper_16;
+    var Grid_3, ToolTip_3, Button_3, StackPanel_3, Image_2, CheckBox_2, Panel_9, TextBlock_2, Path_2, Rectangle_2, Thickness_5, HorizontalAlignment_5, VerticalAlignment_6, CornerRadius_3, Orientation_2, TextWrapping_3, TextWrappingAlign_3, DockPosition_5, ConsoleHelper_16;
     var XamlParser;
     return {
         setters:[
-            function (Grid_2_1) {
-                Grid_2 = Grid_2_1;
+            function (Grid_3_1) {
+                Grid_3 = Grid_3_1;
             },
             function (ToolTip_3_1) {
                 ToolTip_3 = ToolTip_3_1;
@@ -5379,8 +5397,8 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
             function (HorizontalAlignment_5_1) {
                 HorizontalAlignment_5 = HorizontalAlignment_5_1;
             },
-            function (VerticalAlignment_5_1) {
-                VerticalAlignment_5 = VerticalAlignment_5_1;
+            function (VerticalAlignment_6_1) {
+                VerticalAlignment_6 = VerticalAlignment_6_1;
             },
             function (CornerRadius_3_1) {
                 CornerRadius_3 = CornerRadius_3_1;
@@ -5469,7 +5487,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         return img;
                     }
                     else if (node.nodeName === "Grid") {
-                        let grid = new Grid_2.Grid();
+                        let grid = new Grid_3.Grid();
                         grid.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
                         grid.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
                         grid.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
@@ -5663,19 +5681,19 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                 }
                 static StringToVerticalAlignment(attr) {
                     if (attr === null) {
-                        return VerticalAlignment_5.VerticalAlignment.Stretch;
+                        return VerticalAlignment_6.VerticalAlignment.Stretch;
                     }
                     if (attr.value === "Bottom") {
-                        return VerticalAlignment_5.VerticalAlignment.Bottom;
+                        return VerticalAlignment_6.VerticalAlignment.Bottom;
                     }
                     else if (attr.value === "Center") {
-                        return VerticalAlignment_5.VerticalAlignment.Center;
+                        return VerticalAlignment_6.VerticalAlignment.Center;
                     }
                     else if (attr.value === "Top") {
-                        return VerticalAlignment_5.VerticalAlignment.Top;
+                        return VerticalAlignment_6.VerticalAlignment.Top;
                     }
                     else if (attr.value === "Stretch") {
-                        return VerticalAlignment_5.VerticalAlignment.Stretch;
+                        return VerticalAlignment_6.VerticalAlignment.Stretch;
                     }
                 }
                 static StringToOrientation(attr) {
@@ -6071,8 +6089,8 @@ System.register("XamlGL/Controls/Core", ["XamlGL/Controls/ContentControl", "Xaml
             function (Frame_1_1) {
                 exportStar_2(Frame_1_1);
             },
-            function (Grid_3_1) {
-                exportStar_2(Grid_3_1);
+            function (Grid_4_1) {
+                exportStar_2(Grid_4_1);
             },
             function (Image_3_1) {
                 exportStar_2(Image_3_1);
