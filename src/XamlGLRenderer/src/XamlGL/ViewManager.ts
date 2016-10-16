@@ -19,7 +19,7 @@ export class ViewManager {
 
         let jqContent :JQuery = $(`#${this.ContentElementId}`);
 
-        $.get(`/views/${view}.html?v=1`).done((data: string) => {
+        $.get(`/views/${view}.html?v=2`).done((data: string) => {
             jqContent.html(data);
             rivets.bind($(`.${view}`), { model: model });
             if (done) { done.call(this, jqContent); }
