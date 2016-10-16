@@ -3960,13 +3960,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             backgroundSprite.alpha = 1;
                             this.Scale = this._isPressed ? 0.98 : 1.02;
                             this._blurToUse = buttonEl.BlurAmount;
-                            r.Pointer.cursor = "pointer";
                         }
                         else {
                             backgroundSprite.alpha = 0.95;
                             this.Scale = 1.0;
                             this._blurToUse = 1.0;
-                            r.Pointer.cursor = "auto";
                         }
                         if (buttonEl.BlurAmount > 0) {
                             blurFilter.blur = this._blurToUse;
