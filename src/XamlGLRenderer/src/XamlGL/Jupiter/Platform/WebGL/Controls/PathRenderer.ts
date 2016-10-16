@@ -9,7 +9,7 @@ import { BaseRenderer } from "./BaseRenderer";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { Path } from "./../../../../Controls/Path";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
-import { PathGeometry } from "./../../../../Controls/PathGeometry";
+// import { PathGeometry } from "./../../../../Controls/PathGeometry";
 // import { PathFigure } from "./../../../../Controls/PathFigure";
 // import { LineSegment } from "./../../../../Controls/LineSegment";
 // import { BezierSegment } from "./../../../../Controls/BezierSegment";
@@ -55,7 +55,7 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
         polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper.HashToColorNumber(pathEl.Stroke));
 
         // render path
-        let pg: PathGeometry = MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
+        MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
 
         // console.log(pg.Figures);
         // pg.Figures.forEach((pf: PathFigure) => {

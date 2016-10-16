@@ -178,6 +178,9 @@ export class XamlParser {
             cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             cb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             cb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            if (node.attributes.getNamedItem("Foreground")) {
+                cb.Foreground = node.attributes.getNamedItem("Foreground").value;
+            }
             return cb;
         }
         return null;

@@ -4925,7 +4925,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     let polygonGraphics = new PIXI.Graphics();
                     polygonGraphics.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Fill), pathEl.Fill.length > 0 ? 1 : 0);
                     polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Stroke));
-                    let pg = MiniPathLanguageHelper_1.MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
+                    MiniPathLanguageHelper_1.MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
                     polygonGraphics.endFill();
                     let parentXYStart = this.CalculateCurrentAvailableSlot();
                     polygonGraphics.x = this.Element.CalculatedX + parentXYStart.X;
@@ -4987,15 +4987,24 @@ System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton"], fu
             }],
         execute: function() {
             CheckBox = class CheckBox extends ToggleButton_1.ToggleButton {
+                constructor() {
+                    super(...arguments);
+                    this._checkedPath = "M29.403992,0L32,3.5860286 8.3720093,21.479001 5.7740173,17.895017 5.776001,17.893002 0,9.9110087 3.5079956,7.2570179 9.2829895,15.23602z";
+                    this._uncheckedPath = "M1.7000008,1.6999989L1.7000008,30.299999 30.300015,30.299999 30.300015,1.6999989z M0,0L32.000016,0 32.000016,31.999999 0,31.999999z";
+                }
+                get CheckedPath() { return this._checkedPath; }
+                get UncheckedPath() { return this._uncheckedPath; }
+                set CheckedPath(value) { this._checkedPath = value; }
+                set UncheckedPath(value) { this._uncheckedPath = value; }
             };
             exports_94("CheckBox", CheckBox);
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper"], function(exports_95, context_95) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
     "use strict";
     var __moduleName = context_95 && context_95.id;
-    var BaseRenderer_10, ConsoleHelper_13;
+    var BaseRenderer_10, ConsoleHelper_13, RendererHelper_7, MiniPathLanguageHelper_2;
     var CheckBoxRenderer;
     return {
         setters:[
@@ -5004,20 +5013,71 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
             },
             function (ConsoleHelper_13_1) {
                 ConsoleHelper_13 = ConsoleHelper_13_1;
+            },
+            function (RendererHelper_7_1) {
+                RendererHelper_7 = RendererHelper_7_1;
+            },
+            function (MiniPathLanguageHelper_2_1) {
+                MiniPathLanguageHelper_2 = MiniPathLanguageHelper_2_1;
             }],
         execute: function() {
             CheckBoxRenderer = class CheckBoxRenderer extends BaseRenderer_10.BaseRenderer {
                 Draw() {
                     super.Draw();
                     ConsoleHelper_13.ConsoleHelper.Log("CheckBoxRenderer.Draw");
-                    let checkboxEl = super.Element;
+                    let checkboxEl = this.Element;
+                    let containerGrid = null;
+                    if (this.PixiElement !== undefined) {
+                        containerGrid = this.PixiElement;
+                    }
+                    else {
+                        containerGrid = new PIXI.Container();
+                        this.PixiElement = containerGrid;
+                    }
                     if (!checkboxEl.IsDirty) {
                         return;
                     }
                     this.CalculateYHeight(checkboxEl);
                     this.CalculateXWidth(checkboxEl);
                     this.UpdateCalculatedValuesUsingMargin(checkboxEl);
+                    containerGrid.height = this.Element.CalculatedHeight;
+                    containerGrid.width = this.Element.CalculatedWidth;
+                    let bottomGraphicsLayer = new PIXI.Graphics();
+                    bottomGraphicsLayer.beginFill(RendererHelper_7.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
+                    bottomGraphicsLayer.lineStyle(2, RendererHelper_7.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
+                    let geo = MiniPathLanguageHelper_2.MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, bottomGraphicsLayer);
+                    bottomGraphicsLayer.endFill();
+                    let topGraphicsLayer = new PIXI.Graphics();
+                    topGraphicsLayer.beginFill(RendererHelper_7.RendererHelper.HashToColorNumber(checkboxEl.Foreground), 1);
+                    MiniPathLanguageHelper_2.MiniPathLanguageHelper.parse(checkboxEl.CheckedPath, topGraphicsLayer);
+                    topGraphicsLayer.alpha = checkboxEl.IsChecked ? 1 : 0;
+                    topGraphicsLayer.endFill();
+                    let parentXYStart = this.CalculateCurrentAvailableSlot();
+                    bottomGraphicsLayer.x = 0;
+                    bottomGraphicsLayer.y = 0;
+                    topGraphicsLayer.x = 1;
+                    topGraphicsLayer.y = 5;
+                    containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
+                    containerGrid.addChild(bottomGraphicsLayer);
+                    containerGrid.addChild(topGraphicsLayer);
                     this.IncrementNextAvailableSlot();
+                    let parentContainer = null;
+                    if (this.Element.Parent.Renderer === undefined) {
+                        this.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+                    }
+                    else {
+                        if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                            parentContainer = this.Element.Parent.Renderer.PixiElement;
+                            parentContainer.addChild(containerGrid);
+                        }
+                    }
+                    this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
+                        if (r.Pointer.hitTestSprite(containerGrid)) {
+                            ConsoleHelper_13.ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");
+                            checkboxEl.IsChecked = !checkboxEl.IsChecked;
+                            topGraphicsLayer.alpha = checkboxEl.IsChecked ? 1 : 0;
+                        }
+                    });
                     checkboxEl.IsDirty = false;
                 }
             };
@@ -5154,7 +5214,7 @@ System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
 System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_97, context_97) {
     "use strict";
     var __moduleName = context_97 && context_97.id;
-    var Renderer_2, Panel_8, RendererHelper_7, ConsoleHelper_15;
+    var Renderer_2, Panel_8, RendererHelper_8, ConsoleHelper_15;
     var Platform;
     return {
         setters:[
@@ -5164,8 +5224,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
             function (Panel_8_1) {
                 Panel_8 = Panel_8_1;
             },
-            function (RendererHelper_7_1) {
-                RendererHelper_7 = RendererHelper_7_1;
+            function (RendererHelper_8_1) {
+                RendererHelper_8 = RendererHelper_8_1;
             },
             function (ConsoleHelper_15_1) {
                 ConsoleHelper_15 = ConsoleHelper_15_1;
@@ -5216,10 +5276,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                 }
                 Draw(content) {
                     ConsoleHelper_15.ConsoleHelper.LogSectionHeader("Platform:Draw");
-                    RendererHelper_7.RendererHelper.DrawPanel(content, false);
+                    RendererHelper_8.RendererHelper.DrawPanel(content, false);
                 }
                 CreateControlRenderer(element) {
-                    return RendererHelper_7.RendererHelper.FrameworkElementToRenderer(element);
+                    return RendererHelper_8.RendererHelper.FrameworkElementToRenderer(element);
                 }
             };
             exports_97("Platform", Platform);
@@ -5483,6 +5543,9 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         cb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
                         cb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+                        if (node.attributes.getNamedItem("Foreground")) {
+                            cb.Foreground = node.attributes.getNamedItem("Foreground").value;
+                        }
                         return cb;
                     }
                     return null;

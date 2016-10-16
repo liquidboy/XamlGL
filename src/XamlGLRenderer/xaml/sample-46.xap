@@ -9,8 +9,12 @@
     <Grid>
       <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-14a.jpg"></Image>
     </Grid>
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" >
-      <CheckBox Content="Agree to the Terms and Conditions"></CheckBox>
+    <Grid>
+      <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Margin="0,-40,0,0">
+          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
+          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
+          <CheckBox Content="Agree to the Terms and Conditions" Foreground="#FFe400ff" Width="40" Height="40" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></CheckBox>
+      </StackPanel>
     </Grid>
   </Grid>
 </Application>
