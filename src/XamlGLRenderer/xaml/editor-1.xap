@@ -8,7 +8,7 @@
       
     </Grid>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="45" Background="#FF525252" Margin="0,0,0,0">
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,8,0,0">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,13,0,0">
         <Button Margin="0,0,6,0" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"
             Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
           <Grid>
@@ -36,11 +36,11 @@
         
       </StackPanel>
 
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="80" VerticalAlignment="Top" Margin="0,7,0,0">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="80" VerticalAlignment="Top" Margin="0,13,0,0">
         <Text Text="editor_001.xap" FontFamily="Sans-Serif" HorizontalAlignment="Left" FontSize="12" Color="white"></Text>
       </StackPanel>
       
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Margin="0,7,7,0">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Margin="0,13,7,0">
         <Button Margin="0,0,0,0" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"
             Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
           <Grid>
@@ -54,7 +54,7 @@
     </Grid>
     <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="45" Background="#FF525252" Margin="0,48,0,0">
       
-      <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="45" Height="10" VerticalAlignment="Top" Margin="0,10,0,0">
+      <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="45" Height="10" VerticalAlignment="Top" Margin="0,15,0,0">
         <Button Margin="0,0,0,0" Width="35" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top"
             Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
           <Grid>
@@ -120,12 +120,38 @@
           </Grid>
         </Button>
       </StackPanel>
-    
+
+    </Grid>
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="45" Height="45" Margin="0,0,0,25">
+      <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Width="45" Height="45" VerticalAlignment="Bottom" Margin="0,0,0,10">
+        <Button Margin="0,0,0,5" Width="35" Height="15" HorizontalAlignment="Left" VerticalAlignment="Top"
+            Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
+          <Grid>
+            <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="15" Stroke="#FFffffff" Fill="#FFffffff"
+                  StrokeThickness="0" Margin="12,0,0,0" Scale="0.6"
+                Data="M16.022003,0L21.291992,4.2460014 32,12.876004 32,21.368007 19.847992,11.574002 16.069,8.5310041 15.977997,8.6029951 12.153992,11.687009 0,21.478999 0,12.986997 10.709991,4.358001 10.799011,4.2839958 10.752991,4.2460014z" ></Path>
+          </Grid>
+        </Button>
+        <Button Margin="0,5,0,5" Width="35" Height="15" HorizontalAlignment="Left" VerticalAlignment="Top"
+            Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
+          <Grid>
+            <Text Text="100%" FontFamily="Sans-Serif" HorizontalAlignment="Center" Margin="5,0,0,0" FontSize="11" Color="white"></Text>
+          </Grid>
+        </Button>
+        <Button Margin="0,5,0,10" Width="35" Height="15" HorizontalAlignment="Left" VerticalAlignment="Top"
+            Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
+          <Grid>
+            <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="15" Stroke="#FFffffff" Fill="#FFffffff"
+                  StrokeThickness="0" Margin="12,0,0,0" Scale="0.6"
+                Data="M32,0L32,8.4920026 21.291016,17.120999 21.200989,17.195005 21.247009,17.232999 15.978027,21.478999 10.708008,17.232999 0,8.6020032 0,0.11100769 12.151001,9.904997 15.93103,12.947995 16.020996,12.874997 19.846008,9.7920056z" ></Path>
+          </Grid>
+        </Button>
+      </StackPanel>
     </Grid>
     <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="45" Background="#FF525252" Margin="0,48,0,0">
     
       <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="45" VerticalAlignment="Top" 
-                  Height="10" Margin="0,10,0,0">
+                  Height="10" Margin="0,15,0,0">
         <Button Margin="0,0,0,0" Width="35" Height="35" HorizontalAlignment="Right" VerticalAlignment="Top"
             Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
           <Grid>
