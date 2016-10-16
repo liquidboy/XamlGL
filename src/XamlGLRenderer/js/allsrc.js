@@ -5869,7 +5869,7 @@ System.register("XamlGL/ViewManager", [], function(exports_101, context_101) {
                         return;
                     }
                     let jqContent = $(`#${this.ContentElementId}`);
-                    $.get(`/views/${view}.html`).done((data) => {
+                    $.get(`/views/${view}.html?v=1`).done((data) => {
                         jqContent.html(data);
                         rivets.bind($(`.${view}`), { model: model });
                         if (done) {
