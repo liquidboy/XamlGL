@@ -30,6 +30,9 @@ import { ToolTipRenderer } from "./../Jupiter/Platform/WebGL/Controls/ToolTipRen
 import { Path } from "./../Controls/Path";
 import { PathRenderer } from "./../Jupiter/Platform/WebGL/Controls/PathRenderer";
 
+import { CheckBox } from "./../Controls/CheckBox";
+import { CheckBoxRenderer } from "./../Jupiter/Platform/WebGL/Controls/CheckBoxRenderer";
+
 export class RendererHelper {
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
 
@@ -45,6 +48,8 @@ export class RendererHelper {
             return new RectangleRenderer();
         } else if (element instanceof TextBlock) {
             return new TextBlockRenderer();
+        } else if (element instanceof CheckBox) {
+            return new CheckBoxRenderer();
         } else if (element instanceof Button) {
             return new ButtonRenderer();
         } else if (element instanceof Path) {

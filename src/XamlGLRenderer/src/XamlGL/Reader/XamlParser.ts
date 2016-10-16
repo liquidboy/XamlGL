@@ -5,6 +5,7 @@ import { ToolTip } from "./../Controls/ToolTip";
 import { Button } from "./../Controls/Button";
 import { StackPanel } from "./../Controls/StackPanel";
 import { Image } from "./../Controls/Image";
+import { CheckBox } from "./../Controls/CheckBox";
 import { Panel } from "./../Controls/Panel";
 import { TextBlock } from "./../Controls/TextBlock";
 import { Path } from "./../Controls/Path";
@@ -170,6 +171,14 @@ export class XamlParser {
                 path.Fill = "";
             }
             return path;
+        } else if (node.nodeName === "CheckBox") {
+            let cb: CheckBox = new CheckBox();
+            cb.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            cb.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            cb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            cb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            return cb;
         }
         return null;
     }

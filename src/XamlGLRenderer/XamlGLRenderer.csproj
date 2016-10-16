@@ -1131,6 +1131,8 @@
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src\Tests\TestBase.ts" />
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\CheckBox.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\ToggleButton.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\ContentControl.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Frame.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Control.ts" />
@@ -1167,6 +1169,7 @@
     <TypeScriptCompile Include="src\XamlGL\DataTypes\VerticalAlignment.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Geometry.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\CheckBoxRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PathRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Shape.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\IconElement.ts" />
@@ -1566,6 +1569,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xaml\sample-45.xap">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xaml\sample-46.xap">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
