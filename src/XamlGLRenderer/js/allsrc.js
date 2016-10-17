@@ -262,9 +262,11 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                     super();
                     this._hasToolTip = false;
                     this._tooltipDockPosition = DockPosition_1.DockPosition.Top;
+                    this._isTooltipVisible = false;
                     this._propertyChanged = new EventDispatcher_1.EventDispatcher();
                     this._focusChanged = new EventDispatcher_1.EventDispatcher();
                     this.Margin = new Thickness_1.Thickness(0);
+                    this.IsTooltipVisible = false;
                 }
                 get Width() { return this._width; }
                 get Height() { return this._height; }
@@ -280,6 +282,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 get BlurAmount() { return this._blurAmount; }
                 get HasToolTip() { return this._hasToolTip; }
                 get TooltipDockPosition() { return this._tooltipDockPosition; }
+                get IsTooltipVisible() { return this._isTooltipVisible; }
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
                 set Margin(value) { this._margin = value; }
@@ -294,6 +297,7 @@ System.register("XamlGL/Jupiter/FrameworkElement", ["XamlGL/Jupiter/UIElement", 
                 set BlurAmount(value) { this._blurAmount = value; }
                 set HasToolTip(value) { this._hasToolTip = value; }
                 set TooltipDockPosition(value) { this._tooltipDockPosition = value; }
+                set IsTooltipVisible(value) { this._isTooltipVisible = value; }
                 get PropertyChanged() { return this._propertyChanged; }
                 get FocusChanged() { return this._focusChanged; }
             };
@@ -3026,23 +3030,24 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                         }
                     }
                 }
-                ShowHideTooltip(show, position, backgroundColor, x, y, width, height) {
+                GeneralShowTooltip(position, backgroundColor, x, y, width, height) {
+                    if (this._tooltip === null) {
+                        this._tooltip = new ToolTip_1.ToolTip();
+                    }
                     let buttonParent = this.Element.Parent;
-                    if (show === null) {
-                        if (this._tooltip === null) {
-                            this._tooltip = new ToolTip_1.ToolTip();
-                            this._tooltip.ShowToolTip(x, y, width, height, position);
-                            this._tooltip.Background = backgroundColor;
-                            if (this.Element.Parent instanceof Panel_3.Panel) {
-                                buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
-                                buttonParent.Platform.Draw(this._tooltip);
-                            }
-                        }
-                        else {
-                            this._tooltip.Renderer.Clear();
-                            buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
-                            this._tooltip = null;
-                        }
+                    this._tooltip.ShowToolTip(x, y, width, height, position);
+                    this._tooltip.Background = backgroundColor;
+                    if (this.Element.Parent instanceof Panel_3.Panel) {
+                        buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
+                        buttonParent.Platform.Draw(this._tooltip);
+                    }
+                }
+                GeneralHideTooltip() {
+                    if (this._tooltip !== null || this._tooltip !== undefined) {
+                        let buttonParent = this.Element.Parent;
+                        this._tooltip.Renderer.Clear();
+                        buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
+                        this._tooltip = null;
                     }
                 }
             };
@@ -3102,7 +3107,7 @@ System.register("XamlGL/Controls/Grid", ["XamlGL/Controls/Panel"], function(expo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_50, context_50) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_50, context_50) {
     "use strict";
     var __moduleName = context_50 && context_50.id;
     var BaseRenderer_2, ConsoleHelper_4, RendererHelper_1;
@@ -3137,10 +3142,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     if (gridEl.Background !== undefined) {
                         let widthToUse = (gridEl.Width === null || gridEl.Width === 0) ? this.ParentWidth : gridEl.Width;
                         let heightToUse = (gridEl.Height === null || gridEl.Height === 0) ? this.ParentHeight : gridEl.Height;
-                        if (this.Element.CalculatedHeight > 0 && heightToUse > this.Element.CalculatedHeight)
+                        if (this.Element.CalculatedHeight > 0 && heightToUse > this.Element.CalculatedHeight) {
                             heightToUse = this.Element.CalculatedHeight;
-                        if (this.Element.CalculatedWidth > 0 && widthToUse > this.Element.CalculatedWidth)
+                        }
+                        if (this.Element.CalculatedWidth > 0 && widthToUse > this.Element.CalculatedWidth) {
                             widthToUse = this.Element.CalculatedWidth;
+                        }
                         let rectangle = new PIXI.Graphics();
                         rectangle.beginFill(RendererHelper_1.RendererHelper.HashToColorNumber(gridEl.Background));
                         rectangle.drawRect(0, 0, widthToUse, heightToUse);
@@ -3184,7 +3191,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_51, context_51) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_51, context_51) {
     "use strict";
     var __moduleName = context_51 && context_51.id;
     var BaseRenderer_3, ConsoleHelper_5, RendererHelper_2;
@@ -3691,7 +3698,7 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel", "XamlGL/D
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_68, context_68) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_68, context_68) {
     "use strict";
     var __moduleName = context_68 && context_68.id;
     var BaseRenderer_5, ConsoleHelper_7, RendererHelper_3;
@@ -3928,7 +3935,7 @@ System.register("XamlGL/Controls/Button", ["XamlGL/Controls/Panel"], function(ex
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/DockPosition"], function(exports_74, context_74) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/DataTypes/DockPosition"], function(exports_74, context_74) {
     "use strict";
     var __moduleName = context_74 && context_74.id;
     var BaseRenderer_7, ConsoleHelper_9, RendererHelper_4, DockPosition_3;
@@ -4037,31 +4044,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                             if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                                let tooltipHeight = 80;
-                                let tooltipWidth = 120;
-                                let topStart = 0;
-                                let leftStart = 0;
-                                if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Top) {
-                                    topStart = parentContainer.y + containerGrid.position.y - tooltipHeight - 20;
-                                    leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
-                                }
-                                else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Bottom) {
-                                    topStart = parentContainer.y + containerGrid.position.y + buttonEl.Height + 10;
-                                    leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
-                                }
-                                else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Left) {
-                                    topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
-                                    leftStart = parentContainer.x + containerGrid.position.x - tooltipWidth - 15;
-                                }
-                                else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Right) {
-                                    topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
-                                    leftStart = parentContainer.x + containerGrid.position.x + buttonEl.Width + 15;
-                                }
-                                if (buttonEl.HasToolTip) {
-                                    this.ShowHideTooltip(null, buttonEl.TooltipDockPosition, "#FFff7300", leftStart, topStart, tooltipWidth, tooltipHeight);
+                                if (buttonEl.IsTooltipVisible) {
+                                    this.HideTooltip(buttonEl);
                                 }
                                 else {
-                                    eval(buttonEl.ClickStr);
+                                    this.ShowTooltip(r, buttonEl, parentContainer, containerGrid);
                                 }
                             }
                         }
@@ -4078,6 +4065,41 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     });
                     buttonEl.IsDirty = false;
                 }
+                ShowTooltip(r, buttonEl, parentContainer, containerGrid) {
+                    if (buttonEl.IsTooltipVisible)
+                        return;
+                    buttonEl.IsTooltipVisible = true;
+                    let tooltipHeight = 80;
+                    let tooltipWidth = 120;
+                    let topStart = 0;
+                    let leftStart = 0;
+                    if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Top) {
+                        topStart = parentContainer.y + containerGrid.position.y - tooltipHeight - 20;
+                        leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
+                    }
+                    else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Bottom) {
+                        topStart = parentContainer.y + containerGrid.position.y + buttonEl.Height + 10;
+                        leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
+                    }
+                    else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Left) {
+                        topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
+                        leftStart = parentContainer.x + containerGrid.position.x - tooltipWidth - 15;
+                    }
+                    else if (buttonEl.TooltipDockPosition === DockPosition_3.DockPosition.Right) {
+                        topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
+                        leftStart = parentContainer.x + containerGrid.position.x + buttonEl.Width + 15;
+                    }
+                    if (buttonEl.HasToolTip) {
+                        this.GeneralShowTooltip(buttonEl.TooltipDockPosition, "#FFff7300", leftStart, topStart, tooltipWidth, tooltipHeight);
+                    }
+                    else {
+                        eval(buttonEl.ClickStr);
+                    }
+                }
+                HideTooltip(buttonEl) {
+                    this.GeneralHideTooltip();
+                    buttonEl.IsTooltipVisible = false;
+                }
                 Clear() {
                     ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Clear");
                     let containerMain = null;
@@ -4091,7 +4113,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_75, context_75) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper"], function(exports_75, context_75) {
     "use strict";
     var __moduleName = context_75 && context_75.id;
     var BaseRenderer_8, DockPosition_4, ConsoleHelper_10, RendererHelper_5;
@@ -4563,7 +4585,7 @@ System.register("XamlGL/Controls/ArcSegment", ["XamlGL/Controls/PathSegment"], f
         }
     }
 });
-System.register("XamlGL/Utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_91, context_91) {
+System.register("XamlGL/utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_91, context_91) {
     "use strict";
     var __moduleName = context_91 && context_91.id;
     var PathGeometry_1, PathFigure_1, LineSegment_1, BezierSegment_1, QuadraticBezierSegment_1, ArcSegment_1, FillRule_1, SweepDirection_1, Size_1, ConsoleHelper_11;
@@ -4967,7 +4989,7 @@ System.register("XamlGL/Utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_92, context_92) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_92, context_92) {
     "use strict";
     var __moduleName = context_92 && context_92.id;
     var BaseRenderer_9, ConsoleHelper_12, RendererHelper_6, MiniPathLanguageHelper_1;
@@ -5093,7 +5115,7 @@ System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton", "Xa
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
     "use strict";
     var __moduleName = context_95 && context_95.id;
     var BaseRenderer_10, ConsoleHelper_13, RendererHelper_7, MiniPathLanguageHelper_2;
@@ -5186,7 +5208,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
         }
     }
 });
-System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", "XamlGL/Controls/Path", "XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", "XamlGL/Controls/CheckBox", "XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer"], function(exports_96, context_96) {
+System.register("XamlGL/utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", "XamlGL/Controls/Path", "XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", "XamlGL/Controls/CheckBox", "XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer"], function(exports_96, context_96) {
     "use strict";
     var __moduleName = context_96 && context_96.id;
     var DefaultRenderer_1, Grid_1, GridRenderer_1, StackPanel_2, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_7, ConsoleHelper_14, TextBlock_1, TextBlockRenderer_1, Button_2, ButtonRenderer_1, ToolTip_2, ToolTipRenderer_1, Path_1, PathRenderer_1, CheckBox_1, CheckBoxRenderer_1;
@@ -5312,7 +5334,7 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_97, context_97) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_97, context_97) {
     "use strict";
     var __moduleName = context_97 && context_97.id;
     var Renderer_2, Panel_8, RendererHelper_8, ConsoleHelper_15;

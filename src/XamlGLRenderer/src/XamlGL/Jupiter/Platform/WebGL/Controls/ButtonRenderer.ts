@@ -129,11 +129,13 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 backgroundSprite.alpha = 1;
                 this.Scale = this._isPressed ? 0.98 : 1.02;
                 this._blurToUse = buttonEl.BlurAmount;
+                // this.ShowTooltip(r);
                 // r.Pointer.cursor = "pointer";
             } else {
                 backgroundSprite.alpha = 0.95;
                 this.Scale = 1.0;
                 this._blurToUse = 1.0;
+                // this.HideTooltip();
                 // r.Pointer.cursor = "auto";
             }
             if (buttonEl.BlurAmount > 0) {
@@ -147,37 +149,13 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                 if (buttonEl.ClickStr !== null || buttonEl.ClickStr !== undefined) {
-                    let tooltipHeight: number = 80;
-                    let tooltipWidth: number = 120;
 
-                    let topStart: number = 0;
-                    let leftStart: number = 0;
-                    if (buttonEl.TooltipDockPosition === DockPosition.Top) {
-                        topStart = parentContainer.y + containerGrid.position.y - tooltipHeight - 20;
-                        leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width)/2);
-                    } else if (buttonEl.TooltipDockPosition === DockPosition.Bottom) {
-                        topStart = parentContainer.y + containerGrid.position.y + buttonEl.Height + 10;
-                        leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
-                    } else if (buttonEl.TooltipDockPosition === DockPosition.Left) {
-                        topStart = parentContainer.y + containerGrid.position.y + ( (buttonEl.Height -  tooltipHeight)/2 );
-                        leftStart = parentContainer.x + containerGrid.position.x - tooltipWidth - 15;
-                    } else if (buttonEl.TooltipDockPosition === DockPosition.Right) {
-                        topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
-                        leftStart = parentContainer.x + containerGrid.position.x + buttonEl.Width + 15;
-                    }
-
-                    if (buttonEl.HasToolTip) {
-                        this.ShowHideTooltip(
-                            null,
-                            buttonEl.TooltipDockPosition,
-                            "#FFff7300",
-                            leftStart,
-                            topStart,
-                            tooltipWidth,
-                            tooltipHeight);
+                    if (buttonEl.IsTooltipVisible) {
+                        this.HideTooltip(buttonEl);
                     } else {
-                        eval(buttonEl.ClickStr);
+                        this.ShowTooltip(r, buttonEl, parentContainer, containerGrid);
                     }
+                    
                 }
             }
         });
@@ -197,6 +175,46 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         buttonEl.IsDirty = false;
     }
+    ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.Container): void{
+        if (buttonEl.IsTooltipVisible) return;
+
+        buttonEl.IsTooltipVisible = true;
+        let tooltipHeight: number = 80;
+        let tooltipWidth: number = 120;
+
+        let topStart: number = 0;
+        let leftStart: number = 0;
+        if (buttonEl.TooltipDockPosition === DockPosition.Top) {
+            topStart = parentContainer.y + containerGrid.position.y - tooltipHeight - 20;
+            leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
+        } else if (buttonEl.TooltipDockPosition === DockPosition.Bottom) {
+            topStart = parentContainer.y + containerGrid.position.y + buttonEl.Height + 10;
+            leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
+        } else if (buttonEl.TooltipDockPosition === DockPosition.Left) {
+            topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
+            leftStart = parentContainer.x + containerGrid.position.x - tooltipWidth - 15;
+        } else if (buttonEl.TooltipDockPosition === DockPosition.Right) {
+            topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
+            leftStart = parentContainer.x + containerGrid.position.x + buttonEl.Width + 15;
+        }
+
+        if (buttonEl.HasToolTip) {
+            this.GeneralShowTooltip(
+                buttonEl.TooltipDockPosition,
+                "#FFff7300",
+                leftStart,
+                topStart,
+                tooltipWidth,
+                tooltipHeight);
+        } else {
+            eval(buttonEl.ClickStr);
+        }
+    }
+    HideTooltip(buttonEl: Button): void {
+        this.GeneralHideTooltip();
+        buttonEl.IsTooltipVisible = false;
+    }
+
     Clear(): void {
         ConsoleHelper.Log("ButtonRenderer.Clear");
 

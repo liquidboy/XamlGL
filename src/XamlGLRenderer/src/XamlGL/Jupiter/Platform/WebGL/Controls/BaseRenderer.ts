@@ -220,25 +220,27 @@ export class BaseRenderer implements IControlRenderer {
         }
     }
 
-    public ShowHideTooltip(show: boolean, position: DockPosition, backgroundColor: string, x: number, y: number, width: number,
+    public GeneralShowTooltip(position: DockPosition, backgroundColor: string, x: number, y: number, width: number,
         height: number): void {
-
+        if (this._tooltip === null) {
+            this._tooltip = new ToolTip();
+        }
         let buttonParent: Panel = <Panel>this.Element.Parent;
-        if (show === null) {
-            if (this._tooltip === null) {
-                this._tooltip = new ToolTip();
-                this._tooltip.ShowToolTip(x, y, width, height, position);
-                this._tooltip.Background = backgroundColor;
-                if (this.Element.Parent instanceof Panel) {
-                    buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
-                    buttonParent.Platform.Draw(this._tooltip);
-                }
-            } else {
-                this._tooltip.Renderer.Clear();
-                buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
-                // parentContainer.removeChild(this._tooltip);
-                this._tooltip = null;
-            }
+        this._tooltip.ShowToolTip(x, y, width, height, position);
+        this._tooltip.Background = backgroundColor;
+        if (this.Element.Parent instanceof Panel) {
+            buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
+            buttonParent.Platform.Draw(this._tooltip);
+        }
+    }
+
+    public GeneralHideTooltip() {
+        if (this._tooltip !== null || this._tooltip !== undefined) {
+            let buttonParent: Panel = <Panel>this.Element.Parent;
+            this._tooltip.Renderer.Clear();
+            buttonParent.Platform.UnsetCurrent(this._tooltip, buttonParent);
+            // parentContainer.removeChild(this._tooltip);
+            this._tooltip = null;
         }
     }
 }

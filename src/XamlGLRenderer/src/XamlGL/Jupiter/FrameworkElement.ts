@@ -24,6 +24,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _blurAmount: number;
     private _hasToolTip: boolean = false;
     private _tooltipDockPosition: DockPosition = DockPosition.Top;
+    private _isTooltipVisible: boolean = false;
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
     // private _childRemoved: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
@@ -44,6 +45,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     get BlurAmount(): number { return this._blurAmount; }
     get HasToolTip(): boolean { return this._hasToolTip; }
     get TooltipDockPosition(): DockPosition { return this._tooltipDockPosition; }
+    get IsTooltipVisible(): boolean { return this._isTooltipVisible; }
 
     set Width(value: number) { this._width = value; }
     set Height(value: number) { this._height = value; }
@@ -59,6 +61,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     set BlurAmount(value: number) { this._blurAmount = value; }
     set HasToolTip(value: boolean) { this._hasToolTip = value; }
     set TooltipDockPosition(value: DockPosition) { this._tooltipDockPosition = value; }
+    set IsTooltipVisible(value: boolean) { this._isTooltipVisible = value; }
 
     // get ChildAdded(): IEvent<FrameworkElement, IEventArgs> { return this._childAdded; }
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }
@@ -69,6 +72,7 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
         super();
 
         this.Margin = new Thickness(0);
+        this.IsTooltipVisible = false;
     }
 }
 

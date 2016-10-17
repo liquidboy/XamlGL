@@ -37,8 +37,8 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
 
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(gridEl);
-        
-        // Important : doing this is failing, the height can't be set like this
+
+        // important : doing this is failing, the height can't be set like this
         // size container
         // containerGrid.height = this.Element.CalculatedHeight;
         // containerGrid.width = this.Element.CalculatedWidth;
@@ -54,8 +54,12 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? this.ParentWidth : gridEl.Width;
             let heightToUse: number = (gridEl.Height === null || gridEl.Height === 0) ? this.ParentHeight : gridEl.Height;
 
-            if (this.Element.CalculatedHeight > 0 && heightToUse > this.Element.CalculatedHeight) heightToUse = this.Element.CalculatedHeight;
-            if (this.Element.CalculatedWidth > 0 && widthToUse > this.Element.CalculatedWidth) widthToUse = this.Element.CalculatedWidth;
+            if (this.Element.CalculatedHeight > 0 && heightToUse > this.Element.CalculatedHeight) {
+                heightToUse = this.Element.CalculatedHeight;
+            }
+            if (this.Element.CalculatedWidth > 0 && widthToUse > this.Element.CalculatedWidth) {
+                widthToUse = this.Element.CalculatedWidth;
+            }
 
             let rectangle: PIXI.Graphics = new PIXI.Graphics();
             rectangle.beginFill(RendererHelper.HashToColorNumber(gridEl.Background));
