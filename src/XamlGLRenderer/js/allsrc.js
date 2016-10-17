@@ -4880,14 +4880,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     }
                     this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
                     this.IncrementNextAvailableSlot();
-                    this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(parentContainer)) {
-                            this.IsBeingHitWithPointer(r, args);
-                        }
-                        else {
-                            this.IsNotBeingHitWithPointer(r, args);
-                        }
-                    });
                     pathEl.IsDirty = false;
                 }
             };
