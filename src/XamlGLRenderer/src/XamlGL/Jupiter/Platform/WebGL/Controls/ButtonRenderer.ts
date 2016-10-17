@@ -129,13 +129,13 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 backgroundSprite.alpha = 1;
                 this.Scale = this._isPressed ? 0.98 : 1.02;
                 this._blurToUse = buttonEl.BlurAmount;
-                // this.ShowTooltip(r);
+                this.ShowTooltip(r, buttonEl, parentContainer, containerGrid);
                 // r.Pointer.cursor = "pointer";
             } else {
                 backgroundSprite.alpha = 0.95;
                 this.Scale = 1.0;
                 this._blurToUse = 1.0;
-                // this.HideTooltip();
+                this.HideTooltip(buttonEl);
                 // r.Pointer.cursor = "auto";
             }
             if (buttonEl.BlurAmount > 0) {
@@ -176,7 +176,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         buttonEl.IsDirty = false;
     }
     ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.Container): void {
-        if (buttonEl.IsTooltipVisible) {
+        if (!buttonEl.HasToolTip || buttonEl.IsTooltipVisible) {
             return;
         }
 
@@ -213,7 +213,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         }
     }
     HideTooltip(buttonEl: Button): void {
-        if (!buttonEl.IsTooltipVisible) {
+        if (!buttonEl.HasToolTip || !buttonEl.IsTooltipVisible) {
             return;
         }
 
