@@ -197,4 +197,14 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         buttonEl.IsDirty = false;
     }
+    Clear(): void {
+        ConsoleHelper.Log("ButtonRenderer.Clear");
+
+        let containerMain: PIXI.Container = null;
+
+        if (this.PixiElement !== undefined) {
+            containerMain = <PIXI.Container>this.PixiElement;
+            this.Element.Platform.Renderer.PixiStage.removeChild(containerMain);
+        }
+    }
 }

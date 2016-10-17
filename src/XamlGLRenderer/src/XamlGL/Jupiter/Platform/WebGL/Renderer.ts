@@ -94,7 +94,7 @@ export class Renderer implements IRenderer {
         return PIXI.loader.add(url);
     }
 
-    public ShowResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void {
+    public LoadResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void {
         let resource: RendererResource = this._resourceIds.getValue(key);
         if (resource.Sprite === null) {
             let resourceId: string = resource.Url;
@@ -106,6 +106,10 @@ export class Renderer implements IRenderer {
         resource.Sprite.x = x;
         resource.Sprite.y = y;
         container.addChild(resource.Sprite);
+    }
+
+    public ShowResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void {
+        this.LoadResource(key, container, x, y, width, height);
         this._renderer.render(container);
     }
 

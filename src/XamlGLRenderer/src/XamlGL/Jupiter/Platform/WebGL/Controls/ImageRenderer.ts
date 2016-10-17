@@ -22,10 +22,17 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
         ConsoleHelper.Log("ImagetRenderer.Draw");
 
         let imageEl: Image = <Image>super.Element;
-        let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
+        let imageContainer: PIXI.Container = null;
 
         if (!imageEl.IsDirty) {
             return;
+        }
+
+        if (this.PixiElement === undefined) {
+            imageContainer = new PIXI.Container();
+            this.PixiElement = imageContainer;
+        } else {
+            imageContainer = <PIXI.Container>this.PixiElement;
         }
 
         // calculate y position
@@ -45,9 +52,9 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
 
                 // render in the next available slot
                 // let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
-                super.Element.Platform.Renderer.ShowResource(
+                super.Element.Platform.Renderer.LoadResource(
                     imageEl.UniqueID,
-                    parentContainer,
+                    imageContainer, // parentContainer
                     super.Element.CalculatedX + parentXYStart.X,
                     super.Element.CalculatedY + parentXYStart.Y,
                     super.Element.CalculatedWidth,
@@ -56,7 +63,9 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
                 // tell the parent stackpanel the next available slot
                 this.IncrementNextAvailableSlot();
 
-                this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
+                // this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
+                let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
+                parentContainer.addChild(imageContainer);
             });
 
         // this.Element.Platform.Renderer.Render.subscribe((r: IRenderer, args: IEventArgs) => {
@@ -64,6 +73,16 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
         // });
 
         imageEl.IsDirty = false;
+    }
+
+    Clear(): void {
+        ConsoleHelper.Log("ImageRenderer.Clear");
+
+        if (this.PixiElement !== undefined) {
+            let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
+            parentContainer.removeChild(this.PixiElement);
+            this.PixiElement = null;
+        }
     }
 }
 

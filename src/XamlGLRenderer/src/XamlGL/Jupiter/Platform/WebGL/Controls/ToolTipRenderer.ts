@@ -148,6 +148,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         if (this.PixiElement !== undefined) {
             containerMain = <PIXI.Container>this.PixiElement;
             this.Element.Platform.Renderer.PixiStage.removeChild(containerMain);
+            this.PixiElement = null;
         }
     }
 }

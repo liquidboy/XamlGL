@@ -41,6 +41,7 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
                 align: TextWrappingAlign[textEl.TextWrappingAlign].toLowerCase()
             }
         );
+        // this.PixiElement = text;
 
         // calculate y position
         this.CalculateYHeight(textEl);
@@ -90,5 +91,18 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
 
 
         textEl.IsDirty = false;
+    }
+    Clear(): void {
+        ConsoleHelper.Log("TextBlockRenderer.Clear");
+
+        let containerMain: PIXI.Container = null;
+        let pc: PIXI.Container =  <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+
+        if (this.PixiElement !== undefined) {
+            containerMain = <PIXI.Container>this.PixiElement;
+            // this.Element.Platform.Renderer.PixiStage.removeChild(containerMain);
+            pc.removeChild(this.PixiElement);
+            this.PixiElement = null;
+        }
     }
 }

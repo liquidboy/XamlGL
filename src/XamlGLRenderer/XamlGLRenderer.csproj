@@ -1581,6 +1581,7 @@
     <Content Include="xaml\editor-1.xap">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xaml\editor-2.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

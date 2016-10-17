@@ -13,6 +13,7 @@ export interface IRenderer {
     ShowLoading(): void;
     HideLoading(): void;
     // loadResourceImage(url: string): PIXI.loaders.Loader;
+    LoadResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void;
     ShowResource(key: string, container: PIXI.Container, x: number, y: number, width: number, height: number): void;
     HideResource(key: string, container: PIXI.Container): void;
     InitializeLoadingResource(url: string): PIXI.loaders.Loader;

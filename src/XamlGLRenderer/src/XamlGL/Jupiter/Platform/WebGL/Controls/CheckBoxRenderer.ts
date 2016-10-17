@@ -41,11 +41,11 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         let checkboxEl: CheckBox = <CheckBox>this.Element;
         let containerGrid: PIXI.Container = null;
 
-        if (this.PixiElement !== undefined) {
-            containerGrid = <PIXI.Container>this.PixiElement;
-        } else {
+        if (this.PixiElement === undefined) {
             containerGrid = new PIXI.Container();
             this.PixiElement = containerGrid;
+        } else {
+            containerGrid = <PIXI.Container>this.PixiElement;
         }
 
         if (!checkboxEl.IsDirty) {
@@ -69,7 +69,7 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         let bottomGraphicsLayer: PIXI.Graphics = new PIXI.Graphics();
         bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
         bottomGraphicsLayer.lineStyle(2, RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
-        let geo: PathGeometry = MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, bottomGraphicsLayer);
+        MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, bottomGraphicsLayer);
         bottomGraphicsLayer.endFill();
 
         let topGraphicsLayer: PIXI.Graphics = new PIXI.Graphics();
@@ -124,6 +124,16 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         checkboxEl.IsDirty = false;
 
     }
+    Clear(): void {
+        ConsoleHelper.Log("CheckBoxRenderer.Clear");
 
+        let containerMain: PIXI.Container = null;
+
+        if (this.PixiElement !== undefined) {
+            containerMain = <PIXI.Container>this.PixiElement;
+            this.Element.Platform.Renderer.PixiStage.removeChild(containerMain);
+            this.PixiElement = null;
+        }
+    }
 }
 
