@@ -29,6 +29,7 @@ export class BaseRenderer implements IControlRenderer {
     new EventDispatcher<BaseRenderer, IEventArgs>();
     private _pixiElement: PIXI.DisplayObject;
     private _scale: number = 1;
+    _containerGrid: PIXI.Container = null;
 
     get Element(): FrameworkElement { return this._element; }
     get ElementChanged(): IEvent<BaseRenderer, IEventArgs> { return this._elementChanged; }
