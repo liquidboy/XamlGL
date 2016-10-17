@@ -296,7 +296,7 @@
         </Button>
       </StackPanel>
     </Grid>
-    <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="300" Height="300" Background="#FF525252" Margin="0,307,48,0">
+    <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="300" Background="#FF525252" Margin="0,307,48,0">
     </Grid>
   </Grid>
 </Application>

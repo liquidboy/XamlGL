@@ -37,29 +37,34 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
 
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(gridEl);
-
+        
+        // Important : doing this is failing, the height can't be set like this
         // size container
-        containerGrid.height = super.Element.CalculatedHeight;
-        containerGrid.width = super.Element.CalculatedWidth;
+        // containerGrid.height = this.Element.CalculatedHeight;
+        // containerGrid.width = this.Element.CalculatedWidth;
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
         // position container
-        containerGrid.position.set(super.Element.CalculatedX + parentXYStart.X, super.Element.CalculatedY + parentXYStart.Y);
+        containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
 
         // set background if its available
         if (gridEl.Background !== undefined) {
-            let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? super.ParentWidth : gridEl.Width;
-            let heightToUse: number = (gridEl.Height === null || gridEl.Height === 0) ? super.ParentHeight : gridEl.Height;
+            let widthToUse: number = (gridEl.Width === null || gridEl.Width === 0) ? this.ParentWidth : gridEl.Width;
+            let heightToUse: number = (gridEl.Height === null || gridEl.Height === 0) ? this.ParentHeight : gridEl.Height;
+
+            if (this.Element.CalculatedHeight > 0 && heightToUse > this.Element.CalculatedHeight) heightToUse = this.Element.CalculatedHeight;
+            if (this.Element.CalculatedWidth > 0 && widthToUse > this.Element.CalculatedWidth) widthToUse = this.Element.CalculatedWidth;
+
             let rectangle: PIXI.Graphics = new PIXI.Graphics();
             rectangle.beginFill(RendererHelper.HashToColorNumber(gridEl.Background));
             rectangle.drawRect(0, 0, widthToUse, heightToUse);
             rectangle.endFill();
 
-
             // now render in container
             containerGrid.addChild(rectangle);
+
         }
 
         // tell the parent stackpanel the next available slot
