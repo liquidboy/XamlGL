@@ -2510,6 +2510,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                 ResizeFull() {
                     this.ResizeFullWidth(window.innerHeight);
                 }
+                Clear() {
+                    if (this._tinkPointer != null) {
+                        this._tinkPointer.press = null;
+                        this._tinkPointer.release = null;
+                        this._tinkPointer.tap = null;
+                        this._tinkPointer = null;
+                    }
+                }
                 ResizeFullWidth(height) {
                     this.PixiRenderer.view.style.position = "absolute";
                     this.PixiRenderer.view.style.display = "block";
@@ -4030,6 +4038,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             this.Scale = this._isPressed ? 0.98 : 1.02;
                             this._blurToUse = buttonEl.BlurAmount;
                             this.ShowTooltip(r, buttonEl, parentContainer, containerGrid);
+                            r.Pointer.cursor = "pointer";
                         }
                         else {
                             backgroundSprite.alpha = 0.95;

@@ -58,6 +58,15 @@ export class Renderer implements IRenderer {
         this.ResizeFullWidth(window.innerHeight);
     }
 
+    public Clear(): void {
+        if (this._tinkPointer != null) {
+            this._tinkPointer.press = null;
+            this._tinkPointer.release = null;
+            this._tinkPointer.tap = null;
+            this._tinkPointer = null;
+        }
+    }
+
     public ResizeFullWidth(height: number): void {
         this.PixiRenderer.view.style.position = "absolute";
         this.PixiRenderer.view.style.display = "block";

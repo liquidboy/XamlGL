@@ -130,21 +130,25 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 this.Scale = this._isPressed ? 0.98 : 1.02;
                 this._blurToUse = buttonEl.BlurAmount;
                 this.ShowTooltip(r, buttonEl, parentContainer, containerGrid);
-                // r.Pointer.cursor = "pointer";
+                r.Pointer.cursor = "pointer";
             } else {
                 backgroundSprite.alpha = 0.95;
                 this.Scale = 1.0;
                 this._blurToUse = 1.0;
                 this.HideTooltip(buttonEl);
-                // r.Pointer.cursor = "auto";
             }
             if (buttonEl.BlurAmount > 0) {
                 blurFilter.blur = this._blurToUse;
             }
             backgroundSprite.scale.set(this.Scale, this.Scale);
             // parentContainer.rotation += 0.001;
+            // console.log(this._cursorToUse);
         });
-
+        
+        //        r.Pointer.cursor = "pointer";
+        
+        //        r.Pointer.cursor = "auto";
+        
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
@@ -162,8 +166,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 this._isPressed = false;
             }
         });
-
-
+        
         buttonEl.IsDirty = false;
     }
     ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.Container): void {

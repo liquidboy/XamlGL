@@ -25,4 +25,5 @@ export interface IRenderer {
     PointerPressed: IEvent<IRenderer, IEventArgs>;
     PointerReleased: IEvent<IRenderer, IEventArgs>;
     PointerTapped: IEvent<IRenderer, IEventArgs>;
+    Clear(): void;
 }
