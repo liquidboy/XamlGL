@@ -93,7 +93,7 @@ export class Renderer implements IRenderer {
         RendererHelper.TinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
         RendererHelper.Draw.subscribe(() => {
             this._draw.dispatch(this, null);
-            this._renderer.render(this.PixiStage);
+            this._renderer.render(this.PixiStage); // this is a HUGE resource drain (CPU) .... 
         });
     }
 
