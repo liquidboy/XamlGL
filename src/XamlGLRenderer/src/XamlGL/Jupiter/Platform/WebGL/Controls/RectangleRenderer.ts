@@ -15,7 +15,6 @@ export class RectangleRenderer extends BaseRenderer implements IControlRenderer 
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("RectangleRenderer.Draw");
-        // super.Element.Platform.Renderer.PixiRenderer
 
         let rectEl: Rectangle = <Rectangle>super.Element;
 
@@ -39,8 +38,16 @@ export class RectangleRenderer extends BaseRenderer implements IControlRenderer 
         rectangle.endFill();
         rectangle.x = rectEl.Margin.Left;
         rectangle.y = rectEl.Margin.Top;
-        super.Element.Platform.Renderer.PixiStage.addChild(rectangle);
+        this.Element.Platform.Renderer.PixiStage.addChild(rectangle);
 
         rectEl.IsDirty = false;
+    }
+    Clear(): void {
+        ConsoleHelper.Log("RectangleRenderer.Clear");
+
+        if (this.PixiElement !== undefined) {
+            this.Element.Platform.Renderer.PixiStage.removeChild(this.PixiElement);
+            this.PixiElement = null;
+        }
     }
 }

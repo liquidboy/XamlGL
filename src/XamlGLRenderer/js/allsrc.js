@@ -3125,7 +3125,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     ConsoleHelper_4.ConsoleHelper.Log("GridRenderer.Draw");
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
-                    super.PixiElement = containerGrid;
+                    this.PixiElement = containerGrid;
                     if (!gridEl.IsDirty) {
                         return;
                     }
@@ -3166,6 +3166,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                         }
                     });
                     gridEl.IsDirty = false;
+                }
+                Clear() {
+                    ConsoleHelper_4.ConsoleHelper.Log("GridRenderer.Clear");
+                    if (this.Element.Parent.Renderer === undefined) {
+                        this.Element.Platform.Renderer.PixiStage.removeChild(this.PixiElement);
+                    }
+                    else {
+                        if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                            let parentContainer = this.Element.Parent.Renderer.PixiElement;
+                            parentContainer.removeChild(this.PixiElement);
+                        }
+                    }
                 }
             };
             exports_50("GridRenderer", GridRenderer);
@@ -3222,6 +3234,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
                         }
                     }
                     gridEl.IsDirty = false;
+                }
+                Clear() {
+                    ConsoleHelper_5.ConsoleHelper.Log("StackPanelRenderer.Clear");
+                    if (this.Element.Parent.Renderer === undefined) {
+                        this.Element.Platform.Renderer.PixiStage.removeChild(this.PixiElement);
+                    }
+                    else {
+                        if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                            let parentContainer = this.Element.Parent.Renderer.PixiElement;
+                            parentContainer.removeChild(this.PixiElement);
+                        }
+                    }
                 }
             };
             exports_51("StackPanelRenderer", StackPanelRenderer);
@@ -3702,8 +3726,15 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
                     rectangle.endFill();
                     rectangle.x = rectEl.Margin.Left;
                     rectangle.y = rectEl.Margin.Top;
-                    super.Element.Platform.Renderer.PixiStage.addChild(rectangle);
+                    this.Element.Platform.Renderer.PixiStage.addChild(rectangle);
                     rectEl.IsDirty = false;
+                }
+                Clear() {
+                    ConsoleHelper_7.ConsoleHelper.Log("RectangleRenderer.Clear");
+                    if (this.PixiElement !== undefined) {
+                        this.Element.Platform.Renderer.PixiStage.removeChild(this.PixiElement);
+                        this.PixiElement = null;
+                    }
                 }
             };
             exports_68("RectangleRenderer", RectangleRenderer);

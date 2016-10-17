@@ -12,7 +12,7 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 // import { PathGeometry } from "./../../../../Controls/PathGeometry";
 import { CheckBox } from "./../../../../Controls/CheckBox";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
-import { PathGeometry } from "./../../../../Controls/PathGeometry";
+// import { PathGeometry } from "./../../../../Controls/PathGeometry";
 // import { PathFigure } from "./../../../../Controls/PathFigure";
 // import { LineSegment } from "./../../../../Controls/LineSegment";
 // import { BezierSegment } from "./../../../../Controls/BezierSegment";

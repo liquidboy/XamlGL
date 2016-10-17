@@ -23,7 +23,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         let gridEl: Grid = <Grid>super.Element;
 
         let containerGrid: PIXI.Container = new PIXI.Container();
-        super.PixiElement = containerGrid;
+        this.PixiElement = containerGrid;
 
         if (!gridEl.IsDirty) {
             return;
@@ -91,5 +91,16 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         });
 
         gridEl.IsDirty = false;
+    }
+    Clear(): void {
+        ConsoleHelper.Log("GridRenderer.Clear");
+        if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
+            this.Element.Platform.Renderer.PixiStage.removeChild(this.PixiElement);
+        } else {
+            if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                let parentContainer: PIXI.Container = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+                parentContainer.removeChild(this.PixiElement);
+            }
+        }
     }
 }

@@ -61,4 +61,15 @@ export class StackPanelRenderer extends BaseRenderer implements IControlRenderer
 
         gridEl.IsDirty = false;
     }
+    Clear(): void {
+        ConsoleHelper.Log("StackPanelRenderer.Clear");
+        if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
+            this.Element.Platform.Renderer.PixiStage.removeChild(this.PixiElement);
+        } else {
+            if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                let parentContainer: PIXI.Container = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+                parentContainer.removeChild(this.PixiElement);
+            }
+        }
+    }
 }
