@@ -4066,8 +4066,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     buttonEl.IsDirty = false;
                 }
                 ShowTooltip(r, buttonEl, parentContainer, containerGrid) {
-                    if (buttonEl.IsTooltipVisible)
+                    if (buttonEl.IsTooltipVisible) {
                         return;
+                    }
                     buttonEl.IsTooltipVisible = true;
                     let tooltipHeight = 80;
                     let tooltipWidth = 120;
@@ -4097,6 +4098,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     }
                 }
                 HideTooltip(buttonEl) {
+                    if (!buttonEl.IsTooltipVisible) {
+                        return;
+                    }
                     this.GeneralHideTooltip();
                     buttonEl.IsTooltipVisible = false;
                 }

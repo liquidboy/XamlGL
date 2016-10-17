@@ -155,7 +155,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                     } else {
                         this.ShowTooltip(r, buttonEl, parentContainer, containerGrid);
                     }
-                    
+
                 }
             }
         });
@@ -175,8 +175,10 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         buttonEl.IsDirty = false;
     }
-    ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.Container): void{
-        if (buttonEl.IsTooltipVisible) return;
+    ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.Container): void {
+        if (buttonEl.IsTooltipVisible) {
+            return;
+        }
 
         buttonEl.IsTooltipVisible = true;
         let tooltipHeight: number = 80;
@@ -211,6 +213,10 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         }
     }
     HideTooltip(buttonEl: Button): void {
+        if (!buttonEl.IsTooltipVisible) {
+            return;
+        }
+
         this.GeneralHideTooltip();
         buttonEl.IsTooltipVisible = false;
     }

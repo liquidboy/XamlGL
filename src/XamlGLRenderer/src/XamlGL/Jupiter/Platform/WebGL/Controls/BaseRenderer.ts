@@ -234,7 +234,7 @@ export class BaseRenderer implements IControlRenderer {
         }
     }
 
-    public GeneralHideTooltip() {
+    public GeneralHideTooltip(): void {
         if (this._tooltip !== null || this._tooltip !== undefined) {
             let buttonParent: Panel = <Panel>this.Element.Parent;
             this._tooltip.Renderer.Clear();
