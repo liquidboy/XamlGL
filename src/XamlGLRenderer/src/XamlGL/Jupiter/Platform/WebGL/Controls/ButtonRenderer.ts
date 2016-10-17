@@ -123,17 +123,19 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         // update the UI based on interaction events and the render DRAW loop
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this._containerGrid)) {
+                this.IsBeingHitWithPointer(r, args);
                 backgroundSprite.alpha = 1;
                 this.Scale = this._isPressed ? 0.98 : 1.02;
                 this._blurToUse = buttonEl.BlurAmount;
-                RendererHelper.SetCursorToPointer(r);
+                // rendererHelper.SetCursorToPointer(r);
                 this.ShowTooltip(r, buttonEl, parentContainer, this._containerGrid);
             } else {
+                this.IsNotBeingHitWithPointer(r, args);
                 backgroundSprite.alpha = 0.95;
                 this.Scale = 1.0;
                 this._blurToUse = 1.0;
                 this.HideTooltip(buttonEl);
-                RendererHelper.SetCursorToAuto(r);
+                // rendererHelper.SetCursorToAuto(r);
             }
             if (buttonEl.BlurAmount > 0) {
                 blurFilter.blur = this._blurToUse;

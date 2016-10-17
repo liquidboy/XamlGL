@@ -1,9 +1,9 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-// import { Renderer } from "./../Renderer";
+import { IRenderer } from "./../../IRenderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
-// import { IEventArgs } from "./../../../../Events/IEventArgs";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
@@ -73,7 +73,7 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
 
         polygonGraphics.x = this.Element.CalculatedX + parentXYStart.X;
         polygonGraphics.y = this.Element.CalculatedY + parentXYStart.Y;
-        
+
         parentContainer.addChild(polygonGraphics);
 
         // filters
@@ -88,6 +88,17 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
 
         // tell the parent stackpanel the next available slot
         this.IncrementNextAvailableSlot();
+
+        // update the UI based on interaction events and the render DRAW loop
+        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(parentContainer)) {
+                this.IsBeingHitWithPointer(r, args);
+            } else {
+                this.IsNotBeingHitWithPointer(r, args);
+            }
+        });
+
+
 
         pathEl.IsDirty = false;
     }

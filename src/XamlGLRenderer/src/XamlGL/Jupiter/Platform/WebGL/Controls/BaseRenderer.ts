@@ -16,6 +16,8 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { StackPanel } from "./../../../../Controls/StackPanel";
 import { Orientation } from "./../../../../DataTypes/Orientation";
 import { ToolTip } from "./../../../../Controls/ToolTip";
+import { IRenderer } from "./../../IRenderer";
+import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class BaseRenderer implements IControlRenderer {
 
@@ -117,7 +119,12 @@ export class BaseRenderer implements IControlRenderer {
     Clear(): void {
         // todo : fill
     }
-
+    public IsBeingHitWithPointer(r: IRenderer, args: IEventArgs): void {
+        RendererHelper.SetCursorToPointer(r);
+    }
+    public IsNotBeingHitWithPointer(r: IRenderer, args: IEventArgs): void {
+        RendererHelper.SetCursorToAuto(r);
+    }
     public CalculateYHeight(backingControl: IFrameworkElement): void {
         if (backingControl.Height !== null && backingControl.Height > 0) {
             this.Element.CalculatedHeight = backingControl.Height;

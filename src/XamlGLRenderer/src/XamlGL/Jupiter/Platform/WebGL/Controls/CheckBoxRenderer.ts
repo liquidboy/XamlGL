@@ -111,6 +111,13 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
+        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(containerGrid)) {
+                this.IsBeingHitWithPointer(r, args);
+            } else {
+                this.IsNotBeingHitWithPointer(r, args);
+            }
+        });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");

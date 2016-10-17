@@ -2651,10 +2651,10 @@ System.register("XamlGL/Controls/ToolTip", ["XamlGL/Controls/Panel", "XamlGL/Dat
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Point", "XamlGL/Controls/Panel", "XamlGL/Events/EventDispatcher", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/StackPanel", "XamlGL/DataTypes/Orientation", "XamlGL/Controls/ToolTip"], function(exports_46, context_46) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Point", "XamlGL/Controls/Panel", "XamlGL/Events/EventDispatcher", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/StackPanel", "XamlGL/DataTypes/Orientation", "XamlGL/Controls/ToolTip", "XamlGL/Utils/RendererHelper"], function(exports_46, context_46) {
     "use strict";
     var __moduleName = context_46 && context_46.id;
-    var HorizontalAlignment_2, VerticalAlignment_2, Point_1, Panel_3, EventDispatcher_4, ConsoleHelper_1, StackPanel_1, Orientation_1, ToolTip_1;
+    var HorizontalAlignment_2, VerticalAlignment_2, Point_1, Panel_3, EventDispatcher_4, ConsoleHelper_1, StackPanel_1, Orientation_1, ToolTip_1, RendererHelper_1;
     var BaseRenderer;
     return {
         setters:[
@@ -2684,6 +2684,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
             },
             function (ToolTip_1_1) {
                 ToolTip_1 = ToolTip_1_1;
+            },
+            function (RendererHelper_1_1) {
+                RendererHelper_1 = RendererHelper_1_1;
             }],
         execute: function() {
             BaseRenderer = class BaseRenderer {
@@ -2749,6 +2752,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                 Draw() {
                 }
                 Clear() {
+                }
+                IsBeingHitWithPointer(r, args) {
+                    RendererHelper_1.RendererHelper.SetCursorToPointer(r);
+                }
+                IsNotBeingHitWithPointer(r, args) {
+                    RendererHelper_1.RendererHelper.SetCursorToAuto(r);
                 }
                 CalculateYHeight(backingControl) {
                     if (backingControl.Height !== null && backingControl.Height > 0) {
@@ -2943,7 +2952,7 @@ System.register("XamlGL/Controls/Grid", ["XamlGL/Controls/Panel"], function(expo
 System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_49, context_49) {
     "use strict";
     var __moduleName = context_49 && context_49.id;
-    var BaseRenderer_2, ConsoleHelper_3, RendererHelper_1;
+    var BaseRenderer_2, ConsoleHelper_3, RendererHelper_2;
     var GridRenderer;
     return {
         setters:[
@@ -2953,8 +2962,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
             function (ConsoleHelper_3_1) {
                 ConsoleHelper_3 = ConsoleHelper_3_1;
             },
-            function (RendererHelper_1_1) {
-                RendererHelper_1 = RendererHelper_1_1;
+            function (RendererHelper_2_1) {
+                RendererHelper_2 = RendererHelper_2_1;
             }],
         execute: function() {
             GridRenderer = class GridRenderer extends BaseRenderer_2.BaseRenderer {
@@ -2982,7 +2991,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                             widthToUse = this.Element.CalculatedWidth;
                         }
                         let rectangle = new PIXI.Graphics();
-                        rectangle.beginFill(RendererHelper_1.RendererHelper.HashToColorNumber(gridEl.Background));
+                        rectangle.beginFill(RendererHelper_2.RendererHelper.HashToColorNumber(gridEl.Background));
                         rectangle.drawRect(0, 0, widthToUse, heightToUse);
                         rectangle.endFill();
                         containerGrid.addChild(rectangle);
@@ -3027,7 +3036,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
 System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_50, context_50) {
     "use strict";
     var __moduleName = context_50 && context_50.id;
-    var BaseRenderer_3, ConsoleHelper_4, RendererHelper_2;
+    var BaseRenderer_3, ConsoleHelper_4, RendererHelper_3;
     var StackPanelRenderer;
     return {
         setters:[
@@ -3037,8 +3046,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
             function (ConsoleHelper_4_1) {
                 ConsoleHelper_4 = ConsoleHelper_4_1;
             },
-            function (RendererHelper_2_1) {
-                RendererHelper_2 = RendererHelper_2_1;
+            function (RendererHelper_3_1) {
+                RendererHelper_3 = RendererHelper_3_1;
             }],
         execute: function() {
             StackPanelRenderer = class StackPanelRenderer extends BaseRenderer_3.BaseRenderer {
@@ -3059,7 +3068,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
                     containerGrid.width = super.Element.CalculatedWidth;
                     if (gridEl.Background !== undefined) {
                         let rectangle = new PIXI.Graphics();
-                        rectangle.beginFill(RendererHelper_2.RendererHelper.HashToColorNumber(gridEl.Background));
+                        rectangle.beginFill(RendererHelper_3.RendererHelper.HashToColorNumber(gridEl.Background));
                         rectangle.drawRect(0, 0, super.Element.CalculatedWidth, super.Element.CalculatedHeight);
                         rectangle.endFill();
                         containerGrid.addChild(rectangle);
@@ -3534,7 +3543,7 @@ System.register("XamlGL/Controls/Rectangle", ["XamlGL/Controls/Panel", "XamlGL/D
 System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_67, context_67) {
     "use strict";
     var __moduleName = context_67 && context_67.id;
-    var BaseRenderer_5, ConsoleHelper_6, RendererHelper_3;
+    var BaseRenderer_5, ConsoleHelper_6, RendererHelper_4;
     var RectangleRenderer;
     return {
         setters:[
@@ -3544,8 +3553,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
             function (ConsoleHelper_6_1) {
                 ConsoleHelper_6 = ConsoleHelper_6_1;
             },
-            function (RendererHelper_3_1) {
-                RendererHelper_3 = RendererHelper_3_1;
+            function (RendererHelper_4_1) {
+                RendererHelper_4 = RendererHelper_4_1;
             }],
         execute: function() {
             RectangleRenderer = class RectangleRenderer extends BaseRenderer_5.BaseRenderer {
@@ -3560,8 +3569,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
                     this.CalculateXWidth(rectEl);
                     this.UpdateCalculatedValuesUsingMargin(rectEl);
                     let rectangle = new PIXI.Graphics();
-                    rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_3.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
-                    rectangle.beginFill(RendererHelper_3.RendererHelper.HashToColorNumber(rectEl.Background));
+                    rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_4.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
+                    rectangle.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(rectEl.Background));
                     rectangle.drawRect(0, 0, super.Element.Width, super.Element.Height);
                     rectangle.endFill();
                     rectangle.x = rectEl.Margin.Left;
@@ -3771,7 +3780,7 @@ System.register("XamlGL/Controls/Button", ["XamlGL/Controls/Panel"], function(ex
 System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/DockPosition"], function(exports_73, context_73) {
     "use strict";
     var __moduleName = context_73 && context_73.id;
-    var BaseRenderer_7, ConsoleHelper_8, RendererHelper_4, DockPosition_3;
+    var BaseRenderer_7, ConsoleHelper_8, RendererHelper_5, DockPosition_3;
     var ButtonRenderer;
     return {
         setters:[
@@ -3781,8 +3790,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
             function (ConsoleHelper_8_1) {
                 ConsoleHelper_8 = ConsoleHelper_8_1;
             },
-            function (RendererHelper_4_1) {
-                RendererHelper_4 = RendererHelper_4_1;
+            function (RendererHelper_5_1) {
+                RendererHelper_5 = RendererHelper_5_1;
             },
             function (DockPosition_3_1) {
                 DockPosition_3 = DockPosition_3_1;
@@ -3820,9 +3829,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         let heightToUse = (buttonEl.Height === null || buttonEl.Height === 0) ? this.ParentHeight : buttonEl.Height;
                         background = new PIXI.Graphics();
                         if (buttonEl.BorderThickness !== null && buttonEl.BorderThickness.Left > 0) {
-                            background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
+                            background.lineStyle(buttonEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(buttonEl.BorderBrush), 1);
                         }
-                        background.beginFill(RendererHelper_4.RendererHelper.HashToColorNumber(buttonEl.Background), 1);
+                        background.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(buttonEl.Background), 1);
                         if (buttonEl.CornerRadius.TopLeft > 0) {
                             background.drawRoundedRect(0, 0, widthToUse, heightToUse, buttonEl.CornerRadius.TopLeft);
                         }
@@ -3858,18 +3867,18 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     }
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(this._containerGrid)) {
+                            this.IsBeingHitWithPointer(r, args);
                             backgroundSprite.alpha = 1;
                             this.Scale = this._isPressed ? 0.98 : 1.02;
                             this._blurToUse = buttonEl.BlurAmount;
-                            RendererHelper_4.RendererHelper.SetCursorToPointer(r);
                             this.ShowTooltip(r, buttonEl, parentContainer, this._containerGrid);
                         }
                         else {
+                            this.IsNotBeingHitWithPointer(r, args);
                             backgroundSprite.alpha = 0.95;
                             this.Scale = 1.0;
                             this._blurToUse = 1.0;
                             this.HideTooltip(buttonEl);
-                            RendererHelper_4.RendererHelper.SetCursorToAuto(r);
                         }
                         if (buttonEl.BlurAmount > 0) {
                             blurFilter.blur = this._blurToUse;
@@ -3948,7 +3957,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
 System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper"], function(exports_74, context_74) {
     "use strict";
     var __moduleName = context_74 && context_74.id;
-    var BaseRenderer_8, DockPosition_4, ConsoleHelper_9, RendererHelper_5;
+    var BaseRenderer_8, DockPosition_4, ConsoleHelper_9, RendererHelper_6;
     var ToolTipRenderer;
     return {
         setters:[
@@ -3961,8 +3970,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
             function (ConsoleHelper_9_1) {
                 ConsoleHelper_9 = ConsoleHelper_9_1;
             },
-            function (RendererHelper_5_1) {
-                RendererHelper_5 = RendererHelper_5_1;
+            function (RendererHelper_6_1) {
+                RendererHelper_6 = RendererHelper_6_1;
             }],
         execute: function() {
             ToolTipRenderer = class ToolTipRenderer extends BaseRenderer_8.BaseRenderer {
@@ -3990,14 +3999,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     container.x = 0;
                     container.y = 5;
                     let rectangle = new PIXI.Graphics();
-                    rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
-                    rectangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
+                    rectangle.lineStyle(rectEl.BorderThickness.Left, RendererHelper_6.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
+                    rectangle.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(rectEl.Background));
                     rectangle.drawRoundedRect(0, 0, this.Element.Width, this.Element.Height, rectEl.CornerRadius.BottomLeft);
                     rectangle.endFill();
                     rectangle.boundsPadding = 5;
                     container.addChild(rectangle);
                     var triangle = new PIXI.Graphics();
-                    triangle.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.Background));
+                    triangle.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(rectEl.Background));
                     if (rectEl.DockPosition === DockPosition_4.DockPosition.Top) {
                         triangle.drawPolygon([0, 12, -12, 0, 12, 0]);
                         triangle.y = this.Element.Height;
@@ -4026,8 +4035,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     container2.x = 0;
                     container2.y = 0;
                     let rectangle2 = new PIXI.Graphics();
-                    rectangle2.lineStyle(rectEl.BorderThickness.Left, RendererHelper_5.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
-                    rectangle2.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"));
+                    rectangle2.lineStyle(rectEl.BorderThickness.Left, RendererHelper_6.RendererHelper.HashToColorNumber(rectEl.BorderBrush), 1);
+                    rectangle2.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber("#FFFFFFFF"));
                     if (rectEl.DockPosition === DockPosition_4.DockPosition.Top) {
                         rectangle2.drawRoundedRect(0, 5, super.Element.Width, super.Element.Height - 5, rectEl.CornerRadius.BottomLeft);
                     }
@@ -4044,7 +4053,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     rectangle2.boundsPadding = 5;
                     container2.addChild(rectangle2);
                     var triangle2 = new PIXI.Graphics();
-                    triangle2.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"));
+                    triangle2.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber("#FFFFFFFF"));
                     if (rectEl.DockPosition === DockPosition_4.DockPosition.Top) {
                         triangle2.drawPolygon([0, 12, -12, 0, 12, 0]);
                         triangle2.x = this.Element.Width / 2;
@@ -4417,7 +4426,7 @@ System.register("XamlGL/Controls/ArcSegment", ["XamlGL/Controls/PathSegment"], f
         }
     }
 });
-System.register("XamlGL/utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_90, context_90) {
+System.register("XamlGL/Utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_90, context_90) {
     "use strict";
     var __moduleName = context_90 && context_90.id;
     var PathGeometry_1, PathFigure_1, LineSegment_1, BezierSegment_1, QuadraticBezierSegment_1, ArcSegment_1, FillRule_1, SweepDirection_1, Size_1, ConsoleHelper_10;
@@ -4821,10 +4830,10 @@ System.register("XamlGL/utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_91, context_91) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_91, context_91) {
     "use strict";
     var __moduleName = context_91 && context_91.id;
-    var BaseRenderer_9, ConsoleHelper_11, RendererHelper_6, MiniPathLanguageHelper_1;
+    var BaseRenderer_9, ConsoleHelper_11, RendererHelper_7, MiniPathLanguageHelper_1;
     var PathRenderer;
     return {
         setters:[
@@ -4834,8 +4843,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
             function (ConsoleHelper_11_1) {
                 ConsoleHelper_11 = ConsoleHelper_11_1;
             },
-            function (RendererHelper_6_1) {
-                RendererHelper_6 = RendererHelper_6_1;
+            function (RendererHelper_7_1) {
+                RendererHelper_7 = RendererHelper_7_1;
             },
             function (MiniPathLanguageHelper_1_1) {
                 MiniPathLanguageHelper_1 = MiniPathLanguageHelper_1_1;
@@ -4854,8 +4863,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     this.CalculateXWidth(pathEl);
                     this.UpdateCalculatedValuesUsingMargin(pathEl);
                     let polygonGraphics = new PIXI.Graphics();
-                    polygonGraphics.beginFill(RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Fill), pathEl.Fill.length > 0 ? 1 : 0);
-                    polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper_6.RendererHelper.HashToColorNumber(pathEl.Stroke));
+                    polygonGraphics.beginFill(RendererHelper_7.RendererHelper.HashToColorNumber(pathEl.Fill), pathEl.Fill.length > 0 ? 1 : 0);
+                    polygonGraphics.lineStyle(pathEl.StrokeThickness, RendererHelper_7.RendererHelper.HashToColorNumber(pathEl.Stroke));
                     MiniPathLanguageHelper_1.MiniPathLanguageHelper.parse(pathEl.Data, polygonGraphics);
                     polygonGraphics.scale = new PIXI.Point(pathEl.Scale, pathEl.Scale);
                     polygonGraphics.endFill();
@@ -4871,6 +4880,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     }
                     this.Element.Platform.Renderer.PixiRenderer.render(parentContainer);
                     this.IncrementNextAvailableSlot();
+                    this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
+                        if (r.Pointer.hitTestSprite(parentContainer)) {
+                            this.IsBeingHitWithPointer(r, args);
+                        }
+                        else {
+                            this.IsNotBeingHitWithPointer(r, args);
+                        }
+                    });
                     pathEl.IsDirty = false;
                 }
             };
@@ -4947,10 +4964,10 @@ System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton", "Xa
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_94, context_94) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_94, context_94) {
     "use strict";
     var __moduleName = context_94 && context_94.id;
-    var BaseRenderer_10, ConsoleHelper_12, RendererHelper_7, MiniPathLanguageHelper_2;
+    var BaseRenderer_10, ConsoleHelper_12, RendererHelper_8, MiniPathLanguageHelper_2;
     var CheckBoxRenderer;
     return {
         setters:[
@@ -4960,8 +4977,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
             function (ConsoleHelper_12_1) {
                 ConsoleHelper_12 = ConsoleHelper_12_1;
             },
-            function (RendererHelper_7_1) {
-                RendererHelper_7 = RendererHelper_7_1;
+            function (RendererHelper_8_1) {
+                RendererHelper_8 = RendererHelper_8_1;
             },
             function (MiniPathLanguageHelper_2_1) {
                 MiniPathLanguageHelper_2 = MiniPathLanguageHelper_2_1;
@@ -4989,12 +5006,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                     containerGrid.height = this.Element.CalculatedHeight;
                     containerGrid.width = this.Element.CalculatedWidth;
                     let bottomGraphicsLayer = new PIXI.Graphics();
-                    bottomGraphicsLayer.beginFill(RendererHelper_7.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
-                    bottomGraphicsLayer.lineStyle(2, RendererHelper_7.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
+                    bottomGraphicsLayer.beginFill(RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
+                    bottomGraphicsLayer.lineStyle(2, RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
                     MiniPathLanguageHelper_2.MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, bottomGraphicsLayer);
                     bottomGraphicsLayer.endFill();
                     let topGraphicsLayer = new PIXI.Graphics();
-                    topGraphicsLayer.beginFill(RendererHelper_7.RendererHelper.HashToColorNumber(checkboxEl.Foreground), 1);
+                    topGraphicsLayer.beginFill(RendererHelper_8.RendererHelper.HashToColorNumber(checkboxEl.Foreground), 1);
                     MiniPathLanguageHelper_2.MiniPathLanguageHelper.parse(checkboxEl.CheckedPath, topGraphicsLayer);
                     topGraphicsLayer.alpha = checkboxEl.IsChecked ? 1 : 0;
                     topGraphicsLayer.endFill();
@@ -5017,6 +5034,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                             parentContainer.addChild(containerGrid);
                         }
                     }
+                    this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
+                        if (r.Pointer.hitTestSprite(containerGrid)) {
+                            this.IsBeingHitWithPointer(r, args);
+                        }
+                        else {
+                            this.IsNotBeingHitWithPointer(r, args);
+                        }
+                    });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(containerGrid)) {
                             ConsoleHelper_12.ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");
@@ -5212,7 +5237,7 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
 System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Guid", "Libs/typescript-collections/src/lib/index", "XamlGL/Utils/ConsoleHelper", "XamlGL/Events/EventDispatcher", "XamlGL/Utils/RendererHelper"], function(exports_96, context_96) {
     "use strict";
     var __moduleName = context_96 && context_96.id;
-    var Guid_4, index_4, ConsoleHelper_14, EventDispatcher_8, RendererHelper_8;
+    var Guid_4, index_4, ConsoleHelper_14, EventDispatcher_8, RendererHelper_9;
     var Renderer, RendererFactory, RendererResource;
     return {
         setters:[
@@ -5228,8 +5253,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
             function (EventDispatcher_8_1) {
                 EventDispatcher_8 = EventDispatcher_8_1;
             },
-            function (RendererHelper_8_1) {
-                RendererHelper_8 = RendererHelper_8_1;
+            function (RendererHelper_9_1) {
+                RendererHelper_9 = RendererHelper_9_1;
             }],
         execute: function() {
             Renderer = class Renderer {
@@ -5250,7 +5275,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                 }
                 get UniqueID() { return this.UniqueID; }
                 get PixiStage() { return this._stage; }
-                get Pointer() { return RendererHelper_8.RendererHelper.TinkPointer; }
+                get Pointer() { return RendererHelper_9.RendererHelper.TinkPointer; }
                 get PixiRenderer() { return this._renderer; }
                 get Draw() { return this._draw; }
                 get PointerPressed() { return this._pointerPressed; }
@@ -5289,11 +5314,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
                     }
                 }
                 InitializeTink() {
-                    RendererHelper_8.RendererHelper.InitializeTink(this.PixiRenderer.view);
-                    RendererHelper_8.RendererHelper.TinkPointer.press = () => this._pointerPressed.dispatch(this, null);
-                    RendererHelper_8.RendererHelper.TinkPointer.release = () => this._pointerReleased.dispatch(this, null);
-                    RendererHelper_8.RendererHelper.TinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
-                    RendererHelper_8.RendererHelper.Draw.subscribe(() => {
+                    RendererHelper_9.RendererHelper.InitializeTink(this.PixiRenderer.view);
+                    RendererHelper_9.RendererHelper.TinkPointer.press = () => this._pointerPressed.dispatch(this, null);
+                    RendererHelper_9.RendererHelper.TinkPointer.release = () => this._pointerReleased.dispatch(this, null);
+                    RendererHelper_9.RendererHelper.TinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
+                    RendererHelper_9.RendererHelper.Draw.subscribe(() => {
                         this._draw.dispatch(this, null);
                         this._renderer.render(this.PixiStage);
                     });
@@ -5380,7 +5405,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Renderer", ["XamlGL/DataTypes/Gui
 System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_97, context_97) {
     "use strict";
     var __moduleName = context_97 && context_97.id;
-    var Renderer_2, Panel_8, RendererHelper_9, ConsoleHelper_15;
+    var Renderer_2, Panel_8, RendererHelper_10, ConsoleHelper_15;
     var Platform;
     return {
         setters:[
@@ -5390,8 +5415,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
             function (Panel_8_1) {
                 Panel_8 = Panel_8_1;
             },
-            function (RendererHelper_9_1) {
-                RendererHelper_9 = RendererHelper_9_1;
+            function (RendererHelper_10_1) {
+                RendererHelper_10 = RendererHelper_10_1;
             },
             function (ConsoleHelper_15_1) {
                 ConsoleHelper_15 = ConsoleHelper_15_1;
@@ -5442,10 +5467,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                 }
                 Draw(content) {
                     ConsoleHelper_15.ConsoleHelper.LogSectionHeader("Platform:Draw");
-                    RendererHelper_9.RendererHelper.DrawPanel(content, false);
+                    RendererHelper_10.RendererHelper.DrawPanel(content, false);
                 }
                 CreateControlRenderer(element) {
-                    return RendererHelper_9.RendererHelper.FrameworkElementToRenderer(element);
+                    return RendererHelper_10.RendererHelper.FrameworkElementToRenderer(element);
                 }
             };
             exports_97("Platform", Platform);
