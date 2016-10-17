@@ -9,16 +9,17 @@ import { ConsoleHelper } from "./../../../Utils/ConsoleHelper";
 import { IEventArgs } from "./../../../Events/IEventArgs";
 import { EventDispatcher } from "./../../../Events/EventDispatcher";
 import { IEvent } from "./../../../Events/IEvent";
+import { RendererHelper } from "./../../../Utils/RendererHelper";
 
-declare var TinkLib: any;
+// declare var TinkLib: any;
 
 export class Renderer implements IRenderer {
 
     private _uniqueId: string;
     private _stage: PIXI.Container;
     private _renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private _tink: any;
-    private _tinkPointer: any;
+    // private _tink: any;
+    // private _tinkPointer: any;
     private _resourceIds: Dictionary<string, RendererResource>;
     private _draw: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
     private _pointerPressed: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
@@ -27,7 +28,7 @@ export class Renderer implements IRenderer {
 
     get UniqueID(): string { return this.UniqueID; }
     get PixiStage(): PIXI.Container { return this._stage; }
-    get Pointer(): any { return this._tinkPointer; }
+    get Pointer(): any { return RendererHelper.TinkPointer; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
     get Draw(): IEvent<Renderer, IEventArgs> { return this._draw; }
     get PointerPressed(): IEvent<Renderer, IEventArgs> { return this._pointerPressed; }
@@ -46,7 +47,7 @@ export class Renderer implements IRenderer {
 
         htmlCanvasHost.append(this.PixiRenderer.view);
         this.InitializeTink();
-        this.RenderLoop.call(this);
+        // this.RenderLoop.call(this);
     }
 
     public Resize(width: number, height: number): void {
@@ -59,12 +60,7 @@ export class Renderer implements IRenderer {
     }
 
     public Clear(): void {
-        if (this._tinkPointer != null) {
-            this._tinkPointer.press = null;
-            this._tinkPointer.release = null;
-            this._tinkPointer.tap = null;
-            this._tinkPointer = null;
-        }
+        // todo: cleanup renderer
     }
 
     public ResizeFullWidth(height: number): void {
@@ -91,12 +87,14 @@ export class Renderer implements IRenderer {
     }
 
     private InitializeTink(): void {
-        this._tink = new TinkLib(PIXI, this.PixiRenderer.view);
-        this._tinkPointer = this._tink.makePointer();
-        this._tinkPointer.visible = true;
-        this._tinkPointer.press = () => this._pointerPressed.dispatch(this, null);
-        this._tinkPointer.release = () => this._pointerReleased.dispatch(this, null);
-        this._tinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
+        RendererHelper.InitializeTink(this.PixiRenderer.view);
+        RendererHelper.TinkPointer.press = () => this._pointerPressed.dispatch(this, null);
+        RendererHelper.TinkPointer.release = () => this._pointerReleased.dispatch(this, null);
+        RendererHelper.TinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
+        RendererHelper.Draw.subscribe(() => {
+            this._draw.dispatch(this, null);
+            this._renderer.render(this.PixiStage);
+        });
     }
 
     private LoadResourceImage(url: string): PIXI.loaders.Loader {
@@ -170,16 +168,6 @@ export class Renderer implements IRenderer {
     public InitializeLoadingResource(url: string): PIXI.loaders.Loader {
         return this.InitializeResource("loading", url);
     }
-
-    public RenderLoop(): void {
-        this._tink.update();
-        this._draw.dispatch(this, null);
-
-        this._renderer.render(this.PixiStage);
-
-        window.requestAnimationFrame(this.RenderLoop.bind(this));
-    }
-
 }
 
 

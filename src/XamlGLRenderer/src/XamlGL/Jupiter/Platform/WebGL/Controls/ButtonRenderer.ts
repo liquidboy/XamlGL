@@ -124,18 +124,18 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         // update the UI based on interaction events and the render DRAW loop
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            // consoleHelper.Log("Button Draw");
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 backgroundSprite.alpha = 1;
                 this.Scale = this._isPressed ? 0.98 : 1.02;
                 this._blurToUse = buttonEl.BlurAmount;
+                RendererHelper.SetCursorToPointer(r);
                 this.ShowTooltip(r, buttonEl, parentContainer, containerGrid);
-                r.Pointer.cursor = "pointer";
             } else {
                 backgroundSprite.alpha = 0.95;
                 this.Scale = 1.0;
                 this._blurToUse = 1.0;
                 this.HideTooltip(buttonEl);
+                RendererHelper.SetCursorToAuto(r);
             }
             if (buttonEl.BlurAmount > 0) {
                 blurFilter.blur = this._blurToUse;
@@ -144,11 +144,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             // parentContainer.rotation += 0.001;
             // console.log(this._cursorToUse);
         });
-        
-        //        r.Pointer.cursor = "pointer";
-        
-        //        r.Pointer.cursor = "auto";
-        
+
+
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(containerGrid)) {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
@@ -166,7 +163,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
                 this._isPressed = false;
             }
         });
-        
+
         buttonEl.IsDirty = false;
     }
     ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.Container): void {
@@ -210,7 +207,6 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         if (!buttonEl.HasToolTip || !buttonEl.IsTooltipVisible) {
             return;
         }
-
         this.GeneralHideTooltip();
         buttonEl.IsTooltipVisible = false;
     }

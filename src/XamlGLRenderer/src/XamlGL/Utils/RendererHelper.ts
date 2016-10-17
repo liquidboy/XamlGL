@@ -2,6 +2,10 @@
 import { IUIElement } from "./../Jupiter/IUIElement";
 import { IControlRenderer } from "./../Jupiter/Platform/IControlRenderer";
 import { DefaultRenderer } from "./../Jupiter/Platform/WebGL/Controls/DefaultRenderer";
+import { EventDispatcher } from "./../Events/EventDispatcher";
+import { IEvent } from "./../Events/IEvent";
+import { IEventArgs } from "./../Events/IEventArgs";
+import { IRenderer } from "./../Jupiter/Platform/IRenderer";
 
 import { Grid } from "./../Controls/Grid";
 import { GridRenderer } from "./../Jupiter/Platform/WebGL/Controls/GridRenderer";
@@ -33,7 +37,57 @@ import { PathRenderer } from "./../Jupiter/Platform/WebGL/Controls/PathRenderer"
 import { CheckBox } from "./../Controls/CheckBox";
 import { CheckBoxRenderer } from "./../Jupiter/Platform/WebGL/Controls/CheckBoxRenderer";
 
+declare var TinkLib: any;
+
 export class RendererHelper {
+    // one draw for the entire APP
+    private static _draw: EventDispatcher<RendererHelper, IEventArgs> = new EventDispatcher<RendererHelper, IEventArgs>();
+    static get Draw(): IEvent<RendererHelper, IEventArgs> { return this._draw; }
+
+    public static TinkInstance: any = null; // one instance of Tink for the entire APP
+    public static TinkPointer: any = null; // one pointer for the entire APP
+    public static InitializeTink(pixiRendererView: any): void {
+        console.log("RendererHelper.InitializeTink");
+        if (this.TinkInstance === null) {
+            this.TinkInstance = new TinkLib(PIXI, pixiRendererView);
+            this.TinkPointer = this.TinkInstance.makePointer();
+            this.TinkPointer.visible = true;
+            this.RenderLoop();
+        }
+    }
+    // one renderloop for the entire APP
+    private static RenderLoop(): void {
+        // console.log("RendererHelper.RenderLoop");
+        this.TinkInstance.update();
+        this._draw.dispatch(this, null);
+        window.requestAnimationFrame(this.RenderLoop.bind(this));
+    }
+
+    private static _cursorToAutoTimer = 0;
+    private static _currentCursor = "auto";
+    public static SetCursorToAuto(r: IRenderer): void {
+        if (this._currentCursor === "auto") {
+            clearTimeout(this._cursorToAutoTimer);
+            return;
+        }
+        if (this._cursorToAutoTimer > 0) {
+            return;
+            // clearTimeout(this._cursorToAutoTimer);
+        }
+        // console.log("clear");
+        this._cursorToAutoTimer = setTimeout(() => {
+            this._currentCursor = r.Pointer.cursor = "auto"; this._cursorToAutoTimer = 0;
+        }, 200);
+    }
+    public static SetCursorToPointer(r: IRenderer): void {
+        if (this._cursorToAutoTimer > 0) {
+            clearTimeout(this._cursorToAutoTimer);
+        }
+        // console.log("auto");
+        this._currentCursor = r.Pointer.cursor = "pointer";
+        this._cursorToAutoTimer = 0;
+    }
+
     public static FrameworkElementToRenderer(element: IFrameworkElement): IControlRenderer {
 
         if (element instanceof Grid) {
