@@ -1,5 +1,6 @@
 ﻿import { UIElement } from "./UIElement";
 import { IFrameworkElement } from "./IFrameworkElement";
+import { ITooltip } from "./ITooltip";
 import { IControlRenderer } from "./Platform/IControlRenderer";
 import { IEventArgs } from "./../Events/IEventArgs";
 import { EventDispatcher } from "./../Events/EventDispatcher";
@@ -9,7 +10,7 @@ import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
 import { DockPosition } from "./../DataTypes/DockPosition";
 
-export class FrameworkElement extends UIElement implements IFrameworkElement {
+export class FrameworkElement extends UIElement implements IFrameworkElement, ITooltip {
     private _width: number;
     private _height: number;
     private _margin: Thickness;
@@ -25,6 +26,11 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     private _hasToolTip: boolean = false;
     private _tooltipDockPosition: DockPosition = DockPosition.Top;
     private _isTooltipVisible: boolean = false;
+    private _tooltipMargin: Thickness;
+    private _tooltipWidth: number;
+    private _tooltipHeight: number;
+    private _tooltipBackground: string;
+    private _tooltipBorder: string;
 
     // private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
     // private _childRemoved: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
@@ -46,6 +52,11 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     get HasToolTip(): boolean { return this._hasToolTip; }
     get TooltipDockPosition(): DockPosition { return this._tooltipDockPosition; }
     get IsTooltipVisible(): boolean { return this._isTooltipVisible; }
+    get TooltipMargin(): Thickness { return this._tooltipMargin; }
+    get TooltipWidth(): number { return this._tooltipWidth; }
+    get TooltipHeight(): number { return this._tooltipHeight; }
+    get TooltipBackground(): string { return this._tooltipBackground; }
+    get TooltipBorder(): string { return this._tooltipBorder; }
 
     set Width(value: number) { this._width = value; }
     set Height(value: number) { this._height = value; }
@@ -62,6 +73,11 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
     set HasToolTip(value: boolean) { this._hasToolTip = value; }
     set TooltipDockPosition(value: DockPosition) { this._tooltipDockPosition = value; }
     set IsTooltipVisible(value: boolean) { this._isTooltipVisible = value; }
+    set TooltipMargin(value: Thickness) { this._tooltipMargin = value; }
+    set TooltipWidth(value: number) { this._tooltipWidth = value; }
+    set TooltipHeight(value: number) { this._tooltipHeight = value; }
+    set TooltipBackground(value: string) { this._tooltipBackground= value; }
+    set TooltipBorder(value: string) { this._tooltipBorder = value; }
 
     // get ChildAdded(): IEvent<FrameworkElement, IEventArgs> { return this._childAdded; }
     // get ChildRemoved(): IEvent<FrameworkElement, IEventArgs> { return this._childRemoved; }
@@ -72,7 +88,10 @@ export class FrameworkElement extends UIElement implements IFrameworkElement {
         super();
 
         this.Margin = new Thickness(0);
+        this.TooltipMargin = new Thickness(0);
         this.IsTooltipVisible = false;
+        this.TooltipBackground = "#FF000000";
+        this.TooltipBorder= "#FFFFFFFF";
     }
 }
 

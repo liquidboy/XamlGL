@@ -172,8 +172,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         }
 
         buttonEl.IsTooltipVisible = true;
-        let tooltipHeight: number = 80;
-        let tooltipWidth: number = 120;
+        let tooltipHeight: number = buttonEl.TooltipHeight > 0 ? buttonEl.TooltipHeight : 80;
+        let tooltipWidth: number = buttonEl.TooltipWidth > 0 ? buttonEl.TooltipWidth: 120;
 
         let topStart: number = 0;
         let leftStart: number = 0;
@@ -190,6 +190,9 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
             leftStart = parentContainer.x + containerGrid.position.x + buttonEl.Width + 15;
         }
+
+        topStart += buttonEl.TooltipMargin.Top;
+        leftStart += buttonEl.TooltipMargin.Left;
 
         if (buttonEl.HasToolTip) {
             this.GeneralShowTooltip(

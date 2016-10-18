@@ -143,6 +143,11 @@ export class XamlParser {
             button.ClickStr = this.StringToEmpty(node.attributes.getNamedItem("Click"));
             button.HasToolTip = this.StringToBoolean(node.attributes.getNamedItem("HasToolTip"));
             button.TooltipDockPosition = this.StringToDockPosition(node.attributes.getNamedItem("TooltipDockPosition"));
+            button.TooltipWidth = this.StringToNumber(node.attributes.getNamedItem("TooltipWidth"));
+            button.TooltipHeight = this.StringToNumber(node.attributes.getNamedItem("TooltipHeight"));
+            button.TooltipMargin = this.StringToThickness(node.attributes.getNamedItem("TooltipMargin"));
+            button.TooltipBorder = this.StringToColor(node.attributes.getNamedItem("TooltipBorder"));
+            button.TooltipBackground = this.StringToColor(node.attributes.getNamedItem("TooltipBackground"));
             return button;
         } else if (node.nodeName === "ToolTip") {
             let tooltip: ToolTip = new ToolTip();
@@ -151,9 +156,10 @@ export class XamlParser {
             tooltip.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             tooltip.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             tooltip.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
-            if (node.attributes.getNamedItem("Background") !== null) {
-                tooltip.Background = node.attributes.getNamedItem("Background").value;
-            }
+            tooltip.TooltipDockPosition = this.StringToDockPosition(node.attributes.getNamedItem("TooltipDockPosition"));
+            tooltip.TooltipBorder = this.StringToColor(node.attributes.getNamedItem("TooltipBorder"));
+            tooltip.TooltipBackground = this.StringToColor(node.attributes.getNamedItem("TooltipBackground"));
+            tooltip.Background = this.StringToColor(node.attributes.getNamedItem("Background"));
             return tooltip;
         } else if (node.nodeName === "Path") {
             let path: Path = new Path();
@@ -250,6 +256,12 @@ export class XamlParser {
             return 0;
         }
         return Number.parseInt(attr.value);
+    }
+    private static StringToColor(attr: Attr): string {
+        if (attr === null) {
+            return "#FFFFFFFF";
+        }
+        return attr.value;
     }
     private static StringToNumberFloat(attr: Attr): number {
         if (attr === null) {
