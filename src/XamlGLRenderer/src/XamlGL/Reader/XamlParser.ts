@@ -257,9 +257,9 @@ export class XamlParser {
         }
         return Number.parseInt(attr.value);
     }
-    private static StringToColor(attr: Attr): string {
+    private static StringToColor(attr: Attr, emptyCol: string = "#FFFFFFFF"): string {
         if (attr === null) {
-            return "#FFFFFFFF";
+            return emptyCol;
         }
         return attr.value;
     }

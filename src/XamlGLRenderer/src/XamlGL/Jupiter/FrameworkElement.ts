@@ -90,8 +90,8 @@ export class FrameworkElement extends UIElement implements IFrameworkElement, IT
         this.Margin = new Thickness(0);
         this.TooltipMargin = new Thickness(0);
         this.IsTooltipVisible = false;
-        this.TooltipBackground = "#FF000000";
-        this.TooltipBorder= "#FFFFFFFF";
+        this.TooltipBackground = "#FFffffff";
+        this.TooltipBorder= "#FF000000";
     }
 }
 

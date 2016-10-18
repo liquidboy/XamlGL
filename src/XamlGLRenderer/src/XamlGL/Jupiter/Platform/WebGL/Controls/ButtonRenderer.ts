@@ -171,6 +171,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             return;
         }
 
+        let pt00ContainerGrid: PIXI.Point = containerGrid.toGlobal(new PIXI.Point(0, 0));
+
         buttonEl.IsTooltipVisible = true;
         let tooltipHeight: number = buttonEl.TooltipHeight > 0 ? buttonEl.TooltipHeight : 80;
         let tooltipWidth: number = buttonEl.TooltipWidth > 0 ? buttonEl.TooltipWidth: 120;
@@ -178,26 +180,24 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         let topStart: number = 0;
         let leftStart: number = 0;
         if (buttonEl.TooltipDockPosition === DockPosition.Top) {
-            topStart = parentContainer.y + containerGrid.position.y - tooltipHeight - 20;
-            leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
+            topStart = pt00ContainerGrid.y - tooltipHeight - 20;
+            leftStart = pt00ContainerGrid.x - ((tooltipWidth - buttonEl.Width) / 2);
         } else if (buttonEl.TooltipDockPosition === DockPosition.Bottom) {
-            topStart = parentContainer.y + containerGrid.position.y + buttonEl.Height + 10;
-            leftStart = parentContainer.x + containerGrid.position.x - ((tooltipWidth - buttonEl.Width) / 2);
+            topStart = pt00ContainerGrid.y + buttonEl.Height + 10;
+            leftStart = pt00ContainerGrid.x - ((tooltipWidth - buttonEl.Width) / 2);
         } else if (buttonEl.TooltipDockPosition === DockPosition.Left) {
-            topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
-            leftStart = parentContainer.x + containerGrid.position.x - tooltipWidth - 15;
+            topStart = pt00ContainerGrid.y - ((tooltipHeight - buttonEl.Height) / 2);
+            leftStart = pt00ContainerGrid.x - tooltipWidth - 15;
         } else if (buttonEl.TooltipDockPosition === DockPosition.Right) {
-            topStart = parentContainer.y + containerGrid.position.y + ((buttonEl.Height - tooltipHeight) / 2);
-            leftStart = parentContainer.x + containerGrid.position.x + buttonEl.Width + 15;
+            topStart = pt00ContainerGrid.y - ((tooltipHeight - buttonEl.Height) / 2);
+            leftStart = pt00ContainerGrid.x + buttonEl.Width + 15;
         }
-
-        topStart += buttonEl.TooltipMargin.Top;
-        leftStart += buttonEl.TooltipMargin.Left;
 
         if (buttonEl.HasToolTip) {
             this.GeneralShowTooltip(
                 buttonEl.TooltipDockPosition,
-                "#FFff7300",
+                buttonEl.TooltipBackground,
+                buttonEl.TooltipBorder,
                 leftStart,
                 topStart,
                 tooltipWidth,

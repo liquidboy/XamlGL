@@ -237,14 +237,15 @@ export class BaseRenderer implements IControlRenderer {
         }
     }
 
-    public GeneralShowTooltip(position: DockPosition, backgroundColor: string, x: number, y: number, width: number,
+    public GeneralShowTooltip(position: DockPosition, backgroundColor: string, borderColor: string, x: number, y: number, width: number,
         height: number): void {
         if (this._tooltip === null) {
             this._tooltip = new ToolTip();
         }
         let buttonParent: Panel = <Panel>this.Element.Parent;
         this._tooltip.ShowToolTip(x, y, width, height, position);
-        this._tooltip.Background = backgroundColor;
+        this._tooltip.TooltipBackground = backgroundColor;
+        this._tooltip.TooltipBorder = borderColor;
         if (this.Element.Parent instanceof Panel) {
             buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
             buttonParent.Platform.Draw(this._tooltip);

@@ -7,17 +7,14 @@ import { DockPosition } from "./../DataTypes/DockPosition";
 
 export class ToolTip extends Panel {
     private _borderThickness: Thickness;
-    private _borderBrush: string;
     private _cornerRadius: CornerRadius;
     private _dockPosition: DockPosition;
 
     get BorderThickness(): Thickness { return this._borderThickness; }
-    get BorderBrush(): string { return this._borderBrush; }
     get CornerRadius(): CornerRadius { return this._cornerRadius; }
     get DockPosition(): DockPosition { return this._dockPosition; }
 
     set BorderThickness(value: Thickness) { this._borderThickness = value; }
-    set BorderBrush(value: string) { this._borderBrush = value; }
     set CornerRadius(value: CornerRadius) { this._cornerRadius = value; }
     set DockPosition(value: DockPosition) { this._dockPosition = value; }
 
@@ -25,10 +22,10 @@ export class ToolTip extends Panel {
         super();
 
         this.BorderThickness = new Thickness(0);
-        this.BorderBrush = "#FFFFFFFF";
         this.HorizontalAlignment = HorizontalAlignment.Center;
         this.VerticalAlignment = VerticalAlignment.Center;
-        this.Background = "#FFFFFFFF";
+        this.TooltipBackground = "#FF000000";
+        this.TooltipBorder = "#FFFFFFFF";
         this.Margin = new Thickness(0);
         this.CornerRadius = new CornerRadius(0);
         this.DockPosition = DockPosition.Top;
