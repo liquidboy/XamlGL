@@ -197,7 +197,16 @@ export class BaseRenderer implements IControlRenderer {
                this.Element.CalculatedY += this.Element.Margin.Top;
            }
        }
-   }
+    }
+
+    public GetAllParentMarginTops(ctl: FrameworkElement): number {
+        let runningTop: number = ctl.Margin.Top;
+        if (ctl instanceof Panel) {
+            runningTop += this.GetAllParentMarginTops(ctl.Parent);
+        }
+        return runningTop;
+    }
+
 
     public CalculateCurrentAvailableSlot(): Point {
         // determine starting SLOT if the parent is a PANEL that lays out its children

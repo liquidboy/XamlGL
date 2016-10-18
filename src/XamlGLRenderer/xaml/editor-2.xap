@@ -64,6 +64,7 @@
       
       <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="45" Height="10" VerticalAlignment="Top" Margin="0,15,0,0">
         <Button Margin="0,0,0,0" Width="35" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top"
+                HasToolTip="True" TooltipDockPosition="Right"
             Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
           <Grid>
             <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20" Stroke="#FFffffff" Fill="#FFffffff" 
@@ -72,6 +73,7 @@
           </Grid>
         </Button>
         <Button Margin="0,15,0,0" Width="35" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top"
+                HasToolTip="True" TooltipDockPosition="Right"
             Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
           <Grid>
             <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20" Stroke="#FFffffff" 
@@ -80,6 +82,7 @@
           </Grid>
         </Button>
         <Button Margin="0,15,0,0" Width="35" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top"
+                HasToolTip="True" TooltipDockPosition="Right"
             Background="#FF525252" Stroke="#FF525252" StrokeThickness="2" CornerRadius="5" BlurAmount="2">
           <Grid>
             <Path HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20" Stroke="#FFffffff" 
