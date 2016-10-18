@@ -2714,7 +2714,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     this._tooltip = null;
                     this._elementChanged = new EventDispatcher_4.EventDispatcher();
                     this._scale = 1;
-                    this._containerGrid = null;
                 }
                 get Element() { return this._element; }
                 get ElementChanged() { return this._elementChanged; }
@@ -3835,12 +3834,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     super.Draw();
                     ConsoleHelper_8.ConsoleHelper.Log("ButtonRenderer.Draw");
                     let buttonEl = super.Element;
-                    if (this.PixiElement !== undefined) {
-                        this._containerGrid = this.PixiElement;
-                    }
-                    else {
-                        this._containerGrid = new PIXI.Container();
-                        this.PixiElement = this._containerGrid;
+                    if (this.PixiElement === undefined) {
+                        this.PixiElement = new PIXI.Container();
                     }
                     if (!buttonEl.IsDirty) {
                         return;
@@ -3848,8 +3843,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     this.CalculateYHeight(buttonEl);
                     this.CalculateXWidth(buttonEl);
                     this.UpdateCalculatedValuesUsingMargin(buttonEl);
-                    this._containerGrid.height = this.Element.CalculatedHeight;
-                    this._containerGrid.width = this.Element.CalculatedWidth;
+                    this.PixiElement.height = this.Element.CalculatedHeight;
+                    this.PixiElement.width = this.Element.CalculatedWidth;
                     let background = null;
                     let blurFilter = null;
                     if (buttonEl.Background !== undefined) {
@@ -3879,27 +3874,27 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                             backgroundSprite.filters = [blurFilter];
                         }
                         let parentXYStart = this.CalculateCurrentAvailableSlot();
-                        this._containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
-                        this._containerGrid.addChild(backgroundSprite);
+                        this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
+                        this.PixiElement.addChild(backgroundSprite);
                         this.IncrementNextAvailableSlot();
                     }
                     let parentContainer = null;
                     if (this.Element.Parent.Renderer === undefined) {
-                        this.Element.Platform.Renderer.PixiStage.addChild(this._containerGrid);
+                        this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
                     }
                     else {
                         if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                             parentContainer = this.Element.Parent.Renderer.PixiElement;
-                            parentContainer.addChild(this._containerGrid);
+                            parentContainer.addChild(this.PixiElement);
                         }
                     }
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(this._containerGrid)) {
+                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             this.IsBeingHitWithPointer(r, args);
                             backgroundSprite.alpha = 1;
                             this.Scale = this._isPressed ? 0.98 : 1.02;
                             this._blurToUse = buttonEl.BlurAmount;
-                            this.ShowTooltip(r, buttonEl, parentContainer, this._containerGrid);
+                            this.ShowTooltip(r, buttonEl, parentContainer, this.PixiElement);
                         }
                         else {
                             this.IsNotBeingHitWithPointer(r, args);
@@ -3914,17 +3909,17 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         backgroundSprite.scale.set(this.Scale, this.Scale);
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(this._containerGrid)) {
+                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             ConsoleHelper_8.ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
                         }
                     });
                     this.Element.Platform.Renderer.PointerPressed.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(this._containerGrid)) {
+                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             this._isPressed = true;
                         }
                     });
                     this.Element.Platform.Renderer.PointerReleased.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(this._containerGrid)) {
+                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             this._isPressed = false;
                         }
                     });
@@ -4455,7 +4450,7 @@ System.register("XamlGL/Controls/ArcSegment", ["XamlGL/Controls/PathSegment"], f
         }
     }
 });
-System.register("XamlGL/utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_91, context_91) {
+System.register("XamlGL/Utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_91, context_91) {
     "use strict";
     var __moduleName = context_91 && context_91.id;
     var PathGeometry_1, PathFigure_1, LineSegment_1, BezierSegment_1, QuadraticBezierSegment_1, ArcSegment_1, FillRule_1, SweepDirection_1, Size_1, ConsoleHelper_10;
@@ -4859,7 +4854,7 @@ System.register("XamlGL/utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_92, context_92) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_92, context_92) {
     "use strict";
     var __moduleName = context_92 && context_92.id;
     var BaseRenderer_9, ConsoleHelper_11, RendererHelper_7, MiniPathLanguageHelper_1;
@@ -4988,7 +4983,7 @@ System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton", "Xa
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
     "use strict";
     var __moduleName = context_95 && context_95.id;
     var BaseRenderer_10, ConsoleHelper_12, RendererHelper_8, MiniPathLanguageHelper_2;
@@ -5013,13 +5008,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                     super.Draw();
                     ConsoleHelper_12.ConsoleHelper.Log("CheckBoxRenderer.Draw");
                     let checkboxEl = this.Element;
-                    let containerGrid = null;
                     if (this.PixiElement === undefined) {
-                        containerGrid = new PIXI.Container();
-                        this.PixiElement = containerGrid;
-                    }
-                    else {
-                        containerGrid = this.PixiElement;
+                        this.PixiElement = new PIXI.Container();
                     }
                     if (!checkboxEl.IsDirty) {
                         return;
@@ -5027,8 +5017,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                     this.CalculateYHeight(checkboxEl);
                     this.CalculateXWidth(checkboxEl);
                     this.UpdateCalculatedValuesUsingMargin(checkboxEl);
-                    containerGrid.height = this.Element.CalculatedHeight;
-                    containerGrid.width = this.Element.CalculatedWidth;
+                    this.PixiElement.height = this.Element.CalculatedHeight;
+                    this.PixiElement.width = this.Element.CalculatedWidth;
                     let bottomGraphicsLayer = new PIXI.Graphics();
                     bottomGraphicsLayer.beginFill(RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
                     bottomGraphicsLayer.lineStyle(2, RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
@@ -5047,22 +5037,22 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                     if (checkboxEl.CheckedScale !== 1) {
                         topGraphicsLayer.scale = new PIXI.Point(checkboxEl.CheckedScale, checkboxEl.CheckedScale);
                     }
-                    containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
-                    containerGrid.addChild(bottomGraphicsLayer);
-                    containerGrid.addChild(topGraphicsLayer);
+                    this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
+                    this.PixiElement.addChild(bottomGraphicsLayer);
+                    this.PixiElement.addChild(topGraphicsLayer);
                     this.IncrementNextAvailableSlot();
                     let parentContainer = null;
                     if (this.Element.Parent.Renderer === undefined) {
-                        this.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+                        this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
                     }
                     else {
                         if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                             parentContainer = this.Element.Parent.Renderer.PixiElement;
-                            parentContainer.addChild(containerGrid);
+                            parentContainer.addChild(this.PixiElement);
                         }
                     }
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(containerGrid)) {
+                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             this.IsBeingHitWithPointer(r, args);
                         }
                         else {
@@ -5070,7 +5060,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                         }
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(containerGrid)) {
+                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             ConsoleHelper_12.ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");
                             checkboxEl.IsChecked = !checkboxEl.IsChecked;
                             topGraphicsLayer.alpha = checkboxEl.IsChecked ? 1 : 0;

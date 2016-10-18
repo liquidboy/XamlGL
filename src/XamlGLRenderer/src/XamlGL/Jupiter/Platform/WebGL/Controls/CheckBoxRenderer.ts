@@ -39,13 +39,8 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         ConsoleHelper.Log("CheckBoxRenderer.Draw");
 
         let checkboxEl: CheckBox = <CheckBox>this.Element;
-        let containerGrid: PIXI.Container = null;
-
         if (this.PixiElement === undefined) {
-            containerGrid = new PIXI.Container();
-            this.PixiElement = containerGrid;
-        } else {
-            containerGrid = <PIXI.Container>this.PixiElement;
+            this.PixiElement = new PIXI.Container();
         }
 
         if (!checkboxEl.IsDirty) {
@@ -62,8 +57,8 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         this.UpdateCalculatedValuesUsingMargin(checkboxEl);
 
         // size container
-        containerGrid.height = this.Element.CalculatedHeight;
-        containerGrid.width = this.Element.CalculatedWidth;
+        (<PIXI.Container>this.PixiElement).height = this.Element.CalculatedHeight;
+        (<PIXI.Container>this.PixiElement).width = this.Element.CalculatedWidth;
 
 
         let bottomGraphicsLayer: PIXI.Graphics = new PIXI.Graphics();
@@ -93,12 +88,12 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
 
 
         // position/size container
-        containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X,
+        this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X,
             this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
 
         // now render in container
-        containerGrid.addChild(bottomGraphicsLayer);
-        containerGrid.addChild(topGraphicsLayer);
+        (<PIXI.Container>this.PixiElement).addChild(bottomGraphicsLayer);
+        (<PIXI.Container>this.PixiElement).addChild(topGraphicsLayer);
 
         // tell the parent stackpanel the next available slot
         this.IncrementNextAvailableSlot();
@@ -106,23 +101,23 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
-            this.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+            this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                 parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
-                parentContainer.addChild(containerGrid);
+                parentContainer.addChild(this.PixiElement);
             }
         }
 
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(containerGrid)) {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this.IsBeingHitWithPointer(r, args);
             } else {
                 this.IsNotBeingHitWithPointer(r, args);
             }
         });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(containerGrid)) {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");
 
                 checkboxEl.IsChecked = !checkboxEl.IsChecked;

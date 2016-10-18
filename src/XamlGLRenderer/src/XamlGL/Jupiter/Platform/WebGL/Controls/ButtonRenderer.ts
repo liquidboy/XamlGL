@@ -31,11 +31,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         // console.log(super.Element);
         let buttonEl: Button = <Button>super.Element;
 
-        if (this.PixiElement !== undefined) {
-            this._containerGrid = <PIXI.Container>this.PixiElement;
-        } else {
-            this._containerGrid = new PIXI.Container();
-            this.PixiElement = this._containerGrid;
+        if (this.PixiElement === undefined) {
+            this.PixiElement = new PIXI.Container();
         }
 
         if (!buttonEl.IsDirty) {
@@ -52,8 +49,8 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         this.UpdateCalculatedValuesUsingMargin(buttonEl);
 
         // size container
-        this._containerGrid.height = this.Element.CalculatedHeight;
-        this._containerGrid.width = this.Element.CalculatedWidth;
+        (<PIXI.Container>this.PixiElement).height = this.Element.CalculatedHeight;
+        (<PIXI.Container>this.PixiElement).width = this.Element.CalculatedWidth;
 
 
 
@@ -100,10 +97,10 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
             // position/size container
-            this._containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
+            this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
 
             // now render in container
-            this._containerGrid.addChild(backgroundSprite);
+            (<PIXI.Container>this.PixiElement).addChild(backgroundSprite);
 
             // tell the parent stackpanel the next available slot
             this.IncrementNextAvailableSlot();
@@ -112,23 +109,23 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
-            this.Element.Platform.Renderer.PixiStage.addChild(this._containerGrid);
+            this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                 parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
-                parentContainer.addChild(this._containerGrid);
+                parentContainer.addChild(this.PixiElement);
             }
         }
 
         // update the UI based on interaction events and the render DRAW loop
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this._containerGrid)) {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this.IsBeingHitWithPointer(r, args);
                 backgroundSprite.alpha = 1;
                 this.Scale = this._isPressed ? 0.98 : 1.02;
                 this._blurToUse = buttonEl.BlurAmount;
                 // rendererHelper.SetCursorToPointer(r);
-                this.ShowTooltip(r, buttonEl, parentContainer, this._containerGrid);
+                this.ShowTooltip(r, buttonEl, parentContainer, this.PixiElement);
             } else {
                 this.IsNotBeingHitWithPointer(r, args);
                 backgroundSprite.alpha = 0.95;
@@ -147,26 +144,26 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
 
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this._containerGrid)) {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
             }
         });
 
         this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this._containerGrid)) {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this._isPressed = true;
             }
         });
 
         this.Element.Platform.Renderer.PointerReleased.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this._containerGrid)) {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this._isPressed = false;
             }
         });
 
         buttonEl.IsDirty = false;
     }
-    ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.Container): void {
+    ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.DisplayObject): void {
         if (!buttonEl.HasToolTip || buttonEl.IsTooltipVisible) {
             return;
         }
