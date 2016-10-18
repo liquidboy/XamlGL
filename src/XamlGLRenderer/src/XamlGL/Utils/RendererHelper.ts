@@ -37,6 +37,8 @@ import { PathRenderer } from "./../Jupiter/Platform/WebGL/Controls/PathRenderer"
 import { CheckBox } from "./../Controls/CheckBox";
 import { CheckBoxRenderer } from "./../Jupiter/Platform/WebGL/Controls/CheckBoxRenderer";
 
+import { RadioButton } from "./../Controls/RadioButton";
+
 declare var TinkLib: any;
 
 export class RendererHelper {
@@ -102,6 +104,8 @@ export class RendererHelper {
             return new RectangleRenderer();
         } else if (element instanceof TextBlock) {
             return new TextBlockRenderer();
+        } else if (element instanceof RadioButton) {
+            return new CheckBoxRenderer();
         } else if (element instanceof CheckBox) {
             return new CheckBoxRenderer();
         } else if (element instanceof Button) {

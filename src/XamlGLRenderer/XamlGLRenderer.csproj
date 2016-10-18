@@ -1133,6 +1133,7 @@
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src\Tests\TestBase.ts" />
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\RadioButton.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\CheckBox.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\ToggleButton.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\ContentControl.ts" />

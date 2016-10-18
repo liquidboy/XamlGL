@@ -1,15 +1,21 @@
-﻿import { XamlMarkup } from "./XamlMarkup"
+﻿import { XamlMarkup } from "./XamlMarkup";
 
 export class XamlReader {
     private static _xm: XamlMarkup;
 
     public static LoadUri(uri: any, done: Function): XamlMarkup {
-        if (!this._xm) this._xm = new XamlMarkup();
+        if (!this._xm) {
+            this._xm = new XamlMarkup();
+        }
         this._xm.LoadRootViaUri(uri,
-            (data) => {
+            (data: string) => {
                 if (done) {
                     this._xm.LoadRoot( data,
-                        (xamlDom: HTMLElement) => { if (done) done.call(this); }
+                        (xamlDom: HTMLElement) => {
+                            if (done) {
+                                done.call(this);
+                            }
+                        }
                     );
                 }
             });

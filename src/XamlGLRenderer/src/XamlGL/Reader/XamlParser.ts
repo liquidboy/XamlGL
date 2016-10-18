@@ -6,6 +6,7 @@ import { Button } from "./../Controls/Button";
 import { StackPanel } from "./../Controls/StackPanel";
 import { Image } from "./../Controls/Image";
 import { CheckBox } from "./../Controls/CheckBox";
+import { RadioButton } from "./../Controls/RadioButton";
 import { Panel } from "./../Controls/Panel";
 import { TextBlock } from "./../Controls/TextBlock";
 import { Path } from "./../Controls/Path";
@@ -204,6 +205,28 @@ export class XamlParser {
                 cb.CheckedPadding = this.StringToThickness(node.attributes.getNamedItem("CheckedPadding"));
             }
             return cb;
+        } else if (node.nodeName === "RadioButton") {
+            let rb: RadioButton = new RadioButton();
+            rb.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            rb.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            rb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            rb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            rb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 0.8);
+            rb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            rb.Grouping = this.StringToEmpty(node.attributes.getNamedItem("Grouping"));
+            if (node.attributes.getNamedItem("Foreground")) {
+                rb.Foreground = node.attributes.getNamedItem("Foreground").value;
+            }
+            if (node.attributes.getNamedItem("CheckedPath")) {
+                rb.CheckedPath = node.attributes.getNamedItem("CheckedPath").value;
+            }
+            if (node.attributes.getNamedItem("UncheckedPath")) {
+                rb.UncheckedPath = node.attributes.getNamedItem("UncheckedPath").value;
+            }
+            if (node.attributes.getNamedItem("CheckedPadding")) {
+                rb.CheckedPadding = this.StringToThickness(node.attributes.getNamedItem("CheckedPadding"));
+            }
+            return rb;
         }
         return null;
     }
