@@ -189,6 +189,7 @@ export class XamlParser {
             cb.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             cb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            cb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 1);
             cb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             if (node.attributes.getNamedItem("Foreground")) {
                 cb.Foreground = node.attributes.getNamedItem("Foreground").value;
@@ -263,9 +264,9 @@ export class XamlParser {
         }
         return attr.value;
     }
-    private static StringToNumberFloat(attr: Attr): number {
+    private static StringToNumberFloat(attr: Attr, defaultValue: number = 0): number {
         if (attr === null) {
-            return 0;
+            return defaultValue;
         }
         return Number.parseFloat(attr.value);
     }

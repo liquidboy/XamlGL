@@ -87,6 +87,9 @@ export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
         bottomGraphicsLayer.y = 0;
         topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
         topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
+        if (checkboxEl.CheckedScale !== 1) {
+            topGraphicsLayer.scale = new PIXI.Point(checkboxEl.CheckedScale, checkboxEl.CheckedScale);
+        }
 
 
         // position/size container

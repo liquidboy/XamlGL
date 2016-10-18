@@ -4973,13 +4973,16 @@ System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton", "Xa
                     this._checkedPadding = new Thickness_4.Thickness(0);
                     this._checkedPadding.Left = 1;
                     this._checkedPadding.Top = 5;
+                    this._checkedScale = 1;
                 }
                 get CheckedPath() { return this._checkedPath; }
                 get UncheckedPath() { return this._uncheckedPath; }
                 get CheckedPadding() { return this._checkedPadding; }
+                get CheckedScale() { return this._checkedScale; }
                 set CheckedPath(value) { this._checkedPath = value; }
                 set UncheckedPath(value) { this._uncheckedPath = value; }
                 set CheckedPadding(value) { this._checkedPadding = value; }
+                set CheckedScale(value) { this._checkedScale = value; }
             };
             exports_94("CheckBox", CheckBox);
         }
@@ -5041,6 +5044,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                     bottomGraphicsLayer.y = 0;
                     topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
                     topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
+                    if (checkboxEl.CheckedScale !== 1) {
+                        topGraphicsLayer.scale = new PIXI.Point(checkboxEl.CheckedScale, checkboxEl.CheckedScale);
+                    }
                     containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
                     containerGrid.addChild(bottomGraphicsLayer);
                     containerGrid.addChild(topGraphicsLayer);
@@ -5766,6 +5772,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         cb.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
                         cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         cb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+                        cb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 1);
                         cb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         if (node.attributes.getNamedItem("Foreground")) {
                             cb.Foreground = node.attributes.getNamedItem("Foreground").value;
@@ -5841,9 +5848,9 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                     }
                     return attr.value;
                 }
-                static StringToNumberFloat(attr) {
+                static StringToNumberFloat(attr, defaultValue = 0) {
                     if (attr === null) {
-                        return 0;
+                        return defaultValue;
                     }
                     return Number.parseFloat(attr.value);
                 }
