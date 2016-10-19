@@ -6,16 +6,19 @@ export class CheckBox  extends ToggleButton {
     private _uncheckedPath: string = "M1.7000008,1.6999989L1.7000008,30.299999 30.300015,30.299999 30.300015,1.6999989z M0,0L32.000016,0 32.000016,31.999999 0,31.999999z";
     private _checkedPadding: Thickness;
     private _checkedScale: number;
+    private _unCheckedScale: number;
 
     get CheckedPath(): string { return this._checkedPath; }
     get UncheckedPath(): string { return this._uncheckedPath; }
     get CheckedPadding(): Thickness { return this._checkedPadding; }
     get CheckedScale(): number { return this._checkedScale; }
+    get UnCheckedScale(): number { return this._unCheckedScale; }
 
     set CheckedPath(value: string) { this._checkedPath = value; }
     set UncheckedPath(value: string) { this._uncheckedPath = value; }
     set CheckedPadding(value: Thickness) { this._checkedPadding = value; }
     set CheckedScale(value: number) { this._checkedScale = value; }
+    set UnCheckedScale(value: number) { this._unCheckedScale = value; }
 
     public constructor() {
         super();
@@ -23,5 +26,6 @@ export class CheckBox  extends ToggleButton {
         this._checkedPadding.Left = 1;
         this._checkedPadding.Top = 5;
         this._checkedScale = 1;
+        this._unCheckedScale = 1;
     }
 }

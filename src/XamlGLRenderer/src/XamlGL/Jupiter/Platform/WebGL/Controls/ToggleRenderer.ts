@@ -34,6 +34,7 @@ import { Point } from "./../../../../DataTypes/Point";
 
 export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
+    private _bottomGraphicsLayer: PIXI.Graphics;
     // private _isPressed: boolean = false;
 
     Draw(): void {
@@ -63,11 +64,11 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
         (<PIXI.Container>this.PixiElement).width = this.Element.CalculatedWidth;
 
 
-        let bottomGraphicsLayer: PIXI.Graphics = new PIXI.Graphics();
-        bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
-        bottomGraphicsLayer.lineStyle(2, RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
-        MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, bottomGraphicsLayer);
-        bottomGraphicsLayer.endFill();
+        this._bottomGraphicsLayer = new PIXI.Graphics();
+        this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
+        this._bottomGraphicsLayer.lineStyle(2, RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
+        MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, this._bottomGraphicsLayer);
+        this._bottomGraphicsLayer.endFill();
 
         this._topGraphicsLayer = new PIXI.Graphics();
         this._topGraphicsLayer.beginFill(RendererHelper.HashToColorNumber(checkboxEl.Foreground), 1);
@@ -80,12 +81,15 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
         let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
         // position bits
-        bottomGraphicsLayer.x = 0;
-        bottomGraphicsLayer.y = 0;
+        this._bottomGraphicsLayer.x = 0;
+        this._bottomGraphicsLayer.y = 0;
         this._topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
         this._topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
         if (checkboxEl.CheckedScale !== 1) {
             this._topGraphicsLayer.scale = new PIXI.Point(checkboxEl.CheckedScale, checkboxEl.CheckedScale);
+        }
+        if (checkboxEl.UnCheckedScale !== 1) {
+            this._bottomGraphicsLayer.scale = new PIXI.Point(checkboxEl.UnCheckedScale, checkboxEl.UnCheckedScale);
         }
 
 
@@ -94,7 +98,7 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
             this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
 
         // now render in container
-        (<PIXI.Container>this.PixiElement).addChild(bottomGraphicsLayer);
+        (<PIXI.Container>this.PixiElement).addChild(this._bottomGraphicsLayer);
         (<PIXI.Container>this.PixiElement).addChild(this._topGraphicsLayer);
 
         // tell the parent stackpanel the next available slot

@@ -192,6 +192,7 @@ export class XamlParser {
             cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             cb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             cb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 1);
+            cb.UnCheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("UnCheckedScale"), 1);
             cb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             if (node.attributes.getNamedItem("Foreground")) {
                 cb.Foreground = node.attributes.getNamedItem("Foreground").value;
@@ -213,6 +214,7 @@ export class XamlParser {
             rb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             rb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             rb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 0.8);
+            rb.UnCheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("UnCheckedScale"), 1);
             rb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             if (node.attributes.getNamedItem("Foreground")) {
                 rb.Foreground = node.attributes.getNamedItem("Foreground").value;

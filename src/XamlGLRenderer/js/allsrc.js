@@ -4989,15 +4989,18 @@ System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton", "Xa
                     this._checkedPadding.Left = 1;
                     this._checkedPadding.Top = 5;
                     this._checkedScale = 1;
+                    this._unCheckedScale = 1;
                 }
                 get CheckedPath() { return this._checkedPath; }
                 get UncheckedPath() { return this._uncheckedPath; }
                 get CheckedPadding() { return this._checkedPadding; }
                 get CheckedScale() { return this._checkedScale; }
+                get UnCheckedScale() { return this._unCheckedScale; }
                 set CheckedPath(value) { this._checkedPath = value; }
                 set UncheckedPath(value) { this._uncheckedPath = value; }
                 set CheckedPadding(value) { this._checkedPadding = value; }
                 set CheckedScale(value) { this._checkedScale = value; }
+                set UnCheckedScale(value) { this._unCheckedScale = value; }
             };
             exports_94("CheckBox", CheckBox);
         }
@@ -5125,26 +5128,29 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlG
                     this.UpdateCalculatedValuesUsingMargin(checkboxEl);
                     this.PixiElement.height = this.Element.CalculatedHeight;
                     this.PixiElement.width = this.Element.CalculatedWidth;
-                    let bottomGraphicsLayer = new PIXI.Graphics();
-                    bottomGraphicsLayer.beginFill(RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
-                    bottomGraphicsLayer.lineStyle(2, RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
-                    MiniPathLanguageHelper_2.MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, bottomGraphicsLayer);
-                    bottomGraphicsLayer.endFill();
+                    this._bottomGraphicsLayer = new PIXI.Graphics();
+                    this._bottomGraphicsLayer.beginFill(RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.5);
+                    this._bottomGraphicsLayer.lineStyle(2, RendererHelper_8.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
+                    MiniPathLanguageHelper_2.MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, this._bottomGraphicsLayer);
+                    this._bottomGraphicsLayer.endFill();
                     this._topGraphicsLayer = new PIXI.Graphics();
                     this._topGraphicsLayer.beginFill(RendererHelper_8.RendererHelper.HashToColorNumber(checkboxEl.Foreground), 1);
                     MiniPathLanguageHelper_2.MiniPathLanguageHelper.parse(checkboxEl.CheckedPath, this._topGraphicsLayer);
                     this._topGraphicsLayer.alpha = checkboxEl.IsChecked ? 1 : 0;
                     this._topGraphicsLayer.endFill();
                     let parentXYStart = this.CalculateCurrentAvailableSlot();
-                    bottomGraphicsLayer.x = 0;
-                    bottomGraphicsLayer.y = 0;
+                    this._bottomGraphicsLayer.x = 0;
+                    this._bottomGraphicsLayer.y = 0;
                     this._topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
                     this._topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
                     if (checkboxEl.CheckedScale !== 1) {
                         this._topGraphicsLayer.scale = new PIXI.Point(checkboxEl.CheckedScale, checkboxEl.CheckedScale);
                     }
+                    if (checkboxEl.UnCheckedScale !== 1) {
+                        this._bottomGraphicsLayer.scale = new PIXI.Point(checkboxEl.UnCheckedScale, checkboxEl.UnCheckedScale);
+                    }
                     this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
-                    this.PixiElement.addChild(bottomGraphicsLayer);
+                    this.PixiElement.addChild(this._bottomGraphicsLayer);
                     this.PixiElement.addChild(this._topGraphicsLayer);
                     this.IncrementNextAvailableSlot();
                     let parentContainer = null;
@@ -5899,6 +5905,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         cb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
                         cb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 1);
+                        cb.UnCheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("UnCheckedScale"), 1);
                         cb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         if (node.attributes.getNamedItem("Foreground")) {
                             cb.Foreground = node.attributes.getNamedItem("Foreground").value;
@@ -5921,6 +5928,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         rb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         rb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
                         rb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 0.8);
+                        rb.UnCheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("UnCheckedScale"), 1);
                         rb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
                         if (node.attributes.getNamedItem("Foreground")) {
                             rb.Foreground = node.attributes.getNamedItem("Foreground").value;
