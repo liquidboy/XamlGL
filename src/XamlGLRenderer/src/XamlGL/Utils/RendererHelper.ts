@@ -25,6 +25,9 @@ import { ConsoleHelper } from "./ConsoleHelper";
 import { TextBlock } from "./../Controls/TextBlock";
 import { TextBlockRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextBlockRenderer";
 
+import { TextBox } from "./../Controls/TextBox";
+import { TextBoxRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextBoxRenderer";
+
 import { Button } from "./../Controls/Button";
 import { ButtonRenderer } from "./../Jupiter/Platform/WebGL/Controls/ButtonRenderer";
 
@@ -104,6 +107,8 @@ export class RendererHelper {
             return new RectangleRenderer();
         } else if (element instanceof TextBlock) {
             return new TextBlockRenderer();
+        } else if (element instanceof TextBox) {
+            return new TextBoxRenderer();
         } else if (element instanceof RadioButton) {
             return new ToggleRenderer();
         } else if (element instanceof CheckBox) {

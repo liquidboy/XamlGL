@@ -1421,6 +1421,7 @@
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\RadioButton.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\CheckBox.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Controls\TextBox.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\ToggleButton.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\ContentControl.ts" />
     <TypeScriptCompile Include="src\XamlGL\Controls\Frame.ts" />
@@ -1459,6 +1460,7 @@
     <TypeScriptCompile Include="src\XamlGL\Events\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Geometry.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\ITooltip.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TextBoxRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToggleRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PathRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Shape.ts" />
@@ -1954,6 +1956,9 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="XamlGL2 - Web Deploy.pubxml" />
+    <Content Include="xaml\sample-50.xap">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

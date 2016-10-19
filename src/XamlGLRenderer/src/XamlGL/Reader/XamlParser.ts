@@ -9,6 +9,7 @@ import { CheckBox } from "./../Controls/CheckBox";
 import { RadioButton } from "./../Controls/RadioButton";
 import { Panel } from "./../Controls/Panel";
 import { TextBlock } from "./../Controls/TextBlock";
+import { TextBox } from "./../Controls/TextBox";
 import { Path } from "./../Controls/Path";
 import { Rectangle } from "./../Controls/Rectangle";
 import { Thickness } from "./../DataTypes/Thickness";
@@ -116,6 +117,19 @@ export class XamlParser {
             return stackpanel;
         } else if (node.nodeName === "Text") {
             let text: TextBlock = new TextBlock();
+            text.Text = node.attributes.getNamedItem("Text").value;
+            text.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            text.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            text.Color = node.attributes.getNamedItem("Color").value;
+            text.FontSize = this.StringToNumber(node.attributes.getNamedItem("FontSize"));
+            text.FontFamily = node.attributes.getNamedItem("FontFamily").value;
+            text.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            text.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            text.TextWrapping = this.StringToTextWrapping(node.attributes.getNamedItem("TextWrapping"));
+            text.TextWrappingAlign = this.StringToTextWrappingAlign(node.attributes.getNamedItem("TextWrappingAlign"));
+            return text;
+        } else if (node.nodeName === "TextBox") {
+            let text: TextBox = new TextBox();
             text.Text = node.attributes.getNamedItem("Text").value;
             text.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             text.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
