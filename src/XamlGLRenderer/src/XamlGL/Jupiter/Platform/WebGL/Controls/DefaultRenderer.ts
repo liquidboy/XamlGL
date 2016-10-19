@@ -22,7 +22,7 @@ export class DefaultRenderer extends BaseRenderer implements IControlRenderer {
         defaultEl.IsDirty = false;
 
     }
-    QuickDraw(): void {
+    RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
     }
 }

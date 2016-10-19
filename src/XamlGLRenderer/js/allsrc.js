@@ -2770,7 +2770,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                 }
                 Draw() {
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 Clear() {
                 }
@@ -2950,7 +2950,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["Xaml
                     }
                     defaultEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
             };
             exports_48("DefaultRenderer", DefaultRenderer);
@@ -3047,7 +3047,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
                     });
                     gridEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 Clear() {
                     ConsoleHelper_3.ConsoleHelper.Log("GridRenderer.Clear");
@@ -3117,7 +3117,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
                     }
                     gridEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 Clear() {
                     ConsoleHelper_4.ConsoleHelper.Log("StackPanelRenderer.Clear");
@@ -3517,7 +3517,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
                     });
                     imageEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 Clear() {
                     ConsoleHelper_5.ConsoleHelper.Log("ImageRenderer.Clear");
@@ -3615,7 +3615,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
                     this.Element.Platform.Renderer.PixiStage.addChild(rectangle);
                     rectEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 Clear() {
                     ConsoleHelper_6.ConsoleHelper.Log("RectangleRenderer.Clear");
@@ -3776,7 +3776,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
                     this.IncrementNextAvailableSlot();
                     textEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 Clear() {
                     ConsoleHelper_7.ConsoleHelper.Log("TextBlockRenderer.Clear");
@@ -3939,7 +3939,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     });
                     buttonEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 ShowTooltip(r, buttonEl, parentContainer, containerGrid) {
                     if (!buttonEl.HasToolTip || buttonEl.IsTooltipVisible) {
@@ -4124,7 +4124,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
                     this.Element.Platform.Renderer.PixiStage.addChild(containerMain);
                     toolTip.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
                 Clear() {
                     ConsoleHelper_9.ConsoleHelper.Log("ToolTipRenderer.Clear");
@@ -4924,7 +4924,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
                     this.IncrementNextAvailableSlot();
                     pathEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                 }
             };
             exports_92("PathRenderer", PathRenderer);
@@ -5176,7 +5176,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlG
                                     rbGroup.forEach((x) => {
                                         if (x.UniqueID !== rb.UniqueID) {
                                             x.IsChecked = false;
-                                            x.Renderer.QuickDraw();
+                                            x.Renderer.RefreshUI();
                                         }
                                     });
                                 }
@@ -5184,12 +5184,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlG
                             else {
                                 checkboxEl.IsChecked = !checkboxEl.IsChecked;
                             }
-                            this.QuickDraw();
+                            this.RefreshUI();
                         }
                     });
                     checkboxEl.IsDirty = false;
                 }
-                QuickDraw() {
+                RefreshUI() {
                     this._topGraphicsLayer.alpha = this.Element.IsChecked ? 1 : 0;
                 }
                 Clear() {

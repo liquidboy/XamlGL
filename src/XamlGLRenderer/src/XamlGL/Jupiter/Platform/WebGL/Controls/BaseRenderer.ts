@@ -115,7 +115,7 @@ export class BaseRenderer implements IControlRenderer {
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
     }
-    QuickDraw(): void {
+    RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
     }
     Clear(): void {

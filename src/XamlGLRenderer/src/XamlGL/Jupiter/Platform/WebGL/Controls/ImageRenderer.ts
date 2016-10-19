@@ -74,7 +74,7 @@ export class ImageRenderer extends BaseRenderer implements IControlRenderer {
 
         imageEl.IsDirty = false;
     }
-    QuickDraw(): void {
+    RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
     }
     Clear(): void {

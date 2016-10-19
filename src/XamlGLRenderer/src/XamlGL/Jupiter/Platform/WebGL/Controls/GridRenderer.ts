@@ -96,7 +96,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
 
         gridEl.IsDirty = false;
     }
-    QuickDraw(): void {
+    RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
     }
     Clear(): void {

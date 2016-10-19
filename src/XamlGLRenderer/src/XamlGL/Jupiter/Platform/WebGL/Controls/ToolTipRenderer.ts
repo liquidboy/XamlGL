@@ -140,7 +140,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
 
         toolTip.IsDirty = false;
     }
-    QuickDraw(): void {
+    RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
     }
     Clear(): void {

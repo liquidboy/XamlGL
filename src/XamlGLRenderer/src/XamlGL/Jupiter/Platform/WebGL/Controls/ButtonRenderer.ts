@@ -163,7 +163,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         buttonEl.IsDirty = false;
     }
-    QuickDraw(): void {
+    RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
     }
     ShowTooltip(r: IRenderer, buttonEl: Button, parentContainer: PIXI.Container, containerGrid: PIXI.DisplayObject): void {

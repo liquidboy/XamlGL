@@ -130,7 +130,7 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
                         rbGroup.forEach((x: CheckBox) => {
                             if (x.UniqueID !== rb.UniqueID) {
                                 x.IsChecked = false;
-                                x.Renderer.QuickDraw();
+                                x.Renderer.RefreshUI();
                             }
                         });
                     }
@@ -138,7 +138,7 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
                     checkboxEl.IsChecked = !checkboxEl.IsChecked;
                 }
 
-                this.QuickDraw();
+                this.RefreshUI();
                 // this._topGraphicsLayer.alpha = checkboxEl.IsChecked? 1:0;
             }
         });
@@ -147,7 +147,7 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
         checkboxEl.IsDirty = false;
 
     }
-    QuickDraw(): void {
+    RefreshUI(): void {
         this._topGraphicsLayer.alpha = (<CheckBox>this.Element).IsChecked ? 1 : 0;
     }
     Clear(): void {

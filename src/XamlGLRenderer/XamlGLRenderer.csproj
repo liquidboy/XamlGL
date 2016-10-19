@@ -1590,6 +1590,9 @@
     <Content Include="xaml\sample-48.xap">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="xaml\sample-49.xap">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
