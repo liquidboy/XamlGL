@@ -32,6 +32,7 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { Point } from "./../../../../DataTypes/Point";
 import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
+import { KeyPressedEventArgs } from "./../../../../Events/KeyPressedEventArgs";
 
 export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
@@ -64,6 +65,11 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         (<PIXI.Container>this.PixiElement).height = this.Element.CalculatedHeight;
         (<PIXI.Container>this.PixiElement).width = this.Element.CalculatedWidth;
 
+        // start top
+        this._topGraphicsLayer = new PIXI.Graphics();
+        this._topGraphicsLayer.width = textBoxEl.CalculatedWidth;
+        this._topGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
+
         // text
         let text: PIXI.Text = new PIXI.Text(
             textBoxEl.Text,
@@ -71,21 +77,26 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 font: `${textBoxEl.FontSize}px ${textBoxEl.FontFamily}`,
                 fill: textBoxEl.Color,
                 wordWrap: (textBoxEl.TextWrapping === TextWrapping.Wrap) ? true : false,
-                wordWrapWidth: textBoxEl.Width,
+                wordWrapWidth: textBoxEl.CalculatedWidth,
                 align: TextWrappingAlign[textBoxEl.TextWrappingAlign].toLowerCase()
             }
         );
-
-        // bottom
-        this._bottomGraphicsLayer = new PIXI.Graphics();
-        this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FF000000"), 0.5);
-        this._bottomGraphicsLayer.endFill();
-
-        // top
-        this._topGraphicsLayer = new PIXI.Graphics();
-        this._topGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
         this._topGraphicsLayer.addChild(text);
+        
+        // end top
         this._topGraphicsLayer.endFill();
+
+
+        // start bottom
+        this._bottomGraphicsLayer = new PIXI.Graphics();
+        this._bottomGraphicsLayer.width = textBoxEl.CalculatedWidth;
+        this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
+
+        // cursor
+        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height, textBoxEl.FontSize, 3);
+
+        // end bottom
+        this._bottomGraphicsLayer.endFill();
 
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
@@ -119,9 +130,16 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
+        this.Element.Platform.Renderer.Key.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
+                text.text += (<KeyPressedEventArgs>args).Code;
+                // console.LogPad((<KeyPressedEventArgs>args).Code, 20);
+            }
+        });
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this.IsBeingHitWithPointer(r, args);
+                cursor.position.set(text.x + text.width - 65 , text.y);
             } else {
                 this.IsNotBeingHitWithPointer(r, args);
             }

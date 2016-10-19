@@ -22,6 +22,7 @@ export interface IRenderer {
     ResizeFull(): void;
     ResizeFullWidth(height:number): void;
     Draw: IEvent<IRenderer, IEventArgs>;
+    Key: IEvent<IRenderer, IEventArgs>;
     PointerPressed: IEvent<IRenderer, IEventArgs>;
     PointerReleased: IEvent<IRenderer, IEventArgs>;
     PointerTapped: IEvent<IRenderer, IEventArgs>;

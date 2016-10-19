@@ -6,6 +6,7 @@ import { EventDispatcher } from "./../Events/EventDispatcher";
 import { IEvent } from "./../Events/IEvent";
 import { IEventArgs } from "./../Events/IEventArgs";
 import { IRenderer } from "./../Jupiter/Platform/IRenderer";
+import { KeyPressedEventArgs } from "./../Events/KeyPressedEventArgs";
 
 import { Grid } from "./../Controls/Grid";
 import { GridRenderer } from "./../Jupiter/Platform/WebGL/Controls/GridRenderer";
@@ -49,6 +50,10 @@ export class RendererHelper {
     private static _draw: EventDispatcher<RendererHelper, IEventArgs> = new EventDispatcher<RendererHelper, IEventArgs>();
     static get Draw(): IEvent<RendererHelper, IEventArgs> { return this._draw; }
 
+    // one keyboard event for the entire APP
+    private static _keyPressed: EventDispatcher<RendererHelper, IEventArgs> = new EventDispatcher<RendererHelper, IEventArgs>();
+    static get KeyPressed(): IEvent<RendererHelper, IEventArgs> { return this._keyPressed; }
+
     public static TinkInstance: any = null; // one instance of Tink for the entire APP
     public static TinkPointer: any = null; // one pointer for the entire APP
     public static InitializeTink(pixiRendererView: any): void {
@@ -58,6 +63,7 @@ export class RendererHelper {
             this.TinkPointer = this.TinkInstance.makePointer();
             this.TinkPointer.visible = true;
             this.RenderLoop();
+            this.ListenToKeyboard();
         }
     }
     // one renderloop for the entire APP
@@ -66,6 +72,30 @@ export class RendererHelper {
         this.TinkInstance.update();
         this._draw.dispatch(this, null);
         window.requestAnimationFrame(this.RenderLoop.bind(this));
+    }
+    // on keyboardloop for the entire APP
+    private static ListenToKeyboard(): void {
+        let key: any = {};
+        key.code = null;
+
+        key.downHandler = (event: any) => {
+            // todo: do we need to listen for key downs ?
+            event.preventDefault();
+        };
+        key.upHandler = (event: any) => {
+            let arg: KeyPressedEventArgs = new KeyPressedEventArgs();
+            arg.Code = event.key;
+            // console.log(event);
+            this._keyPressed.dispatch(null, arg);
+            // event.preventDefault();
+        };
+
+        // window.addEventListener(
+        //    "keydown", key.downHandler.bind(key), false
+        // );
+        window.addEventListener(
+            "keyup", key.upHandler.bind(key), false
+        );
     }
 
     private static _cursorToAutoTimer = 0;

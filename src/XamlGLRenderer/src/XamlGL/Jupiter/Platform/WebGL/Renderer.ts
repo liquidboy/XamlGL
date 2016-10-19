@@ -22,6 +22,7 @@ export class Renderer implements IRenderer {
     // private _tinkPointer: any;
     private _resourceIds: Dictionary<string, RendererResource>;
     private _draw: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
+    private _key: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
     private _pointerPressed: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
     private _pointerReleased: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
     private _pointerTapped: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
@@ -31,6 +32,7 @@ export class Renderer implements IRenderer {
     get Pointer(): any { return RendererHelper.TinkPointer; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
     get Draw(): IEvent<Renderer, IEventArgs> { return this._draw; }
+    get Key(): IEvent<Renderer, IEventArgs> { return this._key; }
     get PointerPressed(): IEvent<Renderer, IEventArgs> { return this._pointerPressed; }
     get PointerReleased(): IEvent<Renderer, IEventArgs> { return this._pointerReleased; }
     get PointerTapped(): IEvent<Renderer, IEventArgs> { return this._pointerTapped; }
@@ -95,6 +97,10 @@ export class Renderer implements IRenderer {
             this._draw.dispatch(this, null);
             this._renderer.render(this.PixiStage); // this is a HUGE resource drain (CPU) .... 
         });
+        RendererHelper.KeyPressed.subscribe((o: any,a: IEventArgs) => {
+            this._key.dispatch(this, a);
+        });
+
     }
 
     private LoadResourceImage(url: string): PIXI.loaders.Loader {
