@@ -1,0 +1,40 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ShellType="Fixed"
+    ShellHeight="500"
+    ShellWidth="500"
+    ThemeName="Metro">
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
+    <Grid>
+      <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-16a.jpg"></Image>
+    </Grid>
+    <Grid>
+      <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="130" Margin="0,0,0,0">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="0,0,0,0">
+          <RadioButton Foreground="#FF000000" Width="40" Height="40" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       CheckedPadding="6,6,0,0" CheckedScale="0.65" Grouping="group1" ></RadioButton>
+          <RadioButton Foreground="#FF000000" Width="40" Height="40" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       CheckedPadding="6,6,0,0" CheckedScale="0.65" Grouping="group1" ></RadioButton>
+          <RadioButton Foreground="#FF000000" Width="40" Height="40" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       CheckedPadding="6,6,0,0" CheckedScale="0.65" Grouping="group1" ></RadioButton>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="40,0,0,0">
+          <RadioButton Foreground="#FF000000" Width="40" Height="40" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       CheckedPadding="6,6,0,0" CheckedScale="0.65" Grouping="group2" 
+                       CheckedPath="M15.999985,10.399994C19.100024,10.399994 21.600027,12.899994 21.600027,16 21.600027,19.099991 19.100024,21.599991 15.999985,21.599991 12.900006,21.599991 10.400004,19.099991 10.400004,16 10.400004,12.899994 12.900006,10.399994 15.999985,10.399994z M15.999985,2.6999969C8.6999897,2.6999971 2.6999842,8.6999971 2.6999842,16 2.6999842,23.300003 8.6999897,29.300003 15.999985,29.300003 23.30004,29.300003 29.300045,23.300003 29.300045,16 29.300045,8.6999971 23.30004,2.6999971 15.999985,2.6999969z M15.999985,0C24.800042,1.9073195E-07 32,7.1999971 32,16 32,24.800003 24.800042,32 15.999985,32 7.1999887,32 0,24.800003 0,16 0,7.1999971 7.1999887,1.9073195E-07 15.999985,0z"
+                       UncheckedPath="M16,1.881958C8.2160034,1.881958 1.882019,8.2149658 1.882019,16 1.882019,23.784973 8.2160034,30.116943 16,30.116943 23.783997,30.116943 30.118042,23.784973 30.118042,16 30.118042,8.2149658 23.783997,1.881958 16,1.881958z M16,0C24.822998,0 32,7.1769409 32,16 32,24.82196 24.822998,32 16,32 7.177002,32 0,24.82196 0,16 0,7.1769409 7.177002,0 16,0z"></RadioButton>
+          <RadioButton Foreground="#FF000000" Width="40" Height="40" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       CheckedPadding="6,6,0,0" CheckedScale="0.65" Grouping="group2"
+                       CheckedPath="M15.999985,10.399994C19.100024,10.399994 21.600027,12.899994 21.600027,16 21.600027,19.099991 19.100024,21.599991 15.999985,21.599991 12.900006,21.599991 10.400004,19.099991 10.400004,16 10.400004,12.899994 12.900006,10.399994 15.999985,10.399994z M15.999985,2.6999969C8.6999897,2.6999971 2.6999842,8.6999971 2.6999842,16 2.6999842,23.300003 8.6999897,29.300003 15.999985,29.300003 23.30004,29.300003 29.300045,23.300003 29.300045,16 29.300045,8.6999971 23.30004,2.6999971 15.999985,2.6999969z M15.999985,0C24.800042,1.9073195E-07 32,7.1999971 32,16 32,24.800003 24.800042,32 15.999985,32 7.1999887,32 0,24.800003 0,16 0,7.1999971 7.1999887,1.9073195E-07 15.999985,0z"
+                       UncheckedPath="M16,1.881958C8.2160034,1.881958 1.882019,8.2149658 1.882019,16 1.882019,23.784973 8.2160034,30.116943 16,30.116943 23.783997,30.116943 30.118042,23.784973 30.118042,16 30.118042,8.2149658 23.783997,1.881958 16,1.881958z M16,0C24.822998,0 32,7.1769409 32,16 32,24.82196 24.822998,32 16,32 7.177002,32 0,24.82196 0,16 0,7.1769409 7.177002,0 16,0z"></RadioButton>
+          <RadioButton Foreground="#FF000000" Width="40" Height="40" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                       CheckedPadding="6,6,0,0" CheckedScale="0.65" Grouping="group2"
+                       CheckedPath="M15.999985,10.399994C19.100024,10.399994 21.600027,12.899994 21.600027,16 21.600027,19.099991 19.100024,21.599991 15.999985,21.599991 12.900006,21.599991 10.400004,19.099991 10.400004,16 10.400004,12.899994 12.900006,10.399994 15.999985,10.399994z M15.999985,2.6999969C8.6999897,2.6999971 2.6999842,8.6999971 2.6999842,16 2.6999842,23.300003 8.6999897,29.300003 15.999985,29.300003 23.30004,29.300003 29.300045,23.300003 29.300045,16 29.300045,8.6999971 23.30004,2.6999971 15.999985,2.6999969z M15.999985,0C24.800042,1.9073195E-07 32,7.1999971 32,16 32,24.800003 24.800042,32 15.999985,32 7.1999887,32 0,24.800003 0,16 0,7.1999971 7.1999887,1.9073195E-07 15.999985,0z"
+                       UncheckedPath="M16,1.881958C8.2160034,1.881958 1.882019,8.2149658 1.882019,16 1.882019,23.784973 8.2160034,30.116943 16,30.116943 23.783997,30.116943 30.118042,23.784973 30.118042,16 30.118042,8.2149658 23.783997,1.881958 16,1.881958z M16,0C24.822998,0 32,7.1769409 32,16 32,24.82196 24.822998,32 16,32 7.177002,32 0,24.82196 0,16 0,7.1769409 7.177002,0 16,0z"></RadioButton>
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Grid>
+</Application>
