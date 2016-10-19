@@ -30,13 +30,13 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { MiniPathLanguageHelper } from "./../../../../utils/MiniPathLanguageHelper";
 import { Point } from "./../../../../DataTypes/Point";
 
-export class CheckBoxRenderer extends BaseRenderer implements IControlRenderer {
+export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
     // private _topGraphicsLayer: PIXI.Graphics;
     // private _isPressed: boolean = false;
 
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("CheckBoxRenderer.Draw");
+        ConsoleHelper.Log("ToggleRenderer.Draw");
 
         let checkboxEl: CheckBox = <CheckBox>this.Element;
         if (this.PixiElement === undefined) {

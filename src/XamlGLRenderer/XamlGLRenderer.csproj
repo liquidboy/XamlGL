@@ -1173,7 +1173,7 @@
     <TypeScriptCompile Include="src\XamlGL\Events\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Geometry.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\ITooltip.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\CheckBoxRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToggleRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PathRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Shape.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\IconElement.ts" />

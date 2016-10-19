@@ -35,7 +35,7 @@ import { Path } from "./../Controls/Path";
 import { PathRenderer } from "./../Jupiter/Platform/WebGL/Controls/PathRenderer";
 
 import { CheckBox } from "./../Controls/CheckBox";
-import { CheckBoxRenderer } from "./../Jupiter/Platform/WebGL/Controls/CheckBoxRenderer";
+import { ToggleRenderer } from "./../Jupiter/Platform/WebGL/Controls/ToggleRenderer";
 
 import { RadioButton } from "./../Controls/RadioButton";
 
@@ -105,9 +105,9 @@ export class RendererHelper {
         } else if (element instanceof TextBlock) {
             return new TextBlockRenderer();
         } else if (element instanceof RadioButton) {
-            return new CheckBoxRenderer();
+            return new ToggleRenderer();
         } else if (element instanceof CheckBox) {
-            return new CheckBoxRenderer();
+            return new ToggleRenderer();
         } else if (element instanceof Button) {
             return new ButtonRenderer();
         } else if (element instanceof Path) {

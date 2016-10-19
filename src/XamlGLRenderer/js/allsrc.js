@@ -4983,11 +4983,11 @@ System.register("XamlGL/Controls/CheckBox", ["XamlGL/Controls/ToggleButton", "Xa
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
     "use strict";
     var __moduleName = context_95 && context_95.id;
     var BaseRenderer_10, ConsoleHelper_12, RendererHelper_8, MiniPathLanguageHelper_2;
-    var CheckBoxRenderer;
+    var ToggleRenderer;
     return {
         setters:[
             function (BaseRenderer_10_1) {
@@ -5003,10 +5003,10 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                 MiniPathLanguageHelper_2 = MiniPathLanguageHelper_2_1;
             }],
         execute: function() {
-            CheckBoxRenderer = class CheckBoxRenderer extends BaseRenderer_10.BaseRenderer {
+            ToggleRenderer = class ToggleRenderer extends BaseRenderer_10.BaseRenderer {
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_12.ConsoleHelper.Log("CheckBoxRenderer.Draw");
+                    ConsoleHelper_12.ConsoleHelper.Log("ToggleRenderer.Draw");
                     let checkboxEl = this.Element;
                     if (this.PixiElement === undefined) {
                         this.PixiElement = new PIXI.Container();
@@ -5078,7 +5078,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", ["Xam
                     }
                 }
             };
-            exports_95("CheckBoxRenderer", CheckBoxRenderer);
+            exports_95("ToggleRenderer", ToggleRenderer);
         }
     }
 });
@@ -5110,10 +5110,10 @@ System.register("XamlGL/Controls/RadioButton", ["XamlGL/Controls/CheckBox"], fun
         }
     }
 });
-System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Events/EventDispatcher", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", "XamlGL/Controls/Path", "XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", "XamlGL/Controls/CheckBox", "XamlGL/Jupiter/Platform/WebGL/Controls/CheckBoxRenderer", "XamlGL/Controls/RadioButton"], function(exports_97, context_97) {
+System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Events/EventDispatcher", "XamlGL/Controls/Grid", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Controls/StackPanel", "XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", "XamlGL/Controls/Image", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Controls/Rectangle", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", "XamlGL/Controls/Panel", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/TextBlock", "XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", "XamlGL/Controls/Button", "XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", "XamlGL/Controls/ToolTip", "XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", "XamlGL/Controls/Path", "XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", "XamlGL/Controls/CheckBox", "XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", "XamlGL/Controls/RadioButton"], function(exports_97, context_97) {
     "use strict";
     var __moduleName = context_97 && context_97.id;
-    var DefaultRenderer_1, EventDispatcher_7, Grid_1, GridRenderer_1, StackPanel_2, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_7, ConsoleHelper_13, TextBlock_1, TextBlockRenderer_1, Button_2, ButtonRenderer_1, ToolTip_2, ToolTipRenderer_1, Path_1, PathRenderer_1, CheckBox_2, CheckBoxRenderer_1, RadioButton_1;
+    var DefaultRenderer_1, EventDispatcher_7, Grid_1, GridRenderer_1, StackPanel_2, StackPanelRenderer_1, Image_1, ImageRenderer_1, Rectangle_1, RectangleRenderer_1, Panel_7, ConsoleHelper_13, TextBlock_1, TextBlockRenderer_1, Button_2, ButtonRenderer_1, ToolTip_2, ToolTipRenderer_1, Path_1, PathRenderer_1, CheckBox_2, ToggleRenderer_1, RadioButton_1;
     var RendererHelper;
     return {
         setters:[
@@ -5180,8 +5180,8 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
             function (CheckBox_2_1) {
                 CheckBox_2 = CheckBox_2_1;
             },
-            function (CheckBoxRenderer_1_1) {
-                CheckBoxRenderer_1 = CheckBoxRenderer_1_1;
+            function (ToggleRenderer_1_1) {
+                ToggleRenderer_1 = ToggleRenderer_1_1;
             },
             function (RadioButton_1_1) {
                 RadioButton_1 = RadioButton_1_1;
@@ -5243,10 +5243,10 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
                         return new TextBlockRenderer_1.TextBlockRenderer();
                     }
                     else if (element instanceof RadioButton_1.RadioButton) {
-                        return new CheckBoxRenderer_1.CheckBoxRenderer();
+                        return new ToggleRenderer_1.ToggleRenderer();
                     }
                     else if (element instanceof CheckBox_2.CheckBox) {
-                        return new CheckBoxRenderer_1.CheckBoxRenderer();
+                        return new ToggleRenderer_1.ToggleRenderer();
                     }
                     else if (element instanceof Button_2.Button) {
                         return new ButtonRenderer_1.ButtonRenderer();
