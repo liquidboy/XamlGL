@@ -31,7 +31,7 @@ export class BaseRenderer implements IControlRenderer {
     new EventDispatcher<BaseRenderer, IEventArgs>();
     private _pixiElement: PIXI.DisplayObject;
     private _scale: number = 1;
-    
+
     get Element(): FrameworkElement { return this._element; }
     get ElementChanged(): IEvent<BaseRenderer, IEventArgs> { return this._elementChanged; }
     get ParentWidth(): number {
@@ -114,6 +114,9 @@ export class BaseRenderer implements IControlRenderer {
 
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
+    }
+    QuickDraw(): void {
+        // todo : fill with actual pixi draw stuff that is idempotent
     }
     Clear(): void {
         // todo : fill

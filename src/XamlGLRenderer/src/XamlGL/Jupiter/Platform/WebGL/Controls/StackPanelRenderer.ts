@@ -61,6 +61,9 @@ export class StackPanelRenderer extends BaseRenderer implements IControlRenderer
 
         gridEl.IsDirty = false;
     }
+    QuickDraw(): void {
+        // todo : fill with actual pixi draw stuff that is idempotent
+    }
     Clear(): void {
         ConsoleHelper.Log("StackPanelRenderer.Clear");
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)

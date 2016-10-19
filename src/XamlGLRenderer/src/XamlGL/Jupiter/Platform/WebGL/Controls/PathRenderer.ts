@@ -102,7 +102,9 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
 
         pathEl.IsDirty = false;
     }
-
+    QuickDraw(): void {
+        // todo : fill with actual pixi draw stuff that is idempotent
+    }
     // private DataToNumbers(data: string): number[] {
     //    let dataToWorkWith: string = data.substr(1, data.length-1);
     //    let ret: number[] = dataToWorkWith.split(",").map(function (item: string) {

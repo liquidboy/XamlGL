@@ -42,6 +42,9 @@ export class RectangleRenderer extends BaseRenderer implements IControlRenderer 
 
         rectEl.IsDirty = false;
     }
+    QuickDraw(): void {
+        // todo : fill with actual pixi draw stuff that is idempotent
+    }
     Clear(): void {
         ConsoleHelper.Log("RectangleRenderer.Clear");
 

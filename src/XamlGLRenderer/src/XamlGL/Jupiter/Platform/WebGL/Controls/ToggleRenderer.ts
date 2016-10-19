@@ -3,7 +3,7 @@ import { BaseRenderer } from "./BaseRenderer";
 import { IRenderer } from "./../../IRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
-// import { FrameworkElement } from "./../../../FrameworkElement";
+import { FrameworkElementCollection } from "./../../../FrameworkElementCollection";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
@@ -11,6 +11,7 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 // import { Path } from "./../../../../Controls/Path";
 // import { PathGeometry } from "./../../../../Controls/PathGeometry";
 import { CheckBox } from "./../../../../Controls/CheckBox";
+import { RadioButton } from "./../../../../Controls/RadioButton";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { PathGeometry } from "./../../../../Controls/PathGeometry";
 // import { PathFigure } from "./../../../../Controls/PathFigure";
@@ -27,11 +28,12 @@ import { CheckBox } from "./../../../../Controls/CheckBox";
 // import { IRenderer } from "./../../IRenderer";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
+import { GroupingHelper } from "./../../../../utils/GroupingHelper";
 import { MiniPathLanguageHelper } from "./../../../../utils/MiniPathLanguageHelper";
 import { Point } from "./../../../../DataTypes/Point";
 
 export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
-    // private _topGraphicsLayer: PIXI.Graphics;
+    private _topGraphicsLayer: PIXI.Graphics;
     // private _isPressed: boolean = false;
 
     Draw(): void {
@@ -67,11 +69,11 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
         MiniPathLanguageHelper.parse(checkboxEl.UncheckedPath, bottomGraphicsLayer);
         bottomGraphicsLayer.endFill();
 
-        let topGraphicsLayer: PIXI.Graphics = new PIXI.Graphics();
-        topGraphicsLayer.beginFill(RendererHelper.HashToColorNumber(checkboxEl.Foreground), 1);
-        MiniPathLanguageHelper.parse(checkboxEl.CheckedPath, topGraphicsLayer);
-        topGraphicsLayer.alpha = checkboxEl.IsChecked ? 1 : 0;
-        topGraphicsLayer.endFill();
+        this._topGraphicsLayer = new PIXI.Graphics();
+        this._topGraphicsLayer.beginFill(RendererHelper.HashToColorNumber(checkboxEl.Foreground), 1);
+        MiniPathLanguageHelper.parse(checkboxEl.CheckedPath, this._topGraphicsLayer);
+        this._topGraphicsLayer.alpha = checkboxEl.IsChecked ? 1 : 0;
+        this._topGraphicsLayer.endFill();
 
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
@@ -80,10 +82,10 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
         // position bits
         bottomGraphicsLayer.x = 0;
         bottomGraphicsLayer.y = 0;
-        topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
-        topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
+        this._topGraphicsLayer.x = checkboxEl.CheckedPadding.Left;
+        this._topGraphicsLayer.y = checkboxEl.CheckedPadding.Top;
         if (checkboxEl.CheckedScale !== 1) {
-            topGraphicsLayer.scale = new PIXI.Point(checkboxEl.CheckedScale, checkboxEl.CheckedScale);
+            this._topGraphicsLayer.scale = new PIXI.Point(checkboxEl.CheckedScale, checkboxEl.CheckedScale);
         }
 
 
@@ -93,7 +95,7 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
 
         // now render in container
         (<PIXI.Container>this.PixiElement).addChild(bottomGraphicsLayer);
-        (<PIXI.Container>this.PixiElement).addChild(topGraphicsLayer);
+        (<PIXI.Container>this.PixiElement).addChild(this._topGraphicsLayer);
 
         // tell the parent stackpanel the next available slot
         this.IncrementNextAvailableSlot();
@@ -120,14 +122,33 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");
 
-                checkboxEl.IsChecked = !checkboxEl.IsChecked;
-                topGraphicsLayer.alpha = checkboxEl.IsChecked? 1:0;
+                if (this.Element instanceof RadioButton) {
+                    let rb: RadioButton = <RadioButton>this.Element;
+                    rb.IsChecked = true;
+                    if (rb.Grouping !== null && rb.Grouping.length > 0) {
+                        let rbGroup: FrameworkElementCollection = GroupingHelper.GetElementsByGrouping(rb.Grouping);
+                        rbGroup.forEach((x: CheckBox) => {
+                            if (x.UniqueID !== rb.UniqueID) {
+                                x.IsChecked = false;
+                                x.Renderer.QuickDraw();
+                            }
+                        });
+                    }
+                } else {
+                    checkboxEl.IsChecked = !checkboxEl.IsChecked;
+                }
+
+                this.QuickDraw();
+                // this._topGraphicsLayer.alpha = checkboxEl.IsChecked? 1:0;
             }
         });
 
 
         checkboxEl.IsDirty = false;
 
+    }
+    QuickDraw(): void {
+        this._topGraphicsLayer.alpha = (<CheckBox>this.Element).IsChecked ? 1 : 0;
     }
     Clear(): void {
         ConsoleHelper.Log("CheckBoxRenderer.Clear");

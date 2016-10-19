@@ -20,6 +20,7 @@ import { TextWrapping } from "./../DataTypes/TextWrapping";
 import { TextWrappingAlign } from "./../DataTypes/TextWrappingAlign";
 import { DockPosition } from "./../DataTypes/DockPosition";
 import { ConsoleHelper } from "./../Utils/ConsoleHelper";
+import { GroupingHelper } from "./../Utils/GroupingHelper";
 
 export class XamlParser {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
@@ -213,7 +214,6 @@ export class XamlParser {
             rb.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             rb.CheckedScale = this.StringToNumberFloat(node.attributes.getNamedItem("CheckedScale"), 0.8);
             rb.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
-            rb.Grouping = this.StringToEmpty(node.attributes.getNamedItem("Grouping"));
             if (node.attributes.getNamedItem("Foreground")) {
                 rb.Foreground = node.attributes.getNamedItem("Foreground").value;
             }
@@ -226,9 +226,14 @@ export class XamlParser {
             if (node.attributes.getNamedItem("CheckedPadding")) {
                 rb.CheckedPadding = this.StringToThickness(node.attributes.getNamedItem("CheckedPadding"));
             }
+            rb.Grouping = this.StringToEmpty(node.attributes.getNamedItem("Grouping"));
+            this.DoGroupingStuff(rb.Grouping, rb);
             return rb;
         }
         return null;
+    }
+    private static DoGroupingStuff(grouping: string, fe: FrameworkElement): void {
+        GroupingHelper.AddFrameworkElement(grouping, fe);
     }
     // 0,0,0,0 = left, top, right, bottom<--
     private static StringToThickness(attr: Attr): Thickness {

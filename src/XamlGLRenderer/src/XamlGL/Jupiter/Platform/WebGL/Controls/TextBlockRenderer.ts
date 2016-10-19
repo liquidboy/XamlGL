@@ -92,6 +92,9 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
 
         textEl.IsDirty = false;
     }
+    QuickDraw(): void {
+        // todo : fill with actual pixi draw stuff that is idempotent
+    }
     Clear(): void {
         ConsoleHelper.Log("TextBlockRenderer.Clear");
 

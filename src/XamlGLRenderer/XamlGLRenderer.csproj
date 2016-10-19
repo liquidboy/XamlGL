@@ -1219,6 +1219,7 @@
     <TypeScriptCompile Include="src\XamlGL\Controls\LoadingBalls.ts" />
     <TypeScriptCompile Include="src\XamlGL\Core.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Core.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\FrameworkElementCollection.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\UIElementCollection.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Control.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\UserControl.ts" />
@@ -1228,6 +1229,7 @@
     <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
     <TypeScriptCompile Include="src\XamlGL\Utils\ConsoleHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\Utils\MiniPathLanguageHelper.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Utils\GroupingHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\Utils\RendererHelper.ts" />
     <TypeScriptCompile Include="src\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\App.ts" />
