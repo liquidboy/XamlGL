@@ -10,6 +10,7 @@ export class TextBox extends Jupiter.View {
     private _fontSize: number;
     private _textWrapping: TextWrapping = TextWrapping.NoWrap;
     private _textWrappingAlign: TextWrappingAlign = TextWrappingAlign.Left;
+    private _hasFocus: boolean;
 
     get Text(): string { return this._text; }
     get Stretch(): Jupiter.Stretch { return this._stretch; }
@@ -18,6 +19,8 @@ export class TextBox extends Jupiter.View {
     get FontFamily(): string { return this._fontFamily; }
     get TextWrapping(): TextWrapping { return this._textWrapping; }
     get TextWrappingAlign(): TextWrappingAlign { return this._textWrappingAlign; }
+    get HasFocus(): boolean { return this._hasFocus; }
+
 
     set Text(value: string) { this._text = value; }
     set Stretch(value: Jupiter.Stretch) { this._stretch = value; }
@@ -26,4 +29,5 @@ export class TextBox extends Jupiter.View {
     set FontFamily(value: string) { this._fontFamily = value; }
     set TextWrapping(value: TextWrapping) { this._textWrapping = value; }
     set TextWrappingAlign(value: TextWrappingAlign) { this._textWrappingAlign = value; }
+    set HasFocus(value: boolean) { this._hasFocus = value; }
 }

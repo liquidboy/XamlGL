@@ -93,7 +93,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
 
         // cursor
-        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height, textBoxEl.FontSize, 3);
+        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height, 10, 3);
+        cursor.alpha = 0;
 
         // end bottom
         this._bottomGraphicsLayer.endFill();
@@ -131,23 +132,37 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         }
 
         this.Element.Platform.Renderer.Key.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this.PixiElement)) {
-                text.text += (<KeyPressedEventArgs>args).Code;
-                // console.LogPad((<KeyPressedEventArgs>args).Code, 20);
+            if (textBoxEl.HasFocus) {
+                let kc: number = parseInt((<KeyPressedEventArgs>args).KeyCode);
+                let k: string = (<KeyPressedEventArgs>args).Key;
+                // consoleHelper.LogPad(kc.toString(), 20);
+                if (kc === 8) {
+                    text.text = text.text.substr(0, text.text.length - 1);
+                } else {
+                    if (k.length === 1) {
+                        text.text += k;
+                    } else {
+                        // a special key ???
+                    }
+                }
             }
         });
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this.IsBeingHitWithPointer(r, args);
-                cursor.position.set(text.x + text.width - 65 , text.y);
             } else {
                 this.IsNotBeingHitWithPointer(r, args);
             }
+
+            if (textBoxEl.HasFocus) {
+                cursor.alpha = 1;
+                cursor.position.set(text.x + text.width - 65, text.y + text.height - textBoxEl.FontSize);
+            } 
         });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
-
+                textBoxEl.HasFocus = !textBoxEl.HasFocus;
                 this.RefreshUI();
             }
         });
@@ -172,3 +187,4 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     }
 }
 
+// hint : https://github.com/pixijs/pixi.js/issues/418

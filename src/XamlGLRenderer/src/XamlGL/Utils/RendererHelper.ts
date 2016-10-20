@@ -84,7 +84,8 @@ export class RendererHelper {
         };
         key.upHandler = (event: any) => {
             let arg: KeyPressedEventArgs = new KeyPressedEventArgs();
-            arg.Code = event.key;
+            arg.KeyCode = event.keyCode;
+            arg.Key = event.key;
             // console.log(event);
             this._keyPressed.dispatch(null, arg);
             // event.preventDefault();

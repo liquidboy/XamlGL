@@ -3836,6 +3836,7 @@ System.register("XamlGL/Controls/TextBox", ["XamlGL/Jupiter/Core", "XamlGL/DataT
                 get FontFamily() { return this._fontFamily; }
                 get TextWrapping() { return this._textWrapping; }
                 get TextWrappingAlign() { return this._textWrappingAlign; }
+                get HasFocus() { return this._hasFocus; }
                 set Text(value) { this._text = value; }
                 set Stretch(value) { this._stretch = value; }
                 set Color(value) { this._color = value; }
@@ -3843,6 +3844,7 @@ System.register("XamlGL/Controls/TextBox", ["XamlGL/Jupiter/Core", "XamlGL/DataT
                 set FontFamily(value) { this._fontFamily = value; }
                 set TextWrapping(value) { this._textWrapping = value; }
                 set TextWrappingAlign(value) { this._textWrappingAlign = value; }
+                set HasFocus(value) { this._hasFocus = value; }
             };
             exports_74("TextBox", TextBox);
         }
@@ -3902,7 +3904,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this._bottomGraphicsLayer = new PIXI.Graphics();
                     this._bottomGraphicsLayer.width = textBoxEl.CalculatedWidth;
                     this._bottomGraphicsLayer.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
-                    let cursor = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height, textBoxEl.FontSize, 3);
+                    let cursor = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height, 10, 3);
+                    cursor.alpha = 0;
                     this._bottomGraphicsLayer.endFill();
                     let parentXYStart = this.CalculateCurrentAvailableSlot();
                     this._bottomGraphicsLayer.x = 0;
@@ -3924,22 +3927,37 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                         }
                     }
                     this.Element.Platform.Renderer.Key.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
-                            text.text += args.Code;
+                        if (textBoxEl.HasFocus) {
+                            let kc = parseInt(args.KeyCode);
+                            let k = args.Key;
+                            if (kc === 8) {
+                                text.text = text.text.substr(0, text.text.length - 1);
+                            }
+                            else {
+                                if (k.length === 1) {
+                                    text.text += k;
+                                }
+                                else {
+                                }
+                            }
                         }
                     });
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             this.IsBeingHitWithPointer(r, args);
-                            cursor.position.set(text.x + text.width - 65, text.y);
                         }
                         else {
                             this.IsNotBeingHitWithPointer(r, args);
+                        }
+                        if (textBoxEl.HasFocus) {
+                            cursor.alpha = 1;
+                            cursor.position.set(text.x + text.width - 65, text.y + text.height - textBoxEl.FontSize);
                         }
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             ConsoleHelper_8.ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
+                            textBoxEl.HasFocus = !textBoxEl.HasFocus;
                             this.RefreshUI();
                         }
                     });
@@ -5492,7 +5510,8 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
                     };
                     key.upHandler = (event) => {
                         let arg = new KeyPressedEventArgs_1.KeyPressedEventArgs();
-                        arg.Code = event.key;
+                        arg.KeyCode = event.keyCode;
+                        arg.Key = event.key;
                         this._keyPressed.dispatch(null, arg);
                     };
                     window.addEventListener("keyup", key.upHandler.bind(key), false);
