@@ -93,7 +93,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
 
         // cursor
-        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height, 10, 3);
+        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height - 20, 3, 18);
         cursor.alpha = 0;
 
         // end bottom
@@ -156,7 +156,10 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
             if (textBoxEl.HasFocus) {
                 cursor.alpha = 1;
-                cursor.position.set(text.x + text.width - 65, text.y + text.height - textBoxEl.FontSize);
+
+                let pos: TextMetrics = text.context.measureText(text.text);
+                let xxx: number = pos.width % text.width;
+                cursor.position.set(xxx, text.y + text.height - textBoxEl.FontSize);
             } 
         });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {

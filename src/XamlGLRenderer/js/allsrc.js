@@ -3904,7 +3904,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this._bottomGraphicsLayer = new PIXI.Graphics();
                     this._bottomGraphicsLayer.width = textBoxEl.CalculatedWidth;
                     this._bottomGraphicsLayer.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
-                    let cursor = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height, 10, 3);
+                    let cursor = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height - 20, 3, 18);
                     cursor.alpha = 0;
                     this._bottomGraphicsLayer.endFill();
                     let parentXYStart = this.CalculateCurrentAvailableSlot();
@@ -3951,7 +3951,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                         }
                         if (textBoxEl.HasFocus) {
                             cursor.alpha = 1;
-                            cursor.position.set(text.x + text.width - 65, text.y + text.height - textBoxEl.FontSize);
+                            let pos = text.context.measureText(text.text);
+                            let xxx = pos.width % text.width;
+                            cursor.position.set(xxx, text.y + text.height - textBoxEl.FontSize);
                         }
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
