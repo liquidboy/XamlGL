@@ -93,7 +93,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
 
         // cursor
-        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height - 20, 3, 18);
+        // let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height - 20, 3, 18);
+        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(0, 0, 3, 18);
         cursor.alpha = 0;
 
         // end bottom
@@ -158,8 +159,9 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 cursor.alpha = 1;
 
                 let pos: TextMetrics = text.context.measureText(text.text);
-                let xxx: number = pos.width % text.width;
-                cursor.position.set(xxx, text.y + text.height - textBoxEl.FontSize);
+                let newX: number = pos.width % text.width;
+                let newY: number = Math.floor(pos.width / text.width) * textBoxEl.FontSize;
+                cursor.position.set(newX, text.y + newY);
             } 
         });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
