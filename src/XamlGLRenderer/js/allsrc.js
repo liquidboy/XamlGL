@@ -2490,6 +2490,10 @@ System.register("XamlGL/DataTypes/Point", [], function(exports_40, context_40) {
                     this.X = x;
                     this.Y = y;
                 }
+                update(x, y) {
+                    this.X = x;
+                    this.Y = y;
+                }
             };
             exports_40("Point", Point);
         }
@@ -2713,6 +2717,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                 constructor() {
                     this._tooltip = null;
                     this._elementChanged = new EventDispatcher_4.EventDispatcher();
+                    this._pixiElementMask = new PIXI.Graphics();
                     this._scale = 1;
                 }
                 get Element() { return this._element; }
@@ -2730,6 +2735,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     return null;
                 }
                 get PixiElement() { return this._pixiElement; }
+                get PixiElementMask() { return this._pixiElementMask; }
                 get Scale() { return this._scale; }
                 set Element(value) {
                     if (value === null && this._element instanceof Panel_3.Panel) {
@@ -2755,6 +2761,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     }
                 }
                 set PixiElement(value) { this._pixiElement = value; }
+                set PixiElementMask(value) { this._pixiElementMask = value; }
                 set Scale(value) { this._scale = value; }
                 OnPropertyChanged() {
                     ConsoleHelper_1.ConsoleHelper.Log("Platform.OnPropertyChanged");
@@ -3837,6 +3844,7 @@ System.register("XamlGL/Controls/TextBox", ["XamlGL/Jupiter/Core", "XamlGL/DataT
                 get TextWrapping() { return this._textWrapping; }
                 get TextWrappingAlign() { return this._textWrappingAlign; }
                 get HasFocus() { return this._hasFocus; }
+                get AcceptsReturn() { return this._acceptsReturn; }
                 set Text(value) { this._text = value; }
                 set Stretch(value) { this._stretch = value; }
                 set Color(value) { this._color = value; }
@@ -3845,15 +3853,16 @@ System.register("XamlGL/Controls/TextBox", ["XamlGL/Jupiter/Core", "XamlGL/DataT
                 set TextWrapping(value) { this._textWrapping = value; }
                 set TextWrappingAlign(value) { this._textWrappingAlign = value; }
                 set HasFocus(value) { this._hasFocus = value; }
+                set AcceptsReturn(value) { this._acceptsReturn = value; }
             };
             exports_74("TextBox", TextBox);
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign"], function(exports_75, context_75) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/Point", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign"], function(exports_75, context_75) {
     "use strict";
     var __moduleName = context_75 && context_75.id;
-    var BaseRenderer_7, ConsoleHelper_8, RendererHelper_5, TextWrapping_4, TextWrappingAlign_4;
+    var BaseRenderer_7, ConsoleHelper_8, RendererHelper_5, Point_2, TextWrapping_4, TextWrappingAlign_4;
     var TextBoxRenderer;
     return {
         setters:[
@@ -3866,6 +3875,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
             function (RendererHelper_5_1) {
                 RendererHelper_5 = RendererHelper_5_1;
             },
+            function (Point_2_1) {
+                Point_2 = Point_2_1;
+            },
             function (TextWrapping_4_1) {
                 TextWrapping_4 = TextWrapping_4_1;
             },
@@ -3874,12 +3886,19 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
             }],
         execute: function() {
             TextBoxRenderer = class TextBoxRenderer extends BaseRenderer_7.BaseRenderer {
+                constructor() {
+                    super(...arguments);
+                    this._cursorPoint = new Point_2.Point(0, 0);
+                    this._currentCursorPositionXLength = 0;
+                }
                 Draw() {
                     super.Draw();
                     ConsoleHelper_8.ConsoleHelper.Log("TextBoxRenderer.Draw");
                     let textBoxEl = this.Element;
                     if (this.PixiElement === undefined) {
                         this.PixiElement = new PIXI.Container();
+                        this.PixiElementMask = new PIXI.Graphics();
+                        this.PixiElement.mask = this.PixiElementMask;
                     }
                     if (!textBoxEl.IsDirty) {
                         return;
@@ -3892,14 +3911,19 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this._topGraphicsLayer = new PIXI.Graphics();
                     this._topGraphicsLayer.width = textBoxEl.CalculatedWidth;
                     this._topGraphicsLayer.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
-                    let text = new PIXI.Text(textBoxEl.Text, {
+                    this._text = new PIXI.Text(textBoxEl.Text, {
                         font: `${textBoxEl.FontSize}px ${textBoxEl.FontFamily}`,
                         fill: textBoxEl.Color,
                         wordWrap: (textBoxEl.TextWrapping === TextWrapping_4.TextWrapping.Wrap) ? true : false,
                         wordWrapWidth: textBoxEl.CalculatedWidth,
                         align: TextWrappingAlign_4.TextWrappingAlign[textBoxEl.TextWrappingAlign].toLowerCase()
                     });
-                    this._topGraphicsLayer.addChild(text);
+                    this._currentCursorPositionXLength = textBoxEl.Text.length;
+                    this.PixiElementMask.clear();
+                    this.PixiElementMask.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FF000000"), 1);
+                    this.PixiElementMask.drawRect(0, 0, textBoxEl.CalculatedWidth, textBoxEl.FontSize + 5);
+                    this.PixiElementMask.endFill();
+                    this._topGraphicsLayer.addChild(this._text);
                     this._topGraphicsLayer.endFill();
                     this._bottomGraphicsLayer = new PIXI.Graphics();
                     this._bottomGraphicsLayer.width = textBoxEl.CalculatedWidth;
@@ -3918,28 +3942,93 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this.IncrementNextAvailableSlot();
                     let parentContainer = null;
                     if (this.Element.Parent.Renderer === undefined) {
+                        this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElementMask);
                         this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
                     }
                     else {
                         if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                             parentContainer = this.Element.Parent.Renderer.PixiElement;
+                            parentContainer.addChild(this.PixiElementMask);
                             parentContainer.addChild(this.PixiElement);
                         }
                     }
                     this.Element.Platform.Renderer.Key.subscribe((r, args) => {
                         if (textBoxEl.HasFocus) {
-                            let kc = parseInt(args.KeyCode);
                             let k = args.Key;
-                            if (kc === 8) {
-                                text.text = text.text.substr(0, text.text.length - 1);
-                            }
-                            else {
-                                if (k.length === 1) {
-                                    text.text += k;
+                            if (k.length === 1) {
+                                if (this._currentCursorPositionXLength === this._text.text.length) {
+                                    this._text.text += k;
+                                    this._currentCursorPositionXLength = this._text.text.length;
                                 }
                                 else {
+                                    let start = this._text.text.substr(0, this._currentCursorPositionXLength);
+                                    let end = this._text.text.substr(this._currentCursorPositionXLength, this._text.text.length);
+                                    this._text.text = start + k + end;
+                                    this._currentCursorPositionXLength++;
                                 }
                             }
+                            else {
+                                switch (k) {
+                                    case "Backspace":
+                                        if (this._currentCursorPositionXLength === 0) {
+                                        }
+                                        else if (this._currentCursorPositionXLength >= this._text.text.length) {
+                                            this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                            this._currentCursorPositionXLength = this._text.text.length;
+                                        }
+                                        else {
+                                            let start = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                            let end = this._text.text.substr(this._currentCursorPositionXLength, this._text.text.length);
+                                            this._text.text = start + end;
+                                            this._currentCursorPositionXLength--;
+                                        }
+                                        break;
+                                    case "Delete":
+                                        if (this._currentCursorPositionXLength === 0) {
+                                        }
+                                        else if (this._currentCursorPositionXLength === this._text.text.length) {
+                                            this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                            this._currentCursorPositionXLength = this._text.text.length;
+                                        }
+                                        else {
+                                            let start = this._text.text.substr(0, this._currentCursorPositionXLength);
+                                            let end = this._text.text.substr(this._currentCursorPositionXLength + 1, this._text.text.length);
+                                            this._text.text = start + end;
+                                        }
+                                        break;
+                                    case "Enter":
+                                        if (textBoxEl.AcceptsReturn) {
+                                            this._text.text += "\n";
+                                            this._currentCursorPositionXLength = this._text.text.length;
+                                        }
+                                        break;
+                                    case "ArrowLeft":
+                                        this._currentCursorPositionXLength--;
+                                        if (this._currentCursorPositionXLength < 0) {
+                                            this._currentCursorPositionXLength = 0;
+                                        }
+                                        textBoxEl.IsDirty = true;
+                                        break;
+                                    case "ArrowRight":
+                                        this._currentCursorPositionXLength++;
+                                        if (this._currentCursorPositionXLength > this._text.text.length) {
+                                            this._currentCursorPositionXLength = this._text.text.length;
+                                        }
+                                        textBoxEl.IsDirty = true;
+                                        break;
+                                    case "End":
+                                        this._currentCursorPositionXLength = this._text.text.length;
+                                        textBoxEl.IsDirty = true;
+                                        break;
+                                    case "Home":
+                                        this._currentCursorPositionXLength = 0;
+                                        textBoxEl.IsDirty = true;
+                                        break;
+                                    default:
+                                        console.log(k);
+                                }
+                            }
+                            this.UpdateCursorPosition();
                         }
                     });
                     this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
@@ -3949,22 +4038,30 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                         else {
                             this.IsNotBeingHitWithPointer(r, args);
                         }
-                        if (textBoxEl.HasFocus) {
+                        if (textBoxEl.HasFocus && textBoxEl.IsDirty) {
                             cursor.alpha = 1;
-                            let pos = text.context.measureText(text.text);
-                            let newX = pos.width % text.width;
-                            let newY = Math.floor(pos.width / text.width) * textBoxEl.FontSize;
-                            cursor.position.set(newX, text.y + newY);
+                            cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
+                            textBoxEl.IsDirty = false;
                         }
                     });
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             ConsoleHelper_8.ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
+                            this._currentCursorPositionXLength = this._text.text.length;
+                            this.UpdateCursorPosition();
                             textBoxEl.HasFocus = !textBoxEl.HasFocus;
                             this.RefreshUI();
                         }
                     });
                     textBoxEl.IsDirty = false;
+                }
+                UpdateCursorPosition() {
+                    let textBoxEl = this.Element;
+                    let pos = this._text.context.measureText(this._text.text.substr(0, this._currentCursorPositionXLength));
+                    let newX = pos.width % this._text.width;
+                    let newY = Math.floor(pos.width / this._text.width) * textBoxEl.FontSize;
+                    this._cursorPoint.update(newX, this._text.y + newY);
+                    textBoxEl.IsDirty = true;
                 }
                 RefreshUI() {
                 }
@@ -5509,7 +5606,10 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
                     let key = {};
                     key.code = null;
                     key.downHandler = (event) => {
-                        event.preventDefault();
+                        let arg = new KeyPressedEventArgs_1.KeyPressedEventArgs();
+                        arg.KeyCode = event.keyCode;
+                        arg.Key = event.key;
+                        this._keyPressed.dispatch(null, arg);
                     };
                     key.upHandler = (event) => {
                         let arg = new KeyPressedEventArgs_1.KeyPressedEventArgs();
@@ -5517,7 +5617,7 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
                         arg.Key = event.key;
                         this._keyPressed.dispatch(null, arg);
                     };
-                    window.addEventListener("keyup", key.upHandler.bind(key), false);
+                    window.addEventListener("keydown", key.downHandler.bind(key), false);
                 }
                 static SetCursorToAuto(r) {
                     if (this._currentCursor === "auto") {
@@ -6074,6 +6174,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
                         text.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
                         text.TextWrapping = this.StringToTextWrapping(node.attributes.getNamedItem("TextWrapping"));
                         text.TextWrappingAlign = this.StringToTextWrappingAlign(node.attributes.getNamedItem("TextWrappingAlign"));
+                        text.AcceptsReturn = this.StringToBoolean(node.attributes.getNamedItem("AcceptsReturn"));
                         return text;
                     }
                     else if (node.nodeName === "Button") {

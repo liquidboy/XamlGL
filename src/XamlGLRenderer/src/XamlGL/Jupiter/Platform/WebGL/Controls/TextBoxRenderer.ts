@@ -37,6 +37,9 @@ import { KeyPressedEventArgs } from "./../../../../Events/KeyPressedEventArgs";
 export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
     private _bottomGraphicsLayer: PIXI.Graphics;
+    private _text: PIXI.Text;
+    private _cursorPoint: Point = new Point(0, 0);
+    private _currentCursorPositionXLength: number = 0;
     // private _isFocused: boolean = false;
 
     Draw(): void {
@@ -46,6 +49,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         let textBoxEl: TextBox = <TextBox>this.Element;
         if (this.PixiElement === undefined) {
             this.PixiElement = new PIXI.Container();
+            this.PixiElementMask = new PIXI.Graphics();
+            this.PixiElement.mask = this.PixiElementMask;
         }
 
         if (!textBoxEl.IsDirty) {
@@ -71,7 +76,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._topGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
 
         // text
-        let text: PIXI.Text = new PIXI.Text(
+        this._text = new PIXI.Text(
             textBoxEl.Text,
             {
                 font: `${textBoxEl.FontSize}px ${textBoxEl.FontFamily}`,
@@ -81,8 +86,16 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 align: TextWrappingAlign[textBoxEl.TextWrappingAlign].toLowerCase()
             }
         );
-        this._topGraphicsLayer.addChild(text);
-        
+        this._currentCursorPositionXLength = textBoxEl.Text.length;
+
+        // mask
+        this.PixiElementMask.clear();
+        this.PixiElementMask.beginFill(RendererHelper.HashToColorNumber("#FF000000"), 1);
+        this.PixiElementMask.drawRect(0, 0, textBoxEl.CalculatedWidth, textBoxEl.FontSize + 5);
+        this.PixiElementMask.endFill();
+
+        this._topGraphicsLayer.addChild(this._text);
+
         // end top
         this._topGraphicsLayer.endFill();
 
@@ -124,28 +137,100 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
+            this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElementMask);
             this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                 parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+                parentContainer.addChild(this.PixiElementMask);
                 parentContainer.addChild(this.PixiElement);
             }
         }
 
         this.Element.Platform.Renderer.Key.subscribe((r: IRenderer, args: IEventArgs) => {
             if (textBoxEl.HasFocus) {
-                let kc: number = parseInt((<KeyPressedEventArgs>args).KeyCode);
+                // let kc: number = parseInt((<KeyPressedEventArgs>args).KeyCode);
                 let k: string = (<KeyPressedEventArgs>args).Key;
                 // consoleHelper.LogPad(kc.toString(), 20);
-                if (kc === 8) {
-                    text.text = text.text.substr(0, text.text.length - 1);
-                } else {
-                    if (k.length === 1) {
-                        text.text += k;
+
+                if (k.length === 1) { // an acceptable single char
+                    if (this._currentCursorPositionXLength === this._text.text.length) {
+                        this._text.text += k;
+                        this._currentCursorPositionXLength = this._text.text.length;
                     } else {
-                        // a special key ???
+                        let start: string = this._text.text.substr(0, this._currentCursorPositionXLength);
+                        let end: string = this._text.text.substr(this._currentCursorPositionXLength, this._text.text.length);
+                        this._text.text = start + k + end;
+                        this._currentCursorPositionXLength++;
+                    }
+                } else {
+                    switch (k) {
+                        case "Backspace":
+                            if (this._currentCursorPositionXLength === 0) {
+                                // if you are a the start of the line
+
+                            } else if (this._currentCursorPositionXLength >= this._text.text.length) {
+                                // if you are a the end of the line
+                                this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                this._currentCursorPositionXLength = this._text.text.length;
+                            } else {
+                                // if you are somewhere in the line 
+                                let start: string = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                let end: string = this._text.text.substr(this._currentCursorPositionXLength, this._text.text.length);
+                                this._text.text = start + end;
+                                this._currentCursorPositionXLength--;
+                            }
+                            break;
+                        case "Delete":
+                            if (this._currentCursorPositionXLength === 0) {
+                                // if you are a the start of the line
+
+                            } else if (this._currentCursorPositionXLength === this._text.text.length) {
+                                // if you are a the end of the line
+                                this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                this._currentCursorPositionXLength = this._text.text.length;
+                            } else {
+                                // if you are somewhere in the line 
+                                let start: string = this._text.text.substr(0, this._currentCursorPositionXLength);
+                                let end: string = this._text.text.substr(this._currentCursorPositionXLength + 1, this._text.text.length);
+                                this._text.text = start + end;
+                            }
+                            break;
+                        case "Enter":
+                            if (textBoxEl.AcceptsReturn) {
+                                this._text.text += "\n";
+                                this._currentCursorPositionXLength = this._text.text.length;
+                            }
+                            break;
+                        case "ArrowLeft":
+                            this._currentCursorPositionXLength--;
+                            if (this._currentCursorPositionXLength < 0) {
+                                this._currentCursorPositionXLength = 0;
+                            }
+                            textBoxEl.IsDirty = true;
+                            break;
+                        case "ArrowRight":
+                            this._currentCursorPositionXLength++;
+                            if (this._currentCursorPositionXLength > this._text.text.length) {
+                                this._currentCursorPositionXLength = this._text.text.length;
+                            }
+                            textBoxEl.IsDirty = true;
+                            break;
+                        case "End":
+                            this._currentCursorPositionXLength = this._text.text.length;
+                            textBoxEl.IsDirty = true;
+                            break;
+                        case "Home":
+                            this._currentCursorPositionXLength = 0;
+                            textBoxEl.IsDirty = true;
+                            break;
+                        default:
+                            console.log(k);
                     }
                 }
+
+
+                this.UpdateCursorPosition();
             }
         });
         this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
@@ -155,18 +240,17 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 this.IsNotBeingHitWithPointer(r, args);
             }
 
-            if (textBoxEl.HasFocus) {
+            if (textBoxEl.HasFocus && textBoxEl.IsDirty) {
                 cursor.alpha = 1;
-
-                let pos: TextMetrics = text.context.measureText(text.text);
-                let newX: number = pos.width % text.width;
-                let newY: number = Math.floor(pos.width / text.width) * textBoxEl.FontSize;
-                cursor.position.set(newX, text.y + newY);
-            } 
+                cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
+                textBoxEl.IsDirty = false;
+            }
         });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
+                this._currentCursorPositionXLength = this._text.text.length;
+                this.UpdateCursorPosition();
                 textBoxEl.HasFocus = !textBoxEl.HasFocus;
                 this.RefreshUI();
             }
@@ -175,6 +259,14 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
         textBoxEl.IsDirty = false;
 
+    }
+    UpdateCursorPosition(): void {
+        let textBoxEl: TextBox = <TextBox>this.Element;
+        let pos: TextMetrics = this._text.context.measureText(this._text.text.substr(0, this._currentCursorPositionXLength));
+        let newX: number = pos.width % this._text.width;
+        let newY: number = Math.floor(pos.width / this._text.width) * textBoxEl.FontSize;
+        this._cursorPoint.update(newX, this._text.y + newY);
+        textBoxEl.IsDirty = true;
     }
     RefreshUI(): void {
         // this._topGraphicsLayer.alpha = (<CheckBox>this.Element).IsChecked ? 1 : 0;

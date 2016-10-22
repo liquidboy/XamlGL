@@ -6,4 +6,9 @@
         this.X = x;
         this.Y = y;
     }
+
+    public update(x: number, y: number) {
+        this.X = x;
+        this.Y = y;
+    }
 }

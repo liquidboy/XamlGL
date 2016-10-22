@@ -140,6 +140,7 @@ export class XamlParser {
             text.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             text.TextWrapping = this.StringToTextWrapping(node.attributes.getNamedItem("TextWrapping"));
             text.TextWrappingAlign = this.StringToTextWrappingAlign(node.attributes.getNamedItem("TextWrappingAlign"));
+            text.AcceptsReturn = this.StringToBoolean(node.attributes.getNamedItem("AcceptsReturn"));
             return text;
         } else if (node.nodeName === "Button") {
             let button: Button = new Button();

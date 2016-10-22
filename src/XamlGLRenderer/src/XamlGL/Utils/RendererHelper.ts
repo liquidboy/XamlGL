@@ -79,8 +79,14 @@ export class RendererHelper {
         key.code = null;
 
         key.downHandler = (event: any) => {
-            // todo: do we need to listen for key downs ?
-            event.preventDefault();
+
+            let arg: KeyPressedEventArgs = new KeyPressedEventArgs();
+            arg.KeyCode = event.keyCode;
+            arg.Key = event.key;
+            this._keyPressed.dispatch(null, arg);
+
+
+            // event.preventDefault();
         };
         key.upHandler = (event: any) => {
             let arg: KeyPressedEventArgs = new KeyPressedEventArgs();
@@ -91,12 +97,12 @@ export class RendererHelper {
             // event.preventDefault();
         };
 
-        // window.addEventListener(
-        //    "keydown", key.downHandler.bind(key), false
-        // );
         window.addEventListener(
-            "keyup", key.upHandler.bind(key), false
-        );
+            "keydown", key.downHandler.bind(key), false
+         );
+        // window.addEventListener(
+        //    "keyup", key.upHandler.bind(key), false
+        // );
     }
 
     private static _cursorToAutoTimer = 0;

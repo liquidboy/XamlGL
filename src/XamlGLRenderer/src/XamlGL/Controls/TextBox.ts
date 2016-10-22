@@ -11,6 +11,8 @@ export class TextBox extends Jupiter.View {
     private _textWrapping: TextWrapping = TextWrapping.NoWrap;
     private _textWrappingAlign: TextWrappingAlign = TextWrappingAlign.Left;
     private _hasFocus: boolean;
+    private _acceptsReturn: boolean;
+    
 
     get Text(): string { return this._text; }
     get Stretch(): Jupiter.Stretch { return this._stretch; }
@@ -20,7 +22,8 @@ export class TextBox extends Jupiter.View {
     get TextWrapping(): TextWrapping { return this._textWrapping; }
     get TextWrappingAlign(): TextWrappingAlign { return this._textWrappingAlign; }
     get HasFocus(): boolean { return this._hasFocus; }
-
+    get AcceptsReturn(): boolean { return this._acceptsReturn; }
+    
 
     set Text(value: string) { this._text = value; }
     set Stretch(value: Jupiter.Stretch) { this._stretch = value; }
@@ -30,4 +33,5 @@ export class TextBox extends Jupiter.View {
     set TextWrapping(value: TextWrapping) { this._textWrapping = value; }
     set TextWrappingAlign(value: TextWrappingAlign) { this._textWrappingAlign = value; }
     set HasFocus(value: boolean) { this._hasFocus = value; }
+    set AcceptsReturn(value: boolean) { this._acceptsReturn = value; }
 }
