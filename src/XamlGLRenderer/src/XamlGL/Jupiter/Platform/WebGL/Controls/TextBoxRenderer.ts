@@ -40,6 +40,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _text: PIXI.Text;
     private _cursorPoint: Point = new Point(0, 0);
     private _currentCursorPositionXLength: number = 0;
+    // private _localWindowLength: number = 30;
     // private _isFocused: boolean = false;
 
     Draw(): void {
@@ -103,6 +104,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         // start bottom
         this._bottomGraphicsLayer = new PIXI.Graphics();
         this._bottomGraphicsLayer.width = textBoxEl.CalculatedWidth;
+        this._bottomGraphicsLayer.height = textBoxEl.CalculatedHeight;
         this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
 
         // cursor
@@ -155,12 +157,14 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
                 if (k.length === 1) { // an acceptable single char
                     if (this._currentCursorPositionXLength === this._text.text.length) {
-                        this._text.text += k;
+                        // this._text.text += k;
+                        this.UpdateText(this._text.text + k);
                         this._currentCursorPositionXLength = this._text.text.length;
                     } else {
                         let start: string = this._text.text.substr(0, this._currentCursorPositionXLength);
                         let end: string = this._text.text.substr(this._currentCursorPositionXLength, this._text.text.length);
-                        this._text.text = start + k + end;
+                        // this._text.text = start + k + end;
+                        this.UpdateText(start + k + end);
                         this._currentCursorPositionXLength++;
                     }
                 } else {
@@ -171,13 +175,15 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
                             } else if (this._currentCursorPositionXLength >= this._text.text.length) {
                                 // if you are a the end of the line
-                                this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                // this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                this.UpdateText(this._text.text.substr(0, this._currentCursorPositionXLength - 1));
                                 this._currentCursorPositionXLength = this._text.text.length;
                             } else {
                                 // if you are somewhere in the line 
                                 let start: string = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
                                 let end: string = this._text.text.substr(this._currentCursorPositionXLength, this._text.text.length);
-                                this._text.text = start + end;
+                                // this._text.text = start + end;
+                                this.UpdateText(start + end);
                                 this._currentCursorPositionXLength--;
                             }
                             break;
@@ -187,18 +193,21 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
                             } else if (this._currentCursorPositionXLength === this._text.text.length) {
                                 // if you are a the end of the line
-                                this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                // this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
+                                this.UpdateText(this._text.text.substr(0, this._currentCursorPositionXLength - 1));
                                 this._currentCursorPositionXLength = this._text.text.length;
                             } else {
                                 // if you are somewhere in the line 
                                 let start: string = this._text.text.substr(0, this._currentCursorPositionXLength);
                                 let end: string = this._text.text.substr(this._currentCursorPositionXLength + 1, this._text.text.length);
-                                this._text.text = start + end;
+                                // this._text.text = start + end;
+                                this.UpdateText(start + end);
                             }
                             break;
                         case "Enter":
                             if (textBoxEl.AcceptsReturn) {
-                                this._text.text += "\n";
+                                // this._text.text += "\n";
+                                this.UpdateText(this._text.text + "\n");
                                 this._currentCursorPositionXLength = this._text.text.length;
                             }
                             break;
@@ -229,7 +238,6 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                     }
                 }
 
-
                 this.UpdateCursorPosition();
             }
         });
@@ -259,6 +267,9 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
         textBoxEl.IsDirty = false;
 
+    }
+    UpdateText(newText: string): void {
+        this._text.text = newText;
     }
     UpdateCursorPosition(): void {
         let textBoxEl: TextBox = <TextBox>this.Element;
