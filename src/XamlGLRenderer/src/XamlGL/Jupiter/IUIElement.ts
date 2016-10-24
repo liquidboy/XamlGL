@@ -3,4 +3,6 @@ export interface IUIElement {
     IsVisible: boolean;
     IsDirty: boolean;
     Platform: IPlatform;
+    UniqueID: string;
+    Name: string;
 }
