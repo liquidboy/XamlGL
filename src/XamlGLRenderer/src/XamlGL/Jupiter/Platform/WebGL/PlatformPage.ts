@@ -11,6 +11,7 @@ import { IEvent } from "./../../../Events/IEvent";
 import { XamlMarkup } from "./../../../Reader/XamlMarkup";
 import { XamlParser } from "./../../../Reader/XamlParser";
 import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
+import { VisualTreeHelper } from "./../../../utils/VisualTreeHelper";
 
 export class PlatformPage extends Page implements IPlatformPage {
 
@@ -61,11 +62,11 @@ export class PlatformPage extends Page implements IPlatformPage {
                 this.Width = shellWidth;
                 this.Height = shellHeight;
                 this.Resize(this.Width, this.Height);
-            } 
+            }
         }
 
         this.Content = XamlParser.XamlMarkupToUIElement(xaml);
-
+        VisualTreeHelper.DebugVT();
         this.InitializeShell();
     }
 

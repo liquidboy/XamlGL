@@ -27,7 +27,9 @@ export class VisualTreeNode {
     private _children: Collections.LinkedList<VisualTreeNode>;
     get Children(): Collections.LinkedList<VisualTreeNode> { return this._children; }
 
-    constructor(public Name: string = null, public ID: string = null) { }
+    constructor(public Name: string = null, public ID: string = null) {
+        this._children = new Collections.LinkedList<VisualTreeNode>();
+    }
     Find(id: string): VisualTreeNode {
         if (this.ID === id) {
             return this;

@@ -12,8 +12,18 @@
     }
     public static LogPad(title: string, padding: number): void {
         let uc: string = "\u2609 ";
-        if (padding === 5) {
+        if (padding === 0) {
             uc = "\u22EF ";
+        } else if (padding === 5) {
+            uc = "\u263C ";
+        } else if (padding === 10) {
+            uc = "\u2646 ";
+        } else if (padding === 15) {
+            uc = "\u2645 ";
+        } else if (padding === 20) {
+            uc = "\u2600 ";
+        } else if (padding === 25) {
+            uc = "\u26C4 ";
         }
         console.log(" ".repeat(padding) + uc + title);
     }

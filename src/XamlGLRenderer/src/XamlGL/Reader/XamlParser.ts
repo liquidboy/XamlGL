@@ -22,6 +22,7 @@ import { TextWrappingAlign } from "./../DataTypes/TextWrappingAlign";
 import { DockPosition } from "./../DataTypes/DockPosition";
 import { ConsoleHelper } from "./../Utils/ConsoleHelper";
 import { GroupingHelper } from "./../Utils/GroupingHelper";
+import { VisualTreeHelper } from "./../Utils/VisualTreeHelper";
 
 export class XamlParser {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
@@ -44,6 +45,7 @@ export class XamlParser {
     }
     private static ProcessRootNode(el: Node): FrameworkElement {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
+        VisualTreeHelper.AddFrameworkElement(newFE, null);
         if (newFE !== null && newFE instanceof Panel) {
             return this.ProcessCollectionNodes(newFE, el.childNodes);
         }
@@ -56,15 +58,16 @@ export class XamlParser {
 
         for (let x: number = 0; x < col.length; x++) {
             let node: Node = col.item(x);
-            let newFE: FrameworkElement = this.ProcessNode(node);
+            let newFE: FrameworkElement = this.ProcessNode(node, rootPanel.UniqueID);
             if (newFE !== null) {
                 rootPanel.Children.add(newFE);
             }
         }
         return rootPanel;
     }
-    private static ProcessNode(el: Node): FrameworkElement {
+    private static ProcessNode(el: Node, parentUId: string): FrameworkElement {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
+        VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
         if (newFE instanceof Panel) {
             return this.ProcessCollectionNodes(newFE, el.childNodes);
         } else {
@@ -75,6 +78,7 @@ export class XamlParser {
         // consoleHelper.Log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
         if (node.nodeName === "Rectangle") {
             let rect: Rectangle = new Rectangle();
+            rect.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             rect.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             rect.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             rect.Background = node.attributes.getNamedItem("Fill").value;
@@ -85,6 +89,7 @@ export class XamlParser {
             return rect;
         } else if (node.nodeName === "Image") {
             let img: Image = new Image();
+            img.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             img.SourceUrl = node.attributes.getNamedItem("Source").value;
             img.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             img.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
@@ -94,6 +99,7 @@ export class XamlParser {
             return img;
         } else if (node.nodeName === "Grid") {
             let grid: Grid = new Grid();
+            grid.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             grid.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             grid.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             grid.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
@@ -105,6 +111,7 @@ export class XamlParser {
             return grid;
         } else if (node.nodeName === "StackPanel") {
             let stackpanel: StackPanel = new StackPanel();
+            stackpanel.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             stackpanel.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             stackpanel.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             stackpanel.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
@@ -117,6 +124,7 @@ export class XamlParser {
             return stackpanel;
         } else if (node.nodeName === "Text") {
             let text: TextBlock = new TextBlock();
+            text.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             text.Text = node.attributes.getNamedItem("Text").value;
             text.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             text.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
@@ -130,6 +138,7 @@ export class XamlParser {
             return text;
         } else if (node.nodeName === "TextBox") {
             let text: TextBox = new TextBox();
+            text.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             text.Text = node.attributes.getNamedItem("Text").value;
             text.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             text.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
@@ -144,6 +153,7 @@ export class XamlParser {
             return text;
         } else if (node.nodeName === "Button") {
             let button: Button = new Button();
+            button.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             button.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             button.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             button.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
@@ -168,6 +178,7 @@ export class XamlParser {
             return button;
         } else if (node.nodeName === "ToolTip") {
             let tooltip: ToolTip = new ToolTip();
+            tooltip.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             tooltip.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             tooltip.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             tooltip.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
@@ -180,6 +191,7 @@ export class XamlParser {
             return tooltip;
         } else if (node.nodeName === "Path") {
             let path: Path = new Path();
+            path.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             path.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             path.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             path.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
@@ -202,6 +214,7 @@ export class XamlParser {
             return path;
         } else if (node.nodeName === "CheckBox") {
             let cb: CheckBox = new CheckBox();
+            cb.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             cb.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             cb.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             cb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
@@ -224,6 +237,7 @@ export class XamlParser {
             return cb;
         } else if (node.nodeName === "RadioButton") {
             let rb: RadioButton = new RadioButton();
+            rb.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             rb.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             rb.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             rb.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));

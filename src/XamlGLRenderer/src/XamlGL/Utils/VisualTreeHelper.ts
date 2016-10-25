@@ -2,13 +2,20 @@
 import { FrameworkElement } from "./../Jupiter/FrameworkElement";
 import { LinkedList } from "./../../Libs/typescript-collections/src/lib/index";
 import { VisualTree, VisualTreeNode } from "./../VisualTree";
+import { ConsoleHelper } from "./../Utils/ConsoleHelper";
 
 export class VisualTreeHelper {
 
     private static _elementList: LinkedList<FrameworkElement> = new LinkedList<FrameworkElement>();
     private static _visualTree: VisualTree = new VisualTree();
 
+    static get XamlVT(): VisualTree { return this._visualTree; }
+
     public static AddFrameworkElement(element: FrameworkElement, parentId: string): void {
+        if (element === null) {
+            return;
+        }
+
         this._elementList.add(element);
 
         // check to see if new FE already exists in the VisualTree
@@ -17,12 +24,30 @@ export class VisualTreeHelper {
             return;
         }
 
+
         // this FE is not in the VisualTree so add it
-        let foundParent: VisualTreeNode = this._visualTree.Find(parentId);
-        if (foundParent != null) {
-            foundParent.Children.add(new VisualTreeNode(element.Name, element.UniqueID));
+        if (parentId === null) {
+            this._visualTree.Children.add(new VisualTreeNode(element.Name, null));
         } else {
-            this._visualTree.Children.add(new VisualTreeNode(element.Name, element.UniqueID));
+            let foundParent: VisualTreeNode = this._visualTree.Find(parentId);
+            if (foundParent != null) {
+                foundParent.Children.add(new VisualTreeNode(element.Name, element.UniqueID));
+            } else {
+                this._visualTree.Children.add(new VisualTreeNode(element.Name, element.UniqueID));
+            }
         }
+    }
+    public static DebugVT(): void {
+        ConsoleHelper.LogPad("Xaml Visual Tree (XVT)", 0);
+        this.XamlVT.Children.forEach((x: VisualTreeNode) => {
+            ConsoleHelper.LogPad(x.Name, 5);
+            this.DebugNode(x.Children, 5);
+        });
+    }
+
+    private static DebugNode(children: LinkedList<VisualTreeNode>, parentPadding: number): void {
+        children.forEach((x: VisualTreeNode) => {
+            ConsoleHelper.LogPad(x.Name, parentPadding + 5);
+        });
     }
 }
