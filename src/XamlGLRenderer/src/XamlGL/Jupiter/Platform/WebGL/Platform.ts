@@ -10,6 +10,7 @@ import { IControlRenderer } from "./../IControlRenderer";
 import { Panel } from "./../../../Controls/Panel";
 // import { Image } from "./../../../Controls/Image";
 import { RendererHelper } from "./../../../utils/RendererHelper";
+import { VisualTreeHelper } from "./../../../utils/VisualTreeHelper";
 import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
 
 export class Platform implements IPlatform {
@@ -68,16 +69,17 @@ export class Platform implements IPlatform {
     }
 
     public DrawAll(content: FrameworkElement): void {
-        // consoleHelper.LogSectionHeader("Platform:DrawAll");
-        // console.log(content);
-        content.Renderer.Draw();
-        if (content instanceof Panel) {
-            let panel: Panel = <Panel>content;
-            // panel.Children.reverse(); // <==== xaml is rendered from bottom to top
-            panel.Children.forEach((x: IUIElement) => {
-                this.DrawAll(<FrameworkElement>x);
-            });
-        }
+        //// consoleHelper.LogSectionHeader("Platform:DrawAll");
+        //// console.log(content);
+        //content.Renderer.Draw();
+        //if (content instanceof Panel) {
+        //    let panel: Panel = <Panel>content;
+        //    // panel.Children.reverse(); // <==== xaml is rendered from bottom to top
+        //    panel.Children.forEach((x: IUIElement) => {
+        //        this.DrawAll(<FrameworkElement>x);
+        //    });
+        //}
+        VisualTreeHelper.Draw();
     }
 
     public Draw(content: IFrameworkElement): void {

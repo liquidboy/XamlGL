@@ -24,16 +24,15 @@ export class VisualTreeHelper {
             return;
         }
 
-
         // this FE is not in the VisualTree so add it
         if (parentId === null) {
-            this._visualTree.Children.add(new VisualTreeNode(element.Name, null));
+            this._visualTree.Children.add(new VisualTreeNode(element.Name, null, element));
         } else {
             let foundParent: VisualTreeNode = this._visualTree.Find(parentId);
             if (foundParent != null) {
-                foundParent.Children.add(new VisualTreeNode(element.Name, element.UniqueID));
+                foundParent.Children.add(new VisualTreeNode(element.Name, element.UniqueID, element));
             } else {
-                this._visualTree.Children.add(new VisualTreeNode(element.Name, element.UniqueID));
+                this._visualTree.Children.add(new VisualTreeNode(element.Name, element.UniqueID, element));
             }
         }
     }
@@ -48,6 +47,24 @@ export class VisualTreeHelper {
     private static DebugNode(children: LinkedList<VisualTreeNode>, parentPadding: number): void {
         children.forEach((x: VisualTreeNode) => {
             ConsoleHelper.LogPad(x.Name, parentPadding + 5);
+        });
+    }
+
+    public static Draw(): void {
+        ConsoleHelper.LogPad("VisualTreeHelper.Draw", 0);
+        this.XamlVT.Children.forEach((x: VisualTreeNode) => {
+            this.DrawNode(x);
+        });
+    }
+
+    private static DrawNode(x: VisualTreeNode): void {
+        ConsoleHelper.LogPad("VisualTreeHelper.DrawNode", 0);
+        x.BackingElement.Renderer.Draw();
+        x.Children.forEach((vtn: VisualTreeNode) => {
+            vtn.BackingElement.Renderer.Draw();
+            if (vtn.Children.size.length > 0) {
+                this.DrawNode(vtn);
+            }
         });
     }
 }
