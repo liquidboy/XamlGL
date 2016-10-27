@@ -69,16 +69,7 @@ export class Platform implements IPlatform {
     }
 
     public DrawAll(content: FrameworkElement): void {
-        //// consoleHelper.LogSectionHeader("Platform:DrawAll");
-        //// console.log(content);
-        //content.Renderer.Draw();
-        //if (content instanceof Panel) {
-        //    let panel: Panel = <Panel>content;
-        //    // panel.Children.reverse(); // <==== xaml is rendered from bottom to top
-        //    panel.Children.forEach((x: IUIElement) => {
-        //        this.DrawAll(<FrameworkElement>x);
-        //    });
-        //}
+        // all drawing is now done in the VisualTreeHelper via the Visual Tree
         VisualTreeHelper.Draw();
     }
 
