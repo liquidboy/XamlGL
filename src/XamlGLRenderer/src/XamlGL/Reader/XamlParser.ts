@@ -68,6 +68,7 @@ export class XamlParser {
     private static ProcessNode(el: Node, parentUId: string): FrameworkElement {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
         VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
+
         if (newFE instanceof Panel) {
             return this.ProcessCollectionNodes(newFE, el.childNodes);
         } else {
