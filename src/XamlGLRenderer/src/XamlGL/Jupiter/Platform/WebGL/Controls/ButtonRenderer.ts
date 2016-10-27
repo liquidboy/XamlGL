@@ -24,7 +24,10 @@ import { DockPosition } from "./../../../../DataTypes/DockPosition";
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _blurToUse: number = 0;
     private _isPressed: boolean = false;
-
+    InitializeResources(): void {
+        super.InitializeResources();
+        // fill from Draw
+    }
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("ButtonRenderer.Draw");

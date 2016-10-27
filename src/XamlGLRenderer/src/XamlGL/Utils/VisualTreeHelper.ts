@@ -13,13 +13,13 @@ export class VisualTreeHelper {
     static get ElementCount(): number { return this._elementList.size(); }
 
     public static AddFrameworkElement(element: FrameworkElement, parentId: string): void {
-        
+
         if (element === null) {
             return;
         }
-        
+
         this._elementList.add(element);
-        
+
         // check to see if new FE already exists in the VisualTree
         let foundElement: VisualTreeNode = this._visualTree.Find(element.UniqueID);
         if (foundElement !== null) {

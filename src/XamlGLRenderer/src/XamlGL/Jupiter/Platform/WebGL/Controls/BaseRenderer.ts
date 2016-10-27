@@ -114,7 +114,9 @@ export class BaseRenderer implements IControlRenderer {
         // todo
         ConsoleHelper.Log("Platform.OnChildRemoved");
     }
-
+    InitializeResources(): void {
+        // todo : fill 
+    }
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
     }

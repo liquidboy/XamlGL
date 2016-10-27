@@ -9,6 +9,10 @@ import { FrameworkElement } from "./../../../FrameworkElement";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 
 export class DefaultRenderer extends BaseRenderer implements IControlRenderer {
+    InitializeResources(): void {
+        super.InitializeResources();
+        // fill from Draw
+    }
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("DefaultRenderer.Draw");

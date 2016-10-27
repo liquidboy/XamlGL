@@ -12,6 +12,10 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class RectangleRenderer extends BaseRenderer implements IControlRenderer {
+    InitializeResources(): void {
+        super.InitializeResources();
+        // fill from Draw
+    }
     Draw(): void {
         super.Draw();
         ConsoleHelper.Log("RectangleRenderer.Draw");

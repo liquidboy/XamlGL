@@ -6,6 +6,7 @@ import { IEvent } from "./../../Events/IEvent";
 export interface IControlRenderer {
     Element: FrameworkElement;
     ElementChanged: IEvent<IControlRenderer, IEventArgs>;
+    InitializeResources(): void;
     Draw(): void;
     RefreshUI(): void;
     Clear(): void;
