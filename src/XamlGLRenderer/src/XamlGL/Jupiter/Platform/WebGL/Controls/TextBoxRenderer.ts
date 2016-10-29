@@ -38,17 +38,37 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
     private _bottomGraphicsLayer: PIXI.Graphics;
     private _text: PIXI.Text;
+    private _cursor: PIXI.Graphics;
     private _cursorPoint: Point = new Point(0, 0);
     private _currentCursorPositionXLength: number = 0;
     // private _localWindowLength: number = 30;
     // private _isFocused: boolean = false;
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("TextBoxRenderer.Draw");
+        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
+            return;
+        }
+        // consoleHelper.Log("TextBoxRenderer.Draw");
+
+        let textBoxEl: TextBox = <TextBox>this.Element;
+
+        if (this.Element.Platform.Renderer.Pointer.hitTestSprite(this.PixiElement)) {
+            this.IsBeingHitWithPointer(this.Element.Platform.Renderer);
+        } else {
+            this.IsNotBeingHitWithPointer(this.Element.Platform.Renderer);
+        }
+
+        if (textBoxEl.HasFocus && textBoxEl.IsDirty) {
+            this._cursor.alpha = 1;
+            this._cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
+            textBoxEl.IsDirty = false;
+        }
+
+        this.Element.IsDirty = false;
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("TextBoxRenderer.InitializeResources");
 
         let textBoxEl: TextBox = <TextBox>this.Element;
         if (this.PixiElement === undefined) {
@@ -57,9 +77,6 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
             this.PixiElement.mask = this.PixiElementMask;
         }
 
-        if (!textBoxEl.IsDirty) {
-            return;
-        }
 
         // calculate y position
         this.CalculateYHeight(textBoxEl);
@@ -112,8 +129,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
         // cursor
         // let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height - 20, 3, 18);
-        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(0, 0, 3, 18);
-        cursor.alpha = 0;
+        this._cursor = this._bottomGraphicsLayer.drawRect(0, 0, 3, 18);
+        this._cursor.alpha = 0;
 
         // end bottom
         this._bottomGraphicsLayer.endFill();
@@ -242,21 +259,23 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 }
 
                 this.UpdateCursorPosition();
+                this.Element.IsDirty = true;
             }
         });
-        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this.PixiElement)) {
-                this.IsBeingHitWithPointer(r, args);
-            } else {
-                this.IsNotBeingHitWithPointer(r, args);
-            }
+        this.IsAlwaysDirty = true;
+        // this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+        //    if (r.Pointer.hitTestSprite(this.PixiElement)) {
+        //        this.IsBeingHitWithPointer(r);
+        //    } else {
+        //        this.IsNotBeingHitWithPointer(r);
+        //    }
 
-            if (textBoxEl.HasFocus && textBoxEl.IsDirty) {
-                cursor.alpha = 1;
-                cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
-                textBoxEl.IsDirty = false;
-            }
-        });
+        //    if (textBoxEl.HasFocus && textBoxEl.IsDirty) {
+        //        this._cursor.alpha = 1;
+        //        this._cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
+        //        textBoxEl.IsDirty = false;
+        //    }
+        // });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
@@ -264,11 +283,10 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 this.UpdateCursorPosition();
                 textBoxEl.HasFocus = !textBoxEl.HasFocus;
                 this.RefreshUI();
+                this.Element.IsDirty = true;
             }
         });
 
-
-        textBoxEl.IsDirty = false;
 
     }
     UpdateText(newText: string): void {

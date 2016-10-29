@@ -28,20 +28,21 @@ import { MiniPathLanguageHelper } from "./../../../../utils/MiniPathLanguageHelp
 import { Point } from "./../../../../DataTypes/Point";
 
 export class PathRenderer extends BaseRenderer implements IControlRenderer {
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("PathRenderer.Draw");
+        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
+            return;
+        }
+        // consoleHelper.Log("PathRenderer.Draw");
+
+        this.Element.IsDirty = false;
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("PathRenderer.InitializeResources");
 
         let pathEl: Path = <Path>super.Element;
         let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
-
-        if (!pathEl.IsDirty) {
-            return;
-        }
 
         // calculate y position
         this.CalculateYHeight(pathEl);
@@ -102,9 +103,6 @@ export class PathRenderer extends BaseRenderer implements IControlRenderer {
         //    }
         // });
 
-
-
-        pathEl.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

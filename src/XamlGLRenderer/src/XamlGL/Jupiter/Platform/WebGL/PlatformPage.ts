@@ -12,6 +12,7 @@ import { XamlMarkup } from "./../../../Reader/XamlMarkup";
 import { XamlParser } from "./../../../Reader/XamlParser";
 import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
 import { VisualTreeHelper } from "./../../../utils/VisualTreeHelper";
+import { RendererHelper } from "./../../../utils/RendererHelper";
 
 export class PlatformPage extends Page implements IPlatformPage {
 
@@ -21,6 +22,7 @@ export class PlatformPage extends Page implements IPlatformPage {
     private _transparent: boolean;
     private _htmlCanvasHost: JQuery;
     private _xaml: XamlMarkup;
+    private _contentReady: boolean = false;
 
     get Activated(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Activated"); }
     get Closed(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Closed"); }
@@ -35,6 +37,11 @@ export class PlatformPage extends Page implements IPlatformPage {
         win.PlatformPage = this;
 
         this.ContentChanged.subscribe(this.DoContentChanged.bind(this));
+        RendererHelper.Draw.subscribe((r, a) => {
+            if (this._contentReady) {
+                VisualTreeHelper.Draw();
+            }
+        });
 
         this.Width = width;
         this.Height = height;
@@ -98,7 +105,8 @@ export class PlatformPage extends Page implements IPlatformPage {
         pp.Platform.SetCurrent(<FrameworkElement>pp.Content, this);
 
         ConsoleHelper.LogSectionHeader("DrawAll");
-        pp.Platform.DrawAll(<FrameworkElement>pp.Content);
+        pp.Platform.InitAll(<FrameworkElement>pp.Content);
+        this._contentReady = true;
     }
 
 

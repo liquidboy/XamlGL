@@ -1,6 +1,7 @@
 ﻿// import { IRenderer } from "./IRenderer";
 import { FrameworkElement } from "./../FrameworkElement";
 import { IEventArgs } from "./../../Events/IEventArgs";
+// import { IRenderer } from "./../../Jupiter/Platform/IRenderer";
 import { IEvent } from "./../../Events/IEvent";
 
 export interface IControlRenderer {
@@ -14,4 +15,5 @@ export interface IControlRenderer {
     ParentWidth: number;
     PixiElement: PIXI.DisplayObject;
     Scale: number;
+    IsAlwaysDirty: boolean;
 }

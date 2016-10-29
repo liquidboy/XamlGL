@@ -20,19 +20,20 @@ import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class TextBlockRenderer extends BaseRenderer implements IControlRenderer {
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("TextBlockRenderer.Draw");
-
-        let textEl: TextBlock = <TextBlock>super.Element;
-
-        if (!textEl.IsDirty) {
+        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
             return;
         }
+        // consoleHelper.Log("TextBlockRenderer.Draw");
+
+        this.Element.IsDirty = false;
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("TextBlockRenderer.InitializeResources");
+
+        let textEl: TextBlock = <TextBlock>super.Element;
 
         let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
         let text: PIXI.Text = new PIXI.Text(
@@ -93,8 +94,6 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         //    text.scale.set(scale, scale);
         // });
 
-
-        textEl.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

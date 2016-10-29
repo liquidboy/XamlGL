@@ -67,6 +67,9 @@ export class Platform implements IPlatform {
         content.Parent = null;
         content.Platform = null;
     }
+    public InitAll(content: FrameworkElement): void {
+        VisualTreeHelper.Init();
+    }
 
     public DrawAll(content: FrameworkElement): void {
         // all drawing is now done in the VisualTreeHelper via the Visual Tree

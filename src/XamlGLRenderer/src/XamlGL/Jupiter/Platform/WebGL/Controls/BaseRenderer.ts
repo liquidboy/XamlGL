@@ -27,11 +27,11 @@ export class BaseRenderer implements IControlRenderer {
     // moto : keep it simple till you need the complexity
     private _tooltip: ToolTip = null;
     private _element: FrameworkElement;
-    private _elementChanged: EventDispatcher<BaseRenderer, IEventArgs> =
-    new EventDispatcher<BaseRenderer, IEventArgs>();
+    private _elementChanged: EventDispatcher<BaseRenderer, IEventArgs> = new EventDispatcher<BaseRenderer, IEventArgs>();
     private _pixiElement: PIXI.DisplayObject;
     private _pixiElementMask = new PIXI.Graphics();
     private _scale: number = 1;
+    private _isAlwaysDirty: boolean = false;
 
     get Element(): FrameworkElement { return this._element; }
     get ElementChanged(): IEvent<BaseRenderer, IEventArgs> { return this._elementChanged; }
@@ -51,6 +51,7 @@ export class BaseRenderer implements IControlRenderer {
     get PixiElement(): PIXI.DisplayObject { return this._pixiElement; }
     get PixiElementMask(): PIXI.Graphics { return this._pixiElementMask; }
     get Scale(): number { return this._scale; }
+    get IsAlwaysDirty(): boolean { return this._isAlwaysDirty; }
 
     set Element(value: FrameworkElement) {
 
@@ -97,6 +98,7 @@ export class BaseRenderer implements IControlRenderer {
     set PixiElement(value: PIXI.DisplayObject) { this._pixiElement = value; }
     set PixiElementMask(value: PIXI.Graphics) { this._pixiElementMask = value; }
     set Scale(value: number) { this._scale = value; }
+    set IsAlwaysDirty(value: boolean) { this._isAlwaysDirty = value; }
 
     private OnPropertyChanged(): void {
         // todo
@@ -119,6 +121,9 @@ export class BaseRenderer implements IControlRenderer {
     }
     Draw(): void {
         // consoleHelper.Log("BaseRenderer.Draw");
+        if (this.IsAlwaysDirty || this.Element.IsDirty) {
+            this.Element.Platform.Renderer.RenderStage();
+        }
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
@@ -126,10 +131,10 @@ export class BaseRenderer implements IControlRenderer {
     Clear(): void {
         // todo : fill
     }
-    public IsBeingHitWithPointer(r: IRenderer, args: IEventArgs): void {
+    public IsBeingHitWithPointer(r: IRenderer): void {
         RendererHelper.SetCursorToPointer(r);
     }
-    public IsNotBeingHitWithPointer(r: IRenderer, args: IEventArgs): void {
+    public IsNotBeingHitWithPointer(r: IRenderer): void {
         RendererHelper.SetCursorToAuto(r);
     }
     public CalculateYHeight(backingControl: IFrameworkElement): void {

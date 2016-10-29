@@ -11,27 +11,37 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-import { IRenderer } from "./../../IRenderer";
-import { IEventArgs } from "./../../../../Events/IEventArgs";
+// import { IRenderer } from "./../../IRenderer";
+// import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { Point } from "./../../../../DataTypes/Point";
 
 export class GridRenderer extends BaseRenderer implements IControlRenderer {
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("GridRenderer.Draw");
+        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
+            return;
+        }
+        // consoleHelper.Log("GridRenderer.Draw");
+
+        if (this.Element && this.Element.Parent && this.Element.Parent.Renderer) {
+            let scale: number = this.Element.Parent.Renderer.Scale;
+            if (scale !== undefined) {
+                this.PixiElement.scale.set(scale, scale);
+            }
+        }
+
+        this.Element.IsDirty = false;
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("GridRenderer.InitializeResources");
         // console.log(super.Element);
-        let gridEl: Grid = <Grid>super.Element;
+        let gridEl: Grid = <Grid>this.Element;
 
         let containerGrid: PIXI.Container = new PIXI.Container();
         this.PixiElement = containerGrid;
 
-        if (!gridEl.IsDirty) {
-            return;
-        }
+
 
         // calculate y position
         this.CalculateYHeight(gridEl);
@@ -87,18 +97,19 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
-        // update the UI based on interaction events and the render DRAW loop
-        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            // console.log(this.Element.Parent.Parent.Renderer.Scale);
-            if (this.Element && this.Element.Parent && this.Element.Parent.Renderer) {
-                let scale: number = this.Element.Parent.Renderer.Scale;
-                if (scale !== undefined) {
-                    containerGrid.scale.set(scale, scale);
-                }
-            }
-        });
+        this.IsAlwaysDirty = true;
+        //// update the UI based on interaction events and the render DRAW loop
+        // this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+        //    // console.log(this.Element.Parent.Parent.Renderer.Scale);
+        //    if (this.Element && this.Element.Parent && this.Element.Parent.Renderer) {
+        //        let scale: number = this.Element.Parent.Renderer.Scale;
+        //        if (scale !== undefined) {
+        //            containerGrid.scale.set(scale, scale);
+        //        }
+        //    }
+        // });
 
-        gridEl.IsDirty = false;
+
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

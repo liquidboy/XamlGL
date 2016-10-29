@@ -36,21 +36,28 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
     private _bottomGraphicsLayer: PIXI.Graphics;
     // private _isPressed: boolean = false;
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("ToggleRenderer.Draw");
+        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
+            return;
+        }
+        // consoleHelper.Log("ToggleRenderer.Draw");
+
+        if (this.Element.Platform.Renderer.Pointer.hitTestSprite(this.PixiElement)) {
+            this.IsBeingHitWithPointer(this.Element.Platform.Renderer);
+        } else {
+            this.IsNotBeingHitWithPointer(this.Element.Platform.Renderer);
+        }
+
+        this.Element.IsDirty = false;
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("ToggleRenderer.InitializeResources");
 
         let checkboxEl: CheckBox = <CheckBox>this.Element;
         if (this.PixiElement === undefined) {
             this.PixiElement = new PIXI.Container();
-        }
-
-        if (!checkboxEl.IsDirty) {
-            return;
         }
 
         // calculate y position
@@ -117,14 +124,14 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
                 parentContainer.addChild(this.PixiElement);
             }
         }
-
-        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this.PixiElement)) {
-                this.IsBeingHitWithPointer(r, args);
-            } else {
-                this.IsNotBeingHitWithPointer(r, args);
-            }
-        });
+        this.IsAlwaysDirty = true;
+        // this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+        //    if (r.Pointer.hitTestSprite(this.PixiElement)) {
+        //        this.IsBeingHitWithPointer(r);
+        //    } else {
+        //        this.IsNotBeingHitWithPointer(r);
+        //    }
+        // });
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");
@@ -150,8 +157,6 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
             }
         });
 
-
-        checkboxEl.IsDirty = false;
 
     }
     RefreshUI(): void {
