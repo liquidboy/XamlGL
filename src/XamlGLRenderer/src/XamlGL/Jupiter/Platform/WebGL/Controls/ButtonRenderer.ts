@@ -24,49 +24,22 @@ import { DockPosition } from "./../../../../DataTypes/DockPosition";
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _blurToUse: number = 0;
     private _isPressed: boolean = false;
-    private _backgroundSprite: PIXI.Sprite;
-    private _blurFilter: PIXI.filters.BlurFilter;
-    private _parentContainer: PIXI.Container;
-    Draw(): void {
-        super.Draw();
-        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
-            return;
-        }
-        // consoleHelper.Log("ButtonRenderer.Draw");
-
-        let buttonEl: Button = <Button>this.Element;
-        if (this.Element.Platform.Renderer.Pointer.hitTestSprite(this.PixiElement)) {
-            this.IsBeingHitWithPointer(this.Element.Platform.Renderer);
-            this._backgroundSprite.alpha = 1;
-            this.Scale = this._isPressed ? 0.98 : 1.02;
-            this._blurToUse = buttonEl.BlurAmount;
-            // rendererHelper.SetCursorToPointer(r);
-            this.ShowTooltip(this.Element.Platform.Renderer, buttonEl, this._parentContainer, this.PixiElement);
-        } else {
-            this.IsNotBeingHitWithPointer(this.Element.Platform.Renderer);
-            this._backgroundSprite.alpha = 0.95;
-            this.Scale = 1.0;
-            this._blurToUse = 1.0;
-            this.HideTooltip(buttonEl);
-            // rendererHelper.SetCursorToAuto(r);
-        }
-        if (buttonEl.BlurAmount > 0) {
-            this._blurFilter.blur = this._blurToUse;
-        }
-        this._backgroundSprite.scale.set(this.Scale, this.Scale);
-            // this._parentContainer.rotation += 0.001;
-            // console.log(this._cursorToUse);
-
-        this.Element.IsDirty = false;
-    }
     InitializeResources(): void {
         super.InitializeResources();
-        ConsoleHelper.Log("ButtonRenderer.InitializeResources");
+        // fill from Draw
+    }
+    Draw(): void {
+        super.Draw();
+        ConsoleHelper.Log("ButtonRenderer.Draw");
         // console.log(super.Element);
-        let buttonEl: Button = <Button>this.Element;
+        let buttonEl: Button = <Button>super.Element;
 
         if (this.PixiElement === undefined) {
             this.PixiElement = new PIXI.Container();
+        }
+
+        if (!buttonEl.IsDirty) {
+            return;
         }
 
         // calculate y position
@@ -86,7 +59,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
         // set background if its available
         let background: PIXI.Graphics = null;
-        this._blurFilter = null;
+        let blurFilter: PIXI.filters.BlurFilter = null;
         if (buttonEl.Background !== undefined) {
             let widthToUse: number = (buttonEl.Width === null || buttonEl.Width === 0) ? this.ParentWidth : buttonEl.Width;
             let heightToUse: number = (buttonEl.Height === null || buttonEl.Height === 0) ? this.ParentHeight : buttonEl.Height;
@@ -109,17 +82,17 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
 
             // generate sprite from graphics displayobject so we can set anchor correctly and do a scale
             var texture: PIXI.Texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
-            this._backgroundSprite = new PIXI.Sprite(texture);
-            this._backgroundSprite.anchor.set(0.5, 0.5); // now we can scale and it will do it around the center of button
-            this._backgroundSprite.setTransform(buttonEl.Width/2, buttonEl.Height/2);
+            var backgroundSprite: PIXI.Sprite = new PIXI.Sprite(texture);
+            backgroundSprite.anchor.set(0.5, 0.5); // now we can scale and it will do it around the center of button
+            backgroundSprite.setTransform(buttonEl.Width/2, buttonEl.Height/2);
 
             // filters
             if (buttonEl.BlurAmount > 0) {
-                this._blurFilter = new PIXI.filters.BlurFilter();
+                blurFilter = new PIXI.filters.BlurFilter();
                 this._blurToUse = buttonEl.BlurAmount;
-                this._blurFilter.blur = 0;
+                blurFilter.blur = 0;
                 // background.filters = [filter];
-                this._backgroundSprite.filters = [this._blurFilter];
+                backgroundSprite.filters = [blurFilter];
                 // background.boundsPadding = buttonEl.BlurAmount;
             }
 
@@ -130,72 +103,68 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
 
             // now render in container
-            (<PIXI.Container>this.PixiElement).addChild(this._backgroundSprite);
+            (<PIXI.Container>this.PixiElement).addChild(backgroundSprite);
 
             // tell the parent stackpanel the next available slot
             this.IncrementNextAvailableSlot();
         }
 
         // render graphics (DisplayObject) on PIXI stage
-        this._parentContainer = null;
+        let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
             this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
-                this._parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
-                this._parentContainer.addChild(this.PixiElement);
+                parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+                parentContainer.addChild(this.PixiElement);
             }
         }
 
-        this.IsAlwaysDirty = true;
-        //// update the UI based on interaction events and the render DRAW loop
-        // this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-        //    if (r.Pointer.hitTestSprite(this.PixiElement)) {
-        //        this.IsBeingHitWithPointer(r, args);
-        //        this._backgroundSprite.alpha = 1;
-        //        this.Scale = this._isPressed ? 0.98 : 1.02;
-        //        this._blurToUse = buttonEl.BlurAmount;
-        //        // rendererHelper.SetCursorToPointer(r);
-        //        this.ShowTooltip(r, buttonEl, this._parentContainer, this.PixiElement);
-        //    } else {
-        //        this.IsNotBeingHitWithPointer(r, args);
-        //        this._backgroundSprite.alpha = 0.95;
-        //        this.Scale = 1.0;
-        //        this._blurToUse = 1.0;
-        //        this.HideTooltip(buttonEl);
-        //        // rendererHelper.SetCursorToAuto(r);
-        //    }
-        //    if (buttonEl.BlurAmount > 0) {
-        //        this._blurFilter.blur = this._blurToUse;
-        //    }
-        //    this._backgroundSprite.scale.set(this.Scale, this.Scale);
-        //    // this._parentContainer.rotation += 0.001;
-        //    // console.log(this._cursorToUse);
-        // });
+        // update the UI based on interaction events and the render DRAW loop
+        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(this.PixiElement)) {
+                this.IsBeingHitWithPointer(r, args);
+                backgroundSprite.alpha = 1;
+                this.Scale = this._isPressed ? 0.98 : 1.02;
+                this._blurToUse = buttonEl.BlurAmount;
+                // rendererHelper.SetCursorToPointer(r);
+                this.ShowTooltip(r, buttonEl, parentContainer, this.PixiElement);
+            } else {
+                this.IsNotBeingHitWithPointer(r, args);
+                backgroundSprite.alpha = 0.95;
+                this.Scale = 1.0;
+                this._blurToUse = 1.0;
+                this.HideTooltip(buttonEl);
+                // rendererHelper.SetCursorToAuto(r);
+            }
+            if (buttonEl.BlurAmount > 0) {
+                blurFilter.blur = this._blurToUse;
+            }
+            backgroundSprite.scale.set(this.Scale, this.Scale);
+            // parentContainer.rotation += 0.001;
+            // console.log(this._cursorToUse);
+        });
 
 
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
-                this.Element.IsDirty = true;
             }
         });
 
         this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this._isPressed = true;
-                this.Element.IsDirty = true;
             }
         });
 
         this.Element.Platform.Renderer.PointerReleased.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 this._isPressed = false;
-                this.Element.IsDirty = true;
             }
         });
 
-
+        buttonEl.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

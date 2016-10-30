@@ -329,20 +329,6 @@
     <Content Include="bower_components\pixi.js\src\prepare\canvas\CanvasPrepare.js" />
     <Content Include="bower_components\pixi.js\src\prepare\index.js" />
     <Content Include="bower_components\pixi.js\src\prepare\webgl\WebGLPrepare.js" />
-    <Content Include="bower_components\system.js\bench\cjs-sample\cjs.js" />
-    <Content Include="bower_components\system.js\bench\config-example\config.js" />
-    <Content Include="bower_components\system.js\bench\config-example\normalize-data.js" />
-    <Content Include="bower_components\system.js\bench\config-example\pkg-configs.js" />
-    <Content Include="bower_components\system.js\bench\get-cjs-deps.js" />
-    <Content Include="bower_components\system.js\bench\normalize-perf.js" />
-    <Content Include="bower_components\system.js\dist\system-csp-production.js" />
-    <Content Include="bower_components\system.js\dist\system-csp-production.src.js" />
-    <Content Include="bower_components\system.js\dist\system-polyfills.js" />
-    <Content Include="bower_components\system.js\dist\system-polyfills.src.js" />
-    <Content Include="bower_components\system.js\dist\system-register-only.js" />
-    <Content Include="bower_components\system.js\dist\system-register-only.src.js" />
-    <Content Include="bower_components\system.js\dist\system.js" />
-    <Content Include="bower_components\system.js\dist\system.src.js" />
     <Content Include="index.html" />
     <Content Include="js\allsrc.js" />
     <Content Include="js\filters.min.js" />
@@ -1866,21 +1852,6 @@
     <Content Include="bower_components\pixi.js\src\filters\fxaa\fxaa.vert" />
     <Content Include="bower_components\pixi.js\src\filters\noise\noise.frag" />
     <Content Include="bower_components\pixi.js\src\filters\void\void.frag" />
-    <Content Include="bower_components\system.js\.bower.json" />
-    <Content Include="bower_components\system.js\bower.json" />
-    <Content Include="bower_components\system.js\dist\system-csp-production.js.map" />
-    <Content Include="bower_components\system.js\dist\system-polyfills.js.map" />
-    <Content Include="bower_components\system.js\dist\system-register-only.js.map" />
-    <Content Include="bower_components\system.js\dist\system.js.map" />
-    <Content Include="bower_components\system.js\docs\config-api.md" />
-    <Content Include="bower_components\system.js\docs\creating-plugins.md" />
-    <Content Include="bower_components\system.js\docs\es6-modules-overview.md" />
-    <Content Include="bower_components\system.js\docs\module-formats.md" />
-    <Content Include="bower_components\system.js\docs\overview.md" />
-    <Content Include="bower_components\system.js\docs\production-workflows.md" />
-    <Content Include="bower_components\system.js\docs\system-api.md" />
-    <Content Include="bower_components\system.js\LICENSE" />
-    <Content Include="bower_components\system.js\README.md" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

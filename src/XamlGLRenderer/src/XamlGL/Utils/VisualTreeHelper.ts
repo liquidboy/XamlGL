@@ -1,6 +1,5 @@
 ﻿// import { FrameworkElementCollection } from "./../Jupiter/FrameworkElementCollection";
 import { FrameworkElement } from "./../Jupiter/FrameworkElement";
-// import { IRenderer } from "./../Jupiter/Platform/IRenderer";
 import { LinkedList } from "./../../Libs/typescript-collections/src/lib/index";
 import { VisualTree, VisualTreeNode } from "./../VisualTree";
 import { ConsoleHelper } from "./../Utils/ConsoleHelper";
@@ -57,22 +56,7 @@ export class VisualTreeHelper {
             }
         });
     }
-    public static Init(): void {
-        // consoleHelper.LogPad("VisualTreeHelper.Init", 0);
-        this.XamlVT.Children.forEach((x: VisualTreeNode) => {
-            x.BackingElement.Renderer.InitializeResources();
-            this.InitNode(x);
-        });
-    }
-    private static InitNode(x: VisualTreeNode): void {
-        // consoleHelper.LogPad("VisualTreeHelper.DrawNode", 0);
-        x.Children.forEach((vtn: VisualTreeNode) => {
-            vtn.BackingElement.Renderer.InitializeResources();
-            if (vtn.Children !== null && vtn.Children.size() > 0) {
-                this.InitNode(vtn);
-            }
-        });
-    }
+
     public static Draw(): void {
         // consoleHelper.LogPad("VisualTreeHelper.Draw", 0);
         this.XamlVT.Children.forEach((x: VisualTreeNode) => {
@@ -80,6 +64,7 @@ export class VisualTreeHelper {
             this.DrawNode(x);
         });
     }
+
     private static DrawNode(x: VisualTreeNode): void {
         // consoleHelper.LogPad("VisualTreeHelper.DrawNode", 0);
         x.Children.forEach((vtn: VisualTreeNode) => {

@@ -21,11 +21,10 @@ export interface IRenderer {
     Resize(width: number, height: number): void;
     ResizeFull(): void;
     ResizeFullWidth(height:number): void;
-    // draw: IEvent<IRenderer, IEventArgs>;
+    Draw: IEvent<IRenderer, IEventArgs>;
     Key: IEvent<IRenderer, IEventArgs>;
     PointerPressed: IEvent<IRenderer, IEventArgs>;
     PointerReleased: IEvent<IRenderer, IEventArgs>;
     PointerTapped: IEvent<IRenderer, IEventArgs>;
     Clear(): void;
-    RenderStage(): void;
 }

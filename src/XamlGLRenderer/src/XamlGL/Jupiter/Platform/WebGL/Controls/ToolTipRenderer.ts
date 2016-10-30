@@ -1,6 +1,6 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-// import { IRenderer } from "./../../IRenderer";
+// import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
@@ -13,22 +13,19 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
-        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
-            return;
-        }
-        // consoleHelper.Log("ToolTipRenderer.Draw");
-
-        this.Element.IsDirty = false;
-    }
     InitializeResources(): void {
         super.InitializeResources();
-        ConsoleHelper.Log("ToolTipRenderer.InitializeResources");
+        // fill from Draw
+    }
+    Draw(): void {
+        super.Draw();
+        ConsoleHelper.Log("ToolTipRenderer.Draw");
 
         let toolTip: ToolTip = <ToolTip>super.Element;
 
-
+        if (!toolTip.IsDirty) {
+            return;
+        }
 
         // calculate y position
         this.CalculateYHeight(toolTip);
@@ -145,6 +142,7 @@ export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
         this.Element.Platform.Renderer.PixiStage.addChild(containerMain);
         // console.log(containerMain);
 
+        toolTip.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

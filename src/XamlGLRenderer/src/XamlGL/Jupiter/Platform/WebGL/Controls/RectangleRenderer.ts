@@ -1,6 +1,6 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-// import { IRenderer } from "./../../IRenderer";
+// import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
@@ -12,21 +12,19 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class RectangleRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
-        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
-            return;
-        }
-        // consoleHelper.Log("RectangleRenderer.Draw");
-
-        this.Element.IsDirty = false;
-    }
     InitializeResources(): void {
         super.InitializeResources();
-        ConsoleHelper.Log("RectangleRenderer.InitializeResources");
+        // fill from Draw
+    }
+    Draw(): void {
+        super.Draw();
+        ConsoleHelper.Log("RectangleRenderer.Draw");
 
         let rectEl: Rectangle = <Rectangle>super.Element;
 
+        if (!rectEl.IsDirty) {
+            return;
+        }
 
         // calculate y position
         this.CalculateYHeight(rectEl);
@@ -46,6 +44,7 @@ export class RectangleRenderer extends BaseRenderer implements IControlRenderer 
         rectangle.y = rectEl.Margin.Top;
         this.Element.Platform.Renderer.PixiStage.addChild(rectangle);
 
+        rectEl.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

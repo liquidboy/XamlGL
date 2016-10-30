@@ -160,8 +160,7 @@ export class RendererHelper {
     }
     public static DrawPanel(panel: Panel, processChildren: boolean): void {
         ConsoleHelper.Log("RendererHelper.DrawPanel");
-        panel.Renderer.InitializeResources();
-        // panel.Renderer.Draw();
+        panel.Renderer.Draw();
 
         if (processChildren) {
             panel.Children.forEach((uielement: IUIElement) => {

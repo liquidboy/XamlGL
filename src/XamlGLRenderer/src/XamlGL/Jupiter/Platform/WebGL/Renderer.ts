@@ -21,7 +21,7 @@ export class Renderer implements IRenderer {
     // private _tink: any;
     // private _tinkPointer: any;
     private _resourceIds: Dictionary<string, RendererResource>;
-    // private _draw: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
+    private _draw: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
     private _key: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
     private _pointerPressed: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
     private _pointerReleased: EventDispatcher<Renderer, IEventArgs> = new EventDispatcher<Renderer, IEventArgs>();
@@ -31,7 +31,7 @@ export class Renderer implements IRenderer {
     get PixiStage(): PIXI.Container { return this._stage; }
     get Pointer(): any { return RendererHelper.TinkPointer; }
     get PixiRenderer(): PIXI.WebGLRenderer | PIXI.CanvasRenderer { return this._renderer; }
-    // get Draw(): IEvent<Renderer, IEventArgs> { return this._draw; }
+    get Draw(): IEvent<Renderer, IEventArgs> { return this._draw; }
     get Key(): IEvent<Renderer, IEventArgs> { return this._key; }
     get PointerPressed(): IEvent<Renderer, IEventArgs> { return this._pointerPressed; }
     get PointerReleased(): IEvent<Renderer, IEventArgs> { return this._pointerReleased; }
@@ -48,12 +48,10 @@ export class Renderer implements IRenderer {
         this._renderer = RendererFactory.GetRenderer(width, height, antialias, transparent);
 
         htmlCanvasHost.append(this.PixiRenderer.view);
-        this.InitializeEvents();
+        this.InitializeTink();
         // this.RenderLoop.call(this);
     }
-    public RenderStage(): void {
-        this._renderer.render(this.PixiStage); // this is a HUGE resource drain (CPU) .... 
-    }
+
     public Resize(width: number, height: number): void {
         this.PixiRenderer.autoResize = true;
         this.PixiRenderer.resize(width, height);
@@ -90,15 +88,15 @@ export class Renderer implements IRenderer {
         }
     }
 
-    private InitializeEvents(): void {
+    private InitializeTink(): void {
         RendererHelper.InitializeTink(this.PixiRenderer.view);
         RendererHelper.TinkPointer.press = () => this._pointerPressed.dispatch(this, null);
         RendererHelper.TinkPointer.release = () => this._pointerReleased.dispatch(this, null);
         RendererHelper.TinkPointer.tap = () => this._pointerTapped.dispatch(this, null);
-        // rendererHelper.Draw.subscribe(() => {
-        //    this._draw.dispatch(this, null);
-        //    this._renderer.render(this.PixiStage); // this is a HUGE resource drain (CPU) .... 
-        // });
+        RendererHelper.Draw.subscribe(() => {
+            this._draw.dispatch(this, null);
+            this._renderer.render(this.PixiStage); // this is a HUGE resource drain (CPU) .... 
+        });
         RendererHelper.KeyPressed.subscribe((o: any,a: IEventArgs) => {
             this._key.dispatch(this, a);
         });

@@ -1,28 +1,29 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
 // import { Renderer } from "./../Renderer";
-// import { IRenderer } from "./../../IRenderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
-// import { FrameworkElement } from "./../../../FrameworkElement";
+import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
-// import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
+import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 
 export class DefaultRenderer extends BaseRenderer implements IControlRenderer {
     InitializeResources(): void {
         super.InitializeResources();
         // fill from Draw
-
     }
     Draw(): void {
         super.Draw();
-        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
+        ConsoleHelper.Log("DefaultRenderer.Draw");
+
+        let defaultEl: FrameworkElement = <FrameworkElement>super.Element;
+
+        if (!defaultEl.IsDirty) {
             return;
         }
-        // consoleHelper.Log("DefaultRenderer.Draw");     
 
-        this.Element.IsDirty = false;
+        defaultEl.IsDirty = false;
 
     }
     RefreshUI(): void {

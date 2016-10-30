@@ -1,6 +1,5 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-// import { IRenderer } from "./../../IRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
@@ -18,23 +17,20 @@ import { Point } from "./../../../../DataTypes/Point";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class ImageRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
-        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
-            return;
-        }
-        // consoleHelper.Log("ImagetRenderer.Draw");
-
-        this.Element.IsDirty = false;
-    }
     InitializeResources(): void {
         super.InitializeResources();
-        ConsoleHelper.Log("ImagetRenderer.InitializeResources");
+        // fill from Draw
+    }
+    Draw(): void {
+        super.Draw();
+        ConsoleHelper.Log("ImagetRenderer.Draw");
 
         let imageEl: Image = <Image>super.Element;
         let imageContainer: PIXI.Container = null;
 
-
+        if (!imageEl.IsDirty) {
+            return;
+        }
 
         if (this.PixiElement === undefined) {
             imageContainer = new PIXI.Container();

@@ -1,6 +1,6 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-// import { IRenderer } from "./../../IRenderer";
+// import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
@@ -14,24 +14,22 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 
 export class StackPanelRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
-        if (!this.Element.IsDirty && !this.IsAlwaysDirty) {
-            return;
-        }
-        // consoleHelper.Log("StackPanelRenderer.Draw");
-
-        this.Element.IsDirty = false;
-    }
     InitializeResources(): void {
         super.InitializeResources();
-        ConsoleHelper.Log("StackPanelRenderer.InitializeResources");
+        // fill from Draw
+    }
+    Draw(): void {
+        super.Draw();
+        ConsoleHelper.Log("StackPanelRenderer.Draw");
         // console.log(super.Element);
         let gridEl: Grid = <Grid>super.Element;
 
         let containerGrid: PIXI.Container = new PIXI.Container();
         super.PixiElement = containerGrid;
 
+        if (!gridEl.IsDirty) {
+            return;
+        }
 
         // calculate y position
         this.CalculateYHeight(gridEl);
@@ -65,6 +63,7 @@ export class StackPanelRenderer extends BaseRenderer implements IControlRenderer
             }
         }
 
+        gridEl.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

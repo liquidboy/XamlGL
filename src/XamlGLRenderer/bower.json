@@ -10,7 +10,7 @@
     "Gruntfile.js"
   ],
   "dependencies": {
-    "system.js": "^0.19.38",
+    "system.js": "^0.19.40",
     "pixi.js": "4.0.1",
     "jquery": "3.1.0",
     "pixi-filters": "1.0.6"
