@@ -30,9 +30,16 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         }
 
         if (this._textBoxEl.HasFocus && this._textBoxEl.IsDirty) {
+            this._text.style.fill = "black";
+
             this._cursor.alpha = 1;
             this._cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
             this._textBoxEl.IsDirty = false;
+
+            this._borderbackground.clear();
+            this._borderbackground.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
+            this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
+            this._borderbackground.endFill();
         }
     }
     InitializeResources(): void {
@@ -94,14 +101,13 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
 
 
-        // middle
+        // background
         this._borderbackground = new PIXI.Graphics();
         this._borderbackground.width = this._textBoxEl.CalculatedWidth;
         this._borderbackground.height = this._textBoxEl.CalculatedHeight;
         this._borderbackground.lineStyle(4, RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
         this._borderbackground.beginFill(RendererHelper.HashToColorNumber("#FF000000"), 0.5);
-        let border: PIXI.Graphics = this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
-        
+        this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
         this._borderbackground.endFill();
         console.log(this._textBoxEl.CalculatedWidth);
 
@@ -111,7 +117,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._bottomGraphicsLayer = new PIXI.Graphics();
         this._bottomGraphicsLayer.width = this._textBoxEl.CalculatedWidth;
         this._bottomGraphicsLayer.height = this._textBoxEl.CalculatedHeight;
-        this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
+        this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FF000000"), 0.8);
 
         // cursor
         // let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height - 20, 3, 18);
@@ -197,6 +203,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                                 this._currentCursorPositionXLength--;
                             }
                             break;
+                        case "Del":
                         case "Delete":
                             if (this._currentCursorPositionXLength === 0) {
                                 // if you are a the start of the line
@@ -256,10 +263,12 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
-                this._currentCursorPositionXLength = this._text.text.length;
-                this.UpdateCursorPosition();
-                this._textBoxEl.HasFocus = !this._textBoxEl.HasFocus;
-                this.RefreshUI();
+                if (!this._textBoxEl.HasFocus) {
+                    this._currentCursorPositionXLength = this._text.text.length;
+                    this.UpdateCursorPosition();
+                    this._textBoxEl.HasFocus = !this._textBoxEl.HasFocus;
+                    this.RefreshUI();
+                }
             }
         });
 

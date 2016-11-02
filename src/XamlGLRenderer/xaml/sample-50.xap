@@ -7,11 +7,11 @@
     ThemeName="Metro">
   <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
     <Grid Name="grdFirst">
-      <Image Name="imgFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-17a.jpg"></Image>
+      <Image Name="imgFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/landscape-1b.jpg"></Image>
     </Grid>
     <Grid Name="grdSecond" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="30" Margin="0,0,0,0">
-      <TextBox Name="tbFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="test text" Color="white" 
-               AcceptsReturn="False"
+      <TextBox Name="tbFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="XamlGL TextBox (single line)" Color="white" 
+               AcceptsReturn="False" Border="1,1,1,1" BorderColor="White" Background="Black"
                FontSize="18" FontFamily="Sans-Serif" TextWrapping="NoWrap" TextWrappingAlign="Left"></TextBox>
     </Grid>
   </Grid>

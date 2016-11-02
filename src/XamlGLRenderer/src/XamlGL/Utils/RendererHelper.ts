@@ -84,9 +84,9 @@ export class RendererHelper {
             arg.KeyCode = event.keyCode;
             arg.Key = event.key;
             this._keyPressed.dispatch(null, arg);
-
-
-            // event.preventDefault();
+            if (arg.Key === "Backspace" || arg.Key === "Home" || arg.Key === "End") {
+                event.preventDefault();
+            }
         };
         key.upHandler = (event: any) => {
             let arg: KeyPressedEventArgs = new KeyPressedEventArgs();

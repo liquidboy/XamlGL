@@ -3936,9 +3936,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                         this.IsNotBeingHitWithPointer(r, args);
                     }
                     if (this._textBoxEl.HasFocus && this._textBoxEl.IsDirty) {
+                        this._text.style.fill = "black";
                         this._cursor.alpha = 1;
                         this._cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
                         this._textBoxEl.IsDirty = false;
+                        this._borderbackground.clear();
+                        this._borderbackground.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
+                        this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
+                        this._borderbackground.endFill();
                     }
                 }
                 InitializeResources() {
@@ -3980,13 +3985,13 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this._borderbackground.height = this._textBoxEl.CalculatedHeight;
                     this._borderbackground.lineStyle(4, RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
                     this._borderbackground.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FF000000"), 0.5);
-                    let border = this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
+                    this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
                     this._borderbackground.endFill();
                     console.log(this._textBoxEl.CalculatedWidth);
                     this._bottomGraphicsLayer = new PIXI.Graphics();
                     this._bottomGraphicsLayer.width = this._textBoxEl.CalculatedWidth;
                     this._bottomGraphicsLayer.height = this._textBoxEl.CalculatedHeight;
-                    this._bottomGraphicsLayer.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
+                    this._bottomGraphicsLayer.beginFill(RendererHelper_5.RendererHelper.HashToColorNumber("#FF000000"), 0.8);
                     this._cursor = this._bottomGraphicsLayer.drawRect(5, 5, 3, 18);
                     this._cursor.alpha = 0;
                     this._bottomGraphicsLayer.endFill();
@@ -4046,6 +4051,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                                             this._currentCursorPositionXLength--;
                                         }
                                         break;
+                                    case "Del":
                                     case "Delete":
                                         if (this._currentCursorPositionXLength === 0) {
                                             this.UpdateText(this._text.text.substr(1, this._text.text.length - 1));
@@ -4100,10 +4106,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             ConsoleHelper_8.ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
-                            this._currentCursorPositionXLength = this._text.text.length;
-                            this.UpdateCursorPosition();
-                            this._textBoxEl.HasFocus = !this._textBoxEl.HasFocus;
-                            this.RefreshUI();
+                            if (!this._textBoxEl.HasFocus) {
+                                this._currentCursorPositionXLength = this._text.text.length;
+                                this.UpdateCursorPosition();
+                                this._textBoxEl.HasFocus = !this._textBoxEl.HasFocus;
+                                this.RefreshUI();
+                            }
                         }
                     });
                     this._textBoxEl.IsDirty = false;
@@ -5676,6 +5684,9 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
                         arg.KeyCode = event.keyCode;
                         arg.Key = event.key;
                         this._keyPressed.dispatch(null, arg);
+                        if (arg.Key === "Backspace" || arg.Key === "Home" || arg.Key === "End") {
+                            event.preventDefault();
+                        }
                     };
                     key.upHandler = (event) => {
                         let arg = new KeyPressedEventArgs_1.KeyPressedEventArgs();
@@ -7224,37 +7235,9 @@ System.register("XamlGL/Jupiter/IconElement", ["XamlGL/Jupiter/FrameworkElement"
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/Core", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer"], function(exports_124, context_124) {
+System.register("XamlGL/Jupiter/Controls/PathIcon", ["XamlGL/Jupiter/IconElement"], function(exports_124, context_124) {
     "use strict";
     var __moduleName = context_124 && context_124.id;
-    function exportStar_5(m) {
-        var exports = {};
-        for(var n in m) {
-            if (n !== "default") exports[n] = m[n];
-        }
-        exports_124(exports);
-    }
-    return {
-        setters:[
-            function (DefaultRenderer_2_1) {
-                exportStar_5(DefaultRenderer_2_1);
-            },
-            function (GridRenderer_2_1) {
-                exportStar_5(GridRenderer_2_1);
-            },
-            function (ImageRenderer_2_1) {
-                exportStar_5(ImageRenderer_2_1);
-            },
-            function (RectangleRenderer_2_1) {
-                exportStar_5(RectangleRenderer_2_1);
-            }],
-        execute: function() {
-        }
-    }
-});
-System.register("XamlGL/Jupiter/Controls/PathIcon", ["XamlGL/Jupiter/IconElement"], function(exports_125, context_125) {
-    "use strict";
-    var __moduleName = context_125 && context_125.id;
     var IconElement_1;
     var PathIcon;
     return {
@@ -7271,7 +7254,35 @@ System.register("XamlGL/Jupiter/Controls/PathIcon", ["XamlGL/Jupiter/IconElement
                 get Geometry() { return this._geometry; }
                 set Geometry(value) { this._geometry = value; }
             };
-            exports_125("PathIcon", PathIcon);
+            exports_124("PathIcon", PathIcon);
+        }
+    }
+});
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/Core", ["XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", "XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", "XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", "XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer"], function(exports_125, context_125) {
+    "use strict";
+    var __moduleName = context_125 && context_125.id;
+    function exportStar_5(m) {
+        var exports = {};
+        for(var n in m) {
+            if (n !== "default") exports[n] = m[n];
+        }
+        exports_125(exports);
+    }
+    return {
+        setters:[
+            function (DefaultRenderer_2_1) {
+                exportStar_5(DefaultRenderer_2_1);
+            },
+            function (GridRenderer_2_1) {
+                exportStar_5(GridRenderer_2_1);
+            },
+            function (ImageRenderer_2_1) {
+                exportStar_5(ImageRenderer_2_1);
+            },
+            function (RectangleRenderer_2_1) {
+                exportStar_5(RectangleRenderer_2_1);
+            }],
+        execute: function() {
         }
     }
 });
