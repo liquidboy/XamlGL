@@ -12,7 +12,7 @@ import { KeyPressedEventArgs } from "./../../../../Events/KeyPressedEventArgs";
 
 export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
-    private _middleGraphicsLayer: PIXI.Graphics;
+    private _borderbackground: PIXI.Graphics;
     private _bottomGraphicsLayer: PIXI.Graphics;
     private _text: PIXI.Text;
     private _cursor: PIXI.Graphics;
@@ -95,14 +95,14 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
 
         // middle
-        this._middleGraphicsLayer = new PIXI.Graphics();
-        this._middleGraphicsLayer.width = this._textBoxEl.CalculatedWidth;
-        this._middleGraphicsLayer.height = this._textBoxEl.CalculatedHeight;
-        this._middleGraphicsLayer.lineStyle(4, RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
-        this._middleGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0);
-        let border: PIXI.Graphics = this._middleGraphicsLayer.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
+        this._borderbackground = new PIXI.Graphics();
+        this._borderbackground.width = this._textBoxEl.CalculatedWidth;
+        this._borderbackground.height = this._textBoxEl.CalculatedHeight;
+        this._borderbackground.lineStyle(4, RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
+        this._borderbackground.beginFill(RendererHelper.HashToColorNumber("#FF000000"), 0.5);
+        let border: PIXI.Graphics = this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
         
-        this._middleGraphicsLayer.endFill();
+        this._borderbackground.endFill();
         console.log(this._textBoxEl.CalculatedWidth);
 
 
@@ -128,8 +128,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         // position bits
         this._bottomGraphicsLayer.x = 5;
         this._bottomGraphicsLayer.y = 5;
-        this._middleGraphicsLayer.x = 0;
-        this._middleGraphicsLayer.y = 0;
+        this._borderbackground.x = 0;
+        this._borderbackground.y = 0;
         this._topGraphicsLayer.x = 5;
         this._topGraphicsLayer.y = 5;
 
@@ -139,8 +139,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
         // now render in container
         let cont = <PIXI.Container>this.PixiElement;
+        cont.addChild(this._borderbackground);
         cont.addChild(this._bottomGraphicsLayer);
-        cont.addChild(this._middleGraphicsLayer);
         cont.addChild(this._topGraphicsLayer);
 
         // tell the parent stackpanel the next available slot
