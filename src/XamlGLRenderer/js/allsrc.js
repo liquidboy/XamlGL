@@ -4036,6 +4036,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                                         break;
                                     case "Delete":
                                         if (this._currentCursorPositionXLength === 0) {
+                                            this.UpdateText(this._text.text.substr(1, this._text.text.length - 1));
+                                            this._currentCursorPositionXLength = 0;
                                         }
                                         else if (this._currentCursorPositionXLength === this._text.text.length) {
                                             this.UpdateText(this._text.text.substr(0, this._currentCursorPositionXLength - 1));

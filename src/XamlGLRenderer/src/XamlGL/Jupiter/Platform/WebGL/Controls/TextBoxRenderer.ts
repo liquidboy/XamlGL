@@ -205,7 +205,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                         case "Delete":
                             if (this._currentCursorPositionXLength === 0) {
                                 // if you are a the start of the line
-
+                                this.UpdateText(this._text.text.substr(1, this._text.text.length - 1));
+                                this._currentCursorPositionXLength = 0;
                             } else if (this._currentCursorPositionXLength === this._text.text.length) {
                                 // if you are a the end of the line
                                 // this._text.text = this._text.text.substr(0, this._currentCursorPositionXLength - 1);
