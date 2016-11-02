@@ -73,9 +73,9 @@ export class Platform implements IPlatform {
         VisualTreeHelper.InitializeResources();
     }
 
-    public Draw(content: IFrameworkElement): void {
-        ConsoleHelper.LogSectionHeader("Platform:Draw");
-        RendererHelper.DrawPanel(<Panel>content, false);
+    public LoadDynamicControl(content: IFrameworkElement): void {
+        ConsoleHelper.LogSectionHeader("Platform:LoadDynamicControl");
+        RendererHelper.LoadDynamicControl(<Panel>content, false);
     }
 
     public CreateControlRenderer(element: IFrameworkElement): IControlRenderer {

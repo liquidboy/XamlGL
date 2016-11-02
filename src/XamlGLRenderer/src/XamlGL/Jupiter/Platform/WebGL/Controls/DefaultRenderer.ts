@@ -3,14 +3,15 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 import { FrameworkElement } from "./../../../FrameworkElement";
-// import { IEventArgs } from "./../../../../Events/IEventArgs";
+import { IRenderer } from "./../../IRenderer";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 
 export class DefaultRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {

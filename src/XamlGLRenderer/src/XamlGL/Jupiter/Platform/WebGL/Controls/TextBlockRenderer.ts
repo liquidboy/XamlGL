@@ -16,12 +16,12 @@ import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Point } from "./../../../../DataTypes/Point";
 import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
-// import { IRenderer } from "./../../IRenderer";
-// import { IEventArgs } from "./../../../../Events/IEventArgs";
+import { IRenderer } from "./../../IRenderer";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class TextBlockRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {

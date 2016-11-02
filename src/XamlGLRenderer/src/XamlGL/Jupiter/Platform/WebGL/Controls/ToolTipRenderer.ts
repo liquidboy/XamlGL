@@ -1,9 +1,9 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-// import { Renderer } from "./../Renderer";
+import { IRenderer } from "./../../IRenderer";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
-// import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ToolTip } from "./../../../../Controls/ToolTip";
@@ -13,8 +13,8 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class ToolTipRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {

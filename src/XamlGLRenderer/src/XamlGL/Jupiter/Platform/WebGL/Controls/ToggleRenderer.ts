@@ -36,8 +36,8 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
     private _bottomGraphicsLayer: PIXI.Graphics;
     // private _isPressed: boolean = false;
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {

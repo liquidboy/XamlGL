@@ -42,8 +42,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _currentCursorPositionXLength: number = 0;
     // private _localWindowLength: number = 30;
     // private _isFocused: boolean = false;
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {

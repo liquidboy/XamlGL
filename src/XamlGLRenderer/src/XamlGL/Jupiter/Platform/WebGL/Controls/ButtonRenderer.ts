@@ -1,8 +1,8 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-import { IRenderer } from "./../../IRenderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
+import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
@@ -24,8 +24,8 @@ import { DockPosition } from "./../../../../DataTypes/DockPosition";
 export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
     private _blurToUse: number = 0;
     private _isPressed: boolean = false;
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {

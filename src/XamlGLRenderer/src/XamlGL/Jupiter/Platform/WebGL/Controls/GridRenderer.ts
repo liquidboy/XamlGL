@@ -16,8 +16,8 @@ import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { Point } from "./../../../../DataTypes/Point";
 
 export class GridRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {

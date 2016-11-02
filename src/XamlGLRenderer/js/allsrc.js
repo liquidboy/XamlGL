@@ -2794,7 +2794,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                 }
                 InitializeResources() {
                 }
-                Draw() {
+                Draw(r, args) {
                 }
                 RefreshUI() {
                 }
@@ -2936,7 +2936,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", ["XamlGL/
                     this._tooltip.TooltipBorder = borderColor;
                     if (this.Element.Parent instanceof Panel_3.Panel) {
                         buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
-                        buttonParent.Platform.Draw(this._tooltip);
+                        buttonParent.Platform.LoadDynamicControl(this._tooltip);
                     }
                 }
                 GeneralHideTooltip() {
@@ -2967,8 +2967,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["Xaml
             }],
         execute: function() {
             DefaultRenderer = class DefaultRenderer extends BaseRenderer_1.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -3040,8 +3040,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
             }],
         execute: function() {
             GridRenderer = class GridRenderer extends BaseRenderer_2.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -3129,8 +3129,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
             }],
         execute: function() {
             StackPanelRenderer = class StackPanelRenderer extends BaseRenderer_3.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -3537,8 +3537,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
             }],
         execute: function() {
             ImageRenderer = class ImageRenderer extends BaseRenderer_4.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -3646,8 +3646,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
             }],
         execute: function() {
             RectangleRenderer = class RectangleRenderer extends BaseRenderer_5.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -3784,8 +3784,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
             }],
         execute: function() {
             TextBlockRenderer = class TextBlockRenderer extends BaseRenderer_6.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -3928,8 +3928,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this._cursorPoint = new Point_2.Point(0, 0);
                     this._currentCursorPositionXLength = 0;
                 }
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -4174,8 +4174,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     this._blurToUse = 0;
                     this._isPressed = false;
                 }
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -4348,8 +4348,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
             }],
         execute: function() {
             ToolTipRenderer = class ToolTipRenderer extends BaseRenderer_9.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -5229,8 +5229,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
             }],
         execute: function() {
             PathRenderer = class PathRenderer extends BaseRenderer_10.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -5452,8 +5452,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlG
             }],
         execute: function() {
             ToggleRenderer = class ToggleRenderer extends BaseRenderer_11.BaseRenderer {
-                Draw() {
-                    super.Draw();
+                Draw(r, args) {
+                    super.Draw(r, args);
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -5733,13 +5733,13 @@ System.register("XamlGL/Utils/RendererHelper", ["XamlGL/Jupiter/Platform/WebGL/C
                         return new DefaultRenderer_1.DefaultRenderer();
                     }
                 }
-                static DrawPanel(panel, processChildren) {
-                    ConsoleHelper_14.ConsoleHelper.Log("RendererHelper.DrawPanel");
-                    panel.Renderer.Draw();
+                static LoadDynamicControl(panel, processChildren) {
+                    ConsoleHelper_14.ConsoleHelper.Log("RendererHelper.LoadDynamicControl");
+                    panel.Renderer.InitializeResources();
                     if (processChildren) {
                         panel.Children.forEach((uielement) => {
                             if (uielement instanceof Panel_7.Panel) {
-                                this.DrawPanel(uielement, processChildren);
+                                this.LoadDynamicControl(uielement, processChildren);
                             }
                             else {
                                 ConsoleHelper_14.ConsoleHelper.Log("??");
@@ -6126,9 +6126,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                 InitializeResources(content) {
                     VisualTreeHelper_1.VisualTreeHelper.InitializeResources();
                 }
-                Draw(content) {
-                    ConsoleHelper_17.ConsoleHelper.LogSectionHeader("Platform:Draw");
-                    RendererHelper_11.RendererHelper.DrawPanel(content, false);
+                LoadDynamicControl(content) {
+                    ConsoleHelper_17.ConsoleHelper.LogSectionHeader("Platform:LoadDynamicControl");
+                    RendererHelper_11.RendererHelper.LoadDynamicControl(content, false);
                 }
                 CreateControlRenderer(element) {
                     return RendererHelper_11.RendererHelper.FrameworkElementToRenderer(element);

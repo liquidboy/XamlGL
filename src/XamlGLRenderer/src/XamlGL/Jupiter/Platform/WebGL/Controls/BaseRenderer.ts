@@ -8,6 +8,7 @@ import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Point } from "./../../../../DataTypes/Point";
 import { DockPosition } from "./../../../../DataTypes/DockPosition";
 import { Panel } from "./../../../../Controls/Panel";
+import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { IEvent } from "./../../../../Events/IEvent";
 import { EventDispatcher } from "./../../../../Events/EventDispatcher";
@@ -16,7 +17,6 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { StackPanel } from "./../../../../Controls/StackPanel";
 import { Orientation } from "./../../../../DataTypes/Orientation";
 import { ToolTip } from "./../../../../Controls/ToolTip";
-import { IRenderer } from "./../../IRenderer";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class BaseRenderer implements IControlRenderer {
@@ -117,7 +117,7 @@ export class BaseRenderer implements IControlRenderer {
     InitializeResources(): void {
         // todo : fill 
     }
-    Draw(): void {
+    Draw(r: IRenderer, args: IEventArgs): void {
         // consoleHelper.Log("BaseRenderer.Draw");
     }
     RefreshUI(): void {
@@ -255,7 +255,7 @@ export class BaseRenderer implements IControlRenderer {
         this._tooltip.TooltipBorder = borderColor;
         if (this.Element.Parent instanceof Panel) {
             buttonParent.Platform.SetCurrent(this._tooltip, buttonParent);
-            buttonParent.Platform.Draw(this._tooltip);
+            buttonParent.Platform.LoadDynamicControl(this._tooltip);
         }
     }
 

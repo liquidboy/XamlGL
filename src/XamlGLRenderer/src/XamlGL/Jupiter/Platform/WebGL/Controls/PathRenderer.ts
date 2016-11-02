@@ -21,15 +21,15 @@ import { Path } from "./../../../../Controls/Path";
 // import { SweepDirection } from "./../../../../DataTypes/SweepDirection";
 // import { Size } from "./../../../../DataTypes/Size";
 // import { Orientation } from "./../../../../DataTypes/Orientation";
-// import { IRenderer } from "./../../IRenderer";
-// import { IEventArgs } from "./../../../../Events/IEventArgs";
+import { IRenderer } from "./../../IRenderer";
+import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { MiniPathLanguageHelper } from "./../../../../utils/MiniPathLanguageHelper";
 import { Point } from "./../../../../DataTypes/Point";
 
 export class PathRenderer extends BaseRenderer implements IControlRenderer {
-    Draw(): void {
-        super.Draw();
+    Draw(r: IRenderer, args: IEventArgs): void {
+        super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {
