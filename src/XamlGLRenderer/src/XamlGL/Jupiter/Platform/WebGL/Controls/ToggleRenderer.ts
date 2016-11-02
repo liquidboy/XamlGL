@@ -38,7 +38,11 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
     // private _isPressed: boolean = false;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
-        // fill from Draw
+        if (r.Pointer.hitTestSprite(this.PixiElement)) {
+            this.IsBeingHitWithPointer(r, args);
+        } else {
+            this.IsNotBeingHitWithPointer(r, args);
+        }
     }
     InitializeResources(): void {
         super.InitializeResources();
@@ -118,13 +122,7 @@ export class ToggleRenderer extends BaseRenderer implements IControlRenderer {
             }
         }
 
-        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this.PixiElement)) {
-                this.IsBeingHitWithPointer(r, args);
-            } else {
-                this.IsNotBeingHitWithPointer(r, args);
-            }
-        });
+        this.Element.Platform.Renderer.Draw.subscribe(this.Draw.bind(this));
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("CheckBoxRenderer.PointerTapped");
