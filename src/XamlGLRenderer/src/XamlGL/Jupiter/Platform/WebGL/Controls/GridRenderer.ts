@@ -16,9 +16,16 @@ import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { Point } from "./../../../../DataTypes/Point";
 
 export class GridRenderer extends BaseRenderer implements IControlRenderer {
+    private _containerGrid: PIXI.Container;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
-        // fill from Draw
+        // console.log(this.Element.Parent.Parent.Renderer.Scale);
+        if (this.Element && this.Element.Parent && this.Element.Parent.Renderer) {
+            let scale: number = this.Element.Parent.Renderer.Scale;
+            if (scale !== undefined) {
+                this._containerGrid.scale.set(scale, scale);
+            }
+        }
     }
     InitializeResources(): void {
         super.InitializeResources();
@@ -26,8 +33,8 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         // console.log(super.Element);
         let gridEl: Grid = <Grid>super.Element;
 
-        let containerGrid: PIXI.Container = new PIXI.Container();
-        this.PixiElement = containerGrid;
+        this._containerGrid = new PIXI.Container();
+        this.PixiElement = this._containerGrid;
 
         if (!gridEl.IsDirty) {
             return;
@@ -44,14 +51,14 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
 
         // important : doing this is failing, the height can't be set like this
         // size container
-        // containerGrid.height = this.Element.CalculatedHeight;
-        // containerGrid.width = this.Element.CalculatedWidth;
+        // this._containerGrid.height = this.Element.CalculatedHeight;
+        // this._containerGrid.width = this.Element.CalculatedWidth;
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
         // position container
-        containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
+        this._containerGrid.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
 
         // set background if its available
         if (gridEl.Background !== undefined) {
@@ -71,7 +78,7 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
             rectangle.endFill();
 
             // now render in container
-            containerGrid.addChild(rectangle);
+            this._containerGrid.addChild(rectangle);
 
         }
 
@@ -79,24 +86,16 @@ export class GridRenderer extends BaseRenderer implements IControlRenderer {
         this.IncrementNextAvailableSlot();
 
         if (super.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
-            super.Element.Platform.Renderer.PixiStage.addChild(containerGrid);
+            super.Element.Platform.Renderer.PixiStage.addChild(this._containerGrid);
         } else {
             if (super.Element.Parent.Renderer.PixiElement && super.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                 let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
-                parentContainer.addChild(containerGrid);
+                parentContainer.addChild(this._containerGrid);
             }
         }
 
         // update the UI based on interaction events and the render DRAW loop
-        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            // console.log(this.Element.Parent.Parent.Renderer.Scale);
-            if (this.Element && this.Element.Parent && this.Element.Parent.Renderer) {
-                let scale: number = this.Element.Parent.Renderer.Scale;
-                if (scale !== undefined) {
-                    containerGrid.scale.set(scale, scale);
-                }
-            }
-        });
+        this.Element.Platform.Renderer.Draw.subscribe(this.Draw.bind(this));
 
         gridEl.IsDirty = false;
     }
