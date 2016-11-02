@@ -7,7 +7,7 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
-import { Path } from "./../../../../Controls/Path";
+import { Path } from "./../../../Controls/Path";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { PathGeometry } from "./../../../../Controls/PathGeometry";
 // import { PathFigure } from "./../../../../Controls/PathFigure";

@@ -1,6 +1,6 @@
-﻿import * as Jupiter from "./../Jupiter/Core";
-import { TextWrapping } from "./../DataTypes/TextWrapping";
-import { TextWrappingAlign } from "./../DataTypes/TextWrappingAlign";
+﻿import * as Jupiter from "./../Core";
+import { TextWrapping } from "./../../DataTypes/TextWrapping";
+import { TextWrappingAlign } from "./../../DataTypes/TextWrappingAlign";
 
 export class TextBlock extends Jupiter.View {
     private _text: string;

@@ -1,4 +1,4 @@
-﻿import { Shape } from "./../Jupiter/Shape";
+﻿import { Shape } from "./../Shape";
 // import { Thickness } from "./../DataTypes/Thickness";
 // import { CornerRadius } from "./../DataTypes/CornerRadius";
 // import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";

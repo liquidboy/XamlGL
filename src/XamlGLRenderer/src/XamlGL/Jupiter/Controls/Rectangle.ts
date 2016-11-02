@@ -1,8 +1,8 @@
 ﻿import { Panel } from "./Panel";
-import { Thickness } from "./../DataTypes/Thickness";
-import { CornerRadius } from "./../DataTypes/CornerRadius";
-import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
-import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
+import { Thickness } from "./../../DataTypes/Thickness";
+import { CornerRadius } from "./../../DataTypes/CornerRadius";
+import { HorizontalAlignment } from "./../../DataTypes/HorizontalAlignment";
+import { VerticalAlignment } from "./../../DataTypes/VerticalAlignment";
 
 export class Rectangle  extends Panel {
     private _borderThickness: Thickness;

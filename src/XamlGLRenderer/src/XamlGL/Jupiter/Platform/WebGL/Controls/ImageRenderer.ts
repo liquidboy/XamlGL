@@ -7,7 +7,7 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
-import { Image } from "./../../../../Controls/Image";
+import { Image } from "./../../../Controls/Image";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";

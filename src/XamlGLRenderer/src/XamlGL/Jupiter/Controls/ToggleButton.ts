@@ -1,7 +1,7 @@
 ﻿import { Button } from "./Button";
-import { IEventArgs } from "./../Events/IEventArgs";
-import { EventDispatcher } from "./../Events/EventDispatcher";
-import { IEvent } from "./../Events/IEvent";
+import { IEventArgs } from "./../../Events/IEventArgs";
+import { EventDispatcher } from "./../../Events/EventDispatcher";
+import { IEvent } from "./../../Events/IEvent";
 
 export class ToggleButton  extends Button {
     private _IsChecked: boolean = false;

@@ -5,7 +5,7 @@ export * from "./Reader/XamlReader";
 export * from "./Reader/XamlParser";
 export * from "./Reader/XamlMarkup";
 
-import * as _controls from "./Controls/Core";
+import * as _controls from "./Jupiter/Controls/Core";
 export let Controls: any = _controls;
 
 import * as _events from "./Events/Core";

@@ -7,7 +7,7 @@ import { FrameworkElement } from "./../../FrameworkElement";
 import { IUIElement } from "./../../IUIElement";
 // import { IFrameworkElementRenderer } from "./../IFrameworkElementRenderer";
 import { IControlRenderer } from "./../IControlRenderer";
-import { Panel } from "./../../../Controls/Panel";
+import { Panel } from "./../../Controls/Panel";
 // import { Image } from "./../../../Controls/Image";
 import { RendererHelper } from "./../../../utils/RendererHelper";
 import { VisualTreeHelper } from "./../../../utils/VisualTreeHelper";

@@ -8,40 +8,40 @@ import { IEventArgs } from "./../Events/IEventArgs";
 import { IRenderer } from "./../Jupiter/Platform/IRenderer";
 import { KeyPressedEventArgs } from "./../Events/KeyPressedEventArgs";
 
-import { Grid } from "./../Controls/Grid";
+import { Grid } from "./../Jupiter/Controls/Grid";
 import { GridRenderer } from "./../Jupiter/Platform/WebGL/Controls/GridRenderer";
 
-import { StackPanel } from "./../Controls/StackPanel";
+import { StackPanel } from "./../Jupiter/Controls/StackPanel";
 import { StackPanelRenderer } from "./../Jupiter/Platform/WebGL/Controls/StackPanelRenderer";
 
-import { Image } from "./../Controls/Image";
+import { Image } from "./../Jupiter/Controls/Image";
 import { ImageRenderer } from "./../Jupiter/Platform/WebGL/Controls/ImageRenderer";
 
-import { Rectangle } from "./../Controls/Rectangle";
+import { Rectangle } from "./../Jupiter/Controls/Rectangle";
 import { RectangleRenderer } from "./../Jupiter/Platform/WebGL/Controls/RectangleRenderer";
 
-import { Panel } from "./../Controls/Panel";
+import { Panel } from "./../Jupiter/Controls/Panel";
 import { ConsoleHelper } from "./ConsoleHelper";
 
-import { TextBlock } from "./../Controls/TextBlock";
+import { TextBlock } from "./../Jupiter/Controls/TextBlock";
 import { TextBlockRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextBlockRenderer";
 
-import { TextBox } from "./../Controls/TextBox";
+import { TextBox } from "./../Jupiter/Controls/TextBox";
 import { TextBoxRenderer } from "./../Jupiter/Platform/WebGL/Controls/TextBoxRenderer";
 
-import { Button } from "./../Controls/Button";
+import { Button } from "./../Jupiter/Controls/Button";
 import { ButtonRenderer } from "./../Jupiter/Platform/WebGL/Controls/ButtonRenderer";
 
-import { ToolTip } from "./../Controls/ToolTip";
+import { ToolTip } from "./../Jupiter/Controls/ToolTip";
 import { ToolTipRenderer } from "./../Jupiter/Platform/WebGL/Controls/ToolTipRenderer";
 
-import { Path } from "./../Controls/Path";
+import { Path } from "./../Jupiter/Controls/Path";
 import { PathRenderer } from "./../Jupiter/Platform/WebGL/Controls/PathRenderer";
 
-import { CheckBox } from "./../Controls/CheckBox";
+import { CheckBox } from "./../Jupiter/Controls/CheckBox";
 import { ToggleRenderer } from "./../Jupiter/Platform/WebGL/Controls/ToggleRenderer";
 
-import { RadioButton } from "./../Controls/RadioButton";
+import { RadioButton } from "./../Jupiter/Controls/RadioButton";
 
 declare var TinkLib: any;
 

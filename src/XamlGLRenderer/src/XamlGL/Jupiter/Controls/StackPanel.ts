@@ -1,7 +1,7 @@
 ﻿import { Panel } from "./Panel";
-import { Thickness } from "./../DataTypes/Thickness";
-import { CornerRadius } from "./../DataTypes/CornerRadius";
-import { Orientation } from "./../DataTypes/Orientation";
+import { Thickness } from "./../../DataTypes/Thickness";
+import { CornerRadius } from "./../../DataTypes/CornerRadius";
+import { Orientation } from "./../../DataTypes/Orientation";
 
 export class StackPanel  extends Panel {
     private _borderThickness: Thickness;

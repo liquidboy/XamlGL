@@ -6,7 +6,7 @@ import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
-import { ToolTip } from "./../../../../Controls/ToolTip";
+import { ToolTip } from "./../../../Controls/ToolTip";
 import { DockPosition } from "./../../../../DataTypes/DockPosition";
 
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";

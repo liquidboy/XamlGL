@@ -1,8 +1,8 @@
-﻿import { FrameworkElement } from "./../Jupiter/FrameworkElement";
-import { UIElementCollection } from "./../Jupiter/UIElementCollection";
-import { IEventArgs } from "./../Events/IEventArgs";
-import { EventDispatcher } from "./../Events/EventDispatcher";
-import { IEvent } from "./../Events/IEvent";
+﻿import { FrameworkElement } from "./../FrameworkElement";
+import { UIElementCollection } from "./../UIElementCollection";
+import { IEventArgs } from "./../../Events/IEventArgs";
+import { EventDispatcher } from "./../../Events/EventDispatcher";
+import { IEvent } from "./../../Events/IEvent";
 
 export class Panel extends FrameworkElement {
     private _children: UIElementCollection;

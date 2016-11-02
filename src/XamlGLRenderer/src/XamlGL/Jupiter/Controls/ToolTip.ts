@@ -1,9 +1,9 @@
 ﻿import { Panel } from "./Panel";
-import { Thickness } from "./../DataTypes/Thickness";
-import { CornerRadius } from "./../DataTypes/CornerRadius";
-import { HorizontalAlignment } from "./../DataTypes/HorizontalAlignment";
-import { VerticalAlignment } from "./../DataTypes/VerticalAlignment";
-import { DockPosition } from "./../DataTypes/DockPosition";
+import { Thickness } from "./../../DataTypes/Thickness";
+import { CornerRadius } from "./../../DataTypes/CornerRadius";
+import { HorizontalAlignment } from "./../../DataTypes/HorizontalAlignment";
+import { VerticalAlignment } from "./../../DataTypes/VerticalAlignment";
+import { DockPosition } from "./../../DataTypes/DockPosition";
 
 export class ToolTip extends Panel {
     private _borderThickness: Thickness;

@@ -6,7 +6,7 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
-import { Grid } from "./../../../../Controls/Grid";
+import { Grid } from "./../../../Controls/Grid";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";

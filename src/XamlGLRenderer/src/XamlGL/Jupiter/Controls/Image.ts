@@ -1,5 +1,5 @@
-﻿import * as Jupiter from "./../Jupiter/Core";
-import { Thickness } from "./../DataTypes/Thickness";
+﻿import * as Jupiter from "./../Core";
+import { Thickness } from "./../../DataTypes/Thickness";
 
 export class Image extends Jupiter.View {
     private _source: Jupiter.ImageSource;

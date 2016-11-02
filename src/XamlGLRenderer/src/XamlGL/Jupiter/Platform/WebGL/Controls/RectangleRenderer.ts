@@ -7,7 +7,7 @@ import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
-import { Rectangle } from "./../../../../Controls/Rectangle";
+import { Rectangle } from "./../../../Controls/Rectangle";
 
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";

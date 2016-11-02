@@ -58,7 +58,7 @@ export class VisualTreeHelper {
     }
 
     public static InitializeResources(): void {
-        // consoleHelper.LogPad("VisualTreeHelper.Draw", 0);
+        // consoleHelper.LogPad("VisualTreeHelper.InitializeResources", 0);
         this.XamlVT.Children.forEach((x: VisualTreeNode) => {
             x.BackingElement.Renderer.InitializeResources();
             this.InitializeNodeResources(x);
@@ -66,7 +66,7 @@ export class VisualTreeHelper {
     }
 
     private static InitializeNodeResources(x: VisualTreeNode): void {
-        // consoleHelper.LogPad("VisualTreeHelper.DrawNode", 0);
+        // consoleHelper.LogPad("VisualTreeHelper.InitializeNodeResources", 0);
         x.Children.forEach((vtn: VisualTreeNode) => {
             vtn.BackingElement.Renderer.InitializeResources();
             if (vtn.Children !== null && vtn.Children.size() > 0) {

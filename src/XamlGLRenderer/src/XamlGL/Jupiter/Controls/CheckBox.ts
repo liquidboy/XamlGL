@@ -1,5 +1,5 @@
 ﻿import { ToggleButton } from "./ToggleButton";
-import { Thickness } from "./../DataTypes/Thickness";
+import { Thickness } from "./../../DataTypes/Thickness";
 
 export class CheckBox  extends ToggleButton {
     private _checkedPath: string = "M29.403992,0L32,3.5860286 8.3720093,21.479001 5.7740173,17.895017 5.776001,17.893002 0,9.9110087 3.5079956,7.2570179 9.2829895,15.23602z";

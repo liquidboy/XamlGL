@@ -1,9 +1,9 @@
-﻿import { PathGeometry } from "./../Controls/PathGeometry";
-import { PathFigure } from "./../Controls/PathFigure";
-import { LineSegment } from "./../Controls/LineSegment";
-import { BezierSegment } from "./../Controls/BezierSegment";
-import { QuadraticBezierSegment } from "./../Controls/QuadraticBezierSegment";
-import { ArcSegment } from "./../Controls/ArcSegment";
+﻿import { PathGeometry } from "./../Jupiter/Controls/PathGeometry";
+import { PathFigure } from "./../Jupiter/Controls/PathFigure";
+import { LineSegment } from "./../Jupiter/Controls/LineSegment";
+import { BezierSegment } from "./../Jupiter/Controls/BezierSegment";
+import { QuadraticBezierSegment } from "./../Jupiter/Controls/QuadraticBezierSegment";
+import { ArcSegment } from "./../Jupiter/Controls/ArcSegment";
 import { FillRule } from "./../DataTypes/FillRule";
 import { SweepDirection } from "./../DataTypes/SweepDirection";
 import { Size } from "./../DataTypes/Size";

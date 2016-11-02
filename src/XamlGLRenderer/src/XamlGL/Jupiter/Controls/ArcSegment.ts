@@ -1,7 +1,7 @@
 ﻿import { PathSegment } from "./PathSegment";
-import { Point } from "./../DataTypes/Point";
-import { SweepDirection } from "./../DataTypes/SweepDirection";
-import { Size } from "./../DataTypes/Size";
+import { Point } from "./../../DataTypes/Point";
+import { SweepDirection } from "./../../DataTypes/SweepDirection";
+import { Size } from "./../../DataTypes/Size";
 
 export class ArcSegment extends PathSegment {
 

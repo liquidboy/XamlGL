@@ -1,5 +1,5 @@
 ﻿import { PathSegment } from "./PathSegment";
-import { Point } from "./../DataTypes/Point";
+import { Point } from "./../../DataTypes/Point";
 
 export class LineSegment extends PathSegment {
 

@@ -1,5 +1,5 @@
-﻿import { Geometry } from "./../Jupiter/Geometry";
-import { FillRule } from "./../DataTypes/FillRule";
+﻿import { Geometry } from "./../Geometry";
+import { FillRule } from "./../../DataTypes/FillRule";
 import { PathFigureCollection } from "./PathFigureCollection";
 
 export class PathGeometry extends Geometry {
