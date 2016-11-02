@@ -151,6 +151,10 @@ export class XamlParser {
             text.TextWrapping = this.StringToTextWrapping(node.attributes.getNamedItem("TextWrapping"));
             text.TextWrappingAlign = this.StringToTextWrappingAlign(node.attributes.getNamedItem("TextWrappingAlign"));
             text.AcceptsReturn = this.StringToBoolean(node.attributes.getNamedItem("AcceptsReturn"));
+            text.Background = node.attributes.getNamedItem("Background").value;
+            text.BorderBrush = node.attributes.getNamedItem("BorderBrush").value;
+            let borderThickness: number = this.StringToNumber(node.attributes.getNamedItem("Border"));
+            text.BorderThickness = new Thickness(borderThickness);
             return text;
         } else if (node.nodeName === "Button") {
             let button: Button = new Button();
