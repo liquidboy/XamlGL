@@ -38,37 +38,49 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _topGraphicsLayer: PIXI.Graphics;
     private _bottomGraphicsLayer: PIXI.Graphics;
     private _text: PIXI.Text;
+    private _cursor: PIXI.Graphics;
     private _cursorPoint: Point = new Point(0, 0);
     private _currentCursorPositionXLength: number = 0;
+    private _textBoxEl: TextBox;
     // private _localWindowLength: number = 30;
     // private _isFocused: boolean = false;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
-        // fill from Draw
+        if (r.Pointer.hitTestSprite(this.PixiElement)) {
+            this.IsBeingHitWithPointer(r, args);
+        } else {
+            this.IsNotBeingHitWithPointer(r, args);
+        }
+
+        if (this._textBoxEl.HasFocus && this._textBoxEl.IsDirty) {
+            this._cursor.alpha = 1;
+            this._cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
+            this._textBoxEl.IsDirty = false;
+        }
     }
     InitializeResources(): void {
         super.InitializeResources();
         ConsoleHelper.Log("TextBoxRenderer.InitializeResources");
 
-        let textBoxEl: TextBox = <TextBox>this.Element;
+        this._textBoxEl = <TextBox>this.Element;
         if (this.PixiElement === undefined) {
             this.PixiElement = new PIXI.Container();
             this.PixiElementMask = new PIXI.Graphics();
             this.PixiElement.mask = this.PixiElementMask;
         }
 
-        if (!textBoxEl.IsDirty) {
+        if (!this._textBoxEl.IsDirty) {
             return;
         }
 
         // calculate y position
-        this.CalculateYHeight(textBoxEl);
+        this.CalculateYHeight(this._textBoxEl);
 
         // calculate X position
-        this.CalculateXWidth(textBoxEl);
+        this.CalculateXWidth(this._textBoxEl);
 
         // take margin into account
-        this.UpdateCalculatedValuesUsingMargin(textBoxEl);
+        this.UpdateCalculatedValuesUsingMargin(this._textBoxEl);
 
         // size container
         (<PIXI.Container>this.PixiElement).height = this.Element.CalculatedHeight;
@@ -76,26 +88,26 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
         // start top
         this._topGraphicsLayer = new PIXI.Graphics();
-        this._topGraphicsLayer.width = textBoxEl.CalculatedWidth;
+        this._topGraphicsLayer.width = this._textBoxEl.CalculatedWidth;
         this._topGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 1);
 
         // text
         this._text = new PIXI.Text(
-            textBoxEl.Text,
+            this._textBoxEl.Text,
             {
-                font: `${textBoxEl.FontSize}px ${textBoxEl.FontFamily}`,
-                fill: textBoxEl.Color,
-                wordWrap: (textBoxEl.TextWrapping === TextWrapping.Wrap) ? true : false,
-                wordWrapWidth: textBoxEl.CalculatedWidth,
-                align: TextWrappingAlign[textBoxEl.TextWrappingAlign].toLowerCase()
+                font: `${this._textBoxEl.FontSize}px ${this._textBoxEl.FontFamily}`,
+                fill: this._textBoxEl.Color,
+                wordWrap: (this._textBoxEl.TextWrapping === TextWrapping.Wrap) ? true : false,
+                wordWrapWidth: this._textBoxEl.CalculatedWidth,
+                align: TextWrappingAlign[this._textBoxEl.TextWrappingAlign].toLowerCase()
             }
         );
-        this._currentCursorPositionXLength = textBoxEl.Text.length;
+        this._currentCursorPositionXLength = this._textBoxEl.Text.length;
 
         // mask
         this.PixiElementMask.clear();
         this.PixiElementMask.beginFill(RendererHelper.HashToColorNumber("#FF000000"), 1);
-        this.PixiElementMask.drawRect(0, 0, textBoxEl.CalculatedWidth, textBoxEl.FontSize + 5);
+        this.PixiElementMask.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.FontSize + 5);
         this.PixiElementMask.endFill();
 
         this._topGraphicsLayer.addChild(this._text);
@@ -106,14 +118,14 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
 
         // start bottom
         this._bottomGraphicsLayer = new PIXI.Graphics();
-        this._bottomGraphicsLayer.width = textBoxEl.CalculatedWidth;
-        this._bottomGraphicsLayer.height = textBoxEl.CalculatedHeight;
+        this._bottomGraphicsLayer.width = this._textBoxEl.CalculatedWidth;
+        this._bottomGraphicsLayer.height = this._textBoxEl.CalculatedHeight;
         this._bottomGraphicsLayer.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.8);
 
         // cursor
         // let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(text.x + text.width, text.y + text.height - 20, 3, 18);
-        let cursor: PIXI.Graphics = this._bottomGraphicsLayer.drawRect(0, 0, 3, 18);
-        cursor.alpha = 0;
+        this._cursor = this._bottomGraphicsLayer.drawRect(0, 0, 3, 18);
+        this._cursor.alpha = 0;
 
         // end bottom
         this._bottomGraphicsLayer.endFill();
@@ -153,7 +165,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         }
 
         this.Element.Platform.Renderer.Key.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (textBoxEl.HasFocus) {
+            if (this._textBoxEl.HasFocus) {
                 // let kc: number = parseInt((<KeyPressedEventArgs>args).KeyCode);
                 let k: string = (<KeyPressedEventArgs>args).Key;
                 // consoleHelper.LogPad(kc.toString(), 20);
@@ -208,7 +220,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                             }
                             break;
                         case "Enter":
-                            if (textBoxEl.AcceptsReturn) {
+                            if (this._textBoxEl.AcceptsReturn) {
                                 // this._text.text += "\n";
                                 this.UpdateText(this._text.text + "\n");
                                 this._currentCursorPositionXLength = this._text.text.length;
@@ -219,22 +231,22 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                             if (this._currentCursorPositionXLength < 0) {
                                 this._currentCursorPositionXLength = 0;
                             }
-                            textBoxEl.IsDirty = true;
+                            this._textBoxEl.IsDirty = true;
                             break;
                         case "ArrowRight":
                             this._currentCursorPositionXLength++;
                             if (this._currentCursorPositionXLength > this._text.text.length) {
                                 this._currentCursorPositionXLength = this._text.text.length;
                             }
-                            textBoxEl.IsDirty = true;
+                            this._textBoxEl.IsDirty = true;
                             break;
                         case "End":
                             this._currentCursorPositionXLength = this._text.text.length;
-                            textBoxEl.IsDirty = true;
+                            this._textBoxEl.IsDirty = true;
                             break;
                         case "Home":
                             this._currentCursorPositionXLength = 0;
-                            textBoxEl.IsDirty = true;
+                            this._textBoxEl.IsDirty = true;
                             break;
                         default:
                             console.log(k);
@@ -244,31 +256,19 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 this.UpdateCursorPosition();
             }
         });
-        this.Element.Platform.Renderer.Draw.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this.PixiElement)) {
-                this.IsBeingHitWithPointer(r, args);
-            } else {
-                this.IsNotBeingHitWithPointer(r, args);
-            }
-
-            if (textBoxEl.HasFocus && textBoxEl.IsDirty) {
-                cursor.alpha = 1;
-                cursor.position.set(this._cursorPoint.X, this._cursorPoint.Y);
-                textBoxEl.IsDirty = false;
-            }
-        });
+        this.Element.Platform.Renderer.Draw.subscribe(this.Draw.bind(this));
         this.Element.Platform.Renderer.PointerTapped.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this.PixiElement)) {
                 ConsoleHelper.Log("TextBoxRenderer.PointerTapped");
                 this._currentCursorPositionXLength = this._text.text.length;
                 this.UpdateCursorPosition();
-                textBoxEl.HasFocus = !textBoxEl.HasFocus;
+                this._textBoxEl.HasFocus = !this._textBoxEl.HasFocus;
                 this.RefreshUI();
             }
         });
 
 
-        textBoxEl.IsDirty = false;
+        this._textBoxEl.IsDirty = false;
 
     }
     UpdateText(newText: string): void {
