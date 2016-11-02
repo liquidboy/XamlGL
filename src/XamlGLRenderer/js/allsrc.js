@@ -4176,11 +4176,29 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                 }
                 Draw(r, args) {
                     super.Draw(r, args);
+                    if (r.Pointer.hitTestSprite(this.PixiElement)) {
+                        this.IsBeingHitWithPointer(r, args);
+                        this._backgroundSprite.alpha = 1;
+                        this.Scale = this._isPressed ? 0.98 : 1.02;
+                        this._blurToUse = this.Element.BlurAmount;
+                        this.ShowTooltip(r, this.Element, this._parentContainer, this.PixiElement);
+                    }
+                    else {
+                        this.IsNotBeingHitWithPointer(r, args);
+                        this._backgroundSprite.alpha = 0.95;
+                        this.Scale = 1.0;
+                        this._blurToUse = 1.0;
+                        this.HideTooltip(this.Element);
+                    }
+                    if (this.Element.BlurAmount > 0) {
+                        this._blurFilter.blur = this._blurToUse;
+                    }
+                    this._backgroundSprite.scale.set(this.Scale, this.Scale);
                 }
                 InitializeResources() {
                     super.InitializeResources();
                     ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.InitializeResources");
-                    let buttonEl = super.Element;
+                    let buttonEl = this.Element;
                     if (this.PixiElement === undefined) {
                         this.PixiElement = new PIXI.Container();
                     }
@@ -4193,7 +4211,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     this.PixiElement.height = this.Element.CalculatedHeight;
                     this.PixiElement.width = this.Element.CalculatedWidth;
                     let background = null;
-                    let blurFilter = null;
+                    this._blurFilter = null;
                     if (buttonEl.Background !== undefined) {
                         let widthToUse = (buttonEl.Width === null || buttonEl.Width === 0) ? this.ParentWidth : buttonEl.Width;
                         let heightToUse = (buttonEl.Height === null || buttonEl.Height === 0) ? this.ParentHeight : buttonEl.Height;
@@ -4211,50 +4229,31 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                         background.boundsPadding = buttonEl.BlurAmount * 2;
                         background.endFill();
                         var texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
-                        var backgroundSprite = new PIXI.Sprite(texture);
-                        backgroundSprite.anchor.set(0.5, 0.5);
-                        backgroundSprite.setTransform(buttonEl.Width / 2, buttonEl.Height / 2);
+                        this._backgroundSprite = new PIXI.Sprite(texture);
+                        this._backgroundSprite.anchor.set(0.5, 0.5);
+                        this._backgroundSprite.setTransform(buttonEl.Width / 2, buttonEl.Height / 2);
                         if (buttonEl.BlurAmount > 0) {
-                            blurFilter = new PIXI.filters.BlurFilter();
+                            this._blurFilter = new PIXI.filters.BlurFilter();
                             this._blurToUse = buttonEl.BlurAmount;
-                            blurFilter.blur = 0;
-                            backgroundSprite.filters = [blurFilter];
+                            this._blurFilter.blur = 0;
+                            this._backgroundSprite.filters = [this._blurFilter];
                         }
                         let parentXYStart = this.CalculateCurrentAvailableSlot();
                         this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
-                        this.PixiElement.addChild(backgroundSprite);
+                        this.PixiElement.addChild(this._backgroundSprite);
                         this.IncrementNextAvailableSlot();
                     }
-                    let parentContainer = null;
+                    this._parentContainer = null;
                     if (this.Element.Parent.Renderer === undefined) {
                         this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
                     }
                     else {
                         if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
-                            parentContainer = this.Element.Parent.Renderer.PixiElement;
-                            parentContainer.addChild(this.PixiElement);
+                            this._parentContainer = this.Element.Parent.Renderer.PixiElement;
+                            this._parentContainer.addChild(this.PixiElement);
                         }
                     }
-                    this.Element.Platform.Renderer.Draw.subscribe((r, args) => {
-                        if (r.Pointer.hitTestSprite(this.PixiElement)) {
-                            this.IsBeingHitWithPointer(r, args);
-                            backgroundSprite.alpha = 1;
-                            this.Scale = this._isPressed ? 0.98 : 1.02;
-                            this._blurToUse = buttonEl.BlurAmount;
-                            this.ShowTooltip(r, buttonEl, parentContainer, this.PixiElement);
-                        }
-                        else {
-                            this.IsNotBeingHitWithPointer(r, args);
-                            backgroundSprite.alpha = 0.95;
-                            this.Scale = 1.0;
-                            this._blurToUse = 1.0;
-                            this.HideTooltip(buttonEl);
-                        }
-                        if (buttonEl.BlurAmount > 0) {
-                            blurFilter.blur = this._blurToUse;
-                        }
-                        backgroundSprite.scale.set(this.Scale, this.Scale);
-                    });
+                    this.Element.Platform.Renderer.Draw.subscribe(this.Draw.bind(this));
                     this.Element.Platform.Renderer.PointerTapped.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(this.PixiElement)) {
                             ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw.Tapped");
@@ -4804,7 +4803,7 @@ System.register("XamlGL/Controls/ArcSegment", ["XamlGL/Controls/PathSegment"], f
         }
     }
 });
-System.register("XamlGL/Utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_94, context_94) {
+System.register("XamlGL/utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeometry", "XamlGL/Controls/PathFigure", "XamlGL/Controls/LineSegment", "XamlGL/Controls/BezierSegment", "XamlGL/Controls/QuadraticBezierSegment", "XamlGL/Controls/ArcSegment", "XamlGL/DataTypes/FillRule", "XamlGL/DataTypes/SweepDirection", "XamlGL/DataTypes/Size", "XamlGL/Utils/ConsoleHelper"], function(exports_94, context_94) {
     "use strict";
     var __moduleName = context_94 && context_94.id;
     var PathGeometry_1, PathFigure_1, LineSegment_1, BezierSegment_1, QuadraticBezierSegment_1, ArcSegment_1, FillRule_1, SweepDirection_1, Size_1, ConsoleHelper_11;
@@ -5208,7 +5207,7 @@ System.register("XamlGL/Utils/MiniPathLanguageHelper", ["XamlGL/Controls/PathGeo
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/RendererHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_95, context_95) {
     "use strict";
     var __moduleName = context_95 && context_95.id;
     var BaseRenderer_10, ConsoleHelper_12, RendererHelper_8, MiniPathLanguageHelper_1;
@@ -5390,7 +5389,7 @@ System.register("XamlGL/Controls/RadioButton", ["XamlGL/Controls/CheckBox"], fun
         }
     }
 });
-System.register("XamlGL/Utils/GroupingHelper", ["XamlGL/Jupiter/FrameworkElementCollection", "Libs/typescript-collections/src/lib/index"], function(exports_100, context_100) {
+System.register("XamlGL/utils/GroupingHelper", ["XamlGL/Jupiter/FrameworkElementCollection", "Libs/typescript-collections/src/lib/index"], function(exports_100, context_100) {
     "use strict";
     var __moduleName = context_100 && context_100.id;
     var FrameworkElementCollection_1, index_5;
@@ -5425,7 +5424,7 @@ System.register("XamlGL/Utils/GroupingHelper", ["XamlGL/Jupiter/FrameworkElement
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/RadioButton", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/GroupingHelper", "XamlGL/Utils/MiniPathLanguageHelper"], function(exports_101, context_101) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Controls/RadioButton", "XamlGL/Utils/RendererHelper", "XamlGL/utils/GroupingHelper", "XamlGL/utils/MiniPathLanguageHelper"], function(exports_101, context_101) {
     "use strict";
     var __moduleName = context_101 && context_101.id;
     var BaseRenderer_11, ConsoleHelper_13, RadioButton_1, RendererHelper_9, GroupingHelper_1, MiniPathLanguageHelper_2;
@@ -5988,7 +5987,7 @@ System.register("XamlGL/VisualTree", ["Libs/typescript-collections/src/lib/index
         }
     }
 });
-System.register("XamlGL/Utils/VisualTreeHelper", ["Libs/typescript-collections/src/lib/index", "XamlGL/VisualTree", "XamlGL/Utils/ConsoleHelper"], function(exports_105, context_105) {
+System.register("XamlGL/utils/VisualTreeHelper", ["Libs/typescript-collections/src/lib/index", "XamlGL/VisualTree", "XamlGL/Utils/ConsoleHelper"], function(exports_105, context_105) {
     "use strict";
     var __moduleName = context_105 && context_105.id;
     var index_7, VisualTree_1, ConsoleHelper_16;
@@ -6066,7 +6065,7 @@ System.register("XamlGL/Utils/VisualTreeHelper", ["Libs/typescript-collections/s
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/Utils/VisualTreeHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_106, context_106) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platform/WebGL/Renderer", "XamlGL/Controls/Panel", "XamlGL/Utils/RendererHelper", "XamlGL/utils/VisualTreeHelper", "XamlGL/Utils/ConsoleHelper"], function(exports_106, context_106) {
     "use strict";
     var __moduleName = context_106 && context_106.id;
     var Renderer_2, Panel_8, RendererHelper_11, VisualTreeHelper_1, ConsoleHelper_17;
@@ -6167,7 +6166,7 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_107, context_10
         }
     }
 });
-System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Controls/ToolTip", "XamlGL/Controls/Button", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/CheckBox", "XamlGL/Controls/RadioButton", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/TextBox", "XamlGL/Controls/Path", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/GroupingHelper", "XamlGL/Utils/VisualTreeHelper"], function(exports_108, context_108) {
+System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Controls/ToolTip", "XamlGL/Controls/Button", "XamlGL/Controls/StackPanel", "XamlGL/Controls/Image", "XamlGL/Controls/CheckBox", "XamlGL/Controls/RadioButton", "XamlGL/Controls/Panel", "XamlGL/Controls/TextBlock", "XamlGL/Controls/TextBox", "XamlGL/Controls/Path", "XamlGL/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/GroupingHelper", "XamlGL/utils/VisualTreeHelper"], function(exports_108, context_108) {
     "use strict";
     var __moduleName = context_108 && context_108.id;
     var Grid_2, ToolTip_3, Button_3, StackPanel_3, Image_2, CheckBox_3, RadioButton_3, Panel_9, TextBlock_2, TextBox_2, Path_2, Rectangle_2, Thickness_5, HorizontalAlignment_5, VerticalAlignment_5, CornerRadius_3, Orientation_2, TextWrapping_5, TextWrappingAlign_5, DockPosition_5, ConsoleHelper_18, GroupingHelper_2, VisualTreeHelper_2;
@@ -6652,7 +6651,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Controls/Grid", "XamlGL/Con
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/WebGL/Platform", "XamlGL/Events/EventList", "XamlGL/Reader/XamlParser", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/VisualTreeHelper"], function(exports_109, context_109) {
+System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/WebGL/Platform", "XamlGL/Events/EventList", "XamlGL/Reader/XamlParser", "XamlGL/Utils/ConsoleHelper", "XamlGL/utils/VisualTreeHelper"], function(exports_109, context_109) {
     "use strict";
     var __moduleName = context_109 && context_109.id;
     var Page_2, Platform_2, EventList_2, XamlParser_1, ConsoleHelper_19, VisualTreeHelper_3;
