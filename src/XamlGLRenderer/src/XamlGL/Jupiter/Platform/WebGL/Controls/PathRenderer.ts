@@ -28,13 +28,13 @@ import { MiniPathLanguageHelper } from "./../../../../utils/MiniPathLanguageHelp
 import { Point } from "./../../../../DataTypes/Point";
 
 export class PathRenderer extends BaseRenderer implements IControlRenderer {
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("PathRenderer.Draw");
+        // fill from Draw
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("PathRenderer.InitializeResources");
 
         let pathEl: Path = <Path>super.Element;
         let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;

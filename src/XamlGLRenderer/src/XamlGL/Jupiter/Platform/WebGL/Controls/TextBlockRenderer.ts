@@ -20,13 +20,13 @@ import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class TextBlockRenderer extends BaseRenderer implements IControlRenderer {
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("TextBlockRenderer.Draw");
+        // fill from Draw
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("TextBlockRenderer.InitializeResources");
 
         let textEl: TextBlock = <TextBlock>super.Element;
 

@@ -17,13 +17,13 @@ import { Point } from "./../../../../DataTypes/Point";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class ImageRenderer extends BaseRenderer implements IControlRenderer {
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("ImagetRenderer.Draw");
+        // fill from Draw
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("ImagetRenderer.InitializeResources");
 
         let imageEl: Image = <Image>super.Element;
         let imageContainer: PIXI.Container = null;

@@ -42,13 +42,13 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
     private _currentCursorPositionXLength: number = 0;
     // private _localWindowLength: number = 30;
     // private _isFocused: boolean = false;
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("TextBoxRenderer.Draw");
+        // fill from Draw
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("TextBoxRenderer.InitializeResources");
 
         let textBoxEl: TextBox = <TextBox>this.Element;
         if (this.PixiElement === undefined) {

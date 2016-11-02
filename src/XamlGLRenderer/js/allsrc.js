@@ -2967,12 +2967,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/DefaultRenderer", ["Xaml
             }],
         execute: function() {
             DefaultRenderer = class DefaultRenderer extends BaseRenderer_1.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_2.ConsoleHelper.Log("DefaultRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_2.ConsoleHelper.Log("DefaultRenderer.InitializeResources");
                     let defaultEl = super.Element;
                     if (!defaultEl.IsDirty) {
                         return;
@@ -3040,12 +3040,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/GridRenderer", ["XamlGL/
             }],
         execute: function() {
             GridRenderer = class GridRenderer extends BaseRenderer_2.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_3.ConsoleHelper.Log("GridRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_3.ConsoleHelper.Log("GridRenderer.InitializeResources");
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
                     this.PixiElement = containerGrid;
@@ -3129,12 +3129,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/StackPanelRenderer", ["X
             }],
         execute: function() {
             StackPanelRenderer = class StackPanelRenderer extends BaseRenderer_3.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_4.ConsoleHelper.Log("StackPanelRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_4.ConsoleHelper.Log("StackPanelRenderer.InitializeResources");
                     let gridEl = super.Element;
                     let containerGrid = new PIXI.Container();
                     super.PixiElement = containerGrid;
@@ -3537,12 +3537,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ImageRenderer", ["XamlGL
             }],
         execute: function() {
             ImageRenderer = class ImageRenderer extends BaseRenderer_4.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_5.ConsoleHelper.Log("ImagetRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_5.ConsoleHelper.Log("ImagetRenderer.InitializeResources");
                     let imageEl = super.Element;
                     let imageContainer = null;
                     if (!imageEl.IsDirty) {
@@ -3646,12 +3646,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/RectangleRenderer", ["Xa
             }],
         execute: function() {
             RectangleRenderer = class RectangleRenderer extends BaseRenderer_5.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_6.ConsoleHelper.Log("RectangleRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_6.ConsoleHelper.Log("RectangleRenderer.InitializeResources");
                     let rectEl = super.Element;
                     if (!rectEl.IsDirty) {
                         return;
@@ -3784,12 +3784,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBlockRenderer", ["Xa
             }],
         execute: function() {
             TextBlockRenderer = class TextBlockRenderer extends BaseRenderer_6.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_7.ConsoleHelper.Log("TextBlockRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_7.ConsoleHelper.Log("TextBlockRenderer.InitializeResources");
                     let textEl = super.Element;
                     if (!textEl.IsDirty) {
                         return;
@@ -3928,12 +3928,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/TextBoxRenderer", ["Xaml
                     this._cursorPoint = new Point_2.Point(0, 0);
                     this._currentCursorPositionXLength = 0;
                 }
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_8.ConsoleHelper.Log("TextBoxRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_8.ConsoleHelper.Log("TextBoxRenderer.InitializeResources");
                     let textBoxEl = this.Element;
                     if (this.PixiElement === undefined) {
                         this.PixiElement = new PIXI.Container();
@@ -4174,12 +4174,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ButtonRenderer", ["XamlG
                     this._blurToUse = 0;
                     this._isPressed = false;
                 }
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_9.ConsoleHelper.Log("ButtonRenderer.InitializeResources");
                     let buttonEl = super.Element;
                     if (this.PixiElement === undefined) {
                         this.PixiElement = new PIXI.Container();
@@ -4348,12 +4348,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToolTipRenderer", ["Xaml
             }],
         execute: function() {
             ToolTipRenderer = class ToolTipRenderer extends BaseRenderer_9.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_10.ConsoleHelper.Log("ToolTipRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_10.ConsoleHelper.Log("ToolTipRenderer.InitializeResources");
                     let toolTip = super.Element;
                     if (!toolTip.IsDirty) {
                         return;
@@ -5229,12 +5229,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/PathRenderer", ["XamlGL/
             }],
         execute: function() {
             PathRenderer = class PathRenderer extends BaseRenderer_10.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_12.ConsoleHelper.Log("PathRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_12.ConsoleHelper.Log("PathRenderer.InitializeResources");
                     let pathEl = super.Element;
                     let parentContainer = super.Element.Parent.Renderer.PixiElement;
                     if (!pathEl.IsDirty) {
@@ -5452,12 +5452,12 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ToggleRenderer", ["XamlG
             }],
         execute: function() {
             ToggleRenderer = class ToggleRenderer extends BaseRenderer_11.BaseRenderer {
-                InitializeResources() {
-                    super.InitializeResources();
-                }
                 Draw() {
                     super.Draw();
-                    ConsoleHelper_13.ConsoleHelper.Log("ToggleRenderer.Draw");
+                }
+                InitializeResources() {
+                    super.InitializeResources();
+                    ConsoleHelper_13.ConsoleHelper.Log("ToggleRenderer.InitializeResources");
                     let checkboxEl = this.Element;
                     if (this.PixiElement === undefined) {
                         this.PixiElement = new PIXI.Container();
@@ -6045,17 +6045,17 @@ System.register("XamlGL/Utils/VisualTreeHelper", ["Libs/typescript-collections/s
                         }
                     });
                 }
-                static Draw() {
+                static InitializeResources() {
                     this.XamlVT.Children.forEach((x) => {
-                        x.BackingElement.Renderer.Draw();
-                        this.DrawNode(x);
+                        x.BackingElement.Renderer.InitializeResources();
+                        this.InitializeNodeResources(x);
                     });
                 }
-                static DrawNode(x) {
+                static InitializeNodeResources(x) {
                     x.Children.forEach((vtn) => {
-                        vtn.BackingElement.Renderer.Draw();
+                        vtn.BackingElement.Renderer.InitializeResources();
                         if (vtn.Children !== null && vtn.Children.size() > 0) {
-                            this.DrawNode(vtn);
+                            this.InitializeNodeResources(vtn);
                         }
                     });
                 }
@@ -6123,8 +6123,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Platform", ["XamlGL/Jupiter/Platf
                     content.Parent = null;
                     content.Platform = null;
                 }
-                DrawAll(content) {
-                    VisualTreeHelper_1.VisualTreeHelper.Draw();
+                InitializeResources(content) {
+                    VisualTreeHelper_1.VisualTreeHelper.InitializeResources();
                 }
                 Draw(content) {
                     ConsoleHelper_17.ConsoleHelper.LogSectionHeader("Platform:Draw");
@@ -6739,7 +6739,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/P
                     let pp = obj;
                     pp.Platform.SetCurrent(pp.Content, this);
                     ConsoleHelper_19.ConsoleHelper.LogSectionHeader("DrawAll");
-                    pp.Platform.DrawAll(pp.Content);
+                    pp.Platform.InitializeResources(pp.Content);
                 }
                 set IsLoading(value) {
                     if (value) {

@@ -98,7 +98,7 @@ export class PlatformPage extends Page implements IPlatformPage {
         pp.Platform.SetCurrent(<FrameworkElement>pp.Content, this);
 
         ConsoleHelper.LogSectionHeader("DrawAll");
-        pp.Platform.DrawAll(<FrameworkElement>pp.Content);
+        pp.Platform.InitializeResources(<FrameworkElement>pp.Content);
     }
 
 

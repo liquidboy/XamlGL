@@ -57,20 +57,20 @@ export class VisualTreeHelper {
         });
     }
 
-    public static Draw(): void {
+    public static InitializeResources(): void {
         // consoleHelper.LogPad("VisualTreeHelper.Draw", 0);
         this.XamlVT.Children.forEach((x: VisualTreeNode) => {
-            x.BackingElement.Renderer.Draw();
-            this.DrawNode(x);
+            x.BackingElement.Renderer.InitializeResources();
+            this.InitializeNodeResources(x);
         });
     }
 
-    private static DrawNode(x: VisualTreeNode): void {
+    private static InitializeNodeResources(x: VisualTreeNode): void {
         // consoleHelper.LogPad("VisualTreeHelper.DrawNode", 0);
         x.Children.forEach((vtn: VisualTreeNode) => {
-            vtn.BackingElement.Renderer.Draw();
+            vtn.BackingElement.Renderer.InitializeResources();
             if (vtn.Children !== null && vtn.Children.size() > 0) {
-                this.DrawNode(vtn);
+                this.InitializeNodeResources(vtn);
             }
         });
     }

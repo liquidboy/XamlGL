@@ -14,13 +14,13 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 
 export class StackPanelRenderer extends BaseRenderer implements IControlRenderer {
-    InitializeResources(): void {
-        super.InitializeResources();
-        // fill from Draw
-    }
     Draw(): void {
         super.Draw();
-        ConsoleHelper.Log("StackPanelRenderer.Draw");
+        // fill from Draw
+    }
+    InitializeResources(): void {
+        super.InitializeResources();
+        ConsoleHelper.Log("StackPanelRenderer.InitializeResources");
         // console.log(super.Element);
         let gridEl: Grid = <Grid>super.Element;
 
