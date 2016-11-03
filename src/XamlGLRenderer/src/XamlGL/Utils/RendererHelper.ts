@@ -49,6 +49,9 @@ import { ScrollBarRenderer } from "./../Jupiter/Platform/WebGL/Controls/ScrollBa
 import { ListView } from "./../Jupiter/Controls/ListView";
 import { ListViewRenderer } from "./../Jupiter/Platform/WebGL/Controls/ListViewRenderer";
 
+import { DropdownList } from "./../Jupiter/Controls/DropdownList";
+import { DropdownListRenderer } from "./../Jupiter/Platform/WebGL/Controls/DropdownListRenderer";
+
 declare var TinkLib: any;
 
 export class RendererHelper {
@@ -164,6 +167,8 @@ export class RendererHelper {
             return new ScrollBarRenderer();
         } else if (element instanceof ListView) {
             return new ListViewRenderer();
+        } else if (element instanceof DropdownList) {
+            return new DropdownListRenderer();
         } else {
             return new DefaultRenderer();
         }

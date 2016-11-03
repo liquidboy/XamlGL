@@ -17,7 +17,9 @@
   "license": "MIT",
   "devDependencies": {
     "bower-typings": "^0.1.0",
-    "rivets": "^0.9.4"
+    "rivets": "^0.9.4",
+    "pixi.js": "4.1.1",
+    "pixi-filters": "1.0.6"
   },
   "dependencies": {
 

@@ -11,6 +11,7 @@ import { Panel } from "./../Jupiter/Controls/Panel";
 import { TextBlock } from "./../Jupiter/Controls/TextBlock";
 import { ScrollBar } from "./../Jupiter/Controls/ScrollBar";
 import { ListView } from "./../Jupiter/Controls/ListView";
+import { DropdownList } from "./../Jupiter/Controls/DropdownList";
 import { TextBox } from "./../Jupiter/Controls/TextBox";
 import { Path } from "./../Jupiter/Controls/Path";
 import { Rectangle } from "./../Jupiter/Controls/Rectangle";
@@ -278,6 +279,15 @@ export class XamlParser {
             return ctl;
         } else if (node.nodeName === "ListView") {
             let ctl: ListView = new ListView();
+            ctl.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
+            ctl.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            ctl.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
+            ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            return ctl;
+        } else if (node.nodeName === "DropdownList") {
+            let ctl: DropdownList = new DropdownList();
             ctl.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             ctl.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             ctl.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
