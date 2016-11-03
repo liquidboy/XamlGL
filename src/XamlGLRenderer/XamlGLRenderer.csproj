@@ -96,6 +96,7 @@
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src\Tests\TestBase.ts" />
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ListView.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ScrollBar.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\RadioButton.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\CheckBox.ts" />
@@ -139,6 +140,7 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Geometry.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\ITooltip.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\KeyPressedEventArgs.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ListViewRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ScrollBarRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TextBoxRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToggleRenderer.ts" />

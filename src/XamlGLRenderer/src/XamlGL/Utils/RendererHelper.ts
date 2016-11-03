@@ -46,6 +46,9 @@ import { RadioButton } from "./../Jupiter/Controls/RadioButton";
 import { ScrollBar } from "./../Jupiter/Controls/ScrollBar";
 import { ScrollBarRenderer } from "./../Jupiter/Platform/WebGL/Controls/ScrollBarRenderer";
 
+import { ListView } from "./../Jupiter/Controls/ListView";
+import { ListViewRenderer } from "./../Jupiter/Platform/WebGL/Controls/ListViewRenderer";
+
 declare var TinkLib: any;
 
 export class RendererHelper {
@@ -159,7 +162,9 @@ export class RendererHelper {
             return new PathRenderer();
         } else if (element instanceof ScrollBar) {
             return new ScrollBarRenderer();
-        }else {
+        } else if (element instanceof ListView) {
+            return new ListViewRenderer();
+        } else {
             return new DefaultRenderer();
         }
     }

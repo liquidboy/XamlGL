@@ -7,7 +7,7 @@ import { BaseRenderer } from "./BaseRenderer";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
-import { ScrollBar } from "./../../../Controls/ScrollBar";
+import { ListView } from "./../../../Controls/ListView";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
@@ -19,18 +19,18 @@ import { Point } from "./../../../../DataTypes/Point";
 import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 
-export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer {
+export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
         // fill from Draw
     }
     InitializeResources(): void {
         super.InitializeResources();
-        ConsoleHelper.Log("ScrollBarRenderer.InitializeResources");
+        ConsoleHelper.Log("ListViewRenderer.InitializeResources");
 
-        let scrollBarEl: ScrollBar = <ScrollBar>super.Element;
+        let listViewEl: ListView = <ListView>super.Element;
 
-        if (!scrollBarEl.IsDirty) {
+        if (!listViewEl.IsDirty) {
             return;
         }
 
@@ -39,13 +39,13 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         // this.PixiElement = text;
 
         // calculate y position
-        this.CalculateYHeight(scrollBarEl);
+        this.CalculateYHeight(listViewEl);
 
         // calculate X position
-        this.CalculateXWidth(scrollBarEl);
+        this.CalculateXWidth(listViewEl);
 
         // take margin into account
-        this.UpdateCalculatedValuesUsingMargin(scrollBarEl);
+        this.UpdateCalculatedValuesUsingMargin(listViewEl);
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
@@ -60,13 +60,13 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
 
 
 
-        scrollBarEl.IsDirty = false;
+        listViewEl.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
     }
     Clear(): void {
-        ConsoleHelper.Log("ScrollBarRenderer.Clear");
+        ConsoleHelper.Log("ListViewRenderer.Clear");
 
         let containerMain: PIXI.Container = null;
         let pc: PIXI.Container =  <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
