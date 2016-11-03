@@ -36,6 +36,8 @@
     <Content Include="assets\glitter-15b.jpg" />
     <Content Include="assets\glitter-16a.jpg" />
     <Content Include="assets\glitter-17a.jpg" />
+    <Content Include="assets\glitter-18.jpg" />
+    <Content Include="assets\glitter-18a.jpg" />
     <Content Include="assets\glitter-2.jpg" />
     <Content Include="assets\glitter-3.jpg" />
     <Content Include="assets\glitter-3o.jpg" />
@@ -292,6 +294,9 @@
     </Content>
     <None Include="XamlGL2 - Web Deploy.pubxml" />
     <Content Include="xaml\sample-50.xap">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xaml\sample-51.xap">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
