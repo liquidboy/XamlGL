@@ -9,6 +9,7 @@ import { CheckBox } from "./../Jupiter/Controls/CheckBox";
 import { RadioButton } from "./../Jupiter/Controls/RadioButton";
 import { Panel } from "./../Jupiter/Controls/Panel";
 import { TextBlock } from "./../Jupiter/Controls/TextBlock";
+import { ScrollBar } from "./../Jupiter/Controls/ScrollBar";
 import { TextBox } from "./../Jupiter/Controls/TextBox";
 import { Path } from "./../Jupiter/Controls/Path";
 import { Rectangle } from "./../Jupiter/Controls/Rectangle";
@@ -265,6 +266,15 @@ export class XamlParser {
             rb.Grouping = this.StringToEmpty(node.attributes.getNamedItem("Grouping"));
             this.DoGroupingStuff(rb.Grouping, rb);
             return rb;
+        } else if (node.nodeName === "ScrollBar") {
+            let ctl: ScrollBar = new ScrollBar();
+            ctl.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
+            ctl.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            ctl.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
+            ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            return ctl;
         }
         return null;
     }

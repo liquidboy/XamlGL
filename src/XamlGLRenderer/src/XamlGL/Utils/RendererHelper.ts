@@ -43,6 +43,9 @@ import { ToggleRenderer } from "./../Jupiter/Platform/WebGL/Controls/ToggleRende
 
 import { RadioButton } from "./../Jupiter/Controls/RadioButton";
 
+import { ScrollBar } from "./../Jupiter/Controls/ScrollBar";
+import { ScrollBarRenderer } from "./../Jupiter/Platform/WebGL/Controls/ScrollBarRenderer";
+
 declare var TinkLib: any;
 
 export class RendererHelper {
@@ -154,7 +157,9 @@ export class RendererHelper {
             return new ButtonRenderer();
         } else if (element instanceof Path) {
             return new PathRenderer();
-        } else {
+        } else if (element instanceof ScrollBar) {
+            return new ScrollBarRenderer();
+        }else {
             return new DefaultRenderer();
         }
     }
