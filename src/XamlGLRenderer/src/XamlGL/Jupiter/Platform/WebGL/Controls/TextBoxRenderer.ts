@@ -45,7 +45,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
                 this._cursor.alpha = 0;
 
                 this._borderbackground.clear();
-                this._borderbackground.lineStyle(this._textBoxEl.BorderThickness.Left, RendererHelper.HashToColorNumber(this._textBoxEl.BorderBrush), 1);
+                this._borderbackground.lineStyle(this._textBoxEl.BorderThickness.Left,
+                    RendererHelper.HashToColorNumber(this._textBoxEl.BorderBrush), 1);
                 this._borderbackground.beginFill(RendererHelper.HashToColorNumber(this._textBoxEl.Background), 0.5);
                 this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
                 this._borderbackground.endFill();
@@ -116,7 +117,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._borderbackground = new PIXI.Graphics();
         this._borderbackground.width = this._textBoxEl.CalculatedWidth;
         this._borderbackground.height = this._textBoxEl.CalculatedHeight;
-        this._borderbackground.lineStyle( this._textBoxEl.BorderThickness.Left, RendererHelper.HashToColorNumber( this._textBoxEl.BorderBrush), 1);
+        this._borderbackground.lineStyle(this._textBoxEl.BorderThickness.Left,
+            RendererHelper.HashToColorNumber(this._textBoxEl.BorderBrush), 1);
         this._borderbackground.beginFill(RendererHelper.HashToColorNumber(this._textBoxEl.Background), 0.5);
         this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
         this._borderbackground.endFill();
