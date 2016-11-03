@@ -120,7 +120,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._borderbackground.beginFill(RendererHelper.HashToColorNumber(this._textBoxEl.Background), 0.5);
         this._borderbackground.drawRect(0, 0, this._textBoxEl.CalculatedWidth, this._textBoxEl.CalculatedHeight);
         this._borderbackground.endFill();
-        console.log(this._textBoxEl.CalculatedWidth);
+
 
 
 
