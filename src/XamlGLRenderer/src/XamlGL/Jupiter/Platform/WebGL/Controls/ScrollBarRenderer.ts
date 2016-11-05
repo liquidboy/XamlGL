@@ -27,7 +27,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
     private _scrollBarEl: ScrollBar;
     private _thumbPressed: boolean = false;
     Draw(r: IRenderer, args: IEventArgs): void {
-        super.Draw(r,args);
+        super.Draw(r, args);
 
         if (!this.Element.IsDirty || !this._thumbPressed) {
             return;
@@ -37,11 +37,17 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         // this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
 
         let newX: number = r.Pointer.x; // - this.PixiElement.parent.x;
+        // let newY: number = r.Pointer.y;
+
+        // if (newY <= this.PixiElement.parent.y) {
+        //     this._peThumb.y = 0;
+        // }
+
         if (newX <= this.PixiElement.parent.x + (this._peThumb.width / 2)) {
             this._peThumb.x = 0;
             // this.Element.IsDirty = false;
             // this._thumbPressed = false;
-        } else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width )) {
+        } else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width)) {
             this._peThumb.x = this._scrollBarEl.CalculatedWidth - this._peThumb.width;
             // this.Element.IsDirty = false;
             // this._thumbPressed = false;
@@ -81,7 +87,6 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         // let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
-
 
         // track
         this._pixiElementTrack.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.4);
@@ -133,6 +138,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
                     RendererHelper.TinkInstance.makeUndraggable(this._peThumb);
                     this.Element.IsDirty = false;
                 }
+                this._thumbPressed = false;
             }
         });
 

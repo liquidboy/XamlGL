@@ -5707,6 +5707,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollBarRenderer", ["Xa
                                 RendererHelper_10.RendererHelper.TinkInstance.makeUndraggable(this._peThumb);
                                 this.Element.IsDirty = false;
                             }
+                            this._thumbPressed = false;
                         }
                     });
                 }
