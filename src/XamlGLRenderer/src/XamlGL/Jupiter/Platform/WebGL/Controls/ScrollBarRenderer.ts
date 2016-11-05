@@ -29,13 +29,27 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
 
-        if (!this.Element.IsDirty) {
+        if (!this.Element.IsDirty || !this._thumbPressed) {
             return;
         }
 
+        this._peThumb.y = 0;
+        // this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
 
+        let newX: number = r.Pointer.x; // - this.PixiElement.parent.x;
+        if (newX <= this.PixiElement.parent.x + (this._peThumb.width / 2)) {
+            this._peThumb.x = 0;
+            // this.Element.IsDirty = false;
+            // this._thumbPressed = false;
+        } else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width )) {
+            this._peThumb.x = this._scrollBarEl.CalculatedWidth - this._peThumb.width;
+            // this.Element.IsDirty = false;
+            // this._thumbPressed = false;
+        } else {
+            this._peThumb.x = newX - this.PixiElement.parent.x - ( this._peThumb.width / 2);
+        }
 
-        this.Element.IsDirty = false;
+        // this.Element.IsDirty = false;
     }
     InitializeResources(): void {
         super.InitializeResources();
@@ -66,7 +80,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         (<PIXI.Container>this.PixiElement).width = this.Element.CalculatedWidth;
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
-        let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
+        // let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
 
         // track
@@ -106,6 +120,8 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this._pixiElementThumb)) {
                 this._thumbPressed = true;
+                this.Element.IsDirty = true;
+                RendererHelper.TinkInstance.makeDraggable(this._peThumb);
             }
         });
         this.Element.Platform.Renderer.PointerReleased.subscribe((r: IRenderer, args: IEventArgs) => {
@@ -113,7 +129,9 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
                 if (r.Pointer.hitTestSprite(this._pixiElementTrack)) {
                     // console.log(this.PixiElement.parent.x);
                     // this._peThumb.moveTo(, 0);
-                    this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
+                    // this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
+                    RendererHelper.TinkInstance.makeUndraggable(this._peThumb);
+                    this.Element.IsDirty = false;
                 }
             }
         });

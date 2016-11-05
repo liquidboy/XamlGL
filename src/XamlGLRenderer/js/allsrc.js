@@ -5644,10 +5644,20 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollBarRenderer", ["Xa
                 }
                 Draw(r, args) {
                     super.Draw(r, args);
-                    if (!this.Element.IsDirty) {
+                    if (!this.Element.IsDirty || !this._thumbPressed) {
                         return;
                     }
-                    this.Element.IsDirty = false;
+                    this._peThumb.y = 0;
+                    let newX = r.Pointer.x;
+                    if (newX <= this.PixiElement.parent.x + (this._peThumb.width / 2)) {
+                        this._peThumb.x = 0;
+                    }
+                    else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width)) {
+                        this._peThumb.x = this._scrollBarEl.CalculatedWidth - this._peThumb.width;
+                    }
+                    else {
+                        this._peThumb.x = newX - this.PixiElement.parent.x - (this._peThumb.width / 2);
+                    }
                 }
                 InitializeResources() {
                     super.InitializeResources();
@@ -5664,7 +5674,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollBarRenderer", ["Xa
                     this.UpdateCalculatedValuesUsingMargin(this._scrollBarEl);
                     this.PixiElement.height = this.Element.CalculatedHeight;
                     this.PixiElement.width = this.Element.CalculatedWidth;
-                    let parentXYStart = this.CalculateCurrentAvailableSlot();
                     this._pixiElementTrack.beginFill(RendererHelper_10.RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.4);
                     this._pixiElementTrack.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, this._scrollBarEl.CalculatedHeight);
                     this._pixiElementTrack.endFill();
@@ -5688,12 +5697,15 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollBarRenderer", ["Xa
                     this.Element.Platform.Renderer.PointerPressed.subscribe((r, args) => {
                         if (r.Pointer.hitTestSprite(this._pixiElementThumb)) {
                             this._thumbPressed = true;
+                            this.Element.IsDirty = true;
+                            RendererHelper_10.RendererHelper.TinkInstance.makeDraggable(this._peThumb);
                         }
                     });
                     this.Element.Platform.Renderer.PointerReleased.subscribe((r, args) => {
                         if (this._thumbPressed) {
                             if (r.Pointer.hitTestSprite(this._pixiElementTrack)) {
-                                this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x;
+                                RendererHelper_10.RendererHelper.TinkInstance.makeUndraggable(this._peThumb);
+                                this.Element.IsDirty = false;
                             }
                         }
                     });

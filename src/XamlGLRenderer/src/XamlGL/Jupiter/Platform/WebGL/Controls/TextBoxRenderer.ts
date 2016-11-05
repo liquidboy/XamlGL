@@ -157,7 +157,7 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
             this.Element.CalculatedY + parentXYStart.Y + this.Element.Parent.Margin.Top);
 
         // now render in container
-        let cont = <PIXI.Container>this.PixiElement;
+        let cont: PIXI.Container = <PIXI.Container>this.PixiElement;
         cont.addChild(this._borderbackground);
         cont.addChild(this._bottomGraphicsLayer);
         cont.addChild(this._topGraphicsLayer);
