@@ -276,6 +276,11 @@ export class XamlParser {
             ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            ctl.LargeChange = this.StringToNumber(node.attributes.getNamedItem("LargeChange"));
+            ctl.Maximum = this.StringToNumber(node.attributes.getNamedItem("Maximum"));
+            ctl.Minimum = this.StringToNumber(node.attributes.getNamedItem("Minimum"));
+            ctl.SmallChange = this.StringToNumber(node.attributes.getNamedItem("SmallChange"));
+            ctl.Value = this.StringToNumber(node.attributes.getNamedItem("Value"));
             return ctl;
         } else if (node.nodeName === "ListView") {
             let ctl: ListView = new ListView();

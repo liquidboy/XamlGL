@@ -7,10 +7,11 @@
     ThemeName="Metro">
   <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
     <Grid Name="grdFirst">
-      <Image Name="imgFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/landscape-1b.jpg"></Image>
+      <Image Name="imgFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-19a.jpg"></Image>
     </Grid>
     <Grid Name="grdSecond" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="30" Margin="0,0,0,0">
-      <ScrollBar HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal"></ScrollBar>
+      <ScrollBar HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal"
+                 LargeChange="1" Maximum="100" Minimum="0" SmallChange="1" Value="50"></ScrollBar>
     </Grid>
   </Grid>
 </Application>

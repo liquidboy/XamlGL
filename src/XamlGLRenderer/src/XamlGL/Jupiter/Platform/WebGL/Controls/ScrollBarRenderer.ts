@@ -18,20 +18,34 @@ import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
+import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer {
+    private _pixiElementTrack: PIXI.Graphics;
+    private _pixiElementThumb: PIXI.Graphics;
+    private _peThumb: PIXI.Graphics;
+    private _scrollBarEl: ScrollBar;
+    private _thumbPressed: boolean = false;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
-        // fill from Draw
+
+        if (!this.Element.IsDirty) {
+            return;
+        }
+
+
+
+        this.Element.IsDirty = false;
     }
     InitializeResources(): void {
         super.InitializeResources();
         ConsoleHelper.Log("ScrollBarRenderer.InitializeResources");
 
-        let scrollBarEl: ScrollBar = <ScrollBar>super.Element;
-
-        if (!scrollBarEl.IsDirty) {
-            return;
+        this._scrollBarEl = <ScrollBar>this.Element;
+        if (this.PixiElement === undefined) {
+            this.PixiElement = new PIXI.Container();
+            this._pixiElementTrack = new PIXI.Graphics();
+            this._pixiElementThumb = new PIXI.Graphics();
         }
 
         let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
@@ -39,20 +53,31 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         // this.PixiElement = text;
 
         // calculate y position
-        this.CalculateYHeight(scrollBarEl);
+        this.CalculateYHeight(this._scrollBarEl);
 
         // calculate X position
-        this.CalculateXWidth(scrollBarEl);
+        this.CalculateXWidth(this._scrollBarEl);
 
         // take margin into account
-        this.UpdateCalculatedValuesUsingMargin(scrollBarEl);
+        this.UpdateCalculatedValuesUsingMargin(this._scrollBarEl);
+
+        // size container
+        (<PIXI.Container>this.PixiElement).height = this.Element.CalculatedHeight;
+        (<PIXI.Container>this.PixiElement).width = this.Element.CalculatedWidth;
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
 
+        // track
+        this._pixiElementTrack.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.4);
+        this._pixiElementTrack.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, this._scrollBarEl.CalculatedHeight);
+        this._pixiElementTrack.endFill();
 
-
+        // thumb
+        this._pixiElementThumb.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.9);
+        this._peThumb = this._pixiElementThumb.drawRect(0, 0, 20, this._scrollBarEl.CalculatedHeight);
+        this._pixiElementThumb.endFill();
 
 
         // tell the parent stackpanel the next available slot
@@ -60,7 +85,40 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
 
 
 
-        scrollBarEl.IsDirty = false;
+        // now render in container
+        let cont: PIXI.Container = <PIXI.Container>this.PixiElement;
+        cont.addChild(this._pixiElementTrack);
+        cont.addChild(this._pixiElementThumb);
+
+
+        // render on stage
+        if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
+            this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
+        } else {
+            if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
+                parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+                parentContainer.addChild(this.PixiElement);
+            }
+        }
+
+
+        this.Element.Platform.Renderer.Draw.subscribe(this.Draw.bind(this));
+        this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (r.Pointer.hitTestSprite(this._pixiElementThumb)) {
+                this._thumbPressed = true;
+            }
+        });
+        this.Element.Platform.Renderer.PointerReleased.subscribe((r: IRenderer, args: IEventArgs) => {
+            if (this._thumbPressed) {
+                if (r.Pointer.hitTestSprite(this._pixiElementTrack)) {
+                    // console.log(this.PixiElement.parent.x);
+                    // this._peThumb.moveTo(, 0);
+                    this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
+                }
+            }
+        });
+
+
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
