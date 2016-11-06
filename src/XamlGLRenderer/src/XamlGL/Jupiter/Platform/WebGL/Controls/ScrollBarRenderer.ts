@@ -26,6 +26,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
     private _peThumb: PIXI.Graphics;
     private _scrollBarEl: ScrollBar;
     private _thumbPressed: boolean = false;
+    private _thumbSize: number = 20;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r, args);
 
@@ -33,14 +34,15 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
             return;
         }
         //if (r.Pointer.hitTestSprite(this.PixiElement)) {  // no need to check for this as we are using thumbpressed state
-            console.log(this._scrollBarEl.Name);
+            // console.log(this._scrollBarEl.Name);
             let newX: number = r.Pointer.x;
             let newY: number = r.Pointer.y;
         
-            this._peThumb.y = 0;
-            this._peThumb.x = 0;
+            
+            
 
             if (this._scrollBarEl.Orientation === Orientation.Horizontal) {
+                this._peThumb.y = 0;
                 if (newX <= this.PixiElement.parent.x + (this._peThumb.width / 2)) {
                     this._peThumb.x = 0;                    
                 } else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width)) {
@@ -48,7 +50,11 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
                 } else {
                     this._peThumb.x = newX - this.PixiElement.parent.x - (this._peThumb.width / 2);
                 }
+
+                let curVal = (this._peThumb.x - this.PixiElement.parent.x) + this._thumbSize + (+  this._thumbSize / 2);
+                console.log(curVal);
             } else if (this._scrollBarEl.Orientation === Orientation.Vertical) {
+                this._peThumb.x = 0;
                 if (newY <= this.PixiElement.parent.y + (this._peThumb.height / 2)) {
                     this._peThumb.y = 0;
                 } else if (newY >= (this.PixiElement.parent.y + this._scrollBarEl.CalculatedHeight - this._peThumb.height)) {
@@ -59,6 +65,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
             }
         //}
 
+        
 
 
         // this.Element.IsDirty = false;
@@ -103,7 +110,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
 
             // thumb
             this._pixiElementThumb.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.9);
-            this._peThumb = this._pixiElementThumb.drawRect(0, 0, 20, this._scrollBarEl.CalculatedHeight);
+            this._peThumb = this._pixiElementThumb.drawRect(0, 0, this._thumbSize, this._scrollBarEl.CalculatedHeight);
             this._pixiElementThumb.endFill();
         } else {
             // track
@@ -113,7 +120,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
 
             // thumb
             this._pixiElementThumb.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.9);
-            this._peThumb = this._pixiElementThumb.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, 20);
+            this._peThumb = this._pixiElementThumb.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, this._thumbSize);
             this._pixiElementThumb.endFill();
         }
 
@@ -138,10 +145,12 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
             }
         }
 
+        RendererHelper.TinkInstance.makeDraggable(this._peThumb);
+        RendererHelper.TinkInstance.makeUndraggable(this._peThumb);
 
         this.Element.Platform.Renderer.Draw.subscribe(this.Draw.bind(this));
         this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
-            if (r.Pointer.hitTestSprite(this._pixiElementThumb)) {
+            if (r.Pointer.hitTestSprite(this._pixiElementTrack)) {
                 this._thumbPressed = true;
                 //this.Element.IsDirty = true;
                 RendererHelper.TinkInstance.makeDraggable(this._peThumb);
@@ -149,7 +158,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         });
         this.Element.Platform.Renderer.PointerReleased.subscribe((r: IRenderer, args: IEventArgs) => {
             if (this._thumbPressed) {
-                if (r.Pointer.hitTestSprite(this._pixiElementTrack)) {
+                if (r.Pointer.hitTestSprite(this._pixiElementTrack) || r.Pointer.hitTestSprite(this._peThumb)) {
                     // console.log(this.PixiElement.parent.x);
                     // this._peThumb.moveTo(, 0);
                     // this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
