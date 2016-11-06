@@ -11,11 +11,11 @@
     </Grid>
     <Grid Name="grdSecond" HorizontalAlignment="Left" VerticalAlignment="Center" Width="400" Height="20" Margin="30,0,0,0">
       <ScrollBar Name="sbH" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal"
-                 LargeChange="1" Maximum="100" Minimum="0" SmallChange="1" Value="50"></ScrollBar>
+                 LargeChange="1" Maximum="200" Minimum="0" SmallChange="1" Value="0"></ScrollBar>
     </Grid>
     <Grid Name="grdThird" HorizontalAlignment="Right" VerticalAlignment="Center" Width="20" Height="400" Margin="0,0,60,0">
       <ScrollBar Name="sbV" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical"
-                 LargeChange="1" Maximum="100" Minimum="0" SmallChange="1" Value="50"></ScrollBar>
+                 LargeChange="1" Maximum="300" Minimum="0" SmallChange="1" Value="0"></ScrollBar>
     </Grid>
   </Grid>
 </Application>

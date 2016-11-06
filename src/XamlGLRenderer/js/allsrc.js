@@ -5664,8 +5664,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollBarRenderer", ["Xa
                         else {
                             this._peThumb.x = newX - this.PixiElement.parent.x - (this._peThumb.width / 2);
                         }
-                        let curVal = (this._peThumb.x - this.PixiElement.parent.x) + this._thumbSize + (+this._thumbSize / 2);
-                        console.log(curVal);
+                        let curVal = this._peThumb.x / (this._scrollBarEl.CalculatedWidth - this._thumbSize);
+                        curVal = curVal * this._scrollBarEl.Maximum;
+                        this._scrollBarEl.Value = curVal;
                     }
                     else if (this._scrollBarEl.Orientation === Orientation_2.Orientation.Vertical) {
                         this._peThumb.x = 0;
@@ -5678,6 +5679,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollBarRenderer", ["Xa
                         else {
                             this._peThumb.y = newY - this.PixiElement.parent.y - (this._peThumb.height / 2);
                         }
+                        let curVal = this._peThumb.y / (this._scrollBarEl.CalculatedHeight - this._thumbSize);
+                        curVal = curVal * this._scrollBarEl.Maximum;
+                        this._scrollBarEl.Value = curVal;
                     }
                 }
                 InitializeResources() {
