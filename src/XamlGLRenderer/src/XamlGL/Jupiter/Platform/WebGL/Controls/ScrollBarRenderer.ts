@@ -12,8 +12,8 @@ import { ScrollBar } from "./../../../Controls/ScrollBar";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-// import { Orientation } from "./../../../../DataTypes/Orientation";
-import { Point } from "./../../../../DataTypes/Point";
+import { Orientation } from "./../../../../DataTypes/Orientation";
+// import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 // import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 import { IRenderer } from "./../../IRenderer";
@@ -32,28 +32,34 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         if (!this.Element.IsDirty || !this._thumbPressed) {
             return;
         }
-
-        this._peThumb.y = 0;
-        // this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
-
-        let newX: number = r.Pointer.x; // - this.PixiElement.parent.x;
-        // let newY: number = r.Pointer.y;
-
-        // if (newY <= this.PixiElement.parent.y) {
-        //     this._peThumb.y = 0;
-        // }
-
-        if (newX <= this.PixiElement.parent.x + (this._peThumb.width / 2)) {
+        //if (r.Pointer.hitTestSprite(this.PixiElement)) {  // no need to check for this as we are using thumbpressed state
+            console.log(this._scrollBarEl.Name);
+            let newX: number = r.Pointer.x;
+            let newY: number = r.Pointer.y;
+        
+            this._peThumb.y = 0;
             this._peThumb.x = 0;
-            // this.Element.IsDirty = false;
-            // this._thumbPressed = false;
-        } else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width)) {
-            this._peThumb.x = this._scrollBarEl.CalculatedWidth - this._peThumb.width;
-            // this.Element.IsDirty = false;
-            // this._thumbPressed = false;
-        } else {
-            this._peThumb.x = newX - this.PixiElement.parent.x - ( this._peThumb.width / 2);
-        }
+
+            if (this._scrollBarEl.Orientation === Orientation.Horizontal) {
+                if (newX <= this.PixiElement.parent.x + (this._peThumb.width / 2)) {
+                    this._peThumb.x = 0;                    
+                } else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width)) {
+                    this._peThumb.x = this._scrollBarEl.CalculatedWidth - this._peThumb.width;
+                } else {
+                    this._peThumb.x = newX - this.PixiElement.parent.x - (this._peThumb.width / 2);
+                }
+            } else if (this._scrollBarEl.Orientation === Orientation.Vertical) {
+                if (newY <= this.PixiElement.parent.y + (this._peThumb.height / 2)) {
+                    this._peThumb.y = 0;
+                } else if (newY >= (this.PixiElement.parent.y + this._scrollBarEl.CalculatedHeight - this._peThumb.height)) {
+                    this._peThumb.y = this._scrollBarEl.CalculatedHeight - this._peThumb.height;
+                } else {
+                    this._peThumb.y = newY - this.PixiElement.parent.y - (this._peThumb.height / 2);
+                }
+            }
+        //}
+
+
 
         // this.Element.IsDirty = false;
     }
@@ -88,16 +94,28 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         // let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
-        // track
-        this._pixiElementTrack.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.4);
-        this._pixiElementTrack.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, this._scrollBarEl.CalculatedHeight);
-        this._pixiElementTrack.endFill();
+        if (this._scrollBarEl.Orientation === Orientation.Horizontal) {
 
-        // thumb
-        this._pixiElementThumb.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.9);
-        this._peThumb = this._pixiElementThumb.drawRect(0, 0, 20, this._scrollBarEl.CalculatedHeight);
-        this._pixiElementThumb.endFill();
+            // track
+            this._pixiElementTrack.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.4);
+            this._pixiElementTrack.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, this._scrollBarEl.CalculatedHeight);
+            this._pixiElementTrack.endFill();
 
+            // thumb
+            this._pixiElementThumb.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.9);
+            this._peThumb = this._pixiElementThumb.drawRect(0, 0, 20, this._scrollBarEl.CalculatedHeight);
+            this._pixiElementThumb.endFill();
+        } else {
+            // track
+            this._pixiElementTrack.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.4);
+            this._pixiElementTrack.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, this._scrollBarEl.CalculatedHeight);
+            this._pixiElementTrack.endFill();
+
+            // thumb
+            this._pixiElementThumb.beginFill(RendererHelper.HashToColorNumber("#FFFFFFFF"), 0.9);
+            this._peThumb = this._pixiElementThumb.drawRect(0, 0, this._scrollBarEl.CalculatedWidth, 20);
+            this._pixiElementThumb.endFill();
+        }
 
         // tell the parent stackpanel the next available slot
         this.IncrementNextAvailableSlot();
@@ -125,7 +143,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this._pixiElementThumb)) {
                 this._thumbPressed = true;
-                this.Element.IsDirty = true;
+                //this.Element.IsDirty = true;
                 RendererHelper.TinkInstance.makeDraggable(this._peThumb);
             }
         });
@@ -136,10 +154,10 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
                     // this._peThumb.moveTo(, 0);
                     // this._peThumb.x = r.Pointer.x - this.PixiElement.parent.x; // - (this._scrollBarEl.Width / 2);
                     RendererHelper.TinkInstance.makeUndraggable(this._peThumb);
-                    this.Element.IsDirty = false;
                 }
-                this._thumbPressed = false;
             }
+            this._thumbPressed = false;
+            //this.Element.IsDirty = false;
         });
 
 
