@@ -276,6 +276,7 @@ export class XamlParser {
             ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             ctl.LargeChange = this.StringToNumber(node.attributes.getNamedItem("LargeChange"));
             ctl.Maximum = this.StringToNumber(node.attributes.getNamedItem("Maximum"));
             ctl.Minimum = this.StringToNumber(node.attributes.getNamedItem("Minimum"));
@@ -290,6 +291,7 @@ export class XamlParser {
             ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             return ctl;
         } else if (node.nodeName === "DropdownList") {
             let ctl: DropdownList = new DropdownList();
@@ -299,6 +301,7 @@ export class XamlParser {
             ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             return ctl;
         }
         return null;

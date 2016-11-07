@@ -13,7 +13,7 @@ import { ScrollBar } from "./../../../Controls/ScrollBar";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Orientation } from "./../../../../DataTypes/Orientation";
-// import { Point } from "./../../../../DataTypes/Point";
+import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 // import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 import { IRenderer } from "./../../IRenderer";
@@ -35,10 +35,10 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         }
         //if (r.Pointer.hitTestSprite(this.PixiElement)) {  // no need to check for this as we are using thumbpressed state
             // console.log(this._scrollBarEl.Name);
-            let newX: number = r.Pointer.x;
-            let newY: number = r.Pointer.y;
+            let newX: number = r.Pointer.x - this._scrollBarEl.CalculatedX;
+            let newY: number = r.Pointer.y - this._scrollBarEl.CalculatedY;
         
-            
+            // console.log(this._scrollBarEl.CalculatedY);
             
 
             if (this._scrollBarEl.Orientation === Orientation.Horizontal) {
@@ -101,9 +101,16 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         // take margin into account
         this.UpdateCalculatedValuesUsingMargin(this._scrollBarEl);
 
+        // determine starting SLOT if the parent is a PANEL that lays out its children
+        let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
+
+        // position container
+        this.PixiElement.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
+
         // size container
         (<PIXI.Container>this.PixiElement).height = this.Element.CalculatedHeight;
         (<PIXI.Container>this.PixiElement).width = this.Element.CalculatedWidth;
+
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         // let parentXYStart: Point = this.CalculateCurrentAvailableSlot();

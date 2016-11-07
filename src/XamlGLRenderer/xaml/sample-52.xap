@@ -1,0 +1,19 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ShellType="Fixed"
+    ShellHeight="500"
+    ShellWidth="650"
+    ThemeName="Metro">
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF05A6E2">
+    <Grid Name="grdFirst">
+      <Image Name="imgFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-19a.jpg"></Image>
+    </Grid>
+    <ScrollBar Name="sbH"  Width="400" Height="20" Margin="30,0,0,0"
+                HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal"
+                LargeChange="1" Maximum="200" Minimum="0" SmallChange="1" Value="0"></ScrollBar>
+    <ScrollBar Name="sbV" Width="20" Height="400" HorizontalAlignment="Right" 
+                VerticalAlignment="Center" Orientation="Vertical" Margin="0,0,60,0"
+                LargeChange="1" Maximum="300" Minimum="0" SmallChange="1" Value="0"></ScrollBar>
+  </Grid>
+</Application>
