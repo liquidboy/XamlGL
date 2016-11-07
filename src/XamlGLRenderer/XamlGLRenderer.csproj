@@ -242,6 +242,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
     <None Include="XamlGL - Web Deploy.pubxml" />
+    <Content Include="assets\glitter-20a.jpg" />
     <Content Include="xaml\sample-6.xap" />
     <Content Include="xaml\sample-7.xap" />
     <Content Include="xaml\sample-1.xap" />
