@@ -99,6 +99,7 @@
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\DropdownList.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ComboBox.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ScrollViewer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Slider.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\TimePicker.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\DatePicker.ts" />
@@ -149,6 +150,7 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\ITooltip.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\KeyPressedEventArgs.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DropdownListRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ScrollViewerRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TimePickerRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PasswordBoxRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ComboBoxRenderer.ts" />

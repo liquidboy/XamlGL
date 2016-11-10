@@ -10,6 +10,7 @@ import { RadioButton } from "./../Jupiter/Controls/RadioButton";
 import { Panel } from "./../Jupiter/Controls/Panel";
 import { TextBlock } from "./../Jupiter/Controls/TextBlock";
 import { ScrollBar } from "./../Jupiter/Controls/ScrollBar";
+import { ScrollViewer } from "./../Jupiter/Controls/ScrollViewer";
 import { ListView } from "./../Jupiter/Controls/ListView";
 import { DropdownList } from "./../Jupiter/Controls/DropdownList";
 import { TextBox } from "./../Jupiter/Controls/TextBox";
@@ -299,6 +300,15 @@ export class XamlParser {
             ctl.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
             ctl.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
+            ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            return ctl;
+        } else if (node.nodeName === "ScrollViewer") {
+            let ctl: ScrollViewer = new ScrollViewer();
+            ctl.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
+            ctl.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            ctl.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
