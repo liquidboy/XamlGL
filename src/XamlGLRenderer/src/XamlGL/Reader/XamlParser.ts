@@ -10,6 +10,7 @@ import { RadioButton } from "./../Jupiter/Controls/RadioButton";
 import { Panel } from "./../Jupiter/Controls/Panel";
 import { TextBlock } from "./../Jupiter/Controls/TextBlock";
 import { ScrollBar } from "./../Jupiter/Controls/ScrollBar";
+import { ContentControl } from "./../Jupiter/Controls/ContentControl";
 import { ScrollViewer } from "./../Jupiter/Controls/ScrollViewer";
 import { ListView } from "./../Jupiter/Controls/ListView";
 import { DropdownList } from "./../Jupiter/Controls/DropdownList";
@@ -75,6 +76,8 @@ export class XamlParser {
 
         if (newFE instanceof Panel) {
             return this.ProcessCollectionNodes(newFE, el.childNodes);
+        } else if (newFE instanceof ContentControl) {
+            return this.ProcessNode(el.childNodes[1], null);
         } else {
             return newFE;
         }
@@ -312,6 +315,7 @@ export class XamlParser {
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            // ctl.Content = 
             return ctl;
         }
         return null;
