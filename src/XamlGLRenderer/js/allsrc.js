@@ -5978,12 +5978,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollViewerRenderer", [
                     }
                 }
                 InitializeResources() {
+                    alert(2);
                     super.InitializeResources();
                     ConsoleHelper_17.ConsoleHelper.Log("ScrollViewerRenderer.InitializeResources");
                     this._scrollViewerEl = this.Element;
                     if (this.PixiElement === undefined) {
                         this.PixiElement = new PIXI.Container();
                     }
+                    alert(super.Element.Parent.Renderer);
                     let parentContainer = super.Element.Parent.Renderer.PixiElement;
                     this.CalculateYHeight(this._scrollViewerEl);
                     this.CalculateXWidth(this._scrollViewerEl);
@@ -6558,7 +6560,9 @@ System.register("XamlGL/utils/VisualTreeHelper", ["Libs/typescript-collections/s
                 }
                 static InitializeNodeResources(x) {
                     x.Children.forEach((vtn) => {
-                        vtn.BackingElement.Renderer.InitializeResources();
+                        if (vtn.BackingElement.Renderer !== undefined) {
+                            vtn.BackingElement.Renderer.InitializeResources();
+                        }
                         if (vtn.Children !== null && vtn.Children.size() > 0) {
                             this.InitializeNodeResources(vtn);
                         }
@@ -6784,11 +6788,11 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
                     let newFE = this.GetFrameworkElementByNode(el);
                     VisualTreeHelper_2.VisualTreeHelper.AddFrameworkElement(newFE, null);
                     if (newFE !== null && newFE instanceof Panel_9.Panel) {
-                        return this.ProcessCollectionNodes(newFE, el.childNodes);
+                        return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
                     }
                     return null;
                 }
-                static ProcessCollectionNodes(rootPanel, col) {
+                static ProcessCollectionNodesForPanel(rootPanel, col) {
                     if (!col) {
                         return null;
                     }
@@ -6801,14 +6805,29 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
                     }
                     return rootPanel;
                 }
+                static ProcessCollectionNodesForContentControl(root, col) {
+                    if (!col) {
+                        return null;
+                    }
+                    for (let x = 0; x < col.length; x++) {
+                        let node = col.item(x);
+                        let newFE = this.ProcessNode(node, root.UniqueID);
+                        if (newFE !== null) {
+                            root.Content = newFE;
+                        }
+                    }
+                    return root;
+                }
                 static ProcessNode(el, parentUId) {
                     let newFE = this.GetFrameworkElementByNode(el);
                     VisualTreeHelper_2.VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
                     if (newFE instanceof Panel_9.Panel) {
-                        return this.ProcessCollectionNodes(newFE, el.childNodes);
+                        return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
                     }
                     else if (newFE instanceof ContentControl_2.ContentControl) {
-                        return this.ProcessNode(el.childNodes[1], null);
+                        let cc = this.ProcessCollectionNodesForContentControl(newFE, el.childNodes);
+                        newFE.Content = cc;
+                        return newFE;
                     }
                     else {
                         return newFE;

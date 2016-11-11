@@ -45,6 +45,7 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
         // this.Element.IsDirty = false;
     }
     InitializeResources(): void {
+        alert(2);
         super.InitializeResources();
         ConsoleHelper.Log("ScrollViewerRenderer.InitializeResources");
 
@@ -52,7 +53,7 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
         if (this.PixiElement === undefined) {
             this.PixiElement = new PIXI.Container();
         }
-
+        alert(super.Element.Parent.Renderer);
         let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
 
         // this.PixiElement = text;

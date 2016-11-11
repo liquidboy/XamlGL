@@ -52,11 +52,11 @@ export class XamlParser {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
         VisualTreeHelper.AddFrameworkElement(newFE, null);
         if (newFE !== null && newFE instanceof Panel) {
-            return this.ProcessCollectionNodes(newFE, el.childNodes);
+            return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
         }
         return null;
     }
-    private static ProcessCollectionNodes(rootPanel: Panel, col: NodeList): FrameworkElement {
+    private static ProcessCollectionNodesForPanel(rootPanel: Panel, col: NodeList): FrameworkElement {
         if (!col) {
             return null;
         }
@@ -70,14 +70,31 @@ export class XamlParser {
         }
         return rootPanel;
     }
+    private static ProcessCollectionNodesForContentControl(root: ContentControl, col: NodeList): FrameworkElement {
+        if (!col) {
+            return null;
+        }
+
+        for (let x: number = 0; x < col.length; x++) {
+            let node: Node = col.item(x);
+            let newFE: FrameworkElement = this.ProcessNode(node, root.UniqueID);
+            // alert(node + " " + newFE);
+            if (newFE !== null) {
+                root.Content = newFE;
+            }
+        }
+        return root;
+    }
     private static ProcessNode(el: Node, parentUId: string): FrameworkElement {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
         VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
 
         if (newFE instanceof Panel) {
-            return this.ProcessCollectionNodes(newFE, el.childNodes);
+            return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
         } else if (newFE instanceof ContentControl) {
-            return this.ProcessNode(el.childNodes[1], null);
+            let cc : FrameworkElement = this.ProcessCollectionNodesForContentControl(newFE, el.childNodes);
+            newFE.Content = cc;
+            return newFE;
         } else {
             return newFE;
         }

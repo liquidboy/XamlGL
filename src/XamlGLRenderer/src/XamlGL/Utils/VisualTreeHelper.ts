@@ -68,7 +68,9 @@ export class VisualTreeHelper {
     private static InitializeNodeResources(x: VisualTreeNode): void {
         // consoleHelper.LogPad("VisualTreeHelper.InitializeNodeResources", 0);
         x.Children.forEach((vtn: VisualTreeNode) => {
-            vtn.BackingElement.Renderer.InitializeResources();
+            if (vtn.BackingElement.Renderer !== undefined ) {
+                vtn.BackingElement.Renderer.InitializeResources();
+            }
             if (vtn.Children !== null && vtn.Children.size() > 0) {
                 this.InitializeNodeResources(vtn);
             }
