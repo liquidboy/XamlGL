@@ -17,8 +17,8 @@
           <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-2.jpg" Name="img1"></Image>
           <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-3.jpg" Name="img2"></Image>
           <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-4.jpg" Name="img3"></Image>
-          <!--<Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-5.jpg" Name="img4"></Image>
-          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-6.jpg" Name="img5"></Image>-->
+          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-5.jpg" Name="img4"></Image>
+          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-6.jpg" Name="img5"></Image>
         </StackPanel>
       </ScrollViewer>
       

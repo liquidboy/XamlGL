@@ -18,7 +18,7 @@ import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
 import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
-// import { RendererHelper } from "./../../../../utils/RendererHelper";
+import { RendererHelper } from "./../../../../utils/RendererHelper";
 
 export class ScrollViewerRenderer extends BaseRenderer implements IControlRenderer {
     private _scrollViewerEl: ScrollViewer;
@@ -52,10 +52,11 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
         this._scrollViewerEl = <ScrollViewer>this.Element;
         if (this.PixiElement === undefined) {
             this.PixiElement = new PIXI.Container();
+            this.PixiElementMask = new PIXI.Graphics();
+            this.PixiElement.mask = this.PixiElementMask;
         }
 
-        let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
-
+        
         // this.PixiElement = text;
 
         // calculate y position
@@ -81,23 +82,28 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
         // determine starting SLOT if the parent is a PANEL that lays out its children
         // let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
-
-        // tell the parent stackpanel the next available slot
-        this.IncrementNextAvailableSlot();
-
-
+        // mask
+        this.PixiElementMask.clear();
+        this.PixiElementMask.beginFill(RendererHelper.HashToColorNumber("#FF000000"), 1);
+        this.PixiElementMask.drawRect(0, 0, this._scrollViewerEl.CalculatedWidth, this._scrollViewerEl.CalculatedHeight);
+        this.PixiElementMask.endFill();
 
         // now render in container
         // let cont: PIXI.Container = <PIXI.Container>this.PixiElement;
 
 
-
-        // render on stage
+        // tell the parent stackpanel the next available slot
+        this.IncrementNextAvailableSlot();
+        
+        // render graphics (DisplayObject) on PIXI stage
+        let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
+            this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElementMask);
             this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                 parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
+                parentContainer.addChild(this.PixiElementMask);
                 parentContainer.addChild(this.PixiElement);
             }
         }
