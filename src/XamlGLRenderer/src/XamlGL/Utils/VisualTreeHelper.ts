@@ -1,5 +1,6 @@
 ﻿// import { FrameworkElementCollection } from "./../Jupiter/FrameworkElementCollection";
 import { FrameworkElement } from "./../Jupiter/FrameworkElement";
+// import { ContentControl } from "./../Jupiter/Controls/ContentControl";
 import { LinkedList } from "./../../Libs/typescript-collections/src/lib/index";
 import { VisualTree, VisualTreeNode } from "./../VisualTree";
 import { ConsoleHelper } from "./../Utils/ConsoleHelper";
@@ -74,6 +75,9 @@ export class VisualTreeHelper {
             if (vtn.Children !== null && vtn.Children.size() > 0) {
                 this.InitializeNodeResources(vtn);
             }
+            // if (vtn.BackingElement instanceof ContentControl) {
+            //    vtn.BackingElement.Renderer.InitializeResources();
+            // }
         });
     }
 }

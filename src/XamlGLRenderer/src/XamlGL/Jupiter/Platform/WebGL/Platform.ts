@@ -8,6 +8,7 @@ import { IUIElement } from "./../../IUIElement";
 // import { IFrameworkElementRenderer } from "./../IFrameworkElementRenderer";
 import { IControlRenderer } from "./../IControlRenderer";
 import { Panel } from "./../../Controls/Panel";
+import { ContentControl } from "./../../Controls/ContentControl";
 // import { Image } from "./../../../Controls/Image";
 import { RendererHelper } from "./../../../utils/RendererHelper";
 import { VisualTreeHelper } from "./../../../utils/VisualTreeHelper";
@@ -43,6 +44,9 @@ export class Platform implements IPlatform {
             panel.Children.forEach((x: IUIElement) => {
                 this.SetCurrent.call(this, x, content);
             });
+        } else if (content instanceof ContentControl) {
+            let ctl: ContentControl = <ContentControl>content;
+            this.SetCurrent.call(this, ctl.Content, content);
         }
 
         // now draw layer

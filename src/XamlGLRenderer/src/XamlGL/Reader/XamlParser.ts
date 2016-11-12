@@ -92,8 +92,7 @@ export class XamlParser {
         if (newFE instanceof Panel) {
             return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
         } else if (newFE instanceof ContentControl) {
-            let cc : FrameworkElement = this.ProcessCollectionNodesForContentControl(newFE, el.childNodes);
-            newFE.Content = cc;
+            let cc: FrameworkElement = this.ProcessCollectionNodesForContentControl(newFE, el.childNodes);
             return newFE;
         } else {
             return newFE;
