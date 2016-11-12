@@ -3286,7 +3286,7 @@ System.register("XamlGL/Jupiter/Application", ["XamlGL/DataTypes/Guid", "XamlGL/
                 get OnLaunched() { return this._events.get("OnLaunched"); }
                 SetupApplication() {
                     this.dispatch("OnActivated");
-                    setTimeout(() => { this.dispatch("OnLaunched"); }, 1000);
+                    setTimeout(() => { this.dispatch("OnLaunched"); }, 2000);
                 }
                 dispatch(name) {
                     this._events.get(name).dispatch(this, new ApplicationEventArgs(this.SessionID));
@@ -7319,7 +7319,9 @@ System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/P
                             this.Resize(this.Width, this.Height);
                         }
                     }
-                    this.Content = XamlParser_1.XamlParser.XamlMarkupToUIElement(xaml);
+                    setTimeout(() => {
+                        this.Content = XamlParser_1.XamlParser.XamlMarkupToUIElement(xaml);
+                    }, 1000);
                     VisualTreeHelper_3.VisualTreeHelper.DebugVT();
                     this.InitializeShell();
                 }
