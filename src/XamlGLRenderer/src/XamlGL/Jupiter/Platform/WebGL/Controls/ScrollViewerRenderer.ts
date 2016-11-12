@@ -56,7 +56,7 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
             this.PixiElement.mask = this.PixiElementMask;
         }
 
-        
+
         // this.PixiElement = text;
 
         // calculate y position
@@ -94,7 +94,7 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
 
         // tell the parent stackpanel the next available slot
         this.IncrementNextAvailableSlot();
-        
+
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)

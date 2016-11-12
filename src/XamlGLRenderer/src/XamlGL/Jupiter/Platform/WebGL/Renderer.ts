@@ -142,7 +142,7 @@ export class Renderer implements IRenderer {
         if (this._loadingBackground === null) {
             this._loadingBackground = new PIXI.Graphics();
             this._loadingBackground.beginFill(0xF9F9F9);
-            this._loadingBackground.drawRect(0, 0, this._stage.width, this._stage.height);
+            this._loadingBackground.drawRect(0, 0, this._renderer.width, this._renderer.height);
             this._loadingBackground.endFill();
             // rectangle.x = rectEl.Margin.Left;
             // rectangle.y = rectEl.Margin.Top;
@@ -153,10 +153,10 @@ export class Renderer implements IRenderer {
                 "loading...",
                 { font: "20px sans-serif", fill: "black" }
             );
-            this._loadingText.position.set(((this._stage.width - 90) / 2), (((this._stage.height - 22) / 2) + 90));
+            this._loadingText.position.set(((this._renderer.width - 90) / 2), (((this._renderer.height - 22) / 2) + 90));
             this._stage.addChild(this._loadingText);
         }
-        this.ShowResource("loading", this._stage, ((this._stage.width - 165) / 2), ((this._stage.height - 165) / 2), 165, 165);
+        this.ShowResource("loading", this._stage, ((this._renderer.width - 165) / 2), ((this._renderer.height - 165) / 2), 165, 165);
     }
 
     public HideLoading(): void {
