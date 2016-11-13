@@ -19,6 +19,8 @@ import { Point } from "./../../../../DataTypes/Point";
 import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
+// import { EventDispatcher } from "./../../../../Events/EventDispatcher";
+// import { IEvent } from "./../../../../Events/IEvent";
 
 export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer {
     private _pixiElementTrack: PIXI.Graphics;
@@ -27,31 +29,31 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
     private _scrollBarEl: ScrollBar;
     private _thumbPressed: boolean = false;
     private _thumbSize: number = 20;
+
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r, args);
 
         if (!this.Element.IsDirty || !this._thumbPressed) {
             return;
         }
-        //if (r.Pointer.hitTestSprite(this.PixiElement)) {  // no need to check for this as we are using thumbpressed state
+        // if (r.Pointer.hitTestSprite(this.PixiElement)) {  // no need to check for this as we are using thumbpressed state
             // console.log(this._scrollBarEl.Name);
             let newX: number = r.Pointer.x - this._scrollBarEl.CalculatedX;
             let newY: number = r.Pointer.y - this._scrollBarEl.CalculatedY;
-        
+
             // console.log(this._scrollBarEl.CalculatedY);
-            
 
             if (this._scrollBarEl.Orientation === Orientation.Horizontal) {
                 this._peThumb.y = 0;
                 if (newX <= this.PixiElement.parent.x + (this._peThumb.width / 2)) {
-                    this._peThumb.x = 0;                    
+                    this._peThumb.x = 0;
                 } else if (newX >= (this.PixiElement.parent.x + this._scrollBarEl.CalculatedWidth - this._peThumb.width)) {
                     this._peThumb.x = this._scrollBarEl.CalculatedWidth - this._peThumb.width;
                 } else {
                     this._peThumb.x = newX - this.PixiElement.parent.x - (this._peThumb.width / 2);
                 }
 
-                let curVal = this._peThumb.x / (this._scrollBarEl.CalculatedWidth - this._thumbSize);
+                let curVal: number = this._peThumb.x / (this._scrollBarEl.CalculatedWidth - this._thumbSize);
                 curVal = curVal * this._scrollBarEl.Maximum;
                 this._scrollBarEl.Value = curVal;
             } else if (this._scrollBarEl.Orientation === Orientation.Vertical) {
@@ -63,16 +65,16 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
                 } else {
                     this._peThumb.y = newY - this.PixiElement.parent.y - (this._peThumb.height / 2);
                 }
-                let curVal = this._peThumb.y / (this._scrollBarEl.CalculatedHeight- this._thumbSize);
+                let curVal: number = this._peThumb.y / (this._scrollBarEl.CalculatedHeight- this._thumbSize);
                 curVal = curVal * this._scrollBarEl.Maximum;
                 this._scrollBarEl.Value = curVal;
             }
 
             // console.log(this._scrollBarEl.Value);
 
-        //}
+        // }
 
-        
+
 
 
         // this.Element.IsDirty = false;
@@ -166,7 +168,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
         this.Element.Platform.Renderer.PointerPressed.subscribe((r: IRenderer, args: IEventArgs) => {
             if (r.Pointer.hitTestSprite(this._pixiElementTrack)) {
                 this._thumbPressed = true;
-                //this.Element.IsDirty = true;
+                // this.Element.IsDirty = true;
                 RendererHelper.TinkInstance.makeDraggable(this._peThumb);
             }
         });
@@ -180,7 +182,7 @@ export class ScrollBarRenderer extends BaseRenderer implements IControlRenderer 
                 }
             }
             this._thumbPressed = false;
-            //this.Element.IsDirty = false;
+            // this.Element.IsDirty = false;
         });
 
 
