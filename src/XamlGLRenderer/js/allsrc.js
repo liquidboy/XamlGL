@@ -7401,9 +7401,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/P
                             this.Resize(this.Width, this.Height);
                         }
                     }
-                    setTimeout(() => {
-                        this.Content = XamlParser_1.XamlParser.XamlMarkupToUIElement(xaml);
-                    }, 1000);
+                    this.Content = XamlParser_1.XamlParser.XamlMarkupToUIElement(xaml);
                     VisualTreeHelper_3.VisualTreeHelper.DebugVT();
                     this.InitializeShell();
                 }
