@@ -8,8 +8,8 @@ export class Panel extends FrameworkElement {
     private _children: UIElementCollection;
     private _background: string;
     private _foreground: string;
-    private _offsetX: number;
-    private _offsetY: number;
+    private _offsetX: number = 0;
+    private _offsetY: number = 0;
     private _childAdded: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
     private _childRemoved: EventDispatcher<FrameworkElement, IEventArgs> = new EventDispatcher<FrameworkElement, IEventArgs>();
 
