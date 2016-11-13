@@ -40,6 +40,7 @@
     <Content Include="assets\glitter-18a.jpg" />
     <Content Include="assets\glitter-19a.jpg" />
     <Content Include="assets\glitter-2.jpg" />
+    <Content Include="assets\glitter-21a.jpg" />
     <Content Include="assets\glitter-3.jpg" />
     <Content Include="assets\glitter-3o.jpg" />
     <Content Include="assets\glitter-4.jpg" />
@@ -334,6 +335,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xaml\sample-56.xap">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="xaml\sample-57.xap">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
