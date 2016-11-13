@@ -10,14 +10,14 @@
       <Image Name="imgFirst" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="/assets/glitter-20a.jpg"></Image>
     </Grid>
 
-    <Grid Name="grdSecond" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="400">
+    <Grid Name="grdSecond" HorizontalAlignment="Center" VerticalAlignment="Center" Height="120" Width="550">
       <ScrollViewer Name="svMain" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <StackPanel Name="spMain" Orientation="Vertical">
-          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-2.jpg" Name="img1"></Image>
-          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-3.jpg" Name="img2"></Image>
-          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-4.jpg" Name="img3"></Image>
-          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-5.jpg" Name="img4"></Image>
-          <Image Width="180" Height="120" VerticalAlignment="Top" Margin="0,0,0,0" Source="/assets/glitter-6.jpg" Name="img5"></Image>
+        <StackPanel Name="spMain" Orientation="Horizontal" HorizontalAlignment="Stretch" >
+          <Image Width="180" Height="120" HorizontalAlignment="Left" Margin="0,0,0,0" Source="/assets/glitter-2.jpg" Name="img1"></Image>
+          <Image Width="180" Height="120" HorizontalAlignment="Left" Margin="0,0,0,0" Source="/assets/glitter-3.jpg" Name="img2"></Image>
+          <Image Width="180" Height="120" HorizontalAlignment="Left" Margin="0,0,0,0" Source="/assets/glitter-4.jpg" Name="img3"></Image>
+          <Image Width="180" Height="120" HorizontalAlignment="Left" Margin="0,0,0,0" Source="/assets/glitter-5.jpg" Name="img4"></Image>
+          <Image Width="180" Height="120" HorizontalAlignment="Left" Margin="0,0,0,0" Source="/assets/glitter-6.jpg" Name="img5"></Image>
         </StackPanel>
       </ScrollViewer>
     </Grid>

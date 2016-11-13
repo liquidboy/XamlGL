@@ -29,7 +29,7 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 export class ScrollViewerRenderer extends BaseRenderer implements IControlRenderer {
     private _scrollViewerEl: ScrollViewer;
     private _scrollBarVertical: ScrollBar = null;
-    // private _scrollBarHorizontal: ScrollBar = null;
+    private _scrollBarHorizontal: ScrollBar = null;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r, args);
 
@@ -116,7 +116,7 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
             }
         }
 
-        this.InitVerticalScrollbar();
+        this.InitScrollbar();
 
         // this._scrollViewerEl.Content
 
@@ -159,8 +159,52 @@ export class ScrollViewerRenderer extends BaseRenderer implements IControlRender
             this.PixiElement = null;
         }
     }
+    public InitScrollbar(): void {
+        if (this._scrollViewerEl.Content instanceof StackPanel) {
+            let sp: StackPanel = <StackPanel>this._scrollViewerEl.Content;
+            if (sp.Orientation === Orientation.Vertical) {
+                this.InitVerticalScrollbar();
+            } else {
+                this.InitHorizontalScrollbar();
+            }
+        }
+    }
+    private InitHorizontalScrollbar(): void {
+        if (this._scrollBarHorizontal === null) {
+            this._scrollBarHorizontal  = new ScrollBar();
+        }
+        let sbParent: Panel = <Panel>this.Element.Parent;
+        this._scrollBarHorizontal.HorizontalAlignment = HorizontalAlignment.Stretch;
+        this._scrollBarHorizontal.VerticalAlignment = VerticalAlignment.Bottom;
+        this._scrollBarHorizontal.Margin = new Thickness(0);
+        this._scrollBarHorizontal.Orientation = Orientation.Horizontal;
+        this._scrollBarHorizontal.LargeChange = 1;
+        this._scrollBarHorizontal.SmallChange = 1;
+        this._scrollBarHorizontal.Maximum = 300;
+        this._scrollBarHorizontal.Minimum = 0;
+        this._scrollBarHorizontal.Value = 0;
+        this._scrollBarHorizontal.Height = 20;
+        this._scrollBarHorizontal.ValueChanged.subscribe((sb: ScrollBar, args: IEventArgs) => {
+            let ratio: number = sb.Value / (sb.Maximum - sb.Minimum);
+            // console.log(ratio);
 
-    public InitVerticalScrollbar(): void {
+            if (this._scrollViewerEl.Content instanceof StackPanel) {
+                let sp: StackPanel = <StackPanel>this._scrollViewerEl.Content;
+
+                let contentWidth: number = sp.Renderer.PixiElement.getBounds().width;
+                let svWidth: number = this._scrollViewerEl.CalculatedWidth;
+                let diff: number = contentWidth - svWidth;
+                // console.log(diff);
+                (<StackPanelRenderer>sp.Renderer).UpdateOffset(-1 * diff * ratio, 0);
+            }
+
+        });
+        if (this.Element.Parent instanceof Panel) {
+            sbParent.Platform.SetCurrent(this._scrollBarHorizontal, sbParent);
+            sbParent.Platform.LoadDynamicControl(this._scrollBarHorizontal);
+        }
+    }
+    private InitVerticalScrollbar(): void {
         if (this._scrollBarVertical === null) {
             this._scrollBarVertical = new ScrollBar();
         }
