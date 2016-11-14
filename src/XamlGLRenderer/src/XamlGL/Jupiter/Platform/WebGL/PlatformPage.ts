@@ -66,8 +66,8 @@ export class PlatformPage extends Page implements IPlatformPage {
         }
         setTimeout(() => {
             this.Content = XamlParser.XamlMarkupToUIElement(xaml);
+            VisualTreeHelper.DebugVT();
         }, 1000);
-        VisualTreeHelper.DebugVT();
         this.InitializeShell();
     }
 
