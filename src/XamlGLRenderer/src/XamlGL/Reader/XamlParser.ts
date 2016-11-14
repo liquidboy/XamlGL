@@ -104,7 +104,7 @@ export class XamlParser {
             return newFE;
         } else if (newFE instanceof ListView) {
             let cc: FrameworkElement = this.ProcessCollectionNodes(newFE, el.childNodes);
-            console.log(cc);
+            // console.log(cc);
             return newFE;
         } else {
             return newFE;
