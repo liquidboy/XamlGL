@@ -5793,20 +5793,32 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollBarRenderer", ["Xa
         }
     }
 });
-System.register("XamlGL/Jupiter/Controls/ListView", ["XamlGL/Jupiter/Core"], function(exports_104, context_104) {
+System.register("XamlGL/Jupiter/Controls/ListView", ["XamlGL/Jupiter/Core", "XamlGL/Jupiter/UIElementCollection"], function(exports_104, context_104) {
     "use strict";
     var __moduleName = context_104 && context_104.id;
-    var Jupiter;
+    var Jupiter, UIElementCollection_3;
     var ListView;
     return {
         setters:[
             function (Jupiter_5) {
                 Jupiter = Jupiter_5;
+            },
+            function (UIElementCollection_3_1) {
+                UIElementCollection_3 = UIElementCollection_3_1;
             }],
         execute: function() {
             ListView = class ListView extends Jupiter.View {
+                constructor() {
+                    super();
+                    this._content = null;
+                    this._children = new UIElementCollection_3.UIElementCollection();
+                }
                 get Orientation() { return this._orientation; }
+                get Content() { return this._content; }
+                get Children() { return this._children; }
                 set Orientation(value) { this._orientation = value; }
+                set Content(value) { this._content = value; }
+                set Children(value) { this._children = value; }
             };
             exports_104("ListView", ListView);
         }
@@ -6950,43 +6962,43 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
                     let newFE = this.GetFrameworkElementByNode(el);
                     VisualTreeHelper_2.VisualTreeHelper.AddFrameworkElement(newFE, null);
                     if (newFE !== null && newFE instanceof Panel_10.Panel) {
-                        return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
+                        return this.ProcessCollectionNodes(newFE, el.childNodes);
                     }
                     return null;
                 }
-                static ProcessCollectionNodesForPanel(rootPanel, col) {
+                static ProcessCollectionNodes(root, col) {
                     if (!col) {
                         return null;
                     }
-                    for (let x = 0; x < col.length; x++) {
-                        let node = col.item(x);
-                        let newFE = this.ProcessNode(node, rootPanel.UniqueID);
-                        if (newFE !== null) {
-                            rootPanel.Children.add(newFE);
+                    if (root instanceof Panel_10.Panel) {
+                        for (let x = 0; x < col.length; x++) {
+                            let node = col.item(x);
+                            let newFE = this.ProcessNode(node, root.UniqueID);
+                            if (newFE !== null) {
+                                root.Children.add(newFE);
+                            }
                         }
                     }
-                    return rootPanel;
-                }
-                static ProcessCollectionNodesForContentControl(root, col) {
-                    if (!col) {
-                        return null;
-                    }
-                    for (let x = 0; x < col.length; x++) {
-                        let node = col.item(x);
-                        let newFE = this.ProcessNode(node, root.UniqueID);
-                        if (newFE !== null) {
-                            root.Content = newFE;
+                    else if (root instanceof ContentControl_3.ContentControl) {
+                        for (let x = 0; x < col.length; x++) {
+                            let node = col.item(x);
+                            let newFE = this.ProcessNode(node, root.UniqueID);
+                            if (newFE !== null) {
+                                root.Content = newFE;
+                            }
                         }
                     }
-                    return root;
-                }
-                static ProcessCollectionNodesForListView(root, col) {
-                    if (!col) {
-                        return null;
-                    }
-                    for (let x = 0; x < col.length; x++) {
-                        let node = col.item(x);
-                        let newFE = this.ProcessNode(node, root.UniqueID);
+                    else if (root instanceof ListView_2.ListView) {
+                        if (root.Content === null) {
+                            root.Content = new StackPanel_4.StackPanel();
+                        }
+                        for (let x = 0; x < col.length; x++) {
+                            let node = col.item(x);
+                            let newFE = this.ProcessNode(node, root.UniqueID);
+                            if (newFE !== null) {
+                                root.Children.add(newFE);
+                            }
+                        }
                     }
                     return root;
                 }
@@ -6994,14 +7006,15 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
                     let newFE = this.GetFrameworkElementByNode(el);
                     VisualTreeHelper_2.VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
                     if (newFE instanceof Panel_10.Panel) {
-                        return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
+                        return this.ProcessCollectionNodes(newFE, el.childNodes);
                     }
                     else if (newFE instanceof ContentControl_3.ContentControl) {
-                        let cc = this.ProcessCollectionNodesForContentControl(newFE, el.childNodes);
+                        let cc = this.ProcessCollectionNodes(newFE, el.childNodes);
                         return newFE;
                     }
                     else if (newFE instanceof ListView_2.ListView) {
-                        let cc = this.ProcessCollectionNodesForListView(newFE, el.childNodes);
+                        let cc = this.ProcessCollectionNodes(newFE, el.childNodes);
+                        console.log(cc);
                         return newFE;
                     }
                     else {

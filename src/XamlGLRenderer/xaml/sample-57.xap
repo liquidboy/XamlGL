@@ -16,6 +16,9 @@
         <ListViewItem>ListViewItem2</ListViewItem>
         <ListViewItem>ListViewItem3</ListViewItem>
         <ListViewItem>ListViewItem4</ListViewItem>
+        <ListViewItem>ListViewItem5</ListViewItem>
+        <ListViewItem>ListViewItem6</ListViewItem>
+        <ListViewItem>ListViewItem7</ListViewItem>
       </ListView>
     </Grid>
 

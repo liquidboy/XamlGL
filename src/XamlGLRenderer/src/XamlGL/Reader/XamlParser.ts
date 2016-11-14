@@ -53,51 +53,43 @@ export class XamlParser {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
         VisualTreeHelper.AddFrameworkElement(newFE, null);
         if (newFE !== null && newFE instanceof Panel) {
-            return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
+            return this.ProcessCollectionNodes(newFE, el.childNodes);
         }
         return null;
     }
-    private static ProcessCollectionNodesForPanel(rootPanel: Panel, col: NodeList): FrameworkElement {
+    private static ProcessCollectionNodes(root: FrameworkElement, col: NodeList): FrameworkElement {
         if (!col) {
             return null;
         }
-
-        for (let x: number = 0; x < col.length; x++) {
-            let node: Node = col.item(x);
-            let newFE: FrameworkElement = this.ProcessNode(node, rootPanel.UniqueID);
-            if (newFE !== null) {
-                rootPanel.Children.add(newFE);
+        if (root instanceof Panel) {
+            for (let x: number = 0; x < col.length; x++) {
+                let node: Node = col.item(x);
+                let newFE: FrameworkElement = this.ProcessNode(node, root.UniqueID);
+                if (newFE !== null) {
+                    root.Children.add(newFE);
+                }
             }
-        }
-        return rootPanel;
-    }
-    private static ProcessCollectionNodesForContentControl(root: ContentControl, col: NodeList): FrameworkElement {
-        if (!col) {
-            return null;
-        }
-
-        for (let x: number = 0; x < col.length; x++) {
-            let node: Node = col.item(x);
-            let newFE: FrameworkElement = this.ProcessNode(node, root.UniqueID);
-            // alert(node + " " + newFE);
-            if (newFE !== null) {
-                root.Content = newFE;
+        } else if (root instanceof ContentControl) {
+            for (let x: number = 0; x < col.length; x++) {
+                let node: Node = col.item(x);
+                let newFE: FrameworkElement = this.ProcessNode(node, root.UniqueID);
+                // alert(node + " " + newFE);
+                if (newFE !== null) {
+                    root.Content = newFE;
+                }
             }
-        }
-        return root;
-    }
-    private static ProcessCollectionNodesForListView(root: ListView, col: NodeList): FrameworkElement {
-        if (!col) {
-            return null;
-        }
-
-        for (let x: number = 0; x < col.length; x++) {
-            let node: Node = col.item(x);
-            let newFE: FrameworkElement = this.ProcessNode(node, root.UniqueID);
-            // alert(node + " " + newFE);
-            // if (newFE !== null) {
-            //     root.Content = newFE;
-            // }
+        } else if (root instanceof ListView) {
+            if (root.Content === null) {
+                root.Content = new StackPanel();
+            }
+            for (let x: number = 0; x < col.length; x++) {
+                let node: Node = col.item(x);
+                let newFE: FrameworkElement = this.ProcessNode(node, root.UniqueID);
+                // alert(node + " " + newFE);
+                if (newFE !== null) {
+                    root.Children.add(newFE);
+                }
+            }
         }
         return root;
     }
@@ -106,12 +98,13 @@ export class XamlParser {
         VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
 
         if (newFE instanceof Panel) {
-            return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
+            return this.ProcessCollectionNodes(newFE, el.childNodes);
         } else if (newFE instanceof ContentControl) {
-            let cc: FrameworkElement = this.ProcessCollectionNodesForContentControl(newFE, el.childNodes);
+            let cc: FrameworkElement = this.ProcessCollectionNodes(newFE, el.childNodes);
             return newFE;
         } else if (newFE instanceof ListView) {
-            let cc: FrameworkElement = this.ProcessCollectionNodesForListView(newFE, el.childNodes);
+            let cc: FrameworkElement = this.ProcessCollectionNodes(newFE, el.childNodes);
+            console.log(cc);
             return newFE;
         } else {
             return newFE;
@@ -361,7 +354,7 @@ export class XamlParser {
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             return ctl;
-        } 
+        }
         return null;
     }
     private static DoGroupingStuff(grouping: string, fe: FrameworkElement): void {
