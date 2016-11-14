@@ -13,6 +13,7 @@ import { ScrollBar } from "./../Jupiter/Controls/ScrollBar";
 import { ContentControl } from "./../Jupiter/Controls/ContentControl";
 import { ScrollViewer } from "./../Jupiter/Controls/ScrollViewer";
 import { ListView } from "./../Jupiter/Controls/ListView";
+import { ListViewItem } from "./../Jupiter/Controls/ListViewItem";
 import { DropdownList } from "./../Jupiter/Controls/DropdownList";
 import { TextBox } from "./../Jupiter/Controls/TextBox";
 import { Path } from "./../Jupiter/Controls/Path";
@@ -85,6 +86,21 @@ export class XamlParser {
         }
         return root;
     }
+    private static ProcessCollectionNodesForListView(root: ListView, col: NodeList): FrameworkElement {
+        if (!col) {
+            return null;
+        }
+
+        for (let x: number = 0; x < col.length; x++) {
+            let node: Node = col.item(x);
+            let newFE: FrameworkElement = this.ProcessNode(node, root.UniqueID);
+            // alert(node + " " + newFE);
+            // if (newFE !== null) {
+            //     root.Content = newFE;
+            // }
+        }
+        return root;
+    }
     private static ProcessNode(el: Node, parentUId: string): FrameworkElement {
         let newFE: FrameworkElement = this.GetFrameworkElementByNode(el);
         VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
@@ -93,6 +109,9 @@ export class XamlParser {
             return this.ProcessCollectionNodesForPanel(newFE, el.childNodes);
         } else if (newFE instanceof ContentControl) {
             let cc: FrameworkElement = this.ProcessCollectionNodesForContentControl(newFE, el.childNodes);
+            return newFE;
+        } else if (newFE instanceof ListView) {
+            let cc: FrameworkElement = this.ProcessCollectionNodesForListView(newFE, el.childNodes);
             return newFE;
         } else {
             return newFE;
@@ -333,7 +352,16 @@ export class XamlParser {
             ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
             // ctl.Content = 
             return ctl;
-        }
+        } else if (node.nodeName === "ListViewItem") {
+            let ctl: ListViewItem = new ListViewItem();
+            ctl.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
+            ctl.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
+            ctl.VerticalAlignment = this.StringToVerticalAlignment(node.attributes.getNamedItem("VerticalAlignment"));
+            ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
+            ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
+            ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            return ctl;
+        } 
         return null;
     }
     private static DoGroupingStuff(grouping: string, fe: FrameworkElement): void {

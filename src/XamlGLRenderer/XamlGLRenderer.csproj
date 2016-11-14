@@ -100,6 +100,7 @@
     <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\DropdownList.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ComboBox.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ListViewItem.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ScrollViewer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Slider.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\TimePicker.ts" />
