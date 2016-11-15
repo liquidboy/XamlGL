@@ -2,13 +2,14 @@
 import { BaseRenderer } from "./BaseRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
-// import { FrameworkElement } from "./../../../FrameworkElement";
+import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { ListView } from "./../../../Controls/ListView";
-// import { StackPanel } from "./../../../../Controls/StackPanel";
+import { ListViewItem } from "./../../../Controls/ListViewItem";
+import { StackPanel } from "./../../../Controls/StackPanel";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
@@ -20,6 +21,8 @@ import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
+    private _listViewEl: ListView = null;
+    private _listViewElRootContainer: StackPanel = null;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
         // fill from Draw
@@ -28,39 +31,38 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
         super.InitializeResources();
         ConsoleHelper.Log("ListViewRenderer.InitializeResources");
 
-        let listViewEl: ListView = <ListView>super.Element;
-
-        if (!listViewEl.IsDirty) {
-            return;
-        }
+        this._listViewEl = <ListView>super.Element;
 
         let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
 
         // this.PixiElement = text;
 
         // calculate y position
-        this.CalculateYHeight(listViewEl);
+        this.CalculateYHeight(this._listViewEl);
 
         // calculate X position
-        this.CalculateXWidth(listViewEl);
+        this.CalculateXWidth(this._listViewEl);
 
         // take margin into account
-        this.UpdateCalculatedValuesUsingMargin(listViewEl);
+        this.UpdateCalculatedValuesUsingMargin(this._listViewEl);
 
         // determine starting SLOT if the parent is a PANEL that lays out its children
         let parentXYStart: Point = this.CalculateCurrentAvailableSlot();
 
-
-
+        // initialize the root and children content
+        if (this._listViewEl.Children.size() > 0) {
+            this._listViewElRootContainer = <StackPanel>this._listViewEl.Content;
+            this._listViewElRootContainer.Renderer.InitializeResources();
+            this._listViewEl.Children.forEach(x => {
+                let lvi: ListViewItem = <ListViewItem>x;
+                
+            });
+        }
 
 
 
         // tell the parent stackpanel the next available slot
         this.IncrementNextAvailableSlot();
-
-
-
-        listViewEl.IsDirty = false;
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent

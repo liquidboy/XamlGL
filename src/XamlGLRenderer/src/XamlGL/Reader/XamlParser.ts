@@ -353,6 +353,7 @@ export class XamlParser {
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            ctl.Content = node.textContent;
             return ctl;
         }
         return null;

@@ -8,6 +8,7 @@ import { IUIElement } from "./../../IUIElement";
 // import { IFrameworkElementRenderer } from "./../IFrameworkElementRenderer";
 import { IControlRenderer } from "./../IControlRenderer";
 import { Panel } from "./../../Controls/Panel";
+import { ListView } from "./../../Controls/ListView";
 import { ContentControl } from "./../../Controls/ContentControl";
 // import { Image } from "./../../../Controls/Image";
 import { RendererHelper } from "./../../../utils/RendererHelper";
@@ -46,6 +47,9 @@ export class Platform implements IPlatform {
             });
         } else if (content instanceof ContentControl) {
             let ctl: ContentControl = <ContentControl>content;
+            this.SetCurrent.call(this, ctl.Content, content);
+        } else if (content instanceof ListView) {
+            let ctl: ListView = <ListView>content;
             this.SetCurrent.call(this, ctl.Content, content);
         }
 
