@@ -234,13 +234,18 @@ export class BaseRenderer implements IControlRenderer {
         // tell the parent stackpanel the next available slot
         if (this.Element.Parent instanceof StackPanel) {
             let sp: StackPanel = <StackPanel>this.Element.Parent;
-            if (sp.Orientation === Orientation.Horizontal) {
-                sp.CurrentItemRenderXY += this.Element.CalculatedWidth
-                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
-            } else {
-                sp.CurrentItemRenderXY += this.Element.CalculatedHeight
-                    + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
-            }
+            this.IncrementNextAvailableSlotOfStackPanel(sp, this.Element.CalculatedWidth, this.Element.CalculatedHeight);
+        }
+    }
+
+    public IncrementNextAvailableSlotOfStackPanel(sp: StackPanel, slotWidth: number, slotHeight: number): void {
+        // tell the parent stackpanel the next available slot
+        if (sp.Orientation === Orientation.Horizontal) {
+            sp.CurrentItemRenderXY += slotWidth
+                + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Right + this.Element.Margin.Left));
+        } else {
+            sp.CurrentItemRenderXY += slotHeight
+                + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
         }
     }
 

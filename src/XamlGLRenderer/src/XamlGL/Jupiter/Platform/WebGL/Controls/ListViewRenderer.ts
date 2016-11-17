@@ -2,7 +2,7 @@
 import { BaseRenderer } from "./BaseRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
-// import { FrameworkElement } from "./../../../FrameworkElement";
+import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
@@ -14,7 +14,7 @@ import { TextBlock } from "./../../../Controls/TextBlock";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-// import { Orientation } from "./../../../../DataTypes/Orientation";
+import { Orientation } from "./../../../../DataTypes/Orientation";
 import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 // import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
@@ -64,6 +64,7 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
         // initialize the root and children content
         if (this._listViewEl.Children.size() > 0) {
             this._listViewElRootContainer = <StackPanel>this._listViewEl.Content;
+            this._listViewElRootContainer.Orientation = Orientation.Vertical;
             this._listViewElRootContainer.Renderer.InitializeResources();
             this._listViewEl.Children.forEach(x => {
                 let lvi: ListViewItem = <ListViewItem>x;
@@ -72,21 +73,22 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
                 tb.FontSize = 20;
                 tb.FontFamily = "Sans-Serif";
                 tb.Color = "black"
-
+                console.log(this._listViewElRootContainer.CurrentItemRenderXY);
+                tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                // tb.Parent = <FrameworkElement>this._listViewElRootContainer;
+                
                 this._listViewElRootContainer.Children.add(tb);
 
                 // add new tb to parent container and set its platform so it can render itself
                 this._listViewElRootContainer.Platform.SetCurrent(tb, this._listViewElRootContainer);
                 this._listViewElRootContainer.Platform.LoadDynamicControl(tb);
-
                 
-
+                // tell the parent stackpanel the next available slot
+                this.IncrementNextAvailableSlotOfStackPanel(this._listViewElRootContainer, this.Element.CalculatedWidth, 0);
             });
         }
 
 
-        // tell the parent stackpanel the next available slot
-        this.IncrementNextAvailableSlot();
         
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
