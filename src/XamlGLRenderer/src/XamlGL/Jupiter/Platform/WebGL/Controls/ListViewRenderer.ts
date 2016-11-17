@@ -1,5 +1,6 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
-import { BaseRenderer } from "./BaseRenderer";
+// import { BaseRenderer } from "./BaseRenderer";
+import { BaseScrollRenderer } from "./BaseScrollRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 // import { FrameworkElement } from "./../../../FrameworkElement";
@@ -25,7 +26,7 @@ import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { Thickness } from "./../../../../DataTypes/Thickness";
 
-export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
+export class ListViewRenderer extends BaseScrollRenderer implements IControlRenderer {
     private _listViewEl: ListView = null;
     private _listViewElRootContainer: StackPanel = null;
     private _scrollBarVertical: ScrollBar = null;
@@ -106,7 +107,7 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
         }
 
 
-        
+
         this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
 
         // render graphics (DisplayObject) on PIXI stage
