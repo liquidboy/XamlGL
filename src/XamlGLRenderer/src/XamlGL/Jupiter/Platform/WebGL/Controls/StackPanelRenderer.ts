@@ -86,6 +86,14 @@ export class StackPanelRenderer extends BaseRenderer implements IControlRenderer
     UpdateOffset(x: number, y:number): void {
         this._stackPanelEl.OffsetX = x;
         this._stackPanelEl.OffsetY = y;
-        this._parentContainer.position.set(this.Element.CalculatedX + this._stackPanelEl.OffsetX, this.Element.CalculatedY + this._stackPanelEl.OffsetY);
+
+        let newY: number = this.Element.CalculatedY === undefined ? 0 : this.Element.CalculatedY;
+        newY += this._stackPanelEl.OffsetY;
+
+        let newX: number = this.Element.CalculatedX === undefined ? 0 : this.Element.CalculatedX;
+        newX += this._stackPanelEl.OffsetX;
+
+        // console.log(this._stackPanelEl.OffsetY );
+        this._parentContainer.position.set(newX, newY);
     }
 }

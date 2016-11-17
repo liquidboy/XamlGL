@@ -19,6 +19,39 @@
         <ListViewItem>ListViewItem5</ListViewItem>
         <ListViewItem>ListViewItem6</ListViewItem>
         <ListViewItem>ListViewItem7</ListViewItem>
+        <ListViewItem>ListViewItem8</ListViewItem>
+        <ListViewItem>ListViewItem9</ListViewItem>
+        <ListViewItem>ListViewItem10</ListViewItem>
+        <ListViewItem>ListViewItem11</ListViewItem>
+        <ListViewItem>ListViewItem12</ListViewItem>
+        <ListViewItem>ListViewItem13</ListViewItem>
+        <ListViewItem>ListViewItem14</ListViewItem>
+        <ListViewItem>ListViewItem15</ListViewItem>
+        <ListViewItem>ListViewItem16</ListViewItem>
+        <ListViewItem>ListViewItem17</ListViewItem>
+        <ListViewItem>ListViewItem18</ListViewItem>
+        <ListViewItem>ListViewItem19</ListViewItem>
+        <ListViewItem>ListViewItem20</ListViewItem>
+        <ListViewItem>ListViewItem21</ListViewItem>
+        <ListViewItem>ListViewItem22</ListViewItem>
+        <ListViewItem>ListViewItem23</ListViewItem>
+        <ListViewItem>ListViewItem24</ListViewItem>
+        <ListViewItem>ListViewItem25</ListViewItem>
+        <ListViewItem>ListViewItem26</ListViewItem>
+        <ListViewItem>ListViewItem27</ListViewItem>
+        <ListViewItem>ListViewItem28</ListViewItem>
+        <ListViewItem>ListViewItem29</ListViewItem>
+        <ListViewItem>ListViewItem30</ListViewItem>
+        <ListViewItem>ListViewItem20</ListViewItem>
+        <ListViewItem>ListViewItem31</ListViewItem>
+        <ListViewItem>ListViewItem32</ListViewItem>
+        <ListViewItem>ListViewItem33</ListViewItem>
+        <ListViewItem>ListViewItem34</ListViewItem>
+        <ListViewItem>ListViewItem35</ListViewItem>
+        <ListViewItem>ListViewItem36</ListViewItem>
+        <ListViewItem>ListViewItem37</ListViewItem>
+        <ListViewItem>ListViewItem38</ListViewItem>
+        <ListViewItem>ListViewItem39</ListViewItem>
       </ListView>
     </Grid>
 
