@@ -30,6 +30,7 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
     private _listViewElRootContainer: StackPanel = null;
     private _scrollBarVertical: ScrollBar = null;
     private _scrollBarHorizontal: ScrollBar = null;
+    private _background: PIXI.Graphics = null;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
         // fill from Draw
@@ -43,6 +44,8 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
             this.PixiElement = new PIXI.Container();
             this.PixiElementMask = new PIXI.Graphics();
             this.PixiElement.mask = this.PixiElementMask;
+            this._background = new PIXI.Graphics();
+            this._background.mask = this.PixiElementMask;
         }
 
         // let parentContainer: PIXI.Container = <PIXI.Container>super.Element.Parent.Renderer.PixiElement;
@@ -103,21 +106,26 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
         }
 
 
+        
+        this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
 
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
-            this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
             this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElementMask);
+            this.Element.Platform.Renderer.PixiStage.addChild(this._background);
+            this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                 parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
                 parentContainer.addChild(this.PixiElementMask);
+                parentContainer.addChild(this._background);
                 parentContainer.addChild(this.PixiElement);
             }
         }
 
         this.InitScrollbar();
+
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
@@ -134,6 +142,15 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
             pc.removeChild(this.PixiElement);
             this.PixiElement = null;
         }
+    }
+    public InitBackground(rectangle: PIXI.Graphics, parentXYStart: Point, width: number, height: number): void {
+        rectangle.lineStyle(this._listViewEl.BorderThickness.Left, RendererHelper.HashToColorNumber(this._listViewEl.BorderBrush), 1);
+        rectangle.beginFill(RendererHelper.HashToColorNumber(this._listViewEl.Background)); // 0x66CCFF);
+        rectangle.drawRect(0, 0, width, height);
+        rectangle.endFill();
+        rectangle.x = this.Element.CalculatedX + parentXYStart.X; // this._listViewEl.Margin.Left;
+        rectangle.y = this.Element.CalculatedY + parentXYStart.Y;  // this._listViewEl.Margin.Top;
+        console.log(rectangle);
     }
     public InitScrollbar(): void {
         if (this._listViewEl.Content instanceof StackPanel) {

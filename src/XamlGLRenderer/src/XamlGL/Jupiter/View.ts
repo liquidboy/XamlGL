@@ -6,7 +6,11 @@ import { IView } from "./IView";
 
 
 export class View extends FrameworkElement implements IView {
+    private _background: string;
 
+    get Background(): string { return this._background; }
+
+    set Background(value: string) { this._background = value; }
 }
 
 // xamarin introduced this layer, otherwise in the UWP world a control would implement directly the 

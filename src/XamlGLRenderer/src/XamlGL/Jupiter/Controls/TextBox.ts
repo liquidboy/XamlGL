@@ -13,7 +13,6 @@ export class TextBox extends Jupiter.View {
     private _textWrappingAlign: TextWrappingAlign = TextWrappingAlign.Left;
     private _hasFocus: boolean;
     private _acceptsReturn: boolean;
-    private _background: string;
     private _borderBrush: string;
     private _borderThickness: Thickness;
 
@@ -27,7 +26,6 @@ export class TextBox extends Jupiter.View {
     get TextWrappingAlign(): TextWrappingAlign { return this._textWrappingAlign; }
     get HasFocus(): boolean { return this._hasFocus; }
     get AcceptsReturn(): boolean { return this._acceptsReturn; }
-    get Background(): string { return this._background; }
     get BorderBrush(): string { return this._borderBrush; }
     get BorderThickness(): Thickness { return this._borderThickness; }
 
@@ -40,7 +38,6 @@ export class TextBox extends Jupiter.View {
     set TextWrappingAlign(value: TextWrappingAlign) { this._textWrappingAlign = value; }
     set HasFocus(value: boolean) { this._hasFocus = value; }
     set AcceptsReturn(value: boolean) { this._acceptsReturn = value; }
-    set Background(value: string) { this._background = value; }
     set BorderBrush(value: string) { this._borderBrush = value; }
     set BorderThickness(value: Thickness) { this._borderThickness = value; }
 }

@@ -11,7 +11,10 @@
     </Grid>
 
     <Grid Name="grdSecond" HorizontalAlignment="Center" VerticalAlignment="Center" Height="400" Width="220">
-      <ListView Name="lvMain" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <ListView Name="lvMain" Margin="0,0,0,0" HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Fill="#FF05A6E2" Stroke="#FF508B95" StrokeThickness="5" 
+                RadiusX="3" RadiusY="3">
         <ListViewItem>ListViewItem 1</ListViewItem>
         <ListViewItem>ListViewItem 2</ListViewItem>
         <ListViewItem>ListViewItem 3</ListViewItem>

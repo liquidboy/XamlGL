@@ -324,6 +324,10 @@ export class XamlParser {
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            ctl.Background = node.attributes.getNamedItem("Fill").value;
+            ctl.BorderBrush = node.attributes.getNamedItem("Stroke").value;
+            let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
+            ctl.BorderThickness = new Thickness(stokeThickness);
             return ctl;
         } else if (node.nodeName === "DropdownList") {
             let ctl: DropdownList = new DropdownList();
