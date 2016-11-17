@@ -5837,18 +5837,119 @@ System.register("XamlGL/Jupiter/Controls/ListView", ["XamlGL/Jupiter/Core", "Xam
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseScrollRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer"], function(exports_105, context_105) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/BaseScrollRenderer", ["XamlGL/Jupiter/Controls/StackPanel", "XamlGL/Jupiter/Controls/Panel", "XamlGL/Jupiter/Controls/ScrollBar", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/Thickness", "XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer"], function(exports_105, context_105) {
     "use strict";
     var __moduleName = context_105 && context_105.id;
-    var BaseRenderer_13;
+    var StackPanel_2, Panel_7, ScrollBar_1, HorizontalAlignment_5, VerticalAlignment_5, Orientation_3, Thickness_5, BaseRenderer_13;
     var BaseScrollRenderer;
     return {
         setters:[
+            function (StackPanel_2_1) {
+                StackPanel_2 = StackPanel_2_1;
+            },
+            function (Panel_7_1) {
+                Panel_7 = Panel_7_1;
+            },
+            function (ScrollBar_1_1) {
+                ScrollBar_1 = ScrollBar_1_1;
+            },
+            function (HorizontalAlignment_5_1) {
+                HorizontalAlignment_5 = HorizontalAlignment_5_1;
+            },
+            function (VerticalAlignment_5_1) {
+                VerticalAlignment_5 = VerticalAlignment_5_1;
+            },
+            function (Orientation_3_1) {
+                Orientation_3 = Orientation_3_1;
+            },
+            function (Thickness_5_1) {
+                Thickness_5 = Thickness_5_1;
+            },
             function (BaseRenderer_13_1) {
                 BaseRenderer_13 = BaseRenderer_13_1;
             }],
         execute: function() {
             BaseScrollRenderer = class BaseScrollRenderer extends BaseRenderer_13.BaseRenderer {
+                constructor() {
+                    super(...arguments);
+                    this._scrollBarVertical = null;
+                    this._scrollBarHorizontal = null;
+                    this._scrollViewerHeight = 0;
+                    this._scrollViewerWidth = 0;
+                    this._panel = null;
+                }
+                InitScrollbar(panel, scrollViewerWidth, scrollViewerHeight) {
+                    this._panel = panel;
+                    this._scrollViewerHeight = scrollViewerHeight;
+                    this._scrollViewerWidth = scrollViewerWidth;
+                    if (this._panel instanceof StackPanel_2.StackPanel) {
+                        let sp = this._panel;
+                        if (sp.Orientation === Orientation_3.Orientation.Vertical) {
+                            this.InitVerticalScrollbar();
+                        }
+                        else {
+                            this.InitHorizontalScrollbar();
+                        }
+                    }
+                }
+                InitHorizontalScrollbar() {
+                    if (this._scrollBarHorizontal === null) {
+                        this._scrollBarHorizontal = new ScrollBar_1.ScrollBar();
+                    }
+                    let sbParent = this.Element.Parent;
+                    this._scrollBarHorizontal.HorizontalAlignment = HorizontalAlignment_5.HorizontalAlignment.Stretch;
+                    this._scrollBarHorizontal.VerticalAlignment = VerticalAlignment_5.VerticalAlignment.Bottom;
+                    this._scrollBarHorizontal.Margin = new Thickness_5.Thickness(0);
+                    this._scrollBarHorizontal.Orientation = Orientation_3.Orientation.Horizontal;
+                    this._scrollBarHorizontal.LargeChange = 1;
+                    this._scrollBarHorizontal.SmallChange = 1;
+                    this._scrollBarHorizontal.Maximum = 300;
+                    this._scrollBarHorizontal.Minimum = 0;
+                    this._scrollBarHorizontal.Value = 0;
+                    this._scrollBarHorizontal.Height = 20;
+                    this._scrollBarHorizontal.ValueChanged.subscribe((sb, args) => {
+                        let ratio = sb.Value / (sb.Maximum - sb.Minimum);
+                        if (this._panel instanceof StackPanel_2.StackPanel) {
+                            let sp = this._panel;
+                            let contentWidth = sp.Renderer.PixiElement.getBounds().width;
+                            let diff = contentWidth - this._scrollViewerWidth;
+                            sp.Renderer.UpdateOffset(-1 * diff * ratio, 0);
+                        }
+                    });
+                    if (this.Element.Parent instanceof Panel_7.Panel) {
+                        sbParent.Platform.SetCurrent(this._scrollBarHorizontal, sbParent);
+                        sbParent.Platform.LoadDynamicControl(this._scrollBarHorizontal);
+                    }
+                }
+                InitVerticalScrollbar() {
+                    if (this._scrollBarVertical === null) {
+                        this._scrollBarVertical = new ScrollBar_1.ScrollBar();
+                    }
+                    let sbParent = this.Element.Parent;
+                    this._scrollBarVertical.HorizontalAlignment = HorizontalAlignment_5.HorizontalAlignment.Right;
+                    this._scrollBarVertical.VerticalAlignment = VerticalAlignment_5.VerticalAlignment.Stretch;
+                    this._scrollBarVertical.Margin = new Thickness_5.Thickness(0);
+                    this._scrollBarVertical.Orientation = Orientation_3.Orientation.Vertical;
+                    this._scrollBarVertical.LargeChange = 1;
+                    this._scrollBarVertical.SmallChange = 1;
+                    this._scrollBarVertical.Maximum = 300;
+                    this._scrollBarVertical.Minimum = 0;
+                    this._scrollBarVertical.Value = 0;
+                    this._scrollBarVertical.Width = 20;
+                    this._scrollBarVertical.ValueChanged.subscribe((sb, args) => {
+                        let ratio = sb.Value / (sb.Maximum - sb.Minimum);
+                        if (this._panel instanceof StackPanel_2.StackPanel) {
+                            let sp = this._panel;
+                            let contentHeight = sp.Renderer.PixiElement.getBounds().height;
+                            let diff = contentHeight - this._scrollViewerHeight;
+                            sp.Renderer.UpdateOffset(0, -1 * diff * ratio);
+                        }
+                    });
+                    if (this.Element.Parent instanceof Panel_7.Panel) {
+                        sbParent.Platform.SetCurrent(this._scrollBarVertical, sbParent);
+                        sbParent.Platform.LoadDynamicControl(this._scrollBarVertical);
+                    }
+                }
             };
             exports_105("BaseScrollRenderer", BaseScrollRenderer);
         }
@@ -5877,10 +5978,10 @@ System.register("XamlGL/Jupiter/Controls/ListViewItem", ["XamlGL/Jupiter/Core"],
         }
     }
 });
-System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseScrollRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Jupiter/Controls/StackPanel", "XamlGL/Jupiter/Controls/Panel", "XamlGL/Jupiter/Controls/ScrollBar", "XamlGL/Jupiter/Controls/TextBlock", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Orientation", "XamlGL/Utils/RendererHelper", "XamlGL/DataTypes/Thickness"], function(exports_107, context_107) {
+System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseScrollRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Jupiter/Controls/TextBlock", "XamlGL/DataTypes/Orientation", "XamlGL/Utils/RendererHelper"], function(exports_107, context_107) {
     "use strict";
     var __moduleName = context_107 && context_107.id;
-    var BaseScrollRenderer_1, ConsoleHelper_15, StackPanel_2, Panel_7, ScrollBar_1, TextBlock_1, HorizontalAlignment_5, VerticalAlignment_5, Orientation_3, RendererHelper_11, Thickness_5;
+    var BaseScrollRenderer_1, ConsoleHelper_15, TextBlock_1, Orientation_4, RendererHelper_11;
     var ListViewRenderer;
     return {
         setters:[
@@ -5890,32 +5991,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
             function (ConsoleHelper_15_1) {
                 ConsoleHelper_15 = ConsoleHelper_15_1;
             },
-            function (StackPanel_2_1) {
-                StackPanel_2 = StackPanel_2_1;
-            },
-            function (Panel_7_1) {
-                Panel_7 = Panel_7_1;
-            },
-            function (ScrollBar_1_1) {
-                ScrollBar_1 = ScrollBar_1_1;
-            },
             function (TextBlock_1_1) {
                 TextBlock_1 = TextBlock_1_1;
             },
-            function (HorizontalAlignment_5_1) {
-                HorizontalAlignment_5 = HorizontalAlignment_5_1;
-            },
-            function (VerticalAlignment_5_1) {
-                VerticalAlignment_5 = VerticalAlignment_5_1;
-            },
-            function (Orientation_3_1) {
-                Orientation_3 = Orientation_3_1;
+            function (Orientation_4_1) {
+                Orientation_4 = Orientation_4_1;
             },
             function (RendererHelper_11_1) {
                 RendererHelper_11 = RendererHelper_11_1;
-            },
-            function (Thickness_5_1) {
-                Thickness_5 = Thickness_5_1;
             }],
         execute: function() {
             ListViewRenderer = class ListViewRenderer extends BaseScrollRenderer_1.BaseScrollRenderer {
@@ -5923,8 +6006,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                     super(...arguments);
                     this._listViewEl = null;
                     this._listViewElRootContainer = null;
-                    this._scrollBarVertical = null;
-                    this._scrollBarHorizontal = null;
                     this._background = null;
                 }
                 Draw(r, args) {
@@ -5954,7 +6035,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                     this.PixiElementMask.endFill();
                     if (this._listViewEl.Children.size() > 0) {
                         this._listViewElRootContainer = this._listViewEl.Content;
-                        this._listViewElRootContainer.Orientation = Orientation_3.Orientation.Vertical;
+                        this._listViewElRootContainer.Orientation = Orientation_4.Orientation.Vertical;
                         this._listViewElRootContainer.Renderer.InitializeResources();
                         this._listViewEl.Children.forEach(x => {
                             let lvi = x;
@@ -5984,7 +6065,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                             parentContainer.addChild(this.PixiElement);
                         }
                     }
-                    this.InitScrollbar();
+                    super.InitScrollbar(this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
                 }
                 RefreshUI() {
                 }
@@ -6006,77 +6087,6 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                     rectangle.x = this.Element.CalculatedX + parentXYStart.X;
                     rectangle.y = this.Element.CalculatedY + parentXYStart.Y;
                     console.log(rectangle);
-                }
-                InitScrollbar() {
-                    if (this._listViewEl.Content instanceof StackPanel_2.StackPanel) {
-                        let sp = this._listViewEl.Content;
-                        if (sp.Orientation === Orientation_3.Orientation.Vertical) {
-                            this.InitVerticalScrollbar();
-                        }
-                        else {
-                            this.InitHorizontalScrollbar();
-                        }
-                    }
-                }
-                InitHorizontalScrollbar() {
-                    if (this._scrollBarHorizontal === null) {
-                        this._scrollBarHorizontal = new ScrollBar_1.ScrollBar();
-                    }
-                    let sbParent = this.Element.Parent;
-                    this._scrollBarHorizontal.HorizontalAlignment = HorizontalAlignment_5.HorizontalAlignment.Stretch;
-                    this._scrollBarHorizontal.VerticalAlignment = VerticalAlignment_5.VerticalAlignment.Bottom;
-                    this._scrollBarHorizontal.Margin = new Thickness_5.Thickness(0);
-                    this._scrollBarHorizontal.Orientation = Orientation_3.Orientation.Horizontal;
-                    this._scrollBarHorizontal.LargeChange = 1;
-                    this._scrollBarHorizontal.SmallChange = 1;
-                    this._scrollBarHorizontal.Maximum = 300;
-                    this._scrollBarHorizontal.Minimum = 0;
-                    this._scrollBarHorizontal.Value = 0;
-                    this._scrollBarHorizontal.Height = 20;
-                    this._scrollBarHorizontal.ValueChanged.subscribe((sb, args) => {
-                        let ratio = sb.Value / (sb.Maximum - sb.Minimum);
-                        if (this._listViewEl.Content instanceof StackPanel_2.StackPanel) {
-                            let sp = this._listViewEl.Content;
-                            let contentWidth = sp.Renderer.PixiElement.getBounds().width;
-                            let svWidth = this._listViewEl.CalculatedWidth;
-                            let diff = contentWidth - svWidth;
-                            sp.Renderer.UpdateOffset(-1 * diff * ratio, 0);
-                        }
-                    });
-                    if (this.Element.Parent instanceof Panel_7.Panel) {
-                        sbParent.Platform.SetCurrent(this._scrollBarHorizontal, sbParent);
-                        sbParent.Platform.LoadDynamicControl(this._scrollBarHorizontal);
-                    }
-                }
-                InitVerticalScrollbar() {
-                    if (this._scrollBarVertical === null) {
-                        this._scrollBarVertical = new ScrollBar_1.ScrollBar();
-                    }
-                    let sbParent = this.Element.Parent;
-                    this._scrollBarVertical.HorizontalAlignment = HorizontalAlignment_5.HorizontalAlignment.Right;
-                    this._scrollBarVertical.VerticalAlignment = VerticalAlignment_5.VerticalAlignment.Stretch;
-                    this._scrollBarVertical.Margin = new Thickness_5.Thickness(0);
-                    this._scrollBarVertical.Orientation = Orientation_3.Orientation.Vertical;
-                    this._scrollBarVertical.LargeChange = 1;
-                    this._scrollBarVertical.SmallChange = 1;
-                    this._scrollBarVertical.Maximum = 300;
-                    this._scrollBarVertical.Minimum = 0;
-                    this._scrollBarVertical.Value = 0;
-                    this._scrollBarVertical.Width = 20;
-                    this._scrollBarVertical.ValueChanged.subscribe((sb, args) => {
-                        let ratio = sb.Value / (sb.Maximum - sb.Minimum);
-                        if (this._listViewEl.Content instanceof StackPanel_2.StackPanel) {
-                            let sp = this._listViewEl.Content;
-                            let contentHeight = sp.Renderer.PixiElement.getBounds().height;
-                            let svHeight = this._listViewEl.CalculatedHeight;
-                            let diff = contentHeight - svHeight;
-                            sp.Renderer.UpdateOffset(0, -1 * diff * ratio);
-                        }
-                    });
-                    if (this.Element.Parent instanceof Panel_7.Panel) {
-                        sbParent.Platform.SetCurrent(this._scrollBarVertical, sbParent);
-                        sbParent.Platform.LoadDynamicControl(this._scrollBarVertical);
-                    }
                 }
             };
             exports_107("ListViewRenderer", ListViewRenderer);
@@ -6208,7 +6218,7 @@ System.register("XamlGL/Jupiter/Controls/ScrollViewer", ["XamlGL/Jupiter/Control
 System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollViewerRenderer", ["XamlGL/Jupiter/Platform/WebGL/Controls/BaseRenderer", "XamlGL/Utils/ConsoleHelper", "XamlGL/Jupiter/Controls/StackPanel", "XamlGL/Jupiter/Controls/ScrollBar", "XamlGL/Jupiter/Controls/Panel", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/Thickness", "XamlGL/Utils/RendererHelper"], function(exports_113, context_113) {
     "use strict";
     var __moduleName = context_113 && context_113.id;
-    var BaseRenderer_15, ConsoleHelper_17, StackPanel_3, ScrollBar_2, Panel_8, HorizontalAlignment_6, VerticalAlignment_6, Orientation_4, Thickness_6, RendererHelper_12;
+    var BaseRenderer_15, ConsoleHelper_17, StackPanel_3, ScrollBar_2, Panel_8, HorizontalAlignment_6, VerticalAlignment_6, Orientation_5, Thickness_6, RendererHelper_12;
     var ScrollViewerRenderer;
     return {
         setters:[
@@ -6233,8 +6243,8 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollViewerRenderer", [
             function (VerticalAlignment_6_1) {
                 VerticalAlignment_6 = VerticalAlignment_6_1;
             },
-            function (Orientation_4_1) {
-                Orientation_4 = Orientation_4_1;
+            function (Orientation_5_1) {
+                Orientation_5 = Orientation_5_1;
             },
             function (Thickness_6_1) {
                 Thickness_6 = Thickness_6_1;
@@ -6305,7 +6315,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollViewerRenderer", [
                 InitScrollbar() {
                     if (this._scrollViewerEl.Content instanceof StackPanel_3.StackPanel) {
                         let sp = this._scrollViewerEl.Content;
-                        if (sp.Orientation === Orientation_4.Orientation.Vertical) {
+                        if (sp.Orientation === Orientation_5.Orientation.Vertical) {
                             this.InitVerticalScrollbar();
                         }
                         else {
@@ -6321,7 +6331,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollViewerRenderer", [
                     this._scrollBarHorizontal.HorizontalAlignment = HorizontalAlignment_6.HorizontalAlignment.Stretch;
                     this._scrollBarHorizontal.VerticalAlignment = VerticalAlignment_6.VerticalAlignment.Bottom;
                     this._scrollBarHorizontal.Margin = new Thickness_6.Thickness(0);
-                    this._scrollBarHorizontal.Orientation = Orientation_4.Orientation.Horizontal;
+                    this._scrollBarHorizontal.Orientation = Orientation_5.Orientation.Horizontal;
                     this._scrollBarHorizontal.LargeChange = 1;
                     this._scrollBarHorizontal.SmallChange = 1;
                     this._scrollBarHorizontal.Maximum = 300;
@@ -6351,7 +6361,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ScrollViewerRenderer", [
                     this._scrollBarVertical.HorizontalAlignment = HorizontalAlignment_6.HorizontalAlignment.Right;
                     this._scrollBarVertical.VerticalAlignment = VerticalAlignment_6.VerticalAlignment.Stretch;
                     this._scrollBarVertical.Margin = new Thickness_6.Thickness(0);
-                    this._scrollBarVertical.Orientation = Orientation_4.Orientation.Vertical;
+                    this._scrollBarVertical.Orientation = Orientation_5.Orientation.Vertical;
                     this._scrollBarVertical.LargeChange = 1;
                     this._scrollBarVertical.SmallChange = 1;
                     this._scrollBarVertical.Maximum = 300;
@@ -7049,7 +7059,7 @@ System.register("XamlGL/Reader/XamlMarkup", [], function(exports_119, context_11
 System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "XamlGL/Jupiter/Controls/ToolTip", "XamlGL/Jupiter/Controls/Button", "XamlGL/Jupiter/Controls/StackPanel", "XamlGL/Jupiter/Controls/Image", "XamlGL/Jupiter/Controls/CheckBox", "XamlGL/Jupiter/Controls/RadioButton", "XamlGL/Jupiter/Controls/Panel", "XamlGL/Jupiter/Controls/TextBlock", "XamlGL/Jupiter/Controls/ScrollBar", "XamlGL/Jupiter/Controls/ContentControl", "XamlGL/Jupiter/Controls/ScrollViewer", "XamlGL/Jupiter/Controls/ListView", "XamlGL/Jupiter/Controls/ListViewItem", "XamlGL/Jupiter/Controls/DropdownList", "XamlGL/Jupiter/Controls/TextBox", "XamlGL/Jupiter/Controls/Path", "XamlGL/Jupiter/Controls/Rectangle", "XamlGL/DataTypes/Thickness", "XamlGL/DataTypes/HorizontalAlignment", "XamlGL/DataTypes/VerticalAlignment", "XamlGL/DataTypes/CornerRadius", "XamlGL/DataTypes/Orientation", "XamlGL/DataTypes/TextWrapping", "XamlGL/DataTypes/TextWrappingAlign", "XamlGL/DataTypes/DockPosition", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/GroupingHelper", "XamlGL/Utils/VisualTreeHelper"], function(exports_120, context_120) {
     "use strict";
     var __moduleName = context_120 && context_120.id;
-    var Grid_2, ToolTip_3, Button_3, StackPanel_5, Image_2, CheckBox_3, RadioButton_3, Panel_11, TextBlock_3, ScrollBar_4, ContentControl_3, ScrollViewer_2, ListView_3, ListViewItem_1, DropdownList_2, TextBox_2, Path_2, Rectangle_2, Thickness_7, HorizontalAlignment_7, VerticalAlignment_7, CornerRadius_3, Orientation_5, TextWrapping_5, TextWrappingAlign_5, DockPosition_5, ConsoleHelper_22, GroupingHelper_2, VisualTreeHelper_2;
+    var Grid_2, ToolTip_3, Button_3, StackPanel_5, Image_2, CheckBox_3, RadioButton_3, Panel_11, TextBlock_3, ScrollBar_4, ContentControl_3, ScrollViewer_2, ListView_3, ListViewItem_1, DropdownList_2, TextBox_2, Path_2, Rectangle_2, Thickness_7, HorizontalAlignment_7, VerticalAlignment_7, CornerRadius_3, Orientation_6, TextWrapping_5, TextWrappingAlign_5, DockPosition_5, ConsoleHelper_22, GroupingHelper_2, VisualTreeHelper_2;
     var XamlParser;
     return {
         setters:[
@@ -7119,8 +7129,8 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
             function (CornerRadius_3_1) {
                 CornerRadius_3 = CornerRadius_3_1;
             },
-            function (Orientation_5_1) {
-                Orientation_5 = Orientation_5_1;
+            function (Orientation_6_1) {
+                Orientation_6 = Orientation_6_1;
             },
             function (TextWrapping_5_1) {
                 TextWrapping_5 = TextWrapping_5_1;
@@ -7588,13 +7598,13 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
                 }
                 static StringToOrientation(attr) {
                     if (attr === null) {
-                        return Orientation_5.Orientation.Horizontal;
+                        return Orientation_6.Orientation.Horizontal;
                     }
                     if (attr.value === "Horizontal") {
-                        return Orientation_5.Orientation.Horizontal;
+                        return Orientation_6.Orientation.Horizontal;
                     }
                     else if (attr.value === "Vertical") {
-                        return Orientation_5.Orientation.Vertical;
+                        return Orientation_6.Orientation.Vertical;
                     }
                 }
                 static StringToTextWrapping(attr) {

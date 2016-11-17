@@ -12,11 +12,11 @@ import { ListView } from "./../../../Controls/ListView";
 import { ListViewItem } from "./../../../Controls/ListViewItem";
 import { StackPanel } from "./../../../Controls/StackPanel";
 import { Panel } from "./../../../Controls/Panel";
-import { StackPanelRenderer } from "./StackPanelRenderer";
-import { ScrollBar } from "./../../../Controls/ScrollBar";
+// import { StackPanelRenderer } from "./StackPanelRenderer";
+// import { ScrollBar } from "./../../../Controls/ScrollBar";
 import { TextBlock } from "./../../../Controls/TextBlock";
-import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
-import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
+// import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
+// import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
 import { Orientation } from "./../../../../DataTypes/Orientation";
 import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
@@ -24,13 +24,12 @@ import { Point } from "./../../../../DataTypes/Point";
 import { IRenderer } from "./../../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
-import { Thickness } from "./../../../../DataTypes/Thickness";
+// import { Thickness } from "./../../../../DataTypes/Thickness";
 
 export class ListViewRenderer extends BaseScrollRenderer implements IControlRenderer {
     private _listViewEl: ListView = null;
     private _listViewElRootContainer: StackPanel = null;
-    private _scrollBarVertical: ScrollBar = null;
-    private _scrollBarHorizontal: ScrollBar = null;
+
     private _background: PIXI.Graphics = null;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
@@ -125,7 +124,7 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             }
         }
 
-        this.InitScrollbar();
+        super.InitScrollbar(<Panel>this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
 
     }
     RefreshUI(): void {
@@ -153,84 +152,5 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
         rectangle.y = this.Element.CalculatedY + parentXYStart.Y;  // this._listViewEl.Margin.Top;
         console.log(rectangle);
     }
-    public InitScrollbar(): void {
-        if (this._listViewEl.Content instanceof StackPanel) {
-            let sp: StackPanel = <StackPanel>this._listViewEl.Content;
-            if (sp.Orientation === Orientation.Vertical) {
-                this.InitVerticalScrollbar();
-            } else {
-                this.InitHorizontalScrollbar();
-            }
-        }
-    }
-    private InitHorizontalScrollbar(): void {
-        if (this._scrollBarHorizontal === null) {
-            this._scrollBarHorizontal = new ScrollBar();
-        }
-        let sbParent: Panel = <Panel>this.Element.Parent;
-        this._scrollBarHorizontal.HorizontalAlignment = HorizontalAlignment.Stretch;
-        this._scrollBarHorizontal.VerticalAlignment = VerticalAlignment.Bottom;
-        this._scrollBarHorizontal.Margin = new Thickness(0);
-        this._scrollBarHorizontal.Orientation = Orientation.Horizontal;
-        this._scrollBarHorizontal.LargeChange = 1;
-        this._scrollBarHorizontal.SmallChange = 1;
-        this._scrollBarHorizontal.Maximum = 300;
-        this._scrollBarHorizontal.Minimum = 0;
-        this._scrollBarHorizontal.Value = 0;
-        this._scrollBarHorizontal.Height = 20;
-        this._scrollBarHorizontal.ValueChanged.subscribe((sb: ScrollBar, args: IEventArgs) => {
-            let ratio: number = sb.Value / (sb.Maximum - sb.Minimum);
-            // console.log(ratio);
 
-            if (this._listViewEl.Content instanceof StackPanel) {
-                let sp: StackPanel = <StackPanel>this._listViewEl.Content;
-
-                let contentWidth: number = sp.Renderer.PixiElement.getBounds().width;
-                let svWidth: number = this._listViewEl.CalculatedWidth;
-                let diff: number = contentWidth - svWidth;
-                // console.log(diff);
-                (<StackPanelRenderer>sp.Renderer).UpdateOffset(-1 * diff * ratio, 0);
-            }
-
-        });
-        if (this.Element.Parent instanceof Panel) {
-            sbParent.Platform.SetCurrent(this._scrollBarHorizontal, sbParent);
-            sbParent.Platform.LoadDynamicControl(this._scrollBarHorizontal);
-        }
-    }
-    private InitVerticalScrollbar(): void {
-        if (this._scrollBarVertical === null) {
-            this._scrollBarVertical = new ScrollBar();
-        }
-        let sbParent: Panel = <Panel>this.Element.Parent;
-        this._scrollBarVertical.HorizontalAlignment = HorizontalAlignment.Right;
-        this._scrollBarVertical.VerticalAlignment = VerticalAlignment.Stretch;
-        this._scrollBarVertical.Margin = new Thickness(0);
-        this._scrollBarVertical.Orientation = Orientation.Vertical;
-        this._scrollBarVertical.LargeChange = 1;
-        this._scrollBarVertical.SmallChange = 1;
-        this._scrollBarVertical.Maximum = 300;
-        this._scrollBarVertical.Minimum = 0;
-        this._scrollBarVertical.Value = 0;
-        this._scrollBarVertical.Width = 20;
-        this._scrollBarVertical.ValueChanged.subscribe((sb: ScrollBar, args: IEventArgs) => {
-            let ratio: number = sb.Value / (sb.Maximum - sb.Minimum);
-            // console.log(ratio);
-
-            if (this._listViewEl.Content instanceof StackPanel) {
-                let sp: StackPanel = <StackPanel>this._listViewEl.Content;
-
-                let contentHeight: number = sp.Renderer.PixiElement.getBounds().height;
-                let svHeight: number = this._listViewEl.CalculatedHeight;
-                let diff: number = contentHeight - svHeight;
-                // console.log(-1 * diff * ratio);
-                (<StackPanelRenderer>sp.Renderer).UpdateOffset(0, -1 * diff * ratio);
-            }
-
-        });
-        if (this.Element.Parent instanceof Panel) {
-            sbParent.Platform.SetCurrent(this._scrollBarVertical, sbParent);
-            sbParent.Platform.LoadDynamicControl(this._scrollBarVertical);
-        }
-    }
 }
