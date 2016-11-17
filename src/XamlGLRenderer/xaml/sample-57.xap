@@ -12,46 +12,46 @@
 
     <Grid Name="grdSecond" HorizontalAlignment="Center" VerticalAlignment="Center" Height="400" Width="220">
       <ListView Name="lvMain" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <ListViewItem>ListViewItem1</ListViewItem>
-        <ListViewItem>ListViewItem2</ListViewItem>
-        <ListViewItem>ListViewItem3</ListViewItem>
-        <ListViewItem>ListViewItem4</ListViewItem>
-        <ListViewItem>ListViewItem5</ListViewItem>
-        <ListViewItem>ListViewItem6</ListViewItem>
-        <ListViewItem>ListViewItem7</ListViewItem>
-        <ListViewItem>ListViewItem8</ListViewItem>
-        <ListViewItem>ListViewItem9</ListViewItem>
-        <ListViewItem>ListViewItem10</ListViewItem>
-        <ListViewItem>ListViewItem11</ListViewItem>
-        <ListViewItem>ListViewItem12</ListViewItem>
-        <ListViewItem>ListViewItem13</ListViewItem>
-        <ListViewItem>ListViewItem14</ListViewItem>
-        <ListViewItem>ListViewItem15</ListViewItem>
-        <ListViewItem>ListViewItem16</ListViewItem>
-        <ListViewItem>ListViewItem17</ListViewItem>
-        <ListViewItem>ListViewItem18</ListViewItem>
-        <ListViewItem>ListViewItem19</ListViewItem>
-        <ListViewItem>ListViewItem20</ListViewItem>
-        <ListViewItem>ListViewItem21</ListViewItem>
-        <ListViewItem>ListViewItem22</ListViewItem>
-        <ListViewItem>ListViewItem23</ListViewItem>
-        <ListViewItem>ListViewItem24</ListViewItem>
-        <ListViewItem>ListViewItem25</ListViewItem>
-        <ListViewItem>ListViewItem26</ListViewItem>
-        <ListViewItem>ListViewItem27</ListViewItem>
-        <ListViewItem>ListViewItem28</ListViewItem>
-        <ListViewItem>ListViewItem29</ListViewItem>
-        <ListViewItem>ListViewItem30</ListViewItem>
-        <ListViewItem>ListViewItem20</ListViewItem>
-        <ListViewItem>ListViewItem31</ListViewItem>
-        <ListViewItem>ListViewItem32</ListViewItem>
-        <ListViewItem>ListViewItem33</ListViewItem>
-        <ListViewItem>ListViewItem34</ListViewItem>
-        <ListViewItem>ListViewItem35</ListViewItem>
-        <ListViewItem>ListViewItem36</ListViewItem>
-        <ListViewItem>ListViewItem37</ListViewItem>
-        <ListViewItem>ListViewItem38</ListViewItem>
-        <ListViewItem>ListViewItem39</ListViewItem>
+        <ListViewItem>ListViewItem 1</ListViewItem>
+        <ListViewItem>ListViewItem 2</ListViewItem>
+        <ListViewItem>ListViewItem 3</ListViewItem>
+        <ListViewItem>ListViewItem 4</ListViewItem>
+        <ListViewItem>ListViewItem 5</ListViewItem>
+        <ListViewItem>ListViewItem 6</ListViewItem>
+        <ListViewItem>ListViewItem 7</ListViewItem>
+        <ListViewItem>ListViewItem 8</ListViewItem>
+        <ListViewItem>ListViewItem 9</ListViewItem>
+        <ListViewItem>ListViewItem 10</ListViewItem>
+        <ListViewItem>ListViewItem 11</ListViewItem>
+        <ListViewItem>ListViewItem 12</ListViewItem>
+        <ListViewItem>ListViewItem 13</ListViewItem>
+        <ListViewItem>ListViewItem 14</ListViewItem>
+        <ListViewItem>ListViewItem 15</ListViewItem>
+        <ListViewItem>ListViewItem 16</ListViewItem>
+        <ListViewItem>ListViewItem 17</ListViewItem>
+        <ListViewItem>ListViewItem 18</ListViewItem>
+        <ListViewItem>ListViewItem 19</ListViewItem>
+        <ListViewItem>ListViewItem 20</ListViewItem>
+        <ListViewItem>ListViewItem 21</ListViewItem>
+        <ListViewItem>ListViewItem 22</ListViewItem>
+        <ListViewItem>ListViewItem 23</ListViewItem>
+        <ListViewItem>ListViewItem 24</ListViewItem>
+        <ListViewItem>ListViewItem 25</ListViewItem>
+        <ListViewItem>ListViewItem 26</ListViewItem>
+        <ListViewItem>ListViewItem 27</ListViewItem>
+        <ListViewItem>ListViewItem 28</ListViewItem>
+        <ListViewItem>ListViewItem 29</ListViewItem>
+        <ListViewItem>ListViewItem 30</ListViewItem>
+        <ListViewItem>ListViewItem 20</ListViewItem>
+        <ListViewItem>ListViewItem 31</ListViewItem>
+        <ListViewItem>ListViewItem 32</ListViewItem>
+        <ListViewItem>ListViewItem 33</ListViewItem>
+        <ListViewItem>ListViewItem 34</ListViewItem>
+        <ListViewItem>ListViewItem 35</ListViewItem>
+        <ListViewItem>ListViewItem 36</ListViewItem>
+        <ListViewItem>ListViewItem 37</ListViewItem>
+        <ListViewItem>ListViewItem 38</ListViewItem>
+        <ListViewItem>ListViewItem 39</ListViewItem>
       </ListView>
     </Grid>
 

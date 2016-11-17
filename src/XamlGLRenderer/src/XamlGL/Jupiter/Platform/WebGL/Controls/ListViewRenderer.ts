@@ -2,7 +2,7 @@
 import { BaseRenderer } from "./BaseRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
-import { FrameworkElement } from "./../../../FrameworkElement";
+// import { FrameworkElement } from "./../../../FrameworkElement";
 // import { IEventArgs } from "./../../../../Events/IEventArgs";
 // import { IEvent } from "./../../../../Events/IEvent";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";
@@ -86,24 +86,24 @@ export class ListViewRenderer extends BaseRenderer implements IControlRenderer {
                 tb.Text = lvi.Content;
                 tb.FontSize = 22;
                 tb.FontFamily = "Sans-Serif";
-                tb.Color = "black"
+                tb.Color = "black";
                 // console.log(this._listViewElRootContainer.CurrentItemRenderXY);
                 tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
                 // tb.Parent = <FrameworkElement>this._listViewElRootContainer;
-                
+
                 this._listViewElRootContainer.Children.add(tb);
 
                 // add new tb to parent container and set its platform so it can render itself
                 this._listViewElRootContainer.Platform.SetCurrent(tb, this._listViewElRootContainer);
                 this._listViewElRootContainer.Platform.LoadDynamicControl(tb);
-                
+
                 // tell the parent stackpanel the next available slot
                 // this.IncrementNextAvailableSlotOfStackPanel(this._listViewElRootContainer, this.Element.CalculatedWidth, 0);
             });
         }
 
 
-        
+
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
