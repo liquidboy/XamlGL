@@ -328,6 +328,7 @@ export class XamlParser {
             ctl.BorderBrush = node.attributes.getNamedItem("Stroke").value;
             let stokeThickness: number = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
             ctl.BorderThickness = new Thickness(stokeThickness);
+            ctl.BackgroundAlpha = this.StringToNumberFloat(node.attributes.getNamedItem("FillAlpha"));
             return ctl;
         } else if (node.nodeName === "DropdownList") {
             let ctl: DropdownList = new DropdownList();

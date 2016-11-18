@@ -3391,8 +3391,14 @@ System.register("XamlGL/Jupiter/View", ["XamlGL/Jupiter/FrameworkElement"], func
             }],
         execute: function() {
             View = class View extends FrameworkElement_3.FrameworkElement {
+                constructor() {
+                    super(...arguments);
+                    this._backgroundAlpha = 1;
+                }
                 get Background() { return this._background; }
+                get BackgroundAlpha() { return this._backgroundAlpha; }
                 set Background(value) { this._background = value; }
+                set BackgroundAlpha(value) { this._backgroundAlpha = value; }
             };
             exports_61("View", View);
         }
@@ -6050,7 +6056,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                             this._listViewElRootContainer.Platform.LoadDynamicControl(tb);
                         });
                     }
-                    this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
+                    this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight, this._listViewEl.BackgroundAlpha);
                     let parentContainer = null;
                     if (this.Element.Parent.Renderer === undefined) {
                         this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElementMask);
@@ -6065,7 +6071,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                             parentContainer.addChild(this.PixiElement);
                         }
                     }
-                    super.InitScrollbar(this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
+                    this.InitScrollbar(this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
                 }
                 RefreshUI() {
                 }
@@ -6079,10 +6085,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                         this.PixiElement = null;
                     }
                 }
-                InitBackground(rectangle, parentXYStart, width, height) {
+                InitBackground(rectangle, parentXYStart, width, height, alpha) {
                     rectangle.lineStyle(this._listViewEl.BorderThickness.Left, RendererHelper_11.RendererHelper.HashToColorNumber(this._listViewEl.BorderBrush), 1);
                     rectangle.beginFill(RendererHelper_11.RendererHelper.HashToColorNumber(this._listViewEl.Background));
                     rectangle.drawRect(0, 0, width, height);
+                    rectangle.alpha = alpha;
                     rectangle.endFill();
                     rectangle.x = this.Element.CalculatedX + parentXYStart.X;
                     rectangle.y = this.Element.CalculatedY + parentXYStart.Y;
@@ -7362,6 +7369,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
                         ctl.BorderBrush = node.attributes.getNamedItem("Stroke").value;
                         let stokeThickness = this.StringToNumber(node.attributes.getNamedItem("StrokeThickness"));
                         ctl.BorderThickness = new Thickness_6.Thickness(stokeThickness);
+                        ctl.BackgroundAlpha = this.StringToNumberFloat(node.attributes.getNamedItem("FillAlpha"));
                         return ctl;
                     }
                     else if (node.nodeName === "DropdownList") {

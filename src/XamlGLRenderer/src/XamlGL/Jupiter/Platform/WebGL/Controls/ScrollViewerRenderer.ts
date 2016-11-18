@@ -114,6 +114,7 @@ export class ScrollViewerRenderer extends BaseScrollRenderer implements IControl
             }
         }
 
+        // scrollbar needs to be here so as to render above the top bits
         this.InitScrollbar(<Panel>this._scrollViewerEl.Content, this._scrollViewerEl.CalculatedWidth, this._scrollViewerEl.CalculatedHeight);
 
         // this._scrollViewerEl.Content
@@ -157,5 +158,4 @@ export class ScrollViewerRenderer extends BaseScrollRenderer implements IControl
             this.PixiElement = null;
         }
     }
-    
 }

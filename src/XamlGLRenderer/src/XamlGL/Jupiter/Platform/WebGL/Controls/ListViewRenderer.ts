@@ -105,10 +105,9 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             });
         }
 
-
-
-        this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
-
+        this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth,
+            this._listViewEl.CalculatedHeight, this._listViewEl.BackgroundAlpha);
+        
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
@@ -124,7 +123,8 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             }
         }
 
-        super.InitScrollbar(<Panel>this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
+        // scrollbar needs to be here so as to render above the top bits
+        this.InitScrollbar(<Panel>this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
 
     }
     RefreshUI(): void {
@@ -143,10 +143,11 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             this.PixiElement = null;
         }
     }
-    public InitBackground(rectangle: PIXI.Graphics, parentXYStart: Point, width: number, height: number): void {
+    public InitBackground(rectangle: PIXI.Graphics, parentXYStart: Point, width: number, height: number, alpha: number): void {
         rectangle.lineStyle(this._listViewEl.BorderThickness.Left, RendererHelper.HashToColorNumber(this._listViewEl.BorderBrush), 1);
         rectangle.beginFill(RendererHelper.HashToColorNumber(this._listViewEl.Background)); // 0x66CCFF);
         rectangle.drawRect(0, 0, width, height);
+        rectangle.alpha = alpha;
         rectangle.endFill();
         rectangle.x = this.Element.CalculatedX + parentXYStart.X; // this._listViewEl.Margin.Left;
         rectangle.y = this.Element.CalculatedY + parentXYStart.Y;  // this._listViewEl.Margin.Top;
