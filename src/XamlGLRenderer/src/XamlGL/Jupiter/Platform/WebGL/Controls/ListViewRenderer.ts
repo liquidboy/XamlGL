@@ -107,7 +107,7 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             this._listViewElRootContainer.Orientation = this._listViewEl.Orientation;
 
             // scrollbar needs to be here so as to render above the top bits
-            this.InitScrollbar(<Panel>this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
+            this.InitScrollbar(<Panel>this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight, this._listViewEl.Children.size());
         }
     }
     RefreshUI(): void {

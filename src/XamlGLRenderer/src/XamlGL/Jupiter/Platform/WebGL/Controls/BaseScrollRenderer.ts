@@ -33,20 +33,20 @@ export class BaseScrollRenderer extends BaseRenderer {
     _scrollViewerHeight: number = 0;
     _scrollViewerWidth: number = 0;
     _panel: Panel = null;
-    public InitScrollbar(panel: Panel, scrollViewerWidth: number, scrollViewerHeight: number): void {
+    public InitScrollbar(panel: Panel, scrollViewerWidth: number, scrollViewerHeight: number, scrollPrecision: number): void {
         this._panel = panel;
         this._scrollViewerHeight = scrollViewerHeight;
         this._scrollViewerWidth = scrollViewerWidth;
         if (this._panel instanceof StackPanel) {
             let sp: StackPanel = <StackPanel>this._panel;
             if (sp.Orientation === Orientation.Vertical) {
-                this.InitVerticalScrollbar();
+                this.InitVerticalScrollbar(scrollPrecision);
             } else {
-                this.InitHorizontalScrollbar();
+                this.InitHorizontalScrollbar(scrollPrecision);
             }
         }
     }
-    private InitHorizontalScrollbar(): void {
+    private InitHorizontalScrollbar(scrollPrecision: number): void {
         if (this._scrollBarHorizontal === null) {
             this._scrollBarHorizontal = new ScrollBar();
         }
@@ -57,7 +57,7 @@ export class BaseScrollRenderer extends BaseRenderer {
         this._scrollBarHorizontal.Orientation = Orientation.Horizontal;
         this._scrollBarHorizontal.LargeChange = 1;
         this._scrollBarHorizontal.SmallChange = 1;
-        this._scrollBarHorizontal.Maximum = 300;
+        this._scrollBarHorizontal.Maximum = scrollPrecision;
         this._scrollBarHorizontal.Minimum = 0;
         this._scrollBarHorizontal.Value = 0;
         this._scrollBarHorizontal.Height = 20;
@@ -79,7 +79,7 @@ export class BaseScrollRenderer extends BaseRenderer {
             sbParent.Platform.LoadDynamicControl(this._scrollBarHorizontal);
         }
     }
-    private InitVerticalScrollbar(): void {
+    private InitVerticalScrollbar(scrollPrecision: number): void {
         if (this._scrollBarVertical === null) {
             this._scrollBarVertical = new ScrollBar();
         }
@@ -90,7 +90,7 @@ export class BaseScrollRenderer extends BaseRenderer {
         this._scrollBarVertical.Orientation = Orientation.Vertical;
         this._scrollBarVertical.LargeChange = 1;
         this._scrollBarVertical.SmallChange = 1;
-        this._scrollBarVertical.Maximum = 300;
+        this._scrollBarVertical.Maximum = scrollPrecision;
         this._scrollBarVertical.Minimum = 0;
         this._scrollBarVertical.Value = 0;
         this._scrollBarVertical.Width = 20;
