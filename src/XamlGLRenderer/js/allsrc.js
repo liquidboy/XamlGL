@@ -6012,6 +6012,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                     super(...arguments);
                     this._listViewEl = null;
                     this._listViewElRootContainer = null;
+                    this._selected = null;
                     this._background = null;
                 }
                 Draw(r, args) {
@@ -6050,7 +6051,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                             tb.FontSize = 22;
                             tb.FontFamily = "Sans-Serif";
                             tb.Color = "black";
-                            tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                            lvi.CalculatedY = tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
                             this._listViewElRootContainer.Children.add(tb);
                             this._listViewElRootContainer.Platform.SetCurrent(tb, this._listViewElRootContainer);
                             this._listViewElRootContainer.Platform.LoadDynamicControl(tb);
@@ -6093,7 +6094,14 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                     rectangle.endFill();
                     rectangle.x = this.Element.CalculatedX + parentXYStart.X;
                     rectangle.y = this.Element.CalculatedY + parentXYStart.Y;
-                    console.log(rectangle);
+                }
+                InitSelected(rectangle, width, height, alpha) {
+                    rectangle.beginFill(RendererHelper_11.RendererHelper.HashToColorNumber(this._listViewEl.Background));
+                    rectangle.drawRect(0, 0, width - 4, height - 4);
+                    rectangle.alpha = alpha;
+                    rectangle.endFill();
+                    rectangle.x = this.Element.CalculatedX + 2;
+                    rectangle.y = this.Element.CalculatedY + 2;
                 }
             };
             exports_107("ListViewRenderer", ListViewRenderer);

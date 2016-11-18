@@ -29,7 +29,7 @@ import { RendererHelper } from "./../../../../utils/RendererHelper";
 export class ListViewRenderer extends BaseScrollRenderer implements IControlRenderer {
     private _listViewEl: ListView = null;
     private _listViewElRootContainer: StackPanel = null;
-
+    private _selected: PIXI.Graphics = null;
     private _background: PIXI.Graphics = null;
     Draw(r: IRenderer, args: IEventArgs): void {
         super.Draw(r,args);
@@ -45,6 +45,7 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             this.PixiElementMask = new PIXI.Graphics();
             this.PixiElement.mask = this.PixiElementMask;
             this._background = new PIXI.Graphics();
+            // this._selected = new PIXI.Graphics();
             this._background.mask = this.PixiElementMask;
         }
 
@@ -91,7 +92,8 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
                 tb.FontFamily = "Sans-Serif";
                 tb.Color = "black";
                 // console.log(this._listViewElRootContainer.CurrentItemRenderXY);
-                tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                lvi.CalculatedY = tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                // lvi.CalculatedX = tb.CalculatedX = this._listViewElRootContainer.CurrentItemRenderXY;
                 // tb.Parent = <FrameworkElement>this._listViewElRootContainer;
 
                 this._listViewElRootContainer.Children.add(tb);
@@ -107,18 +109,21 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
 
         this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth,
             this._listViewEl.CalculatedHeight, this._listViewEl.BackgroundAlpha);
-        
+        // this.InitSelected(this._selected, this._listViewEl.CalculatedWidth,30,0.5);
+
         // render graphics (DisplayObject) on PIXI stage
         let parentContainer: PIXI.Container = null;
         if (this.Element.Parent.Renderer === undefined) { // root panel (top of visual tree)
             this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElementMask);
             this.Element.Platform.Renderer.PixiStage.addChild(this._background);
+            // this.Element.Platform.Renderer.PixiStage.addChild(this._selected);
             this.Element.Platform.Renderer.PixiStage.addChild(this.PixiElement);
         } else {
             if (this.Element.Parent.Renderer.PixiElement && this.Element.Parent.Renderer.PixiElement instanceof PIXI.Container) {
                 parentContainer = <PIXI.Container>this.Element.Parent.Renderer.PixiElement;
                 parentContainer.addChild(this.PixiElementMask);
                 parentContainer.addChild(this._background);
+                // parentContainer.addChild(this._selected);
                 parentContainer.addChild(this.PixiElement);
             }
         }
@@ -151,7 +156,16 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
         rectangle.endFill();
         rectangle.x = this.Element.CalculatedX + parentXYStart.X; // this._listViewEl.Margin.Left;
         rectangle.y = this.Element.CalculatedY + parentXYStart.Y;  // this._listViewEl.Margin.Top;
-        console.log(rectangle);
+        // console.log(rectangle);
+    }
+    public InitSelected(rectangle: PIXI.Graphics, width: number, height: number, alpha: number): void {
+        // rectangle.lineStyle(this._listViewEl.BorderThickness.Left, RendererHelper.HashToColorNumber(this._listViewEl.BorderBrush), 1);
+        rectangle.beginFill(RendererHelper.HashToColorNumber(this._listViewEl.Background)); // 0x66CCFF);
+        rectangle.drawRect(0, 0, width - 4, height - 4);
+        rectangle.alpha = alpha;
+        rectangle.endFill();
+        rectangle.x = this.Element.CalculatedX + 2; // this._listViewEl.Margin.Left;
+        rectangle.y = this.Element.CalculatedY + 2;  // this._listViewEl.Margin.Top;
     }
 
 }
