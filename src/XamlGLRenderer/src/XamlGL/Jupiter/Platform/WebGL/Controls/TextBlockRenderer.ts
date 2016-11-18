@@ -50,7 +50,9 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         // calculate y position
         this.CalculateYHeight(textEl);
         if (textEl.Height !== null && textEl.Height > 0) {
-            // nothing
+            if (textEl.VerticalAlignment === VerticalAlignment.Center) {
+                this.Element.CalculatedY = (textEl.Height - text.height) / 2;
+            }
         } else {
             if (textEl.VerticalAlignment === VerticalAlignment.Bottom) {
                 this.Element.CalculatedY = this.Element.Parent.CalculatedHeight - text.height;
@@ -62,11 +64,14 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         // calculate X position
         this.CalculateXWidth(textEl);
         if (textEl.Width !== null && textEl.Width > 0) {
-           // nothing
+            if (textEl.HorizontalAlignment === HorizontalAlignment.Center) {
+                this.Element.CalculatedX = (textEl.Width - text.width) / 2;
+            }
         } else {
             if (textEl.HorizontalAlignment === HorizontalAlignment.Right) {
                 this.Element.CalculatedX = this.Element.Parent.CalculatedWidth - text.width;
             } else if (textEl.HorizontalAlignment === HorizontalAlignment.Center) {
+                console.log(textEl.Width);
                 this.Element.CalculatedX = (this.Element.Parent.CalculatedWidth - text.width) / 2;
             }
         }
