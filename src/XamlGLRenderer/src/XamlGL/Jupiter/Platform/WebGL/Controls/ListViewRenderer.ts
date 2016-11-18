@@ -78,37 +78,12 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
         this.PixiElementMask.drawRect(0, 0, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
         this.PixiElementMask.endFill();
 
-
         // initialize the root and children content
-        if (this._listViewEl.Children.size() > 0) {
-            this._listViewElRootContainer = <StackPanel>this._listViewEl.Content;
-            this._listViewElRootContainer.Orientation = Orientation.Vertical;
-            this._listViewElRootContainer.Renderer.InitializeResources();
-            this._listViewEl.Children.forEach(x => {
-                let lvi: ListViewItem = <ListViewItem>x;
-                let tb: TextBlock = new TextBlock();
-                tb.Text = lvi.Content;
-                tb.FontSize = 22;
-                tb.FontFamily = "Sans-Serif";
-                tb.Color = "black";
-                // console.log(this._listViewElRootContainer.CurrentItemRenderXY);
-                lvi.CalculatedY = tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
-                // lvi.CalculatedX = tb.CalculatedX = this._listViewElRootContainer.CurrentItemRenderXY;
-                // tb.Parent = <FrameworkElement>this._listViewElRootContainer;
-
-                this._listViewElRootContainer.Children.add(tb);
-
-                // add new tb to parent container and set its platform so it can render itself
-                this._listViewElRootContainer.Platform.SetCurrent(tb, this._listViewElRootContainer);
-                this._listViewElRootContainer.Platform.LoadDynamicControl(tb);
-
-                // tell the parent stackpanel the next available slot
-                // this.IncrementNextAvailableSlotOfStackPanel(this._listViewElRootContainer, this.Element.CalculatedWidth, 0);
-            });
-        }
+        this.InitListViewItems();
 
         this.InitBackground(this._background, parentXYStart, this._listViewEl.CalculatedWidth,
             this._listViewEl.CalculatedHeight, this._listViewEl.BackgroundAlpha);
+
         // this.InitSelected(this._selected, this._listViewEl.CalculatedWidth,30,0.5);
 
         // render graphics (DisplayObject) on PIXI stage
@@ -128,9 +103,12 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             }
         }
 
-        // scrollbar needs to be here so as to render above the top bits
-        this.InitScrollbar(<Panel>this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
+        if (this._listViewElRootContainer !== null) {
+            this._listViewElRootContainer.Orientation = this._listViewEl.Orientation;
 
+            // scrollbar needs to be here so as to render above the top bits
+            this.InitScrollbar(<Panel>this._listViewEl.Content, this._listViewEl.CalculatedWidth, this._listViewEl.CalculatedHeight);
+        }
     }
     RefreshUI(): void {
         // todo : fill with actual pixi draw stuff that is idempotent
@@ -146,6 +124,34 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
             // this.Element.Platform.Renderer.PixiStage.removeChild(containerMain);
             pc.removeChild(this.PixiElement);
             this.PixiElement = null;
+        }
+    }
+    public InitListViewItems(): void {
+        if (this._listViewEl.Children.size() > 0) {
+            this._listViewElRootContainer = <StackPanel>this._listViewEl.Content;
+            this._listViewElRootContainer.Orientation = Orientation.Vertical;
+            this._listViewElRootContainer.Renderer.InitializeResources();
+            this._listViewEl.Children.forEach(x => {
+                let lvi: ListViewItem = <ListViewItem>x;
+                let tb: TextBlock = new TextBlock();
+                tb.Text = lvi.Content;
+                tb.FontSize = 22;
+                tb.FontFamily = "Sans-Serif";
+                tb.Color = "black";
+                // console.log(this._listViewElRootContainer.CurrentItemRenderXY);
+                lvi.CalculatedY = tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                // lvi.CalculatedX = tb.CalculatedX = 0; // this._listViewElRootContainer.CurrentItemRenderXY;
+                // tb.Parent = <FrameworkElement>this._listViewElRootContainer;
+
+                this._listViewElRootContainer.Children.add(tb);
+
+                // add new tb to parent container and set its platform so it can render itself
+                this._listViewElRootContainer.Platform.SetCurrent(tb, this._listViewElRootContainer);
+                this._listViewElRootContainer.Platform.LoadDynamicControl(tb);
+
+                // tell the parent stackpanel the next available slot
+                // this.IncrementNextAvailableSlotOfStackPanel(this._listViewElRootContainer, this.Element.CalculatedWidth, 0);
+            });
         }
     }
     public InitBackground(rectangle: PIXI.Graphics, parentXYStart: Point, width: number, height: number, alpha: number): void {

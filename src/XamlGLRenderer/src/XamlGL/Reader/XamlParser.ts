@@ -339,6 +339,7 @@ export class XamlParser {
             ctl.Margin = this.StringToThickness(node.attributes.getNamedItem("Margin"));
             ctl.Width = this.StringToNumber(node.attributes.getNamedItem("Width"));
             ctl.Height = this.StringToNumber(node.attributes.getNamedItem("Height"));
+            ctl.Orientation = this.StringToOrientation(node.attributes.getNamedItem("Orientation"));
             return ctl;
         } else if (node.nodeName === "ScrollViewer") {
             let ctl: ScrollViewer = new ScrollViewer();
