@@ -6083,7 +6083,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                 InitListViewItems() {
                     if (this._listViewEl.Children.size() > 0) {
                         this._listViewElRootContainer = this._listViewEl.Content;
-                        this._listViewElRootContainer.Orientation = Orientation_4.Orientation.Vertical;
+                        this._listViewElRootContainer.Orientation = this._listViewEl.Orientation;
                         this._listViewElRootContainer.Renderer.InitializeResources();
                         this._listViewEl.Children.forEach(x => {
                             let lvi = x;
@@ -6092,8 +6092,16 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                             tb.FontSize = 22;
                             tb.FontFamily = "Sans-Serif";
                             tb.Color = "black";
-                            tb.CalculatedY = 0;
-                            lvi.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                            if (this._listViewEl.Orientation === Orientation_4.Orientation.Vertical) {
+                                tb.CalculatedX = 0;
+                                tb.CalculatedY = 0;
+                                lvi.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                            }
+                            else {
+                                tb.CalculatedY = 0;
+                                tb.CalculatedX = 0;
+                                lvi.CalculatedX = this._listViewElRootContainer.CurrentItemRenderXY;
+                            }
                             this._listViewElRootContainer.Children.add(tb);
                             this._listViewElRootContainer.Platform.SetCurrent(tb, this._listViewElRootContainer);
                             this._listViewElRootContainer.Platform.LoadDynamicControl(tb);

@@ -129,7 +129,7 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
     public InitListViewItems(): void {
         if (this._listViewEl.Children.size() > 0) {
             this._listViewElRootContainer = <StackPanel>this._listViewEl.Content;
-            this._listViewElRootContainer.Orientation = Orientation.Vertical;
+            this._listViewElRootContainer.Orientation = this._listViewEl.Orientation; // Orientation.Vertical;
             this._listViewElRootContainer.Renderer.InitializeResources();
             this._listViewEl.Children.forEach(x => {
                 let lvi: ListViewItem = <ListViewItem>x;
@@ -144,8 +144,18 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
                 // tb.HorizontalAlignment = HorizontalAlignment.Center;
                 // tb.VerticalAlignment = VerticalAlignment.Top;
                 // tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
-                tb.CalculatedY = 0; // <== this is needed as the currentitemrenderxy doubles up with calculatedx y .. need to fix this in the long run
-                lvi.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+
+                if (this._listViewEl.Orientation === Orientation.Vertical) {
+                    tb.CalculatedX = 0;
+                    tb.CalculatedY = 0; // <== this is needed as the currentitemrenderxy doubles up with calculatedx y .. need to fix this in the long run
+                    lvi.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                } else {
+                    tb.CalculatedY = 0;
+                    tb.CalculatedX = 0; // <== this is needed as the currentitemrenderxy doubles up with calculatedx y .. need to fix this in the long run
+                    lvi.CalculatedX = this._listViewElRootContainer.CurrentItemRenderXY;
+                }
+                // console.log(this._listViewElRootContainer.CurrentItemRenderXY);
+                
                 // lvi.CalculatedX = tb.CalculatedX = 0; // this._listViewElRootContainer.CurrentItemRenderXY;
                 // tb.Parent = <FrameworkElement>this._listViewElRootContainer;
 
