@@ -9,6 +9,7 @@ import { BaseRenderer } from "./BaseRenderer";
 import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { TextBlock } from "./../../../Controls/TextBlock";
 // import { StackPanel } from "./../../../../Controls/StackPanel";
+// import { Panel } from "./../../../Controls/Panel";
 // import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
@@ -60,7 +61,7 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
                 this.Element.CalculatedY = (this.Element.Parent.CalculatedHeight - text.height) / 2;
             }
         }
-
+        
         // calculate X position
         this.CalculateXWidth(textEl);
         if (textEl.Width !== null && textEl.Width > 0) {
@@ -84,6 +85,7 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
 
         // position text
         text.position.set(this.Element.CalculatedX + parentXYStart.X, this.Element.CalculatedY + parentXYStart.Y);
+        
         parentContainer.addChild(text);
         this.Element.CalculatedHeight = text.height;
         this.Element.CalculatedWidth = text.width;

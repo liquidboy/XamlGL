@@ -135,7 +135,7 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
                 let lvi: ListViewItem = <ListViewItem>x;
                 let tb: TextBlock = new TextBlock();
                 tb.Text = lvi.Content;
-                tb.FontSize = 16;
+                tb.FontSize = 22;
                 tb.FontFamily = "Sans-Serif";
                 tb.Color = "black";
                 // tb.Parent = this._listViewEl;
@@ -143,7 +143,9 @@ export class ListViewRenderer extends BaseScrollRenderer implements IControlRend
                 // tb.Height = 50;
                 // tb.HorizontalAlignment = HorizontalAlignment.Center;
                 // tb.VerticalAlignment = VerticalAlignment.Top;
-                lvi.CalculatedY = tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                // tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                tb.CalculatedY = 0; // <== this is needed as the currentitemrenderxy doubles up with calculatedx y .. need to fix this in the long run
+                lvi.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
                 // lvi.CalculatedX = tb.CalculatedX = 0; // this._listViewElRootContainer.CurrentItemRenderXY;
                 // tb.Parent = <FrameworkElement>this._listViewElRootContainer;
 

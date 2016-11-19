@@ -247,6 +247,7 @@ export class BaseRenderer implements IControlRenderer {
             sp.CurrentItemRenderXY += slotHeight
                 + ((this.Element.Margin === undefined) ? 0 : (this.Element.Margin.Top + this.Element.Margin.Bottom));
         }
+        // console.log(sp.CurrentItemRenderXY);
     }
 
     public GeneralShowTooltip(position: DockPosition, backgroundColor: string, borderColor: string, x: number, y: number, width: number,

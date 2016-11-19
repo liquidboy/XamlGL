@@ -6089,10 +6089,11 @@ System.register("XamlGL/Jupiter/Platform/WebGL/Controls/ListViewRenderer", ["Xam
                             let lvi = x;
                             let tb = new TextBlock_1.TextBlock();
                             tb.Text = lvi.Content;
-                            tb.FontSize = 16;
+                            tb.FontSize = 22;
                             tb.FontFamily = "Sans-Serif";
                             tb.Color = "black";
-                            lvi.CalculatedY = tb.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
+                            tb.CalculatedY = 0;
+                            lvi.CalculatedY = this._listViewElRootContainer.CurrentItemRenderXY;
                             this._listViewElRootContainer.Children.add(tb);
                             this._listViewElRootContainer.Platform.SetCurrent(tb, this._listViewElRootContainer);
                             this._listViewElRootContainer.Platform.LoadDynamicControl(tb);
