@@ -5,7 +5,7 @@ import { DefaultRenderer } from "./../Jupiter/Platform/WebGL/Controls/DefaultRen
 import { EventDispatcher } from "./../Events/EventDispatcher";
 import { IEvent } from "./../Events/IEvent";
 import { IEventArgs } from "./../Events/IEventArgs";
-import { IRenderer } from "./../Jupiter/Platform/IRenderer";
+import { IRendererBase } from "./../Jupiter/Platform/IRendererBase";
 import { KeyPressedEventArgs } from "./../Events/KeyPressedEventArgs";
 
 import { Grid } from "./../Jupiter/Controls/Grid";
@@ -120,7 +120,7 @@ export class RendererHelper {
 
     private static _cursorToAutoTimer = 0;
     private static _currentCursor = "auto";
-    public static SetCursorToAuto(r: IRenderer): void {
+    public static SetCursorToAuto(r: IRendererBase): void {
         if (this._currentCursor === "auto") {
             clearTimeout(this._cursorToAutoTimer);
             return;
@@ -134,7 +134,7 @@ export class RendererHelper {
             this._currentCursor = r.Pointer.cursor = "auto"; this._cursorToAutoTimer = 0;
         }, 200);
     }
-    public static SetCursorToPointer(r: IRenderer): void {
+    public static SetCursorToPointer(r: IRendererBase): void {
         if (this._cursorToAutoTimer > 0) {
             clearTimeout(this._cursorToAutoTimer);
         }

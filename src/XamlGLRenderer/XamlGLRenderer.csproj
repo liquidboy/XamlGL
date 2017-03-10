@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -165,6 +165,7 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToggleSwitchRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToggleRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PathRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\IRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Shape.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\IconElement.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapImage.ts" />
@@ -197,7 +198,7 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\IFrameworkElement.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\IView.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\IUIElement.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IRendererBase.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IPlatform.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Platform.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\FrameworkElement.ts" />

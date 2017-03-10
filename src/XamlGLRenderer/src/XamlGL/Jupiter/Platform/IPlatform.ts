@@ -1,11 +1,11 @@
-﻿import { IRenderer } from "./IRenderer";
+﻿import { IRendererBase } from "./IRendererBase";
 // import { IUIElement } from "./../IUIElement";
 import { IControlRenderer } from "./IControlRenderer";
 import { IFrameworkElement } from "./../IFrameworkElement";
 import { FrameworkElement } from "./../FrameworkElement";
 
 export interface IPlatform {
-    Renderer: IRenderer;
+    Renderer: IRendererBase;
 
     InitializeResources(content: FrameworkElement): void;
     LoadDynamicControl(content: IFrameworkElement): void;

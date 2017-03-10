@@ -16,7 +16,7 @@ import { DropdownList } from "./../../../Controls/DropdownList";
 import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 // import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
-import { IRenderer } from "./../../IRenderer";
+import { IRenderer } from "./../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class DropdownListRenderer extends BaseRenderer implements IControlRenderer {

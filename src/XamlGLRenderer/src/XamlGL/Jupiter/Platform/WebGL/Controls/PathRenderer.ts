@@ -21,7 +21,7 @@ import { Path } from "./../../../Controls/Path";
 // import { SweepDirection } from "./../../../../DataTypes/SweepDirection";
 // import { Size } from "./../../../../DataTypes/Size";
 // import { Orientation } from "./../../../../DataTypes/Orientation";
-import { IRenderer } from "./../../IRenderer";
+import { IRenderer } from "./../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 import { MiniPathLanguageHelper } from "./../../../../utils/MiniPathLanguageHelper";

@@ -1,7 +1,7 @@
 ﻿/// <reference path="../../../../../typings/globals/pixi.js/index.d.ts" />
 
 import { Guid } from "./../../../DataTypes/Guid";
-import { IRenderer } from "./../IRenderer";
+import { IRenderer } from "./IRenderer";
 import { PlatformPage } from "./PlatformPage";
 // import { FrameworkElement } from "./../../FrameworkElement";
 import { Dictionary } from "../../../../Libs/typescript-collections/src/lib/index";

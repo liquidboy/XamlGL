@@ -16,7 +16,7 @@ import { Orientation } from "./../../../../DataTypes/Orientation";
 import { Point } from "./../../../../DataTypes/Point";
 // import { TextWrapping } from "./../../../../DataTypes/TextWrapping";
 // import { TextWrappingAlign } from "./../../../../DataTypes/TextWrappingAlign";
-import { IRenderer } from "./../../IRenderer";
+import { IRenderer } from "./../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { EventDispatcher } from "./../../../../Events/EventDispatcher";

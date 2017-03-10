@@ -11,7 +11,7 @@ import { ConsoleHelper } from "./../../../../utils/ConsoleHelper";
 import { RendererHelper } from "./../../../../utils/RendererHelper";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 // import { VerticalAlignment } from "./../../../../DataTypes/VerticalAlignment";
-import { IRenderer } from "./../../IRenderer";
+import { IRenderer } from "./../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 import { Point } from "./../../../../DataTypes/Point";
 

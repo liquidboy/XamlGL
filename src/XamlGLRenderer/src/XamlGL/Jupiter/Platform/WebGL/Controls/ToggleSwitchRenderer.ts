@@ -1,6 +1,6 @@
 ﻿import { IControlRenderer } from "./../../IControlRenderer";
 import { BaseRenderer } from "./BaseRenderer";
-import { IRenderer } from "./../../IRenderer";
+import { IRenderer } from "./../IRenderer";
 // import { Renderer } from "./../Renderer";
 // import { VisualElementChangedEventArgs } from "./../../IFrameworkElementRenderer";
 import { FrameworkElementCollection } from "./../../../FrameworkElementCollection";

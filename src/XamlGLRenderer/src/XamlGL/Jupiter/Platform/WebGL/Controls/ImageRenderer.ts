@@ -13,7 +13,7 @@ import { Image } from "./../../../Controls/Image";
 // import { HorizontalAlignment } from "./../../../../DataTypes/HorizontalAlignment";
 import { Point } from "./../../../../DataTypes/Point";
 // import { Orientation } from "./../../../../DataTypes/Orientation";
-import { IRenderer } from "./../../IRenderer";
+import { IRenderer } from "./../IRenderer";
 import { IEventArgs } from "./../../../../Events/IEventArgs";
 
 export class ImageRenderer extends BaseRenderer implements IControlRenderer {

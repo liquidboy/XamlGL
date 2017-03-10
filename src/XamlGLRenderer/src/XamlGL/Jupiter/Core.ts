@@ -24,7 +24,7 @@ export * from "./Platform/WebGL/PlatformPage";
 
 export * from "./Platform/IPlatform";
 export * from "./Platform/IPlatformPage";
-export * from "./Platform/IRenderer";
+export * from "./Platform/IRendererBase";
 export * from "./Platform/IImageRenderer";
 export * from "./Platform/IControlRenderer";
 
