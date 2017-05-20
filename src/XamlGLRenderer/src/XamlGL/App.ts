@@ -1,4 +1,5 @@
-﻿import { PlatformPage } from "./Jupiter/Platform/WebGL/PlatformPage";
+﻿//import { PlatformPage } from "./Jupiter/Platform/Html/PlatformPage";
+import { PlatformPage } from "./Jupiter/Platform/WebGL/PlatformPage";
 import { ViewManager } from "./ViewManager";
 import { Application } from "./Jupiter/Application";
 import { XamlMarkup } from "./Reader/XamlMarkup";

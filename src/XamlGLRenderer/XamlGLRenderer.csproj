@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -151,6 +151,10 @@
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Geometry.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\ITooltip.ts" />
     <TypeScriptCompile Include="src\XamlGL\Events\KeyPressedEventArgs.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\IRenderer.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\Platform.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\PlatformPage.ts" />
+    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\Renderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\BaseScrollRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DropdownListRenderer.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ScrollViewerRenderer.ts" />
@@ -358,6 +362,7 @@
   <ItemGroup>
     <Folder Include="bower_components\" />
     <Folder Include="node_modules\" />
+    <Folder Include="src\XamlGL\Jupiter\Platform\Html\Controls\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
