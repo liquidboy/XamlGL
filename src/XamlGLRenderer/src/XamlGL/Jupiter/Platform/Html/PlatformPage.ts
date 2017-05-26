@@ -13,19 +13,19 @@ import { XamlParser } from "./../../../Reader/XamlParser";
 import { ConsoleHelper } from "./../../../utils/ConsoleHelper";
 import { VisualTreeHelper } from "./../../../utils/VisualTreeHelper";
 
-export class PlatformPage extends Page implements IPlatformPage {
+export class HtmlPlatformPage extends Page implements IPlatformPage {
 
-    private _events: EventList<PlatformPage, WindowEventArgs> = new EventList<PlatformPage, WindowEventArgs>();
+    private _events: EventList<IPlatformPage, WindowEventArgs> = new EventList<IPlatformPage, WindowEventArgs>();
 
     private _antialias: boolean;
     private _transparent: boolean;
     private _htmlCanvasHost: JQuery;
     private _xaml: XamlMarkup;
 
-    get Activated(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Activated"); }
-    get Closed(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("Closed"); }
-    get SizeChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("SizeChanged"); }
-    get VisibilityChanged(): IEvent<PlatformPage, WindowEventArgs> { return this._events.get("VisibilityChanged"); }
+    get Activated(): IEvent<IPlatformPage, WindowEventArgs> { return this._events.get("Activated"); }
+    get Closed(): IEvent<IPlatformPage, WindowEventArgs> { return this._events.get("Closed"); }
+    get SizeChanged(): IEvent<IPlatformPage, WindowEventArgs> { return this._events.get("SizeChanged"); }
+    get VisibilityChanged(): IEvent<IPlatformPage, WindowEventArgs> { return this._events.get("VisibilityChanged"); }
 
     constructor(width: number, height: number, antialias: boolean, transparent: boolean,
         htmlCanvasHost: JQuery, xaml: XamlMarkup) {
@@ -95,7 +95,7 @@ export class PlatformPage extends Page implements IPlatformPage {
 
     private DoContentChanged(obj: IFrameworkElement, ea: IEventArgs): void {
         ConsoleHelper.Log("PlatformPage.DoContentChanged");
-        let pp: PlatformPage = <PlatformPage>obj;
+        let pp: any = <HtmlPlatformPage>obj;
         pp.Platform.SetCurrent(<FrameworkElement>pp.Content, this);
 
         ConsoleHelper.LogSectionHeader("DrawAll");

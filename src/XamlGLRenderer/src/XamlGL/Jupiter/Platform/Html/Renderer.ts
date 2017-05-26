@@ -1,6 +1,6 @@
 ﻿import { Guid } from "./../../../DataTypes/Guid";
 import { IRenderer } from "./IRenderer";
-import { PlatformPage } from "./PlatformPage";
+import { HtmlPlatformPage } from "./PlatformPage";
 // import { FrameworkElement } from "./../../FrameworkElement";
 import { Dictionary } from "../../../../Libs/typescript-collections/src/lib/index";
 import { ConsoleHelper } from "./../../../Utils/ConsoleHelper";
@@ -71,7 +71,7 @@ export class Renderer implements IRenderer {
         document.body.style.overflow = "hidden";
 
         let win: any = window;
-        let pp: PlatformPage = win.PlatformPage;
+        let pp: HtmlPlatformPage = win.PlatformPage;
         pp.Width = window.innerWidth;
         pp.Height = height;
     }
