@@ -1,9 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25302.0
+VisualStudioVersion = 15.0.26823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlGLRenderer", "XamlGLRenderer\XamlGLRenderer.csproj", "{F1C130E8-0891-433C-9F37-123A6B653C36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlNGRenderer", "XamlNGRenderer\XamlNGRenderer.csproj", "{445367AE-7F4C-49A6-BE3C-FC5DA9CECBC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlRRenderer", "XamlRRenderer\XamlRRenderer.csproj", "{17716511-1304-49AF-A677-34C02B1ECADE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlRenderer", "XamlRenderer\XamlRenderer.csproj", "{7D6E4EA0-269C-4B2D-AF92-170C1450C3B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlWRenderer", "XamlWRenderer\XamlWRenderer.csproj", "{04A48091-A216-49E0-B4BB-65F3D5EF5F8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlAzRenderer", "XamlAzRenderer\XamlAzRenderer.csproj", "{8DB037AE-3035-4E04-8743-FAF377B4C6FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +25,31 @@ Global
 		{F1C130E8-0891-433C-9F37-123A6B653C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1C130E8-0891-433C-9F37-123A6B653C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1C130E8-0891-433C-9F37-123A6B653C36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445367AE-7F4C-49A6-BE3C-FC5DA9CECBC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445367AE-7F4C-49A6-BE3C-FC5DA9CECBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445367AE-7F4C-49A6-BE3C-FC5DA9CECBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445367AE-7F4C-49A6-BE3C-FC5DA9CECBC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17716511-1304-49AF-A677-34C02B1ECADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17716511-1304-49AF-A677-34C02B1ECADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17716511-1304-49AF-A677-34C02B1ECADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17716511-1304-49AF-A677-34C02B1ECADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D6E4EA0-269C-4B2D-AF92-170C1450C3B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D6E4EA0-269C-4B2D-AF92-170C1450C3B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D6E4EA0-269C-4B2D-AF92-170C1450C3B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D6E4EA0-269C-4B2D-AF92-170C1450C3B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04A48091-A216-49E0-B4BB-65F3D5EF5F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04A48091-A216-49E0-B4BB-65F3D5EF5F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04A48091-A216-49E0-B4BB-65F3D5EF5F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04A48091-A216-49E0-B4BB-65F3D5EF5F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DB037AE-3035-4E04-8743-FAF377B4C6FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DB037AE-3035-4E04-8743-FAF377B4C6FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DB037AE-3035-4E04-8743-FAF377B4C6FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DB037AE-3035-4E04-8743-FAF377B4C6FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6FC6D67A-3F30-4F8A-9C80-491C3F1FB879}
 	EndGlobalSection
 EndGlobal

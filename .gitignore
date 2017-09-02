@@ -40,3 +40,9 @@ src/XamlGLRenderer/js/*.ts
 src/XamlGLRenderer/js/*.js.map
 src/UpgradeLog*
 src/packages/*
+/src/XamlAzRenderer/wwwroot/*
+/src/XamlWRenderer/wwwroot/*
+/src/XamlAzRenderer/Properties/PublishProfiles/*
+/src/.vs/*
+/src/XamlRRenderer/wwwroot/*
+/src/XamlNGRenderer/wwwroot/*

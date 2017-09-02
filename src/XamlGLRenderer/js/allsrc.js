@@ -4813,7 +4813,7 @@ System.register("XamlGL/Reader/XamlParser", ["XamlGL/Jupiter/Controls/Grid", "Xa
 System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/WebGL/Platform", "XamlGL/Events/EventList", "XamlGL/Reader/XamlParser", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/VisualTreeHelper"], function (exports_90, context_90) {
     "use strict";
     var __moduleName = context_90 && context_90.id;
-    var Page_1, Platform_1, EventList_2, XamlParser_1, ConsoleHelper_7, VisualTreeHelper_2, WebGLPlatformPage, WindowEventArgs;
+    var Page_1, Platform_1, EventList_2, XamlParser_1, ConsoleHelper_7, VisualTreeHelper_2, PlatformPage, WindowEventArgs;
     return {
         setters: [
             function (Page_1_1) {
@@ -4836,7 +4836,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/P
             }
         ],
         execute: function () {
-            WebGLPlatformPage = class WebGLPlatformPage extends Page_1.Page {
+            PlatformPage = class PlatformPage extends Page_1.Page {
                 constructor(width, height, antialias, transparent, htmlCanvasHost, xaml) {
                     super();
                     this._events = new EventList_2.EventList();
@@ -4921,7 +4921,7 @@ System.register("XamlGL/Jupiter/Platform/WebGL/PlatformPage", ["XamlGL/Jupiter/P
                 SetTitleBar(value) {
                 }
             };
-            exports_90("WebGLPlatformPage", WebGLPlatformPage);
+            exports_90("PlatformPage", PlatformPage);
             WindowEventArgs = class WindowEventArgs {
             };
             exports_90("WindowEventArgs", WindowEventArgs);
@@ -7988,7 +7988,7 @@ System.register("XamlGL/Jupiter/Platform/Html/Platform", ["XamlGL/Jupiter/Platfo
 System.register("XamlGL/Jupiter/Platform/Html/PlatformPage", ["XamlGL/Jupiter/Page", "XamlGL/Jupiter/Platform/Html/Platform", "XamlGL/Events/EventList", "XamlGL/Reader/XamlParser", "XamlGL/Utils/ConsoleHelper", "XamlGL/Utils/VisualTreeHelper"], function (exports_126, context_126) {
     "use strict";
     var __moduleName = context_126 && context_126.id;
-    var Page_3, Platform_3, EventList_3, XamlParser_2, ConsoleHelper_26, VisualTreeHelper_5, HtmlPlatformPage, WindowEventArgs;
+    var Page_3, Platform_3, EventList_3, XamlParser_2, ConsoleHelper_26, VisualTreeHelper_5, PlatformPage, WindowEventArgs;
     return {
         setters: [
             function (Page_3_1) {
@@ -8011,7 +8011,7 @@ System.register("XamlGL/Jupiter/Platform/Html/PlatformPage", ["XamlGL/Jupiter/Pa
             }
         ],
         execute: function () {
-            HtmlPlatformPage = class HtmlPlatformPage extends Page_3.Page {
+            PlatformPage = class PlatformPage extends Page_3.Page {
                 constructor(width, height, antialias, transparent, htmlCanvasHost, xaml) {
                     super();
                     this._events = new EventList_3.EventList();
@@ -8096,7 +8096,7 @@ System.register("XamlGL/Jupiter/Platform/Html/PlatformPage", ["XamlGL/Jupiter/Pa
                 SetTitleBar(value) {
                 }
             };
-            exports_126("HtmlPlatformPage", HtmlPlatformPage);
+            exports_126("PlatformPage", PlatformPage);
             WindowEventArgs = class WindowEventArgs {
             };
             exports_126("WindowEventArgs", WindowEventArgs);
@@ -8135,7 +8135,7 @@ System.register("XamlGL/ViewManager", [], function (exports_127, context_127) {
         }
     };
 });
-System.register("XamlGL/App", ["XamlGL/Jupiter/Platform/WebGL/PlatformPage", "XamlGL/ViewManager", "XamlGL/Jupiter/Application"], function (exports_128, context_128) {
+System.register("XamlGL/App", ["XamlGL/Jupiter/Platform/Html/PlatformPage", "XamlGL/ViewManager", "XamlGL/Jupiter/Application"], function (exports_128, context_128) {
     "use strict";
     var __moduleName = context_128 && context_128.id;
     var PlatformPage_2, ViewManager_1, Application_2, App;
@@ -8172,7 +8172,7 @@ System.register("XamlGL/App", ["XamlGL/Jupiter/Platform/WebGL/PlatformPage", "Xa
                     this._platformPage.IsLoading = false;
                 }
                 SetupWindow(htmlCanvasHost, xaml) {
-                    this._platformPage = new PlatformPage_2.WebGLPlatformPage(512, 512, true, false, htmlCanvasHost, xaml);
+                    this._platformPage = new PlatformPage_2.PlatformPage(512, 512, true, false, htmlCanvasHost, xaml);
                 }
             };
             exports_128("App", App);
