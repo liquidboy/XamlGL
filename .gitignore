@@ -46,3 +46,4 @@ src/packages/*
 /src/.vs/*
 /src/XamlRRenderer/wwwroot/*
 /src/XamlNGRenderer/wwwroot/*
+/src/XamlAzRenderer/node_modules/*
