@@ -14,4 +14,6 @@ if (module['hot']) {
     
 }
 
-let startup: AppModule = new AppModule();
+window.onload = function (e) {
+    window["mainApp"]  = new AppModule();
+}

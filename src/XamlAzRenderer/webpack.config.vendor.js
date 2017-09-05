@@ -20,6 +20,8 @@ module.exports = (env) => {
                 'bootstrap/dist/css/bootstrap.css',
                 'event-source-polyfill',
                 'jquery',
+
+                'clamp',
             ]
         },
         output: {
