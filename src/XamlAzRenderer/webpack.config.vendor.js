@@ -22,6 +22,8 @@ module.exports = (env) => {
                 'jquery',
 
                 'clamp',
+                'gl-mat4',
+                'gl-texture2d'
             ]
         },
         output: {
