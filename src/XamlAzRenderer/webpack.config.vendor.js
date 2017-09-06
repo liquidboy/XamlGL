@@ -23,7 +23,11 @@ module.exports = (env) => {
 
                 'clamp',
                 'gl-mat4',
-                'gl-texture2d'
+                'gl-vec3',
+                'gl-geometry',
+                'gl-shader',
+                'gl-texture2d',
+                'gl-now'
             ]
         },
         output: {
