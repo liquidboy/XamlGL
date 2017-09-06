@@ -29,7 +29,8 @@ module.exports = (env) => {
                 'gl-texture2d',
                 'gl-now',
                 'hash-string',
-                'gl-buffer'
+                'gl-buffer',
+                'ndpack-image'
             ]
         },
         output: {

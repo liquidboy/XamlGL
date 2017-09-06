@@ -34,11 +34,18 @@ export class AppModule {
     }
 
     public InitGui(gl: any): void {
+        /* single shader renders the GUI. */
         let shader = createShader(gl, AppModuleShared.vert, AppModuleShared.frag);
+
+        /* buffers contain all the geometry data. */
         let positionBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
         let colorBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
         let uvBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
         let indexBufferObject = createBuffer(gl, [], gl.ELEMENT_ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+        
+        let fontAtlasTexture: any = createTexture(gl, AppModuleShared.fontAtlas);
+        fontAtlasTexture.magFilter = gl.LINEAR;
+        fontAtlasTexture.minFilter = gl.LINEAR;
     }
 
     public InitShell(): any {
