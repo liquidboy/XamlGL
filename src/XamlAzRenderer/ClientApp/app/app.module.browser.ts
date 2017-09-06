@@ -8,6 +8,7 @@ import * as createBuffer from 'gl-buffer';
 import * as createTexture from 'gl-texture2d';
 import * as glShell from 'gl-now';
 import { AppModuleShared } from './app.module.shared';
+import { Gui } from './components/gui';
 
 export class AppModule {
     mouseLeftDownPrev: boolean = false;
@@ -34,6 +35,9 @@ export class AppModule {
     }
 
     public InitGui(gl: any): void {
+
+        let gui: Gui = new Gui();
+
         /* single shader renders the GUI. */
         let shader = createShader(gl, AppModuleShared.vert, AppModuleShared.frag);
 
@@ -46,6 +50,10 @@ export class AppModule {
         let fontAtlasTexture: any = createTexture(gl, AppModuleShared.fontAtlas);
         fontAtlasTexture.magFilter = gl.LINEAR;
         fontAtlasTexture.minFilter = gl.LINEAR;
+
+        
+
+
     }
 
     public InitShell(): any {
