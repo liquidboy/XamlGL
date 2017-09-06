@@ -2,18 +2,21 @@ import * as clamp from 'clamp';
 import * as mat4 from 'gl-mat4';
 import * as vec3 from 'gl-vec3';
 import * as Geometry from 'gl-geometry';
-import * as glShader from 'gl-shader';
+import * as createShader from 'gl-shader';
+import * as hashString from 'hash-string';
+import * as createBuffer from 'gl-buffer';
 import * as createTexture from 'gl-texture2d';
 import * as glShell from 'gl-now';
 import { AppModuleShared } from './app.module.shared';
 
 export class AppModule {
     mouseLeftDownPrev: boolean = false;
+
     public TestClamp(): Number {
         var t = clamp(0.65, 0, 1.0);
         return t;
     }
-
+    
     public TestMat4(): void {
         let projection = mat4.create();
         let canvasWidth: number = 400;
@@ -25,14 +28,26 @@ export class AppModule {
         let ct = createTexture(null, null);
     }
 
-    public InitShell(): void {
+    public TestHashString(value: string): string {
+        let ct = hashString(value);
+        return ct; 
+    }
+
+    public InitGui(gl: any): void {
+        let shader = createShader(gl, AppModuleShared.vert, AppModuleShared.frag);
+        let positionBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+        let colorBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+        let uvBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+        let indexBufferObject = createBuffer(gl, [], gl.ELEMENT_ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+    }
+
+    public InitShell(): any {
         let shell = glShell();
         shell.on("gl-init", () => {
             let gl = shell.gl;
             gl.enable(gl.DEPTH_TEST);
             gl.enable(gl.CULL_FACE);
-
-
+            this.InitGui(gl);
         });
         shell.on("gl-render", () => {
 
@@ -53,6 +68,7 @@ export class AppModule {
 
     constructor() {
         console.log(this.TestClamp());
+        console.log(this.TestHashString("testing this string as a hash"));
         this.TestMat4();
         // this.TestCreateTexture();
         this.InitShell();

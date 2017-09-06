@@ -27,7 +27,9 @@ module.exports = (env) => {
                 'gl-geometry',
                 'gl-shader',
                 'gl-texture2d',
-                'gl-now'
+                'gl-now',
+                'hash-string',
+                'gl-buffer'
             ]
         },
         output: {
