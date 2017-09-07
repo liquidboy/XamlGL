@@ -4,14 +4,42 @@ import * as vec3 from 'gl-vec3';
 import * as Geometry from 'gl-geometry';
 import * as createShader from 'gl-shader';
 import * as hashString from 'hash-string';
+import * as bunny from 'bunny';
+import * as boundingBox from 'vertices-bounding-box';
+import * as transform from 'geo-3d-transform-mat4';
 import * as createBuffer from 'gl-buffer';
 import * as createTexture from 'gl-texture2d';
+import * as createOrbitCamera from 'orbit-camera';
+import * as cameraPosFromViewMatrix from 'gl-camera-pos-from-view-matrix';
 import * as glShell from 'gl-now';
+import * as normals from 'normals';
 import { AppModuleShared } from './app.module.shared';
 import { Gui } from './components/gui';
 
 export class AppModule {
     mouseLeftDownPrev: boolean = false;
+    bg: any = [0.6, 0.7, 1.0]; // clear color.
+    camera: any = createOrbitCamera([0, -1000, 0], [0, 0, 0], [0, 1, 0]);
+
+    demo1DiffuseColor: any = [0.42, 0.34, 0.0];
+    demo1AmbientLight: any  = [0.77, 0.72, 0.59];
+    demo1LightColor: any  = [0.40, 0.47, 0.0];
+    demo1SunDir: any  = [-0.69, 1.33, 0.57];
+    demo1SpecularPower: any  = { val: 12.45 };
+    demo1HasSpecular: any  = { val: true };
+    // demo1RenderModel = { val: RENDER_BUNNY };
+    demo2AmbientLight: any  = [0.85, 0.52, 0.66];
+    demo2LightColor: any  = [0.38, 0.44, 0.03];
+    demo2SunDir: any  = [1.35, 0.61, 1.12];
+    demo2SnowColor: any  = [0.6, 0.6, 0.6];
+    demo2GrassColor: any  = [0.12, 0.34, 0.12];
+    demo2SandColor: any  = [0.50, 0.4, 0.21];
+    demo2HeightScale: any  = { val: 200.0 };
+    demo2NoiseScale: any  = { val: 2.0 };
+    demo2HeightmapPosition: any  = [0.0, 0.0];
+    demo2TextureNoiseScale: any  = { val: 0.3 };
+    demo2TextureNoiseStrength: any  = { val: 0.01 };
+
 
     public TestClamp(): Number {
         var t = clamp(0.65, 0, 1.0);
@@ -36,26 +64,26 @@ export class AppModule {
 
     public InitGui(gl: any): void {
 
-        let gui: Gui = new Gui();
-
-        /* single shader renders the GUI. */
-        let shader = createShader(gl, AppModuleShared.vert, AppModuleShared.frag);
-
-        /* buffers contain all the geometry data. */
-        let positionBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
-        let colorBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
-        let uvBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
-        let indexBufferObject = createBuffer(gl, [], gl.ELEMENT_ARRAY_BUFFER, gl.DYNAMIC_DRAW);
-        
-        let fontAtlasTexture: any = createTexture(gl, AppModuleShared.fontAtlas);
-        fontAtlasTexture.magFilter = gl.LINEAR;
-        fontAtlasTexture.minFilter = gl.LINEAR;
-
-        
-
-
+        let gui: Gui = new Gui(gl);
+        gui.windowSizes = [360, 580];
     }
 
+    private centerGeometry(geo, scale): void {
+
+        // Calculate the bounding box.
+        var bb = boundingBox(geo.positions);
+
+        // Translate the geometry center to the origin.
+        var translate = [-0.5 * (bb[0][0] + bb[1][0]), -0.5 * (bb[0][1] + bb[1][1]), -0.5 * (bb[0][2] + bb[1][2])];
+        var m = mat4.create();
+        mat4.scale(m, m, [scale, scale, scale]);
+        mat4.translate(m, m, translate);
+
+        geo.positions = transform(geo.positions, m)
+    }
+
+    private bunnyGeo: any;
+    private demo1Shader: any;
     public InitShell(): any {
         let shell = glShell();
         shell.on("gl-init", () => {
@@ -63,8 +91,47 @@ export class AppModule {
             gl.enable(gl.DEPTH_TEST);
             gl.enable(gl.CULL_FACE);
             this.InitGui(gl);
+
+            this.centerGeometry(bunny, 80.0);
+            this.bunnyGeo = Geometry(gl)
+                .attr('aPosition', bunny.positions)
+                .attr('aNormal', normals.vertexNormals(bunny.cells, bunny.positions))
+                .faces(bunny.cells)
+
+            let sdr: any = createShader(gl, AppModuleShared.demo1Vert, AppModuleShared.demo1Frag);
+            this.demo1Shader = sdr;
         });
         shell.on("gl-render", () => {
+            var gl = shell.gl
+            var canvas = shell.canvas;
+
+            gl.clearColor(this.bg[0], this.bg[1], this.bg[2], 1);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            gl.viewport(0, 0, canvas.width, canvas.height);
+
+            let model = mat4.create();
+            let projection = mat4.create();
+            let scratchMat = mat4.create();
+            let view = this.camera.view(scratchMat);
+            let scratchVec = vec3.create();
+
+            mat4.perspective(projection, Math.PI / 2, canvas.width / canvas.height, 0.1, 10000.0);
+
+
+            this.demo1Shader.bind();
+
+            this.demo1Shader.uniforms.uView = view;
+            this.demo1Shader.uniforms.uProjection = projection;
+            this.demo1Shader.uniforms.uDiffuseColor = this.demo1DiffuseColor;
+            this.demo1Shader.uniforms.uAmbientLight = this.demo1AmbientLight;
+            this.demo1Shader.uniforms.uLightColor = this.demo1LightColor;
+            this.demo1Shader.uniforms.uLightDir = this.demo1SunDir;
+            this.demo1Shader.uniforms.uEyePos = cameraPosFromViewMatrix(scratchVec, view);
+            this.demo1Shader.uniforms.uSpecularPower = this.demo1SpecularPower.val;
+            this.demo1Shader.uniforms.uHasSpecular = this.demo1HasSpecular.val ? 1.0 : 0.0;
+
+            this.bunnyGeo.bind(this.demo1Shader);
+            this.bunnyGeo.draw();
 
         });
         let pressed = shell.wasDown("mouse-left");

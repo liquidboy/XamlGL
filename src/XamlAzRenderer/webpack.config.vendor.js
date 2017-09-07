@@ -30,7 +30,12 @@ module.exports = (env) => {
                 'gl-now',
                 'hash-string',
                 'gl-buffer',
-                'ndpack-image'
+                'ndpack-image',
+                'bunny',
+                'vertices-bounding-box',
+                'normals',
+                'orbit-camera',
+                'gl-camera-pos-from-view-matrix'
             ]
         },
         output: {

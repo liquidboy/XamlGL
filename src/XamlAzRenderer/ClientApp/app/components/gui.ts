@@ -1,6 +1,9 @@
 ﻿import * as hashString from 'hash-string';
 import * as clamp from 'clamp';
 import { AppModuleShared } from '../app.module.shared';
+import * as createShader from 'gl-shader';
+import * as createBuffer from 'gl-buffer';
+import * as createTexture from 'gl-texture2d';
 
 export class Gui {
 
@@ -136,8 +139,35 @@ export class Gui {
     public sameLineActive: boolean = false;
     public prevWidgetSizes = null;
 
+    private _gl: any;
+    private shader : any;
+
+    /* buffers contain all the geometry data. */
+    private positionBufferObject : any;
+    private colorBufferObject : any;
+    private uvBufferObject : any;
+    private indexBufferObject: any;
+
+    private fontAtlasTexture: any;
+    constructor(gl: any) {
+        this._gl = gl;
 
 
+        /* single shader renders the GUI. */
+        this.shader = createShader(gl, AppModuleShared.vert, AppModuleShared.frag);
+
+        /* buffers contain all the geometry data. */
+        this.positionBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+        this.colorBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+        this.uvBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+        this.indexBufferObject = createBuffer(gl, [], gl.ELEMENT_ARRAY_BUFFER, gl.DYNAMIC_DRAW);
+
+        this.fontAtlasTexture = createTexture(gl, AppModuleShared.fontAtlas);
+        this.fontAtlasTexture.magFilter = gl.LINEAR;
+        this.fontAtlasTexture.minFilter = gl.LINEAR;
+
+        
+    }
 
     private windowTitle: any;
     /* Setup geometry buffers. */
@@ -197,8 +227,94 @@ export class Gui {
         this._window();
     };
 
+    /* render text */
+    _text(position, str): void {
+
+        /*
+         Make sure to round the position to integer. Otherwise, anti-aliasing causes the text to get blurry,
+         it seems
+         */
+        var x = Math.round(position[0]);
+        var y = Math.round(position[1]);
+
+        /*
+         Width of a single pixel in the font atlas.
+         */
+        var ipw = 1.0 / 256;
+        var iph = 1.0 / 256;
+
+        for (var i = 0; i < str.length; ++i) {
+
+            var ch = str[i];
+
+            // char desc
+            var cd = this._getCharDesc(ch);
+
+            /*
+             We will render a single character as a quad.
+             First we gather all information needed to render the quad:
+             */
+
+            var x0 = (x + cd.xoff) * this.textScale;
+            var y0 = (y + cd.yoff) * this.textScale;
+            var x1 = (x + cd.xoff2) * this.textScale;
+            var y1 = (y + cd.yoff2) * this.textScale;
+
+
+            var s0 = (cd.x0 * ipw);
+            var t0 = (cd.y0 * iph);
+            var s1 = (cd.x1 * ipw);
+            var t1 = (cd.y1 * iph);
+
+            // render text as white.
+            var whiteColor = [1, 1, 1, 1]
+
+
+            /*
+             Now we have all the information. Now render the quad as two triangles:
+             */
+
+            var baseIndex = this.positionBufferIndex / 2;
+
+            // top left
+            this._addPosition([x0, y0]);
+            this._addColor(whiteColor);
+            this._addUv([s0, t0]);
+
+            // bottom left
+            this._addPosition([x0, y1]);
+            this._addColor(whiteColor);
+            this._addUv([s0, t1]);
+
+            // top right
+            this._addPosition([x1, y0]);
+            this._addColor(whiteColor);
+            this._addUv([s1, t0]);
+
+
+            // bottom right
+            this._addPosition([x1, y1]);
+            this._addColor(whiteColor);
+            this._addUv([s1, t1]);
+
+            // triangle 1
+            this._addIndex(baseIndex + 0);
+            this._addIndex(baseIndex + 1);
+            this._addIndex(baseIndex + 2);
+
+            // triangle 2
+            this._addIndex(baseIndex + 3);
+            this._addIndex(baseIndex + 2);
+            this._addIndex(baseIndex + 1);
+
+            // finally, advance the x-coord, in preparation of rendering the next character.
+            x += (cd.xadvance) * this.textScale;
+        }
+    }
 
     private windowCaret: any;
+    private relativeMousePosition: any;
+    private mouseInWindow: any;
     _window():void {
 
         var widgetId = hashString(this.windowTitle);
@@ -254,7 +370,7 @@ export class Gui {
          */
 
         // draw title bar
-        this._box(titleBarPosition, titleBarSizes, this.titleBarColor);
+        this._box(titleBarPosition, titleBarSizes, this.titleBarColor, 1);
 
         // draw title bar text
         this._textCenter(
@@ -276,54 +392,26 @@ export class Gui {
         /*
          Determine whether the mouse is inside the window. We need this in some places.
          */
-        this.mouseInWindow = _inBox(titleBarPosition,
+        this.mouseInWindow = this._inBox(titleBarPosition,
             [this.windowSizes[0], this.titleBarHeight + this.windowSizes[1]],
             this.io.mousePositionCur);
     }
 
+    /* Render text centered in a box with position `p`, width `s[0]`, height `[1]`, */
+    _textCenter(p, s, str): void {
+        var strSizes = this._getTextSizes(str);
 
-    _box(position, size, color, alpha): void {
+        // we must round, otherwise the text may end up between pixels(say at 1.5, or 1.6, or something ),
+        // and this makes it blurry
+        var strPosition = [
+            Math.round(0.5 * (p[0] + (p[0] + s[0]) - strSizes[0])),
+            Math.round(0.5 * (p[1] + (p[1] + s[1]) + strSizes[1])),
+        ];
 
+        this._text(strPosition, str);
+    }
 
-        if (typeof alpha === 'undefined') {
-            alpha = 1.0; // default to 1.0
-        }
-
-        // top-left, bottom-left, top-right, bottom-right corners
-        var tl = position;
-        var bl = [position[0], position[1] + size[1]];
-        var tr = [position[0] + size[0], position[1]];
-        var br = [position[0] + size[0], position[1] + size[1]];
-
-        var baseIndex = this.positionBufferIndex / 2;
-
-        var c = [color[0], color[1], color[2], alpha];
-
-        // vertex 1
-        this._coloredVertex(tl, c);
-
-        // vertex 2
-        this._coloredVertex(bl, c);
-
-        // vertex 3
-        this._coloredVertex(tr, c);
-
-        // vertex 4
-        this._coloredVertex(br, c);
-
-
-        // triangle 1
-        this._addIndex(baseIndex + 0);
-        this._addIndex(baseIndex + 1);
-        this._addIndex(baseIndex + 2);
-
-        // triangle 2
-        this._addIndex(baseIndex + 3);
-        this._addIndex(baseIndex + 2);
-        this._addIndex(baseIndex + 1);
-
-    };
-
+    
     _addIndex(index): void {
         this.indexBuffer[this.indexBufferIndex++] = index;
     };
@@ -465,7 +553,7 @@ export class Gui {
             this._getTextSizes("0")[1] + 2 * this.sliderVerticalSpacing
         ];
 
-        var mouseCollision = _inBox(sliderPosition, sliderSizes, this.io.mousePositionCur);
+        var mouseCollision = this._inBox(sliderPosition, sliderSizes, this.io.mousePositionCur);
 
         if (
             mouseCollision &&
