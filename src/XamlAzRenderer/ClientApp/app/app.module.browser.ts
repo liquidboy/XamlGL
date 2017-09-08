@@ -162,7 +162,17 @@ export class AppModule {
             this.gui.radioButton("radio button 3", this.demo, 3);
             this.gui.separator();
 
+            this.gui.draggerRgb("drager 1", this.demo1AmbientLight);
+
+            this.gui.checkbox("checkbox 1", this.demo1HasSpecular);
+            this.gui.sliderFloat("slider 1", this.demo1SpecularPower, 0, 40, 3);
+
+            this.gui.draggerFloat3("dragger 1", this.demo1SunDir, [-2, +2], ["X:", "Y:", "Z:"]);
+
+
             this.gui.end(gl, canvas.width, canvas.height);
+
+            console.log("a");
 
         });
         let pressed = shell.wasDown("mouse-left");
