@@ -4,6 +4,7 @@ import { AppModuleShared } from '../app.module.shared';
 import * as createShader from 'gl-shader';
 import * as createBuffer from 'gl-buffer';
 import * as createTexture from 'gl-texture2d';
+import * as mat4 from 'gl-mat4';
 
 export class Gui {
 
@@ -154,7 +155,7 @@ export class Gui {
 
 
         /* single shader renders the GUI. */
-        this.shader = createShader(gl, AppModuleShared.vert, AppModuleShared.frag);
+        this.shader = createShader(gl, AppModuleShared.guiVert, AppModuleShared.guiFrag);
 
         /* buffers contain all the geometry data. */
         this.positionBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
@@ -162,7 +163,7 @@ export class Gui {
         this.uvBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
         this.indexBufferObject = createBuffer(gl, [], gl.ELEMENT_ARRAY_BUFFER, gl.DYNAMIC_DRAW);
 
-        this.fontAtlasTexture = createTexture(gl, AppModuleShared.fontAtlas);
+        this.fontAtlasTexture = createTexture(gl, AppModuleShared.guiFontAtlas);
         this.fontAtlasTexture.magFilter = gl.LINEAR;
         this.fontAtlasTexture.minFilter = gl.LINEAR;
 
@@ -225,6 +226,90 @@ export class Gui {
 
         // render window.
         this._window();
+    };
+
+    end(gl, canvasWidth, canvasHeight): void {
+
+        if (typeof gl == 'undefined') {
+            throw new Error("argument 'gl' missing ");
+        }
+        if (!(typeof canvasWidth == 'number')) {
+            throw new Error("argument 'canvasWidth' must be a number ");
+        }
+        if (!(typeof canvasHeight == 'number')) {
+            throw new Error("argument 'canvasHeight' must be a number ");
+        }
+
+
+        /*
+         If a VAO is already bound, we need to unbound it. Otherwise, we will write into a VAO created by the user of the library
+         when calling vertexAttribPointer, which means that we would effectively corrupt the user data!
+         */
+        var VAO_ext = gl.getExtension('OES_vertex_array_object');
+        if (VAO_ext)
+            VAO_ext.bindVertexArrayOES(null);
+
+        /*
+         We are changing some GL states when rendering the GUI. So before rendering we backup these states,
+         and after rendering we restore these states. This is so that the end-user does not involuntarily have his
+         GL-states messed with.
+         */
+        this._backupGLState(gl);
+
+
+        this.positionBufferObject.update(this.positionBuffer);
+        gl.enableVertexAttribArray(this.shader.attributes.aPosition.location);
+        gl.vertexAttribPointer(this.shader.attributes.aPosition.location, 2, gl.FLOAT, false, 0, 0);
+        this.positionBufferObject.unbind();
+
+
+        this.colorBufferObject.update(this.colorBuffer);
+        gl.enableVertexAttribArray(this.shader.attributes.aColor.location);
+        gl.vertexAttribPointer(this.shader.attributes.aColor.location, 4, gl.FLOAT, false, 0, 0);
+        this.colorBufferObject.unbind();
+
+        this.uvBufferObject.update(this.uvBuffer);
+        gl.enableVertexAttribArray(this.shader.attributes.aUv.location);
+        gl.vertexAttribPointer(this.shader.attributes.aUv.location, 2, gl.FLOAT, false, 0, 0);
+        this.uvBufferObject.unbind();
+
+        this.indexBufferObject.update(this.indexBuffer);
+
+
+        /*
+         Setup matrices.
+         */
+        var projection = mat4.create()
+        mat4.ortho(projection, 0, canvasWidth, canvasHeight, 0, -1.0, 1.0)
+
+        this.shader.bind()
+
+        this.shader.uniforms.uProj = projection;
+        this.shader.uniforms.uFontAtlas = this.fontAtlasTexture.bind()
+
+        gl.disable(gl.DEPTH_TEST) // no depth testing; we handle this by manually placing out
+        // widgets in the order we wish them to be rendered.
+
+
+        // for text rendering, enable alpha blending.
+        gl.enable(gl.BLEND)
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+
+        gl.drawElements(gl.TRIANGLES, (this.indexBufferIndex), gl.UNSIGNED_SHORT, 0);
+
+
+        /*
+         Make sure to always reset the active widget id, if mouse is released.
+         This makes sure that every widget does not explicitly have to reset this value
+         by themselves, which is a bit error-prone.
+         */
+        if (this.activeWidgetId != null && this.io.mouseLeftDownCur == false) {
+            this.activeWidgetId = null;
+        }
+
+
+        this._restoreGLState(gl);
+
     };
 
     /* render text */
@@ -456,8 +541,20 @@ export class Gui {
         this._slider(str, value, min, max, false, numDecimalDigits);
     };
 
+    textLine(str): void {
+        this._moveWindowCaret();
+
+        var textLinePosition = this.windowCaret;
+        var textSizes = this._getTextSizes(str);
+
+        // Render button text.
+        this._textCenter(textLinePosition, textSizes, str);
+
+        this.prevWidgetSizes = textSizes;
+    };
+
     _getCharDesc(char): any {
-        return AppModuleShared.fontInfo.chars[char.charCodeAt(0) - 32];
+        return AppModuleShared.guiFontInfo.chars[char.charCodeAt(0) - 32];
     };
 
     /* Get width and height of a text string. */
@@ -663,4 +760,35 @@ export class Gui {
         this.sameLineActive = false;
 
     };
+
+    private lastProgram: any;
+    private lastElementArrayBuffer: any;
+    private lastArrayBuffer: any;
+    private lastTexture: any;
+    private lastEnableDepthTest: any;
+    private lastEnableBlend: any;
+    _backupGLState(gl):void {
+
+        this.lastProgram = gl.getParameter(gl.CURRENT_PROGRAM);
+        this.lastElementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
+        this.lastArrayBuffer = gl.getParameter(gl.ARRAY_BUFFER_BINDING);
+        this.lastTexture = gl.getParameter(gl.TEXTURE_BINDING_2D);
+        this.lastEnableDepthTest = gl.isEnabled(gl.DEPTH_TEST);
+        this.lastEnableBlend = gl.isEnabled(gl.BLEND);
+
+        /*
+         TODO: figure out how to back up `blendFunc`.
+         */
+
+    }
+
+    _restoreGLState(gl): void {
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.lastElementArrayBuffer);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.lastArrayBuffer);
+        gl.useProgram(this.lastProgram);
+        gl.bindTexture(gl.TEXTURE_2D, this.lastTexture);
+
+        if (this.lastEnableDepthTest) gl.enable(gl.DEPTH_TEST); else gl.disable(gl.DEPTH_TEST);
+        if (this.lastEnableBlend) gl.enable(gl.BLEND); else gl.disable(gl.BLEND);
+    }
 }

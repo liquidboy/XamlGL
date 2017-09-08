@@ -20,6 +20,7 @@ export class AppModule {
     mouseLeftDownPrev: boolean = false;
     bg: any = [0.6, 0.7, 1.0]; // clear color.
     camera: any = createOrbitCamera([0, -1000, 0], [0, 0, 0], [0, 1, 0]);
+    gui: Gui;
 
     demo1DiffuseColor: any = [0.42, 0.34, 0.0];
     demo1AmbientLight: any  = [0.77, 0.72, 0.59];
@@ -61,13 +62,7 @@ export class AppModule {
         let ct = hashString(value);
         return ct; 
     }
-
-    public InitGui(gl: any): void {
-
-        let gui: Gui = new Gui(gl);
-        gui.windowSizes = [360, 580];
-    }
-
+    
     private centerGeometry(geo, scale): void {
 
         // Calculate the bounding box.
@@ -90,7 +85,9 @@ export class AppModule {
             let gl = shell.gl;
             gl.enable(gl.DEPTH_TEST);
             gl.enable(gl.CULL_FACE);
-            this.InitGui(gl);
+
+            this.gui = new Gui(gl);
+            this.gui.windowSizes = [360, 580];
 
             this.centerGeometry(bunny, 80.0);
             this.bunnyGeo = Geometry(gl)
@@ -132,6 +129,29 @@ export class AppModule {
 
             this.bunnyGeo.bind(this.demo1Shader);
             this.bunnyGeo.draw();
+
+
+
+
+            var pressed = shell.wasDown("mouse-left");
+            var io = {
+                mouseLeftDownCur: pressed,
+                mouseLeftDownPrev: this.mouseLeftDownPrev,
+
+                mousePositionCur: shell.mouse,
+                mousePositionPrev: shell.prevMouse
+            };
+            this.mouseLeftDownPrev = pressed;
+
+
+
+
+
+
+
+            this.gui.begin(io, "Window");
+            this.gui.textLine("Choose a Demo");
+            this.gui.end(gl, canvas.width, canvas.height);
 
         });
         let pressed = shell.wasDown("mouse-left");
