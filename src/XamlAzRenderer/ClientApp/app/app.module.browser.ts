@@ -79,6 +79,7 @@ export class AppModule {
 
     private bunnyGeo: any;
     private demo1Shader: any;
+    private demo: { [x: string]: any, val: number } = { val: 1 };
     public InitShell(): any {
         let shell = glShell();
         shell.on("gl-init", () => {
@@ -98,6 +99,7 @@ export class AppModule {
             let sdr: any = createShader(gl, AppModuleShared.demo1Vert, AppModuleShared.demo1Frag);
             this.demo1Shader = sdr;
         });
+
         shell.on("gl-render", () => {
             var gl = shell.gl
             var canvas = shell.canvas;
@@ -150,7 +152,16 @@ export class AppModule {
 
 
             this.gui.begin(io, "Window");
-            this.gui.textLine("Choose a Demo");
+
+            this.gui.textLine("textline");
+
+            this.gui.radioButton("radio button 1", this.demo, 1);
+            this.gui.sameLine();
+            this.gui.radioButton("radio button 2", this.demo, 2);
+            this.gui.sameLine();
+            this.gui.radioButton("radio button 3", this.demo, 3);
+            this.gui.separator();
+
             this.gui.end(gl, canvas.width, canvas.height);
 
         });

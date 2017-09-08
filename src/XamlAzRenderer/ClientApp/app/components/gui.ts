@@ -553,9 +553,144 @@ export class Gui {
         this.prevWidgetSizes = textSizes;
     };
 
+    /* If value.val == id, then that means this radio button is chosen. */
+    radioButton(labelStr, value, id): void {
+
+        this._moveWindowCaret();
+
+        /*
+         Radio button IO
+         */
+
+
+        var zeroHeight = this._getTextSizes("0")[1];
+
+
+        var innerRadius = (zeroHeight * this.radioButtonInnerRadius);
+        var outerRadius = (zeroHeight * this.radioButtonOuterRadius);
+
+
+        var radioButtonPosition = this.windowCaret;
+
+
+        var radioButtonSizes = [outerRadius * 2, outerRadius * 2];
+
+        var mouseCollision = this._inCircle(radioButtonPosition, radioButtonSizes, this.io.mousePositionCur);
+
+
+        if (this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false && mouseCollision) {
+            value.val = id;
+        }
+
+        var isHover = mouseCollision;
+
+
+        /*
+         CHECKBOX RENDERING
+         */
+
+        this._circle(radioButtonPosition, radioButtonSizes,
+            isHover ? this.radioButtonOuterColorHover : this.radioButtonOuterColor, this.radioButtonCircleSegments);
+
+
+        if (value.val == id) {
+            var p = radioButtonPosition;
+            var s = radioButtonSizes;
+            var innerCirclePosition = [
+                Math.round(0.5 * (p[0] + (p[0] + s[0]) - innerRadius * 2)),
+                Math.round(0.5 * (p[1] + (p[1] + s[1]) - innerRadius * 2)),
+            ];
+
+            this._circle(innerCirclePosition, [innerRadius * 2, innerRadius * 2],
+                isHover ? this.radioButtonInnerColorHover : this.radioButtonInnerColor, this.radioButtonCircleSegments);
+        }
+
+
+        // now render radio button label.
+        var labelPosition = [radioButtonPosition[0] + radioButtonSizes[0] + this.widgetLabelHorizontalSpacing, radioButtonPosition[1]]
+        var labelStrSizes = [this._getTextSizes(labelStr)[0], radioButtonSizes[1]];
+        this._textCenter(labelPosition, labelStrSizes, labelStr);
+
+        this.prevWidgetSizes = [radioButtonSizes[0] + labelStrSizes[0], radioButtonSizes[1]];
+    }
+
+    /*
+    Render a circle, where the top-left corner of the circle is `position`
+    Where `segments` is how many triangle segments the triangle is rendered with.
+    */
+    _circle(position, sizes, color, segments): void {
+
+        let centerPosition = [
+            position[0] + 0.5 * sizes[0],
+            position[1] + 0.5 * sizes[1]
+        ];
+        let radius = sizes[0] / 2;
+
+        let baseIndex = this.positionBufferIndex / 2;
+
+        let c = [color[0], color[1], color[2], 1.0];
+
+        // add center vertex.
+        this._coloredVertex(centerPosition, c);
+        let centerVertexIndex = baseIndex + 0;
+
+
+        let stepSize = (2 * Math.PI) / segments;
+        let curIndex = baseIndex + 1;
+        for (var theta = 0; theta <= 2 * Math.PI + 0.1; theta += stepSize, ++curIndex) {
+
+            // for first frame, we only create one vertex, and no triangles
+            if (theta == 0) {
+                let p = this._unitCircle(centerPosition, theta, radius);
+                this._coloredVertex(p, c);
+            } else {
+                let p = this._unitCircle(centerPosition, theta, radius);
+                this._coloredVertex(p, c);
+
+                this._addIndex(curIndex + 0);
+                this._addIndex(curIndex - 1);
+                this._addIndex(centerVertexIndex);
+            }
+        }
+    };
+
+    _unitCircle(position, theta, radius): [number, number] {
+        return [position[0] + radius * Math.cos(theta), position[1] + radius * Math.sin(theta)];
+    };
+
+    _inCircle(p, s, x): boolean {
+
+        // circle center
+        var cp = [
+            p[0] + 0.5 * s[0],
+            p[1] + 0.5 * s[1]
+
+        ];
+        var radius = s[0] * 0.5;
+
+        // distance from `x` to circle center.
+        var dist = Math.sqrt((x[0] - cp[0]) * (x[0] - cp[0]) + (x[1] - cp[1]) * (x[1] - cp[1]));
+
+        return (dist <= radius);
+    }
+
     _getCharDesc(char): any {
         return AppModuleShared.guiFontInfo.chars[char.charCodeAt(0) - 32];
     };
+
+    separator = function () {
+        this._moveWindowCaret();
+
+        var separatorPosition = this.windowCaret;
+        // the separator should fill out the windows size.
+        var separatorSizes = [
+            this.windowSizes[0] - 2 * this.windowSpacing,
+            this._getTextSizes("0")[1] * this.separatorHeightRatio];
+
+        this._box(separatorPosition, separatorSizes, [0.4, 0.4, 0.4]);
+
+        this.prevWidgetSizes = (separatorSizes);
+    }
 
     /* Get width and height of a text string. */
     _getTextSizes(str): [number, number] {
