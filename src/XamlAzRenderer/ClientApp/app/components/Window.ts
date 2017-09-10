@@ -23,12 +23,13 @@ export class Window{
     public windowAlpha: number = 0.9;
 
     // the title bar height.
-    public titleBarHeight: number = 21;
+    //public titleBarHeight: number = 21;
     // spacing between the title bars border, and the window title.
-    public titleBarVerticalSpacing: number = 6;
+    // public titleBarVerticalSpacing: number = 6;
     // the title bar color.
-    public titleBarColor = [0.2, 0.4, 0.6];
+    //public titleBarColor = [0.2, 0.4, 0.6];
 
+    public TitleBar: TitleBar = new TitleBar();
 
     /* button settings */
 
@@ -170,7 +171,6 @@ export class Window{
         
     }
 
-    private windowTitle: any;
     /* Setup geometry buffers. */
     private indexBuffer = [];
     private positionBuffer = [];
@@ -181,7 +181,7 @@ export class Window{
     private colorBufferIndex: number = 0;
     private uvBufferIndex: number = 0;
     private io: any;
-    begin(io, windowTitle): void {
+    begin(io): void {
 
         // sanity checking.
         if (typeof io == 'undefined') {
@@ -201,13 +201,6 @@ export class Window{
                 throw new Error("property 'io.mouseLeftDownPrev' missing ");
             }
         }
-
-        // default value.
-        if (typeof windowTitle == 'undefined') {
-            windowTitle = "Window";
-        }
-
-        this.windowTitle = windowTitle;
 
         /*
         Setup geometry buffers.
@@ -402,14 +395,14 @@ export class Window{
     private mouseInWindow: any;
     _window():void {
 
-        var widgetId = hashString(this.windowTitle);
+        var widgetId = hashString(this.TitleBar.Title);
 
         /*
          WINDOW IO(move window when dragging the title-bar using the left mouse button)
          */
 
         var titleBarPosition = this.windowPosition;
-        var titleBarSizes = [this.windowSizes[0], this.titleBarHeight];
+        var titleBarSizes = [this.windowSizes[0], this.TitleBar.Height];
 
         if (
             this._inBox(titleBarPosition, titleBarSizes, this.io.mousePositionCur) &&
@@ -455,22 +448,22 @@ export class Window{
          */
 
         // draw title bar
-        this._box(titleBarPosition, titleBarSizes, this.titleBarColor, 1);
+        this._box(titleBarPosition, titleBarSizes, this.TitleBar.BackgroundColor, 1);
 
         // draw title bar text
         this._textCenter(
-            [this.windowPosition[0] + this.titleBarVerticalSpacing, this.windowPosition[1]],
-            [this._getTextSizes(this.windowTitle)[0], this.titleBarHeight],
-            this.windowTitle);
+            [this.windowPosition[0] + this.TitleBar.VerticalSpacing, this.windowPosition[1]],
+            [this._getTextSizes(this.TitleBar.Title)[0], this.TitleBar.Height],
+            this.TitleBar.Title);
 
         // draw the actual window.
-        this._box([this.windowPosition[0], this.windowPosition[1] + this.titleBarHeight], this.windowSizes,
+        this._box([this.windowPosition[0], this.windowPosition[1] + this.TitleBar.Height], this.windowSizes,
             this.windowColor, this.windowAlpha);
 
         // setup the window-caret. The window-caret is where we will place the next widget in the window.
         this.windowCaret = [
             this.windowPosition[0] + this.windowSpacing,
-            this.windowPosition[1] + this.windowSpacing + this.titleBarHeight];
+            this.windowPosition[1] + this.windowSpacing + this.TitleBar.Height];
         this.prevWidgetSizes = null; // should be null at the beginning.
 
 
@@ -478,7 +471,7 @@ export class Window{
          Determine whether the mouse is inside the window. We need this in some places.
          */
         this.mouseInWindow = this._inBox(titleBarPosition,
-            [this.windowSizes[0], this.titleBarHeight + this.windowSizes[1]],
+            [this.windowSizes[0], this.TitleBar.Height + this.windowSizes[1]],
             this.io.mousePositionCur);
     }
 
@@ -1156,4 +1149,38 @@ export class Window{
         if (this.lastEnableDepthTest) gl.enable(gl.DEPTH_TEST); else gl.disable(gl.DEPTH_TEST);
         if (this.lastEnableBlend) gl.enable(gl.BLEND); else gl.disable(gl.BLEND);
     }
+}
+
+
+export class TitleBar
+{
+    // spacing between the title bars border, and the window title.
+    public VerticalSpacing: number = 10;
+    public Title: string = "Window Title";
+
+
+    // Windows.UI.ViewManagement.ApplicationViewTitleBar
+    // public ButtonInactiveBackgroundColor: string;
+    // public ButtonHoverForegroundColor: string;
+    // public ButtonHoverBackgroundColor: string;
+    // public ButtonForegroundColor: string;
+    // public ButtonBackgroundColor: string;
+    // public ButtonInactiveForegroundColor: string;
+    public BackgroundColor: [number, number, number] = [0.2, 0.4, 0.6];
+    // public InactiveForegroundColor: string;
+    // public InactiveBackgroundColor: string;
+    // public ForegroundColor: string;
+    // public ButtonPressedForegroundColor: string;
+    // public ButtonPressedBackgroundColor: string;
+
+
+    // Windows.ApplicationModel.Core.CoreApplicationViewTitleBar
+    // public ExtendViewIntoTitleBar: boolean;
+    public Height: number = 30;
+    public IsVisible: boolean;
+    // public SystemOverlayLeftInset: number;
+    // public SystemOverlayRightInset: number;
+
+    // IsVisibleChanged
+    // LayoutMetricsChanged
 }

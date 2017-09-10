@@ -29,17 +29,8 @@ export class AppModule {
     demo1SpecularPower: any  = { val: 12.45 };
     demo1HasSpecular: any  = { val: true };
     // demo1RenderModel = { val: RENDER_BUNNY };
-    demo2AmbientLight: any  = [0.85, 0.52, 0.66];
-    demo2LightColor: any  = [0.38, 0.44, 0.03];
-    demo2SunDir: any  = [1.35, 0.61, 1.12];
-    demo2SnowColor: any  = [0.6, 0.6, 0.6];
-    demo2GrassColor: any  = [0.12, 0.34, 0.12];
-    demo2SandColor: any  = [0.50, 0.4, 0.21];
-    demo2HeightScale: any  = { val: 200.0 };
-    demo2NoiseScale: any  = { val: 2.0 };
     demo2HeightmapPosition: any  = [0.0, 0.0];
-    demo2TextureNoiseScale: any  = { val: 0.3 };
-    demo2TextureNoiseStrength: any  = { val: 0.01 };
+
 
 
     public TestClamp(): Number {
@@ -154,7 +145,8 @@ export class AppModule {
 
 
             let win1 = this.dwm.Get(0);
-            win1.begin(io, "Window");
+            win1.begin(io);
+            win1.TitleBar.Title = "Window 1";
             win1.textLine("textline");
             win1.radioButton("radio button 1", this.demo, 1);
             win1.sameLine();
@@ -173,7 +165,8 @@ export class AppModule {
 
 
             let win2 = this.dwm.Get(1);
-            win2.begin(io, "Window 2");
+            win2.begin(io);
+            win2.TitleBar.Title = "Window 2";
             win2.textLine("textline");
             win2.radioButton("radio button 1", this.demo, 1);
             win2.end(gl, canvas.width, canvas.height);
