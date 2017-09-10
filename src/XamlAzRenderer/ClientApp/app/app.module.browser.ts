@@ -14,13 +14,13 @@ import * as cameraPosFromViewMatrix from 'gl-camera-pos-from-view-matrix';
 import * as glShell from 'gl-now';
 import * as normals from 'normals';
 import { AppModuleShared } from './app.module.shared';
-import { Gui } from './components/gui';
+import { WindowManager } from './components/WindowManager';
 
 export class AppModule {
     mouseLeftDownPrev: boolean = false;
     bg: any = [0.6, 0.7, 1.0]; // clear color.
     camera: any = createOrbitCamera([0, -1000, 0], [0, 0, 0], [0, 1, 0]);
-    gui: Gui;
+    dwm: WindowManager;
 
     demo1DiffuseColor: any = [0.42, 0.34, 0.0];
     demo1AmbientLight: any  = [0.77, 0.72, 0.59];
@@ -87,8 +87,11 @@ export class AppModule {
             gl.enable(gl.DEPTH_TEST);
             gl.enable(gl.CULL_FACE);
 
-            this.gui = new Gui(gl);
-            this.gui.windowSizes = [360, 580];
+            this.dwm = new WindowManager(gl);
+
+            this.dwm.Create(460, 480);
+            this.dwm.Create(260, 200);
+
 
             this.centerGeometry(bunny, 80.0);
             this.bunnyGeo = Geometry(gl)
@@ -150,27 +153,33 @@ export class AppModule {
 
 
 
-
-            this.gui.begin(io, "Window");
-
-            this.gui.textLine("textline");
-
-            this.gui.radioButton("radio button 1", this.demo, 1);
-            this.gui.sameLine();
-            this.gui.radioButton("radio button 2", this.demo, 2);
-            this.gui.sameLine();
-            this.gui.radioButton("radio button 3", this.demo, 3);
-            this.gui.separator();
-
-            this.gui.draggerRgb("drager 1", this.demo1AmbientLight);
-
-            this.gui.checkbox("checkbox 1", this.demo1HasSpecular);
-            this.gui.sliderFloat("slider 1", this.demo1SpecularPower, 0, 40, 3);
-
-            this.gui.draggerFloat3("dragger 1", this.demo1SunDir, [-2, +2], ["X:", "Y:", "Z:"]);
+            let win1 = this.dwm.Get(0);
+            win1.begin(io, "Window");
+            win1.textLine("textline");
+            win1.radioButton("radio button 1", this.demo, 1);
+            win1.sameLine();
+            win1.radioButton("radio button 2", this.demo, 2);
+            win1.sameLine();
+            win1.radioButton("radio button 3", this.demo, 3);
+            win1.separator();
+            win1.draggerRgb("drager 1", this.demo1AmbientLight);
+            win1.checkbox("checkbox 1", this.demo1HasSpecular);
+            win1.sliderFloat("slider 1", this.demo1SpecularPower, 0, 40, 3);
+            win1.draggerFloat3("dragger 3 parts", this.demo1SunDir, [-2, +2], ["X:", "Y:", "Z:"]);
+            win1.draggerFloat2("dragger 2 parts", this.demo2HeightmapPosition, [-10, +10], ["X:", "Z:"]);
+            win1.end(gl, canvas.width, canvas.height);
 
 
-            this.gui.end(gl, canvas.width, canvas.height);
+
+
+            let win2 = this.dwm.Get(1);
+            win2.begin(io, "Window 2");
+            win2.textLine("textline");
+            win2.radioButton("radio button 1", this.demo, 1);
+            win2.end(gl, canvas.width, canvas.height);
+
+
+
 
             console.log("a");
 
@@ -190,6 +199,7 @@ export class AppModule {
     }
 
     constructor() {
+        
         console.log(this.TestClamp());
         console.log(this.TestHashString("testing this string as a hash"));
         this.TestMat4();
