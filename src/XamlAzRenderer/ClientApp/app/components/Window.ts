@@ -1,6 +1,7 @@
 ﻿import * as hashString from 'hash-string';
 import * as clamp from 'clamp';
 import { AppModuleShared } from '../app.module.shared';
+import { TitleBar } from './TitleBar';
 import * as createShader from 'gl-shader';
 import * as createBuffer from 'gl-buffer';
 import * as createTexture from 'gl-texture2d';
@@ -21,13 +22,6 @@ export class Window{
     public windowColor = [0.1, 0.1, 0.1];
     // the transparency of the window.
     public windowAlpha: number = 0.9;
-
-    // the title bar height.
-    //public titleBarHeight: number = 21;
-    // spacing between the title bars border, and the window title.
-    // public titleBarVerticalSpacing: number = 6;
-    // the title bar color.
-    //public titleBarColor = [0.2, 0.4, 0.6];
 
     public TitleBar: TitleBar = new TitleBar();
 
@@ -217,8 +211,7 @@ export class Window{
 
         this.io = io;
 
-        // render window.
-        this._window();
+        this._render();
     };
 
     end(gl, canvasWidth, canvasHeight): void {
@@ -393,26 +386,26 @@ export class Window{
     private windowCaret: any;
     private relativeMousePosition: any;
     private mouseInWindow: any;
-    _window():void {
+    _render():void {
 
         var widgetId = hashString(this.TitleBar.Title);
 
         /*
          WINDOW IO(move window when dragging the title-bar using the left mouse button)
          */
-
-        var titleBarPosition = this.windowPosition;
-        var titleBarSizes = [this.windowSizes[0], this.TitleBar.Height];
+        
+        this.TitleBar.Position = this.windowPosition;
+        this.TitleBar.Size = [this.windowSizes[0], this.TitleBar.Height];
 
         if (
-            this._inBox(titleBarPosition, titleBarSizes, this.io.mousePositionCur) &&
+            this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur) &&
             this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false) {
             this.activeWidgetId = widgetId;
         }
 
         if (this.activeWidgetId == widgetId) {
 
-            if (this._inBox(titleBarPosition, titleBarSizes, this.io.mousePositionCur)) {
+            if (this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur)) {
                 // if mouse in title bar, just use the mouse position delta to adjust the window pos.
 
                 this.windowPosition = [
@@ -440,7 +433,7 @@ export class Window{
             }
 
             // update title bar position.
-            titleBarPosition = this.windowPosition;
+            this.TitleBar.Position = this.windowPosition;
         }
 
         /*
@@ -448,7 +441,7 @@ export class Window{
          */
 
         // draw title bar
-        this._box(titleBarPosition, titleBarSizes, this.TitleBar.BackgroundColor, 1);
+        this._box(this.TitleBar.Position, this.TitleBar.Size, this.TitleBar.BackgroundColor, 1);
 
         // draw title bar text
         this._textCenter(
@@ -470,7 +463,7 @@ export class Window{
         /*
          Determine whether the mouse is inside the window. We need this in some places.
          */
-        this.mouseInWindow = this._inBox(titleBarPosition,
+        this.mouseInWindow = this._inBox(this.TitleBar.Position,
             [this.windowSizes[0], this.TitleBar.Height + this.windowSizes[1]],
             this.io.mousePositionCur);
     }
@@ -1149,38 +1142,4 @@ export class Window{
         if (this.lastEnableDepthTest) gl.enable(gl.DEPTH_TEST); else gl.disable(gl.DEPTH_TEST);
         if (this.lastEnableBlend) gl.enable(gl.BLEND); else gl.disable(gl.BLEND);
     }
-}
-
-
-export class TitleBar
-{
-    // spacing between the title bars border, and the window title.
-    public VerticalSpacing: number = 10;
-    public Title: string = "Window Title";
-
-
-    // Windows.UI.ViewManagement.ApplicationViewTitleBar
-    // public ButtonInactiveBackgroundColor: string;
-    // public ButtonHoverForegroundColor: string;
-    // public ButtonHoverBackgroundColor: string;
-    // public ButtonForegroundColor: string;
-    // public ButtonBackgroundColor: string;
-    // public ButtonInactiveForegroundColor: string;
-    public BackgroundColor: [number, number, number] = [0.2, 0.4, 0.6];
-    // public InactiveForegroundColor: string;
-    // public InactiveBackgroundColor: string;
-    // public ForegroundColor: string;
-    // public ButtonPressedForegroundColor: string;
-    // public ButtonPressedBackgroundColor: string;
-
-
-    // Windows.ApplicationModel.Core.CoreApplicationViewTitleBar
-    // public ExtendViewIntoTitleBar: boolean;
-    public Height: number = 30;
-    public IsVisible: boolean;
-    // public SystemOverlayLeftInset: number;
-    // public SystemOverlayRightInset: number;
-
-    // IsVisibleChanged
-    // LayoutMetricsChanged
 }
