@@ -1,6 +1,6 @@
 import * as ndPackImage from 'ndpack-image';
 
-export class AppModuleShared {
+export class Shared {
 
     constructor() {
 

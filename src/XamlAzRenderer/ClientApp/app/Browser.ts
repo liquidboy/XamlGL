@@ -13,10 +13,10 @@ import * as createOrbitCamera from 'orbit-camera';
 import * as cameraPosFromViewMatrix from 'gl-camera-pos-from-view-matrix';
 import * as glShell from 'gl-now';
 import * as normals from 'normals';
-import { AppModuleShared } from './app.module.shared';
+import { Shared } from './Shared';
 import { WindowManager } from './components/WindowManager';
 
-export class AppModule {
+export class Browser {
     mouseLeftDownPrev: boolean = false;
     bg: any = [0.6, 0.7, 1.0]; // clear color.
     camera: any = createOrbitCamera([0, -1000, 0], [0, 0, 0], [0, 1, 0]);
@@ -90,7 +90,7 @@ export class AppModule {
                 .attr('aNormal', normals.vertexNormals(bunny.cells, bunny.positions))
                 .faces(bunny.cells)
 
-            let sdr: any = createShader(gl, AppModuleShared.demo1Vert, AppModuleShared.demo1Frag);
+            let sdr: any = createShader(gl, Shared.demo1Vert, Shared.demo1Frag);
             this.demo1Shader = sdr;
         });
 

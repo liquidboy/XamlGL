@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\components\gui.ts" />
     <None Remove="ClientApp\Boot-Client.ts" />
   </ItemGroup>
 

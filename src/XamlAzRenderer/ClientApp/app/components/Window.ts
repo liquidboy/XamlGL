@@ -1,6 +1,6 @@
 ﻿import * as hashString from 'hash-string';
 import * as clamp from 'clamp';
-import { AppModuleShared } from '../app.module.shared';
+import { Shared } from '../Shared';
 import { TitleBar } from './TitleBar';
 import * as createShader from 'gl-shader';
 import * as createBuffer from 'gl-buffer';
@@ -150,7 +150,7 @@ export class Window{
 
 
         /* single shader renders the GUI. */
-        this.shader = createShader(gl, AppModuleShared.guiVert, AppModuleShared.guiFrag);
+        this.shader = createShader(gl, Shared.guiVert, Shared.guiFrag);
 
         /* buffers contain all the geometry data. */
         this.positionBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
@@ -158,7 +158,7 @@ export class Window{
         this.uvBufferObject = createBuffer(gl, [], gl.ARRAY_BUFFER, gl.DYNAMIC_DRAW);
         this.indexBufferObject = createBuffer(gl, [], gl.ELEMENT_ARRAY_BUFFER, gl.DYNAMIC_DRAW);
 
-        this.fontAtlasTexture = createTexture(gl, AppModuleShared.guiFontAtlas);
+        this.fontAtlasTexture = createTexture(gl, Shared.guiFontAtlas);
         this.fontAtlasTexture.magFilter = gl.LINEAR;
         this.fontAtlasTexture.minFilter = gl.LINEAR;
 
@@ -685,7 +685,7 @@ export class Window{
     }
 
     _getCharDesc(char): any {
-        return AppModuleShared.guiFontInfo.chars[char.charCodeAt(0) - 32];
+        return Shared.guiFontInfo.chars[char.charCodeAt(0) - 32];
     };
 
     separator = function () {

@@ -1,5 +1,5 @@
 ﻿import 'bootstrap';
-import { AppModule } from './app/app.module.browser';
+import { Browser } from './app/Browser';
 
 if (module['hot']) {
     module['hot'].accept();
@@ -15,5 +15,5 @@ if (module['hot']) {
 }
 
 window.onload = function (e) {
-    window["mainApp"]  = new AppModule();
+    window["mainApp"] = new Browser();
 }
