@@ -214,6 +214,92 @@ export class Window{
         this._render();
     };
 
+
+    private windowCaret: number[];
+    private relativeMousePosition: any;
+    private mouseInWindow: boolean;
+    _render(): void {
+
+        var widgetId = hashString(this.TitleBar.Title);
+
+        /*
+         WINDOW IO(move window when dragging the title-bar using the left mouse button)
+         */
+
+        this.TitleBar.Position = this.windowPosition;
+        this.TitleBar.Size = [this.windowSizes[0], this.TitleBar.Height];
+
+        if (
+            this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur) &&
+            this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false) {
+            this.activeWidgetId = widgetId;
+        }
+
+        if (this.activeWidgetId == widgetId) {
+
+            if (this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur)) {
+                // if mouse in title bar, just use the mouse position delta to adjust the window pos.
+
+                this.windowPosition = [
+                    this.windowPosition[0] + (this.io.mousePositionCur[0] - this.io.mousePositionPrev[0]),
+                    this.windowPosition[1] + (this.io.mousePositionCur[1] - this.io.mousePositionPrev[1])
+                ];
+
+                // the mouse position relative to the top-left corner of the window.
+                this.relativeMousePosition = [
+                    (this.windowPosition[0] - this.io.mousePositionCur[0]),
+                    (this.windowPosition[1] - this.io.mousePositionCur[1])
+                ];
+
+            } else {
+
+                /*
+                 If the window cannot keep up with the mouse, we must use the relative mouse position to approximate
+                 the change in (x,y)
+                 */
+
+                this.windowPosition = [
+                    this.relativeMousePosition[0] + (this.io.mousePositionCur[0]),
+                    this.relativeMousePosition[1] + (this.io.mousePositionCur[1])
+                ];
+            }
+
+            // update title bar position.
+            this.TitleBar.Position = this.windowPosition;
+        }
+
+        /*
+         WINDOW RENDERING.
+         */
+
+        // draw title bar
+        this._box(this.TitleBar.Position, this.TitleBar.Size, this.TitleBar.BackgroundColor);
+
+        // draw title bar text
+        this._textCenter(
+            [this.windowPosition[0] + this.TitleBar.VerticalSpacing, this.windowPosition[1]],
+            [this._getTextSizes(this.TitleBar.Title)[0], this.TitleBar.Height],
+            this.TitleBar.Title);
+
+        // draw the actual window.
+        this._box([this.windowPosition[0], this.windowPosition[1] + this.TitleBar.Height], this.windowSizes,
+            this.windowColor, this.windowAlpha);
+
+        // setup the window-caret. The window-caret is where we will place the next widget in the window.
+        this.windowCaret = [
+            this.windowPosition[0] + this.windowSpacing,
+            this.windowPosition[1] + this.windowSpacing + this.TitleBar.Height];
+        this.prevWidgetSizes = null; // should be null at the beginning.
+
+
+        /*
+         Determine whether the mouse is inside the window. We need this in some places.
+         */
+        this.mouseInWindow = this._inBox(this.TitleBar.Position,
+            [this.windowSizes[0], this.TitleBar.Height + this.windowSizes[1]],
+            this.io.mousePositionCur);
+    }
+
     end(gl, canvasWidth, canvasHeight): void {
 
         if (typeof gl == 'undefined') {
@@ -383,91 +469,6 @@ export class Window{
         }
     }
 
-    private windowCaret: any;
-    private relativeMousePosition: any;
-    private mouseInWindow: any;
-    _render():void {
-
-        var widgetId = hashString(this.TitleBar.Title);
-
-        /*
-         WINDOW IO(move window when dragging the title-bar using the left mouse button)
-         */
-        
-        this.TitleBar.Position = this.windowPosition;
-        this.TitleBar.Size = [this.windowSizes[0], this.TitleBar.Height];
-
-        if (
-            this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur) &&
-            this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false) {
-            this.activeWidgetId = widgetId;
-        }
-
-        if (this.activeWidgetId == widgetId) {
-
-            if (this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur)) {
-                // if mouse in title bar, just use the mouse position delta to adjust the window pos.
-
-                this.windowPosition = [
-                    this.windowPosition[0] + (this.io.mousePositionCur[0] - this.io.mousePositionPrev[0]),
-                    this.windowPosition[1] + (this.io.mousePositionCur[1] - this.io.mousePositionPrev[1])
-                ];
-
-                // the mouse position relative to the top-left corner of the window.
-                this.relativeMousePosition = [
-                    (this.windowPosition[0] - this.io.mousePositionCur[0]),
-                    (this.windowPosition[1] - this.io.mousePositionCur[1])
-                ];
-
-            } else {
-
-                /*
-                 If the window cannot keep up with the mouse, we must use the relative mouse position to approximate
-                 the change in (x,y)
-                 */
-
-                this.windowPosition = [
-                    this.relativeMousePosition[0] + (this.io.mousePositionCur[0]),
-                    this.relativeMousePosition[1] + (this.io.mousePositionCur[1])
-                ];
-            }
-
-            // update title bar position.
-            this.TitleBar.Position = this.windowPosition;
-        }
-
-        /*
-         WINDOW RENDERING.
-         */
-
-        // draw title bar
-        this._box(this.TitleBar.Position, this.TitleBar.Size, this.TitleBar.BackgroundColor, 1);
-
-        // draw title bar text
-        this._textCenter(
-            [this.windowPosition[0] + this.TitleBar.VerticalSpacing, this.windowPosition[1]],
-            [this._getTextSizes(this.TitleBar.Title)[0], this.TitleBar.Height],
-            this.TitleBar.Title);
-
-        // draw the actual window.
-        this._box([this.windowPosition[0], this.windowPosition[1] + this.TitleBar.Height], this.windowSizes,
-            this.windowColor, this.windowAlpha);
-
-        // setup the window-caret. The window-caret is where we will place the next widget in the window.
-        this.windowCaret = [
-            this.windowPosition[0] + this.windowSpacing,
-            this.windowPosition[1] + this.windowSpacing + this.TitleBar.Height];
-        this.prevWidgetSizes = null; // should be null at the beginning.
-
-
-        /*
-         Determine whether the mouse is inside the window. We need this in some places.
-         */
-        this.mouseInWindow = this._inBox(this.TitleBar.Position,
-            [this.windowSizes[0], this.TitleBar.Height + this.windowSizes[1]],
-            this.io.mousePositionCur);
-    }
-
     /* Render text centered in a box with position `p`, width `s[0]`, height `[1]`, */
     _textCenter(p, s, str): void {
         var strSizes = this._getTextSizes(str);
@@ -600,6 +601,19 @@ export class Window{
         this.prevWidgetSizes = [radioButtonSizes[0] + labelStrSizes[0], radioButtonSizes[1]];
     }
 
+    /* If value.val == id, then that means this radio button is chosen. */
+    Button(id: string, labelStr: string, padding: number[]): void {
+
+        this._moveWindowCaret();
+
+        var pos = this.windowCaret;
+        let lblSizesInner = this._getTextSizes(labelStr);
+        let lblSizes = [lblSizesInner[0] + padding[0], lblSizesInner[1] + padding[1]];
+
+        this._button(id, labelStr, this.buttonColor, this.hoverButtonColor, lblSizes, pos);
+    }
+
+
     /*
     Render a circle, where the top-left corner of the circle is `position`
     Where `segments` is how many triangle segments the triangle is rendered with.
@@ -640,7 +654,7 @@ export class Window{
         }
     };
 
-    draggerRgb(labelStr, value): void {
+    draggerRgb(labelStr: string, value: number[]): void {
         this._draggerFloatN(
             labelStr, value, 3, [0, 1], ["R:", "G:", "B:"],
             [
@@ -718,7 +732,7 @@ export class Window{
      min max, for all n.
      hover color, for all three.
      */
-    _draggerFloatN(labelStr, value, N, minMaxValues, subLabels, colors): void {
+    _draggerFloatN(labelStr: string, value: number[], N: number, minMaxValues, subLabels, colors): void {
         this._moveWindowCaret();
 
         if (!minMaxValues)
@@ -766,7 +780,7 @@ export class Window{
         var draggerWidth =
             (((this.windowSizes[0] - 2 * this.windowSpacing) * (this.widgetHorizontalGrowRatio)) - (N - 1) * this.draggerWidgetHorizontalSpacing) / (N);
 
-        let nDraggerPosition: any = this.windowCaret;
+        let nDraggerPosition: number[] = this.windowCaret;
         let formerDraggerPosition: any = { topRight: nDraggerPosition };
 
         for (var iDragger = 0; iDragger < N; ++iDragger) {
@@ -801,7 +815,6 @@ export class Window{
         this._textCenter(draggerLabelPosition, draggerLabelStrSizes, labelStr);
 
         this.prevWidgetSizes = [
-
             draggerSizes[0] + this.widgetLabelHorizontalSpacing + draggerLabelStrSizes[0],
             draggerSizes[1]];
     }
@@ -840,7 +853,7 @@ export class Window{
         // render outer box.
         this._box(
             checkboxPosition,
-            checkboxSizes, isHover ? this.checkboxOuterColorHover : this.checkboxOuterColor, 1);
+            checkboxSizes, isHover ? this.checkboxOuterColorHover : this.checkboxOuterColor);
 
 
         // now render a centered inner box, that shows whether the checkbox is true, or false.
@@ -855,7 +868,7 @@ export class Window{
 
             this._box(
                 innerboxPosition,
-                [innerSize, innerSize], isHover ? this.checkboxInnerColorHover : this.checkboxInnerColor, 1);
+                [innerSize, innerSize], isHover ? this.checkboxInnerColorHover : this.checkboxInnerColor);
         }
 
         // now render checkbox label.
@@ -917,7 +930,7 @@ export class Window{
 
         this._box(
             draggerPosition,
-            draggerSizes, isHover ? colorHover : color, 1);
+            draggerSizes, isHover ? colorHover : color);
 
 
         var sliderValueStrSizes = this._getTextSizes(sliderValueStr);
@@ -933,6 +946,54 @@ export class Window{
         };
     };
 
+    _button(widgetId, labelStr, color, colorHover, size, position): any {
+
+        /*
+        BUTTON IO
+         */
+        
+        var mouseCollision = this._inBox(position, size, this.io.mousePositionCur);
+        if (
+            mouseCollision &&
+            this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false) {
+            // if slider is clicked, it becomes active.
+            this.activeWidgetId = widgetId;
+        }
+
+        if (this.activeWidgetId == widgetId) {
+            this.activeWidgetId = widgetId;
+        }
+
+        /*
+         BUTTON RENDERING
+         */
+        var text = labelStr ;
+
+
+        /*
+         If either widget is active, OR we are hovering but not clicking,
+         switch to hover color.
+         */
+        var isHover = (this.activeWidgetId == widgetId) || (mouseCollision && !this.io.mouseLeftDownCur);
+
+        this._box(
+            position,
+            size, isHover ? colorHover : color);
+
+        var sliderValueStrSizes = this._getTextSizes(text);
+
+
+        // render text in slider
+        this._textCenter(position, size, text);
+
+        // return top right corner, and bottom right corner of the dragger.
+        return {
+            topRight: [position[0] + size[0], position[1]],
+            bottomRight: [position[0] + size[0], position[1] + size[1]],
+        };
+    };
+
+
     /*
      Render a box.
 
@@ -940,7 +1001,7 @@ export class Window{
      the optional `alpha` argument specifies the transparency of the box.
      default value of `alpha` is 1.0
      */
-    _box(position, size, color, alpha): void {
+    _box(position: number[], size: number[], color: number[], alpha: number = 1): void {
 
 
         if (typeof alpha === 'undefined') {
@@ -1052,7 +1113,7 @@ export class Window{
 
         this._box(
             sliderPosition,
-            sliderSizes, isHover ? this.sliderBackgroundColorHover : this.sliderBackgroundColor, 1);
+            sliderSizes, isHover ? this.sliderBackgroundColorHover : this.sliderBackgroundColor);
 
         /*
          Now fill the slider based on `sliderFill`
@@ -1060,7 +1121,7 @@ export class Window{
         this._box(
             sliderPosition,
             [sliderSizes[0] * sliderFill, sliderSizes[1]],
-            isHover ? this.sliderFillColorHover : this.sliderFillColor, 1);
+            isHover ? this.sliderFillColorHover : this.sliderFillColor);
 
         var sliderValueStrSizes = this._getTextSizes(sliderValueStr);
 

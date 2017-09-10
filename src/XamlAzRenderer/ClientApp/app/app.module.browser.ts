@@ -22,14 +22,14 @@ export class AppModule {
     camera: any = createOrbitCamera([0, -1000, 0], [0, 0, 0], [0, 1, 0]);
     dwm: WindowManager;
 
-    demo1DiffuseColor: any = [0.42, 0.34, 0.0];
-    demo1AmbientLight: any  = [0.77, 0.72, 0.59];
-    demo1LightColor: any  = [0.40, 0.47, 0.0];
-    demo1SunDir: any  = [-0.69, 1.33, 0.57];
+    demo1DiffuseColor: number[] = [0.42, 0.34, 0.0];
+    demo1AmbientLight: number[]  = [0.77, 0.72, 0.59];
+    demo1LightColor: number[]  = [0.40, 0.47, 0.0];
+    demo1SunDir: number[]  = [-0.69, 1.33, 0.57];
     demo1SpecularPower: any  = { val: 12.45 };
     demo1HasSpecular: any  = { val: true };
     // demo1RenderModel = { val: RENDER_BUNNY };
-    demo2HeightmapPosition: any  = [0.0, 0.0];
+    demo2HeightmapPosition: number[]  = [0.0, 0.0];
 
 
 
@@ -169,8 +169,9 @@ export class AppModule {
             win2.TitleBar.Title = "Window 2";
             win2.textLine("textline");
             win2.radioButton("radio button 1", this.demo, 1);
+            win2.Button("butButton1", "button 1", [20, 20]);
             win2.end(gl, canvas.width, canvas.height);
-
+            
 
 
 
