@@ -146,7 +146,7 @@ export class Browser {
 
             let win1 = this.dwm.Get(0);
             win1.begin(io);
-            win1.TitleBar.Title = "Window 1";
+            win1.titleBar.Title = "Window 1";
             win1.textLine("textline");
             win1.radioButton("radio button 1", this.demo, 1);
             win1.sameLine();
@@ -166,10 +166,10 @@ export class Browser {
 
             let win2 = this.dwm.Get(1);
             win2.begin(io);
-            win2.TitleBar.Title = "Window 2";
+            win2.titleBar.Title = "Window 2";
             win2.textLine("textline");
             win2.radioButton("radio button 1", this.demo, 1);
-            win2.Button("butButton1", "button 1", [20, 20]);
+            win2.button("butButton1", "button 1", [20, 20]);
             win2.end(gl, canvas.width, canvas.height);
             
 

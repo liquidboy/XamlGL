@@ -7,7 +7,7 @@ import * as createBuffer from 'gl-buffer';
 import * as createTexture from 'gl-texture2d';
 import * as mat4 from 'gl-mat4';
 
-export class Window{
+export class Window implements BaseRenderer, ButtonRenderer, TextRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer {
 
     // distance from window-borders to the widgets.
     public windowSpacing: number = 14;
@@ -23,7 +23,7 @@ export class Window{
     // the transparency of the window.
     public windowAlpha: number = 0.9;
 
-    public TitleBar: TitleBar = new TitleBar();
+    public titleBar: TitleBar = new TitleBar();
 
     /* button settings */
 
@@ -166,14 +166,18 @@ export class Window{
     }
 
     /* Setup geometry buffers. */
-    private indexBuffer = [];
-    private positionBuffer = [];
-    private colorBuffer = [];
-    private uvBuffer = [];
-    private indexBufferIndex: number = 0;
-    private positionBufferIndex: number = 0;
-    private colorBufferIndex: number = 0;
-    private uvBufferIndex: number = 0;
+    indexBuffer = [];
+    indexBufferIndex: number = 0;
+
+    uvBuffer = [];
+    uvBufferIndex: number = 0;
+
+    positionBuffer = [];
+    positionBufferIndex: number = 0;
+
+    colorBuffer = [];
+    colorBufferIndex: number = 0;
+    
     private io: any;
     begin(io): void {
 
@@ -212,6 +216,7 @@ export class Window{
         this.io = io;
 
         this._render();
+
     };
 
 
@@ -220,24 +225,24 @@ export class Window{
     private mouseInWindow: boolean;
     _render(): void {
 
-        var widgetId = hashString(this.TitleBar.Title);
+        var widgetId = hashString(this.titleBar.Title);
 
         /*
          WINDOW IO(move window when dragging the title-bar using the left mouse button)
          */
 
-        this.TitleBar.Position = this.windowPosition;
-        this.TitleBar.Size = [this.windowSizes[0], this.TitleBar.Height];
+        this.titleBar.Position = this.windowPosition;
+        this.titleBar.Size = [this.windowSizes[0], this.titleBar.Height];
 
         if (
-            this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur) &&
+            this._inBox(this.titleBar.Position, this.titleBar.Size, this.io.mousePositionCur) &&
             this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false) {
             this.activeWidgetId = widgetId;
         }
 
         if (this.activeWidgetId == widgetId) {
 
-            if (this._inBox(this.TitleBar.Position, this.TitleBar.Size, this.io.mousePositionCur)) {
+            if (this._inBox(this.titleBar.Position, this.titleBar.Size, this.io.mousePositionCur)) {
                 // if mouse in title bar, just use the mouse position delta to adjust the window pos.
 
                 this.windowPosition = [
@@ -265,7 +270,7 @@ export class Window{
             }
 
             // update title bar position.
-            this.TitleBar.Position = this.windowPosition;
+            this.titleBar.Position = this.windowPosition;
         }
 
         /*
@@ -273,30 +278,30 @@ export class Window{
          */
 
         // draw title bar
-        this._box(this.TitleBar.Position, this.TitleBar.Size, this.TitleBar.BackgroundColor);
+        this._box(this.titleBar.Position, this.titleBar.Size, this.titleBar.BackgroundColor, 1);
 
         // draw title bar text
         this._textCenter(
-            [this.windowPosition[0] + this.TitleBar.VerticalSpacing, this.windowPosition[1]],
-            [this._getTextSizes(this.TitleBar.Title)[0], this.TitleBar.Height],
-            this.TitleBar.Title);
+            [this.windowPosition[0] + this.titleBar.VerticalSpacing, this.windowPosition[1]],
+            [this._getTextSizes(this.titleBar.Title)[0], this.titleBar.Height],
+            this.titleBar.Title);
 
         // draw the actual window.
-        this._box([this.windowPosition[0], this.windowPosition[1] + this.TitleBar.Height], this.windowSizes,
+        this._box([this.windowPosition[0], this.windowPosition[1] + this.titleBar.Height], this.windowSizes,
             this.windowColor, this.windowAlpha);
 
         // setup the window-caret. The window-caret is where we will place the next widget in the window.
         this.windowCaret = [
             this.windowPosition[0] + this.windowSpacing,
-            this.windowPosition[1] + this.windowSpacing + this.TitleBar.Height];
+            this.windowPosition[1] + this.windowSpacing + this.titleBar.Height];
         this.prevWidgetSizes = null; // should be null at the beginning.
 
 
         /*
          Determine whether the mouse is inside the window. We need this in some places.
          */
-        this.mouseInWindow = this._inBox(this.TitleBar.Position,
-            [this.windowSizes[0], this.TitleBar.Height + this.windowSizes[1]],
+        this.mouseInWindow = this._inBox(this.titleBar.Position,
+            [this.windowSizes[0], this.titleBar.Height + this.windowSizes[1]],
             this.io.mousePositionCur);
     }
 
@@ -483,37 +488,41 @@ export class Window{
         this._text(strPosition, str);
     }
 
-    
-    _addIndex(index): void {
-        this.indexBuffer[this.indexBufferIndex++] = index;
-    };
+    _addIndex: (index) => void;
+    //_addIndex(index): void {
+    //    this.indexBuffer[this.indexBufferIndex++] = index;
+    //};
 
-    _addPosition(position): void {
-        this.positionBuffer[this.positionBufferIndex++] = position[0];
-        this.positionBuffer[this.positionBufferIndex++] = position[1];
-    };
+    _addPosition: (position) => void;
+    //_addPosition(position): void {
+    //    this.positionBuffer[this.positionBufferIndex++] = position[0];
+    //    this.positionBuffer[this.positionBufferIndex++] = position[1];
+    //};
 
-    _addColor(color): void {
-        this.colorBuffer[this.colorBufferIndex++] = color[0];
-        this.colorBuffer[this.colorBufferIndex++] = color[1];
-        this.colorBuffer[this.colorBufferIndex++] = color[2];
-        this.colorBuffer[this.colorBufferIndex++] = color[3];
-    };
+    _addColor: (color) => void;
+    //_addColor(color): void {
+    //    this.colorBuffer[this.colorBufferIndex++] = color[0];
+    //    this.colorBuffer[this.colorBufferIndex++] = color[1];
+    //    this.colorBuffer[this.colorBufferIndex++] = color[2];
+    //    this.colorBuffer[this.colorBufferIndex++] = color[3];
+    //};
 
-    _addUv(uv): void {
-        this.uvBuffer[this.uvBufferIndex++] = uv[0];
-        this.uvBuffer[this.uvBufferIndex++] = uv[1];
-    };
+    _addUv: (uv) => void;
+    //_addUv(uv): void {
+    //    this.uvBuffer[this.uvBufferIndex++] = uv[0];
+    //    this.uvBuffer[this.uvBufferIndex++] = uv[1];
+    //};
 
+    _coloredVertex: (position, color) => void;
     /* Add vertex that only has one color, and does not use a texture. */
-    _coloredVertex(position, color): void {
-        // at this uv-coordinate, the font atlas is entirely white.
-        var whiteUv = [0.95, 0.95];
+    //_coloredVertex(position, color): void {
+    //    // at this uv-coordinate, the font atlas is entirely white.
+    //    var whiteUv = [0.95, 0.95];
 
-        this._addPosition(position);
-        this._addColor(color);
-        this._addUv(whiteUv);
-    };
+    //    this._addPosition(position);
+    //    this._addColor(color);
+    //    this._addUv(whiteUv);
+    //};
 
     public sameLine(): void {
         this.sameLineActive = true;
@@ -602,7 +611,7 @@ export class Window{
     }
 
     /* If value.val == id, then that means this radio button is chosen. */
-    Button(id: string, labelStr: string, padding: number[]): void {
+    button(id: string, labelStr: string, padding: number[]): void {
 
         this._moveWindowCaret();
 
@@ -613,46 +622,46 @@ export class Window{
         this._button(id, labelStr, this.buttonColor, this.hoverButtonColor, lblSizes, pos);
     }
 
-
+    _circle: (position, sizes, color, segments) => void
     /*
     Render a circle, where the top-left corner of the circle is `position`
     Where `segments` is how many triangle segments the triangle is rendered with.
     */
-    _circle(position, sizes, color, segments): void {
+    //_circle(position, sizes, color, segments): void {
 
-        let centerPosition = [
-            position[0] + 0.5 * sizes[0],
-            position[1] + 0.5 * sizes[1]
-        ];
-        let radius = sizes[0] / 2;
+    //    let centerPosition = [
+    //        position[0] + 0.5 * sizes[0],
+    //        position[1] + 0.5 * sizes[1]
+    //    ];
+    //    let radius = sizes[0] / 2;
 
-        let baseIndex = this.positionBufferIndex / 2;
+    //    let baseIndex = this.positionBufferIndex / 2;
 
-        let c = [color[0], color[1], color[2], 1.0];
+    //    let c = [color[0], color[1], color[2], 1.0];
 
-        // add center vertex.
-        this._coloredVertex(centerPosition, c);
-        let centerVertexIndex = baseIndex + 0;
+    //    // add center vertex.
+    //    this._coloredVertex(centerPosition, c);
+    //    let centerVertexIndex = baseIndex + 0;
 
 
-        let stepSize = (2 * Math.PI) / segments;
-        let curIndex = baseIndex + 1;
-        for (var theta = 0; theta <= 2 * Math.PI + 0.1; theta += stepSize, ++curIndex) {
+    //    let stepSize = (2 * Math.PI) / segments;
+    //    let curIndex = baseIndex + 1;
+    //    for (var theta = 0; theta <= 2 * Math.PI + 0.1; theta += stepSize, ++curIndex) {
 
-            // for first frame, we only create one vertex, and no triangles
-            if (theta == 0) {
-                let p = this._unitCircle(centerPosition, theta, radius);
-                this._coloredVertex(p, c);
-            } else {
-                let p = this._unitCircle(centerPosition, theta, radius);
-                this._coloredVertex(p, c);
+    //        // for first frame, we only create one vertex, and no triangles
+    //        if (theta == 0) {
+    //            let p = this._unitCircle(centerPosition, theta, radius);
+    //            this._coloredVertex(p, c);
+    //        } else {
+    //            let p = this._unitCircle(centerPosition, theta, radius);
+    //            this._coloredVertex(p, c);
 
-                this._addIndex(curIndex + 0);
-                this._addIndex(curIndex - 1);
-                this._addIndex(centerVertexIndex);
-            }
-        }
-    };
+    //            this._addIndex(curIndex + 0);
+    //            this._addIndex(curIndex - 1);
+    //            this._addIndex(centerVertexIndex);
+    //        }
+    //    }
+    //};
 
     draggerRgb(labelStr: string, value: number[]): void {
         this._draggerFloatN(
@@ -664,25 +673,27 @@ export class Window{
             ]);
     };
 
-    _unitCircle(position, theta, radius): [number, number] {
-        return [position[0] + radius * Math.cos(theta), position[1] + radius * Math.sin(theta)];
-    };
+    _unitCircle: (position, theta, radius) => [number, number];
+    //_unitCircle(position, theta, radius): [number, number] {
+    //    return [position[0] + radius * Math.cos(theta), position[1] + radius * Math.sin(theta)];
+    //};
 
-    _inCircle(p, s, x): boolean {
+    _inCircle: (p, s, x) => boolean;
+    //_inCircle(p, s, x): boolean {
 
-        // circle center
-        var cp = [
-            p[0] + 0.5 * s[0],
-            p[1] + 0.5 * s[1]
+    //    // circle center
+    //    var cp = [
+    //        p[0] + 0.5 * s[0],
+    //        p[1] + 0.5 * s[1]
 
-        ];
-        var radius = s[0] * 0.5;
+    //    ];
+    //    var radius = s[0] * 0.5;
 
-        // distance from `x` to circle center.
-        var dist = Math.sqrt((x[0] - cp[0]) * (x[0] - cp[0]) + (x[1] - cp[1]) * (x[1] - cp[1]));
+    //    // distance from `x` to circle center.
+    //    var dist = Math.sqrt((x[0] - cp[0]) * (x[0] - cp[0]) + (x[1] - cp[1]) * (x[1] - cp[1]));
 
-        return (dist <= radius);
-    }
+    //    return (dist <= radius);
+    //}
 
     _getCharDesc(char): any {
         return Shared.guiFontInfo.chars[char.charCodeAt(0) - 32];
@@ -853,7 +864,7 @@ export class Window{
         // render outer box.
         this._box(
             checkboxPosition,
-            checkboxSizes, isHover ? this.checkboxOuterColorHover : this.checkboxOuterColor);
+            checkboxSizes, isHover ? this.checkboxOuterColorHover : this.checkboxOuterColor, 1);
 
 
         // now render a centered inner box, that shows whether the checkbox is true, or false.
@@ -868,7 +879,7 @@ export class Window{
 
             this._box(
                 innerboxPosition,
-                [innerSize, innerSize], isHover ? this.checkboxInnerColorHover : this.checkboxInnerColor);
+                [innerSize, innerSize], isHover ? this.checkboxInnerColorHover : this.checkboxInnerColor, 1);
         }
 
         // now render checkbox label.
@@ -930,7 +941,7 @@ export class Window{
 
         this._box(
             draggerPosition,
-            draggerSizes, isHover ? colorHover : color);
+            draggerSizes, isHover ? colorHover : color, 1);
 
 
         var sliderValueStrSizes = this._getTextSizes(sliderValueStr);
@@ -978,7 +989,7 @@ export class Window{
 
         this._box(
             position,
-            size, isHover ? colorHover : color);
+            size, isHover ? colorHover : color, 1);
 
         var sliderValueStrSizes = this._getTextSizes(text);
 
@@ -993,55 +1004,55 @@ export class Window{
         };
     };
 
+    _box: (position: number[], size: number[], color: number[], alpha: number) => void;
+    ///*
+    // Render a box.
 
-    /*
-     Render a box.
-
-     `color` is a RGB-triplet.
-     the optional `alpha` argument specifies the transparency of the box.
-     default value of `alpha` is 1.0
-     */
-    _box(position: number[], size: number[], color: number[], alpha: number = 1): void {
-
-
-        if (typeof alpha === 'undefined') {
-            alpha = 1.0; // default to 1.0
-        }
-
-        // top-left, bottom-left, top-right, bottom-right corners
-        var tl = position;
-        var bl = [position[0], position[1] + size[1]];
-        var tr = [position[0] + size[0], position[1]];
-        var br = [position[0] + size[0], position[1] + size[1]];
-
-        var baseIndex = this.positionBufferIndex / 2;
-
-        var c = [color[0], color[1], color[2], alpha];
-
-        // vertex 1
-        this._coloredVertex(tl, c);
-
-        // vertex 2
-        this._coloredVertex(bl, c);
-
-        // vertex 3
-        this._coloredVertex(tr, c);
-
-        // vertex 4
-        this._coloredVertex(br, c);
+    // `color` is a RGB-triplet.
+    // the optional `alpha` argument specifies the transparency of the box.
+    // default value of `alpha` is 1.0
+    // */
+    //_box(position: number[], size: number[], color: number[], alpha: number = 1): void {
 
 
-        // triangle 1
-        this._addIndex(baseIndex + 0);
-        this._addIndex(baseIndex + 1);
-        this._addIndex(baseIndex + 2);
+    //    if (typeof alpha === 'undefined') {
+    //        alpha = 1.0; // default to 1.0
+    //    }
 
-        // triangle 2
-        this._addIndex(baseIndex + 3);
-        this._addIndex(baseIndex + 2);
-        this._addIndex(baseIndex + 1);
+    //    // top-left, bottom-left, top-right, bottom-right corners
+    //    var tl = position;
+    //    var bl = [position[0], position[1] + size[1]];
+    //    var tr = [position[0] + size[0], position[1]];
+    //    var br = [position[0] + size[0], position[1] + size[1]];
 
-    };
+    //    var baseIndex = this.positionBufferIndex / 2;
+
+    //    var c = [color[0], color[1], color[2], alpha];
+
+    //    // vertex 1
+    //    this._coloredVertex(tl, c);
+
+    //    // vertex 2
+    //    this._coloredVertex(bl, c);
+
+    //    // vertex 3
+    //    this._coloredVertex(tr, c);
+
+    //    // vertex 4
+    //    this._coloredVertex(br, c);
+
+
+    //    // triangle 1
+    //    this._addIndex(baseIndex + 0);
+    //    this._addIndex(baseIndex + 1);
+    //    this._addIndex(baseIndex + 2);
+
+    //    // triangle 2
+    //    this._addIndex(baseIndex + 3);
+    //    this._addIndex(baseIndex + 2);
+    //    this._addIndex(baseIndex + 1);
+
+    //};
 
     private _slider(labelStr, value, min, max, doRounding, numDecimalDigits): void {
 
@@ -1113,7 +1124,7 @@ export class Window{
 
         this._box(
             sliderPosition,
-            sliderSizes, isHover ? this.sliderBackgroundColorHover : this.sliderBackgroundColor);
+            sliderSizes, isHover ? this.sliderBackgroundColorHover : this.sliderBackgroundColor, 1);
 
         /*
          Now fill the slider based on `sliderFill`
@@ -1121,7 +1132,7 @@ export class Window{
         this._box(
             sliderPosition,
             [sliderSizes[0] * sliderFill, sliderSizes[1]],
-            isHover ? this.sliderFillColorHover : this.sliderFillColor);
+            isHover ? this.sliderFillColorHover : this.sliderFillColor, 1);
 
         var sliderValueStrSizes = this._getTextSizes(sliderValueStr);
 
@@ -1203,4 +1214,187 @@ export class Window{
         if (this.lastEnableDepthTest) gl.enable(gl.DEPTH_TEST); else gl.disable(gl.DEPTH_TEST);
         if (this.lastEnableBlend) gl.enable(gl.BLEND); else gl.disable(gl.BLEND);
     }
+
+
+
+
+
+
+
+
+    // sampleGeometryCall: () => void;
 }
+
+class BaseRenderer {
+
+    indexBuffer = [];
+    indexBufferIndex: number = 0;
+    positionBuffer = [];
+    positionBufferIndex: number = 0;
+    colorBuffer = [];
+    colorBufferIndex: number = 0;
+    uvBuffer = [];
+    uvBufferIndex: number = 0;
+
+    /*
+    Render a circle, where the top-left corner of the circle is `position`
+    Where `segments` is how many triangle segments the triangle is rendered with.
+    */
+    _circle(position, sizes, color, segments): void {
+
+        let centerPosition = [
+            position[0] + 0.5 * sizes[0],
+            position[1] + 0.5 * sizes[1]
+        ];
+        let radius = sizes[0] / 2;
+
+        let baseIndex = this.positionBufferIndex / 2;
+
+        let c = [color[0], color[1], color[2], 1.0];
+
+        // add center vertex.
+        this._coloredVertex(centerPosition, c);
+        let centerVertexIndex = baseIndex + 0;
+
+
+        let stepSize = (2 * Math.PI) / segments;
+        let curIndex = baseIndex + 1;
+        for (var theta = 0; theta <= 2 * Math.PI + 0.1; theta += stepSize, ++curIndex) {
+
+            // for first frame, we only create one vertex, and no triangles
+            if (theta == 0) {
+                let p = this._unitCircle(centerPosition, theta, radius);
+                this._coloredVertex(p, c);
+            } else {
+                let p = this._unitCircle(centerPosition, theta, radius);
+                this._coloredVertex(p, c);
+
+                this._addIndex(curIndex + 0);
+                this._addIndex(curIndex - 1);
+                this._addIndex(centerVertexIndex);
+            }
+        }
+    };
+
+    _unitCircle(position, theta, radius): [number, number] {
+        return [position[0] + radius * Math.cos(theta), position[1] + radius * Math.sin(theta)];
+    };
+
+    /* Add vertex that only has one color, and does not use a texture. */
+    _coloredVertex(position, color): void {
+        // at this uv-coordinate, the font atlas is entirely white.
+        var whiteUv = [0.95, 0.95];
+
+        this._addPosition(position);
+        this._addColor(color);
+        this._addUv(whiteUv);
+    };
+
+    _addIndex(index): void {
+        this.indexBuffer[this.indexBufferIndex++] = index;
+    };
+
+    _addPosition(position): void {
+        this.positionBuffer[this.positionBufferIndex++] = position[0];
+        this.positionBuffer[this.positionBufferIndex++] = position[1];
+    };
+
+    _addColor(color): void {
+        this.colorBuffer[this.colorBufferIndex++] = color[0];
+        this.colorBuffer[this.colorBufferIndex++] = color[1];
+        this.colorBuffer[this.colorBufferIndex++] = color[2];
+        this.colorBuffer[this.colorBufferIndex++] = color[3];
+    };
+
+    _addUv(uv): void {
+        this.uvBuffer[this.uvBufferIndex++] = uv[0];
+        this.uvBuffer[this.uvBufferIndex++] = uv[1];
+    };
+
+    _inCircle(p, s, x): boolean {
+
+        // circle center
+        var cp = [
+            p[0] + 0.5 * s[0],
+            p[1] + 0.5 * s[1]
+
+        ];
+        var radius = s[0] * 0.5;
+
+        // distance from `x` to circle center.
+        var dist = Math.sqrt((x[0] - cp[0]) * (x[0] - cp[0]) + (x[1] - cp[1]) * (x[1] - cp[1]));
+
+        return (dist <= radius);
+    }
+
+    /*
+     Render a box.
+
+     `color` is a RGB-triplet.
+     the optional `alpha` argument specifies the transparency of the box.
+     default value of `alpha` is 1.0
+     */
+    _box(position: number[], size: number[], color: number[], alpha: number): void {
+
+
+        if (typeof alpha === 'undefined') {
+            alpha = 1.0; // default to 1.0
+        }
+
+        // top-left, bottom-left, top-right, bottom-right corners
+        var tl = position;
+        var bl = [position[0], position[1] + size[1]];
+        var tr = [position[0] + size[0], position[1]];
+        var br = [position[0] + size[0], position[1] + size[1]];
+
+        var baseIndex = this.positionBufferIndex / 2;
+
+        var c = [color[0], color[1], color[2], alpha];
+
+        // vertex 1
+        this._coloredVertex(tl, c);
+
+        // vertex 2
+        this._coloredVertex(bl, c);
+
+        // vertex 3
+        this._coloredVertex(tr, c);
+
+        // vertex 4
+        this._coloredVertex(br, c);
+
+
+        // triangle 1
+        this._addIndex(baseIndex + 0);
+        this._addIndex(baseIndex + 1);
+        this._addIndex(baseIndex + 2);
+
+        // triangle 2
+        this._addIndex(baseIndex + 3);
+        this._addIndex(baseIndex + 2);
+        this._addIndex(baseIndex + 1);
+
+    };
+}
+
+class ButtonRenderer {
+
+}
+
+class TextRenderer {
+
+}
+
+class RadioButtonRenderer {
+
+}
+
+class DraggerRenderer {
+
+}
+
+class CheckboxRenderer {
+
+}
+
+Shared.applyMixins(Window, [BaseRenderer, ButtonRenderer, TextRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer]);
