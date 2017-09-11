@@ -74,19 +74,9 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     public draggerFloatColor = [0.30, 0.30, 0.30];
     public draggerFloatColorHover = [0.32, 0.32, 0.32];
 
-    /* checkbox settings */
+    
 
-
-    // the outer color is the color of the outer box of the checkbox,
-    // and the inner color is the color of the inner box
-    public checkboxOuterColor = [0.3, 0.3, 0.3];
-    public checkboxInnerColor = [0.15, 0.15, 0.15];
-    public checkboxOuterColorHover = [0.33, 0.33, 0.33];
-    public checkboxInnerColorHover = [0.18, 0.18, 0.18];
-    // size of inner box will be (height of "0")* checkBoxInnerSizeRatio
-    public checkBoxInnerSizeRatio: number = 1.4;
-    // size of outer box will be (height of "0")* checkBoxOuterSizeRatio
-    public checkBoxOuterSizeRatio: number = 2.0;
+    
 
 
     /* radioButton settings */
@@ -119,7 +109,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     // Some widgets render a label in addition to themselves(such as the sliders and draggers)
     // this value is the horizontal spacing between the label and the widget for those widgets.
-    public widgetLabelHorizontalSpacing: number = 4;
+    widgetLabelHorizontalSpacing: number = 4;
 
     // Some widgets will grow horizontally as the window size increases. They are grown to occupy this
     // ratio of the total window width.
@@ -573,65 +563,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
             draggerSizes[1]];
     }
 
-    checkbox(labelStr, value): void {
-
-        this._moveWindowCaret();
-
-        /*
-         CHECKBOX IO(if checkbox clicked, flip boolean value.)
-         */
-
-        // use height of zero to determine size of checkbox, to ensure that the textl label does become higher
-        // than the checkbox.
-        var zeroHeight = this._getTextSizes("0")[1];
-
-
-        var innerSize = zeroHeight * this.checkBoxInnerSizeRatio;
-        var outerSize = zeroHeight * this.checkBoxOuterSizeRatio;
-
-        var checkboxPosition = this.windowCaret;
-        var checkboxSizes = [outerSize, outerSize];
-
-        var mouseCollision = this._inBox(checkboxPosition, checkboxSizes, this.io.mousePositionCur);
-
-        if (this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false && mouseCollision) {
-            value.val = !value.val;
-        }
-
-        var isHover = mouseCollision;
-
-        /*
-         CHECKBOX RENDERING
-         */
-
-        // render outer box.
-        this._box(
-            checkboxPosition,
-            checkboxSizes, isHover ? this.checkboxOuterColorHover : this.checkboxOuterColor, 1);
-
-
-        // now render a centered inner box, that shows whether the checkbox is true, or false.
-
-        if (value.val) {
-            var p = checkboxPosition;
-            var s = checkboxSizes;
-            var innerboxPosition = [
-                Math.round(0.5 * (p[0] + (p[0] + s[0]) - innerSize)),
-                Math.round(0.5 * (p[1] + (p[1] + s[1]) - innerSize)),
-            ];
-
-            this._box(
-                innerboxPosition,
-                [innerSize, innerSize], isHover ? this.checkboxInnerColorHover : this.checkboxInnerColor, 1);
-        }
-
-        // now render checkbox label.
-        var labelPosition = [checkboxPosition[0] + checkboxSizes[0] + this.widgetLabelHorizontalSpacing, checkboxPosition[1]]
-        var labelStrSizes = [this._getTextSizes(labelStr)[0], checkboxSizes[1]];
-        this._textCenter(labelPosition, labelStrSizes, labelStr);
-
-        this.prevWidgetSizes = [checkboxSizes[0] + labelStrSizes[0], checkboxSizes[1]];
-    }
+    
 
     draggerFloat2 = function (labelStr, value, minMaxValues, subLabels) {
         this._draggerFloatN(labelStr, value, 2, minMaxValues, subLabels);
@@ -847,6 +779,18 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         if (this.lastEnableDepthTest) gl.enable(gl.DEPTH_TEST); else gl.disable(gl.DEPTH_TEST);
         if (this.lastEnableBlend) gl.enable(gl.BLEND); else gl.disable(gl.BLEND);
     }
+
+
+
+    // CheckboxRenderer
+    checkboxOuterColor = [0.3, 0.3, 0.3];
+    checkboxInnerColor = [0.15, 0.15, 0.15];
+    checkboxOuterColorHover = [0.33, 0.33, 0.33];
+    checkboxInnerColorHover = [0.18, 0.18, 0.18];
+    checkBoxInnerSizeRatio: number = 1.4;
+    checkBoxOuterSizeRatio: number = 2.0;
+    checkbox: (labelStr, value) => void;
+
 
 
     // ButtonRenderer
