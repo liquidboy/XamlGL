@@ -1,6 +1,7 @@
 ﻿import * as hashString from 'hash-string';
 import * as clamp from 'clamp';
 import { Shared } from '../Shared';
+import { BaseRenderer } from './BaseRenderer';
 import { TitleBar } from './TitleBar';
 import * as createShader from 'gl-shader';
 import * as createBuffer from 'gl-buffer';
@@ -210,7 +211,7 @@ export class Window implements BaseRenderer, ButtonRenderer, TextRenderer, Radio
     };
 
 
-    private windowCaret: number[];
+    windowCaret: number[];
     private relativeMousePosition: any;
     private mouseInWindow: boolean;
     _render(): void {
@@ -379,105 +380,116 @@ export class Window implements BaseRenderer, ButtonRenderer, TextRenderer, Radio
 
     };
 
-    /* render text */
-    _text(position, str): void {
+    ///* render text */
+    //_text(position, str): void {
 
-        /*
-         Make sure to round the position to integer. Otherwise, anti-aliasing causes the text to get blurry,
-         it seems
-         */
-        var x = Math.round(position[0]);
-        var y = Math.round(position[1]);
+    //    /*
+    //     Make sure to round the position to integer. Otherwise, anti-aliasing causes the text to get blurry,
+    //     it seems
+    //     */
+    //    var x = Math.round(position[0]);
+    //    var y = Math.round(position[1]);
 
-        /*
-         Width of a single pixel in the font atlas.
-         */
-        var ipw = 1.0 / 256;
-        var iph = 1.0 / 256;
+    //    /*
+    //     Width of a single pixel in the font atlas.
+    //     */
+    //    var ipw = 1.0 / 256;
+    //    var iph = 1.0 / 256;
 
-        for (var i = 0; i < str.length; ++i) {
+    //    for (var i = 0; i < str.length; ++i) {
 
-            var ch = str[i];
+    //        var ch = str[i];
 
-            // char desc
-            var cd = this._getCharDesc(ch);
+    //        // char desc
+    //        var cd = this._getCharDesc(ch);
 
-            /*
-             We will render a single character as a quad.
-             First we gather all information needed to render the quad:
-             */
+    //        /*
+    //         We will render a single character as a quad.
+    //         First we gather all information needed to render the quad:
+    //         */
 
-            var x0 = (x + cd.xoff) * this.textScale;
-            var y0 = (y + cd.yoff) * this.textScale;
-            var x1 = (x + cd.xoff2) * this.textScale;
-            var y1 = (y + cd.yoff2) * this.textScale;
-
-
-            var s0 = (cd.x0 * ipw);
-            var t0 = (cd.y0 * iph);
-            var s1 = (cd.x1 * ipw);
-            var t1 = (cd.y1 * iph);
-
-            // render text as white.
-            var whiteColor = [1, 1, 1, 1]
+    //        var x0 = (x + cd.xoff) * this.textScale;
+    //        var y0 = (y + cd.yoff) * this.textScale;
+    //        var x1 = (x + cd.xoff2) * this.textScale;
+    //        var y1 = (y + cd.yoff2) * this.textScale;
 
 
-            /*
-             Now we have all the information. Now render the quad as two triangles:
-             */
+    //        var s0 = (cd.x0 * ipw);
+    //        var t0 = (cd.y0 * iph);
+    //        var s1 = (cd.x1 * ipw);
+    //        var t1 = (cd.y1 * iph);
 
-            var baseIndex = this.positionBufferIndex / 2;
-
-            // top left
-            this._addPosition([x0, y0]);
-            this._addColor(whiteColor);
-            this._addUv([s0, t0]);
-
-            // bottom left
-            this._addPosition([x0, y1]);
-            this._addColor(whiteColor);
-            this._addUv([s0, t1]);
-
-            // top right
-            this._addPosition([x1, y0]);
-            this._addColor(whiteColor);
-            this._addUv([s1, t0]);
+    //        // render text as white.
+    //        var whiteColor = [1, 1, 1, 1]
 
 
-            // bottom right
-            this._addPosition([x1, y1]);
-            this._addColor(whiteColor);
-            this._addUv([s1, t1]);
+    //        /*
+    //         Now we have all the information. Now render the quad as two triangles:
+    //         */
 
-            // triangle 1
-            this._addIndex(baseIndex + 0);
-            this._addIndex(baseIndex + 1);
-            this._addIndex(baseIndex + 2);
+    //        var baseIndex = this.positionBufferIndex / 2;
 
-            // triangle 2
-            this._addIndex(baseIndex + 3);
-            this._addIndex(baseIndex + 2);
-            this._addIndex(baseIndex + 1);
+    //        // top left
+    //        this._addPosition([x0, y0]);
+    //        this._addColor(whiteColor);
+    //        this._addUv([s0, t0]);
 
-            // finally, advance the x-coord, in preparation of rendering the next character.
-            x += (cd.xadvance) * this.textScale;
-        }
-    }
+    //        // bottom left
+    //        this._addPosition([x0, y1]);
+    //        this._addColor(whiteColor);
+    //        this._addUv([s0, t1]);
 
-    /* Render text centered in a box with position `p`, width `s[0]`, height `[1]`, */
-    _textCenter(p, s, str): void {
-        var strSizes = this._getTextSizes(str);
+    //        // top right
+    //        this._addPosition([x1, y0]);
+    //        this._addColor(whiteColor);
+    //        this._addUv([s1, t0]);
 
-        // we must round, otherwise the text may end up between pixels(say at 1.5, or 1.6, or something ),
-        // and this makes it blurry
-        var strPosition = [
-            Math.round(0.5 * (p[0] + (p[0] + s[0]) - strSizes[0])),
-            Math.round(0.5 * (p[1] + (p[1] + s[1]) + strSizes[1])),
-        ];
 
-        this._text(strPosition, str);
-    }
+    //        // bottom right
+    //        this._addPosition([x1, y1]);
+    //        this._addColor(whiteColor);
+    //        this._addUv([s1, t1]);
 
+    //        // triangle 1
+    //        this._addIndex(baseIndex + 0);
+    //        this._addIndex(baseIndex + 1);
+    //        this._addIndex(baseIndex + 2);
+
+    //        // triangle 2
+    //        this._addIndex(baseIndex + 3);
+    //        this._addIndex(baseIndex + 2);
+    //        this._addIndex(baseIndex + 1);
+
+    //        // finally, advance the x-coord, in preparation of rendering the next character.
+    //        x += (cd.xadvance) * this.textScale;
+    //    }
+    //}
+
+    ///* Render text centered in a box with position `p`, width `s[0]`, height `[1]`, */
+    //_textCenter(p, s, str): void {
+    //    var strSizes = this._getTextSizes(str);
+
+    //    // we must round, otherwise the text may end up between pixels(say at 1.5, or 1.6, or something ),
+    //    // and this makes it blurry
+    //    var strPosition = [
+    //        Math.round(0.5 * (p[0] + (p[0] + s[0]) - strSizes[0])),
+    //        Math.round(0.5 * (p[1] + (p[1] + s[1]) + strSizes[1])),
+    //    ];
+
+    //    this._text(strPosition, str);
+    //}
+
+    //textLine(str): void {
+    //    this._moveWindowCaret();
+
+    //    var textLinePosition = this.windowCaret;
+    //    var textSizes = this._getTextSizes(str);
+
+    //    // Render button text.
+    //    this._textCenter(textLinePosition, textSizes, str);
+
+    //    this.prevWidgetSizes = textSizes;
+    //};
 
     public sameLine(): void {
         this.sameLineActive = true;
@@ -491,19 +503,7 @@ export class Window implements BaseRenderer, ButtonRenderer, TextRenderer, Radio
 
         this._slider(str, value, min, max, false, numDecimalDigits);
     };
-
-    textLine(str): void {
-        this._moveWindowCaret();
-
-        var textLinePosition = this.windowCaret;
-        var textSizes = this._getTextSizes(str);
-
-        // Render button text.
-        this._textCenter(textLinePosition, textSizes, str);
-
-        this.prevWidgetSizes = textSizes;
-    };
-
+    
     /* If value.val == id, then that means this radio button is chosen. */
     radioButton(labelStr, value, id): void {
 
@@ -586,11 +586,7 @@ export class Window implements BaseRenderer, ButtonRenderer, TextRenderer, Radio
                 [this.draggerRgbBlueColor, this.draggerRgbBlueColorHover]
             ]);
     };
-
-    _getCharDesc(char): any {
-        return Shared.guiFontInfo.chars[char.charCodeAt(0) - 32];
-    };
-
+    
     separator = function () {
         this._moveWindowCaret();
 
@@ -604,32 +600,7 @@ export class Window implements BaseRenderer, ButtonRenderer, TextRenderer, Radio
 
         this.prevWidgetSizes = (separatorSizes);
     }
-
-    /* Get width and height of a text string. */
-    _getTextSizes(str): [number, number] {
-
-        var width = 0;
-        var height = 0; // the height of the highest character.
-
-        for (var i = 0; i < str.length; ++i) {
-            var ch = str[i];
-            var cd = this._getCharDesc(ch);
-
-            width += (cd.xadvance) * this.textScale;
-
-            var y0 = (cd.yoff) * this.textScale;
-            var y1 = (cd.yoff2) * this.textScale;
-            var h = y1 - y0;
-
-            if (height < h) {
-                height = h;
-            }
-
-        }
-
-        return [width, height];
-    }
-
+    
     /*
      sublabels,
      min max, for all n.
@@ -1065,173 +1036,191 @@ export class Window implements BaseRenderer, ButtonRenderer, TextRenderer, Radio
     _unitCircle: (position, theta, radius) => [number, number];
     _inCircle: (p, s, x) => boolean;
     _inBox: (p, s, x) => boolean;
-}
-
-class BaseRenderer {
-
-    indexBuffer = [];
-    indexBufferIndex: number = 0;
-    positionBuffer = [];
-    positionBufferIndex: number = 0;
-    colorBuffer = [];
-    colorBufferIndex: number = 0;
-    uvBuffer = [];
-    uvBufferIndex: number = 0;
 
 
+    // TextRenderer
 
-    _unitCircle(position, theta, radius): [number, number] {
-        return [position[0] + radius * Math.cos(theta), position[1] + radius * Math.sin(theta)];
-    };
-
-    /* Add vertex that only has one color, and does not use a texture. */
-    _coloredVertex(position, color): void {
-        // at this uv-coordinate, the font atlas is entirely white.
-        var whiteUv = [0.95, 0.95];
-
-        this._addPosition(position);
-        this._addColor(color);
-        this._addUv(whiteUv);
-    };
-
-    _addIndex(index): void {
-        this.indexBuffer[this.indexBufferIndex++] = index;
-    };
-
-    _addPosition(position): void {
-        this.positionBuffer[this.positionBufferIndex++] = position[0];
-        this.positionBuffer[this.positionBufferIndex++] = position[1];
-    };
-
-    _addColor(color): void {
-        this.colorBuffer[this.colorBufferIndex++] = color[0];
-        this.colorBuffer[this.colorBufferIndex++] = color[1];
-        this.colorBuffer[this.colorBufferIndex++] = color[2];
-        this.colorBuffer[this.colorBufferIndex++] = color[3];
-    };
-
-    _addUv(uv): void {
-        this.uvBuffer[this.uvBufferIndex++] = uv[0];
-        this.uvBuffer[this.uvBufferIndex++] = uv[1];
-    };
-
-    _inCircle(p, s, x): boolean {
-
-        // circle center
-        var cp = [
-            p[0] + 0.5 * s[0],
-            p[1] + 0.5 * s[1]
-
-        ];
-        var radius = s[0] * 0.5;
-
-        // distance from `x` to circle center.
-        var dist = Math.sqrt((x[0] - cp[0]) * (x[0] - cp[0]) + (x[1] - cp[1]) * (x[1] - cp[1]));
-
-        return (dist <= radius);
-    }
-
-    /* Given a box with position `p`, width `s[0]`, height `[1]`, return whether the point with the position `x` is inside the box. */
-    _inBox(p, s, x): boolean {
-        var minX = p[0];
-        var minY = p[1];
-
-        var maxX = p[0] + s[0];
-        var maxY = p[1] + s[1];
-
-        return (
-            minX <= x[0] && x[0] <= maxX &&
-            minY <= x[1] && x[1] <= maxY
-        );
-    }
-
-    /* Render a box. `color` is a RGB-triplet. the optional `alpha` argument specifies the transparency of the box. default value of `alpha` is 1.0 */
-    _box(position: number[], size: number[], color: number[], alpha: number): void {
-
-
-        if (typeof alpha === 'undefined') {
-            alpha = 1.0; // default to 1.0
-        }
-
-        // top-left, bottom-left, top-right, bottom-right corners
-        var tl = position;
-        var bl = [position[0], position[1] + size[1]];
-        var tr = [position[0] + size[0], position[1]];
-        var br = [position[0] + size[0], position[1] + size[1]];
-
-        var baseIndex = this.positionBufferIndex / 2;
-
-        var c = [color[0], color[1], color[2], alpha];
-
-        // vertex 1
-        this._coloredVertex(tl, c);
-
-        // vertex 2
-        this._coloredVertex(bl, c);
-
-        // vertex 3
-        this._coloredVertex(tr, c);
-
-        // vertex 4
-        this._coloredVertex(br, c);
-
-
-        // triangle 1
-        this._addIndex(baseIndex + 0);
-        this._addIndex(baseIndex + 1);
-        this._addIndex(baseIndex + 2);
-
-        // triangle 2
-        this._addIndex(baseIndex + 3);
-        this._addIndex(baseIndex + 2);
-        this._addIndex(baseIndex + 1);
-
-    };
-
-    /* Render a circle, where the top-left corner of the circle is `position` Where `segments` is how many triangle segments the triangle is rendered with. */
-    _circle(position, sizes, color, segments): void {
-
-        let centerPosition = [
-            position[0] + 0.5 * sizes[0],
-            position[1] + 0.5 * sizes[1]
-        ];
-        let radius = sizes[0] / 2;
-
-        let baseIndex = this.positionBufferIndex / 2;
-
-        let c = [color[0], color[1], color[2], 1.0];
-
-        // add center vertex.
-        this._coloredVertex(centerPosition, c);
-        let centerVertexIndex = baseIndex + 0;
-
-
-        let stepSize = (2 * Math.PI) / segments;
-        let curIndex = baseIndex + 1;
-        for (var theta = 0; theta <= 2 * Math.PI + 0.1; theta += stepSize, ++curIndex) {
-
-            // for first frame, we only create one vertex, and no triangles
-            if (theta == 0) {
-                let p = this._unitCircle(centerPosition, theta, radius);
-                this._coloredVertex(p, c);
-            } else {
-                let p = this._unitCircle(centerPosition, theta, radius);
-                this._coloredVertex(p, c);
-
-                this._addIndex(curIndex + 0);
-                this._addIndex(curIndex - 1);
-                this._addIndex(centerVertexIndex);
-            }
-        }
-    };
+    _text: (position, str) => void;
+    _textCenter: (p, s, str) => void;
+    textLine: (str) => void;
+    _getTextSizes: (str) => [number, number];
+    _getCharDesc: (char) => any;
 }
 
 class ButtonRenderer {
 
 }
 
-class TextRenderer {
+class TextRenderer implements BaseRenderer {
+    /* DO NOT CHANGE THIS VALUE. The entire GUI layout will break! */
+    textScale: number = 1.0;
 
+    // main
+    prevWidgetSizes: any;
+    windowCaret: number[];
+    _moveWindowCaret: () => void;
+
+    _getCharDesc(char): any {
+        return Shared.guiFontInfo.chars[char.charCodeAt(0) - 32];
+    };
+
+    /* render text */
+    _text(position, str): void {
+
+        /*
+         Make sure to round the position to integer. Otherwise, anti-aliasing causes the text to get blurry,
+         it seems
+         */
+        var x = Math.round(position[0]);
+        var y = Math.round(position[1]);
+
+        /*
+         Width of a single pixel in the font atlas.
+         */
+        var ipw = 1.0 / 256;
+        var iph = 1.0 / 256;
+
+        for (var i = 0; i < str.length; ++i) {
+
+            var ch = str[i];
+
+            // char desc
+            var cd = this._getCharDesc(ch);
+
+            /*
+             We will render a single character as a quad.
+             First we gather all information needed to render the quad:
+             */
+
+            var x0 = (x + cd.xoff) * this.textScale;
+            var y0 = (y + cd.yoff) * this.textScale;
+            var x1 = (x + cd.xoff2) * this.textScale;
+            var y1 = (y + cd.yoff2) * this.textScale;
+
+
+            var s0 = (cd.x0 * ipw);
+            var t0 = (cd.y0 * iph);
+            var s1 = (cd.x1 * ipw);
+            var t1 = (cd.y1 * iph);
+
+            // render text as white.
+            var whiteColor = [1, 1, 1, 1]
+
+
+            /*
+             Now we have all the information. Now render the quad as two triangles:
+             */
+
+            var baseIndex = this.positionBufferIndex / 2;
+
+            // top left
+            this._addPosition([x0, y0]);
+            this._addColor(whiteColor);
+            this._addUv([s0, t0]);
+
+            // bottom left
+            this._addPosition([x0, y1]);
+            this._addColor(whiteColor);
+            this._addUv([s0, t1]);
+
+            // top right
+            this._addPosition([x1, y0]);
+            this._addColor(whiteColor);
+            this._addUv([s1, t0]);
+
+
+            // bottom right
+            this._addPosition([x1, y1]);
+            this._addColor(whiteColor);
+            this._addUv([s1, t1]);
+
+            // triangle 1
+            this._addIndex(baseIndex + 0);
+            this._addIndex(baseIndex + 1);
+            this._addIndex(baseIndex + 2);
+
+            // triangle 2
+            this._addIndex(baseIndex + 3);
+            this._addIndex(baseIndex + 2);
+            this._addIndex(baseIndex + 1);
+
+            // finally, advance the x-coord, in preparation of rendering the next character.
+            x += (cd.xadvance) * this.textScale;
+        }
+    }
+
+    /* Render text centered in a box with position `p`, width `s[0]`, height `[1]`, */
+    _textCenter(p, s, str): void {
+        var strSizes = this._getTextSizes(str);
+
+        // we must round, otherwise the text may end up between pixels(say at 1.5, or 1.6, or something ),
+        // and this makes it blurry
+        var strPosition = [
+            Math.round(0.5 * (p[0] + (p[0] + s[0]) - strSizes[0])),
+            Math.round(0.5 * (p[1] + (p[1] + s[1]) + strSizes[1])),
+        ];
+
+        this._text(strPosition, str);
+    }
+
+    /* Get width and height of a text string. */
+    _getTextSizes(str): [number, number] {
+
+        var width = 0;
+        var height = 0; // the height of the highest character.
+
+        for (var i = 0; i < str.length; ++i) {
+            var ch = str[i];
+            var cd = this._getCharDesc(ch);
+
+            width += (cd.xadvance) * this.textScale;
+
+            var y0 = (cd.yoff) * this.textScale;
+            var y1 = (cd.yoff2) * this.textScale;
+            var h = y1 - y0;
+
+            if (height < h) {
+                height = h;
+            }
+
+        }
+
+        return [width, height];
+    }
+
+    textLine(str): void {
+        this._moveWindowCaret();
+
+        var textLinePosition = this.windowCaret;
+        var textSizes = this._getTextSizes(str);
+
+        // Render button text.
+        this._textCenter(textLinePosition, textSizes, str);
+
+        this.prevWidgetSizes = textSizes;
+    };
+    
+    
+
+    // BaseRenderer
+    indexBuffer = [];
+    indexBufferIndex: number = 0;
+    uvBuffer = [];
+    uvBufferIndex: number = 0;
+    positionBuffer = [];
+    positionBufferIndex: number = 0;
+    colorBuffer = [];
+    colorBufferIndex: number = 0;
+    _addIndex: (index) => void;
+    _addPosition: (position) => void;
+    _addColor: (color) => void;
+    _addUv: (uv) => void;
+    _coloredVertex: (position, color) => void;
+    _box: (position: number[], size: number[], color: number[], alpha: number) => void;
+    _circle: (position, sizes, color, segments) => void
+    _unitCircle: (position, theta, radius) => [number, number];
+    _inCircle: (p, s, x) => boolean;
+    _inBox: (p, s, x) => boolean;
 }
 
 class RadioButtonRenderer {
@@ -1246,4 +1235,4 @@ class CheckboxRenderer {
 
 }
 
-Shared.applyMixins(Window, [BaseRenderer, ButtonRenderer, TextRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer]);
+Shared.applyMixins(Window, [BaseRenderer, TextRenderer, ButtonRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer]);
