@@ -42,16 +42,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     // button color when mouse click.
     public clickButtonColor = [0.50, 0.1, 0.1];
 
-
-
     
-    
-
-    
-
-
-
-
     
     /* general settings */
 
@@ -85,6 +76,15 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     private indexBufferObject: any;
 
     private fontAtlasTexture: any;
+
+    windowCaret: number[];
+    private relativeMousePosition: any;
+    private mouseInWindow: boolean;
+    io: any;
+
+
+
+
     constructor(gl: any) {
         this._gl = gl;
 
@@ -105,12 +105,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         
     }
 
-    /* Setup geometry buffers. */
 
-    windowCaret: number[];
-    private relativeMousePosition: any;
-    private mouseInWindow: boolean;
-    io: any;
     begin(io): void {
 
         // sanity checking.
