@@ -8,13 +8,14 @@ import { SliderRenderer } from './SliderRenderer';
 import { RadioButtonRenderer } from './RadioButtonRenderer';
 import { DraggerRenderer } from './DraggerRenderer';
 import { CheckboxRenderer } from './CheckboxRenderer';
+import { SeparatorRenderer } from './SeparatorRenderer';
 import { TitleBar } from './TitleBar';
 import * as createShader from 'gl-shader';
 import * as createBuffer from 'gl-buffer';
 import * as createTexture from 'gl-texture2d';
 import * as mat4 from 'gl-mat4';
 
-export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, TextRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer {
+export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, TextRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer, SeparatorRenderer {
 
     // distance from window-borders to the widgets.
     public windowSpacing: number = 14;
@@ -41,70 +42,17 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     // button color when mouse click.
     public clickButtonColor = [0.50, 0.1, 0.1];
 
-    /* slider settings */
 
-    // the vertical space between the number(inside the slider) and the border of the slider box.
-    public sliderVerticalSpacing: number = 4;
-    // the color of the slider background.
-    public sliderBackgroundColor = [0.16, 0.16, 0.16];
-    // the color of the bar in the slider.
-    public sliderFillColor = [0.0, 0.3, 0.6];
-    // the color of the slider background when mouse hover,
-    public sliderBackgroundColorHover = [0.19, 0.19, 0.19];
-    // the color of the bar in the slider when mouse hover.
-    public sliderFillColorHover = [0.0, 0.3, 0.70];
 
-    /* dragger settings */
-
-    // the horizontal spacing between the subdragger widgets in a dragger widget.
-    public draggerWidgetHorizontalSpacing: number = 3;
-    // the vertical spacing between the top and bottom borders and the text in draggers.
-    public draggerVerticalSpacing: number = 5;
-
-    // The colors of the three subdraggers in the rgbDragger widget.
-    // "Hover", refers to the color when the dragger is hovered.
-    public draggerRgbRedColor = [0.3, 0.0, 0.0];
-    public draggerRgbRedColorHover = [0.35, 0.0, 0.0];
-    public draggerRgbGreenColor = [0.0, 0.3, 0.0];
-    public draggerRgbGreenColorHover = [0.0, 0.35, 0.0];
-    public draggerRgbBlueColor = [0.0, 0.0, 0.3];
-    public draggerRgbBlueColorHover = [0.0, 0.0, 0.38];
-    //The colors of the subdraggers in the draggerFloat widgets.
-    // "Hover", refers to the color when the dragger is hovered.
-    public draggerFloatColor = [0.30, 0.30, 0.30];
-    public draggerFloatColorHover = [0.32, 0.32, 0.32];
-
+    
     
 
     
 
 
-    /* radioButton settings */
 
 
-    // the outer color is the color of the outer circle of the radioButton,
-    // and the inner color is the color of the inner circle
-    public radioButtonOuterColor = [0.3, 0.3, 0.3];
-    public radioButtonInnerColor = [0.15, 0.15, 0.15];
-    public radioButtonOuterColorHover = [0.33, 0.33, 0.33];
-    public radioButtonInnerColorHover = [0.18, 0.18, 0.18];
-    // in order to render the radio button, we must triangulate the circles into triangle segments
-    // this number is the number of triangle segments.
-    public radioButtonCircleSegments: number = 9;
-
-    // radius of the inner circle will be (height of "0")* innerRadiusRatio
-    public radioButtonInnerRadius: number = 0.6;
-    // radius of the outer circle will be (height of "0")* outerRadiusRatio
-    public radioButtonOuterRadius: number = 1.0;
-
-
-    /* separator settings. */
-
-    //  the color of a separator.
-    public separatorColor = [0.4, 0.4, 0.4];
-    // the height of a separator (height of "0") *     public separatorHeightRatio
-    public separatorHeightRatio: number = 0.2;
-
+    
     /* general settings */
 
     // Some widgets render a label in addition to themselves(such as the sliders and draggers)
@@ -113,7 +61,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     // Some widgets will grow horizontally as the window size increases. They are grown to occupy this
     // ratio of the total window width.
-    public widgetHorizontalGrowRatio: number = 0.6;
+    widgetHorizontalGrowRatio: number = 0.6;
 
     
     /*
@@ -159,7 +107,9 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     /* Setup geometry buffers. */
 
-    
+    windowCaret: number[];
+    private relativeMousePosition: any;
+    private mouseInWindow: boolean;
     io: any;
     begin(io): void {
 
@@ -202,9 +152,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     };
 
 
-    windowCaret: number[];
-    private relativeMousePosition: any;
-    private mouseInWindow: boolean;
+ 
     _render(): void {
 
         var widgetId = hashString(this.titleBar.Title);
@@ -375,360 +323,6 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         this.sameLineActive = true;
     }
 
-    public sliderFloat(str, value, min, max, numDecimalDigits): void {
-
-        if (typeof numDecimalDigits === 'undefined') {
-            numDecimalDigits = 2; // default value
-        }
-
-        this._slider(str, value, min, max, false, numDecimalDigits);
-    };
-    
-    /* If value.val == id, then that means this radio button is chosen. */
-    radioButton(labelStr, value, id): void {
-
-        this._moveWindowCaret();
-
-        /*
-         Radio button IO
-         */
-
-
-        var zeroHeight = this._getTextSizes("0")[1];
-
-
-        var innerRadius = (zeroHeight * this.radioButtonInnerRadius);
-        var outerRadius = (zeroHeight * this.radioButtonOuterRadius);
-
-
-        var radioButtonPosition = this.windowCaret;
-
-
-        var radioButtonSizes = [outerRadius * 2, outerRadius * 2];
-
-        var mouseCollision = this._inCircle(radioButtonPosition, radioButtonSizes, this.io.mousePositionCur);
-
-
-        if (this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false && mouseCollision) {
-            value.val = id;
-        }
-
-        var isHover = mouseCollision;
-
-
-        /*
-         CHECKBOX RENDERING
-         */
-
-        this._circle(radioButtonPosition, radioButtonSizes,
-            isHover ? this.radioButtonOuterColorHover : this.radioButtonOuterColor, this.radioButtonCircleSegments);
-
-
-        if (value.val == id) {
-            var p = radioButtonPosition;
-            var s = radioButtonSizes;
-            var innerCirclePosition = [
-                Math.round(0.5 * (p[0] + (p[0] + s[0]) - innerRadius * 2)),
-                Math.round(0.5 * (p[1] + (p[1] + s[1]) - innerRadius * 2)),
-            ];
-
-            this._circle(innerCirclePosition, [innerRadius * 2, innerRadius * 2],
-                isHover ? this.radioButtonInnerColorHover : this.radioButtonInnerColor, this.radioButtonCircleSegments);
-        }
-
-
-        // now render radio button label.
-        var labelPosition = [radioButtonPosition[0] + radioButtonSizes[0] + this.widgetLabelHorizontalSpacing, radioButtonPosition[1]]
-        var labelStrSizes = [this._getTextSizes(labelStr)[0], radioButtonSizes[1]];
-        this._textCenter(labelPosition, labelStrSizes, labelStr);
-
-        this.prevWidgetSizes = [radioButtonSizes[0] + labelStrSizes[0], radioButtonSizes[1]];
-    }
-
-    
-    
-    draggerRgb(labelStr: string, value: number[]): void {
-        this._draggerFloatN(
-            labelStr, value, 3, [0, 1], ["R:", "G:", "B:"],
-            [
-                [this.draggerRgbRedColor, this.draggerRgbRedColorHover],
-                [this.draggerRgbGreenColor, this.draggerRgbGreenColorHover],
-                [this.draggerRgbBlueColor, this.draggerRgbBlueColorHover]
-            ]);
-    };
-    
-    separator = function () {
-        this._moveWindowCaret();
-
-        var separatorPosition = this.windowCaret;
-        // the separator should fill out the windows size.
-        var separatorSizes = [
-            this.windowSizes[0] - 2 * this.windowSpacing,
-            this._getTextSizes("0")[1] * this.separatorHeightRatio];
-
-        this._box(separatorPosition, separatorSizes, [0.4, 0.4, 0.4]);
-
-        this.prevWidgetSizes = (separatorSizes);
-    }
-    
-    /*
-     sublabels,
-     min max, for all n.
-     hover color, for all three.
-     */
-    _draggerFloatN(labelStr: string, value: number[], N: number, minMaxValues, subLabels, colors): void {
-        this._moveWindowCaret();
-
-        if (!minMaxValues)
-            minMaxValues = [];
-
-        if (!subLabels)
-            subLabels = [];
-
-        if (!colors)
-            colors = [];
-
-
-        // if minMaxValues is only a single min-max pair(a  n array on the form [min,max]),
-        // then that pair becomes the value of the rest
-        // of the min-max pairs.
-        if (minMaxValues.length == 2 && typeof minMaxValues[0][0] == "undefined") {
-            var defaultValue = [minMaxValues[0], minMaxValues[1]];
-            for (var i = 0; i < N; ++i) {
-                minMaxValues[i] = defaultValue;
-            }
-
-
-        }
-
-
-        /*
-         Set default values of arguments
-         */
-        for (var i = 0; i < N; ++i) {
-            if (!subLabels[i]) {
-                subLabels[i] = "";
-            }
-
-            if (!minMaxValues[i]) {
-                minMaxValues[i] = [-1, 1];
-            }
-
-            if (!colors[i]) {
-                colors[i] = [this.draggerFloatColor, this.draggerFloatColorHover];
-
-            }
-        }
-
-        // width of a single subdragger.
-        var draggerWidth =
-            (((this.windowSizes[0] - 2 * this.windowSpacing) * (this.widgetHorizontalGrowRatio)) - (N - 1) * this.draggerWidgetHorizontalSpacing) / (N);
-
-        let nDraggerPosition: number[] = this.windowCaret;
-        let formerDraggerPosition: any = { topRight: nDraggerPosition };
-
-        for (var iDragger = 0; iDragger < N; ++iDragger) {
-            var v = { val: value[iDragger] };
-
-            // first dragger has no spacing in front.
-            var hasFrontSpacing = (iDragger == 0) ? false : true;
-
-            var position = [
-                formerDraggerPosition.topRight[0] + (hasFrontSpacing ? this.draggerWidgetHorizontalSpacing : 0),
-                formerDraggerPosition.topRight[1]];
-
-            // make sure each subdragger has an unique widget-ID.
-            var draggerWidgetId = hashString(labelStr + (iDragger + ""));
-
-            formerDraggerPosition = this._draggerFloat(draggerWidgetId, subLabels[iDragger], v,
-                colors[iDragger][0],
-                colors[iDragger][1], draggerWidth, position, minMaxValues[iDragger][0], minMaxValues[iDragger][1]);
-
-            // update value
-            value[iDragger] = v.val;
-        }
-
-        // the total size of all the N draggers.
-        var draggerSizes = [
-            formerDraggerPosition.bottomRight[0] - nDraggerPosition[0],
-            formerDraggerPosition.bottomRight[1] - nDraggerPosition[1]];
-
-        // finally, we place a label after all the draggers.
-        var draggerLabelPosition = [nDraggerPosition[0] + draggerSizes[0] + this.widgetLabelHorizontalSpacing, nDraggerPosition[1]]
-        var draggerLabelStrSizes = [this._getTextSizes(labelStr)[0], draggerSizes[1]];
-        this._textCenter(draggerLabelPosition, draggerLabelStrSizes, labelStr);
-
-        this.prevWidgetSizes = [
-            draggerSizes[0] + this.widgetLabelHorizontalSpacing + draggerLabelStrSizes[0],
-            draggerSizes[1]];
-    }
-
-    
-
-    draggerFloat2 = function (labelStr, value, minMaxValues, subLabels) {
-        this._draggerFloatN(labelStr, value, 2, minMaxValues, subLabels);
-    };
-
-    draggerFloat3(labelStr, value, minMaxValues, subLabels): void {
-        this._draggerFloatN(labelStr, value, 3, minMaxValues, subLabels, null);
-    };
-
-    _draggerFloat(widgetId, labelStr, value, color, colorHover, width, position, minVal, maxVal): any {
-
-        /*
-        DRAGGER IO
-         */
-
-        var draggerPosition = position;
-        var draggerSizes = [
-            width,
-            this._getTextSizes("0")[1] + 2 * this.draggerVerticalSpacing
-        ];
-
-        var mouseCollision = this._inBox(draggerPosition, draggerSizes, this.io.mousePositionCur);
-        if (
-            mouseCollision &&
-            this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false) {
-            // if slider is clicked, it becomes active.
-            this.activeWidgetId = widgetId;
-        }
-
-        if (this.activeWidgetId == widgetId) {
-            value.val += 0.01 * (this.io.mousePositionCur[0] - this.io.mousePositionPrev[0]);
-            value.val = clamp(value.val, minVal, maxVal);
-
-            this.activeWidgetId = widgetId;
-
-        }
-
-        /*
-         DRAGGER RENDERING
-         */
-        var sliderValueNumDecimalDigits = 2; // hardcode this value for now.
-        var sliderValueStr = labelStr + value.val.toFixed(sliderValueNumDecimalDigits);
-
-
-        /*
-         If either widget is active, OR we are hovering but not clicking,
-         switch to hover color.
-         */
-        var isHover = (this.activeWidgetId == widgetId) || (mouseCollision && !this.io.mouseLeftDownCur);
-
-        this._box(
-            draggerPosition,
-            draggerSizes, isHover ? colorHover : color, 1);
-
-
-        var sliderValueStrSizes = this._getTextSizes(sliderValueStr);
-
-
-        // render text in slider
-        this._textCenter(draggerPosition, draggerSizes, sliderValueStr);
-
-        // return top right corner, and bottom right corner of the dragger.
-        return {
-            topRight: [draggerPosition[0] + draggerSizes[0], draggerPosition[1]],
-            bottomRight: [draggerPosition[0] + draggerSizes[0], draggerPosition[1] + draggerSizes[1]],
-        };
-    };
-
-    
-
-    
-    private _slider(labelStr, value, min, max, doRounding, numDecimalDigits): void {
-
-        this._moveWindowCaret();
-
-        /*
-         SLIDER IO
-         */
-
-        var sliderPosition = this.windowCaret;
-        var widgetId = hashString(labelStr);
-
-        // * if we use the height of a single digit, we know that the slider will always be high enough.
-        // (since all digits have equal height in our font).
-        // * also, we dynamically determine the slider width, based on the window width.
-        var sliderSizes = [
-            (this.windowSizes[0] - 2 * this.windowSpacing) * this.widgetHorizontalGrowRatio,
-            this._getTextSizes("0")[1] + 2 * this.sliderVerticalSpacing
-        ];
-
-        var mouseCollision = this._inBox(sliderPosition, sliderSizes, this.io.mousePositionCur);
-
-        if (
-            mouseCollision &&
-            this.io.mouseLeftDownCur == true && this.io.mouseLeftDownPrev == false) {
-            // if slider is clicked, it becomes active.
-            this.activeWidgetId = widgetId;
-        }
-
-        if (this.activeWidgetId == widgetId) {
-            // if the mouse is clicking on the slider, we modify `value.val` based
-            // on the x-position of the mouse.
-
-            var xMax = sliderPosition[0] + sliderSizes[0];
-            var xMin = sliderPosition[0];
-
-            /*
-             Values larger than xMin and xMax should not overflow or underflow the slider.
-             */
-            var mouseX = clamp(this.io.mousePositionCur[0], xMin, xMax);
-
-            value.val = (max - min) * ((mouseX - xMin) / (xMax - xMin)) + min;
-
-            if (doRounding)
-                value.val = Math.round(value.val);
-
-            this.activeWidgetId = widgetId;
-
-        }
-
-        /*
-         If either widget is active, OR we are hovering but not clicking,
-         switch to hover color.
-         */
-        var isHover = (this.activeWidgetId == widgetId) || (mouseCollision && !this.io.mouseLeftDownCur);
-
-
-        /*
-         SLIDER RENDERING
-         */
-
-        /*
-         Compute slider fill. Measures how much of the slider is filled.
-         In range [0,1]
-         */
-        var sliderFill = (value.val - min) / (max - min);
-
-        var sliderValueStr = value.val.toFixed(doRounding ? 0 : numDecimalDigits);
-
-        this._box(
-            sliderPosition,
-            sliderSizes, isHover ? this.sliderBackgroundColorHover : this.sliderBackgroundColor, 1);
-
-        /*
-         Now fill the slider based on `sliderFill`
-         */
-        this._box(
-            sliderPosition,
-            [sliderSizes[0] * sliderFill, sliderSizes[1]],
-            isHover ? this.sliderFillColorHover : this.sliderFillColor, 1);
-
-        var sliderValueStrSizes = this._getTextSizes(sliderValueStr);
-
-
-        // render text in slider
-        this._textCenter(sliderPosition, sliderSizes, sliderValueStr);
-
-        // now render slider label.
-        var sliderLabelPosition = [sliderPosition[0] + sliderSizes[0] + this.widgetLabelHorizontalSpacing, sliderPosition[1]]
-        var sliderLabelStrSizes = [this._getTextSizes(labelStr)[0], sliderSizes[1]];
-        this._textCenter(sliderLabelPosition, sliderLabelStrSizes, labelStr);
-
-        this.prevWidgetSizes = [sliderSizes[0] + sliderLabelStrSizes[0], sliderSizes[1]];
-
-    }
 
     
     _moveWindowCaret(): void {
@@ -748,6 +342,9 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         this.sameLineActive = false;
 
     };
+
+
+
 
     private lastProgram: any;
     private lastElementArrayBuffer: any;
@@ -779,6 +376,67 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         if (this.lastEnableDepthTest) gl.enable(gl.DEPTH_TEST); else gl.disable(gl.DEPTH_TEST);
         if (this.lastEnableBlend) gl.enable(gl.BLEND); else gl.disable(gl.BLEND);
     }
+
+
+
+
+
+
+
+
+
+    // SeparatorRenderer
+    separatorColor = [0.4, 0.4, 0.4];
+    separatorHeightRatio: number = 0.2;
+    separator: ()=> void;
+
+
+
+
+    // RadioButtonRenderer
+    radioButtonOuterColor = [0.3, 0.3, 0.3];
+    radioButtonInnerColor = [0.15, 0.15, 0.15];
+    radioButtonOuterColorHover = [0.33, 0.33, 0.33];
+    radioButtonInnerColorHover = [0.18, 0.18, 0.18];
+    radioButtonCircleSegments: number = 9;
+    radioButtonInnerRadius: number = 0.6;
+    radioButtonOuterRadius: number = 1.0;
+    radioButton: (labelStr, value, id) => void
+    
+
+
+
+
+    // SliderRenderer
+    sliderVerticalSpacing: number = 4;
+    sliderBackgroundColor = [0.16, 0.16, 0.16];
+    sliderFillColor = [0.0, 0.3, 0.6];
+    sliderBackgroundColorHover = [0.19, 0.19, 0.19];
+    sliderFillColorHover = [0.0, 0.3, 0.70];
+    _slider: (labelStr, value, min, max, doRounding, numDecimalDigits) => void;
+    sliderFloat: (str, value, min, max, numDecimalDigits) => void;
+
+
+
+
+    // draggerrenderer
+    draggerWidgetHorizontalSpacing: number = 3;
+    draggerVerticalSpacing: number = 5;
+    draggerRgbRedColor = [0.3, 0.0, 0.0];
+    draggerRgbRedColorHover = [0.35, 0.0, 0.0];
+    draggerRgbGreenColor = [0.0, 0.3, 0.0];
+    draggerRgbGreenColorHover = [0.0, 0.35, 0.0];
+    draggerRgbBlueColor = [0.0, 0.0, 0.3];
+    draggerRgbBlueColorHover = [0.0, 0.0, 0.38];
+    draggerFloatColor = [0.30, 0.30, 0.30];
+    draggerFloatColorHover = [0.32, 0.32, 0.32];
+    _draggerFloatN: (labelStr: string, value: number[], N: number, minMaxValues, subLabels, colors) => void;
+    draggerRgb: (labelStr: string, value: number[]) => void
+    draggerFloat2: (labelStr, value, minMaxValues, subLabels) => void;
+    draggerFloat3: (labelStr, value, minMaxValues, subLabels) => void;
+    _draggerFloat: (widgetId, labelStr, value, color, colorHover, width, position, minVal, maxVal) => any;
+
+
 
 
 
@@ -830,4 +488,4 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     _getCharDesc: (char) => any;
 }
 
-Shared.applyMixins(Window, [BaseRenderer, TextRenderer, SliderRenderer, ButtonRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer]);
+Shared.applyMixins(Window, [BaseRenderer, TextRenderer, SliderRenderer, ButtonRenderer, RadioButtonRenderer, DraggerRenderer, CheckboxRenderer, SeparatorRenderer]);
