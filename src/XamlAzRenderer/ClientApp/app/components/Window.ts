@@ -9,6 +9,7 @@ import { RadioButtonRenderer } from './RadioButtonRenderer';
 import { DraggerRenderer } from './DraggerRenderer';
 import { CheckboxRenderer } from './CheckboxRenderer';
 import { SeparatorRenderer } from './SeparatorRenderer';
+import { IO } from './IO';
 import { TitleBar } from './TitleBar';
 import * as createShader from 'gl-shader';
 import * as createBuffer from 'gl-buffer';
@@ -32,6 +33,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     public windowAlpha: number = 0.9;
 
     public titleBar: TitleBar = new TitleBar();
+    io: IO;
 
     /* button settings */
 
@@ -80,7 +82,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     windowCaret: number[];
     private relativeMousePosition: any;
     private mouseInWindow: boolean;
-    io: any;
+    
 
 
 
@@ -106,7 +108,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     }
 
 
-    begin(io): void {
+    begin(io: IO): void {
 
         // sanity checking.
         if (typeof io == 'undefined') {
@@ -374,11 +376,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
 
 
-
-
-
-
-
+    
 
     // SeparatorRenderer
     separatorColor = [0.4, 0.4, 0.4];

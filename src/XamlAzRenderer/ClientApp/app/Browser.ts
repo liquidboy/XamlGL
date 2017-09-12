@@ -15,6 +15,7 @@ import * as glShell from 'gl-now';
 import * as normals from 'normals';
 import { Shared } from './Shared';
 import { WindowManager } from './components/WindowManager';
+import { IO } from './components/IO';
 
 export class Browser {
     mouseLeftDownPrev: boolean = false;
@@ -130,13 +131,12 @@ export class Browser {
 
 
             var pressed = shell.wasDown("mouse-left");
-            var io = {
-                mouseLeftDownCur: pressed,
-                mouseLeftDownPrev: this.mouseLeftDownPrev,
-
-                mousePositionCur: shell.mouse,
-                mousePositionPrev: shell.prevMouse
-            };
+            var io = new IO();
+            io.mouseLeftDownCur = pressed;
+            io.mouseLeftDownPrev = this.mouseLeftDownPrev;
+            io.mousePositionCur = shell.mouse;
+            io.mousePositionPrev = shell.prevMouse;
+            
             this.mouseLeftDownPrev = pressed;
 
 
@@ -178,15 +178,15 @@ export class Browser {
             console.log("a");
 
         });
-        let pressed = shell.wasDown("mouse-left");
-        let io = {
-            mouseLeftDownCur: pressed,
-            mouseLeftDownPrev: this.mouseLeftDownPrev,
+        //let pressed = shell.wasDown("mouse-left");
+        //let io = {
+        //    mouseLeftDownCur: pressed,
+        //    mouseLeftDownPrev: this.mouseLeftDownPrev,
 
-            mousePositionCur: shell.mouse,
-            mousePositionPrev: shell.prevMouse
-        };
-        this.mouseLeftDownPrev = pressed;
+        //    mousePositionCur: shell.mouse,
+        //    mousePositionPrev: shell.prevMouse
+        //};
+        //this.mouseLeftDownPrev = pressed;
         shell.on("tick", () => {
             
         });
