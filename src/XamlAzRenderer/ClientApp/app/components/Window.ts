@@ -144,13 +144,11 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
         this.io = io;
 
-        this._render();
+        this.render();
 
     };
-
-
- 
-    _render(): void {
+    
+    render(): void {
 
         var widgetId = hashString(this.titleBar.Title);
 
@@ -258,7 +256,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
          and after rendering we restore these states. This is so that the end-user does not involuntarily have his
          GL-states messed with.
          */
-        this._backupGLState(gl);
+        this.backupGLState(gl);
 
 
         this.positionBufferObject.update(this.positionBuffer);
@@ -312,7 +310,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         }
 
 
-        this._restoreGLState(gl);
+        this.restoreGLState(gl);
 
     };
     
@@ -322,7 +320,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
 
     
-    _moveWindowCaret(): void {
+    moveWindowCaret(): void {
 
         if (this.prevWidgetSizes == null) {
             // we have not yet laid out the first widget. Do nothing.
@@ -349,7 +347,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     private lastTexture: any;
     private lastEnableDepthTest: any;
     private lastEnableBlend: any;
-    _backupGLState(gl):void {
+    backupGLState(gl):void {
 
         this.lastProgram = gl.getParameter(gl.CURRENT_PROGRAM);
         this.lastElementArrayBuffer = gl.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING);
@@ -364,7 +362,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     }
 
-    _restoreGLState(gl): void {
+    restoreGLState(gl): void {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.lastElementArrayBuffer);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.lastArrayBuffer);
         gl.useProgram(this.lastProgram);

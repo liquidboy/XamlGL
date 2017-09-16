@@ -10,11 +10,11 @@ import * as mat4 from 'gl-mat4';
 
 export class SeparatorRenderer implements BaseRenderer, TextRenderer {
     
-    // main
+    // Window
     prevWidgetSizes: any;
     activeWidgetId
     windowCaret: number[];
-    _moveWindowCaret: () => void;
+    moveWindowCaret: () => void;
     io: any;
     windowSizes = [360, 500];
     windowSpacing: number = 14;
@@ -26,7 +26,7 @@ export class SeparatorRenderer implements BaseRenderer, TextRenderer {
 
 
     separator(): void {
-        this._moveWindowCaret();
+        this.moveWindowCaret();
 
         var separatorPosition = this.windowCaret;
         // the separator should fill out the windows size.

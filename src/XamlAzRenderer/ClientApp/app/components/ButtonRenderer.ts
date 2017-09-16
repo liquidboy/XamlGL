@@ -10,11 +10,11 @@ import * as mat4 from 'gl-mat4';
 
 export class ButtonRenderer implements BaseRenderer, TextRenderer {
     
-    // main
+    // Window
     prevWidgetSizes: any;
     activeWidgetId
     windowCaret: number[];
-    _moveWindowCaret: () => void;
+    moveWindowCaret: () => void;
     io: any;
 
 
@@ -27,7 +27,7 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
     /* If value.val == id, then that means this radio button is chosen. */
     button(id: string, labelStr: string, padding: number[]): void {
 
-        this._moveWindowCaret();
+        this.moveWindowCaret();
 
         var pos = this.windowCaret;
         let lblSizesInner = this._getTextSizes(labelStr);

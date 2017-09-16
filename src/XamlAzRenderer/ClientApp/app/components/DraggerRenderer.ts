@@ -13,13 +13,13 @@ export class DraggerRenderer implements BaseRenderer {
 
 
 
-    // main
+    // Window
     prevWidgetSizes: any;
     activeWidgetId
     windowCaret: number[];
     windowSizes = [360, 500];
     windowSpacing: number = 14;
-    _moveWindowCaret: () => void;
+    moveWindowCaret: () => void;
     widgetHorizontalGrowRatio: number = 0.6;
     widgetLabelHorizontalSpacing: number = 4;
     io: any;
@@ -54,7 +54,7 @@ export class DraggerRenderer implements BaseRenderer {
      hover color, for all three.
      */
     _draggerFloatN(labelStr: string, value: number[], N: number, minMaxValues, subLabels, colors): void {
-        this._moveWindowCaret();
+        this.moveWindowCaret();
 
         if (!minMaxValues)
             minMaxValues = [];

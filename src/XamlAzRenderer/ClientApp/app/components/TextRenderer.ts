@@ -12,10 +12,10 @@ export class TextRenderer implements BaseRenderer {
     /* DO NOT CHANGE THIS VALUE. The entire GUI layout will break! */
     textScale: number = 1.0;
 
-    // main
+    // Window
     prevWidgetSizes: any;
     windowCaret: number[];
-    _moveWindowCaret: () => void;
+    moveWindowCaret: () => void;
 
     _getCharDesc(char): any {
         return Shared.guiFontInfo.chars[char.charCodeAt(0) - 32];
@@ -146,7 +146,7 @@ export class TextRenderer implements BaseRenderer {
     }
 
     textLine(str): void {
-        this._moveWindowCaret();
+        this.moveWindowCaret();
 
         var textLinePosition = this.windowCaret;
         var textSizes = this._getTextSizes(str);

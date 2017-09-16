@@ -11,11 +11,11 @@ import * as mat4 from 'gl-mat4';
 
 export class CheckboxRenderer implements BaseRenderer, TextRenderer {
 
-    // main
+    // Window
     prevWidgetSizes: any;
     activeWidgetId
     windowCaret: number[];
-    _moveWindowCaret: () => void;
+    moveWindowCaret: () => void;
     io: any;
     widgetLabelHorizontalSpacing: number = 4;
 
@@ -35,7 +35,7 @@ export class CheckboxRenderer implements BaseRenderer, TextRenderer {
 
     checkbox(labelStr, value): void {
 
-        this._moveWindowCaret();
+        this.moveWindowCaret();
 
         /*
          CHECKBOX IO(if checkbox clicked, flip boolean value.)

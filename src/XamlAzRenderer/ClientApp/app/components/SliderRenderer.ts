@@ -11,13 +11,13 @@ import * as mat4 from 'gl-mat4';
 
 export class SliderRenderer implements BaseRenderer, TextRenderer {
 
-    // main
+    // Window
     prevWidgetSizes: any;
     activeWidgetId
     windowCaret: number[];
     windowSizes = [360, 500];
     windowSpacing: number = 14;
-    _moveWindowCaret: () => void;
+    moveWindowCaret: () => void;
     widgetHorizontalGrowRatio: number = 0.6;
     widgetLabelHorizontalSpacing: number = 4;
     io: any;
@@ -40,7 +40,7 @@ export class SliderRenderer implements BaseRenderer, TextRenderer {
 
     _slider(labelStr, value, min, max, doRounding, numDecimalDigits): void {
 
-        this._moveWindowCaret();
+        this.moveWindowCaret();
 
         /*
          SLIDER IO
