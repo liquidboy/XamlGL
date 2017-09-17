@@ -26,6 +26,15 @@ export class WindowManager {
     public Get(index: number): Window {
         return this.windows[index].WindowObj;
     }
+
+    public HasMouseFocus(): boolean {
+        for (let i = 0; i < this.windows.length; i++) {
+            if (this.windows[i].WindowObj.hasMouseFocus()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 class WindowMetadata {

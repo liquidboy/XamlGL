@@ -169,6 +169,7 @@ export class Browser {
             win2.titleBar.Title = "Window 2";
             win2.textLine("textline");
             win2.radioButton("radio button 1", this.demo, 1);
+            win2.alignRight();
             win2.button("butButton1", "button 1", [20, 20]);
             win2.sameLine();
             win2.button("butButton2", "button 2", [20, 20]);
@@ -192,7 +193,20 @@ export class Browser {
         //};
         //this.mouseLeftDownPrev = pressed;
         shell.on("tick", () => {
-            
+
+            // if interacting with the GUI, do not let the mouse control the camera.
+            if (this.dwm.HasMouseFocus())
+                return;
+
+            if (shell.wasDown("mouse-left")) {
+                var speed = 2.0;
+                this.camera.rotate([(shell.mouseX / shell.width - 0.5) * speed, (shell.mouseY / shell.height - 0.5) * speed],
+                    [(shell.prevMouseX / shell.width - 0.5) * speed, (shell.prevMouseY / shell.height - 0.5) * speed])
+            }
+            if (shell.scroll[1]) {
+                this.camera.zoom(shell.scroll[1] * 0.6);
+            }
+
         });
     }
 

@@ -24,6 +24,9 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     public widgetSpacing: number = 11;
     defaultSpacing: number = 11;
 
+    public widgetHorizontalAlignment: number = 0;  //0 = left, 1 = right
+    defaultHorizontalAlignment: number = 0;
+
     // position of the window.
     public windowPosition = [20, 20];
     // size of the window.
@@ -67,6 +70,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     /* See _moveWindowCaret() for an explanation. */
     public sameLineActive: boolean = false;
+    public widgetHorizontalAlignmentActive: boolean = false;
     public prevWidgetSizes = null;
 
     private _gl: any;
@@ -320,6 +324,16 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         else this.widgetSpacing = spacing;
         this.sameLineActive = true;
     }
+
+    public alignRight(): void {
+        this.widgetHorizontalAlignment = 1;
+        this.widgetHorizontalAlignmentActive = true;
+    }
+
+    public alignLeft(): void {
+        this.widgetHorizontalAlignment = 0;
+        this.widgetHorizontalAlignmentActive = true;
+    }
     
     moveWindowCaret(): void {
 
@@ -337,10 +351,13 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
         // the user have to explicitly call sameLine() again if we he wants samLineActive again.
         this.sameLineActive = false;
+        this.widgetHorizontalAlignmentActive = false;
 
     };
 
-
+    hasMouseFocus(): boolean{
+        return this.mouseInWindow || this.activeWidgetId != null;
+    }
 
 
     private lastProgram: any;
