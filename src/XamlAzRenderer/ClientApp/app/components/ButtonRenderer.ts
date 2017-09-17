@@ -76,6 +76,10 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
         // render text in slider
         this._textCenter(position, size, text);
 
+
+        this.prevWidgetSizes = [size[0], size[1]];
+
+
         // return top right corner, and bottom right corner of the dragger.
         return {
             topRight: [position[0] + size[0], position[1]],

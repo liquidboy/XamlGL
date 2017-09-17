@@ -22,6 +22,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     public windowSpacing: number = 14;
     // the vertical and horizontal spacing between the widgets.
     public widgetSpacing: number = 11;
+    defaultSpacing: number = 11;
 
     // position of the window.
     public windowPosition = [20, 20];
@@ -314,11 +315,11 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     };
     
-    public sameLine(): void {
+    public sameLine(spacing: number = null): void {
+        if (spacing == null) this.widgetSpacing = this.defaultSpacing;
+        else this.widgetSpacing = spacing;
         this.sameLineActive = true;
     }
-
-
     
     moveWindowCaret(): void {
 
@@ -328,6 +329,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         }
 
         if (this.sameLineActive) {
+            // this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
             this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
         } else {
             this.windowCaret = [this.windowSpacing + this.windowPosition[0], this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
