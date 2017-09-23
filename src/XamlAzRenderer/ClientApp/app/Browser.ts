@@ -185,6 +185,10 @@ export class Browser {
             win2.sameLine();
             win2.button("butButton5", "left but 2", [20, 20], [0, 0, 0, 0]);
 
+
+            win2.alignCenter();
+            win2.button("butButton6", "centered button", [20, 20], [0, 0, 0, 0]);
+
             win2.end(gl, canvas.width, canvas.height);
 
 

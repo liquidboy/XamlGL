@@ -16,6 +16,7 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
     activeWidgetId
     windowCaret: number[];
     moveWindowCaret: () => void;
+    currentWidgetAlignment: number;
     io: any;
 
 
@@ -34,6 +35,10 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
         let pos = [margin[0] + posPre[0] + margin[2], margin[1] + posPre[1] + margin[3]]
         let lblSizesInner = this._getTextSizes(labelStr);
         let lblSizes = [lblSizesInner[0] + padding[0], lblSizesInner[1] + padding[1]];
+
+        if (this.currentWidgetAlignment === 2) {
+            pos = [pos[0] - (lblSizes[0] / 2), pos[1]];
+        }
 
         this._button(id, labelStr, this.buttonColor, this.hoverButtonColor, lblSizes, pos);
     }

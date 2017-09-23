@@ -24,6 +24,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     public widgetSpacing: number = 11;
     defaultSpacing: number = 11;
 
+    public currentWidgetAlignment: number = 0;
     public widgetHorizontalAlignment: number = 0;  //0 = left, 1 = right
     defaultHorizontalAlignment: number = 0;
 
@@ -345,7 +346,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         this.widgetHorizontalAlignment = 2;
     }
 
-    public IsWidgetCenterAligned(): boolean {
+    IsWidgetCenterAligned(): boolean {
         return this.widgetHorizontalAlignment === 2;
     }
     
@@ -355,9 +356,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
             // we have not yet laid out the first widget. Do nothing.
             return;
         }
-
-
-
+        
         if (this.IsWidgetLeftAligned()) {
             // default widgets are "LeftAligned"
             if (this.sameLineActive) {
@@ -368,22 +367,27 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
             }
         } else if (this.IsWidgetCenterAligned()) {
 
+            this.windowCaret = [this.windowPosition[0] + (this.windowSizes[0] / 2) , this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
+            
         } else if (this.IsWidgetRightAligned()) {
             if (this.sameLineActive) {
-                // 2nd control onwards to align right
+                // 2nd control onwards
                 this.windowCaret = [this.prevWidgetPosition[0] - (this.prevWidgetSizes[0] + this.widgetSpacing), this.windowCaret[1]];
             } else {
-                // 1st control to align right
+                // 1st control
                 this.windowCaret = [this.windowPosition[0] + (this.windowSizes[0] - this.prevWidgetSizes[0]), this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
             }
         } else {
             // should never get here
         }
 
-
-
+        // use this to pass the alignment to the pipeline, the widgetHorizontalAlignment is cleared at end of this carret  call
+        this.currentWidgetAlignment = this.widgetHorizontalAlignment;
+        
         // the user have to explicitly call sameLine() again if we he wants samLineActive again.
         this.sameLineActive = false;
+
+        // by default widgets are aligned to the left
         this.widgetHorizontalAlignment = 0;
     };
 
