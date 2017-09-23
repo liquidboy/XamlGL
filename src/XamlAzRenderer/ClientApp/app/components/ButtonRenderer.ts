@@ -24,6 +24,8 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
     // buttonrenderer
     buttonColor: number[] = [0.35, 0.1, 0.1];
     hoverButtonColor: number[] = [0.40, 0.1, 0.1];
+    clickButtonColor: number[] = [0.80, 0.1, 0.1];
+    // isClicked: boolean = false;
 
 
     /* If value.val == id, then that means this radio button is chosen. */
@@ -40,14 +42,15 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
             pos = [pos[0] - (lblSizes[0] / 2), pos[1]];
         }
 
-        this._button(id, labelStr, this.buttonColor, this.hoverButtonColor, lblSizes, pos);
+        this._button(id, labelStr, this.buttonColor, this.hoverButtonColor, this.clickButtonColor, lblSizes, pos);
     }
 
-    _button(widgetId, labelStr, color, colorHover, size, position): any {
+    _button(widgetId, labelStr, color, colorHover, colorClick, size, position): any {
 
         /*
         BUTTON IO
          */
+        // this.isClicked = false;
 
         var mouseCollision = this._inBox(position, size, this.io.mousePositionCur);
         if (
@@ -72,12 +75,17 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
          switch to hover color.
          */
         var isHover = (this.activeWidgetId == widgetId) || (mouseCollision && !this.io.mouseLeftDownCur);
+        var colorToUse = isHover ? colorHover : color;
+        if (isHover && this.io.mouseLeftDownCur) {
+            colorToUse = colorClick;
+            // this.isClicked = true;
+        } else {
+            colorToUse = colorToUse;
+        }
 
-        this._box(
-            position,
-            size, isHover ? colorHover : color, 1);
+        this._box(position, size, colorToUse, 1);
 
-        var sliderValueStrSizes = this._getTextSizes(text);
+        // var sliderValueStrSizes = this._getTextSizes(text);
 
 
         // render text in slider
