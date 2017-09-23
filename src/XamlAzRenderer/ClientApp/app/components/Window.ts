@@ -70,7 +70,6 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     /* See _moveWindowCaret() for an explanation. */
     public sameLineActive: boolean = false;
-    public widgetHorizontalAlignmentActive: boolean = false;
     public prevWidgetSizes = null;
     public prevWidgetPosition: number[] = null;
 
@@ -328,12 +327,26 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     public alignRight(): void {
         this.widgetHorizontalAlignment = 1;
-        this.widgetHorizontalAlignmentActive = true;
+    }
+
+    public IsWidgetRightAligned(): boolean {
+        return this.widgetHorizontalAlignment === 1;
     }
 
     public alignLeft(): void {
         this.widgetHorizontalAlignment = 0;
-        this.widgetHorizontalAlignmentActive = false;
+    }
+
+    public IsWidgetLeftAligned(): boolean {
+        return this.widgetHorizontalAlignment === 0;
+    }
+
+    public alignCenter(): void {
+        this.widgetHorizontalAlignment = 2;
+    }
+
+    public IsWidgetCenterAligned(): boolean {
+        return this.widgetHorizontalAlignment === 2;
     }
     
     moveWindowCaret(): void {
@@ -343,33 +356,35 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
             return;
         }
 
-        if (this.widgetHorizontalAlignmentActive) {
 
+
+        if (this.IsWidgetLeftAligned()) {
+            // default widgets are "LeftAligned"
+            if (this.sameLineActive) {
+                this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
+                //this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
+            } else {
+                this.windowCaret = [this.windowSpacing + this.windowPosition[0], this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
+            }
+        } else if (this.IsWidgetCenterAligned()) {
+
+        } else if (this.IsWidgetRightAligned()) {
             if (this.sameLineActive) {
                 // 2nd control onwards to align right
-                this.windowCaret = [this.prevWidgetPosition[0] - this.prevWidgetSizes[0], this.windowCaret[1]];
+                this.windowCaret = [this.prevWidgetPosition[0] - (this.prevWidgetSizes[0] + this.widgetSpacing), this.windowCaret[1]];
             } else {
                 // 1st control to align right
                 this.windowCaret = [this.windowPosition[0] + (this.windowSizes[0] - this.prevWidgetSizes[0]), this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
             }
-            
-            // the user have to explicitly call sameLine() again if we he wants samLineActive again.
-            this.sameLineActive = false;
-            this.widgetHorizontalAlignmentActive = false;
-            return;
+        } else {
+            // should never get here
         }
 
-        if (this.sameLineActive) {
-            this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
-            //this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
-        } else {
-            this.windowCaret = [this.windowSpacing + this.windowPosition[0], this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
-        }
+
 
         // the user have to explicitly call sameLine() again if we he wants samLineActive again.
         this.sameLineActive = false;
-        this.widgetHorizontalAlignmentActive = false;
-
+        this.widgetHorizontalAlignment = 0;
     };
 
     hasMouseFocus(): boolean{

@@ -82,7 +82,7 @@ export class Browser {
             this.dwm = new WindowManager(gl);
 
             this.dwm.Create(460, 480);
-            this.dwm.Create(360, 200);
+            this.dwm.Create(420, 200);
 
 
             this.centerGeometry(bunny, 80.0);
@@ -169,17 +169,23 @@ export class Browser {
             win2.titleBar.Title = "Window 2";
             win2.textLine("textline");
             win2.radioButton("radio button 1", this.demo, 1);
+
             win2.alignRight();
-            win2.button("butButton1", "button 1", [20, 20], [0,0,0,0]);
+            win2.button("butButton1", "right but 1", [20, 20], [0, 0, 0, 0]);
             win2.sameLine();
             win2.alignRight();
-            win2.button("butButton2", "button 2", [20, 20], [0,0,-20,0]);
+            win2.button("butButton2", "right but 2", [20, 20], [0, 0, 0, 0]);
             win2.sameLine();
             win2.alignRight();
-            win2.button("butButton3", "button 3", [20, 20], [0,0,-20,0]);
-            win2.end(gl, canvas.width, canvas.height);
+            win2.button("butButton3", "right but 3", [20, 20], [0, 0, 0, 0]);
             
 
+            win2.alignLeft();
+            win2.button("butButton4", "left but 1", [20, 20], [0, 0, 0, 0]);
+            win2.sameLine();
+            win2.button("butButton5", "left but 2", [20, 20], [0, 0, 0, 0]);
+
+            win2.end(gl, canvas.width, canvas.height);
 
 
             console.log("a");
