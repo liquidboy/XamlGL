@@ -170,11 +170,13 @@ export class Browser {
             win2.textLine("textline");
             win2.radioButton("radio button 1", this.demo, 1);
             win2.alignRight();
-            win2.button("butButton1", "button 1", [20, 20]);
+            win2.button("butButton1", "button 1", [20, 20], [0,0,0,0]);
             win2.sameLine();
-            win2.button("butButton2", "button 2", [20, 20]);
-            win2.sameLine(45);
-            win2.button("butButton3", "button 3", [20, 20]);
+            win2.alignRight();
+            win2.button("butButton2", "button 2", [20, 20], [0,0,-20,0]);
+            win2.sameLine();
+            win2.alignRight();
+            win2.button("butButton3", "button 3", [20, 20], [0,0,-20,0]);
             win2.end(gl, canvas.width, canvas.height);
             
 

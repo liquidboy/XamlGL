@@ -72,6 +72,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     public sameLineActive: boolean = false;
     public widgetHorizontalAlignmentActive: boolean = false;
     public prevWidgetSizes = null;
+    public prevWidgetPosition: number[] = null;
 
     private _gl: any;
     private shader : any;
@@ -225,7 +226,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
             this.windowPosition[0] + this.windowSpacing,
             this.windowPosition[1] + this.windowSpacing + this.titleBar.Height];
         this.prevWidgetSizes = null; // should be null at the beginning.
-
+        this.prevWidgetPosition = null;
 
         /*
          Determine whether the mouse is inside the window. We need this in some places.
@@ -332,7 +333,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
 
     public alignLeft(): void {
         this.widgetHorizontalAlignment = 0;
-        this.widgetHorizontalAlignmentActive = true;
+        this.widgetHorizontalAlignmentActive = false;
     }
     
     moveWindowCaret(): void {
@@ -342,9 +343,25 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
             return;
         }
 
+        if (this.widgetHorizontalAlignmentActive) {
+
+            if (this.sameLineActive) {
+                // 2nd control onwards to align right
+                this.windowCaret = [this.prevWidgetPosition[0] - this.prevWidgetSizes[0], this.windowCaret[1]];
+            } else {
+                // 1st control to align right
+                this.windowCaret = [this.windowPosition[0] + (this.windowSizes[0] - this.prevWidgetSizes[0]), this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
+            }
+            
+            // the user have to explicitly call sameLine() again if we he wants samLineActive again.
+            this.sameLineActive = false;
+            this.widgetHorizontalAlignmentActive = false;
+            return;
+        }
+
         if (this.sameLineActive) {
-            // this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
             this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
+            //this.windowCaret = [this.windowCaret[0] + this.widgetSpacing + this.prevWidgetSizes[0], this.windowCaret[1]];
         } else {
             this.windowCaret = [this.windowSpacing + this.windowPosition[0], this.windowCaret[1] + this.widgetSpacing + this.prevWidgetSizes[1]];
         }
@@ -464,7 +481,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     // ButtonRenderer
     buttonColor: number[] = [0.35, 0.1, 0.1];
     hoverButtonColor: number[] = [0.40, 0.1, 0.1];
-    button: (id: string, labelStr: string, padding: number[]) => void;
+    button: (id: string, labelStr: string, padding: number[], margin: number[]) => void;
     _button: (widgetId, labelStr, color, colorHover, size, position) => any;
 
 

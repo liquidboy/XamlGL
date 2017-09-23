@@ -12,6 +12,7 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
     
     // Window
     prevWidgetSizes: any;
+    prevWidgetPosition: number[];
     activeWidgetId
     windowCaret: number[];
     moveWindowCaret: () => void;
@@ -25,11 +26,12 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
 
 
     /* If value.val == id, then that means this radio button is chosen. */
-    button(id: string, labelStr: string, padding: number[]): void {
+    button(id: string, labelStr: string, padding: number[], margin: number[]): void {
 
         this.moveWindowCaret();
 
-        var pos = this.windowCaret;
+        let posPre = this.windowCaret;
+        let pos = [margin[0] + posPre[0] + margin[2], margin[1] + posPre[1] + margin[3]]
         let lblSizesInner = this._getTextSizes(labelStr);
         let lblSizes = [lblSizesInner[0] + padding[0], lblSizesInner[1] + padding[1]];
 
@@ -78,6 +80,7 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
 
 
         this.prevWidgetSizes = [size[0], size[1]];
+        this.prevWidgetPosition = [position[0], position[1]];
 
 
         // return top right corner, and bottom right corner of the dragger.
