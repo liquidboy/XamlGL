@@ -29,11 +29,14 @@ export class ButtonRenderer implements BaseRenderer, TextRenderer {
 
 
     /* If value.val == id, then that means this radio button is chosen. */
-    button(id: string, labelStr: string, padding: number[], margin: number[]): void {
+    button(id: string, labelStr: string, padding: number[], margin: number[], startPos: number[] = null): void {
 
-        this.moveWindowCaret();
+        let posPre = startPos;
+        if (startPos === null) {
+            this.moveWindowCaret();
+            posPre = this.windowCaret;
+        }
 
-        let posPre = this.windowCaret;
         let pos = [margin[0] + posPre[0] + margin[2], margin[1] + posPre[1] + margin[3]]
         let lblSizesInner = this._getTextSizes(labelStr);
         let lblSizes = [lblSizesInner[0] + padding[0], lblSizesInner[1] + padding[1]];

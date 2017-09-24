@@ -113,6 +113,19 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
         
     }
 
+    drawShellButtons(): void {
+
+        this.alignRight();
+        this.button("butWindowClose", "✕", [20, 20], [0, 0, 0, 0], [0, 0]);
+        this.sameLine();
+        this.alignRight();
+        this.button("butWindowMinimize", "🗕", [20, 20], [0, 0, 0, 0], [0, 0]);
+        this.sameLine();
+        this.alignRight();
+        this.button("butWindowMaximize", "🗖", [20, 20], [0, 0, 0, 0], [0, 0]);
+
+    }
+
 
     begin(io: IO): void {
 
@@ -500,7 +513,7 @@ export class Window implements BaseRenderer, ButtonRenderer, SliderRenderer, Tex
     // ButtonRenderer
     buttonColor: number[] = [0.35, 0.1, 0.1];
     hoverButtonColor: number[] = [0.40, 0.1, 0.1];
-    button: (id: string, labelStr: string, padding: number[], margin: number[]) => void;
+    button: (id: string, labelStr: string, padding: number[], margin: number[], startPos: number[]) => void;
     _button: (widgetId, labelStr, color, colorHover, size, position) => any;
 
 

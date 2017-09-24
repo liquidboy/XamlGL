@@ -171,23 +171,23 @@ export class Browser {
             win2.radioButton("radio button 1", this.demo, 1);
 
             win2.alignRight();
-            win2.button("butButton1", "right but 1", [20, 20], [0, 0, 0, 0]);
+            win2.button("butButton1", "right but 1", [20, 20], [0, 0, 0, 0], null);
             win2.sameLine();
             win2.alignRight();
-            win2.button("butButton2", "right but 2", [20, 20], [0, 0, 0, 0]);
+            win2.button("butButton2", "right but 2", [20, 20], [0, 0, 0, 0], null);
             win2.sameLine();
             win2.alignRight();
-            win2.button("butButton3", "right but 3", [20, 20], [0, 0, 0, 0]);
+            win2.button("butButton3", "right but 3", [20, 20], [0, 0, 0, 0], null);
             
 
             win2.alignLeft();
-            win2.button("butButton4", "left but 1", [20, 20], [0, 0, 0, 0]);
+            win2.button("butButton4", "left but 1", [20, 20], [0, 0, 0, 0], null);
             win2.sameLine();
-            win2.button("butButton5", "left but 2", [20, 20], [0, 0, 0, 0]);
+            win2.button("butButton5", "left but 2", [20, 20], [0, 0, 0, 0], null);
 
 
             win2.alignCenter();
-            win2.button("butButton6", "centered button", [20, 20], [0, 0, 0, 0]);
+            win2.button("butButton6", "centered button", [20, 20], [0, 0, 0, 0], null);
 
             win2.end(gl, canvas.width, canvas.height);
 
