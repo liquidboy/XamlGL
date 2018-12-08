@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -69,8 +69,8 @@
     <Content Include="js\jquery.min.js" />
     <Content Include="js\jquery.slim.min.js" />
     <Content Include="js\pixi.min.js" />
-    <Content Include="js\rivets.bundled.min.js" />
     <Content Include="js\typescript-collections\umd.min.js" />
+    <Content Include="rivets.bundled.min.js" />
     <Content Include="src\Libs\tink\tink.js" />
     <Content Include="views\pixi-home.html" />
     <Content Include="web.config">
@@ -78,7 +78,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="src\Bootstrap\XamlApp.ts" />
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\arrays.ts" />
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Bag.ts" />
@@ -231,20 +230,12 @@
     <TypeScriptCompile Include="src\XamlGL\App.ts" />
     <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />
     <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Renderer.ts" />
-    <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\pixi.js\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\rivets\index.d.ts" />
-    <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bower.json" />
     <Content Include="package.json" />
-    <Content Include="typings.json" />
     <Content Include="src\tsconfig.json" />
-    <Content Include="typings\globals\pixi.js\typings.json" />
-    <Content Include="typings\globals\rivets\typings.json" />
-    <Content Include="typings\globals\jquery\typings.json" />
-    <Content Include="packages.config" />
+    <Content Include="libman.json" />
+    <None Include="packages.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -360,8 +351,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bower_components\" />
     <Folder Include="node_modules\" />
+    <Folder Include="Scripts\" />
     <Folder Include="src\XamlGL\Jupiter\Platform\Html\Controls\" />
   </ItemGroup>
   <PropertyGroup>

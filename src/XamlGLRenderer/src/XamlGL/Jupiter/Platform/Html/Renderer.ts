@@ -8,8 +8,10 @@ import { IEventArgs } from "./../../../Events/IEventArgs";
 import { EventDispatcher } from "./../../../Events/EventDispatcher";
 import { IEvent } from "./../../../Events/IEvent";
 import { RendererHelper } from "./../../../Utils/RendererHelper";
+import * as PIXI from "pixi.js";
 
 // declare var TinkLib: any;
+// declare var PIXI:any;
 
 export class Renderer implements IRenderer {
 

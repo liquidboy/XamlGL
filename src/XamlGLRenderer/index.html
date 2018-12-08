@@ -5,23 +5,24 @@
     <meta charset="utf-8" />
     <title>TypeScript HTML App</title>
     <link rel="stylesheet" href="app.css?v=1" type="text/css" />
-    <script src="./bower_components/system.js/dist/System.js"></script>
+    <script src="./node_modules/rivets/dist/rivets.bundled.min.js"></script>
+    <script src="./node_modules/systemjs/dist/system.js"></script>
     <script src="./src/Libs/tink/tink.js"></script>
     <script src="./js/pixi.min.js"></script>
     <script src="./js/filters.min.js"></script>
     <script src="./js/jquery.min.js"></script>
-    <script src="./node_modules/rivets/dist/rivets.bundled.min.js"></script>
+
     <script src="js/allsrc.js?v=5"></script>
     <script type="text/javascript">
         var TinkLib = Tink;
         window.onload = () => {
-            
+
             var el = document.getElementById('content');
 
-            //configure system loader
-            System.config({
-                defaultJSExtensions: false
-            });
+            ////configure system loader
+            //System.config({
+            //    defaultJSExtensions: false
+            //});
             //bootstrap xamlgl
             System.import('Bootstrap/XamlApp').then(function (m) {
                 let app = new m.XamlApp(el);

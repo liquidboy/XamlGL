@@ -1,7 +1,4 @@
-﻿/// <reference path="../../typings/globals/jquery/index.d.ts" />
-/// <reference path="../../typings/globals/rivets/index.d.ts" />
-
-export class ViewManager {
+﻿export class ViewManager {
 
     public static ContentElementId: string;  // found in index.html this is the root element that gets replaced with the view
     private static _isReady: boolean = false;
@@ -21,7 +18,7 @@ export class ViewManager {
 
         $.get(`/views/${view}.html?v=2`).done((data: string) => {
             jqContent.html(data);
-            rivets.bind($(`.${view}`), { model: model });
+            window["rivets"].bind($(`.${view}`), { model: model });
             if (done) { done.call(this, jqContent); }
         });
     }

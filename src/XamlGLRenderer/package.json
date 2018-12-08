@@ -16,12 +16,17 @@
   "author": "Jose Fajardo <fajardo_jf@hotmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^10.12.12",
     "bower-typings": "^0.1.0",
-    "rivets": "^0.9.4",
-    "pixi.js": "4.1.1",
-    "pixi-filters": "1.0.6"
+    "pixi-filters": "1.0.6",
+    "pixi.js": "4.8.3",
+    "rivets": "0.9.6",
+    "systemjs": "0.21.5",
+    "tapable": "1.1.1",
+    "@types/rivets": "0.9.0",
+    "@types/pixi.js": "4.1.0",
+    "@types/jquery": "3.3.23",
+    "@types/tapable": "1.0.4"
   },
-  "dependencies": {
-
-  }
+  "dependencies": {}
 }

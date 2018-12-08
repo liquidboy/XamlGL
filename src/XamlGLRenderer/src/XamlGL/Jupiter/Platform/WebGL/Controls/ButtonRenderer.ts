@@ -106,7 +106,7 @@ export class ButtonRenderer extends BaseRenderer implements IControlRenderer {
             background.endFill();
 
             // generate sprite from graphics displayobject so we can set anchor correctly and do a scale
-            var texture: PIXI.Texture = background.generateTexture(this.Element.Platform.Renderer.PixiRenderer);
+            var texture: PIXI.Texture = background.generateCanvasTexture(this.Element.Platform.Renderer.PixiRenderer);
             this._backgroundSprite = new PIXI.Sprite(texture);
             this._backgroundSprite.anchor.set(0.5, 0.5); // now we can scale and it will do it around the center of button
             this._backgroundSprite.setTransform(buttonEl.Width/2, buttonEl.Height/2);

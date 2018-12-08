@@ -30,6 +30,7 @@ import { ConsoleHelper } from "./../Utils/ConsoleHelper";
 import { GroupingHelper } from "./../Utils/GroupingHelper";
 import { VisualTreeHelper } from "./../Utils/VisualTreeHelper";
 
+
 export class XamlParser {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
         ConsoleHelper.Log("XamlHelper.XamlMarkupToUIElement");
@@ -41,6 +42,7 @@ export class XamlParser {
         // normally Application root xaml comes back as  #Text #Grid #Text , we only care about #Grid . 
         // #Text comes back as null from ProcessRootNode
         let col: NodeList = el.childNodes;
+        let col2: HTMLCollectionOf<Element> = el.getElementsByClassName("");
         for (let x: number = 0; x < col.length; x++) {
             let child: Node = col.item(x);
             let el: FrameworkElement = this.ProcessRootNode(child);
@@ -110,8 +112,8 @@ export class XamlParser {
             return newFE;
         }
     }
-    private static GetFrameworkElementByNode(node: Node): FrameworkElement {
-        // consoleHelper.Log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
+    private static GetFrameworkElementByNode(node: any): FrameworkElement {
+        ConsoleHelper.Log("XamlHelper.GetFrameworkElementByNode : " + node.nodeName);
         if (node.nodeName === "Rectangle") {
             let rect: Rectangle = new Rectangle();
             rect.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
@@ -145,7 +147,8 @@ export class XamlParser {
                 grid.Background = node.attributes.getNamedItem("Background").value;
             }
             return grid;
-        } else if (node.nodeName === "StackPanel") {
+        } 
+        else if (node.nodeName === "StackPanel") {
             let stackpanel: StackPanel = new StackPanel();
             stackpanel.Name = this.StringToEmpty(node.attributes.getNamedItem("Name"));
             stackpanel.HorizontalAlignment = this.StringToHorizontalAlignment(node.attributes.getNamedItem("HorizontalAlignment"));
@@ -362,6 +365,16 @@ export class XamlParser {
             ctl.Content = node.textContent;
             return ctl;
         }
+        return null;
+    }
+    private static HasAttribute(node: any, attributeName: string): any {
+        try { return (node.attributes[attributeName].value !== null) ; }
+        catch { }
+        return false;
+    }
+    private static TryGetAttribute(node: any, attributeName: string): any {
+        try { return node.attributes[attributeName].value; }
+        catch { }
         return null;
     }
     private static DoGroupingStuff(grouping: string, fe: FrameworkElement): void {

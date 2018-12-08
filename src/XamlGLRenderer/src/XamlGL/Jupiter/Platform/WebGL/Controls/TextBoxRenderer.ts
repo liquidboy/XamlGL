@@ -91,7 +91,8 @@ export class TextBoxRenderer extends BaseRenderer implements IControlRenderer {
         this._text = new PIXI.Text(
             this._textBoxEl.Text,
             {
-                font: `${this._textBoxEl.FontSize}px ${this._textBoxEl.FontFamily}`,
+                fontSize: this._textBoxEl.FontSize,
+                fontFamily: `${ this._textBoxEl.FontFamily }`,
                 fill: this._textBoxEl.Color,
                 wordWrap: (this._textBoxEl.TextWrapping === TextWrapping.Wrap) ? true : false,
                 wordWrapWidth: this._textBoxEl.CalculatedWidth,

@@ -1,6 +1,4 @@
-﻿/// <reference path="../../../../../typings/globals/pixi.js/index.d.ts" />
-
-import { Guid } from "./../../../DataTypes/Guid";
+﻿import { Guid } from "./../../../DataTypes/Guid";
 import { IRenderer } from "./IRenderer";
 import { WebGLPlatformPage } from "./PlatformPage";
 // import { FrameworkElement } from "./../../FrameworkElement";
@@ -150,7 +148,7 @@ export class Renderer implements IRenderer {
         if (this._loadingText === null) {
             this._loadingText = new PIXI.Text(
                 "loading...",
-                { font: "20px sans-serif", fill: "black" }
+                { fontSize: 20, fontFamily: "sans-serif", fill: "black" }
             );
             this._loadingText.position.set(((this._renderer.width - 90) / 2), (((this._renderer.height - 22) / 2) + 90));
             this._stage.addChild(this._loadingText);

@@ -1,6 +1,4 @@
-﻿/// <reference path="../../typings/globals/rivets/index.d.ts" />
-
-import * as XamlGLCore from "./../XamlGL/Core";
+﻿import * as XamlGLCore from "./../XamlGL/Core";
 
 export class XamlApp {
     public Start(): void {
@@ -31,7 +29,8 @@ export class XamlApp {
         XamlGLCore.ViewManager.Configure("content");
 
         // keep VIEW stuff outside of the AppDomain ??!! [not sure if i want to or not]
-        rivets.configure({
+
+        window["rivets"].configure({
             prefix: "rv",
             preloadData: true,
             rootInterface: ".",

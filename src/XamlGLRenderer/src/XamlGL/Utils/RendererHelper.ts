@@ -57,6 +57,7 @@ import { ScrollViewerRenderer } from "./../Jupiter/Platform/WebGL/Controls/Scrol
 
 
 declare var TinkLib: any;
+declare var PIXI: any;
 
 export class RendererHelper {
     // one draw for the entire APP

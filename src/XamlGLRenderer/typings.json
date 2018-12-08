@@ -1,9 +1,0 @@
-{
-  "name": "xamlgl",
-  "dependencies": {},
-  "globalDependencies": {
-    "jquery": "registry:dt/jquery#1.10.0+20160929162922",
-    "pixi.js": "registry:dt/pixi.js#3.0.9+20160825215559",
-    "rivets": "registry:dt/rivets#0.0.0+20160317120654"
-  }
-}

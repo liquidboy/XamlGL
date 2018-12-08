@@ -1,5 +1,4 @@
-﻿/// <reference path="../../../../../typings/globals/pixi.js/index.d.ts" />
-import { IEventArgs } from "../../../Events/IEventArgs";
+﻿import { IEventArgs } from "../../../Events/IEventArgs";
 import { IEvent } from "../../../Events/IEvent";
 import { IRendererBase } from "../IRendererBase";
 

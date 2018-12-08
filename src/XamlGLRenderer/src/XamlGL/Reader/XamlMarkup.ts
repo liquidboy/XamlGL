@@ -1,6 +1,5 @@
-﻿/// <reference path="../../../typings/globals/jquery/index.d.ts" />
-
-let parser: DOMParser = new DOMParser();
+﻿/// <reference path="./../../../node_modules/@types/jquery/index.d.ts" />
+﻿let parser: DOMParser = new DOMParser();
 
 export class XamlMarkup {
     rootElement: HTMLElement;

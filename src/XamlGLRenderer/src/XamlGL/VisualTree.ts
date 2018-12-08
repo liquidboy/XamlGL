@@ -1,6 +1,4 @@
-﻿/// <reference path="../../typings/globals/pixi.js/index.d.ts" />
-
-import * as Collections from "./../Libs/typescript-collections/src/lib";
+﻿import * as Collections from "./../Libs/typescript-collections/src/lib";
 import { IFrameworkElement } from "./Jupiter/IFrameworkElement";
 
 export class VisualTree {

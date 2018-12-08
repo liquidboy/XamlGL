@@ -11,7 +11,8 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outFile": "./../js/allsrc.js"
+    "outFile": "./../js/allsrc.js",
+    "typeRoots": ["types"]
   },
   "exclude": [
     "./node_modules",

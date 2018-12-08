@@ -39,7 +39,8 @@ export class TextBlockRenderer extends BaseRenderer implements IControlRenderer 
         let text: PIXI.Text = new PIXI.Text(
             textEl.Text,
             {
-                font: `${textEl.FontSize}px ${textEl.FontFamily}`,
+                fontSize: textEl.FontSize,
+                fontFamily: `${textEl.FontFamily}`,
                 fill: textEl.Color,
                 wordWrap: (textEl.TextWrapping === TextWrapping.Wrap) ? true : false,
                 wordWrapWidth: textEl.Width,
