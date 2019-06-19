@@ -1,0 +1,23 @@
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "system",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "declaration": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outFile": "./../js/allsrc2.js",
+    "typeRoots": ["types"]
+  },
+  "exclude": [
+    "./node_modules",
+    "./bower_components",
+    "./typings",
+    "./js"
+  ]
+}

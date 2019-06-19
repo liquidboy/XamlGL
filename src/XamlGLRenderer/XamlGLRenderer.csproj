@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -63,8 +63,10 @@
     <Content Include="assets\xbox-logo.png" />
     <Content Include="assets\zune-logo-sml.png" />
     <Content Include="assets\zune-logo.png" />
+    <Content Include="index2.html" />
     <Content Include="index.html" />
     <Content Include="js\allsrc.js" />
+    <Content Include="js\allsrc2.js" />
     <Content Include="js\filters.min.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="js\jquery.slim.min.js" />
@@ -78,6 +80,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="js\allsrc.d.ts" />
+    <TypeScriptCompile Include="js\allsrc2.d.ts" />
+    <TypeScriptCompile Include="src2\bootstrap\XamlApp.ts" />
     <TypeScriptCompile Include="src\Bootstrap\XamlApp.ts" />
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\arrays.ts" />
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Bag.ts" />
@@ -235,7 +240,10 @@
     <Content Include="package.json" />
     <Content Include="src\tsconfig.json" />
     <Content Include="libman.json" />
+    <Content Include="js\allsrc.js.map" />
+    <Content Include="js\allsrc2.js.map" />
     <None Include="packages.config" />
+    <Content Include="src2\tsconfig.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
