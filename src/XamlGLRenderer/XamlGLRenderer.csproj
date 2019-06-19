@@ -83,6 +83,10 @@
     <TypeScriptCompile Include="js\allsrc.d.ts" />
     <TypeScriptCompile Include="js\allsrc2.d.ts" />
     <TypeScriptCompile Include="src2\bootstrap\XamlApp.ts" />
+    <TypeScriptCompile Include="src2\xaml\App.ts" />
+    <TypeScriptCompile Include="src2\xaml\Core.ts" />
+    <TypeScriptCompile Include="src2\xaml\Reader\XamlMarkup.ts" />
+    <TypeScriptCompile Include="src2\xaml\Reader\XamlReader.ts" />
     <TypeScriptCompile Include="src\Bootstrap\XamlApp.ts" />
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\arrays.ts" />
     <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Bag.ts" />

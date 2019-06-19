@@ -1,4 +1,5 @@
-﻿import * as XamlGLCore from "./../XamlGL/Core";
+﻿/// <reference path="../../node_modules/babylonjs/babylon.module.d.ts" />
+import * as XamlGLCore from "./../XamlGL/Core";
 
 export class XamlApp {
     public Start(): void {

@@ -40,9 +40,9 @@
             //    defaultJSExtensions: false
             //});
             //bootstrap xamlgl
-            System.import('XamlApp').then(function (m) {
+            System.import('bootstrap/XamlApp').then(function (m) {
                 let app = new m.XamlApp(el);
-                app.Start();
+                app.Start("renderCanvas");
             }, console.log.bind(console));
 
             //console.log(PIXI);
@@ -52,7 +52,7 @@
 <body xamlgl-app="rectangle">
     <canvas id="renderCanvas" touch-action="none"></canvas> //touch-action="none" for best results from PEP
 
-    <script>
+    <!--<script>
         var canvas = document.getElementById("renderCanvas"); // Get the canvas element
         var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
@@ -88,6 +88,6 @@
         window.addEventListener("resize", function () {
             engine.resize();
         });
-    </script>
+    </script>-->
 </body>
 </html>
