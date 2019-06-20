@@ -1,7 +1,7 @@
 ﻿import { XamlMarkup } from "./reader/XamlMarkup";
 import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, FrameworkElement, UIElement } from "./jupiter/Core";
-import { Panel, Scene, Camera } from "./jupiter/controls/Core";
+import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
 
 export class App {
     private _canvas: any;
@@ -51,6 +51,7 @@ export class App {
             } else {
                 let o: any = v;
                 if (o.Initialize != null) o.Initialize(vt.Children.getValue(o.SceneName) as Scene);
+                if (o.InitializeWithMaterial != null) o.InitializeWithMaterial(vt.Children.getValue(o.SceneName) as Scene, vt.Children.getValue(o.SceneName) as Material);
             }
         });
     }
