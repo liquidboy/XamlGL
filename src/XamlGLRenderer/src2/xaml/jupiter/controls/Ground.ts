@@ -1,14 +1,14 @@
 ﻿import { UIElement } from "../UIElement";
 import { Scene } from "./Core";
 
-export class Light extends UIElement {
-    private _light: BABYLON.Light;
+export class Ground extends UIElement {
+    private _mesh: BABYLON.Mesh;
 
     private _sceneName: string;
     get SceneName() { return this._sceneName; }
 
     public Initialize(scene: Scene): void {
-        this._light = new BABYLON.HemisphericLight('skyLight', new BABYLON.Vector3(0, 1, 0), scene.Scene);
+        this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: 6, height: 6, subdivisions: 2 }, scene.Scene);
     }
 
     public LoadFromNode(node: any): void {

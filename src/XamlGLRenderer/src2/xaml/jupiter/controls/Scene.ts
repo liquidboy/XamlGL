@@ -24,8 +24,6 @@ export class Scene extends UIElement {
         this._camera = camera as Camera;
         this._light = light as Light;
 
-        this._camera.Initialize(this, canvas);
-
         engine.runRenderLoop(() => {
             this._scene.render();
         });

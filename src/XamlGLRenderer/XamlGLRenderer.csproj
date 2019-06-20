@@ -102,6 +102,7 @@
     <TypeScriptCompile Include="src2\xaml\App.ts" />
     <TypeScriptCompile Include="src2\xaml\Core.ts" />
     <TypeScriptCompile Include="src2\xaml\datatypes\Guid.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Ground.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Core.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Camera.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Light.ts" />

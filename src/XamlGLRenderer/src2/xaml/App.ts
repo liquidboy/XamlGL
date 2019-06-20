@@ -1,7 +1,7 @@
 ﻿import { XamlMarkup } from "./reader/XamlMarkup";
 import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, FrameworkElement, UIElement } from "./jupiter/Core";
-import { Panel, Scene } from "./jupiter/controls/Core";
+import { Panel, Scene, Camera } from "./jupiter/controls/Core";
 
 export class App {
     private _canvas: any;
@@ -44,6 +44,13 @@ export class App {
             if (v instanceof Scene) {
                 let s: Scene = v as Scene;
                 s.Initialize(this._engine, this._canvas, vt.Children.getValue(s.CameraName), vt.Children.getValue(s.LightName));
+            } else if (v instanceof Camera) {
+                let c: Camera = v as Camera;
+                c.Initialize(vt.Children.getValue(c.SceneName) as Scene, this._canvas);
+
+            } else {
+                let o: any = v;
+                if (o.Initialize != null) o.Initialize(vt.Children.getValue(o.SceneName) as Scene);
             }
         });
     }
