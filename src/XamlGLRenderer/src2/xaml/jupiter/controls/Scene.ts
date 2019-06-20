@@ -7,10 +7,10 @@ export class Scene extends UIElement {
     get Scene(): BABYLON.Scene { return this._scene; }
 
     private _cameraName: string;
-    get CameraName() { return this._cameraName; }
+    get CameraName(): string { return this._cameraName; }
 
     private _lightName: string;
-    get LightName() { return this._lightName; }
+    get LightName(): string { return this._lightName; }
 
     private _camera: Camera;
     private _light: Light;

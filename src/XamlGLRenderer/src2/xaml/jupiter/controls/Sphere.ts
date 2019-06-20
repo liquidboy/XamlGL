@@ -5,10 +5,10 @@ export class Sphere extends UIElement {
     private _mesh: BABYLON.Mesh;
 
     private _sceneName: string;
-    get SceneName() { return this._sceneName; }
+    get SceneName(): string { return this._sceneName; }
 
     private _materialName: string;
-    get MaterialName() { return this._materialName; }
+    get MaterialName(): string { return this._materialName; }
 
     public InitializeWithMaterial(scene: Scene, material: Material): void {
         this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: 16, diameter: 2 }, scene.Scene);

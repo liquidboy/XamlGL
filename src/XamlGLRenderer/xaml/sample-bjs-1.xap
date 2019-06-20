@@ -7,11 +7,10 @@
       <Camera x:Name="freeCamera" Type="FreeCamera" Position="Vector3(0, 5, -10)" Target="Vector3.Zero()" Scene="mainScene"></Camera>
       <Light x:Name="skyLight" Scene="mainScene"></Light>
 
-      <Material x:Name="material" Scene="mainScene" Wireframe="true"></Material>
+      <Material x:Name="material" Scene="mainScene" Wireframe="True"></Material>
       <Sphere x:Name="sphere1" Scene="mainScene" Material="material"></Sphere>
 
       <Ground x:Name="groundPlane" Scene="mainScene"></Ground>
-      
     </Grid>
     
 </Application>

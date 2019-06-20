@@ -2293,7 +2293,7 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         }
     };
 });
-System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_29, context_29) {
+System.register("xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_29, context_29) {
     "use strict";
     var UIElement_3, Ground;
     var __moduleName = context_29 && context_29.id;
@@ -2385,7 +2385,7 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], funct
         }
     };
 });
-System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement"], function (exports_32, context_32) {
+System.register("xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement"], function (exports_32, context_32) {
     "use strict";
     var UIElement_6, Sphere;
     var __moduleName = context_32 && context_32.id;
@@ -2416,7 +2416,7 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement"], func
         }
     };
 });
-System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], function (exports_33, context_33) {
+System.register("xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], function (exports_33, context_33) {
     "use strict";
     var UIElement_7, Material;
     var __moduleName = context_33 && context_33.id;
@@ -2433,11 +2433,12 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
                 get Wireframe() { return this._wireframe; }
                 Initialize(scene) {
                     this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
+                    this._material.wireframe = this._wireframe;
                 }
                 LoadFromNode(node) {
                     try {
                         this._sceneName = node.attributes["Scene"].value;
-                        this._wireframe = node.attributes["Wireframe"].value;
+                        this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true';
                     }
                     catch (_a) { }
                 }
@@ -2446,7 +2447,7 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Material"], function (exports_34, context_34) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "xaml/jupiter/controls/Sphere", "xaml/jupiter/controls/Material"], function (exports_34, context_34) {
     "use strict";
     var __moduleName = context_34 && context_34.id;
     function exportStar_1(m) {
@@ -2644,7 +2645,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Co
                             if (o.Initialize != null)
                                 o.Initialize(vt.Children.getValue(o.SceneName));
                             if (o.InitializeWithMaterial != null)
-                                o.InitializeWithMaterial(vt.Children.getValue(o.SceneName), vt.Children.getValue(o.SceneName));
+                                o.InitializeWithMaterial(vt.Children.getValue(o.SceneName), vt.Children.getValue(o.MaterialName));
                         }
                     });
                 }

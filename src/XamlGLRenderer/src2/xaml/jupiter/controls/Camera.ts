@@ -5,7 +5,7 @@ export class Camera extends UIElement {
     private _camera: BABYLON.FreeCamera;
 
     private _sceneName: string;
-    get SceneName() { return this._sceneName; }
+    get SceneName(): string { return this._sceneName; }
 
     public Initialize(scene: Scene, canvas: any): void {
         this._camera = new BABYLON.FreeCamera('freeCamera', new BABYLON.Vector3(0, 5, -10), scene.Scene);
