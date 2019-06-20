@@ -4,4 +4,5 @@ export interface IUIElement {
     IsDirty: boolean;
     UniqueID: string;
     Name: string;
+    LoadFromNode(node: any): void;
 }

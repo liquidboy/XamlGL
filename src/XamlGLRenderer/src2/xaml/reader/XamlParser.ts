@@ -22,7 +22,9 @@ export class XamlParser {
     }
     private static ProcessNode(el: Node, parent: FrameworkElement): FrameworkElement {
         let nodeAsAFrameWorkElement: FrameworkElement = this.GetFrameworkElementByNode(el);
-        if (nodeAsAFrameWorkElement!=null) nodeAsAFrameWorkElement.Parent = parent;
+        if (nodeAsAFrameWorkElement != null) {
+            nodeAsAFrameWorkElement.Parent = parent;
+        }
         //VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
         if (nodeAsAFrameWorkElement != null && nodeAsAFrameWorkElement instanceof _controls.Panel && el != null && el.childNodes != null && el.childNodes.length > 0) {
             this.ProcessCollectionNodes(nodeAsAFrameWorkElement, el.childNodes);
@@ -48,6 +50,7 @@ export class XamlParser {
         try {
             let newObject: FrameworkElement = eval(`new _controls.${node.nodeName}();`);
             if (this.HasAttribute(node, "x:Name")) newObject.Name = this.TryGetAttribute(node, "x:Name");
+            newObject.LoadFromNode(node);
             
             // console.log(newObject);
             return newObject;

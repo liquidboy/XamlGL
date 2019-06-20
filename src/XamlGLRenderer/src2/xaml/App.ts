@@ -7,7 +7,7 @@ export class App {
     private _canvas: any;
     private _engine: BABYLON.Engine;
     //private scene: BABYLON.Scene;
-    private camera: BABYLON.FreeCamera;
+    //private camera: BABYLON.FreeCamera;
     private light: BABYLON.Light;
     private xamlMarkup: XamlMarkup;
     private _rootElement: IFrameworkElement;
@@ -43,7 +43,7 @@ export class App {
         vt.Children.forEach((k: string, v: UIElement) => {
             if (v instanceof Scene) {
                 let s: Scene = v as Scene;
-                s.Initialize(this._engine);
+                s.Initialize(this._engine, this._canvas, vt.Children.getValue(s.CameraName), vt.Children.getValue(s.LightName));
             }
         });
     }

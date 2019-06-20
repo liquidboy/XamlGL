@@ -1,4 +1,4 @@
-System.register("Xaml/reader/XamlMarkup", [], function (exports_1, context_1) {
+System.register("Xaml/Reader/XamlMarkup", [], function (exports_1, context_1) {
     "use strict";
     var parser, XamlMarkup;
     var __moduleName = context_1 && context_1.id;
@@ -27,7 +27,7 @@ System.register("Xaml/reader/XamlMarkup", [], function (exports_1, context_1) {
         }
     };
 });
-System.register("Xaml/jupiter/IDependencyObject", [], function (exports_2, context_2) {
+System.register("xaml/jupiter/IDependencyObject", [], function (exports_2, context_2) {
     "use strict";
     var __moduleName = context_2 && context_2.id;
     return {
@@ -36,7 +36,7 @@ System.register("Xaml/jupiter/IDependencyObject", [], function (exports_2, conte
         }
     };
 });
-System.register("Xaml/jupiter/DependencyObject", [], function (exports_3, context_3) {
+System.register("xaml/jupiter/DependencyObject", [], function (exports_3, context_3) {
     "use strict";
     var DependencyObject;
     var __moduleName = context_3 && context_3.id;
@@ -49,7 +49,7 @@ System.register("Xaml/jupiter/DependencyObject", [], function (exports_3, contex
         }
     };
 });
-System.register("Xaml/jupiter/IUIElement", [], function (exports_4, context_4) {
+System.register("xaml/jupiter/IUIElement", [], function (exports_4, context_4) {
     "use strict";
     var __moduleName = context_4 && context_4.id;
     return {
@@ -58,7 +58,7 @@ System.register("Xaml/jupiter/IUIElement", [], function (exports_4, context_4) {
         }
     };
 });
-System.register("Xaml/DataTypes/Guid", [], function (exports_5, context_5) {
+System.register("xaml/DataTypes/Guid", [], function (exports_5, context_5) {
     "use strict";
     var Guid;
     var __moduleName = context_5 && context_5.id;
@@ -77,7 +77,7 @@ System.register("Xaml/DataTypes/Guid", [], function (exports_5, context_5) {
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid"], function (exports_6, context_6) {
+System.register("xaml/Jupiter/UIElement", ["xaml/jupiter/DependencyObject", "xaml/DataTypes/Guid"], function (exports_6, context_6) {
     "use strict";
     var DependencyObject_1, Guid_1, UIElement;
     var __moduleName = context_6 && context_6.id;
@@ -105,12 +105,13 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 set IsDirty(value) { this._isDirty = value; }
                 set UniqueID(value) { this._uniqueId = value; }
                 set Name(value) { this._name = value; }
+                LoadFromNode(node) { }
             };
             exports_6("UIElement", UIElement);
         }
     };
 });
-System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_7, context_7) {
+System.register("xaml/Jupiter/IFrameworkElement", [], function (exports_7, context_7) {
     "use strict";
     var __moduleName = context_7 && context_7.id;
     return {
@@ -119,7 +120,7 @@ System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_7, conte
         }
     };
 });
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_8, context_8) {
+System.register("xaml/Jupiter/FrameworkElement", ["xaml/Jupiter/UIElement"], function (exports_8, context_8) {
     "use strict";
     var UIElement_1, FrameworkElement;
     var __moduleName = context_8 && context_8.id;
@@ -145,7 +146,7 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
         }
     };
 });
-System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_9, context_9) {
+System.register("xaml/jupiter/controls/Camera", ["xaml/Jupiter/UIElement"], function (exports_9, context_9) {
     "use strict";
     var UIElement_2, Camera;
     var __moduleName = context_9 && context_9.id;
@@ -157,12 +158,17 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
         ],
         execute: function () {
             Camera = class Camera extends UIElement_2.UIElement {
+                Initialize(scene, canvas) {
+                    this._camera = new BABYLON.FreeCamera('freeCamera', new BABYLON.Vector3(0, 5, -10), scene.Scene);
+                    this._camera.setTarget(BABYLON.Vector3.Zero());
+                    this._camera.attachControl(canvas, true);
+                }
             };
             exports_9("Camera", Camera);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/util", [], function (exports_10, context_10) {
+System.register("Libs/typescript-collections/src/lib/util", [], function (exports_10, context_10) {
     "use strict";
     var _hasOwnProperty, has;
     var __moduleName = context_10 && context_10.id;
@@ -274,7 +280,7 @@ System.register("libs/typescript-collections/src/lib/util", [], function (export
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-collections/src/lib/util"], function (exports_11, context_11) {
+System.register("Libs/typescript-collections/src/lib/arrays", ["Libs/typescript-collections/src/lib/util"], function (exports_11, context_11) {
     "use strict";
     var util;
     var __moduleName = context_11 && context_11.id;
@@ -375,7 +381,7 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Dictionary", ["libs/typescript-collections/src/lib/util"], function (exports_12, context_12) {
+System.register("Libs/typescript-collections/src/lib/Dictionary", ["Libs/typescript-collections/src/lib/util"], function (exports_12, context_12) {
     "use strict";
     var util, Dictionary;
     var __moduleName = context_12 && context_12.id;
@@ -485,7 +491,7 @@ System.register("libs/typescript-collections/src/lib/Dictionary", ["libs/typescr
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Set", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays", "libs/typescript-collections/src/lib/Dictionary"], function (exports_13, context_13) {
+System.register("Libs/typescript-collections/src/lib/Set", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays", "Libs/typescript-collections/src/lib/Dictionary"], function (exports_13, context_13) {
     "use strict";
     var util, arrays, Dictionary_1, Set;
     var __moduleName = context_13 && context_13.id;
@@ -589,7 +595,7 @@ System.register("libs/typescript-collections/src/lib/Set", ["libs/typescript-col
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Bag", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/Set"], function (exports_14, context_14) {
+System.register("Libs/typescript-collections/src/lib/Bag", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/Set"], function (exports_14, context_14) {
     "use strict";
     var util, Dictionary_2, Set_1, Bag;
     var __moduleName = context_14 && context_14.id;
@@ -710,7 +716,7 @@ System.register("libs/typescript-collections/src/lib/Bag", ["libs/typescript-col
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/LinkedList", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays"], function (exports_15, context_15) {
+System.register("Libs/typescript-collections/src/lib/LinkedList", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays"], function (exports_15, context_15) {
     "use strict";
     var util, arrays, LinkedList;
     var __moduleName = context_15 && context_15.id;
@@ -946,7 +952,7 @@ System.register("libs/typescript-collections/src/lib/LinkedList", ["libs/typescr
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Heap", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays"], function (exports_16, context_16) {
+System.register("Libs/typescript-collections/src/lib/Heap", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/arrays"], function (exports_16, context_16) {
     "use strict";
     var collections, arrays, Heap;
     var __moduleName = context_16 && context_16.id;
@@ -1057,7 +1063,7 @@ System.register("libs/typescript-collections/src/lib/Heap", ["libs/typescript-co
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Queue", ["libs/typescript-collections/src/lib/LinkedList"], function (exports_17, context_17) {
+System.register("Libs/typescript-collections/src/lib/Queue", ["Libs/typescript-collections/src/lib/LinkedList"], function (exports_17, context_17) {
     "use strict";
     var LinkedList_1, Queue;
     var __moduleName = context_17 && context_17.id;
@@ -1112,7 +1118,7 @@ System.register("libs/typescript-collections/src/lib/Queue", ["libs/typescript-c
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/BSTree", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Queue"], function (exports_18, context_18) {
+System.register("Libs/typescript-collections/src/lib/BSTree", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Queue"], function (exports_18, context_18) {
     "use strict";
     var util, Queue_1, BSTree;
     var __moduleName = context_18 && context_18.id;
@@ -1378,7 +1384,7 @@ System.register("libs/typescript-collections/src/lib/BSTree", ["libs/typescript-
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/LinkedDictionary", ["libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/util"], function (exports_19, context_19) {
+System.register("Libs/typescript-collections/src/lib/LinkedDictionary", ["Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/util"], function (exports_19, context_19) {
     "use strict";
     var Dictionary_3, util, LinkedDictionaryPair, LinkedDictionary;
     var __moduleName = context_19 && context_19.id;
@@ -1503,7 +1509,7 @@ System.register("libs/typescript-collections/src/lib/LinkedDictionary", ["libs/t
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/MultiDictionary", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/arrays"], function (exports_20, context_20) {
+System.register("Libs/typescript-collections/src/lib/MultiDictionary", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/arrays"], function (exports_20, context_20) {
     "use strict";
     var util, Dictionary_4, arrays, MultiDictionary;
     var __moduleName = context_20 && context_20.id;
@@ -1594,7 +1600,7 @@ System.register("libs/typescript-collections/src/lib/MultiDictionary", ["libs/ty
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/FactoryDictionary", ["libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/util"], function (exports_21, context_21) {
+System.register("Libs/typescript-collections/src/lib/FactoryDictionary", ["Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/util"], function (exports_21, context_21) {
     "use strict";
     var Dictionary_5, util, FactoryDictionary;
     var __moduleName = context_21 && context_21.id;
@@ -1629,7 +1635,7 @@ System.register("libs/typescript-collections/src/lib/FactoryDictionary", ["libs/
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/PriorityQueue", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Heap"], function (exports_22, context_22) {
+System.register("Libs/typescript-collections/src/lib/PriorityQueue", ["Libs/typescript-collections/src/lib/util", "Libs/typescript-collections/src/lib/Heap"], function (exports_22, context_22) {
     "use strict";
     var util, Heap_1, PriorityQueue;
     var __moduleName = context_22 && context_22.id;
@@ -1684,7 +1690,7 @@ System.register("libs/typescript-collections/src/lib/PriorityQueue", ["libs/type
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Stack", ["libs/typescript-collections/src/lib/LinkedList"], function (exports_23, context_23) {
+System.register("Libs/typescript-collections/src/lib/Stack", ["Libs/typescript-collections/src/lib/LinkedList"], function (exports_23, context_23) {
     "use strict";
     var LinkedList_2, Stack;
     var __moduleName = context_23 && context_23.id;
@@ -1731,7 +1737,7 @@ System.register("libs/typescript-collections/src/lib/Stack", ["libs/typescript-c
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/MultiRootTree", [], function (exports_24, context_24) {
+System.register("Libs/typescript-collections/src/lib/MultiRootTree", [], function (exports_24, context_24) {
     "use strict";
     var Direction, MultiRootTree;
     var __moduleName = context_24 && context_24.id;
@@ -2123,7 +2129,7 @@ System.register("libs/typescript-collections/src/lib/MultiRootTree", [], functio
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/index", ["libs/typescript-collections/src/lib/arrays", "libs/typescript-collections/src/lib/Bag", "libs/typescript-collections/src/lib/BSTree", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/Heap", "libs/typescript-collections/src/lib/LinkedDictionary", "libs/typescript-collections/src/lib/LinkedList", "libs/typescript-collections/src/lib/MultiDictionary", "libs/typescript-collections/src/lib/FactoryDictionary", "libs/typescript-collections/src/lib/Queue", "libs/typescript-collections/src/lib/PriorityQueue", "libs/typescript-collections/src/lib/Set", "libs/typescript-collections/src/lib/Stack", "libs/typescript-collections/src/lib/MultiRootTree", "libs/typescript-collections/src/lib/util"], function (exports_25, context_25) {
+System.register("Libs/typescript-collections/src/lib/index", ["Libs/typescript-collections/src/lib/arrays", "Libs/typescript-collections/src/lib/Bag", "Libs/typescript-collections/src/lib/BSTree", "Libs/typescript-collections/src/lib/Dictionary", "Libs/typescript-collections/src/lib/Heap", "Libs/typescript-collections/src/lib/LinkedDictionary", "Libs/typescript-collections/src/lib/LinkedList", "Libs/typescript-collections/src/lib/MultiDictionary", "Libs/typescript-collections/src/lib/FactoryDictionary", "Libs/typescript-collections/src/lib/Queue", "Libs/typescript-collections/src/lib/PriorityQueue", "Libs/typescript-collections/src/lib/Set", "Libs/typescript-collections/src/lib/Stack", "Libs/typescript-collections/src/lib/MultiRootTree", "Libs/typescript-collections/src/lib/util"], function (exports_25, context_25) {
     "use strict";
     var _arrays, arrays, _util, util;
     var __moduleName = context_25 && context_25.id;
@@ -2210,7 +2216,7 @@ System.register("libs/typescript-collections/src/lib/index", ["libs/typescript-c
         }
     };
 });
-System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collections/src/lib/index"], function (exports_26, context_26) {
+System.register("xaml/jupiter/UIElementCollection", ["Libs/typescript-collections/src/lib/index"], function (exports_26, context_26) {
     "use strict";
     var index_1, UIElementCollection;
     var __moduleName = context_26 && context_26.id;
@@ -2227,7 +2233,7 @@ System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collection
         }
     };
 });
-System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElementCollection"], function (exports_27, context_27) {
+System.register("xaml/jupiter/controls/Panel", ["xaml/Jupiter/FrameworkElement", "xaml/jupiter/UIElementCollection"], function (exports_27, context_27) {
     "use strict";
     var FrameworkElement_1, UIElementCollection_1, Panel;
     var __moduleName = context_27 && context_27.id;
@@ -2263,7 +2269,7 @@ System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement",
         }
     };
 });
-System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], function (exports_28, context_28) {
+System.register("xaml/jupiter/controls/Grid", ["xaml/jupiter/controls/Panel"], function (exports_28, context_28) {
     "use strict";
     var Panel_1, Grid;
     var __moduleName = context_28 && context_28.id;
@@ -2280,7 +2286,7 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         }
     };
 });
-System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_29, context_29) {
+System.register("xaml/jupiter/controls/Light", ["xaml/Jupiter/UIElement"], function (exports_29, context_29) {
     "use strict";
     var UIElement_3, Light;
     var __moduleName = context_29 && context_29.id;
@@ -2297,7 +2303,7 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         }
     };
 });
-System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], function (exports_30, context_30) {
+System.register("xaml/jupiter/controls/Scene", ["xaml/Jupiter/UIElement"], function (exports_30, context_30) {
     "use strict";
     var UIElement_4, Scene;
     var __moduleName = context_30 && context_30.id;
@@ -2310,21 +2316,33 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], funct
         execute: function () {
             Scene = class Scene extends UIElement_4.UIElement {
                 get Scene() { return this._scene; }
+                get CameraName() { return this._cameraName; }
+                get LightName() { return this._lightName; }
                 constructor() {
                     super();
                 }
-                Initialize(engine) {
+                Initialize(engine, canvas, camera, light) {
                     this._scene = new BABYLON.Scene(engine);
+                    this._camera = camera;
+                    this._light = light;
+                    this._camera.Initialize(this, canvas);
                     engine.runRenderLoop(() => {
                         this._scene.render();
                     });
+                }
+                LoadFromNode(node) {
+                    try {
+                        this._cameraName = node.attributes["Camera"].value;
+                        this._lightName = node.attributes["Light"].value;
+                    }
+                    catch (_a) { }
                 }
             };
             exports_30("Scene", Scene);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene"], function (exports_31, context_31) {
+System.register("Xaml/jupiter/controls/Core", ["xaml/jupiter/controls/Camera", "xaml/jupiter/controls/Grid", "xaml/jupiter/controls/Light", "xaml/jupiter/controls/Panel", "xaml/jupiter/controls/Scene"], function (exports_31, context_31) {
     "use strict";
     var __moduleName = context_31 && context_31.id;
     function exportStar_1(m) {
@@ -2356,7 +2374,7 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Camera", "
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_32, context_32) {
+System.register("xaml/Reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_32, context_32) {
     "use strict";
     var _controls, XamlParser;
     var __moduleName = context_32 && context_32.id;
@@ -2384,8 +2402,9 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                 }
                 static ProcessNode(el, parent) {
                     let nodeAsAFrameWorkElement = this.GetFrameworkElementByNode(el);
-                    if (nodeAsAFrameWorkElement != null)
+                    if (nodeAsAFrameWorkElement != null) {
                         nodeAsAFrameWorkElement.Parent = parent;
+                    }
                     if (nodeAsAFrameWorkElement != null && nodeAsAFrameWorkElement instanceof _controls.Panel && el != null && el.childNodes != null && el.childNodes.length > 0) {
                         this.ProcessCollectionNodes(nodeAsAFrameWorkElement, el.childNodes);
                     }
@@ -2410,6 +2429,7 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                         let newObject = eval(`new _controls.${node.nodeName}();`);
                         if (this.HasAttribute(node, "x:Name"))
                             newObject.Name = this.TryGetAttribute(node, "x:Name");
+                        newObject.LoadFromNode(node);
                         return newObject;
                     }
                     catch (ex) {
@@ -2436,7 +2456,7 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
         }
     };
 });
-System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_33, context_33) {
+System.register("xaml/jupiter/Core", ["xaml/jupiter/DependencyObject", "xaml/Jupiter/FrameworkElement", "xaml/Jupiter/UIElement", "xaml/jupiter/UIElementCollection"], function (exports_33, context_33) {
     "use strict";
     var __moduleName = context_33 && context_33.id;
     function exportStar_2(m) {
@@ -2465,7 +2485,7 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jup
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Core"], function (exports_34, context_34) {
+System.register("Xaml/App", ["xaml/Reader/XamlParser", "Xaml/jupiter/controls/Core"], function (exports_34, context_34) {
     "use strict";
     var XamlParser_1, Core_1, App;
     var __moduleName = context_34 && context_34.id;
@@ -2500,7 +2520,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Co
                     vt.Children.forEach((k, v) => {
                         if (v instanceof Core_1.Scene) {
                             let s = v;
-                            s.Initialize(this._engine);
+                            s.Initialize(this._engine, this._canvas, vt.Children.getValue(s.CameraName), vt.Children.getValue(s.LightName));
                         }
                     });
                 }
@@ -2524,7 +2544,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Co
         }
     };
 });
-System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_35, context_35) {
+System.register("Xaml/Reader/XamlReader", ["Xaml/Reader/XamlMarkup"], function (exports_35, context_35) {
     "use strict";
     var XamlMarkup_1, XamlReader;
     var __moduleName = context_35 && context_35.id;
@@ -2556,7 +2576,7 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "Xaml/jupiter/controls/Core", "Xaml/DataTypes/Guid"], function (exports_36, context_36) {
+System.register("Xaml/Core", ["Xaml/App", "Xaml/Reader/XamlReader", "xaml/Reader/XamlParser", "Xaml/Reader/XamlMarkup", "Xaml/jupiter/controls/Core", "xaml/DataTypes/Guid"], function (exports_36, context_36) {
     "use strict";
     var _controls, Controls;
     var __moduleName = context_36 && context_36.id;

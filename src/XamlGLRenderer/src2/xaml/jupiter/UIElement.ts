@@ -3,6 +3,7 @@ import { IUIElement } from "./IUIElement";
 import { Guid } from "./../DataTypes/Guid";
 
 export class UIElement extends DependencyObject implements IUIElement {
+    
 
     private _isVisible: boolean;
     private _isDirty: boolean = true;
@@ -23,6 +24,8 @@ export class UIElement extends DependencyObject implements IUIElement {
         super();
         this._uniqueId = Guid.newGuid();
     }
+
+    LoadFromNode(node: any): void { }
 }
 
 
