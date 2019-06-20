@@ -1,4 +1,6 @@
-﻿import { XamlMarkup } from "./Reader/XamlMarkup";
+﻿import { XamlMarkup } from "./reader/XamlMarkup";
+import { XamlParser } from "./reader/XamlParser";
+import { IFrameworkElement } from "./jupiter/Core";
 
 export class App {
     private canvas: any;
@@ -22,8 +24,14 @@ export class App {
             this.engine.resize();
         });
 
+        this.BuildVisualTree();
         this.CreateScene();
         this.Run();
+    }
+
+    private BuildVisualTree(): void {
+        let root: IFrameworkElement = XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
+        //console.log(root);
     }
 
     private CreateScene(): void {
