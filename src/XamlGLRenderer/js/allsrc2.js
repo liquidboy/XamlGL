@@ -2348,9 +2348,7 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
             XamlParser = class XamlParser {
                 static XamlMarkupToUIElement(xaml) {
                     let nnn = new _controls.Panel();
-                    let ret = this.ProcessRoot(xaml.rootElement);
-                    console.log(ret);
-                    return ret;
+                    return this.ProcessRoot(xaml.rootElement);
                 }
                 static ProcessRoot(el) {
                     let col = el.childNodes;
@@ -2367,13 +2365,13 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                     if (nodeAsAFrameWorkElement != null)
                         nodeAsAFrameWorkElement.Parent = parent;
                     if (nodeAsAFrameWorkElement != null && nodeAsAFrameWorkElement instanceof _controls.Panel && el != null && el.childNodes != null && el.childNodes.length > 0) {
-                        let cc = this.ProcessCollectionNodes(nodeAsAFrameWorkElement, el.childNodes);
+                        this.ProcessCollectionNodes(nodeAsAFrameWorkElement, el.childNodes);
                     }
                     return nodeAsAFrameWorkElement;
                 }
                 static ProcessCollectionNodes(root, col) {
                     if (!col) {
-                        return null;
+                        return;
                     }
                     for (let x = 0; x < col.length; x++) {
                         let node = col.item(x);
@@ -2382,13 +2380,14 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                             root.Children.add(newFE);
                         }
                     }
-                    return root;
                 }
                 static GetFrameworkElementByNode(node) {
                     if (node.nodeName === "#text")
                         return null;
                     try {
                         let newObject = eval(`new _controls.${node.nodeName}();`);
+                        if (this.HasAttribute(node, "x:Name"))
+                            newObject.Name = this.TryGetAttribute(node, "x:Name");
                         return newObject;
                     }
                     catch (ex) {
@@ -2409,8 +2408,6 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                     }
                     catch (_a) { }
                     return null;
-                }
-                static DoGroupingStuff(grouping, fe) {
                 }
             };
             exports_32("XamlParser", XamlParser);
@@ -2473,6 +2470,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser"], function (exports_34, co
                 }
                 BuildVisualTree() {
                     let root = XamlParser_1.XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
+                    console.log(root);
                 }
                 CreateScene() {
                     this.scene = new BABYLON.Scene(this.engine);

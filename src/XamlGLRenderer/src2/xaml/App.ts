@@ -31,7 +31,7 @@ export class App {
 
     private BuildVisualTree(): void {
         let root: IFrameworkElement = XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
-        //console.log(root);
+        console.log(root);
     }
 
     private CreateScene(): void {
