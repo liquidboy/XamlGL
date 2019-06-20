@@ -38,7 +38,7 @@ export class XamlParser {
             let newFE: FrameworkElement = this.ProcessNode(node, root);
             if (newFE !== null) {
             //    root.Content = newFE;
-                root.Children.add(newFE);
+                root.Children.setValue(newFE.Name, newFE);
             }
         }
     }

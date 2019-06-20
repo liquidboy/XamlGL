@@ -145,14 +145,18 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
         }
     };
 });
-System.register("Xaml/jupiter/controls/Camera", [], function (exports_9, context_9) {
+System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_9, context_9) {
     "use strict";
-    var Camera;
+    var UIElement_2, Camera;
     var __moduleName = context_9 && context_9.id;
     return {
-        setters: [],
+        setters: [
+            function (UIElement_2_1) {
+                UIElement_2 = UIElement_2_1;
+            }
+        ],
         execute: function () {
-            Camera = class Camera {
+            Camera = class Camera extends UIElement_2.UIElement {
             };
             exports_9("Camera", Camera);
         }
@@ -2217,7 +2221,7 @@ System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collection
             }
         ],
         execute: function () {
-            UIElementCollection = class UIElementCollection extends index_1.LinkedList {
+            UIElementCollection = class UIElementCollection extends index_1.LinkedDictionary {
             };
             exports_26("UIElementCollection", UIElementCollection);
         }
@@ -2276,27 +2280,45 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         }
     };
 });
-System.register("Xaml/jupiter/controls/Light", [], function (exports_29, context_29) {
+System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_29, context_29) {
     "use strict";
-    var Light;
+    var UIElement_3, Light;
     var __moduleName = context_29 && context_29.id;
     return {
-        setters: [],
+        setters: [
+            function (UIElement_3_1) {
+                UIElement_3 = UIElement_3_1;
+            }
+        ],
         execute: function () {
-            Light = class Light {
+            Light = class Light extends UIElement_3.UIElement {
             };
             exports_29("Light", Light);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Scene", [], function (exports_30, context_30) {
+System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], function (exports_30, context_30) {
     "use strict";
-    var Scene;
+    var UIElement_4, Scene;
     var __moduleName = context_30 && context_30.id;
     return {
-        setters: [],
+        setters: [
+            function (UIElement_4_1) {
+                UIElement_4 = UIElement_4_1;
+            }
+        ],
         execute: function () {
-            Scene = class Scene {
+            Scene = class Scene extends UIElement_4.UIElement {
+                get Scene() { return this._scene; }
+                constructor() {
+                    super();
+                }
+                Initialize(engine) {
+                    this._scene = new BABYLON.Scene(engine);
+                    engine.runRenderLoop(() => {
+                        this._scene.render();
+                    });
+                }
             };
             exports_30("Scene", Scene);
         }
@@ -2377,7 +2399,7 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                         let node = col.item(x);
                         let newFE = this.ProcessNode(node, root);
                         if (newFE !== null) {
-                            root.Children.add(newFE);
+                            root.Children.setValue(newFE.Name, newFE);
                         }
                     }
                 }
@@ -2432,8 +2454,8 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jup
             function (FrameworkElement_2_1) {
                 exportStar_2(FrameworkElement_2_1);
             },
-            function (UIElement_2_1) {
-                exportStar_2(UIElement_2_1);
+            function (UIElement_5_1) {
+                exportStar_2(UIElement_5_1);
             },
             function (UIElementCollection_2_1) {
                 exportStar_2(UIElementCollection_2_1);
@@ -2443,14 +2465,17 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jup
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser"], function (exports_34, context_34) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Core"], function (exports_34, context_34) {
     "use strict";
-    var XamlParser_1, App;
+    var XamlParser_1, Core_1, App;
     var __moduleName = context_34 && context_34.id;
     return {
         setters: [
             function (XamlParser_1_1) {
                 XamlParser_1 = XamlParser_1_1;
+            },
+            function (Core_1_1) {
+                Core_1 = Core_1_1;
             }
         ],
         execute: function () {
@@ -2459,53 +2484,24 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser"], function (exports_34, co
                 }
                 Start(xaml, canvasElement) {
                     this.xamlMarkup = xaml;
-                    this.canvas = document.getElementById(canvasElement);
-                    this.engine = new BABYLON.Engine(this.canvas, true);
+                    this._canvas = document.getElementById(canvasElement);
+                    this._engine = new BABYLON.Engine(this._canvas, true);
                     window.addEventListener("resize", () => {
-                        this.engine.resize();
+                        this._engine.resize();
                     });
                     this.BuildVisualTree();
-                    this.CreateScene();
-                    this.Run();
+                    this.RenderScene();
                 }
                 BuildVisualTree() {
-                    let root = XamlParser_1.XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
-                    console.log(root);
+                    this._rootElement = XamlParser_1.XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
                 }
-                CreateScene() {
-                    this.scene = new BABYLON.Scene(this.engine);
-                    this.camera = new BABYLON.FreeCamera('freeCamera', new BABYLON.Vector3(0, 5, -10), this.scene);
-                    this.camera.setTarget(BABYLON.Vector3.Zero());
-                    this.camera.attachControl(this.canvas, true);
-                    this.light = new BABYLON.HemisphericLight('skyLight', new BABYLON.Vector3(0, 1, 0), this.scene);
-                    let sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: 16, diameter: 2 }, this.scene);
-                    sphere.position.y = 1;
-                    sphere.material = new BABYLON.StandardMaterial("material", this.scene);
-                    sphere.material.wireframe = true;
-                    this.ShowNormals(sphere, 0.25, new BABYLON.Color3(1, 0, 0), this.scene);
-                    let ground = BABYLON.MeshBuilder.CreateGround('groundPlane', { width: 6, height: 6, subdivisions: 2 }, this.scene);
-                    this.scene.onPrePointerObservable.add((pointerInfo, eventState) => {
-                        var event = pointerInfo.event;
-                        var delta = 0;
-                        if (event.wheelDelta) {
-                            delta = event.wheelDelta;
+                RenderScene() {
+                    let vt = this._rootElement;
+                    vt.Children.forEach((k, v) => {
+                        if (v instanceof Core_1.Scene) {
+                            let s = v;
+                            s.Initialize(this._engine);
                         }
-                        else if (event.detail) {
-                            delta = -event.detail;
-                        }
-                        if (delta) {
-                            console.log(delta);
-                            var dir = this.scene.activeCamera.getDirection(BABYLON.Axis.Z);
-                            if (delta > 0)
-                                this.scene.activeCamera.position.addInPlace(dir);
-                            else
-                                this.scene.activeCamera.position.subtractInPlace(dir);
-                        }
-                    }, BABYLON.PointerEventTypes.POINTERWHEEL, false);
-                }
-                Run() {
-                    this.engine.runRenderLoop(() => {
-                        this.scene.render();
                     });
                 }
                 ShowNormals(mesh, size, color, sc) {
