@@ -104,6 +104,7 @@
     <TypeScriptCompile Include="src2\xaml\datatypes\Guid.ts" />
     <TypeScriptCompile Include="src2\xaml\extensions\MeshNormalLines.ts" />
     <TypeScriptCompile Include="src2\xaml\extensions\SceneMouseWheelZoom.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Box.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Sphere.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Material.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Ground.ts" />
