@@ -391,6 +391,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="xaml\sample-bjs-1.xap" />
+    <Content Include="xaml\sample-bjs-2.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

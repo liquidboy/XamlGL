@@ -161,18 +161,48 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
                 get SceneName() { return this._sceneName; }
                 get Position() { return this._position; }
                 get Target() { return this._target; }
+                get Type() { return this._type; }
+                get Alpha() { return this._alpha; }
+                get Beta() { return this._beta; }
+                get Radius() { return this._radius; }
                 Initialize(scene, canvas) {
-                    this._camera = new BABYLON.FreeCamera('freeCamera', this._position, scene.Scene);
-                    this._camera.setTarget(this._target);
+                    if (this._type === "FreeCamera") {
+                        this._camera = new BABYLON.FreeCamera('freeCamera', this._position, scene.Scene);
+                        this._camera.setTarget(this._target);
+                    }
+                    else if (this._type === "ArcRotateCamera")
+                        this._camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, this._target, scene.Scene);
                     this._camera.attachControl(canvas, true);
                 }
                 LoadFromNode(node) {
                     try {
                         this._sceneName = node.attributes["Scene"].value;
-                        this._position = eval(`new BABYLON.${node.attributes["Position"].value};`);
+                    }
+                    catch (e) { }
+                    try {
                         this._target = eval(`new BABYLON.${node.attributes["Target"].value};`);
                     }
-                    catch (_a) { }
+                    catch (e) { }
+                    try {
+                        this._type = node.attributes["Type"].value;
+                    }
+                    catch (e) { }
+                    try {
+                        this._alpha = parseFloat(node.attributes["Alpha"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._beta = parseFloat(node.attributes["Beta"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._radius = parseFloat(node.attributes["Radius"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._position = eval(`new BABYLON.${node.attributes["Position"].value};`);
+                    }
+                    catch (e) { }
                 }
             };
             exports_9("Camera", Camera);
@@ -2337,14 +2367,27 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         execute: function () {
             Light = class Light extends UIElement_4.UIElement {
                 get SceneName() { return this._sceneName; }
+                get Direction() { return this._direction; }
+                get Type() { return this._type; }
                 Initialize(scene) {
-                    this._light = new BABYLON.HemisphericLight('skyLight', new BABYLON.Vector3(0, 1, 0), scene.Scene);
+                    if (this._type === "HemisphericLight")
+                        this._light = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Scene);
+                    else if (this._type === "PointLight")
+                        this._light = new BABYLON.PointLight(this.Name, this._direction, scene.Scene);
                 }
                 LoadFromNode(node) {
                     try {
                         this._sceneName = node.attributes["Scene"].value;
                     }
                     catch (_a) { }
+                    try {
+                        this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._type = node.attributes["Type"].value;
+                    }
+                    catch (e) { }
                 }
             };
             exports_30("Light", Light);
@@ -2380,9 +2423,12 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], funct
                 LoadFromNode(node) {
                     try {
                         this._cameraName = node.attributes["Camera"].value;
+                    }
+                    catch (e) { }
+                    try {
                         this._lightName = node.attributes["Light"].value;
                     }
-                    catch (_a) { }
+                    catch (e) { }
                 }
             };
             exports_31("Scene", Scene);
@@ -2469,8 +2515,10 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 get SceneName() { return this._sceneName; }
                 get MaterialName() { return this._materialName; }
                 get ShowNormalLines() { return this._showNormalLines; }
+                get Segments() { return this._segments; }
+                get Diameter() { return this._diameter; }
                 InitializeWithMaterial(scene, material) {
-                    this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: 16, diameter: 2 }, scene.Scene);
+                    this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
                     this._mesh.position.y = 1;
                     this._mesh.material = material.Material;
                     if (this._showNormalLines)
@@ -2479,10 +2527,24 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 LoadFromNode(node) {
                     try {
                         this._sceneName = node.attributes["Scene"].value;
+                    }
+                    catch (e) { }
+                    try {
                         this._materialName = node.attributes["Material"].value;
+                    }
+                    catch (e) { }
+                    try {
                         this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true';
                     }
-                    catch (_a) { }
+                    catch (e) { }
+                    try {
+                        this._segments = parseInt(node.attributes["Segments"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._diameter = parseFloat(node.attributes["Diameter"].value);
+                    }
+                    catch (e) { }
                 }
             };
             exports_34("Sphere", Sphere);
@@ -2511,9 +2573,12 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
                 LoadFromNode(node) {
                     try {
                         this._sceneName = node.attributes["Scene"].value;
+                    }
+                    catch (e) { }
+                    try {
                         this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true';
                     }
-                    catch (_a) { }
+                    catch (e) { }
                 }
             };
             exports_35("Material", Material);
@@ -2728,21 +2793,6 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Co
                                 o.InitializeWithMaterial(vt.Children.getValue(o.SceneName), vt.Children.getValue(o.MaterialName));
                         }
                     });
-                }
-                ShowNormals(mesh, size, color, sc) {
-                    var normals = mesh.getVerticesData(BABYLON.VertexBuffer.NormalKind);
-                    var positions = mesh.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-                    color = color || BABYLON.Color3.White();
-                    size = size || 1;
-                    var lines = [];
-                    for (var i = 0; i < normals.length; i += 3) {
-                        var v1 = BABYLON.Vector3.FromArray(positions, i);
-                        var v2 = v1.add(BABYLON.Vector3.FromArray(normals, i).scaleInPlace(size));
-                        lines.push([v1.add(mesh.position), v2.add(mesh.position)]);
-                    }
-                    var normalLines = BABYLON.MeshBuilder.CreateLineSystem("normalLines", { lines: lines }, sc);
-                    normalLines.color = color;
-                    return normalLines;
                 }
             };
             exports_39("App", App);

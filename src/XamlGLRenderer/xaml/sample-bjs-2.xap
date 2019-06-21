@@ -4,11 +4,11 @@
     ThemeName="Metro">
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene" Camera="freeCamera" Light="skyLight"></Scene>
-      <Camera x:Name="freeCamera" Type="FreeCamera" Position="Vector3(0, 5, -10)" Target="Vector3.Zero()" Scene="mainScene"></Camera>
-      <Light x:Name="skyLight" Type="HemisphericLight" Scene="mainScene" Direction="Vector3(0, 1, 0)"></Light>
+      <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  Alpha="0" Beta="0.8" Radius="100" Target="Vector3.Zero()" Scene="mainScene"></Camera>
+      <Light x:Name="omni" Type="PointLight" Scene="mainScene" Direction="Vector3(0, 100, 100)"></Light>
 
       <Material x:Name="material" Scene="mainScene" Wireframe="True"></Material>
-      <Sphere x:Name="sphere1" Scene="mainScene" Material="material" ShowNormalLines="True" Segments="20" Diameter="2.0"></Sphere>
+      <Sphere x:Name="sphere1" Scene="mainScene" Material="material" ShowNormalLines="True" Segments="30" Diameter="10.0"></Sphere>
 
       <Ground x:Name="groundPlane" Scene="mainScene"></Ground>
     </Grid>

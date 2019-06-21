@@ -17,10 +17,7 @@ export class Material extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
-        try {
-            this._sceneName = node.attributes["Scene"].value;
-            this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true';
-        }
-        catch { }
+        try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
+        try { this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true'; } catch (e) { }
     }
 }
