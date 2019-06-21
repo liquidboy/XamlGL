@@ -2340,14 +2340,29 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
         execute: function () {
             Ground = class Ground extends UIElement_3.UIElement {
                 get SceneName() { return this._sceneName; }
+                get Width() { return this._width; }
+                get Height() { return this._height; }
+                get SubDivisions() { return this._subdivisions; }
                 Initialize(scene) {
-                    this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: 6, height: 6, subdivisions: 2 }, scene.Scene);
+                    this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: this._width, height: this._height, subdivisions: this._subdivisions }, scene.Scene);
                 }
                 LoadFromNode(node) {
                     try {
                         this._sceneName = node.attributes["Scene"].value;
                     }
                     catch (_a) { }
+                    try {
+                        this._width = parseFloat(node.attributes["Width"].value);
+                    }
+                    catch (_b) { }
+                    try {
+                        this._height = parseFloat(node.attributes["Height"].value);
+                    }
+                    catch (_c) { }
+                    try {
+                        this._subdivisions = parseInt(node.attributes["SubDivisions"].value);
+                    }
+                    catch (_d) { }
                 }
             };
             exports_29("Ground", Ground);

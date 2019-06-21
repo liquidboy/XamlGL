@@ -10,7 +10,7 @@
       <Material x:Name="material" Scene="mainScene" Wireframe="True"></Material>
       <Sphere x:Name="sphere1" Scene="mainScene" Material="material" ShowNormalLines="True" Segments="30" Diameter="10.0"></Sphere>
 
-      <Ground x:Name="groundPlane" Scene="mainScene"></Ground>
+      <Ground x:Name="groundPlane" Scene="mainScene" Width="12.0" Height="12.0" SubDivisions="2"></Ground>
     </Grid>
     
 </Application>
