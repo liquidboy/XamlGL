@@ -2,6 +2,7 @@
 import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, FrameworkElement, UIElement } from "./jupiter/Core";
 import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
+import { SceneMouseWheelZoom } from "./extensions/SceneMouseWheelZoom";
 
 export class App {
     private _canvas: any;
@@ -44,6 +45,7 @@ export class App {
             if (v instanceof Scene) {
                 let s: Scene = v as Scene;
                 s.Initialize(this._engine, this._canvas, vt.Children.getValue(s.CameraName), vt.Children.getValue(s.LightName));
+                SceneMouseWheelZoom.Install(s);
             } else if (v instanceof Camera) {
                 let c: Camera = v as Camera;
                 c.Initialize(vt.Children.getValue(c.SceneName) as Scene, this._canvas);
