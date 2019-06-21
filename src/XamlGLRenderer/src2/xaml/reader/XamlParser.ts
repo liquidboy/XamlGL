@@ -22,11 +22,12 @@ export class XamlParser {
     }
     private static ProcessNode(el: Node, parent: FrameworkElement): FrameworkElement {
         let nodeAsAFrameWorkElement: FrameworkElement = this.GetFrameworkElementByNode(el);
+
         if (nodeAsAFrameWorkElement != null) {
             nodeAsAFrameWorkElement.Parent = parent;
         }
         //VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
-        if (nodeAsAFrameWorkElement != null && nodeAsAFrameWorkElement instanceof _controls.Panel && el != null && el.childNodes != null && el.childNodes.length > 0) {
+        if (nodeAsAFrameWorkElement != null && nodeAsAFrameWorkElement instanceof _controls.Panel  && el != null && el.childNodes != null && el.childNodes.length > 0) {
             this.ProcessCollectionNodes(nodeAsAFrameWorkElement, el.childNodes);
         }
         return nodeAsAFrameWorkElement;

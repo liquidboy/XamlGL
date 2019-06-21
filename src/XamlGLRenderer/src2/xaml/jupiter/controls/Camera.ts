@@ -22,10 +22,14 @@ export class Camera extends UIElement {
 
     public Initialize(scene: Scene, canvas: any): void {
         if (this._type === "FreeCamera") {
-            this._camera = new BABYLON.FreeCamera('freeCamera', this._position, scene.Scene);
+            this._camera = new BABYLON.FreeCamera(this.Name, this._position, scene.Scene);
             (this._camera as BABYLON.FreeCamera).setTarget(this._target);
         }
-        else if (this._type === "ArcRotateCamera") this._camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, this._target, scene.Scene);
+        else if (this._type === "UniversalCamera") {
+            this._camera = new BABYLON.UniversalCamera(this.Name, this._position, scene.Scene);
+            (this._camera as BABYLON.UniversalCamera).setTarget(this._target);
+        }
+        else if (this._type === "ArcRotateCamera") this._camera = new BABYLON.ArcRotateCamera(this.Name, 0, 0.8, 100, this._target, scene.Scene);
         
         this._camera.attachControl(canvas, true);
     }

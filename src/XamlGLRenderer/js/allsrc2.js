@@ -2142,7 +2142,7 @@ System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collection
         }
     };
 });
-System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_23, context_23) {
+System.register("Xaml/jupiter/IChildrensElement", [], function (exports_23, context_23) {
     "use strict";
     var __moduleName = context_23 && context_23.id;
     return {
@@ -2151,15 +2151,24 @@ System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_23, cont
         }
     };
 });
-System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_24, context_24) {
+System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_24, context_24) {
     "use strict";
     var __moduleName = context_24 && context_24.id;
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_25, context_25) {
+    "use strict";
+    var __moduleName = context_25 && context_25.id;
     function exportStar_1(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_24(exports);
+        exports_25(exports);
     }
     return {
         setters: [
@@ -2180,19 +2189,19 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jup
         }
     };
 });
-System.register("Xaml/jupiter/IAnimationsElement", [], function (exports_25, context_25) {
+System.register("Xaml/jupiter/IAnimationsElement", [], function (exports_26, context_26) {
     "use strict";
-    var __moduleName = context_25 && context_25.id;
+    var __moduleName = context_26 && context_26.id;
     return {
         setters: [],
         execute: function () {
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "Xaml/jupiter/UIElementCollection"], function (exports_26, context_26) {
+System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "Xaml/jupiter/UIElementCollection"], function (exports_27, context_27) {
     "use strict";
     var DependencyObject_2, Guid_1, UIElementCollection_2, UIElement;
-    var __moduleName = context_26 && context_26.id;
+    var __moduleName = context_27 && context_27.id;
     return {
         setters: [
             function (DependencyObject_2_1) {
@@ -2225,14 +2234,14 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 set Name(value) { this._name = value; }
                 LoadFromNode(node) { }
             };
-            exports_26("UIElement", UIElement);
+            exports_27("UIElement", UIElement);
         }
     };
 });
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_27, context_27) {
+System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_28, context_28) {
     "use strict";
     var UIElement_2, FrameworkElement;
-    var __moduleName = context_27 && context_27.id;
+    var __moduleName = context_28 && context_28.id;
     return {
         setters: [
             function (UIElement_2_1) {
@@ -2251,14 +2260,14 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
                     super();
                 }
             };
-            exports_27("FrameworkElement", FrameworkElement);
+            exports_28("FrameworkElement", FrameworkElement);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement"], function (exports_28, context_28) {
+System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement"], function (exports_29, context_29) {
     "use strict";
     var UIElement_3, Animation;
-    var __moduleName = context_28 && context_28.id;
+    var __moduleName = context_29 && context_29.id;
     return {
         setters: [
             function (UIElement_3_1) {
@@ -2268,14 +2277,14 @@ System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement"], f
         execute: function () {
             Animation = class Animation extends UIElement_3.UIElement {
             };
-            exports_28("Animation", Animation);
+            exports_29("Animation", Animation);
         }
     };
 });
-System.register("Xaml/extensions/MeshNormalLines", [], function (exports_29, context_29) {
+System.register("Xaml/extensions/MeshNormalLines", [], function (exports_30, context_30) {
     "use strict";
     var MeshNormalLines;
-    var __moduleName = context_29 && context_29.id;
+    var __moduleName = context_30 && context_30.id;
     return {
         setters: [],
         execute: function () {
@@ -2301,14 +2310,14 @@ System.register("Xaml/extensions/MeshNormalLines", [], function (exports_29, con
                     return normalLines;
                 }
             };
-            exports_29("MeshNormalLines", MeshNormalLines);
+            exports_30("MeshNormalLines", MeshNormalLines);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Box", ["Xaml/jupiter/UIElement", "Xaml/extensions/MeshNormalLines"], function (exports_30, context_30) {
+System.register("Xaml/jupiter/controls/Box", ["Xaml/jupiter/UIElement", "Xaml/extensions/MeshNormalLines"], function (exports_31, context_31) {
     "use strict";
     var UIElement_4, MeshNormalLines_1, Box;
-    var __moduleName = context_30 && context_30.id;
+    var __moduleName = context_31 && context_31.id;
     return {
         setters: [
             function (UIElement_4_1) {
@@ -2356,14 +2365,14 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/jupiter/UIElement", "Xaml/ex
                     catch (e) { }
                 }
             };
-            exports_30("Box", Box);
+            exports_31("Box", Box);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_31, context_31) {
+System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_32, context_32) {
     "use strict";
     var UIElement_5, Camera;
-    var __moduleName = context_31 && context_31.id;
+    var __moduleName = context_32 && context_32.id;
     return {
         setters: [
             function (UIElement_5_1) {
@@ -2381,11 +2390,15 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
                 get Radius() { return this._radius; }
                 Initialize(scene, canvas) {
                     if (this._type === "FreeCamera") {
-                        this._camera = new BABYLON.FreeCamera('freeCamera', this._position, scene.Scene);
+                        this._camera = new BABYLON.FreeCamera(this.Name, this._position, scene.Scene);
+                        this._camera.setTarget(this._target);
+                    }
+                    else if (this._type === "UniversalCamera") {
+                        this._camera = new BABYLON.UniversalCamera(this.Name, this._position, scene.Scene);
                         this._camera.setTarget(this._target);
                     }
                     else if (this._type === "ArcRotateCamera")
-                        this._camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, this._target, scene.Scene);
+                        this._camera = new BABYLON.ArcRotateCamera(this.Name, 0, 0.8, 100, this._target, scene.Scene);
                     this._camera.attachControl(canvas, true);
                 }
                 LoadFromNode(node) {
@@ -2419,16 +2432,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
                     catch (e) { }
                 }
             };
-            exports_31("Camera", Camera);
-        }
-    };
-});
-System.register("Xaml/jupiter/IChildrensElement", [], function (exports_32, context_32) {
-    "use strict";
-    var __moduleName = context_32 && context_32.id;
-    return {
-        setters: [],
-        execute: function () {
+            exports_32("Camera", Camera);
         }
     };
 });
