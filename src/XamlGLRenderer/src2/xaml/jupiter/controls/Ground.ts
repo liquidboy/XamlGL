@@ -5,15 +5,13 @@ export class Ground extends UIElement {
     private _mesh: BABYLON.Mesh;
 
     private _sceneName: string;
-    get SceneName(): string { return this._sceneName; }
-
     private _width: number;
-    get Width(): number { return this._width; }
-
     private _height: number;
-    get Height(): number { return this._height; }
-
     private _subdivisions: number;
+
+    get SceneName(): string { return this._sceneName; }
+    get Width(): number { return this._width; }
+    get Height(): number { return this._height; }
     get SubDivisions(): number { return this._subdivisions; }
 
     public Initialize(scene: Scene): void {

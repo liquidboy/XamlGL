@@ -3,17 +3,16 @@ import { Camera, Light } from "./Core";
 import { FrameworkElement } from "../FrameworkElement";
 
 export class Scene extends UIElement {
-    private _scene: BABYLON.Scene;
-    get Scene(): BABYLON.Scene { return this._scene; }
-
-    private _cameraName: string;
-    get CameraName(): string { return this._cameraName; }
-
-    private _lightName: string;
-    get LightName(): string { return this._lightName; }
-
     private _camera: Camera;
     private _light: Light;
+
+    private _scene: BABYLON.Scene;
+    private _cameraName: string;
+    private _lightName: string;
+
+    get Scene(): BABYLON.Scene { return this._scene; }
+    get CameraName(): string { return this._cameraName; }
+    get LightName(): string { return this._lightName; }
 
     constructor() {
         super();
@@ -33,5 +32,4 @@ export class Scene extends UIElement {
         try { this._cameraName = node.attributes["Camera"].value; } catch(e) { }
         try { this._lightName = node.attributes["Light"].value; } catch (e) { }
     }
-
 }

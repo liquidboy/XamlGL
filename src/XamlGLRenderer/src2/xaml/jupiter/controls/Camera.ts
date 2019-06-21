@@ -5,24 +5,19 @@ export class Camera extends UIElement {
     private _camera: BABYLON.Camera;
 
     private _sceneName: string;
-    get SceneName(): string { return this._sceneName; }
-
     private _position: BABYLON.Vector3;
-    get Position(): BABYLON.Vector3 { return this._position; }
-
     private _target: BABYLON.Vector3;
-    get Target(): BABYLON.Vector3 { return this._target; }
-
     private _type: string;
-    get Type(): string { return this._type; }
-
     private _alpha: number;
-    get Alpha(): number { return this._alpha; }
-
     private _beta: number;
-    get Beta(): number { return this._beta; }
-
     private _radius: number;
+
+    get SceneName(): string { return this._sceneName; }
+    get Position(): BABYLON.Vector3 { return this._position; }
+    get Target(): BABYLON.Vector3 { return this._target; }
+    get Type(): string { return this._type; }
+    get Alpha(): number { return this._alpha; }
+    get Beta(): number { return this._beta; }
     get Radius(): number { return this._radius; }
 
     public Initialize(scene: Scene, canvas: any): void {

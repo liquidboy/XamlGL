@@ -1,7 +1,9 @@
 ﻿import { FrameworkElement } from "./../FrameworkElement";
 import { UIElementCollection } from "./../UIElementCollection";
+import { IChildrensElement } from "../IChildrensElement";
 
-export class Panel extends FrameworkElement {
+export class Panel extends FrameworkElement implements IChildrensElement {
+
     private _children: UIElementCollection;
     private _background: string;
     private _foreground: string;

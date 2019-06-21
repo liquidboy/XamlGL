@@ -6,18 +6,15 @@ export class Box extends UIElement {
     private _mesh: BABYLON.Mesh;
 
     private _sceneName: string;
-    get SceneName(): string { return this._sceneName; }
-
     private _materialName: string;
-    get MaterialName(): string { return this._materialName; }
-
     private _showNormalLines: boolean;
-    get ShowNormalLines(): boolean { return this._showNormalLines; }
-
     private _width: number;
-    get Width(): number { return this._width; }
-
     private _position: BABYLON.Vector3;
+
+    get SceneName(): string { return this._sceneName; }
+    get MaterialName(): string { return this._materialName; }
+    get ShowNormalLines(): boolean { return this._showNormalLines; }
+    get Width(): number { return this._width; }
     get Position(): BABYLON.Vector3{ return this._position; }
 
     public InitializeWithMaterial(scene: Scene, material: Material): void {

@@ -3,15 +3,13 @@ import { Scene } from "./Core";
 
 export class Material extends UIElement {
     private _material: BABYLON.Material;
-    get Material(): BABYLON.Material { return this._material;}
-
     private _sceneName: string;
-    get SceneName(): string { return this._sceneName; }
-
     private _wireframe: boolean;
-    get Wireframe(): boolean { return this._wireframe; }
-
     private _diffuseColor: BABYLON.Color3;
+
+    get Material(): BABYLON.Material { return this._material; }
+    get SceneName(): string { return this._sceneName; }
+    get Wireframe(): boolean { return this._wireframe; }
     get DiffuseColor(): BABYLON.Color3 { return this._diffuseColor; }
 
     public Initialize(scene: Scene): void {

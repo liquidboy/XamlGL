@@ -77,79 +77,10 @@ System.register("Xaml/DataTypes/Guid", [], function (exports_5, context_5) {
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid"], function (exports_6, context_6) {
-    "use strict";
-    var DependencyObject_1, Guid_1, UIElement;
-    var __moduleName = context_6 && context_6.id;
-    return {
-        setters: [
-            function (DependencyObject_1_1) {
-                DependencyObject_1 = DependencyObject_1_1;
-            },
-            function (Guid_1_1) {
-                Guid_1 = Guid_1_1;
-            }
-        ],
-        execute: function () {
-            UIElement = class UIElement extends DependencyObject_1.DependencyObject {
-                constructor() {
-                    super();
-                    this._isDirty = true;
-                    this._uniqueId = Guid_1.Guid.newGuid();
-                }
-                get IsVisible() { return this._isVisible; }
-                get IsDirty() { return this._isDirty; }
-                get UniqueID() { return this._uniqueId; }
-                get Name() { return this._name; }
-                set IsVisible(value) { this._isVisible = value; }
-                set IsDirty(value) { this._isDirty = value; }
-                set UniqueID(value) { this._uniqueId = value; }
-                set Name(value) { this._name = value; }
-                LoadFromNode(node) { }
-            };
-            exports_6("UIElement", UIElement);
-        }
-    };
-});
-System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_7, context_7) {
-    "use strict";
-    var __moduleName = context_7 && context_7.id;
-    return {
-        setters: [],
-        execute: function () {
-        }
-    };
-});
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_8, context_8) {
-    "use strict";
-    var UIElement_1, FrameworkElement;
-    var __moduleName = context_8 && context_8.id;
-    return {
-        setters: [
-            function (UIElement_1_1) {
-                UIElement_1 = UIElement_1_1;
-            }
-        ],
-        execute: function () {
-            FrameworkElement = class FrameworkElement extends UIElement_1.UIElement {
-                get Width() { return this._width; }
-                get Height() { return this._height; }
-                get Parent() { return this._parent; }
-                set Width(value) { this._width = value; }
-                set Height(value) { this._height = value; }
-                set Parent(value) { this._parent = value; }
-                constructor() {
-                    super();
-                }
-            };
-            exports_8("FrameworkElement", FrameworkElement);
-        }
-    };
-});
-System.register("libs/typescript-collections/src/lib/util", [], function (exports_9, context_9) {
+System.register("libs/typescript-collections/src/lib/util", [], function (exports_6, context_6) {
     "use strict";
     var _hasOwnProperty, has;
-    var __moduleName = context_9 && context_9.id;
+    var __moduleName = context_6 && context_6.id;
     function defaultCompare(a, b) {
         if (a < b) {
             return -1;
@@ -161,11 +92,11 @@ System.register("libs/typescript-collections/src/lib/util", [], function (export
             return 1;
         }
     }
-    exports_9("defaultCompare", defaultCompare);
+    exports_6("defaultCompare", defaultCompare);
     function defaultEquals(a, b) {
         return a === b;
     }
-    exports_9("defaultEquals", defaultEquals);
+    exports_6("defaultEquals", defaultEquals);
     function defaultToString(item) {
         if (item === null) {
             return 'COLLECTION_NULL';
@@ -180,7 +111,7 @@ System.register("libs/typescript-collections/src/lib/util", [], function (export
             return '$o' + item.toString();
         }
     }
-    exports_9("defaultToString", defaultToString);
+    exports_6("defaultToString", defaultToString);
     function makeString(item, join = ',') {
         if (item === null) {
             return 'COLLECTION_NULL';
@@ -208,19 +139,19 @@ System.register("libs/typescript-collections/src/lib/util", [], function (export
             return toret + '}';
         }
     }
-    exports_9("makeString", makeString);
+    exports_6("makeString", makeString);
     function isFunction(func) {
         return (typeof func) === 'function';
     }
-    exports_9("isFunction", isFunction);
+    exports_6("isFunction", isFunction);
     function isUndefined(obj) {
         return (typeof obj) === 'undefined';
     }
-    exports_9("isUndefined", isUndefined);
+    exports_6("isUndefined", isUndefined);
     function isString(obj) {
         return Object.prototype.toString.call(obj) === '[object String]';
     }
-    exports_9("isString", isString);
+    exports_6("isString", isString);
     function reverseCompareFunction(compareFunction) {
         if (!isFunction(compareFunction)) {
             return function (a, b) {
@@ -241,27 +172,27 @@ System.register("libs/typescript-collections/src/lib/util", [], function (export
             };
         }
     }
-    exports_9("reverseCompareFunction", reverseCompareFunction);
+    exports_6("reverseCompareFunction", reverseCompareFunction);
     function compareToEquals(compareFunction) {
         return function (a, b) {
             return compareFunction(a, b) === 0;
         };
     }
-    exports_9("compareToEquals", compareToEquals);
+    exports_6("compareToEquals", compareToEquals);
     return {
         setters: [],
         execute: function () {
             _hasOwnProperty = Object.prototype.hasOwnProperty;
-            exports_9("has", has = function (obj, prop) {
+            exports_6("has", has = function (obj, prop) {
                 return _hasOwnProperty.call(obj, prop);
             });
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-collections/src/lib/util"], function (exports_10, context_10) {
+System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-collections/src/lib/util"], function (exports_7, context_7) {
     "use strict";
     var util;
-    var __moduleName = context_10 && context_10.id;
+    var __moduleName = context_7 && context_7.id;
     function indexOf(array, item, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
         const length = array.length;
@@ -272,7 +203,7 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         }
         return -1;
     }
-    exports_10("indexOf", indexOf);
+    exports_7("indexOf", indexOf);
     function lastIndexOf(array, item, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
         const length = array.length;
@@ -283,11 +214,11 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         }
         return -1;
     }
-    exports_10("lastIndexOf", lastIndexOf);
+    exports_7("lastIndexOf", lastIndexOf);
     function contains(array, item, equalsFunction) {
         return indexOf(array, item, equalsFunction) >= 0;
     }
-    exports_10("contains", contains);
+    exports_7("contains", contains);
     function remove(array, item, equalsFunction) {
         const index = indexOf(array, item, equalsFunction);
         if (index < 0) {
@@ -296,7 +227,7 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         array.splice(index, 1);
         return true;
     }
-    exports_10("remove", remove);
+    exports_7("remove", remove);
     function frequency(array, item, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
         const length = array.length;
@@ -308,7 +239,7 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         }
         return freq;
     }
-    exports_10("frequency", frequency);
+    exports_7("frequency", frequency);
     function equals(array1, array2, equalsFunction) {
         const equals = equalsFunction || util.defaultEquals;
         if (array1.length !== array2.length) {
@@ -322,11 +253,11 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         }
         return true;
     }
-    exports_10("equals", equals);
+    exports_7("equals", equals);
     function copy(array) {
         return array.concat();
     }
-    exports_10("copy", copy);
+    exports_7("copy", copy);
     function swap(array, i, j) {
         if (i < 0 || i >= array.length || j < 0 || j >= array.length) {
             return false;
@@ -336,11 +267,11 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         array[j] = temp;
         return true;
     }
-    exports_10("swap", swap);
+    exports_7("swap", swap);
     function toString(array) {
         return '[' + array.toString() + ']';
     }
-    exports_10("toString", toString);
+    exports_7("toString", toString);
     function forEach(array, callback) {
         for (const ele of array) {
             if (callback(ele) === false) {
@@ -348,7 +279,7 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
             }
         }
     }
-    exports_10("forEach", forEach);
+    exports_7("forEach", forEach);
     return {
         setters: [
             function (util_1) {
@@ -359,10 +290,10 @@ System.register("libs/typescript-collections/src/lib/arrays", ["libs/typescript-
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Dictionary", ["libs/typescript-collections/src/lib/util"], function (exports_11, context_11) {
+System.register("libs/typescript-collections/src/lib/Dictionary", ["libs/typescript-collections/src/lib/util"], function (exports_8, context_8) {
     "use strict";
     var util, Dictionary;
-    var __moduleName = context_11 && context_11.id;
+    var __moduleName = context_8 && context_8.id;
     return {
         setters: [
             function (util_2) {
@@ -465,14 +396,14 @@ System.register("libs/typescript-collections/src/lib/Dictionary", ["libs/typescr
                     return toret + '\n}';
                 }
             };
-            exports_11("default", Dictionary);
+            exports_8("default", Dictionary);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Set", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays", "libs/typescript-collections/src/lib/Dictionary"], function (exports_12, context_12) {
+System.register("libs/typescript-collections/src/lib/Set", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays", "libs/typescript-collections/src/lib/Dictionary"], function (exports_9, context_9) {
     "use strict";
     var util, arrays, Dictionary_1, Set;
-    var __moduleName = context_12 && context_12.id;
+    var __moduleName = context_9 && context_9.id;
     return {
         setters: [
             function (util_3) {
@@ -569,14 +500,14 @@ System.register("libs/typescript-collections/src/lib/Set", ["libs/typescript-col
                     return arrays.toString(this.toArray());
                 }
             };
-            exports_12("default", Set);
+            exports_9("default", Set);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Bag", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/Set"], function (exports_13, context_13) {
+System.register("libs/typescript-collections/src/lib/Bag", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/Set"], function (exports_10, context_10) {
     "use strict";
     var util, Dictionary_2, Set_1, Bag;
-    var __moduleName = context_13 && context_13.id;
+    var __moduleName = context_10 && context_10.id;
     return {
         setters: [
             function (util_4) {
@@ -690,14 +621,14 @@ System.register("libs/typescript-collections/src/lib/Bag", ["libs/typescript-col
                     this.dictionary.clear();
                 }
             };
-            exports_13("default", Bag);
+            exports_10("default", Bag);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/LinkedList", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays"], function (exports_14, context_14) {
+System.register("libs/typescript-collections/src/lib/LinkedList", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays"], function (exports_11, context_11) {
     "use strict";
     var util, arrays, LinkedList;
-    var __moduleName = context_14 && context_14.id;
+    var __moduleName = context_11 && context_11.id;
     return {
         setters: [
             function (util_5) {
@@ -926,14 +857,14 @@ System.register("libs/typescript-collections/src/lib/LinkedList", ["libs/typescr
                     };
                 }
             };
-            exports_14("default", LinkedList);
+            exports_11("default", LinkedList);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Heap", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays"], function (exports_15, context_15) {
+System.register("libs/typescript-collections/src/lib/Heap", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/arrays"], function (exports_12, context_12) {
     "use strict";
     var collections, arrays, Heap;
-    var __moduleName = context_15 && context_15.id;
+    var __moduleName = context_12 && context_12.id;
     return {
         setters: [
             function (collections_1) {
@@ -1037,14 +968,14 @@ System.register("libs/typescript-collections/src/lib/Heap", ["libs/typescript-co
                     arrays.forEach(this.data, callback);
                 }
             };
-            exports_15("default", Heap);
+            exports_12("default", Heap);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Queue", ["libs/typescript-collections/src/lib/LinkedList"], function (exports_16, context_16) {
+System.register("libs/typescript-collections/src/lib/Queue", ["libs/typescript-collections/src/lib/LinkedList"], function (exports_13, context_13) {
     "use strict";
     var LinkedList_1, Queue;
-    var __moduleName = context_16 && context_16.id;
+    var __moduleName = context_13 && context_13.id;
     return {
         setters: [
             function (LinkedList_1_1) {
@@ -1092,14 +1023,14 @@ System.register("libs/typescript-collections/src/lib/Queue", ["libs/typescript-c
                     this.list.forEach(callback);
                 }
             };
-            exports_16("default", Queue);
+            exports_13("default", Queue);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/BSTree", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Queue"], function (exports_17, context_17) {
+System.register("libs/typescript-collections/src/lib/BSTree", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Queue"], function (exports_14, context_14) {
     "use strict";
     var util, Queue_1, BSTree;
-    var __moduleName = context_17 && context_17.id;
+    var __moduleName = context_14 && context_14.id;
     return {
         setters: [
             function (util_6) {
@@ -1358,14 +1289,14 @@ System.register("libs/typescript-collections/src/lib/BSTree", ["libs/typescript-
                     };
                 }
             };
-            exports_17("default", BSTree);
+            exports_14("default", BSTree);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/LinkedDictionary", ["libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/util"], function (exports_18, context_18) {
+System.register("libs/typescript-collections/src/lib/LinkedDictionary", ["libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/util"], function (exports_15, context_15) {
     "use strict";
     var Dictionary_3, util, LinkedDictionaryPair, LinkedDictionary;
-    var __moduleName = context_18 && context_18.id;
+    var __moduleName = context_15 && context_15.id;
     return {
         setters: [
             function (Dictionary_3_1) {
@@ -1483,14 +1414,14 @@ System.register("libs/typescript-collections/src/lib/LinkedDictionary", ["libs/t
                     }
                 }
             };
-            exports_18("default", LinkedDictionary);
+            exports_15("default", LinkedDictionary);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/MultiDictionary", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/arrays"], function (exports_19, context_19) {
+System.register("libs/typescript-collections/src/lib/MultiDictionary", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/arrays"], function (exports_16, context_16) {
     "use strict";
     var util, Dictionary_4, arrays, MultiDictionary;
-    var __moduleName = context_19 && context_19.id;
+    var __moduleName = context_16 && context_16.id;
     return {
         setters: [
             function (util_8) {
@@ -1574,14 +1505,14 @@ System.register("libs/typescript-collections/src/lib/MultiDictionary", ["libs/ty
                     return this.dict.isEmpty();
                 }
             };
-            exports_19("default", MultiDictionary);
+            exports_16("default", MultiDictionary);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/FactoryDictionary", ["libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/util"], function (exports_20, context_20) {
+System.register("libs/typescript-collections/src/lib/FactoryDictionary", ["libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/util"], function (exports_17, context_17) {
     "use strict";
     var Dictionary_5, util, FactoryDictionary;
-    var __moduleName = context_20 && context_20.id;
+    var __moduleName = context_17 && context_17.id;
     return {
         setters: [
             function (Dictionary_5_1) {
@@ -1609,14 +1540,14 @@ System.register("libs/typescript-collections/src/lib/FactoryDictionary", ["libs/
                     return this.setDefault(key, this.defaultFactoryFunction());
                 }
             };
-            exports_20("default", FactoryDictionary);
+            exports_17("default", FactoryDictionary);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/PriorityQueue", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Heap"], function (exports_21, context_21) {
+System.register("libs/typescript-collections/src/lib/PriorityQueue", ["libs/typescript-collections/src/lib/util", "libs/typescript-collections/src/lib/Heap"], function (exports_18, context_18) {
     "use strict";
     var util, Heap_1, PriorityQueue;
-    var __moduleName = context_21 && context_21.id;
+    var __moduleName = context_18 && context_18.id;
     return {
         setters: [
             function (util_10) {
@@ -1664,14 +1595,14 @@ System.register("libs/typescript-collections/src/lib/PriorityQueue", ["libs/type
                     this.heap.forEach(callback);
                 }
             };
-            exports_21("default", PriorityQueue);
+            exports_18("default", PriorityQueue);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/Stack", ["libs/typescript-collections/src/lib/LinkedList"], function (exports_22, context_22) {
+System.register("libs/typescript-collections/src/lib/Stack", ["libs/typescript-collections/src/lib/LinkedList"], function (exports_19, context_19) {
     "use strict";
     var LinkedList_2, Stack;
-    var __moduleName = context_22 && context_22.id;
+    var __moduleName = context_19 && context_19.id;
     return {
         setters: [
             function (LinkedList_2_1) {
@@ -1711,14 +1642,14 @@ System.register("libs/typescript-collections/src/lib/Stack", ["libs/typescript-c
                     this.list.forEach(callback);
                 }
             };
-            exports_22("default", Stack);
+            exports_19("default", Stack);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/MultiRootTree", [], function (exports_23, context_23) {
+System.register("libs/typescript-collections/src/lib/MultiRootTree", [], function (exports_20, context_20) {
     "use strict";
     var Direction, MultiRootTree;
-    var __moduleName = context_23 && context_23.id;
+    var __moduleName = context_20 && context_20.id;
     return {
         setters: [],
         execute: function () {
@@ -2103,84 +2034,84 @@ System.register("libs/typescript-collections/src/lib/MultiRootTree", [], functio
                     this.rootIds.push(id);
                 }
             };
-            exports_23("default", MultiRootTree);
+            exports_20("default", MultiRootTree);
         }
     };
 });
-System.register("libs/typescript-collections/src/lib/index", ["libs/typescript-collections/src/lib/arrays", "libs/typescript-collections/src/lib/Bag", "libs/typescript-collections/src/lib/BSTree", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/Heap", "libs/typescript-collections/src/lib/LinkedDictionary", "libs/typescript-collections/src/lib/LinkedList", "libs/typescript-collections/src/lib/MultiDictionary", "libs/typescript-collections/src/lib/FactoryDictionary", "libs/typescript-collections/src/lib/Queue", "libs/typescript-collections/src/lib/PriorityQueue", "libs/typescript-collections/src/lib/Set", "libs/typescript-collections/src/lib/Stack", "libs/typescript-collections/src/lib/MultiRootTree", "libs/typescript-collections/src/lib/util"], function (exports_24, context_24) {
+System.register("libs/typescript-collections/src/lib/index", ["libs/typescript-collections/src/lib/arrays", "libs/typescript-collections/src/lib/Bag", "libs/typescript-collections/src/lib/BSTree", "libs/typescript-collections/src/lib/Dictionary", "libs/typescript-collections/src/lib/Heap", "libs/typescript-collections/src/lib/LinkedDictionary", "libs/typescript-collections/src/lib/LinkedList", "libs/typescript-collections/src/lib/MultiDictionary", "libs/typescript-collections/src/lib/FactoryDictionary", "libs/typescript-collections/src/lib/Queue", "libs/typescript-collections/src/lib/PriorityQueue", "libs/typescript-collections/src/lib/Set", "libs/typescript-collections/src/lib/Stack", "libs/typescript-collections/src/lib/MultiRootTree", "libs/typescript-collections/src/lib/util"], function (exports_21, context_21) {
     "use strict";
     var _arrays, arrays, _util, util;
-    var __moduleName = context_24 && context_24.id;
+    var __moduleName = context_21 && context_21.id;
     return {
         setters: [
             function (_arrays_1) {
                 _arrays = _arrays_1;
             },
             function (Bag_1_1) {
-                exports_24({
+                exports_21({
                     "Bag": Bag_1_1["default"]
                 });
             },
             function (BSTree_1_1) {
-                exports_24({
+                exports_21({
                     "BSTree": BSTree_1_1["default"]
                 });
             },
             function (Dictionary_6_1) {
-                exports_24({
+                exports_21({
                     "Dictionary": Dictionary_6_1["default"]
                 });
             },
             function (Heap_2_1) {
-                exports_24({
+                exports_21({
                     "Heap": Heap_2_1["default"]
                 });
             },
             function (LinkedDictionary_1_1) {
-                exports_24({
+                exports_21({
                     "LinkedDictionary": LinkedDictionary_1_1["default"]
                 });
             },
             function (LinkedList_3_1) {
-                exports_24({
+                exports_21({
                     "LinkedList": LinkedList_3_1["default"]
                 });
             },
             function (MultiDictionary_1_1) {
-                exports_24({
+                exports_21({
                     "MultiDictionary": MultiDictionary_1_1["default"]
                 });
             },
             function (FactoryDictionary_1_1) {
-                exports_24({
+                exports_21({
                     "FactoryDictionary": FactoryDictionary_1_1["default"]
                 });
-                exports_24({
+                exports_21({
                     "DefaultDictionary": FactoryDictionary_1_1["default"]
                 });
             },
             function (Queue_2_1) {
-                exports_24({
+                exports_21({
                     "Queue": Queue_2_1["default"]
                 });
             },
             function (PriorityQueue_1_1) {
-                exports_24({
+                exports_21({
                     "PriorityQueue": PriorityQueue_1_1["default"]
                 });
             },
             function (Set_2_1) {
-                exports_24({
+                exports_21({
                     "Set": Set_2_1["default"]
                 });
             },
             function (Stack_1_1) {
-                exports_24({
+                exports_21({
                     "Stack": Stack_1_1["default"]
                 });
             },
             function (MultiRootTree_1_1) {
-                exports_24({
+                exports_21({
                     "MultiRootTree": MultiRootTree_1_1["default"]
                 });
             },
@@ -2189,15 +2120,15 @@ System.register("libs/typescript-collections/src/lib/index", ["libs/typescript-c
             }
         ],
         execute: function () {
-            exports_24("arrays", arrays = _arrays);
-            exports_24("util", util = _util);
+            exports_21("arrays", arrays = _arrays);
+            exports_21("util", util = _util);
         }
     };
 });
-System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collections/src/lib/index"], function (exports_25, context_25) {
+System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collections/src/lib/index"], function (exports_22, context_22) {
     "use strict";
     var index_1, UIElementCollection;
-    var __moduleName = context_25 && context_25.id;
+    var __moduleName = context_22 && context_22.id;
     return {
         setters: [
             function (index_1_1) {
@@ -2207,30 +2138,39 @@ System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collection
         execute: function () {
             UIElementCollection = class UIElementCollection extends index_1.LinkedDictionary {
             };
-            exports_25("UIElementCollection", UIElementCollection);
+            exports_22("UIElementCollection", UIElementCollection);
         }
     };
 });
-System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_26, context_26) {
+System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_23, context_23) {
     "use strict";
-    var __moduleName = context_26 && context_26.id;
+    var __moduleName = context_23 && context_23.id;
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_24, context_24) {
+    "use strict";
+    var __moduleName = context_24 && context_24.id;
     function exportStar_1(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_26(exports);
+        exports_24(exports);
     }
     return {
         setters: [
-            function (DependencyObject_2_1) {
-                exportStar_1(DependencyObject_2_1);
+            function (DependencyObject_1_1) {
+                exportStar_1(DependencyObject_1_1);
             },
             function (FrameworkElement_1_1) {
                 exportStar_1(FrameworkElement_1_1);
             },
-            function (UIElement_2_1) {
-                exportStar_1(UIElement_2_1);
+            function (UIElement_1_1) {
+                exportStar_1(UIElement_1_1);
             },
             function (UIElementCollection_1_1) {
                 exportStar_1(UIElementCollection_1_1);
@@ -2240,10 +2180,102 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/DependencyObject", "Xaml/jup
         }
     };
 });
-System.register("Xaml/extensions/MeshNormalLines", [], function (exports_27, context_27) {
+System.register("Xaml/jupiter/IAnimationsElement", [], function (exports_25, context_25) {
+    "use strict";
+    var __moduleName = context_25 && context_25.id;
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "Xaml/jupiter/UIElementCollection"], function (exports_26, context_26) {
+    "use strict";
+    var DependencyObject_2, Guid_1, UIElementCollection_2, UIElement;
+    var __moduleName = context_26 && context_26.id;
+    return {
+        setters: [
+            function (DependencyObject_2_1) {
+                DependencyObject_2 = DependencyObject_2_1;
+            },
+            function (Guid_1_1) {
+                Guid_1 = Guid_1_1;
+            },
+            function (UIElementCollection_2_1) {
+                UIElementCollection_2 = UIElementCollection_2_1;
+            }
+        ],
+        execute: function () {
+            UIElement = class UIElement extends DependencyObject_2.DependencyObject {
+                constructor() {
+                    super();
+                    this._isDirty = true;
+                    this._uniqueId = Guid_1.Guid.newGuid();
+                    this._animations = new UIElementCollection_2.UIElementCollection();
+                }
+                get Animations() { return this._animations; }
+                get IsVisible() { return this._isVisible; }
+                get IsDirty() { return this._isDirty; }
+                get UniqueID() { return this._uniqueId; }
+                get Name() { return this._name; }
+                set Animations(value) { this._animations = value; }
+                set IsVisible(value) { this._isVisible = value; }
+                set IsDirty(value) { this._isDirty = value; }
+                set UniqueID(value) { this._uniqueId = value; }
+                set Name(value) { this._name = value; }
+                LoadFromNode(node) { }
+            };
+            exports_26("UIElement", UIElement);
+        }
+    };
+});
+System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_27, context_27) {
+    "use strict";
+    var UIElement_2, FrameworkElement;
+    var __moduleName = context_27 && context_27.id;
+    return {
+        setters: [
+            function (UIElement_2_1) {
+                UIElement_2 = UIElement_2_1;
+            }
+        ],
+        execute: function () {
+            FrameworkElement = class FrameworkElement extends UIElement_2.UIElement {
+                get Width() { return this._width; }
+                get Height() { return this._height; }
+                get Parent() { return this._parent; }
+                set Width(value) { this._width = value; }
+                set Height(value) { this._height = value; }
+                set Parent(value) { this._parent = value; }
+                constructor() {
+                    super();
+                }
+            };
+            exports_27("FrameworkElement", FrameworkElement);
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement"], function (exports_28, context_28) {
+    "use strict";
+    var UIElement_3, Animation;
+    var __moduleName = context_28 && context_28.id;
+    return {
+        setters: [
+            function (UIElement_3_1) {
+                UIElement_3 = UIElement_3_1;
+            }
+        ],
+        execute: function () {
+            Animation = class Animation extends UIElement_3.UIElement {
+            };
+            exports_28("Animation", Animation);
+        }
+    };
+});
+System.register("Xaml/extensions/MeshNormalLines", [], function (exports_29, context_29) {
     "use strict";
     var MeshNormalLines;
-    var __moduleName = context_27 && context_27.id;
+    var __moduleName = context_29 && context_29.id;
     return {
         setters: [],
         execute: function () {
@@ -2269,25 +2301,25 @@ System.register("Xaml/extensions/MeshNormalLines", [], function (exports_27, con
                     return normalLines;
                 }
             };
-            exports_27("MeshNormalLines", MeshNormalLines);
+            exports_29("MeshNormalLines", MeshNormalLines);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Box", ["Xaml/jupiter/UIElement", "Xaml/extensions/MeshNormalLines"], function (exports_28, context_28) {
+System.register("Xaml/jupiter/controls/Box", ["Xaml/jupiter/UIElement", "Xaml/extensions/MeshNormalLines"], function (exports_30, context_30) {
     "use strict";
-    var UIElement_3, MeshNormalLines_1, Box;
-    var __moduleName = context_28 && context_28.id;
+    var UIElement_4, MeshNormalLines_1, Box;
+    var __moduleName = context_30 && context_30.id;
     return {
         setters: [
-            function (UIElement_3_1) {
-                UIElement_3 = UIElement_3_1;
+            function (UIElement_4_1) {
+                UIElement_4 = UIElement_4_1;
             },
             function (MeshNormalLines_1_1) {
                 MeshNormalLines_1 = MeshNormalLines_1_1;
             }
         ],
         execute: function () {
-            Box = class Box extends UIElement_3.UIElement {
+            Box = class Box extends UIElement_4.UIElement {
                 get SceneName() { return this._sceneName; }
                 get MaterialName() { return this._materialName; }
                 get ShowNormalLines() { return this._showNormalLines; }
@@ -2324,22 +2356,22 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/jupiter/UIElement", "Xaml/ex
                     catch (e) { }
                 }
             };
-            exports_28("Box", Box);
+            exports_30("Box", Box);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_29, context_29) {
+System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_31, context_31) {
     "use strict";
-    var UIElement_4, Camera;
-    var __moduleName = context_29 && context_29.id;
+    var UIElement_5, Camera;
+    var __moduleName = context_31 && context_31.id;
     return {
         setters: [
-            function (UIElement_4_1) {
-                UIElement_4 = UIElement_4_1;
+            function (UIElement_5_1) {
+                UIElement_5 = UIElement_5_1;
             }
         ],
         execute: function () {
-            Camera = class Camera extends UIElement_4.UIElement {
+            Camera = class Camera extends UIElement_5.UIElement {
                 get SceneName() { return this._sceneName; }
                 get Position() { return this._position; }
                 get Target() { return this._target; }
@@ -2387,21 +2419,30 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
                     catch (e) { }
                 }
             };
-            exports_29("Camera", Camera);
+            exports_31("Camera", Camera);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElementCollection"], function (exports_30, context_30) {
+System.register("Xaml/jupiter/IChildrensElement", [], function (exports_32, context_32) {
     "use strict";
-    var FrameworkElement_2, UIElementCollection_2, Panel;
-    var __moduleName = context_30 && context_30.id;
+    var __moduleName = context_32 && context_32.id;
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElementCollection"], function (exports_33, context_33) {
+    "use strict";
+    var FrameworkElement_2, UIElementCollection_3, Panel;
+    var __moduleName = context_33 && context_33.id;
     return {
         setters: [
             function (FrameworkElement_2_1) {
                 FrameworkElement_2 = FrameworkElement_2_1;
             },
-            function (UIElementCollection_2_1) {
-                UIElementCollection_2 = UIElementCollection_2_1;
+            function (UIElementCollection_3_1) {
+                UIElementCollection_3 = UIElementCollection_3_1;
             }
         ],
         execute: function () {
@@ -2410,7 +2451,7 @@ System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement",
                     super();
                     this._offsetX = 0;
                     this._offsetY = 0;
-                    this._children = new UIElementCollection_2.UIElementCollection();
+                    this._children = new UIElementCollection_3.UIElementCollection();
                 }
                 get Children() { return this._children; }
                 get Background() { return this._background; }
@@ -2423,14 +2464,14 @@ System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement",
                 set OffsetX(value) { this._offsetX = value; }
                 set OffsetY(value) { this._offsetY = value; }
             };
-            exports_30("Panel", Panel);
+            exports_33("Panel", Panel);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], function (exports_31, context_31) {
+System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], function (exports_34, context_34) {
     "use strict";
     var Panel_1, Grid;
-    var __moduleName = context_31 && context_31.id;
+    var __moduleName = context_34 && context_34.id;
     return {
         setters: [
             function (Panel_1_1) {
@@ -2440,22 +2481,22 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         execute: function () {
             Grid = class Grid extends Panel_1.Panel {
             };
-            exports_31("Grid", Grid);
+            exports_34("Grid", Grid);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_32, context_32) {
+System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_35, context_35) {
     "use strict";
-    var UIElement_5, Ground;
-    var __moduleName = context_32 && context_32.id;
+    var UIElement_6, Ground;
+    var __moduleName = context_35 && context_35.id;
     return {
         setters: [
-            function (UIElement_5_1) {
-                UIElement_5 = UIElement_5_1;
+            function (UIElement_6_1) {
+                UIElement_6 = UIElement_6_1;
             }
         ],
         execute: function () {
-            Ground = class Ground extends UIElement_5.UIElement {
+            Ground = class Ground extends UIElement_6.UIElement {
                 get SceneName() { return this._sceneName; }
                 get Width() { return this._width; }
                 get Height() { return this._height; }
@@ -2482,22 +2523,22 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                     catch (_d) { }
                 }
             };
-            exports_32("Ground", Ground);
+            exports_35("Ground", Ground);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_33, context_33) {
+System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_36, context_36) {
     "use strict";
-    var UIElement_6, Light;
-    var __moduleName = context_33 && context_33.id;
+    var UIElement_7, Light;
+    var __moduleName = context_36 && context_36.id;
     return {
         setters: [
-            function (UIElement_6_1) {
-                UIElement_6 = UIElement_6_1;
+            function (UIElement_7_1) {
+                UIElement_7 = UIElement_7_1;
             }
         ],
         execute: function () {
-            Light = class Light extends UIElement_6.UIElement {
+            Light = class Light extends UIElement_7.UIElement {
                 get SceneName() { return this._sceneName; }
                 get Direction() { return this._direction; }
                 get Type() { return this._type; }
@@ -2522,22 +2563,22 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                     catch (e) { }
                 }
             };
-            exports_33("Light", Light);
+            exports_36("Light", Light);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], function (exports_34, context_34) {
+System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], function (exports_37, context_37) {
     "use strict";
-    var UIElement_7, Scene;
-    var __moduleName = context_34 && context_34.id;
+    var UIElement_8, Scene;
+    var __moduleName = context_37 && context_37.id;
     return {
         setters: [
-            function (UIElement_7_1) {
-                UIElement_7 = UIElement_7_1;
+            function (UIElement_8_1) {
+                UIElement_8 = UIElement_8_1;
             }
         ],
         execute: function () {
-            Scene = class Scene extends UIElement_7.UIElement {
+            Scene = class Scene extends UIElement_8.UIElement {
                 get Scene() { return this._scene; }
                 get CameraName() { return this._cameraName; }
                 get LightName() { return this._lightName; }
@@ -2563,25 +2604,25 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], funct
                     catch (e) { }
                 }
             };
-            exports_34("Scene", Scene);
+            exports_37("Scene", Scene);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/extensions/MeshNormalLines"], function (exports_35, context_35) {
+System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/extensions/MeshNormalLines"], function (exports_38, context_38) {
     "use strict";
-    var UIElement_8, MeshNormalLines_2, Sphere;
-    var __moduleName = context_35 && context_35.id;
+    var UIElement_9, MeshNormalLines_2, Sphere;
+    var __moduleName = context_38 && context_38.id;
     return {
         setters: [
-            function (UIElement_8_1) {
-                UIElement_8 = UIElement_8_1;
+            function (UIElement_9_1) {
+                UIElement_9 = UIElement_9_1;
             },
             function (MeshNormalLines_2_1) {
                 MeshNormalLines_2 = MeshNormalLines_2_1;
             }
         ],
         execute: function () {
-            Sphere = class Sphere extends UIElement_8.UIElement {
+            Sphere = class Sphere extends UIElement_9.UIElement {
                 get SceneName() { return this._sceneName; }
                 get MaterialName() { return this._materialName; }
                 get ShowNormalLines() { return this._showNormalLines; }
@@ -2617,22 +2658,22 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     catch (e) { }
                 }
             };
-            exports_35("Sphere", Sphere);
+            exports_38("Sphere", Sphere);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], function (exports_36, context_36) {
+System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], function (exports_39, context_39) {
     "use strict";
-    var UIElement_9, Material;
-    var __moduleName = context_36 && context_36.id;
+    var UIElement_10, Material;
+    var __moduleName = context_39 && context_39.id;
     return {
         setters: [
-            function (UIElement_9_1) {
-                UIElement_9 = UIElement_9_1;
+            function (UIElement_10_1) {
+                UIElement_10 = UIElement_10_1;
             }
         ],
         execute: function () {
-            Material = class Material extends UIElement_9.UIElement {
+            Material = class Material extends UIElement_10.UIElement {
                 get Material() { return this._material; }
                 get SceneName() { return this._sceneName; }
                 get Wireframe() { return this._wireframe; }
@@ -2658,22 +2699,25 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
                     catch (e) { }
                 }
             };
-            exports_36("Material", Material);
+            exports_39("Material", Material);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Material"], function (exports_37, context_37) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Material"], function (exports_40, context_40) {
     "use strict";
-    var __moduleName = context_37 && context_37.id;
+    var __moduleName = context_40 && context_40.id;
     function exportStar_2(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_37(exports);
+        exports_40(exports);
     }
     return {
         setters: [
+            function (Animation_1_1) {
+                exportStar_2(Animation_1_1);
+            },
             function (Box_1_1) {
                 exportStar_2(Box_1_1);
             },
@@ -2706,10 +2750,10 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Box", "Xam
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_38, context_38) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_41, context_41) {
     "use strict";
     var _controls, XamlParser;
-    var __moduleName = context_38 && context_38.id;
+    var __moduleName = context_41 && context_41.id;
     return {
         setters: [
             function (_controls_1) {
@@ -2784,14 +2828,14 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                     return null;
                 }
             };
-            exports_38("XamlParser", XamlParser);
+            exports_41("XamlParser", XamlParser);
         }
     };
 });
-System.register("Xaml/extensions/SceneMouseWheelZoom", [], function (exports_39, context_39) {
+System.register("Xaml/extensions/SceneMouseWheelZoom", [], function (exports_42, context_42) {
     "use strict";
     var SceneMouseWheelZoom;
-    var __moduleName = context_39 && context_39.id;
+    var __moduleName = context_42 && context_42.id;
     return {
         setters: [],
         execute: function () {
@@ -2816,14 +2860,14 @@ System.register("Xaml/extensions/SceneMouseWheelZoom", [], function (exports_39,
                     }, BABYLON.PointerEventTypes.POINTERWHEEL, false);
                 }
             };
-            exports_39("SceneMouseWheelZoom", SceneMouseWheelZoom);
+            exports_42("SceneMouseWheelZoom", SceneMouseWheelZoom);
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Core", "Xaml/extensions/SceneMouseWheelZoom"], function (exports_40, context_40) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Core", "Xaml/extensions/SceneMouseWheelZoom"], function (exports_43, context_43) {
     "use strict";
     var XamlParser_1, Core_1, SceneMouseWheelZoom_1, App;
-    var __moduleName = context_40 && context_40.id;
+    var __moduleName = context_43 && context_43.id;
     return {
         setters: [
             function (XamlParser_1_1) {
@@ -2875,14 +2919,14 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/controls/Co
                     });
                 }
             };
-            exports_40("App", App);
+            exports_43("App", App);
         }
     };
 });
-System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_41, context_41) {
+System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_44, context_44) {
     "use strict";
     var XamlMarkup_1, XamlReader;
-    var __moduleName = context_41 && context_41.id;
+    var __moduleName = context_44 && context_44.id;
     return {
         setters: [
             function (XamlMarkup_1_1) {
@@ -2907,14 +2951,14 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
                     return this._xm;
                 }
             };
-            exports_41("XamlReader", XamlReader);
+            exports_44("XamlReader", XamlReader);
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "Xaml/jupiter/controls/Core", "Xaml/DataTypes/Guid"], function (exports_42, context_42) {
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "Xaml/jupiter/controls/Core", "Xaml/DataTypes/Guid"], function (exports_45, context_45) {
     "use strict";
     var _controls, Controls;
-    var __moduleName = context_42 && context_42.id;
+    var __moduleName = context_45 && context_45.id;
     var exportedNames_1 = {
         "Controls": true
     };
@@ -2923,7 +2967,7 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
         for (var n in m) {
             if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
         }
-        exports_42(exports);
+        exports_45(exports);
     }
     return {
         setters: [
@@ -2947,14 +2991,14 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             }
         ],
         execute: function () {
-            exports_42("Controls", Controls = _controls);
+            exports_45("Controls", Controls = _controls);
         }
     };
 });
-System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_43, context_43) {
+System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_46, context_46) {
     "use strict";
     var XamlGLCore, XamlApp;
-    var __moduleName = context_43 && context_43.id;
+    var __moduleName = context_46 && context_46.id;
     return {
         setters: [
             function (XamlGLCore_1) {
@@ -2986,7 +3030,7 @@ System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_43, contex
                     return urlParams;
                 }
             };
-            exports_43("XamlApp", XamlApp);
+            exports_46("XamlApp", XamlApp);
         }
     };
 });

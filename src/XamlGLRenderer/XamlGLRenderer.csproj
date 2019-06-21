@@ -104,6 +104,7 @@
     <TypeScriptCompile Include="src2\xaml\datatypes\Guid.ts" />
     <TypeScriptCompile Include="src2\xaml\extensions\MeshNormalLines.ts" />
     <TypeScriptCompile Include="src2\xaml\extensions\SceneMouseWheelZoom.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Animation.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Box.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Sphere.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Material.ts" />
@@ -117,8 +118,10 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\Core.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\DependencyObject.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\FrameworkElement.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\IChildrensElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IDependencyObject.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IFrameworkElement.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\IAnimationsElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IUIElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\UIElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\UIElementCollection.ts" />

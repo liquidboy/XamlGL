@@ -5,12 +5,11 @@ export class Light extends UIElement {
     private _light: BABYLON.Light;
 
     private _sceneName: string;
-    get SceneName(): string { return this._sceneName; }
-
     private _direction: BABYLON.Vector3;
-    get Direction(): BABYLON.Vector3 { return this._direction; }
-
     private _type: string;
+
+    get SceneName(): string { return this._sceneName; }
+    get Direction(): BABYLON.Vector3 { return this._direction; }
     get Type(): string { return this._type; }
 
     public Initialize(scene: Scene): void {
