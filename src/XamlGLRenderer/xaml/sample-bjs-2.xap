@@ -8,10 +8,10 @@
       <Light x:Name="omni" Type="PointLight" Scene="mainScene" Direction="Vector3(0, 100, 100)"></Light>
 
       <Material x:Name="material1" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0, 1, 0)"></Material>
-      <Box x:Name="box1" Scene="mainScene" Material="material1" ShowNormalLines="False" Width="10.0"></Box>
+      <Box x:Name="box1" Scene="mainScene" Material="material1" ShowNormalLines="False" Width="10.0" Position="Vector3(-20,0,0)"></Box>
 
       <Material x:Name="material2" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(1, 0, 0)"></Material>
       <Box x:Name="box2" Scene="mainScene" Material="material2" ShowNormalLines="False" Width="10.0" Position="Vector3(20,0,0)"></Box>
     </Grid>
-    
+    <!-- https://www.babylonjs-playground.com/index.html#QYFDDP#1 -->
 </Application>
