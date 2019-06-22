@@ -3104,7 +3104,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                             this.AnimateChildren(vt.Children);
                     }
                 }
-                InitializeChildren(col) {
+                AnimateChildren(col) {
                     col.forEach((k, v) => {
                         if (v instanceof Core_8.AnimatableUIElement) {
                             let animateableCHild = v;
@@ -3112,7 +3112,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                         }
                     });
                 }
-                AnimateChildren(col) {
+                InitializeChildren(col) {
                     col.forEach((k, v) => {
                         if (v instanceof Core_9.Scene) {
                             let s = v;

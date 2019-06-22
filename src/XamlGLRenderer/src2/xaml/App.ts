@@ -51,7 +51,7 @@ export class App {
         }
     }
 
-    private InitializeChildren(col : UIElementCollection): void {
+    private AnimateChildren(col : UIElementCollection): void {
         col.forEach((k: string, v: UIElement) => {
             if (v instanceof AnimatableUIElement) {
                 let animateableCHild: IAnimatableUIElement = v as IAnimatableUIElement;
@@ -60,7 +60,7 @@ export class App {
         });
     }
 
-    private AnimateChildren(col: UIElementCollection): void {
+    private InitializeChildren(col: UIElementCollection): void {
         col.forEach((k: string, v: UIElement) => {
             if (v instanceof Scene) {
                 let s: Scene = v as Scene;
