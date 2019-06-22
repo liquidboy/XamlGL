@@ -1,6 +1,8 @@
 ﻿import { XamlMarkup } from "./../reader/XamlMarkup";
 import { FrameworkElement } from "./../jupiter/FrameworkElement";
 import * as _controls from "./../jupiter/controls/Core";
+import { UIElement } from "../jupiter/Core";
+import { KeyFrames, KeyFrame, Animation, Animations } from "./../jupiter/controls/Core";
 
 export class XamlParser {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
@@ -20,28 +22,37 @@ export class XamlParser {
             }
         }
     }
-    private static ProcessNode(el: Node, parent: FrameworkElement): FrameworkElement {
+    private static ProcessNode(el: Node, parent: UIElement): FrameworkElement {
         let nodeAsAFrameWorkElement: FrameworkElement = this.GetFrameworkElementByNode(el);
 
-        if (nodeAsAFrameWorkElement != null) {
-            nodeAsAFrameWorkElement.Parent = parent;
+        if (nodeAsAFrameWorkElement != null && parent != null) {
+            //link parent to node
+            nodeAsAFrameWorkElement.Parent = parent as FrameworkElement;
+
+            //add animation to animations collection on node
+            if (nodeAsAFrameWorkElement instanceof Animation && parent instanceof Animations) (parent as Animations).Animations.add(nodeAsAFrameWorkElement);
+
+            //add keyframe to keyframes collection on node
+            if (nodeAsAFrameWorkElement instanceof KeyFrame && parent instanceof KeyFrames) (parent as KeyFrames).KeyFrames.add(nodeAsAFrameWorkElement);
         }
         //VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
-        if (nodeAsAFrameWorkElement != null && nodeAsAFrameWorkElement instanceof _controls.Panel  && el != null && el.childNodes != null && el.childNodes.length > 0) {
-            this.ProcessCollectionNodes(nodeAsAFrameWorkElement, el.childNodes);
+        if (nodeAsAFrameWorkElement != null && el != null && el.childNodes != null && el.childNodes.length > 0) {
+            this.ProcessNodeWithChildren(nodeAsAFrameWorkElement, el.childNodes);
         }
         return nodeAsAFrameWorkElement;
     }
-    private static ProcessCollectionNodes(root: _controls.Panel, col: NodeList): void {
-        if (!col) {
+    private static ProcessNodeWithChildren(root: UIElement, nodeCollection: NodeList): void {
+        if (!nodeCollection) {
             return;
         }
-        for (let x: number = 0; x < col.length; x++) {
-            let node: Node = col.item(x);
+        for (let x: number = 0; x < nodeCollection.length; x++) {
+            let node: Node = nodeCollection.item(x);
             let newFE: FrameworkElement = this.ProcessNode(node, root);
             if (newFE !== null) {
             //    root.Content = newFE;
-                root.Children.setValue(newFE.Name, newFE);
+                //add child to children collection on node
+                if ('Children' in root) (root as _controls.Panel).Children.setValue(newFE.Name, newFE);
+                //if ('Animations' in root) root.Animations.add(newFE);
             }
         }
     }
@@ -51,8 +62,8 @@ export class XamlParser {
         try {
             let newObject: FrameworkElement = eval(`new _controls.${node.nodeName}();`);
             if (this.HasAttribute(node, "x:Name")) newObject.Name = this.TryGetAttribute(node, "x:Name");
-            newObject.LoadFromNode(node);
-            
+            if ('LoadFromNode' in newObject) newObject.LoadFromNode(node);
+            //if (node.nodeName === "Animation") return newObject;
             // console.log(newObject);
             return newObject;
         } catch (ex) {
