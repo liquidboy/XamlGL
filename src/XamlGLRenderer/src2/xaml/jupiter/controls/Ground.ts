@@ -24,7 +24,7 @@ export class Ground extends UIElement {
 
         //this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: this._width, height: this._height, subdivisions: this._subdivisions }, scene.Scene);
         this._mesh = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Scene, false);
-        this._mesh.material = material.Material;
+        if (material && material.Material) this._mesh.material = material.Material;
     }
 
     public LoadFromNode(node: any): void {

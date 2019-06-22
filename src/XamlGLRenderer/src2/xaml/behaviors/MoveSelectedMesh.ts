@@ -45,6 +45,8 @@ export class MoveSelectedMesh {
         if (evt.button !== 0) return;
 
         // check if we are under a mesh
+        if (this.ground === undefined || this.ground === null) return;
+
         var pickInfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY,
             (mesh) => { return mesh !== this.ground.Mesh; });
         if (pickInfo.hit) {

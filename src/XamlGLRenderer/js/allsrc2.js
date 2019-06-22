@@ -2748,7 +2748,8 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
                     this._mesh = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Scene, false);
-                    this._mesh.material = material.Material;
+                    if (material && material.Material)
+                        this._mesh.material = material.Material;
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
@@ -2943,6 +2944,8 @@ System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/Visua
                 }
                 onPointerDown(evt) {
                     if (evt.button !== 0)
+                        return;
+                    if (this.ground === undefined || this.ground === null)
                         return;
                     var pickInfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY, (mesh) => { return mesh !== this.ground.Mesh; });
                     if (pickInfo.hit) {

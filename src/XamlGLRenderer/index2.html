@@ -38,9 +38,15 @@
             ////configure system loader
     
             System.config({
+                defaultExtension: "js",
+                packages: {
+                    './node_modules/inversify': {
+                        defaultExtension: 'js'
+                    }
+                },
                 map: {
-                    'reflect-metadata': 'https://unpkg.com/reflect-metadata@0.1.3',
-                    'inversify': 'https://unpkg.com/inversify@5.0.1/lib/inversify.js',
+                    'reflect-metadata': './node_modules/reflect-metadata/Reflect.js',
+                    'inversify': './node_modules/inversify/lib/inversify.js',
                     'crypto': '@empty'
                 }
             });
