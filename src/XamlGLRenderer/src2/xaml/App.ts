@@ -2,7 +2,7 @@
 import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, FrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement, IRender } from "./jupiter/Core";
 import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
-import { SceneMouseWheelZoom } from "./extensions/SceneMouseWheelZoom";
+import { SceneMouseWheelZoom } from "./behaviors/SceneMouseWheelZoom";
 
 export class App {
     private _canvas: any;

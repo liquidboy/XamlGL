@@ -102,8 +102,8 @@
     <TypeScriptCompile Include="src2\xaml\App.ts" />
     <TypeScriptCompile Include="src2\xaml\Core.ts" />
     <TypeScriptCompile Include="src2\xaml\datatypes\Guid.ts" />
-    <TypeScriptCompile Include="src2\xaml\extensions\MeshNormalLines.ts" />
-    <TypeScriptCompile Include="src2\xaml\extensions\SceneMouseWheelZoom.ts" />
+    <TypeScriptCompile Include="src2\xaml\behaviors\MeshNormalLines.ts" />
+    <TypeScriptCompile Include="src2\xaml\behaviors\SceneMouseWheelZoom.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\AnimationCollection.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrame.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrameCollection.ts" />
@@ -404,6 +404,7 @@
     </Content>
     <Content Include="xaml\sample-bjs-1.xap" />
     <Content Include="xaml\sample-bjs-2.xap" />
+    <Content Include="xaml\sample-bjs-3.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

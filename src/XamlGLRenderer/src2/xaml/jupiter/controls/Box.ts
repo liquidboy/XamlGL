@@ -1,5 +1,5 @@
 ﻿import { Scene, Material } from "./Core";
-import { MeshNormalLines } from "../../extensions/MeshNormalLines";
+import { MeshNormalLines } from "../../behaviors/MeshNormalLines";
 import { AnimatableUIElement } from "../AnimatableUIElement";
 import { Animation } from "./Animation";
 import { KeyFrames } from "./KeyFrames";
@@ -13,7 +13,7 @@ export class Box extends AnimatableUIElement {
     private _showNormalLines: boolean;
     private _width: number;
     private _position: BABYLON.Vector3;
-
+    
     get SceneName(): string { return this._sceneName; }
     get MaterialName(): string { return this._materialName; }
     get ShowNormalLines(): boolean { return this._showNormalLines; }

@@ -2334,7 +2334,7 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/AnimatableUIElement", "Xaml/
         }
     };
 });
-System.register("Xaml/extensions/MeshNormalLines", [], function (exports_32, context_32) {
+System.register("Xaml/behaviors/MeshNormalLines", [], function (exports_32, context_32) {
     "use strict";
     var MeshNormalLines;
     var __moduleName = context_32 && context_32.id;
@@ -2437,7 +2437,7 @@ System.register("Xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "X
         }
     };
 });
-System.register("Xaml/jupiter/controls/Box", ["Xaml/extensions/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_35, context_35) {
+System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_35, context_35) {
     "use strict";
     var MeshNormalLines_1, AnimatableUIElement_2, Box;
     var __moduleName = context_35 && context_35.id;
@@ -2771,7 +2771,7 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], funct
         }
     };
 });
-System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/extensions/MeshNormalLines"], function (exports_43, context_43) {
+System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_43, context_43) {
     "use strict";
     var UIElement_9, MeshNormalLines_2, Sphere;
     var __moduleName = context_43 && context_43.id;
@@ -2786,14 +2786,19 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
         ],
         execute: function () {
             Sphere = class Sphere extends UIElement_9.UIElement {
+                constructor() {
+                    super(...arguments);
+                    this._position = new BABYLON.Vector3(0, 1, 0);
+                }
                 get SceneName() { return this._sceneName; }
                 get MaterialName() { return this._materialName; }
                 get ShowNormalLines() { return this._showNormalLines; }
                 get Segments() { return this._segments; }
                 get Diameter() { return this._diameter; }
+                get Position() { return this._position; }
                 InitializeWithMaterial(scene, material) {
                     this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
-                    this._mesh.position.y = 1;
+                    this._mesh.position = this._position;
                     this._mesh.material = material.Material;
                     if (this._showNormalLines)
                         MeshNormalLines_2.MeshNormalLines.Install(scene, this._mesh);
@@ -2817,6 +2822,10 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     catch (e) { }
                     try {
                         this._diameter = parseFloat(node.attributes["Diameter"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._position = eval(`new BABYLON.${node.attributes["Position"].value};`);
                     }
                     catch (e) { }
                 }
@@ -3094,7 +3103,7 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
         }
     };
 });
-System.register("Xaml/extensions/SceneMouseWheelZoom", [], function (exports_50, context_50) {
+System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_50, context_50) {
     "use strict";
     var SceneMouseWheelZoom;
     var __moduleName = context_50 && context_50.id;
@@ -3126,7 +3135,7 @@ System.register("Xaml/extensions/SceneMouseWheelZoom", [], function (exports_50,
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "Xaml/extensions/SceneMouseWheelZoom"], function (exports_51, context_51) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "Xaml/behaviors/SceneMouseWheelZoom"], function (exports_51, context_51) {
     "use strict";
     var XamlParser_1, Core_8, Core_9, SceneMouseWheelZoom_1, App;
     var __moduleName = context_51 && context_51.id;
