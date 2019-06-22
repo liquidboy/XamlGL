@@ -100,11 +100,13 @@
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\Stack.ts" />
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src2\xaml\App.ts" />
+    <TypeScriptCompile Include="src2\xaml\behaviors\MoveSelectedMesh.ts" />
     <TypeScriptCompile Include="src2\xaml\Core.ts" />
     <TypeScriptCompile Include="src2\xaml\datatypes\Guid.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\MeshNormalLines.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\SceneMouseWheelZoom.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\AnimationCollection.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Torus.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrame.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrameCollection.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrames.ts" />

@@ -1,8 +1,7 @@
 ﻿import { XamlMarkup } from "./reader/XamlMarkup";
 import { XamlParser } from "./reader/XamlParser";
-import { IFrameworkElement, FrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement, IRender } from "./jupiter/Core";
+import { IFrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement, IRender } from "./jupiter/Core";
 import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
-import { SceneMouseWheelZoom } from "./behaviors/SceneMouseWheelZoom";
 
 export class App {
     private _canvas: any;
@@ -45,7 +44,7 @@ export class App {
 
             //animate nodes
             if (vt.Children) this.AnimateChildren(vt.Children);
-
+            
             //debugging
             //console.log(vt.Children.getValue("box2"));
         }
@@ -64,14 +63,13 @@ export class App {
         col.forEach((k: string, v: UIElement) => {
             if (v instanceof Scene) {
                 let s: Scene = v as Scene;
-                s.InitializeScene(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName));
-                SceneMouseWheelZoom.Install(s);
+                s.InitializeScene(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName), col.getValue(s.GroundName));
             } else if (v instanceof Camera) {
                 let c: Camera = v as Camera;
                 c.InitializeCamera(col.getValue(c.SceneName) as Scene, this._canvas);
             } else {
                 let renderObject: any = v;
-                if (renderObject.InitializeWithMaterial)
+                if (renderObject.InitializeWithMaterial && renderObject.MaterialName)
                     renderObject.InitializeWithMaterial(col.getValue(renderObject.SceneName) as Scene,
                         col.getValue(renderObject.MaterialName) as Material);
                 else if (renderObject.Initialize)

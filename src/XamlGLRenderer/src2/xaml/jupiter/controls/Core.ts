@@ -13,4 +13,5 @@ export * from "./Light";
 export * from "./Panel";
 export * from "./Scene";
 export * from "./Sphere";
+export * from "./Torus";
 export * from "./Material";

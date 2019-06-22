@@ -2521,12 +2521,22 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
         ],
         execute: function () {
             Camera = class Camera extends UIElement_5.UIElement {
+                constructor() {
+                    super(...arguments);
+                    this._lowerBetaLimit = 0.1;
+                    this._upperBetaLimit = (Math.PI / 2) * 0.99;
+                    this._lowerRadiusLimit = 150;
+                }
+                get Camera() { return this._camera; }
                 get SceneName() { return this._sceneName; }
                 get Target() { return this._target; }
                 get Type() { return this._type; }
                 get Alpha() { return this._alpha; }
                 get Beta() { return this._beta; }
                 get Radius() { return this._radius; }
+                get lowerBetaLimit() { return this._lowerBetaLimit; }
+                get upperBetaLimit() { return this._upperBetaLimit; }
+                get lowerRadiusLimit() { return this._lowerRadiusLimit; }
                 InitializeCamera(scene, canvas) {
                     if (this._type === "FreeCamera") {
                         this._camera = new BABYLON.FreeCamera(this.Name, this.Position, scene.Scene);
@@ -2536,8 +2546,13 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
                         this._camera = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Scene);
                         this._camera.setTarget(this._target);
                     }
-                    else if (this._type === "ArcRotateCamera")
-                        this._camera = new BABYLON.ArcRotateCamera(this.Name, 0, 0.8, 100, this._target, scene.Scene);
+                    else if (this._type === "ArcRotateCamera") {
+                        let arcCampera = new BABYLON.ArcRotateCamera(this.Name, 0, 0.8, 100, this._target, scene.Scene);
+                        arcCampera.lowerBetaLimit = this._lowerBetaLimit;
+                        arcCampera.upperBetaLimit = this._upperBetaLimit;
+                        arcCampera.lowerRadiusLimit = this._lowerRadiusLimit;
+                        this._camera = arcCampera;
+                    }
                     this._camera.attachControl(canvas, true);
                 }
                 LoadFromNode(node) {
@@ -2564,6 +2579,18 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
                     catch (e) { }
                     try {
                         this._radius = parseFloat(node.attributes["Radius"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._lowerBetaLimit = eval(`${node.attributes["LowerBetaLimit"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._upperBetaLimit = eval(`${node.attributes["UpperBetaLimit"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._lowerRadiusLimit = eval(`${node.attributes["LowerRadiusLimit"].value};`);
                     }
                     catch (e) { }
                 }
@@ -2625,9 +2652,9 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         }
     };
 });
-System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_39, context_39) {
+System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], function (exports_39, context_39) {
     "use strict";
-    var UIElement_6, Ground;
+    var UIElement_6, Material;
     var __moduleName = context_39 && context_39.id;
     return {
         setters: [
@@ -2636,13 +2663,80 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
             }
         ],
         execute: function () {
-            Ground = class Ground extends UIElement_6.UIElement {
+            Material = class Material extends UIElement_6.UIElement {
+                get Material() { return this._material; }
+                get SceneName() { return this._sceneName; }
+                get Wireframe() { return this._wireframe; }
+                get DiffuseColor() { return this._diffuseColor; }
+                get SpecularColor() { return this._specularColor; }
+                get EmissiveColor() { return this._emissiveColor; }
+                Initialize(scene) {
+                    this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
+                    this._material.wireframe = this._wireframe;
+                    if (this._diffuseColor !== undefined)
+                        this._material.diffuseColor = this._diffuseColor;
+                    if (this._specularColor !== undefined)
+                        this._material.specularColor = this._specularColor;
+                    if (this._emissiveColor !== undefined)
+                        this._material.emissiveColor = this._emissiveColor;
+                }
+                LoadFromNode(node) {
+                    super.LoadFromNode(node);
+                    try {
+                        this._sceneName = node.attributes["Scene"].value;
+                    }
+                    catch (e) { }
+                    try {
+                        this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true';
+                    }
+                    catch (e) { }
+                    try {
+                        this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value));
+                    }
+                    catch (e) { }
+                    try {
+                        this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value));
+                    }
+                    catch (e) { }
+                    try {
+                        this._emissiveColor = eval(this.cleanBabylonColor3Attribute(node.attributes["EmissiveColor"].value));
+                    }
+                    catch (e) { }
+                }
+                cleanBabylonColor3Attribute(color3) {
+                    if (color3.includes("Color3."))
+                        return `BABYLON.${color3};`;
+                    return `new BABYLON.${color3};`;
+                }
+            };
+            exports_39("Material", Material);
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_40, context_40) {
+    "use strict";
+    var UIElement_7, Ground;
+    var __moduleName = context_40 && context_40.id;
+    return {
+        setters: [
+            function (UIElement_7_1) {
+                UIElement_7 = UIElement_7_1;
+            }
+        ],
+        execute: function () {
+            Ground = class Ground extends UIElement_7.UIElement {
+                get Mesh() { return this._mesh; }
                 get SceneName() { return this._sceneName; }
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 get SubDivisions() { return this._subdivisions; }
+                get MaterialName() { return this._materialName; }
                 Initialize(scene) {
-                    this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: this._width, height: this._height, subdivisions: this._subdivisions }, scene.Scene);
+                    this._mesh = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Scene, false);
+                }
+                InitializeWithMaterial(scene, material) {
+                    this.Initialize(scene);
+                    this._mesh.material = material.Material;
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
@@ -2662,16 +2756,20 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                         this._subdivisions = parseInt(node.attributes["SubDivisions"].value);
                     }
                     catch (_d) { }
+                    try {
+                        this._materialName = node.attributes["Material"].value;
+                    }
+                    catch (_e) { }
                 }
             };
-            exports_39("Ground", Ground);
+            exports_40("Ground", Ground);
         }
     };
 });
-System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_40, context_40) {
+System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_41, context_41) {
     "use strict";
     var lib_2, KeyFrameCollection;
-    var __moduleName = context_40 && context_40.id;
+    var __moduleName = context_41 && context_41.id;
     return {
         setters: [
             function (lib_2_1) {
@@ -2681,22 +2779,22 @@ System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-co
         execute: function () {
             KeyFrameCollection = class KeyFrameCollection extends lib_2.LinkedList {
             };
-            exports_40("KeyFrameCollection", KeyFrameCollection);
+            exports_41("KeyFrameCollection", KeyFrameCollection);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_41, context_41) {
+System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_42, context_42) {
     "use strict";
-    var UIElement_7, Light;
-    var __moduleName = context_41 && context_41.id;
+    var UIElement_8, Light;
+    var __moduleName = context_42 && context_42.id;
     return {
         setters: [
-            function (UIElement_7_1) {
-                UIElement_7 = UIElement_7_1;
+            function (UIElement_8_1) {
+                UIElement_8 = UIElement_8_1;
             }
         ],
         execute: function () {
-            Light = class Light extends UIElement_7.UIElement {
+            Light = class Light extends UIElement_8.UIElement {
                 get SceneName() { return this._sceneName; }
                 get Direction() { return this._direction; }
                 get Type() { return this._type; }
@@ -2722,32 +2820,150 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                     catch (e) { }
                 }
             };
-            exports_41("Light", Light);
+            exports_42("Light", Light);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], function (exports_42, context_42) {
+System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_43, context_43) {
     "use strict";
-    var UIElement_8, Scene;
-    var __moduleName = context_42 && context_42.id;
+    var SceneMouseWheelZoom;
+    var __moduleName = context_43 && context_43.id;
+    return {
+        setters: [],
+        execute: function () {
+            SceneMouseWheelZoom = class SceneMouseWheelZoom {
+                constructor() {
+                }
+                static Install(scene) {
+                    scene.Scene.onPrePointerObservable.add((pointerInfo, eventState) => {
+                        var event = pointerInfo.event;
+                        var delta = 0;
+                        if (event.wheelDelta)
+                            delta = event.wheelDelta;
+                        else if (event.detail)
+                            delta = -event.detail;
+                        if (delta) {
+                            var dir = scene.Scene.activeCamera.getDirection(BABYLON.Axis.Z);
+                            if (delta > 0)
+                                scene.Scene.activeCamera.position.addInPlace(dir);
+                            else
+                                scene.Scene.activeCamera.position.subtractInPlace(dir);
+                        }
+                    }, BABYLON.PointerEventTypes.POINTERWHEEL, false);
+                }
+            };
+            exports_43("SceneMouseWheelZoom", SceneMouseWheelZoom);
+        }
+    };
+});
+System.register("Xaml/behaviors/MoveSelectedMesh", [], function (exports_44, context_44) {
+    "use strict";
+    var MoveSelectedMesh;
+    var __moduleName = context_44 && context_44.id;
+    return {
+        setters: [],
+        execute: function () {
+            MoveSelectedMesh = class MoveSelectedMesh {
+                constructor() {
+                }
+                Install(scene, canvas, ground, camera) {
+                    this.canvas = canvas;
+                    this.ground = ground;
+                    this.camera = camera;
+                    this.scene = scene;
+                    let _this = this;
+                    canvas.addEventListener("pointerdown", (evt) => { this.onPointerDown(evt); }, false);
+                    canvas.addEventListener("pointerup", () => { this.onPointerUp(); }, false);
+                    canvas.addEventListener("pointermove", (evt) => { this.onPointerMove(evt); }, false);
+                    scene.Scene.onDispose = function () {
+                        canvas.removeEventListener("pointerdown", this.onPointerDown);
+                        canvas.removeEventListener("pointerup", this.onPointerUp);
+                        canvas.removeEventListener("pointermove", this.onPointerMove);
+                    };
+                }
+                getGroundPosition() {
+                    var pickinfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY, (mesh) => { return mesh == this.ground.Mesh; });
+                    if (pickinfo.hit) {
+                        return pickinfo.pickedPoint;
+                    }
+                    return null;
+                }
+                onPointerDown(evt) {
+                    if (evt.button !== 0) {
+                        return;
+                    }
+                    var pickInfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY, (mesh) => { return mesh !== this.ground.Mesh; });
+                    if (pickInfo.hit) {
+                        this.currentMesh = pickInfo.pickedMesh;
+                        this.startingPoint = this.getGroundPosition();
+                        if (this.startingPoint) {
+                            setTimeout(() => {
+                                this.camera.Camera.detachControl(this.canvas);
+                            }, 0);
+                        }
+                    }
+                }
+                onPointerUp() {
+                    if (this.startingPoint) {
+                        this.camera.Camera.attachControl(this.canvas, true);
+                        this.startingPoint = null;
+                        return;
+                    }
+                }
+                onPointerMove(evt) {
+                    if (!this.startingPoint) {
+                        return;
+                    }
+                    var current = this.getGroundPosition();
+                    if (!current) {
+                        return;
+                    }
+                    var diff = current.subtract(this.startingPoint);
+                    this.currentMesh.position.addInPlace(diff);
+                    this.startingPoint = current;
+                }
+            };
+            exports_44("MoveSelectedMesh", MoveSelectedMesh);
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/behaviors/SceneMouseWheelZoom", "Xaml/behaviors/MoveSelectedMesh"], function (exports_45, context_45) {
+    "use strict";
+    var UIElement_9, SceneMouseWheelZoom_1, MoveSelectedMesh_1, Scene;
+    var __moduleName = context_45 && context_45.id;
     return {
         setters: [
-            function (UIElement_8_1) {
-                UIElement_8 = UIElement_8_1;
+            function (UIElement_9_1) {
+                UIElement_9 = UIElement_9_1;
+            },
+            function (SceneMouseWheelZoom_1_1) {
+                SceneMouseWheelZoom_1 = SceneMouseWheelZoom_1_1;
+            },
+            function (MoveSelectedMesh_1_1) {
+                MoveSelectedMesh_1 = MoveSelectedMesh_1_1;
             }
         ],
         execute: function () {
-            Scene = class Scene extends UIElement_8.UIElement {
+            Scene = class Scene extends UIElement_9.UIElement {
                 get Scene() { return this._scene; }
+                get GroundName() { return this._groundName; }
                 get CameraName() { return this._cameraName; }
                 get LightName() { return this._lightName; }
+                get ClearColor() { return this._clearColor; }
                 constructor() {
                     super();
                 }
-                InitializeScene(engine, canvas, camera, light) {
+                InitializeScene(engine, canvas, camera, light, ground) {
                     this._scene = new BABYLON.Scene(engine);
                     this._camera = camera;
                     this._light = light;
+                    if (this._clearColor)
+                        this._scene.clearColor = this.convertColor3ToColor4(this._clearColor);
+                    SceneMouseWheelZoom_1.SceneMouseWheelZoom.Install(this);
+                    if (ground) {
+                        let moveSelectedMesh = new MoveSelectedMesh_1.MoveSelectedMesh();
+                        moveSelectedMesh.Install(this, canvas, ground, this._camera);
+                    }
                     engine.runRenderLoop(() => {
                         this._scene.render();
                     });
@@ -2762,27 +2978,43 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement"], funct
                         this._lightName = node.attributes["Light"].value;
                     }
                     catch (e) { }
+                    try {
+                        this._groundName = node.attributes["Ground"].value;
+                    }
+                    catch (e) { }
+                    try {
+                        this._clearColor = eval(this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value));
+                    }
+                    catch (e) { }
+                }
+                cleanBabylonColor3Attribute(color3) {
+                    if (color3.includes("Color3."))
+                        return `BABYLON.${color3};`;
+                    return `new BABYLON.${color3};`;
+                }
+                convertColor3ToColor4(color) {
+                    return new BABYLON.Color4(color.r, color.g, color.b, 1);
                 }
             };
-            exports_42("Scene", Scene);
+            exports_45("Scene", Scene);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_43, context_43) {
+System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_46, context_46) {
     "use strict";
-    var UIElement_9, MeshNormalLines_2, Sphere;
-    var __moduleName = context_43 && context_43.id;
+    var UIElement_10, MeshNormalLines_2, Sphere;
+    var __moduleName = context_46 && context_46.id;
     return {
         setters: [
-            function (UIElement_9_1) {
-                UIElement_9 = UIElement_9_1;
+            function (UIElement_10_1) {
+                UIElement_10 = UIElement_10_1;
             },
             function (MeshNormalLines_2_1) {
                 MeshNormalLines_2 = MeshNormalLines_2_1;
             }
         ],
         execute: function () {
-            Sphere = class Sphere extends UIElement_9.UIElement {
+            Sphere = class Sphere extends UIElement_10.UIElement {
                 get SceneName() { return this._sceneName; }
                 get MaterialName() { return this._materialName; }
                 get ShowNormalLines() { return this._showNormalLines; }
@@ -2819,31 +3051,44 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     catch (e) { }
                 }
             };
-            exports_43("Sphere", Sphere);
+            exports_46("Sphere", Sphere);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], function (exports_44, context_44) {
+System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_47, context_47) {
     "use strict";
-    var UIElement_10, Material;
-    var __moduleName = context_44 && context_44.id;
+    var MeshNormalLines_3, AnimatableUIElement_3, Torus;
+    var __moduleName = context_47 && context_47.id;
     return {
         setters: [
-            function (UIElement_10_1) {
-                UIElement_10 = UIElement_10_1;
+            function (MeshNormalLines_3_1) {
+                MeshNormalLines_3 = MeshNormalLines_3_1;
+            },
+            function (AnimatableUIElement_3_1) {
+                AnimatableUIElement_3 = AnimatableUIElement_3_1;
             }
         ],
         execute: function () {
-            Material = class Material extends UIElement_10.UIElement {
-                get Material() { return this._material; }
+            Torus = class Torus extends AnimatableUIElement_3.AnimatableUIElement {
                 get SceneName() { return this._sceneName; }
-                get Wireframe() { return this._wireframe; }
-                get DiffuseColor() { return this._diffuseColor; }
-                Initialize(scene) {
-                    this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
-                    this._material.wireframe = this._wireframe;
-                    if (this._diffuseColor !== undefined)
-                        this._material.diffuseColor = this._diffuseColor;
+                get MaterialName() { return this._materialName; }
+                get ShowNormalLines() { return this._showNormalLines; }
+                get Diameter() { return this._diameter; }
+                get Thickness() { return this._thickness; }
+                get Tesselation() { return this._tesselation; }
+                InitializeWithMaterial(scene, material) {
+                    this._scene = scene;
+                    this._mesh = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Scene);
+                    this._mesh.material = material.Material;
+                    this._mesh.position = this.Position;
+                    if (this._showNormalLines)
+                        MeshNormalLines_3.MeshNormalLines.Install(scene, this._mesh);
+                    if (this.Animations && this.Animations.Animations)
+                        this.Animations.Animations.forEach((animation) => {
+                            var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS, animation.DataType, animation.LoopMode);
+                            animationBox.setKeys(animation.KeyFrames.GetArray());
+                            this._mesh.animations.push(animationBox);
+                        });
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
@@ -2852,28 +3097,52 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
                     }
                     catch (e) { }
                     try {
-                        this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true';
+                        this._materialName = node.attributes["Material"].value;
                     }
                     catch (e) { }
                     try {
-                        this._diffuseColor = eval(`new BABYLON.${node.attributes["DiffuseColor"].value};`);
+                        this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true';
+                    }
+                    catch (e) { }
+                    try {
+                        this._diameter = parseFloat(node.attributes["Diameter"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._thickness = parseFloat(node.attributes["Thickness"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._tesselation = parseFloat(node.attributes["Tesselation"].value);
                     }
                     catch (e) { }
                 }
+                StartAnimation() {
+                    if (this.Animations && this.Animations.Animations)
+                        this.Animations.Animations.forEach((animation) => {
+                            this._scene.Scene.beginAnimation(this._mesh, 1, 100, true);
+                        });
+                }
+                StopAnimation() {
+                    if (this.Animations && this.Animations.Animations)
+                        this.Animations.Animations.forEach((animation) => {
+                            this._scene.Scene.stopAnimation(this._mesh);
+                        });
+                }
             };
-            exports_44("Material", Material);
+            exports_47("Torus", Torus);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Material"], function (exports_45, context_45) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_48, context_48) {
     "use strict";
-    var __moduleName = context_45 && context_45.id;
+    var __moduleName = context_48 && context_48.id;
     function exportStar_2(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_45(exports);
+        exports_48(exports);
     }
     return {
         setters: [
@@ -2919,6 +3188,9 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation"
             function (Sphere_1_1) {
                 exportStar_2(Sphere_1_1);
             },
+            function (Torus_1_1) {
+                exportStar_2(Torus_1_1);
+            },
             function (Material_1_1) {
                 exportStar_2(Material_1_1);
             }
@@ -2927,19 +3199,19 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation"
         }
     };
 });
-System.register("Xaml/jupiter/controls/IAnimationsElement", [], function (exports_46, context_46) {
+System.register("Xaml/jupiter/controls/IAnimationsElement", [], function (exports_49, context_49) {
     "use strict";
-    var __moduleName = context_46 && context_46.id;
+    var __moduleName = context_49 && context_49.id;
     return {
         setters: [],
         execute: function () {
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid"], function (exports_47, context_47) {
+System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid"], function (exports_50, context_50) {
     "use strict";
     var DependencyObject_2, Guid_1, UIElement;
-    var __moduleName = context_47 && context_47.id;
+    var __moduleName = context_50 && context_50.id;
     return {
         setters: [
             function (DependencyObject_2_1) {
@@ -2974,14 +3246,14 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 }
                 Initialize(scene) { }
             };
-            exports_47("UIElement", UIElement);
+            exports_50("UIElement", UIElement);
         }
     };
 });
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_48, context_48) {
+System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_51, context_51) {
     "use strict";
     var UIElement_11, FrameworkElement;
-    var __moduleName = context_48 && context_48.id;
+    var __moduleName = context_51 && context_51.id;
     return {
         setters: [
             function (UIElement_11_1) {
@@ -3000,14 +3272,14 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
                     super();
                 }
             };
-            exports_48("FrameworkElement", FrameworkElement);
+            exports_51("FrameworkElement", FrameworkElement);
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/jupiter/Core"], function (exports_49, context_49) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/jupiter/Core"], function (exports_52, context_52) {
     "use strict";
     var _controls, Core_6, Core_7, XamlParser;
-    var __moduleName = context_49 && context_49.id;
+    var __moduleName = context_52 && context_52.id;
     return {
         setters: [
             function (_controls_1) {
@@ -3096,46 +3368,14 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
                     return null;
                 }
             };
-            exports_49("XamlParser", XamlParser);
+            exports_52("XamlParser", XamlParser);
         }
     };
 });
-System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_50, context_50) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core"], function (exports_53, context_53) {
     "use strict";
-    var SceneMouseWheelZoom;
-    var __moduleName = context_50 && context_50.id;
-    return {
-        setters: [],
-        execute: function () {
-            SceneMouseWheelZoom = class SceneMouseWheelZoom {
-                constructor() {
-                }
-                static Install(scene) {
-                    scene.Scene.onPrePointerObservable.add((pointerInfo, eventState) => {
-                        var event = pointerInfo.event;
-                        var delta = 0;
-                        if (event.wheelDelta)
-                            delta = event.wheelDelta;
-                        else if (event.detail)
-                            delta = -event.detail;
-                        if (delta) {
-                            var dir = scene.Scene.activeCamera.getDirection(BABYLON.Axis.Z);
-                            if (delta > 0)
-                                scene.Scene.activeCamera.position.addInPlace(dir);
-                            else
-                                scene.Scene.activeCamera.position.subtractInPlace(dir);
-                        }
-                    }, BABYLON.PointerEventTypes.POINTERWHEEL, false);
-                }
-            };
-            exports_50("SceneMouseWheelZoom", SceneMouseWheelZoom);
-        }
-    };
-});
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "Xaml/behaviors/SceneMouseWheelZoom"], function (exports_51, context_51) {
-    "use strict";
-    var XamlParser_1, Core_8, Core_9, SceneMouseWheelZoom_1, App;
-    var __moduleName = context_51 && context_51.id;
+    var XamlParser_1, Core_8, Core_9, App;
+    var __moduleName = context_53 && context_53.id;
     return {
         setters: [
             function (XamlParser_1_1) {
@@ -3146,9 +3386,6 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
             },
             function (Core_9_1) {
                 Core_9 = Core_9_1;
-            },
-            function (SceneMouseWheelZoom_1_1) {
-                SceneMouseWheelZoom_1 = SceneMouseWheelZoom_1_1;
             }
         ],
         execute: function () {
@@ -3189,8 +3426,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     col.forEach((k, v) => {
                         if (v instanceof Core_9.Scene) {
                             let s = v;
-                            s.InitializeScene(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName));
-                            SceneMouseWheelZoom_1.SceneMouseWheelZoom.Install(s);
+                            s.InitializeScene(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName), col.getValue(s.GroundName));
                         }
                         else if (v instanceof Core_9.Camera) {
                             let c = v;
@@ -3198,7 +3434,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                         }
                         else {
                             let renderObject = v;
-                            if (renderObject.InitializeWithMaterial)
+                            if (renderObject.InitializeWithMaterial && renderObject.MaterialName)
                                 renderObject.InitializeWithMaterial(col.getValue(renderObject.SceneName), col.getValue(renderObject.MaterialName));
                             else if (renderObject.Initialize)
                                 renderObject.Initialize(col.getValue(renderObject.SceneName));
@@ -3213,14 +3449,14 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     });
                 }
             };
-            exports_51("App", App);
+            exports_53("App", App);
         }
     };
 });
-System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_52, context_52) {
+System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_54, context_54) {
     "use strict";
     var XamlMarkup_1, XamlReader;
-    var __moduleName = context_52 && context_52.id;
+    var __moduleName = context_54 && context_54.id;
     return {
         setters: [
             function (XamlMarkup_1_1) {
@@ -3245,14 +3481,14 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
                     return this._xm;
                 }
             };
-            exports_52("XamlReader", XamlReader);
+            exports_54("XamlReader", XamlReader);
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "Xaml/jupiter/controls/Core", "Xaml/DataTypes/Guid"], function (exports_53, context_53) {
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "Xaml/jupiter/controls/Core", "Xaml/DataTypes/Guid"], function (exports_55, context_55) {
     "use strict";
     var _controls, Controls;
-    var __moduleName = context_53 && context_53.id;
+    var __moduleName = context_55 && context_55.id;
     var exportedNames_1 = {
         "Controls": true
     };
@@ -3261,7 +3497,7 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
         for (var n in m) {
             if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
         }
-        exports_53(exports);
+        exports_55(exports);
     }
     return {
         setters: [
@@ -3285,14 +3521,14 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             }
         ],
         execute: function () {
-            exports_53("Controls", Controls = _controls);
+            exports_55("Controls", Controls = _controls);
         }
     };
 });
-System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_54, context_54) {
+System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_56, context_56) {
     "use strict";
     var XamlGLCore, XamlApp;
-    var __moduleName = context_54 && context_54.id;
+    var __moduleName = context_56 && context_56.id;
     return {
         setters: [
             function (XamlGLCore_1) {
@@ -3324,7 +3560,7 @@ System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_54, contex
                     return urlParams;
                 }
             };
-            exports_54("XamlApp", XamlApp);
+            exports_56("XamlApp", XamlApp);
         }
     };
 });
