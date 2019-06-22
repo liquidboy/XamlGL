@@ -1,5 +1,6 @@
 ﻿import { UIElement } from "../UIElement";
 import { KeyFrameCollection } from "./Core";
+import { KeyFrame } from "./KeyFrame";
 
 export class KeyFrames extends UIElement {
     private _keyFrames: KeyFrameCollection;
@@ -15,5 +16,16 @@ export class KeyFrames extends UIElement {
 
     public LoadFromNode(node: any): void {
 
+    }
+
+    public GetArray(): any[] {
+        var keys = [];
+        this._keyFrames.forEach((kf: KeyFrame) => {
+            keys.push({
+                frame: kf.Frame,
+                value: kf.Value
+            });
+        });
+        return keys;
     }
 }

@@ -2158,10 +2158,37 @@ System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement", "X
         execute: function () {
             Animation = class Animation extends UIElement_1.UIElement {
                 get KeyFrames() { return this._keyFrames; }
+                get DataType() { return this._dataType; }
+                get LoopMode() { return this._loopMode; }
+                get EnableBlending() { return this._enableBlending; }
+                get TargetProperty() { return this._targetProperty; }
+                get FPS() { return this._fps; }
                 set KeyFrames(value) { this._keyFrames = value; }
                 constructor() {
                     super();
                     this._keyFrames = new Core_1.KeyFrames();
+                }
+                LoadFromNode(node) {
+                    try {
+                        this._targetProperty = node.attributes["TargetProperty"].value;
+                    }
+                    catch (_a) { }
+                    try {
+                        this._dataType = eval(`${node.attributes["DataType"].value}`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._loopMode = eval(`${node.attributes["LoopMode"].value}`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._enableBlending = node.attributes["EnableBlending"].value.toLowerCase() === 'true';
+                    }
+                    catch (e) { }
+                    try {
+                        this._fps = parseInt(node.attributes["FPS"].value);
+                    }
+                    catch (_b) { }
                 }
             };
             exports_23("Animation", Animation);
@@ -2340,10 +2367,80 @@ System.register("Xaml/extensions/MeshNormalLines", [], function (exports_32, con
         }
     };
 });
-System.register("Xaml/jupiter/controls/Box", ["Xaml/extensions/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_33, context_33) {
+System.register("Xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], function (exports_33, context_33) {
+    "use strict";
+    var Core_4, KeyFrame;
+    var __moduleName = context_33 && context_33.id;
+    return {
+        setters: [
+            function (Core_4_1) {
+                Core_4 = Core_4_1;
+            }
+        ],
+        execute: function () {
+            KeyFrame = class KeyFrame extends Core_4.UIElement {
+                get Frame() { return this._frame; }
+                get Value() { return this._value; }
+                constructor() {
+                    super();
+                }
+                LoadFromNode(node) {
+                    try {
+                        this._frame = parseInt(node.attributes["Frame"].value);
+                    }
+                    catch (_a) { }
+                    try {
+                        this._value = parseFloat(node.attributes["Value"].value);
+                    }
+                    catch (_b) { }
+                }
+            };
+            exports_33("KeyFrame", KeyFrame);
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_34, context_34) {
+    "use strict";
+    var UIElement_4, Core_5, KeyFrames;
+    var __moduleName = context_34 && context_34.id;
+    return {
+        setters: [
+            function (UIElement_4_1) {
+                UIElement_4 = UIElement_4_1;
+            },
+            function (Core_5_1) {
+                Core_5 = Core_5_1;
+            }
+        ],
+        execute: function () {
+            KeyFrames = class KeyFrames extends UIElement_4.UIElement {
+                get KeyFrames() { return this._keyFrames; }
+                set KeyFrames(value) { this._keyFrames = value; }
+                constructor() {
+                    super();
+                    this._keyFrames = new Core_5.KeyFrameCollection();
+                }
+                LoadFromNode(node) {
+                }
+                GetArray() {
+                    var keys = [];
+                    this._keyFrames.forEach((kf) => {
+                        keys.push({
+                            frame: kf.Frame,
+                            value: kf.Value
+                        });
+                    });
+                    return keys;
+                }
+            };
+            exports_34("KeyFrames", KeyFrames);
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Box", ["Xaml/extensions/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_35, context_35) {
     "use strict";
     var MeshNormalLines_1, AnimatableUIElement_2, Box;
-    var __moduleName = context_33 && context_33.id;
+    var __moduleName = context_35 && context_35.id;
     return {
         setters: [
             function (MeshNormalLines_1_1) {
@@ -2361,12 +2458,19 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/extensions/MeshNormalLines",
                 get Width() { return this._width; }
                 get Position() { return this._position; }
                 InitializeWithMaterial(scene, material) {
+                    this._scene = scene;
                     this._mesh = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Scene);
                     this._mesh.material = material.Material;
                     if (this._position !== undefined)
                         this._mesh.position = this._position;
                     if (this._showNormalLines)
                         MeshNormalLines_1.MeshNormalLines.Install(scene, this._mesh);
+                    if (this.Animations && this.Animations.Animations)
+                        this.Animations.Animations.forEach((animation) => {
+                            var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS, animation.DataType, animation.LoopMode);
+                            animationBox.setKeys(animation.KeyFrames.GetArray());
+                            this._mesh.animations.push(animationBox);
+                        });
                 }
                 LoadFromNode(node) {
                     try {
@@ -2391,26 +2495,34 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/extensions/MeshNormalLines",
                     catch (e) { }
                 }
                 StartAnimation() {
+                    if (this.Animations && this.Animations.Animations)
+                        this.Animations.Animations.forEach((animation) => {
+                            this._scene.Scene.beginAnimation(this._mesh, 1, 100, true);
+                        });
                 }
                 StopAnimation() {
+                    if (this.Animations && this.Animations.Animations)
+                        this.Animations.Animations.forEach((animation) => {
+                            this._scene.Scene.stopAnimation(this._mesh);
+                        });
                 }
             };
-            exports_33("Box", Box);
+            exports_35("Box", Box);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_34, context_34) {
+System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], function (exports_36, context_36) {
     "use strict";
-    var UIElement_4, Camera;
-    var __moduleName = context_34 && context_34.id;
+    var UIElement_5, Camera;
+    var __moduleName = context_36 && context_36.id;
     return {
         setters: [
-            function (UIElement_4_1) {
-                UIElement_4 = UIElement_4_1;
+            function (UIElement_5_1) {
+                UIElement_5 = UIElement_5_1;
             }
         ],
         execute: function () {
-            Camera = class Camera extends UIElement_4.UIElement {
+            Camera = class Camera extends UIElement_5.UIElement {
                 get SceneName() { return this._sceneName; }
                 get Position() { return this._position; }
                 get Target() { return this._target; }
@@ -2462,14 +2574,14 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement"], func
                     catch (e) { }
                 }
             };
-            exports_34("Camera", Camera);
+            exports_36("Camera", Camera);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElementCollection"], function (exports_35, context_35) {
+System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElementCollection"], function (exports_37, context_37) {
     "use strict";
     var FrameworkElement_2, UIElementCollection_2, Panel;
-    var __moduleName = context_35 && context_35.id;
+    var __moduleName = context_37 && context_37.id;
     return {
         setters: [
             function (FrameworkElement_2_1) {
@@ -2498,14 +2610,14 @@ System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement",
                 set OffsetX(value) { this._offsetX = value; }
                 set OffsetY(value) { this._offsetY = value; }
             };
-            exports_35("Panel", Panel);
+            exports_37("Panel", Panel);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], function (exports_36, context_36) {
+System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], function (exports_38, context_38) {
     "use strict";
     var Panel_1, Grid;
-    var __moduleName = context_36 && context_36.id;
+    var __moduleName = context_38 && context_38.id;
     return {
         setters: [
             function (Panel_1_1) {
@@ -2515,22 +2627,22 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         execute: function () {
             Grid = class Grid extends Panel_1.Panel {
             };
-            exports_36("Grid", Grid);
+            exports_38("Grid", Grid);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_37, context_37) {
+System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_39, context_39) {
     "use strict";
-    var UIElement_5, Ground;
-    var __moduleName = context_37 && context_37.id;
+    var UIElement_6, Ground;
+    var __moduleName = context_39 && context_39.id;
     return {
         setters: [
-            function (UIElement_5_1) {
-                UIElement_5 = UIElement_5_1;
+            function (UIElement_6_1) {
+                UIElement_6 = UIElement_6_1;
             }
         ],
         execute: function () {
-            Ground = class Ground extends UIElement_5.UIElement {
+            Ground = class Ground extends UIElement_6.UIElement {
                 get SceneName() { return this._sceneName; }
                 get Width() { return this._width; }
                 get Height() { return this._height; }
@@ -2557,31 +2669,14 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                     catch (_d) { }
                 }
             };
-            exports_37("Ground", Ground);
+            exports_39("Ground", Ground);
         }
     };
 });
-System.register("Xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], function (exports_38, context_38) {
-    "use strict";
-    var Core_4, KeyFrame;
-    var __moduleName = context_38 && context_38.id;
-    return {
-        setters: [
-            function (Core_4_1) {
-                Core_4 = Core_4_1;
-            }
-        ],
-        execute: function () {
-            KeyFrame = class KeyFrame extends Core_4.UIElement {
-            };
-            exports_38("KeyFrame", KeyFrame);
-        }
-    };
-});
-System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_39, context_39) {
+System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_40, context_40) {
     "use strict";
     var lib_2, KeyFrameCollection;
-    var __moduleName = context_39 && context_39.id;
+    var __moduleName = context_40 && context_40.id;
     return {
         setters: [
             function (lib_2_1) {
@@ -2591,35 +2686,7 @@ System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-co
         execute: function () {
             KeyFrameCollection = class KeyFrameCollection extends lib_2.LinkedList {
             };
-            exports_39("KeyFrameCollection", KeyFrameCollection);
-        }
-    };
-});
-System.register("Xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_40, context_40) {
-    "use strict";
-    var UIElement_6, Core_5, KeyFrames;
-    var __moduleName = context_40 && context_40.id;
-    return {
-        setters: [
-            function (UIElement_6_1) {
-                UIElement_6 = UIElement_6_1;
-            },
-            function (Core_5_1) {
-                Core_5 = Core_5_1;
-            }
-        ],
-        execute: function () {
-            KeyFrames = class KeyFrames extends UIElement_6.UIElement {
-                get KeyFrames() { return this._keyFrames; }
-                set KeyFrames(value) { this._keyFrames = value; }
-                constructor() {
-                    super();
-                    this._keyFrames = new Core_5.KeyFrameCollection();
-                }
-                LoadFromNode(node) {
-                }
-            };
-            exports_40("KeyFrames", KeyFrames);
+            exports_40("KeyFrameCollection", KeyFrameCollection);
         }
     };
 });
@@ -3125,10 +3192,10 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                         }
                         else {
                             let renderObject = v;
-                            if (renderObject.Initialize)
-                                renderObject.Initialize(col.getValue(renderObject.SceneName));
                             if (renderObject.InitializeWithMaterial)
                                 renderObject.InitializeWithMaterial(col.getValue(renderObject.SceneName), col.getValue(renderObject.MaterialName));
+                            else if (renderObject.Initialize)
+                                renderObject.Initialize(col.getValue(renderObject.SceneName));
                         }
                         if (v instanceof Core_9.Panel) {
                             let childWithChildren = v;

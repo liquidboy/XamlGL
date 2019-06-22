@@ -71,11 +71,11 @@ export class App {
                 c.InitializeCamera(col.getValue(c.SceneName) as Scene, this._canvas);
             } else {
                 let renderObject: any = v;
-                if (renderObject.Initialize)
-                    renderObject.Initialize(col.getValue(renderObject.SceneName) as Scene);
                 if (renderObject.InitializeWithMaterial)
                     renderObject.InitializeWithMaterial(col.getValue(renderObject.SceneName) as Scene,
                         col.getValue(renderObject.MaterialName) as Material);
+                else if (renderObject.Initialize)
+                    renderObject.Initialize(col.getValue(renderObject.SceneName) as Scene);
             }
 
             if (v instanceof Panel) {

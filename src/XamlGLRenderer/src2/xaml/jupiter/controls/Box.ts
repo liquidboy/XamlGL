@@ -1,10 +1,12 @@
 ﻿import { Scene, Material } from "./Core";
 import { MeshNormalLines } from "../../extensions/MeshNormalLines";
 import { AnimatableUIElement } from "../AnimatableUIElement";
-import { IAnimatableUIElement } from "../IAnimatableElement";
+import { Animation } from "./Animation";
+import { KeyFrames } from "./KeyFrames";
 
 export class Box extends AnimatableUIElement {
     private _mesh: BABYLON.Mesh;
+    private _scene: Scene;
 
     private _sceneName: string;
     private _materialName: string;
@@ -19,10 +21,19 @@ export class Box extends AnimatableUIElement {
     get Position(): BABYLON.Vector3{ return this._position; }
 
     public InitializeWithMaterial(scene: Scene, material: Material): void {
+        this._scene = scene;
         this._mesh = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Scene);
         this._mesh.material = material.Material;
-        if(this._position !== undefined) this._mesh.position = this._position;
-        if(this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+        if (this._position !== undefined) this._mesh.position = this._position;
+        if (this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+
+        if (this.Animations && this.Animations.Animations)
+            this.Animations.Animations.forEach((animation: Animation) => {
+                var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS,
+                    animation.DataType, animation.LoopMode);
+                animationBox.setKeys(animation.KeyFrames.GetArray());
+                this._mesh.animations.push(animationBox);
+            });
     }
 
     public LoadFromNode(node: any): void {
@@ -34,10 +45,16 @@ export class Box extends AnimatableUIElement {
     }
 
     StartAnimation(): void {
-        //throw new Error("Method not implemented.");
+        if (this.Animations && this.Animations.Animations)
+            this.Animations.Animations.forEach((animation: Animation) => {
+                this._scene.Scene.beginAnimation(this._mesh, 1, 100, true);
+            });
     }
 
     StopAnimation(): void {
-        //throw new Error("Method not implemented.");
+        if (this.Animations && this.Animations.Animations)
+            this.Animations.Animations.forEach((animation: Animation) => {
+                this._scene.Scene.stopAnimation(this._mesh);
+            });
     }
 }
