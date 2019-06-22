@@ -24,6 +24,7 @@ export class Animation extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
+        super.LoadFromNode(node);
         try { this._targetProperty = node.attributes["TargetProperty"].value; } catch { }
         try { this._dataType = eval(`${node.attributes["DataType"].value}`); } catch (e) { }
         try { this._loopMode= eval(`${node.attributes["LoopMode"].value}`); } catch (e) { }

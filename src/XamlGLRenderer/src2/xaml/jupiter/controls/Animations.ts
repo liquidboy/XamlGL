@@ -14,6 +14,6 @@ export class Animations extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
-
+        super.LoadFromNode(node);
     }
 }

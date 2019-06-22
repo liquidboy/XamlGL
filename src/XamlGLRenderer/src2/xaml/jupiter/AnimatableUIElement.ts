@@ -20,7 +20,7 @@ export class AnimatableUIElement extends UIElement implements IAnimatableUIEleme
     }
 
     LoadFromNode(node: any): void {
-
+        super.LoadFromNode(node);
     }
     StartAnimation(): void { }
     StopAnimation(): void { }

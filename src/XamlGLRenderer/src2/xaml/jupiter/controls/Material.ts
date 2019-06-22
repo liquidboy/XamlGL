@@ -19,6 +19,7 @@ export class Material extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
+        super.LoadFromNode(node);
         try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
         try { this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true'; } catch (e) { }
         try { this._diffuseColor = eval(`new BABYLON.${node.attributes["DiffuseColor"].value};`); } catch (e) { }

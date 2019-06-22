@@ -8,7 +8,8 @@
       <Light x:Name="skyLight" Type="HemisphericLight" Scene="mainScene" Direction="Vector3(0, 1, 0)"></Light>
 
       <Material x:Name="material" Scene="mainScene" Wireframe="True"></Material>
-      <Sphere x:Name="sphere1" Scene="mainScene" Material="material" ShowNormalLines="True" Segments="20" Diameter="2.0"></Sphere>
+      <Sphere x:Name="sphere1" Scene="mainScene" Material="material" ShowNormalLines="True" Segments="20" 
+              Diameter="2.0" Position="Vector3(0,1,0)"></Sphere>
 
       <Ground x:Name="groundPlane" Scene="mainScene" Width="6.0" Height="6.0" SubDivisions="2"></Ground>
     </Grid>

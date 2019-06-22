@@ -18,6 +18,7 @@ export class Light extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
+        super.LoadFromNode(node);
         try { this._sceneName = node.attributes["Scene"].value; } catch { }
         try { this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`); } catch (e) { }
         try { this._type = node.attributes["Type"].value; } catch (e) { }

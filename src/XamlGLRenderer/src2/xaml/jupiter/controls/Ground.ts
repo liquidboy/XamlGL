@@ -19,6 +19,7 @@ export class Ground extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
+        super.LoadFromNode(node);
         try { this._sceneName = node.attributes["Scene"].value; } catch { }
         try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
         try { this._height = parseFloat(node.attributes["Height"].value); } catch { }

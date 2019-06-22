@@ -29,6 +29,7 @@ export class Scene extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
+        super.LoadFromNode(node);
         try { this._cameraName = node.attributes["Camera"].value; } catch(e) { }
         try { this._lightName = node.attributes["Light"].value; } catch (e) { }
     }
