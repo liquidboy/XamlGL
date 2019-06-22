@@ -1,8 +1,8 @@
-﻿import { UIElement } from "../UIElement";
-import { Scene, Material } from "./Core";
+﻿import { Scene, Material } from "./Core";
 import { MeshNormalLines } from "../../extensions/MeshNormalLines";
+import { AnimatableUIElement } from "../AnimatableUIElement";
 
-export class Box extends UIElement {
+export class Box extends AnimatableUIElement {
     private _mesh: BABYLON.Mesh;
 
     private _sceneName: string;

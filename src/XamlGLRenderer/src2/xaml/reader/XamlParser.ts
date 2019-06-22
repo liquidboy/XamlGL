@@ -1,7 +1,7 @@
 ﻿import { XamlMarkup } from "./../reader/XamlMarkup";
 import { FrameworkElement } from "./../jupiter/FrameworkElement";
 import * as _controls from "./../jupiter/controls/Core";
-import { UIElement } from "../jupiter/Core";
+import { UIElement, AnimatableUIElement } from "../jupiter/Core";
 import { KeyFrames, KeyFrame, Animation, Animations } from "./../jupiter/controls/Core";
 
 export class XamlParser {
@@ -29,16 +29,26 @@ export class XamlParser {
             //link parent to node
             nodeAsAFrameWorkElement.Parent = parent as FrameworkElement;
 
+            //link animations to parent if applicable
+            if (nodeAsAFrameWorkElement instanceof Animations && parent instanceof AnimatableUIElement)
+                (parent as AnimatableUIElement).Animations = nodeAsAFrameWorkElement;
+
+            //link keyframes to parent if applicable
+            if (nodeAsAFrameWorkElement instanceof KeyFrames && parent instanceof Animation)
+                (parent as Animation).KeyFrames = nodeAsAFrameWorkElement;
+
             //add animation to animations collection on node
             if (nodeAsAFrameWorkElement instanceof Animation && parent instanceof Animations) (parent as Animations).Animations.add(nodeAsAFrameWorkElement);
 
             //add keyframe to keyframes collection on node
             if (nodeAsAFrameWorkElement instanceof KeyFrame && parent instanceof KeyFrames) (parent as KeyFrames).KeyFrames.add(nodeAsAFrameWorkElement);
         }
+
         //VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
         if (nodeAsAFrameWorkElement != null && el != null && el.childNodes != null && el.childNodes.length > 0) {
             this.ProcessNodeWithChildren(nodeAsAFrameWorkElement, el.childNodes);
         }
+
         return nodeAsAFrameWorkElement;
     }
     private static ProcessNodeWithChildren(root: UIElement, nodeCollection: NodeList): void {

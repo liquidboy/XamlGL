@@ -1,4 +1,5 @@
-﻿export * from "./DependencyObject";
+﻿export * from "./AnimatableUIElement";
+export * from "./DependencyObject";
 export * from "./FrameworkElement";
 export * from "./UIElement";
 export * from "./UIElementCollection";

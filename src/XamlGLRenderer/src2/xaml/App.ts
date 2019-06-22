@@ -1,6 +1,6 @@
 ﻿import { XamlMarkup } from "./reader/XamlMarkup";
 import { XamlParser } from "./reader/XamlParser";
-import { IFrameworkElement, FrameworkElement, UIElement, UIElementCollection } from "./jupiter/Core";
+import { IFrameworkElement, FrameworkElement, UIElement, UIElementCollection, IChildrensElement } from "./jupiter/Core";
 import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
 import { SceneMouseWheelZoom } from "./extensions/SceneMouseWheelZoom";
 
@@ -37,10 +37,14 @@ export class App {
     }
 
     private RenderScene(): void {
-        let vt: Panel = this._rootElement as Panel;
+        if (this._rootElement instanceof Panel) {
+            let vt: Panel = this._rootElement as Panel;
 
-        //initialize all the nodes
-        if (vt.Children) this.ProcessChildren(vt.Children);
+            //initialize all the nodes
+            if (vt.Children) this.ProcessChildren(vt.Children);
+
+            console.log(vt.Children.getValue("box2"));
+        }
     }
 
     private ProcessChildren(col : UIElementCollection): void {
@@ -57,6 +61,13 @@ export class App {
                 if (o.Initialize != null) o.Initialize(col.getValue(o.SceneName) as Scene);
                 if (o.InitializeWithMaterial != null) o.InitializeWithMaterial(col.getValue(o.SceneName) as Scene,
                     col.getValue(o.MaterialName) as Material);
+            }
+
+            if (v instanceof Panel) {
+                let childWithChildren: IChildrensElement = v as IChildrensElement;
+                if (childWithChildren.Children.size() > 0) {
+                    this.ProcessChildren(childWithChildren.Children);
+                };
             }
         });
     }

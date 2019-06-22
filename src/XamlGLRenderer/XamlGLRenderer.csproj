@@ -128,6 +128,7 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\IFrameworkElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\IAnimationsElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IUIElement.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\AnimatableUIElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\UIElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\UIElementCollection.ts" />
     <TypeScriptCompile Include="src2\xaml\reader\XamlMarkup.ts" />
