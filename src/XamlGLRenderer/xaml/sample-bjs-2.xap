@@ -16,9 +16,9 @@
                      DataType="BABYLON.Animation.ANIMATIONTYPE_FLOAT"
                      LoopMode="BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE" EnableBlending="False">
             <KeyFrames>
-              <KeyFrame Frame="0" Value="1" />
-              <KeyFrame Frame="20" Value="0.2" />
-              <KeyFrame Frame="100" Value="1" />
+              <KeyFrame Frame="0" Value="0.4" />
+              <KeyFrame Frame="20" Value="3.5" />
+              <KeyFrame Frame="100" Value="0.4" />
             </KeyFrames>
           </Animation>
         </Animations>
