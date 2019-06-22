@@ -72,17 +72,12 @@ export class App {
         col.forEach((k: string, v: UIElement) => {
             if (v instanceof Scene) {
                 let s: Scene = v as Scene;
-                s.InitializeScene(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName), col.getValue(s.GroundName));
+                s.InitializeScene(this._engine, this._canvas);
             } else if (v instanceof Camera) {
                 let c: Camera = v as Camera;
-                c.InitializeCamera(col.getValue(c.SceneName) as Scene, this._canvas);
+                c.InitializeCamera(this._canvas);
             } else {
-                let renderObject: any = v;
-                if (renderObject.InitializeWithMaterial && renderObject.MaterialName)
-                    renderObject.InitializeWithMaterial(col.getValue(renderObject.SceneName) as Scene,
-                        col.getValue(renderObject.MaterialName) as Material);
-                else if (renderObject.Initialize)
-                    renderObject.Initialize(col.getValue(renderObject.SceneName) as Scene);
+                v.Initialize();
             }
 
             if (v instanceof Panel) {

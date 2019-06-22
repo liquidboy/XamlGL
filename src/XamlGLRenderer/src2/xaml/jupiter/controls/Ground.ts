@@ -18,17 +18,12 @@ export class Ground extends UIElement {
     get SubDivisions(): number { return this._subdivisions; }
     get MaterialName(): string { return this._materialName; }
 
-    public Initialize(scene: Scene): void {
-        //this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, {
-        //    width: this._width, height: this._height,
-        //    subdivisions: this._subdivisions
-        //}, scene.Scene);
-        this._mesh = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Scene, false);
-    }
+    public Initialize(): void {
+        let scene: Scene = this.VT.Get(this.SceneName) as Scene;
+        let material: Material = this.VT.Get(this.MaterialName) as Material;
 
-    public InitializeWithMaterial(scene: Scene, material: Material): void {
         //this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: this._width, height: this._height, subdivisions: this._subdivisions }, scene.Scene);
-        this.Initialize(scene);
+        this._mesh = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Scene, false);
         this._mesh.material = material.Material;
     }
 

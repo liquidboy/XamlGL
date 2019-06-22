@@ -16,7 +16,9 @@ export class Material extends UIElement {
     get SpecularColor(): BABYLON.Color3 { return this._specularColor; }
     get EmissiveColor(): BABYLON.Color3 { return this._emissiveColor; }
 
-    public Initialize(scene: Scene): void {
+    public Initialize(): void {
+        let scene: Scene = this.VT.Get(this.SceneName) as Scene;
+
         this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
         this._material.wireframe = this._wireframe;
         if (this._diffuseColor !== undefined) (this._material as BABYLON.StandardMaterial).diffuseColor = this._diffuseColor;

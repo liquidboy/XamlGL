@@ -43,7 +43,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender {
         try { this._position = eval(`new BABYLON.${node.attributes["Position"].value};`); } catch (e) { }
     }
 
-    Initialize(scene: Scene): void { }
+    Initialize(): void { }
 }
 
 

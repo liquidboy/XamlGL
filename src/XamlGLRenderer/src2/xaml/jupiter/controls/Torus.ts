@@ -22,7 +22,10 @@ export class Torus extends AnimatableUIElement {
     get Thickness(): number { return this._thickness; }
     get Tesselation(): number { return this._tesselation; }
 
-    public InitializeWithMaterial(scene: Scene, material: Material): void {
+    public Initialize(): void {
+        let scene: Scene = this.VT.Get(this.SceneName) as Scene;
+        let material: Material = this.VT.Get(this.MaterialName) as Material;
+
         this._scene = scene;
         this._mesh = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Scene);
         this._mesh.material = material.Material;

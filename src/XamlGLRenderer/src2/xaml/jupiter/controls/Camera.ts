@@ -25,7 +25,8 @@ export class Camera extends UIElement {
     get upperBetaLimit(): number { return this._upperBetaLimit; }
     get lowerRadiusLimit(): number { return this._lowerRadiusLimit; }
 
-    public InitializeCamera(scene: Scene, canvas: any): void {
+    public InitializeCamera(canvas: any): void {
+        let scene = this.VT.Get(this.SceneName) as Scene;
         if (this._type === "FreeCamera") {
             this._camera = new BABYLON.FreeCamera(this.Name, this.Position, scene.Scene);
             (this._camera as BABYLON.FreeCamera).setTarget(this._target);

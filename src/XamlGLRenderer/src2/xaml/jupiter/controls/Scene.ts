@@ -6,8 +6,7 @@ import { Ground } from "./Ground";
 import { DIContainer } from "../../Core";
 
 export class Scene extends UIElement {
-    private _camera: Camera;
-    private _light: Light;
+    
 
     private _scene: BABYLON.Scene;
     private _groundName: string;
@@ -25,19 +24,14 @@ export class Scene extends UIElement {
         super();
     }
 
-    public InitializeScene(engine: BABYLON.Engine, canvas: any, camera: UIElement, light: UIElement, ground: UIElement): void {
+    public InitializeScene(engine: BABYLON.Engine, canvas: any): void {
         this._scene = new BABYLON.Scene(engine);
-        this._camera = camera as Camera;
-        this._light = light as Light;
-
+        
         if (this._clearColor) this._scene.clearColor = this.convertColor3ToColor4(this._clearColor);
 
         SceneMouseWheelZoom.Install(this);
-        if (ground) {
-            let moveSelectedMesh: MoveSelectedMesh = new MoveSelectedMesh();
-            moveSelectedMesh.Install(this, canvas, ground as Ground, this._camera);
-        }
-
+        new MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
+        
         engine.runRenderLoop(() => {
             this._scene.render();
         });

@@ -1,4 +1,6 @@
 ﻿import { Scene, Camera, Ground } from "../jupiter/controls/Core";
+import { DIContainer } from "../Core";
+import { VisualTree } from "../../services/VisualTree";
 
 export class MoveSelectedMesh {
     private scene: Scene;
@@ -12,10 +14,11 @@ export class MoveSelectedMesh {
 
     }
 
-    public Install(scene: Scene, canvas: any, ground: Ground, camera: Camera): void {
+    public Install(scene: Scene, canvas: any, groundName: string, cameraName: string): void {
+        let vt: VisualTree = DIContainer.get(VisualTree);
         this.canvas = canvas;
-        this.ground = ground;
-        this.camera = camera;
+        this.ground = vt.Get(groundName) as Ground;
+        this.camera = vt.Get(cameraName) as Camera;
         this.scene = scene;
 
         canvas.addEventListener("pointerdown", (evt) => { this.onPointerDown(evt); }, false);

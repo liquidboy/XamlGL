@@ -12,7 +12,9 @@ export class Light extends UIElement {
     get Direction(): BABYLON.Vector3 { return this._direction; }
     get Type(): string { return this._type; }
 
-    public Initialize(scene: Scene): void {
+    public Initialize(): void {
+        let scene: Scene = this.VT.Get(this.SceneName) as Scene;
+
         if (this._type === "HemisphericLight") this._light = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Scene);
         else if (this._type === "PointLight") this._light = new BABYLON.PointLight(this.Name, this._direction, scene.Scene);
     }

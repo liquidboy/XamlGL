@@ -18,8 +18,11 @@ export class Box extends AnimatableUIElement {
     get ShowNormalLines(): boolean { return this._showNormalLines; }
     get Width(): number { return this._width; }
 
-    public InitializeWithMaterial(scene: Scene, material: Material): void {
-        this._scene = scene;
+    public Initialize(): void {
+        let scene: Scene = this.VT.Get(this.SceneName) as Scene;
+        let material: Material = this.VT.Get(this.MaterialName) as Material;
+
+        this._scene = this.VT.Get(this.SceneName) as Scene;
         this._mesh = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Scene);
         this._mesh.material = material.Material;
         this._mesh.position = this.Position;
