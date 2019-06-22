@@ -127,6 +127,8 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\IDependencyObject.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IFrameworkElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\IAnimationsElement.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\IAnimatableElement.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\IRender.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IUIElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\AnimatableUIElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\UIElement.ts" />

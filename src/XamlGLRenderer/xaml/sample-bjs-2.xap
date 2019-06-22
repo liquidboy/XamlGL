@@ -9,13 +9,16 @@
       <Light x:Name="omni" Type="PointLight" Scene="mainScene" Direction="Vector3(0, 100, 100)"></Light>
 
       <Material x:Name="material1" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0, 1, 0)"></Material>
-      <Box x:Name="box1" Scene="mainScene" Material="material1" ShowNormalLines="False" Width="10.0" Position="Vector3(-20,0,0)"></Box>
+      <Box x:Name="box1" Scene="mainScene" Material="material1" ShowNormalLines="False" Width="10.0" 
+           Position="Vector3(-20,0,0)"></Box>
 
       <Material x:Name="material2" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(1, 0, 0)"></Material>
-      <Box x:Name="box2" Scene="mainScene" Material="material2" ShowNormalLines="False" Width="10.0" Position="Vector3(20,0,0)">
+      <Box x:Name="box2" Scene="mainScene" Material="material2" ShowNormalLines="False" Width="10.0" 
+           Position="Vector3(20,0,0)">
         <Animations>
-          <Animation x:Name="autoAnimation" TargetProperty="scaling.x" FPS="30" DataType="BABYLON.Animation.ANIMATIONTYPE_FLOAT" 
-                 LoopMode="BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE" EnableBlending="False">
+          <Animation x:Name="autoAnimation" TargetProperty="scaling.x" FPS="30" 
+                     DataType="BABYLON.Animation.ANIMATIONTYPE_FLOAT" 
+                     LoopMode="BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE" EnableBlending="False">
             <KeyFrames>
               <KeyFrame Frame="0" Value="1" />
               <KeyFrame Frame="20" Value="0.2" />

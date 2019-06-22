@@ -1,6 +1,7 @@
 ﻿import { Scene, Material } from "./Core";
 import { MeshNormalLines } from "../../extensions/MeshNormalLines";
 import { AnimatableUIElement } from "../AnimatableUIElement";
+import { IAnimatableUIElement } from "../IAnimatableElement";
 
 export class Box extends AnimatableUIElement {
     private _mesh: BABYLON.Mesh;
@@ -30,5 +31,13 @@ export class Box extends AnimatableUIElement {
         try { this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true'; } catch (e) { }
         try { this._position = eval(`new BABYLON.${node.attributes["Position"].value};`); } catch (e) { }
         try { this._width = parseFloat(node.attributes["Width"].value); } catch (e) { }
+    }
+
+    StartAnimation(): void {
+        //throw new Error("Method not implemented.");
+    }
+
+    StopAnimation(): void {
+        //throw new Error("Method not implemented.");
     }
 }

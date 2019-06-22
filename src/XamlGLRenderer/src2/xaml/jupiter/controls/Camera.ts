@@ -20,7 +20,7 @@ export class Camera extends UIElement {
     get Beta(): number { return this._beta; }
     get Radius(): number { return this._radius; }
 
-    public Initialize(scene: Scene, canvas: any): void {
+    public InitializeCamera(scene: Scene, canvas: any): void {
         if (this._type === "FreeCamera") {
             this._camera = new BABYLON.FreeCamera(this.Name, this._position, scene.Scene);
             (this._camera as BABYLON.FreeCamera).setTarget(this._target);

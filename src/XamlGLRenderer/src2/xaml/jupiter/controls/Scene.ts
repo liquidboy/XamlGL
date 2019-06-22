@@ -18,7 +18,7 @@ export class Scene extends UIElement {
         super();
     }
 
-    public Initialize(engine: BABYLON.Engine, canvas: any, camera: UIElement, light: UIElement): void {
+    public InitializeScene(engine: BABYLON.Engine, canvas: any, camera: UIElement, light: UIElement): void {
         this._scene = new BABYLON.Scene(engine);
         this._camera = camera as Camera;
         this._light = light as Light;

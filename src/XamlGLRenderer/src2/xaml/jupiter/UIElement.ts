@@ -3,9 +3,11 @@ import { IUIElement } from "./IUIElement";
 import { Guid } from "./../DataTypes/Guid";
 import { UIElementCollection } from "./UIElementCollection";
 import { IAnimationsElement } from "./controls/IAnimationsElement";
-import { Animations } from "./controls/Core";
+import { Animations, Scene } from "./controls/Core";
+import { IRender } from "./IRender";
 
-export class UIElement extends DependencyObject implements IUIElement {
+export class UIElement extends DependencyObject implements IUIElement, IRender {
+    
     
     //private _animations: Animations;
     private _isVisible: boolean;
@@ -32,6 +34,7 @@ export class UIElement extends DependencyObject implements IUIElement {
     }
 
     LoadFromNode(node: any): void { }
+    Initialize(scene: Scene): void { }
 }
 
 

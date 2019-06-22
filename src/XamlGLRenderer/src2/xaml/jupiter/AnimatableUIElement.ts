@@ -5,9 +5,9 @@ import { UIElementCollection } from "./UIElementCollection";
 import { IAnimationsElement } from "./controls/IAnimationsElement";
 import { Animations } from "./controls/Core";
 import { UIElement } from "./Core";
+import { IAnimatableUIElement } from "./IAnimatableElement";
 
-export class AnimatableUIElement extends UIElement {
-    
+export class AnimatableUIElement extends UIElement implements IAnimatableUIElement {  
     private _animations: Animations;
   
     get Animations(): Animations { return this._animations; }
@@ -19,7 +19,11 @@ export class AnimatableUIElement extends UIElement {
         //this._animations = new Animations();
     }
 
-    LoadFromNode(node: any): void { }
+    LoadFromNode(node: any): void {
+
+    }
+    StartAnimation(): void { }
+    StopAnimation(): void { }
 }
 
 

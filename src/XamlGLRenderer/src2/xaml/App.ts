@@ -1,6 +1,6 @@
 ﻿import { XamlMarkup } from "./reader/XamlMarkup";
 import { XamlParser } from "./reader/XamlParser";
-import { IFrameworkElement, FrameworkElement, UIElement, UIElementCollection, IChildrensElement } from "./jupiter/Core";
+import { IFrameworkElement, FrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement, IRender } from "./jupiter/Core";
 import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
 import { SceneMouseWheelZoom } from "./extensions/SceneMouseWheelZoom";
 
@@ -33,7 +33,7 @@ export class App {
 
     private BuildVisualTree(): void {
         this._rootElement = XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
-        console.log(this._rootElement);
+        //console.log(this._rootElement);
     }
 
     private RenderScene(): void {
@@ -41,32 +41,47 @@ export class App {
             let vt: Panel = this._rootElement as Panel;
 
             //initialize all the nodes
-            if (vt.Children) this.ProcessChildren(vt.Children);
+            if (vt.Children) this.InitializeChildren(vt.Children);
 
-            console.log(vt.Children.getValue("box2"));
+            //animate nodes
+            if (vt.Children) this.AnimateChildren(vt.Children);
+
+            //debugging
+            //console.log(vt.Children.getValue("box2"));
         }
     }
 
-    private ProcessChildren(col : UIElementCollection): void {
+    private InitializeChildren(col : UIElementCollection): void {
+        col.forEach((k: string, v: UIElement) => {
+            if (v instanceof AnimatableUIElement) {
+                let animateableCHild: IAnimatableUIElement = v as IAnimatableUIElement;
+                animateableCHild.StartAnimation();
+            }
+        });
+    }
+
+    private AnimateChildren(col: UIElementCollection): void {
         col.forEach((k: string, v: UIElement) => {
             if (v instanceof Scene) {
                 let s: Scene = v as Scene;
-                s.Initialize(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName));
+                s.InitializeScene(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName));
                 SceneMouseWheelZoom.Install(s);
             } else if (v instanceof Camera) {
                 let c: Camera = v as Camera;
-                c.Initialize(col.getValue(c.SceneName) as Scene, this._canvas);
+                c.InitializeCamera(col.getValue(c.SceneName) as Scene, this._canvas);
             } else {
-                let o: any = v;
-                if (o.Initialize != null) o.Initialize(col.getValue(o.SceneName) as Scene);
-                if (o.InitializeWithMaterial != null) o.InitializeWithMaterial(col.getValue(o.SceneName) as Scene,
-                    col.getValue(o.MaterialName) as Material);
+                let renderObject: any = v;
+                if (renderObject.Initialize)
+                    renderObject.Initialize(col.getValue(renderObject.SceneName) as Scene);
+                if (renderObject.InitializeWithMaterial)
+                    renderObject.InitializeWithMaterial(col.getValue(renderObject.SceneName) as Scene,
+                        col.getValue(renderObject.MaterialName) as Material);
             }
 
             if (v instanceof Panel) {
                 let childWithChildren: IChildrensElement = v as IChildrensElement;
                 if (childWithChildren.Children.size() > 0) {
-                    this.ProcessChildren(childWithChildren.Children);
+                    this.InitializeChildren(childWithChildren.Children);
                 };
             }
         });

@@ -5,7 +5,9 @@ export * from "./UIElement";
 export * from "./UIElementCollection";
 
 // interfaces
+export * from "./IAnimatableElement";
 export * from "./IChildrensElement";
 export * from "./IDependencyObject";
 export * from "./IFrameworkElement";
+export * from "./IRender";
 export * from "./IUIElement";
