@@ -36,9 +36,14 @@
             var el = document.getElementById('content');
 
             ////configure system loader
-            //System.config({
-            //    defaultJSExtensions: false
-            //});
+    
+            System.config({
+                map: {
+                    'reflect-metadata': 'https://unpkg.com/reflect-metadata@0.1.3',
+                    'inversify': 'https://unpkg.com/inversify@5.0.1/lib/inversify.js',
+                    'crypto': '@empty'
+                }
+            });
             //bootstrap xamlgl
             System.import('bootstrap/XamlApp').then(function (m) {
                 let app = new m.XamlApp(el);

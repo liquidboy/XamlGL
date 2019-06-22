@@ -99,6 +99,7 @@
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\Set.ts" />
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\Stack.ts" />
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\util.ts" />
+    <TypeScriptCompile Include="src2\services\VisualTree.ts" />
     <TypeScriptCompile Include="src2\xaml\App.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\MoveSelectedMesh.ts" />
     <TypeScriptCompile Include="src2\xaml\Core.ts" />

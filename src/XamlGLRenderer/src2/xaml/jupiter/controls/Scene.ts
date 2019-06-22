@@ -3,6 +3,7 @@ import { Camera, Light } from "./Core";
 import { SceneMouseWheelZoom } from "../../behaviors/SceneMouseWheelZoom";
 import { MoveSelectedMesh } from "../../behaviors/MoveSelectedMesh";
 import { Ground } from "./Ground";
+import { DIContainer } from "../../Core";
 
 export class Scene extends UIElement {
     private _camera: Camera;

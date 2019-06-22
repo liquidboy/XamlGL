@@ -1,4 +1,5 @@
 ﻿/// <reference path="../../node_modules/babylonjs/babylon.module.d.ts" />
+import "reflect-metadata";  // <--- needs to be done before xaml framework is imported because they use it
 import * as XamlGLCore from "../Xaml/Core";
 
 export class XamlApp {

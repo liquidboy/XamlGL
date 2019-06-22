@@ -2,6 +2,9 @@
 import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement, IRender } from "./jupiter/Core";
 import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
+import { Container } from "inversify";
+import { VisualTree } from "../services/VisualTree";
+import { DIContainer } from "./Core";
 
 export class App {
     private _canvas: any;
@@ -26,8 +29,14 @@ export class App {
             this._engine.resize();
         });
 
+        this.InitializeDIContainer();
         this.BuildVisualTree();
         this.RenderScene();
+        
+    }
+
+    private InitializeDIContainer(): void {
+        DIContainer.bind<VisualTree>(VisualTree).to(VisualTree).inSingletonScope();
     }
 
     private BuildVisualTree(): void {

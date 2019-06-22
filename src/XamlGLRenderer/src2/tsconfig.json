@@ -12,7 +12,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outFile": "./../js/allsrc2.js",
-    "typeRoots": ["types"]
+    "typeRoots": [ "types" ],
+    "types": [ "reflect-metadata" ]
   },
   "exclude": [
     "./node_modules",

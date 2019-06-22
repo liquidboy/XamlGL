@@ -5,6 +5,8 @@ import { UIElementCollection } from "./UIElementCollection";
 import { IAnimationsElement } from "./controls/IAnimationsElement";
 import { Animations, Scene } from "./controls/Core";
 import { IRender } from "./IRender";
+import { VisualTree } from "../../services/VisualTree";
+import { DIContainer } from "../Core";
 
 export class UIElement extends DependencyObject implements IUIElement, IRender {
     
@@ -27,7 +29,9 @@ export class UIElement extends DependencyObject implements IUIElement, IRender {
     set IsVisible(value: boolean) { this._isVisible = value; }
     set IsDirty(value: boolean) { this._isDirty = value; }
     set UniqueID(value: string) { this._uniqueId = value; }
-    set Name(value: string) { this._name = value; }
+    set Name(value: string) { this._name = value; this.VT.Add(value, this); }
+
+    protected VT: VisualTree = DIContainer.get(VisualTree);
 
     constructor() {
         super();

@@ -16,18 +16,19 @@
   "author": "Jose Fajardo <fajardo_jf@hotmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/jquery": "3.3.23",
     "@types/node": "^10.12.12",
-    "bower-typings": "^0.1.0",
+    "@types/pixi.js": "4.1.0",
+    "@types/rivets": "0.9.0",
+    "@types/tapable": "1.0.4",
+    "babylonjs": "4.1.0-alpha.5",
+    "bower-typings": "^0.2.0",
     "pixi-filters": "1.0.6",
     "pixi.js": "4.8.3",
-    "babylonjs": "4.1.0-alpha.5",
     "rivets": "0.9.6",
     "systemjs": "0.21.5",
     "tapable": "1.1.1",
-    "@types/rivets": "0.9.0",
-    "@types/pixi.js": "4.1.0",
-    "@types/jquery": "3.3.23",
-    "@types/tapable": "1.0.4"
-  },
-  "dependencies": {}
+    "inversify": "5.0.1",
+    "reflect-metadata": "0.1.13"
+  }
 }

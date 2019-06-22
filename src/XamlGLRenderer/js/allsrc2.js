@@ -1,3 +1,12 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 System.register("Xaml/reader/XamlMarkup", [], function (exports_1, context_1) {
     "use strict";
     var parser, XamlMarkup;
@@ -3203,10 +3212,44 @@ System.register("Xaml/jupiter/controls/IAnimationsElement", [], function (export
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid"], function (exports_50, context_50) {
+System.register("services/VisualTree", ["inversify", "libs/typescript-collections/src/lib/index"], function (exports_50, context_50) {
     "use strict";
-    var DependencyObject_2, Guid_1, UIElement;
+    var inversify_1, lib_3, VisualTree;
     var __moduleName = context_50 && context_50.id;
+    return {
+        setters: [
+            function (inversify_1_1) {
+                inversify_1 = inversify_1_1;
+            },
+            function (lib_3_1) {
+                lib_3 = lib_3_1;
+            }
+        ],
+        execute: function () {
+            VisualTree = class VisualTree {
+                constructor() {
+                    this._flatList = new lib_3.Dictionary();
+                }
+                Add(key, value) {
+                    if (key === undefined || key === null) {
+                        return;
+                    }
+                    this._flatList.setValue(key, value);
+                }
+                Get(key) { return this._flatList.getValue(key); }
+            };
+            VisualTree = __decorate([
+                inversify_1.injectable(),
+                __metadata("design:paramtypes", [])
+            ], VisualTree);
+            exports_50("VisualTree", VisualTree);
+        }
+    };
+});
+System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core"], function (exports_51, context_51) {
+    "use strict";
+    var DependencyObject_2, Guid_1, VisualTree_1, Core_6, UIElement;
+    var __moduleName = context_51 && context_51.id;
     return {
         setters: [
             function (DependencyObject_2_1) {
@@ -3214,6 +3257,12 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
             },
             function (Guid_1_1) {
                 Guid_1 = Guid_1_1;
+            },
+            function (VisualTree_1_1) {
+                VisualTree_1 = VisualTree_1_1;
+            },
+            function (Core_6_1) {
+                Core_6 = Core_6_1;
             }
         ],
         execute: function () {
@@ -3222,6 +3271,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     super();
                     this._isDirty = true;
                     this._position = new BABYLON.Vector3(0, 0, 0);
+                    this.VT = Core_6.DIContainer.get(VisualTree_1.VisualTree);
                     this._uniqueId = Guid_1.Guid.newGuid();
                 }
                 get IsVisible() { return this._isVisible; }
@@ -3232,7 +3282,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 set IsVisible(value) { this._isVisible = value; }
                 set IsDirty(value) { this._isDirty = value; }
                 set UniqueID(value) { this._uniqueId = value; }
-                set Name(value) { this._name = value; }
+                set Name(value) { this._name = value; this.VT.Add(value, this); }
                 LoadFromNode(node) {
                     try {
                         this._position = eval(`new BABYLON.${node.attributes["Position"].value};`);
@@ -3241,14 +3291,14 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 }
                 Initialize(scene) { }
             };
-            exports_50("UIElement", UIElement);
+            exports_51("UIElement", UIElement);
         }
     };
 });
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_51, context_51) {
+System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_52, context_52) {
     "use strict";
     var UIElement_11, FrameworkElement;
-    var __moduleName = context_51 && context_51.id;
+    var __moduleName = context_52 && context_52.id;
     return {
         setters: [
             function (UIElement_11_1) {
@@ -3267,22 +3317,22 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
                     super();
                 }
             };
-            exports_51("FrameworkElement", FrameworkElement);
+            exports_52("FrameworkElement", FrameworkElement);
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/jupiter/Core"], function (exports_52, context_52) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/jupiter/Core"], function (exports_53, context_53) {
     "use strict";
-    var _controls, Core_6, Core_7, XamlParser;
-    var __moduleName = context_52 && context_52.id;
+    var _controls, Core_7, Core_8, XamlParser;
+    var __moduleName = context_53 && context_53.id;
     return {
         setters: [
             function (_controls_1) {
                 _controls = _controls_1;
-                Core_7 = _controls_1;
+                Core_8 = _controls_1;
             },
-            function (Core_6_1) {
-                Core_6 = Core_6_1;
+            function (Core_7_1) {
+                Core_7 = Core_7_1;
             }
         ],
         execute: function () {
@@ -3305,13 +3355,13 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
                     let nodeAsAFrameWorkElement = this.GetFrameworkElementByNode(el);
                     if (nodeAsAFrameWorkElement != null && parent != null) {
                         nodeAsAFrameWorkElement.Parent = parent;
-                        if (nodeAsAFrameWorkElement instanceof Core_7.Animations && parent instanceof Core_6.AnimatableUIElement)
+                        if (nodeAsAFrameWorkElement instanceof Core_8.Animations && parent instanceof Core_7.AnimatableUIElement)
                             parent.Animations = nodeAsAFrameWorkElement;
-                        if (nodeAsAFrameWorkElement instanceof Core_7.KeyFrames && parent instanceof Core_7.Animation)
+                        if (nodeAsAFrameWorkElement instanceof Core_8.KeyFrames && parent instanceof Core_8.Animation)
                             parent.KeyFrames = nodeAsAFrameWorkElement;
-                        if (nodeAsAFrameWorkElement instanceof Core_7.Animation && parent instanceof Core_7.Animations)
+                        if (nodeAsAFrameWorkElement instanceof Core_8.Animation && parent instanceof Core_8.Animations)
                             parent.Animations.add(nodeAsAFrameWorkElement);
-                        if (nodeAsAFrameWorkElement instanceof Core_7.KeyFrame && parent instanceof Core_7.KeyFrames)
+                        if (nodeAsAFrameWorkElement instanceof Core_8.KeyFrame && parent instanceof Core_8.KeyFrames)
                             parent.KeyFrames.add(nodeAsAFrameWorkElement);
                     }
                     if (nodeAsAFrameWorkElement != null && el != null && el.childNodes != null && el.childNodes.length > 0) {
@@ -3363,24 +3413,30 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
                     return null;
                 }
             };
-            exports_52("XamlParser", XamlParser);
+            exports_53("XamlParser", XamlParser);
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core"], function (exports_53, context_53) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "Xaml/Core"], function (exports_54, context_54) {
     "use strict";
-    var XamlParser_1, Core_8, Core_9, App;
-    var __moduleName = context_53 && context_53.id;
+    var XamlParser_1, Core_9, Core_10, VisualTree_2, Core_11, App;
+    var __moduleName = context_54 && context_54.id;
     return {
         setters: [
             function (XamlParser_1_1) {
                 XamlParser_1 = XamlParser_1_1;
             },
-            function (Core_8_1) {
-                Core_8 = Core_8_1;
-            },
             function (Core_9_1) {
                 Core_9 = Core_9_1;
+            },
+            function (Core_10_1) {
+                Core_10 = Core_10_1;
+            },
+            function (VisualTree_2_1) {
+                VisualTree_2 = VisualTree_2_1;
+            },
+            function (Core_11_1) {
+                Core_11 = Core_11_1;
             }
         ],
         execute: function () {
@@ -3394,14 +3450,18 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     window.addEventListener("resize", () => {
                         this._engine.resize();
                     });
+                    this.InitializeDIContainer();
                     this.BuildVisualTree();
                     this.RenderScene();
+                }
+                InitializeDIContainer() {
+                    Core_11.DIContainer.bind(VisualTree_2.VisualTree).to(VisualTree_2.VisualTree).inSingletonScope();
                 }
                 BuildVisualTree() {
                     this._rootElement = XamlParser_1.XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
                 }
                 RenderScene() {
-                    if (this._rootElement instanceof Core_9.Panel) {
+                    if (this._rootElement instanceof Core_10.Panel) {
                         let vt = this._rootElement;
                         if (vt.Children)
                             this.InitializeChildren(vt.Children);
@@ -3411,7 +3471,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 }
                 AnimateChildren(col) {
                     col.forEach((k, v) => {
-                        if (v instanceof Core_8.AnimatableUIElement) {
+                        if (v instanceof Core_9.AnimatableUIElement) {
                             let animateableCHild = v;
                             animateableCHild.StartAnimation();
                         }
@@ -3419,11 +3479,11 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 }
                 InitializeChildren(col) {
                     col.forEach((k, v) => {
-                        if (v instanceof Core_9.Scene) {
+                        if (v instanceof Core_10.Scene) {
                             let s = v;
                             s.InitializeScene(this._engine, this._canvas, col.getValue(s.CameraName), col.getValue(s.LightName), col.getValue(s.GroundName));
                         }
-                        else if (v instanceof Core_9.Camera) {
+                        else if (v instanceof Core_10.Camera) {
                             let c = v;
                             c.InitializeCamera(col.getValue(c.SceneName), this._canvas);
                         }
@@ -3434,7 +3494,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                             else if (renderObject.Initialize)
                                 renderObject.Initialize(col.getValue(renderObject.SceneName));
                         }
-                        if (v instanceof Core_9.Panel) {
+                        if (v instanceof Core_10.Panel) {
                             let childWithChildren = v;
                             if (childWithChildren.Children.size() > 0) {
                                 this.InitializeChildren(childWithChildren.Children);
@@ -3444,14 +3504,14 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     });
                 }
             };
-            exports_53("App", App);
+            exports_54("App", App);
         }
     };
 });
-System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_54, context_54) {
+System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_55, context_55) {
     "use strict";
     var XamlMarkup_1, XamlReader;
-    var __moduleName = context_54 && context_54.id;
+    var __moduleName = context_55 && context_55.id;
     return {
         setters: [
             function (XamlMarkup_1_1) {
@@ -3476,23 +3536,24 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
                     return this._xm;
                 }
             };
-            exports_54("XamlReader", XamlReader);
+            exports_55("XamlReader", XamlReader);
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "Xaml/jupiter/controls/Core", "Xaml/DataTypes/Guid"], function (exports_55, context_55) {
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_56, context_56) {
     "use strict";
-    var _controls, Controls;
-    var __moduleName = context_55 && context_55.id;
+    var _controls, inversify_2, Controls, DIContainer;
+    var __moduleName = context_56 && context_56.id;
     var exportedNames_1 = {
-        "Controls": true
+        "Controls": true,
+        "DIContainer": true
     };
     function exportStar_3(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
         }
-        exports_55(exports);
+        exports_56(exports);
     }
     return {
         setters: [
@@ -3508,24 +3569,33 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             function (XamlMarkup_2_1) {
                 exportStar_3(XamlMarkup_2_1);
             },
+            function (VisualTree_3_1) {
+                exportStar_3(VisualTree_3_1);
+            },
             function (_controls_2) {
                 _controls = _controls_2;
+            },
+            function (inversify_2_1) {
+                inversify_2 = inversify_2_1;
             },
             function (Guid_2_1) {
                 exportStar_3(Guid_2_1);
             }
         ],
         execute: function () {
-            exports_55("Controls", Controls = _controls);
+            exports_56("Controls", Controls = _controls);
+            exports_56("DIContainer", DIContainer = new inversify_2.Container());
         }
     };
 });
-System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_56, context_56) {
+System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_57, context_57) {
     "use strict";
     var XamlGLCore, XamlApp;
-    var __moduleName = context_56 && context_56.id;
+    var __moduleName = context_57 && context_57.id;
     return {
         setters: [
+            function (_1) {
+            },
             function (XamlGLCore_1) {
                 XamlGLCore = XamlGLCore_1;
             }
@@ -3555,7 +3625,7 @@ System.register("bootstrap/XamlApp", ["Xaml/Core"], function (exports_56, contex
                     return urlParams;
                 }
             };
-            exports_56("XamlApp", XamlApp);
+            exports_57("XamlApp", XamlApp);
         }
     };
 });
