@@ -24,7 +24,10 @@ export class Scene extends UIElement {
         super();
     }
 
-    public InitializeScene(engine: BABYLON.Engine, canvas: any): void {
+    public Initialize(): void {
+        let engine: BABYLON.Engine = DIContainer.get("rootEngine") as BABYLON.Engine;
+        let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
+
         this._scene = new BABYLON.Scene(engine);
         
         if (this._clearColor) this._scene.clearColor = this.convertColor3ToColor4(this._clearColor);

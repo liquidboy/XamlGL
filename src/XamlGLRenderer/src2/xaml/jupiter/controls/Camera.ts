@@ -1,5 +1,6 @@
 ﻿import { UIElement } from "../UIElement";
 import { Scene } from "./Core";
+import { DIContainer } from "../../Core";
 
 export class Camera extends UIElement {
     private _camera: BABYLON.Camera;
@@ -25,7 +26,8 @@ export class Camera extends UIElement {
     get upperBetaLimit(): number { return this._upperBetaLimit; }
     get lowerRadiusLimit(): number { return this._lowerRadiusLimit; }
 
-    public InitializeCamera(canvas: any): void {
+    public Initialize(): void {
+        let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
         let scene = this.VT.Get(this.SceneName) as Scene;
         if (this._type === "FreeCamera") {
             this._camera = new BABYLON.FreeCamera(this.Name, this.Position, scene.Scene);

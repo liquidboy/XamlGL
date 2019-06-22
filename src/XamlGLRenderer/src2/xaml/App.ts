@@ -7,11 +7,6 @@ import { VisualTree } from "../services/VisualTree";
 import { DIContainer } from "./Core";
 
 export class App {
-    private _canvas: any;
-    private _engine: BABYLON.Engine;
-    //private scene: BABYLON.Scene;
-    //private camera: BABYLON.FreeCamera;
-    private light: BABYLON.Light;
     private xamlMarkup: XamlMarkup;
     private _rootElement: IFrameworkElement;
 
@@ -21,22 +16,24 @@ export class App {
 
     public Start(xaml: XamlMarkup, canvasElement: string): void {
         this.xamlMarkup = xaml;
-        this._canvas = document.getElementById(canvasElement);
-        this._engine = new BABYLON.Engine(this._canvas, true);
+        let _canvas = document.getElementById(canvasElement) as HTMLCanvasElement;
+        let _engine = new BABYLON.Engine(_canvas, true);
 
         // Listen for browser/canvas resize events
         window.addEventListener("resize", () => {
-            this._engine.resize();
+            _engine.resize();
         });
 
-        this.InitializeDIContainer();
+        this.InitializeDIContainer(_canvas, _engine);
         this.BuildVisualTree();
         this.RenderScene();
         
     }
 
-    private InitializeDIContainer(): void {
+    private InitializeDIContainer(rootCanvas: HTMLCanvasElement, rootEngine: BABYLON.Engine): void {
         DIContainer.bind<VisualTree>(VisualTree).to(VisualTree).inSingletonScope();
+        DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
+        DIContainer.bind("rootEngine").toConstantValue(rootEngine);
     }
 
     private BuildVisualTree(): void {
@@ -70,15 +67,7 @@ export class App {
 
     private InitializeChildren(col: UIElementCollection): void {
         col.forEach((k: string, v: UIElement) => {
-            if (v instanceof Scene) {
-                let s: Scene = v as Scene;
-                s.InitializeScene(this._engine, this._canvas);
-            } else if (v instanceof Camera) {
-                let c: Camera = v as Camera;
-                c.InitializeCamera(this._canvas);
-            } else {
-                v.Initialize();
-            }
+            v.Initialize();
 
             if (v instanceof Panel) {
                 let childWithChildren: IChildrensElement = v as IChildrensElement;
