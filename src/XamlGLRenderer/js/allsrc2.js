@@ -2871,7 +2871,6 @@ System.register("Xaml/behaviors/MoveSelectedMesh", [], function (exports_44, con
                     this.ground = ground;
                     this.camera = camera;
                     this.scene = scene;
-                    let _this = this;
                     canvas.addEventListener("pointerdown", (evt) => { this.onPointerDown(evt); }, false);
                     canvas.addEventListener("pointerup", () => { this.onPointerUp(); }, false);
                     canvas.addEventListener("pointermove", (evt) => { this.onPointerMove(evt); }, false);
@@ -2883,15 +2882,13 @@ System.register("Xaml/behaviors/MoveSelectedMesh", [], function (exports_44, con
                 }
                 getGroundPosition() {
                     var pickinfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY, (mesh) => { return mesh == this.ground.Mesh; });
-                    if (pickinfo.hit) {
+                    if (pickinfo.hit)
                         return pickinfo.pickedPoint;
-                    }
                     return null;
                 }
                 onPointerDown(evt) {
-                    if (evt.button !== 0) {
+                    if (evt.button !== 0)
                         return;
-                    }
                     var pickInfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY, (mesh) => { return mesh !== this.ground.Mesh; });
                     if (pickInfo.hit) {
                         this.currentMesh = pickInfo.pickedMesh;
@@ -2911,13 +2908,11 @@ System.register("Xaml/behaviors/MoveSelectedMesh", [], function (exports_44, con
                     }
                 }
                 onPointerMove(evt) {
-                    if (!this.startingPoint) {
+                    if (!this.startingPoint)
                         return;
-                    }
                     var current = this.getGroundPosition();
-                    if (!current) {
+                    if (!current)
                         return;
-                    }
                     var diff = current.subtract(this.startingPoint);
                     this.currentMesh.position.addInPlace(diff);
                     this.startingPoint = current;

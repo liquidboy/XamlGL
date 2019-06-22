@@ -18,8 +18,6 @@ export class MoveSelectedMesh {
         this.camera = camera;
         this.scene = scene;
 
-        let _this = this;
-
         canvas.addEventListener("pointerdown", (evt) => { this.onPointerDown(evt); }, false);
         canvas.addEventListener("pointerup", () => { this.onPointerUp(); }, false);
         canvas.addEventListener("pointermove", (evt) => { this.onPointerMove(evt); }, false);
@@ -35,17 +33,13 @@ export class MoveSelectedMesh {
         // Use a predicate to get position on the ground
         var pickinfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY,
             (mesh) => { return mesh == this.ground.Mesh; });
-        if (pickinfo.hit) {
-            return pickinfo.pickedPoint;
-        }
+        if (pickinfo.hit) return pickinfo.pickedPoint;
 
         return null;
     }
 
     private onPointerDown(evt: any): void {
-        if (evt.button !== 0) {
-            return;
-        }
+        if (evt.button !== 0) return;
 
         // check if we are under a mesh
         var pickInfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY,
@@ -71,22 +65,15 @@ export class MoveSelectedMesh {
     }
 
     private onPointerMove(evt: any): void {
-        if (!this.startingPoint) {
-            return;
-        }
-
+        if (!this.startingPoint) return;
+        
         var current = this.getGroundPosition();
 
-        if (!current) {
-            return;
-        }
-
+        if (!current) return;
+        
         var diff = current.subtract(this.startingPoint);
         this.currentMesh.position.addInPlace(diff);
 
         this.startingPoint = current;
-
     }
-
-
 }
