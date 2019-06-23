@@ -2562,12 +2562,22 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 get lowerBetaLimit() { return this._lowerBetaLimit; }
                 get upperBetaLimit() { return this._upperBetaLimit; }
                 get lowerRadiusLimit() { return this._lowerRadiusLimit; }
+                get FOV() { return this._fov; }
+                get MinZ() { return this._minz; }
+                get MaxZ() { return this._maxz; }
                 Initialize() {
                     let canvas = Core_6.DIContainer.get("rootCanvas");
                     let scene = this.VT.Get(this.SceneName);
                     if (this._type === "FreeCamera") {
                         this._camera = new BABYLON.FreeCamera(this.Name, this.Position, scene.Scene);
-                        this._camera.setTarget(this._target);
+                        if (this._target !== undefined)
+                            this.GetFreeCamera(this._camera).setTarget(this._target);
+                        if (this.FOV !== undefined)
+                            this.GetFreeCamera(this._camera).fov = this.FOV;
+                        if (this.MinZ !== undefined)
+                            this.GetFreeCamera(this._camera).minZ = this.MinZ;
+                        if (this.MaxZ !== undefined)
+                            this.GetFreeCamera(this._camera).maxZ = this.MaxZ;
                     }
                     else if (this._type === "UniversalCamera") {
                         this._camera = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Scene);
@@ -2623,6 +2633,21 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                         this._lowerRadiusLimit = eval(`${node.attributes["LowerRadiusLimit"].value};`);
                     }
                     catch (e) { }
+                    try {
+                        this._fov = parseFloat(node.attributes["FOV"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._minz = parseFloat(node.attributes["MinZ"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._maxz = parseFloat(node.attributes["MaxZ"].value);
+                    }
+                    catch (e) { }
+                }
+                GetFreeCamera(camera) {
+                    return camera;
                 }
             };
             exports_37("Camera", Camera);
@@ -2697,12 +2722,20 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function
                 get Texture() { return this._texture; }
                 get SceneName() { return this._sceneName; }
                 get RootUrl() { return this._rootUrl; }
+                get Type() { return this._type; }
                 get CoordinatesMode() { return this._coordinatesMode; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    this._texture = new BABYLON.CubeTexture(this.RootUrl, scene.Scene);
-                    if (this._coordinatesMode !== undefined)
-                        this._texture.coordinatesMode = this._coordinatesMode;
+                    if (this._type === "CubeTexture") {
+                        this._texture = new BABYLON.CubeTexture(this.RootUrl, scene.Scene);
+                    }
+                    else if (this._type === "DynamicTexture") {
+                        this._texture = new BABYLON.DynamicTexture(this.Name, 512, scene.Scene, true);
+                    }
+                    if (this._texture !== undefined) {
+                        if (this._coordinatesMode !== undefined)
+                            this._texture.coordinatesMode = this._coordinatesMode;
+                    }
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
@@ -2714,6 +2747,10 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function
                         this._rootUrl = node.attributes["RootUrl"].value;
                     }
                     catch (_b) { }
+                    try {
+                        this._type = node.attributes["Type"].value;
+                    }
+                    catch (_c) { }
                     try {
                         this._coordinatesMode = eval(`BABYLON.${node.attributes["CoordinatesMode"].value};`);
                     }
@@ -2761,7 +2798,7 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
                         this.GetStandardMaterial(this._material).backFaceCulling = this._backFaceCulling;
                     if (this._reflectionTextureName !== undefined) {
                         let rt = this.VT.Get(this.ReflectionTextureName);
-                        if (rt.Texture.isReadyOrNotBlocking)
+                        if (rt.Texture !== undefined && rt.Texture.isReadyOrNotBlocking)
                             this.GetStandardMaterial(this._material).reflectionTexture = rt.Texture;
                     }
                     ;

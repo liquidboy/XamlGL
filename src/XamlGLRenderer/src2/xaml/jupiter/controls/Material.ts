@@ -35,7 +35,7 @@ export class Material extends UIElement {
         if (this._backFaceCulling !== undefined) this.GetStandardMaterial(this._material).backFaceCulling = this._backFaceCulling;
         if (this._reflectionTextureName !== undefined) {
             let rt: Texture = this.VT.Get(this.ReflectionTextureName) as Texture;
-            if(rt.Texture.isReadyOrNotBlocking)
+            if (rt.Texture !== undefined && rt.Texture.isReadyOrNotBlocking)
                 this.GetStandardMaterial(this._material).reflectionTexture = rt.Texture;
         };
         

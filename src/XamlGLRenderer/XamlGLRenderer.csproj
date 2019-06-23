@@ -58,6 +58,7 @@
     <Content Include="assets\office-logo.png" />
     <Content Include="assets\Silverlight-logo.png" />
     <Content Include="assets\silverlight_anims.jpg" />
+    <Content Include="assets\textures\cloud.png" />
     <Content Include="assets\textures\skybox_nx.jpg" />
     <Content Include="assets\textures\skybox_ny.jpg" />
     <Content Include="assets\textures\skybox_nz.jpg" />
@@ -420,6 +421,7 @@
     <Content Include="xaml\sample-bjs-3.xap" />
     <Content Include="xaml\sample-bjs-4.xap" />
     <Content Include="xaml\sample-bjs-5.xap" />
+    <Content Include="xaml\sample-bjs-6.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

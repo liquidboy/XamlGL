@@ -5,31 +5,17 @@
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene">
         <Script>
-          var alpha = 0;
-          var scene = vt.Get("mainScene");
-          var omni0 = vt.Get("omni0");
-          var omni1 = vt.Get("omni1");
-          var omni2 = vt.Get("omni2");
-          var sphere0 = vt.Get("sphere0");
-          var sphere1 = vt.Get("sphere1");
-          var sphere2 = vt.Get("sphere2");
-          
-          scene.Scene.beforeRender = () => {
-            omni0.Light.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, 10 * Math.cos(alpha));
-            omni1.Light.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, -10 * Math.cos(alpha));
-            omni2.Light.position = new BABYLON.Vector3(10 * Math.cos(alpha), 0, 10 * Math.sin(alpha));
 
-            sphere0.Mesh.position = omni0.Light.position;
-            sphere1.Mesh.position = omni1.Light.position;
-            sphere2.Mesh.position = omni2.Light.position;
-
-            alpha += 0.01;
-          };
         </Script>
       </Scene>
 
-      <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  Alpha="0" Beta="0" Radius="10"
-              Target="Vector3.Zero()" Position="Vector3(-10,10,0)" Scene="mainScene"></Camera>
+      <Background></Background>
+      <Texture Type="DynamicTexture" GeneratingMipMaps="true" Scene="mainScene" Options="512"></Texture>
+      
+      
+
+      <Camera x:Name="freeCamera" Type="FreeCamera" Position="Vector3(0,-128,0)" FOV="30" MinZ="1" MaxZ="3000" 
+              Scene="mainScene"></Camera>
 
       <Light x:Name="omni0" Type="PointLight" Scene="mainScene" Direction="Vector3(0, 10, 0)" Position="Vector3(10,0,10)" 
              DiffuseColor="Color3(1, 0, 0)" SpecularColor="Color3(1, 0, 0)"></Light>
@@ -61,7 +47,7 @@
               Position="Vector3(10,0,5)"></Sphere>
 
 
-      <Texture x:Name="skyboxTexture" Type="CubeTexture" Scene="mainScene" CoordinatesMode="Texture.SKYBOX_MODE" RootUrl="/assets/textures/skybox"
+      <Texture x:Name="skyboxTexture" Scene="mainScene" CoordinatesMode="Texture.SKYBOX_MODE" RootUrl="/assets/textures/skybox"
                     ></Texture>
       <Material x:Name="skyboxMaterial" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" 
                 DiffuseColor="Color3(0, 0, 0)" BackFaceCulling="False" DisableLighting="True" 

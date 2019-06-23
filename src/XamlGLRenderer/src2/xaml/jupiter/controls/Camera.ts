@@ -14,6 +14,9 @@ export class Camera extends UIElement {
     private _lowerBetaLimit: number;
     private _upperBetaLimit: number;
     private _lowerRadiusLimit: number;
+    private _fov: number;
+    private _minz: number;
+    private _maxz: number;
 
     get Camera(): BABYLON.Camera { return this._camera; }
     get SceneName(): string { return this._sceneName; }
@@ -25,13 +28,19 @@ export class Camera extends UIElement {
     get lowerBetaLimit(): number { return this._lowerBetaLimit; }
     get upperBetaLimit(): number { return this._upperBetaLimit; }
     get lowerRadiusLimit(): number { return this._lowerRadiusLimit; }
+    get FOV(): number { return this._fov; }
+    get MinZ(): number { return this._minz; }
+    get MaxZ(): number { return this._maxz; }
 
     public Initialize(): void {
         let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
         let scene = this.VT.Get(this.SceneName) as Scene;
         if (this._type === "FreeCamera") {
             this._camera = new BABYLON.FreeCamera(this.Name, this.Position, scene.Scene);
-            (this._camera as BABYLON.FreeCamera).setTarget(this._target);
+            if (this._target !== undefined) this.GetFreeCamera(this._camera).setTarget(this._target);
+            if (this.FOV !== undefined) this.GetFreeCamera(this._camera).fov = this.FOV;
+            if (this.MinZ !== undefined) this.GetFreeCamera(this._camera).minZ = this.MinZ;
+            if (this.MaxZ !== undefined) this.GetFreeCamera(this._camera).maxZ = this.MaxZ;
         }
         else if (this._type === "UniversalCamera") {
             this._camera = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Scene);
@@ -60,5 +69,13 @@ export class Camera extends UIElement {
         try { this._lowerBetaLimit = eval(`${node.attributes["LowerBetaLimit"].value};`); } catch (e) { }
         try { this._upperBetaLimit = eval(`${node.attributes["UpperBetaLimit"].value};`); } catch (e) { }
         try { this._lowerRadiusLimit = eval(`${node.attributes["LowerRadiusLimit"].value};`); } catch (e) { }
+        try { this._fov = parseFloat(node.attributes["FOV"].value); } catch (e) { }
+        try { this._minz= parseFloat(node.attributes["MinZ"].value); } catch (e) { }
+        try { this._maxz = parseFloat(node.attributes["MaxZ"].value); } catch (e) { }
+    }
+
+
+    private GetFreeCamera(camera: BABYLON.Camera): BABYLON.FreeCamera{
+        return camera as BABYLON.FreeCamera;
     }
 }
