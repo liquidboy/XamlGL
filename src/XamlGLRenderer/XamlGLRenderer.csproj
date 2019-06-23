@@ -58,6 +58,12 @@
     <Content Include="assets\office-logo.png" />
     <Content Include="assets\Silverlight-logo.png" />
     <Content Include="assets\silverlight_anims.jpg" />
+    <Content Include="assets\textures\skybox_nx.jpg" />
+    <Content Include="assets\textures\skybox_ny.jpg" />
+    <Content Include="assets\textures\skybox_nz.jpg" />
+    <Content Include="assets\textures\skybox_px.jpg" />
+    <Content Include="assets\textures\skybox_py.jpg" />
+    <Content Include="assets\textures\skybox_pz.jpg" />
     <Content Include="assets\windows-logo-sml.png" />
     <Content Include="assets\windows-logo.png" />
     <Content Include="assets\xbox-logo.png" />
@@ -108,6 +114,7 @@
     <TypeScriptCompile Include="src2\xaml\behaviors\MeshNormalLines.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\SceneMouseWheelZoom.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\AnimationCollection.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Texture.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Script.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Torus.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrame.ts" />
@@ -412,6 +419,7 @@
     <Content Include="xaml\sample-bjs-2.xap" />
     <Content Include="xaml\sample-bjs-3.xap" />
     <Content Include="xaml\sample-bjs-4.xap" />
+    <Content Include="xaml\sample-bjs-5.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

@@ -12,11 +12,13 @@ export class Box extends AnimatableUIElement {
     private _materialName: string;
     private _showNormalLines: boolean;
     private _width: number;
+    private _infiniteDistance: boolean;
     
     get SceneName(): string { return this._sceneName; }
     get MaterialName(): string { return this._materialName; }
     get ShowNormalLines(): boolean { return this._showNormalLines; }
     get Width(): number { return this._width; }
+    get InfiniteDistance(): boolean { return this._infiniteDistance; }
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
@@ -25,8 +27,9 @@ export class Box extends AnimatableUIElement {
         this._scene = this.VT.Get(this.SceneName) as Scene;
         this._mesh = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Scene);
         this._mesh.material = material.Material;
-        this._mesh.position = this.Position;
-        if (this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+        if (this.Position != undefined) this._mesh.position = this.Position;
+        if (this.InfiniteDistance !== undefined) this._mesh.infiniteDistance = this._infiniteDistance;
+        if (this._showNormalLines !== undefined && this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
 
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
@@ -43,6 +46,7 @@ export class Box extends AnimatableUIElement {
         try { this._materialName = node.attributes["Material"].value; } catch (e) { }
         try { this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true'; } catch (e) { }
         try { this._width = parseFloat(node.attributes["Width"].value); } catch (e) { }
+        try { this._infiniteDistance = node.attributes["InfiniteDistance"].value.toLowerCase() === 'true'; } catch (e) { }
     }
 
     StartAnimation(): void {
