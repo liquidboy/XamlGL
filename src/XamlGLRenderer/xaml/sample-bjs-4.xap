@@ -1,0 +1,65 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+    <Grid x:Name="layoutRoot">
+      <Scene x:Name="mainScene">
+        <Script>
+          var alpha = 0;
+          var scene = vt.Get("mainScene");
+          var omni0 = vt.Get("omni0");
+          var omni1 = vt.Get("omni1");
+          var omni2 = vt.Get("omni2");
+          var sphere0 = vt.Get("sphere0");
+          var sphere1 = vt.Get("sphere1");
+          var sphere2 = vt.Get("sphere2");
+          
+          scene.Scene.beforeRender = () => {
+            omni0.Light.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, 10 * Math.cos(alpha));
+            omni1.Light.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, -10 * Math.cos(alpha));
+            omni2.Light.position = new BABYLON.Vector3(10 * Math.cos(alpha), 0, 10 * Math.sin(alpha));
+
+            sphere0.Mesh.position = omni0.Light.position;
+            sphere1.Mesh.position = omni1.Light.position;
+            sphere2.Mesh.position = omni2.Light.position;
+
+            alpha += 0.01;
+          };
+        </Script>
+      </Scene>
+
+      <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  Alpha="0" Beta="0" Radius="10"
+              Target="Vector3.Zero()" Position="Vector3(-10,10,0)" Scene="mainScene"></Camera>
+
+      <Light x:Name="omni0" Type="PointLight" Scene="mainScene" Direction="Vector3(0, 10, 0)" Position="Vector3(10,0,10)" 
+             DiffuseColor="Color3(1, 0, 0)" SpecularColor="Color3(1, 0, 0)"></Light>
+      <Light x:Name="omni1" Type="PointLight" Scene="mainScene" Direction="Vector3(0, -10, 0)" Position="Vector3(10,0,-10)" 
+             DiffuseColor="Color3(0, 1, 0)" SpecularColor="Color3(0, 1, 0)"></Light>
+      <Light x:Name="omni2" Type="PointLight" Scene="mainScene" Direction="Vector3(10, 0, 0)" Position="Vector3(10,0,5)" 
+             DiffuseColor="Color3(0, 0, 1)" SpecularColor="Color3(0, 0, 1)"></Light>
+      <Light x:Name="dir0" Type="DirectionalLight" Scene="mainScene" Direction="Vector3(1, -1, 0)" DiffuseColor="Color3(1, 1, 1)" 
+             SpecularColor="Color3(1, 1, 1)"></Light>
+
+      <Material x:Name="kosh" Scene="mainScene" DiffuseColor="Color3(1, 1, 1)"></Material>
+      <Sphere x:Name="sphere" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="3" Material="kosh"></Sphere>
+
+      <Material x:Name="material0" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
+                EmissiveColor="Color3(1, 0, 0)"></Material>
+      <Sphere x:Name="sphere0" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material0"
+              Position="Vector3(10,0,10)"></Sphere>
+
+
+      <Material x:Name="material1" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
+                EmissiveColor="Color3(0, 1, 0)"></Material>
+      <Sphere x:Name="sphere1" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material1"
+              Position="Vector3(10,0,-10)"></Sphere>
+
+
+      <Material x:Name="material2" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
+                EmissiveColor="Color3(0, 0, 1)"></Material>
+      <Sphere x:Name="sphere2" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material2" 
+              Position="Vector3(10,0,5)"></Sphere>
+
+    </Grid>
+    <!-- https://www.babylonjs-playground.com/index.html#QYFDDP#1 -->
+</Application>

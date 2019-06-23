@@ -10,4 +10,5 @@ export * from "./IChildrensElement";
 export * from "./IDependencyObject";
 export * from "./IFrameworkElement";
 export * from "./IRender";
+export * from "./IScript";
 export * from "./IUIElement";

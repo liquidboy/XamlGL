@@ -2,7 +2,7 @@
 import { FrameworkElement } from "./../jupiter/FrameworkElement";
 import * as _controls from "./../jupiter/controls/Core";
 import { UIElement, AnimatableUIElement } from "../jupiter/Core";
-import { KeyFrames, KeyFrame, Animation, Animations } from "./../jupiter/controls/Core";
+import { KeyFrames, KeyFrame, Animation, Animations, Script } from "./../jupiter/controls/Core";
 
 export class XamlParser {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
@@ -42,6 +42,12 @@ export class XamlParser {
 
             //add keyframe to keyframes collection on node
             if (nodeAsAFrameWorkElement instanceof KeyFrame && parent instanceof KeyFrames) (parent as KeyFrames).KeyFrames.add(nodeAsAFrameWorkElement);
+
+            //if script node then let parent know it has script and pass up the code
+            if (nodeAsAFrameWorkElement instanceof Script && nodeAsAFrameWorkElement.HasScript) {
+                parent.HasScript = true;
+                parent.Code = nodeAsAFrameWorkElement.Code;
+            }
         }
 
         //VisualTreeHelper.AddFrameworkElement(newFE, parentUId);

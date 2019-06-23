@@ -11,9 +11,9 @@ export class Camera extends UIElement {
     private _alpha: number;
     private _beta: number;
     private _radius: number;
-    private _lowerBetaLimit: number = 0.1;
-    private _upperBetaLimit: number = (Math.PI / 2) * 0.99;
-    private _lowerRadiusLimit: number = 150;
+    private _lowerBetaLimit: number;
+    private _upperBetaLimit: number;
+    private _lowerRadiusLimit: number;
 
     get Camera(): BABYLON.Camera { return this._camera; }
     get SceneName(): string { return this._sceneName; }
@@ -38,10 +38,11 @@ export class Camera extends UIElement {
             (this._camera as BABYLON.UniversalCamera).setTarget(this._target);
         }
         else if (this._type === "ArcRotateCamera") {
-            let arcCampera = new BABYLON.ArcRotateCamera(this.Name, 0, 0.8, 100, this._target, scene.Scene);
-            arcCampera.lowerBetaLimit = this._lowerBetaLimit;
-            arcCampera.upperBetaLimit = this._upperBetaLimit;
-            arcCampera.lowerRadiusLimit = this._lowerRadiusLimit;
+            let arcCampera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius,
+                this._target, scene.Scene);
+            if (this._lowerBetaLimit) arcCampera.lowerBetaLimit = this._lowerBetaLimit;
+            if (this._upperBetaLimit) arcCampera.upperBetaLimit = this._upperBetaLimit;
+            if (this._lowerRadiusLimit) arcCampera.lowerRadiusLimit = this._lowerRadiusLimit;
             this._camera = arcCampera;
         }
         

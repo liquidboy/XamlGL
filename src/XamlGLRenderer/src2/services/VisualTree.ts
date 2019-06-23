@@ -15,5 +15,13 @@ export class VisualTree {
         if (key === undefined || key === null) { return; }
         this._flatList.setValue(key, value);
     }
-    public Get(key: string): UIElement { return this._flatList.getValue(key); }    
+    public Get(key: string): UIElement { return this._flatList.getValue(key); }
+    public ParseScript(codeTemplate: string): string {
+        let finalCode: string = codeTemplate;
+        this._flatList.forEach((k: string, v: UIElement) => {
+            finalCode += `var ${k}`;
+            //finalCode.replace(`[${k}]`,
+        });
+        return "";
+    }
 }

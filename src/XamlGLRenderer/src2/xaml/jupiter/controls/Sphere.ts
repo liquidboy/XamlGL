@@ -4,13 +4,13 @@ import { MeshNormalLines } from "../../behaviors/MeshNormalLines";
 
 export class Sphere extends UIElement {
     private _mesh: BABYLON.Mesh;
-
     private _sceneName: string;
     private _materialName: string;
     private _showNormalLines: boolean;
     private _segments: number;
     private _diameter: number;
 
+    get Mesh(): BABYLON.Mesh { return this._mesh; }
     get SceneName(): string { return this._sceneName; }
     get MaterialName(): string { return this._materialName; }
     get ShowNormalLines(): boolean { return this._showNormalLines; }

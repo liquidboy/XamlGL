@@ -101,12 +101,14 @@
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src2\services\VisualTree.ts" />
     <TypeScriptCompile Include="src2\xaml\App.ts" />
+    <TypeScriptCompile Include="src2\xaml\behaviors\CustomScript.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\MoveSelectedMesh.ts" />
     <TypeScriptCompile Include="src2\xaml\Core.ts" />
     <TypeScriptCompile Include="src2\xaml\datatypes\Guid.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\MeshNormalLines.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\SceneMouseWheelZoom.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\AnimationCollection.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Script.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Torus.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrame.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\KeyFrameCollection.ts" />
@@ -131,6 +133,7 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\IFrameworkElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\IAnimationsElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IAnimatableElement.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\IScript.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IRender.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\IUIElement.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\AnimatableUIElement.ts" />
@@ -408,6 +411,7 @@
     <Content Include="xaml\sample-bjs-1.xap" />
     <Content Include="xaml\sample-bjs-2.xap" />
     <Content Include="xaml\sample-bjs-3.xap" />
+    <Content Include="xaml\sample-bjs-4.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

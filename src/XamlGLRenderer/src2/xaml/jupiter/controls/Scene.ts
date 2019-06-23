@@ -4,6 +4,7 @@ import { SceneMouseWheelZoom } from "../../behaviors/SceneMouseWheelZoom";
 import { MoveSelectedMesh } from "../../behaviors/MoveSelectedMesh";
 import { Ground } from "./Ground";
 import { DIContainer } from "../../Core";
+import { CustomScript } from "../../behaviors/CustomScript";
 
 export class Scene extends UIElement {
     
@@ -34,7 +35,16 @@ export class Scene extends UIElement {
 
         SceneMouseWheelZoom.Install(this);
         new MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
-        
+
+        if (this.HasScript) {
+            try {
+                CustomScript.Install(this.VT, this.Code);
+                //var found = eval(this.VT.ParseScript(this.Code));
+            } catch (e) {
+                var found = e;
+            }
+        }
+
         engine.runRenderLoop(() => {
             this._scene.render();
         });
