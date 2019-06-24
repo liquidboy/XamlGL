@@ -56,6 +56,7 @@ export class Camera extends UIElement {
         }
         
         this._camera.attachControl(canvas, true);
+        this.PostInitialize();
     }
 
     public LoadFromNode(node: any): void {

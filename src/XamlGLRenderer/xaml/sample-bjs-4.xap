@@ -40,22 +40,22 @@
       <Light x:Name="dir0" Type="DirectionalLight" Scene="mainScene" Direction="Vector3(1, -1, 0)" DiffuseColor="Color3(1, 1, 1)" 
              SpecularColor="Color3(1, 1, 1)"></Light>
 
-      <Material x:Name="kosh" Scene="mainScene" DiffuseColor="Color3(1, 1, 1)"></Material>
+      <Material x:Name="kosh" Type="StandardMaterial" Scene="mainScene" DiffuseColor="Color3(1, 1, 1)"></Material>
       <Sphere x:Name="sphere" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="3" Material="kosh"></Sphere>
 
-      <Material x:Name="material0" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
+      <Material x:Name="material0" Type="StandardMaterial" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
                 EmissiveColor="Color3(1, 0, 0)"></Material>
       <Sphere x:Name="sphere0" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material0"
               Position="Vector3(10,0,10)"></Sphere>
 
 
-      <Material x:Name="material1" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
+      <Material x:Name="material1" Type="StandardMaterial" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
                 EmissiveColor="Color3(0, 1, 0)"></Material>
       <Sphere x:Name="sphere1" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material1"
               Position="Vector3(10,0,-10)"></Sphere>
 
 
-      <Material x:Name="material2" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
+      <Material x:Name="material2" Type="StandardMaterial" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
                 EmissiveColor="Color3(0, 0, 1)"></Material>
       <Sphere x:Name="sphere2" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material2" 
               Position="Vector3(10,0,5)"></Sphere>

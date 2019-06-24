@@ -25,7 +25,8 @@ export class Sphere extends UIElement {
         this._mesh.position = this.Position;
         this._mesh.material = material.Material;
 
-        if(this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+        if (this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+        this.PostInitialize();
     }
 
     public LoadFromNode(node: any): void {

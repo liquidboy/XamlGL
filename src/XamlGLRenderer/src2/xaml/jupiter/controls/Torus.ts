@@ -39,6 +39,7 @@ export class Torus extends AnimatableUIElement {
                 animationBox.setKeys(animation.KeyFrames.GetArray());
                 this._mesh.animations.push(animationBox);
             });
+        this.PostInitialize();
     }
 
     public LoadFromNode(node: any): void {

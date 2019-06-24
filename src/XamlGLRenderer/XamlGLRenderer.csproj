@@ -115,6 +115,9 @@
     <TypeScriptCompile Include="src2\xaml\behaviors\MeshNormalLines.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\SceneMouseWheelZoom.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\AnimationCollection.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Background.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Mesh.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\ShadersStore.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Texture.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Script.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Torus.ts" />

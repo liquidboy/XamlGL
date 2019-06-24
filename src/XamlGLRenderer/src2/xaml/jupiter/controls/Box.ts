@@ -13,7 +13,8 @@ export class Box extends AnimatableUIElement {
     private _showNormalLines: boolean;
     private _width: number;
     private _infiniteDistance: boolean;
-    
+
+    get Mesh(): BABYLON.Mesh { return this._mesh; }
     get SceneName(): string { return this._sceneName; }
     get MaterialName(): string { return this._materialName; }
     get ShowNormalLines(): boolean { return this._showNormalLines; }
@@ -38,6 +39,8 @@ export class Box extends AnimatableUIElement {
                 animationBox.setKeys(animation.KeyFrames.GetArray());
                 this._mesh.animations.push(animationBox);
             });
+
+        this.PostInitialize();
     }
 
     public LoadFromNode(node: any): void {

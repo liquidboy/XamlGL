@@ -36,18 +36,11 @@ export class Scene extends UIElement {
         SceneMouseWheelZoom.Install(this);
         new MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
 
-        if (this.HasScript) {
-            try {
-                CustomScript.Install(this.VT, this.Code);
-                //var found = eval(this.VT.ParseScript(this.Code));
-            } catch (e) {
-                var found = e;
-            }
-        }
-
         engine.runRenderLoop(() => {
             this._scene.render();
         });
+
+        this.PostInitialize();
     }
 
     public LoadFromNode(node: any): void {

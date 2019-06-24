@@ -5,56 +5,140 @@
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene">
         <Script>
+          var scene = vt.Get("mainScene");
+          var camera = vt.Get("freeCamera");
+          var start_time = Date.now();
 
+          scene.Scene.beforeRender = () => {
+            var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
+            camera.Camera.position.z = cameraDepth;
+          };
         </Script>
       </Scene>
 
-      <Background></Background>
-      <Texture Type="DynamicTexture" GeneratingMipMaps="true" Scene="mainScene" Options="512"></Texture>
       
-      
+      <Texture x:Name="backgroundTexture" Type="DynamicTexture" GeneratingMipMaps="true" Scene="mainScene" Options="512"></Texture>
+      <Background x:Name="back0" Scene="mainScene" Texture="backgroundTexture">
+        <Script>
+          var back0 = vt.Get("back0");
 
+          var textureContext = back0.Layer.texture.getContext();
+          var size = back0.Layer.texture.getSize();
+
+          textureContext.clearRect(0, 0, size.width, size.height);
+
+          var gradient = textureContext.createLinearGradient(0, 0, 0, 512);
+          gradient.addColorStop(0, "#1e4877");
+          gradient.addColorStop(0.5, "#4584b4");
+
+          textureContext.fillStyle = gradient;
+          textureContext.fillRect(0, 0, 512, 512);
+          back0.Layer.texture.update();
+        </Script>
+      </Background>
+      
+      
       <Camera x:Name="freeCamera" Type="FreeCamera" Position="Vector3(0,-128,0)" FOV="30" MinZ="1" MaxZ="3000" 
               Scene="mainScene"></Camera>
 
-      <Light x:Name="omni0" Type="PointLight" Scene="mainScene" Direction="Vector3(0, 10, 0)" Position="Vector3(10,0,10)" 
-             DiffuseColor="Color3(1, 0, 0)" SpecularColor="Color3(1, 0, 0)"></Light>
-      <Light x:Name="omni1" Type="PointLight" Scene="mainScene" Direction="Vector3(0, -10, 0)" Position="Vector3(10,0,-10)" 
-             DiffuseColor="Color3(0, 1, 0)" SpecularColor="Color3(0, 1, 0)"></Light>
-      <Light x:Name="omni2" Type="PointLight" Scene="mainScene" Direction="Vector3(10, 0, 0)" Position="Vector3(10,0,5)" 
-             DiffuseColor="Color3(0, 0, 1)" SpecularColor="Color3(0, 0, 1)"></Light>
-      <Light x:Name="dir0" Type="DirectionalLight" Scene="mainScene" Direction="Vector3(1, -1, 0)" DiffuseColor="Color3(1, 1, 1)" 
-             SpecularColor="Color3(1, 1, 1)"></Light>
+      <ShadersStore x:Name="cloudVertexShader">
 
-      <Material x:Name="kosh" Scene="mainScene" DiffuseColor="Color3(1, 1, 1)"></Material>
-      <Sphere x:Name="sphere" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="3" Material="kosh"></Sphere>
+        #ifdef GL_ES
+        precision highp float;
+        #endif
 
-      <Material x:Name="material0" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
-                EmissiveColor="Color3(1, 0, 0)"></Material>
-      <Sphere x:Name="sphere0" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material0"
-              Position="Vector3(10,0,10)"></Sphere>
+        // Attributes
+        attribute vec3 position;
+        attribute vec2 uv;
+
+        // Uniforms
+        uniform mat4 worldViewProjection;
+
+        // Normal
+        varying vec2 vUV;
+
+        void main(void) {
+          gl_Position = worldViewProjection * vec4(position, 1.0);
+
+          vUV = uv;
+        }
+
+      </ShadersStore>
+
+      <ShadersStore x:Name="cloudFragmentShader">
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+
+        varying vec2 vUV;
+
+        uniform vec3 fogColor;
+        uniform float fogNear;
+        uniform float fogFar;
+
+        // Refs
+        uniform sampler2D textureSampler;
+
+        void main(void) {
+          float depth = gl_FragCoord.z / gl_FragCoord.w;
+          float fogFactor = smoothstep(fogNear, fogFar, depth);
+
+          gl_FragColor = texture2D(textureSampler, vUV);
+          gl_FragColor.w *= pow(abs(gl_FragCoord.z), 20.0);
+          gl_FragColor = mix(gl_FragColor, vec4(fogColor, gl_FragColor.w), fogFactor);
+        }
+      </ShadersStore>
+
+      <Texture x:Name="textureSampler" Type="Texture" Scene="mainScene" RootUrl="/assets/textures/cloud.png"></Texture>
+      <Material x:Name="cloud" Type="ShaderMaterial" Scene="mainScene" 
+                ShaderPath="{`vertexElement`: `cloud`, `fragmentElement`: `cloud` }"
+                Options="{`needAlphaBlending`: true, `attributes`: [`position`, `uv`], `uniforms`: [`worldViewProjection`], `samplers`: [`textureSampler`]}">
+        <Script>
+          var textureSampler = vt.Get("textureSampler");
+          var cloudMaterial = vt.Get("cloud");
+          cloudMaterial.Material.setTexture("textureSampler", textureSampler.Texture);
+          cloudMaterial.Material.setFloat("fogNear", -100);
+          cloudMaterial.Material.setFloat("fogFar", 3000);
+          cloudMaterial.Material.setColor3("fogColor", BABYLON.Color3.FromInts(69, 132, 180));
+        </Script>
+      </Material>
+
+      <Mesh x:Name="Clouds" Scene="mainScene" Material="cloud">
+        <Script>
+          var clouds = vt.Get("Clouds");
+          
+          var size = 128;
+          var count = 8000;
+          var globalVertexData;
+
+          for (var i = 0; i &lt; count; i++) {
+            var planeVertexData = BABYLON.VertexData.CreatePlane({ size: 128 });
+
+            delete planeVertexData.normals; // We do not need normals
+
+            // Transform
+            var randomScaling = Math.random() * Math.random() * 1.5 + 0.5;
+            var transformMatrix = BABYLON.Matrix.Scaling(randomScaling, randomScaling, 1.0);
+            transformMatrix = transformMatrix.multiply(BABYLON.Matrix.RotationZ(Math.random() * Math.PI));
+            transformMatrix = transformMatrix.multiply(BABYLON.Matrix.Translation(Math.random() * 1000 - 500, -Math.random() * Math.random() * 100, count - i));
+
+            planeVertexData.transform(transformMatrix);
+
+		        if (!globalVertexData) {
+			        globalVertexData = planeVertexData;
+		        } else {
+			        globalVertexData.merge(planeVertexData);
+		        }
+          }
+
+          globalVertexData.applyToMesh(clouds.Mesh);
+
+          var clouds2 = clouds.Mesh.clone();
+          clouds2.position.z = -500;
+        </Script>
+      </Mesh>
 
 
-      <Material x:Name="material1" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
-                EmissiveColor="Color3(0, 1, 0)"></Material>
-      <Sphere x:Name="sphere1" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material1"
-              Position="Vector3(10,0,-10)"></Sphere>
-
-
-      <Material x:Name="material2" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" DiffuseColor="Color3(0, 0, 0)" 
-                EmissiveColor="Color3(0, 0, 1)"></Material>
-      <Sphere x:Name="sphere2" Scene="mainScene" ShowNormalLines="False" Segments="16" Diameter="0.5" Material="material2" 
-              Position="Vector3(10,0,5)"></Sphere>
-
-
-      <Texture x:Name="skyboxTexture" Scene="mainScene" CoordinatesMode="Texture.SKYBOX_MODE" RootUrl="/assets/textures/skybox"
-                    ></Texture>
-      <Material x:Name="skyboxMaterial" Scene="mainScene" Wireframe="False" SpecularColor="Color3(0, 0, 0)" 
-                DiffuseColor="Color3(0, 0, 0)" BackFaceCulling="False" DisableLighting="True" 
-                ReflectionTexture="skyboxTexture"></Material>
-      <Box x:Name="skyBox" Scene="mainScene" Material="skyboxMaterial" ShowNormalLines="False" Width="100.0"
-               InfiniteDistance="True"></Box>
-      
 
     </Grid>
     <!-- https://www.babylonjs-playground.com/index.html#QYFDDP#1 -->

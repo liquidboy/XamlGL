@@ -8,6 +8,7 @@ import { IRender } from "./IRender";
 import { VisualTree } from "../../services/VisualTree";
 import { DIContainer } from "../Core";
 import { IScript } from "./IScript";
+import { CustomScript } from "../behaviors/CustomScript";
 
 export class UIElement extends DependencyObject implements IUIElement, IRender, IScript {
     
@@ -53,7 +54,21 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         try { this._position = eval(`new BABYLON.${node.attributes["Position"].value};`); } catch (e) { }
     }
 
-    Initialize(): void { }
+    // always call this after the parents initialize has run
+    Initialize(): void {
+        
+    }
+
+    PostInitialize(): void {
+        if (this.HasScript) {
+            try {
+                CustomScript.Install(this.VT, this.Code);
+                //var found = eval(this.VT.ParseScript(this.Code));
+            } catch (e) {
+                var found = e;
+            }
+        }
+    }
 }
 
 

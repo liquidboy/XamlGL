@@ -8,36 +8,36 @@
               Target="Vector3.Zero()" Position="Vector3(20,200,400)" LowerBetaLimit="0.1" UpperBetaLimit="(Math.PI / 2) * 0.99" 
               LowerRadiusLimit="150" Scene="mainScene"></Camera>
 
-      <Material x:Name="cameraMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0, 1, 0)"></Material>
+      <Material x:Name="cameraMaterial" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0, 1, 0)"></Material>
       <Sphere x:Name="cameraSphere" Scene="mainScene" ShowNormalLines="False" Segments="10"
                           Diameter="5.0" Position="Vector3(0,50,0)" Material="cameraMaterial"></Sphere>
       
       <Light x:Name="omni" Type="PointLight" Scene="mainScene" Direction="Vector3(0, 50, 0)"></Light>
 
 
-      <Material x:Name="materialGround" Scene="mainScene" Wireframe="False" SpecularColor="Color3.Black()"></Material>
+      <Material x:Name="materialGround" Type="StandardMaterial" Scene="mainScene" Wireframe="False" SpecularColor="Color3.Black()"></Material>
       <Ground x:Name="groundPlane" Scene="mainScene" Width="1000" Height="1000" SubDivisions="1" 
               Material="materialGround"></Ground>
 
       
-      <Material x:Name="redColor" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
+      <Material x:Name="redColor" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
           SpecularColor="Color3(0.4, 0.4, 0.4)" EmissiveColor="Color3.Red()"></Material>
       <Sphere x:Name="redSphere" Scene="mainScene" Material="redColor" ShowNormalLines="False" Segments="32"
               Diameter="20" Position="Vector3(-100,10,0)"></Sphere>
 
 
-      <Material x:Name="greenColor" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
+      <Material x:Name="greenColor" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
           SpecularColor="Color3(0.4, 0.4, 0.4)" EmissiveColor="Color3.Green()"></Material>
       <Box x:Name="greenBox" Scene="mainScene" Material="greenColor" ShowNormalLines="False" Width="20.0" 
            Position="Vector3(0,10,-100)"></Box>
 
       
-      <Material x:Name="blueColor" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
+      <Material x:Name="blueColor" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
     SpecularColor="Color3(0.4, 0.4, 0.4)" EmissiveColor="Color3.Blue()"></Material>
       <Box x:Name="blueBox" Scene="mainScene" Material="blueColor" ShowNormalLines="False" Width="20.0"
            Position="Vector3(100,10,0)"></Box>
 
-      <Material x:Name="purpleColor" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
+      <Material x:Name="purpleColor" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
     SpecularColor="Color3(0.4, 0.4, 0.4)" EmissiveColor="Color3.Purple()"></Material>
       <Torus x:Name="purpleTorus" Scene="mainScene" Material="purpleColor" ShowNormalLines="False" Diameter="30"
              Thickness="10" Tesselation="32" Position="Vector3(0,10,100)"></Torus>

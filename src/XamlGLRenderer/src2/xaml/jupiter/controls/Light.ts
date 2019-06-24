@@ -31,7 +31,7 @@ export class Light extends UIElement {
             if (this._specularColor) pl.specular = this._specularColor;
             this._light = pl;
         }
-
+        this.PostInitialize();
     }
 
     public LoadFromNode(node: any): void {

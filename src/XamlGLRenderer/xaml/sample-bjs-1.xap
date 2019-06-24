@@ -7,7 +7,7 @@
       <Camera x:Name="freeCamera" Type="FreeCamera" Position="Vector3(0, 5, -10)" Target="Vector3.Zero()" Scene="mainScene"></Camera>
       <Light x:Name="skyLight" Type="HemisphericLight" Scene="mainScene" Direction="Vector3(0, 1, 0)"></Light>
 
-      <Material x:Name="material" Scene="mainScene" Wireframe="True"></Material>
+      <Material x:Name="material" Type="StandardMaterial" Scene="mainScene" Wireframe="True"></Material>
       <Sphere x:Name="sphere1" Scene="mainScene" Material="material" ShowNormalLines="True" Segments="20" 
               Diameter="2.0" Position="Vector3(0,1,0)"></Sphere>
 
