@@ -1,5 +1,5 @@
 ﻿import { UIElement } from "../UIElement";
-import { KeyFrames } from "./Core";
+import { KeyFrames, Animations } from "./Core";
 
 export class Animation extends UIElement {
     private _keyFrames: KeyFrames;
@@ -30,5 +30,13 @@ export class Animation extends UIElement {
         try { this._loopMode= eval(`${node.attributes["LoopMode"].value}`); } catch (e) { }
         try { this._enableBlending = node.attributes["EnableBlending"].value.toLowerCase() === 'true'; } catch (e) { }
         try { this._fps = parseInt(node.attributes["FPS"].value); } catch { }
+    }
+
+    TrySetParent(parent: UIElement): boolean {
+        if (super.TrySetParent(parent)) {
+            (parent as Animations).Animations.add(this);
+            return true;
+        }
+        return false;
     }
 }

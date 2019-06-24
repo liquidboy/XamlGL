@@ -11,7 +11,8 @@ import { IScript } from "./IScript";
 import { CustomScript } from "../behaviors/CustomScript";
 
 export class UIElement extends DependencyObject implements IUIElement, IRender, IScript {
-    
+    Parent: IUIElement;
+
     //private _animations: Animations;
     private _parent: UIElement;
     private _isVisible: boolean;
@@ -23,7 +24,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     private _hasScript: boolean = false;
     
     //get Animations(): Animations { return this._animations; }
-    get Parent(): UIElement { return this._parent; }
+    //get Parent(): UIElement { return this._parent; }
     get IsVisible(): boolean { return this._isVisible; }
     get IsDirty(): boolean { return this._isDirty; }
     get UniqueID(): string { return this._uniqueId; }
@@ -34,7 +35,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
 
     
     //set Animations(value: Animations) { this._animations = value; }
-    set Parent(value: UIElement) { this._parent = value; }
+    //set Parent(value: UIElement) { this._parent = value; }
     set IsVisible(value: boolean) { this._isVisible = value; }
     set IsDirty(value: boolean) { this._isDirty = value; }
     set UniqueID(value: string) { this._uniqueId = value; }
@@ -48,6 +49,12 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         super();
         this._uniqueId = Guid.newGuid();
         //this._animations = new Animations();
+    }
+
+    TrySetParent(parent: IUIElement): boolean {
+        if (parent == null) return false;
+        this.Parent = parent;
+        return true;
     }
 
     LoadFromNode(node: any): void {

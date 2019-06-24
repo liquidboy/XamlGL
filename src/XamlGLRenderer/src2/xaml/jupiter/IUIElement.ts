@@ -5,4 +5,5 @@
     Name: string;
     Parent: IUIElement;
     LoadFromNode(node: any): void;
+    TrySetParent(parent: IUIElement): boolean;
 }

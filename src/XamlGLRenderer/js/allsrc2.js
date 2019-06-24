@@ -2200,6 +2200,13 @@ System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement", "X
                     }
                     catch (_b) { }
                 }
+                TrySetParent(parent) {
+                    if (super.TrySetParent(parent)) {
+                        parent.Animations.add(this);
+                        return true;
+                    }
+                    return false;
+                }
             };
             exports_23("Animation", Animation);
         }
@@ -2222,56 +2229,27 @@ System.register("Xaml/jupiter/controls/AnimationCollection", ["libs/typescript-c
         }
     };
 });
-System.register("Xaml/jupiter/controls/Animations", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_25, context_25) {
+System.register("Xaml/jupiter/IAnimatableElement", [], function (exports_25, context_25) {
     "use strict";
-    var UIElement_2, Core_2, Animations;
     var __moduleName = context_25 && context_25.id;
-    return {
-        setters: [
-            function (UIElement_2_1) {
-                UIElement_2 = UIElement_2_1;
-            },
-            function (Core_2_1) {
-                Core_2 = Core_2_1;
-            }
-        ],
-        execute: function () {
-            Animations = class Animations extends UIElement_2.UIElement {
-                get Animations() { return this._animations; }
-                set Animations(value) { this._animations = value; }
-                constructor() {
-                    super();
-                    this._animations = new Core_2.AnimationCollection();
-                }
-                LoadFromNode(node) {
-                    super.LoadFromNode(node);
-                }
-            };
-            exports_25("Animations", Animations);
-        }
-    };
-});
-System.register("Xaml/jupiter/IAnimatableElement", [], function (exports_26, context_26) {
-    "use strict";
-    var __moduleName = context_26 && context_26.id;
     return {
         setters: [],
         execute: function () {
         }
     };
 });
-System.register("Xaml/jupiter/AnimatableUIElement", ["Xaml/jupiter/Core"], function (exports_27, context_27) {
+System.register("Xaml/jupiter/AnimatableUIElement", ["Xaml/jupiter/Core"], function (exports_26, context_26) {
     "use strict";
-    var Core_3, AnimatableUIElement;
-    var __moduleName = context_27 && context_27.id;
+    var Core_2, AnimatableUIElement;
+    var __moduleName = context_26 && context_26.id;
     return {
         setters: [
-            function (Core_3_1) {
-                Core_3 = Core_3_1;
+            function (Core_2_1) {
+                Core_2 = Core_2_1;
             }
         ],
         execute: function () {
-            AnimatableUIElement = class AnimatableUIElement extends Core_3.UIElement {
+            AnimatableUIElement = class AnimatableUIElement extends Core_2.UIElement {
                 get Animations() { return this._animations; }
                 set Animations(value) { this._animations = value; }
                 constructor() {
@@ -2283,11 +2261,20 @@ System.register("Xaml/jupiter/AnimatableUIElement", ["Xaml/jupiter/Core"], funct
                 StartAnimation() { }
                 StopAnimation() { }
             };
-            exports_27("AnimatableUIElement", AnimatableUIElement);
+            exports_26("AnimatableUIElement", AnimatableUIElement);
         }
     };
 });
-System.register("Xaml/jupiter/IChildrensElement", [], function (exports_28, context_28) {
+System.register("Xaml/jupiter/IChildrensElement", [], function (exports_27, context_27) {
+    "use strict";
+    var __moduleName = context_27 && context_27.id;
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_28, context_28) {
     "use strict";
     var __moduleName = context_28 && context_28.id;
     return {
@@ -2296,7 +2283,7 @@ System.register("Xaml/jupiter/IChildrensElement", [], function (exports_28, cont
         }
     };
 });
-System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_29, context_29) {
+System.register("Xaml/jupiter/IRender", [], function (exports_29, context_29) {
     "use strict";
     var __moduleName = context_29 && context_29.id;
     return {
@@ -2305,7 +2292,7 @@ System.register("Xaml/jupiter/IFrameworkElement", [], function (exports_29, cont
         }
     };
 });
-System.register("Xaml/jupiter/IRender", [], function (exports_30, context_30) {
+System.register("Xaml/jupiter/IScript", [], function (exports_30, context_30) {
     "use strict";
     var __moduleName = context_30 && context_30.id;
     return {
@@ -2314,24 +2301,15 @@ System.register("Xaml/jupiter/IRender", [], function (exports_30, context_30) {
         }
     };
 });
-System.register("Xaml/jupiter/IScript", [], function (exports_31, context_31) {
+System.register("Xaml/jupiter/Core", ["Xaml/jupiter/AnimatableUIElement", "Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_31, context_31) {
     "use strict";
     var __moduleName = context_31 && context_31.id;
-    return {
-        setters: [],
-        execute: function () {
-        }
-    };
-});
-System.register("Xaml/jupiter/Core", ["Xaml/jupiter/AnimatableUIElement", "Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_32, context_32) {
-    "use strict";
-    var __moduleName = context_32 && context_32.id;
     function exportStar_1(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_32(exports);
+        exports_31(exports);
     }
     return {
         setters: [
@@ -2344,14 +2322,50 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/AnimatableUIElement", "Xaml/
             function (FrameworkElement_1_1) {
                 exportStar_1(FrameworkElement_1_1);
             },
-            function (UIElement_3_1) {
-                exportStar_1(UIElement_3_1);
+            function (UIElement_2_1) {
+                exportStar_1(UIElement_2_1);
             },
             function (UIElementCollection_1_1) {
                 exportStar_1(UIElementCollection_1_1);
             }
         ],
         execute: function () {
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Animations", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_32, context_32) {
+    "use strict";
+    var UIElement_3, Core_3, Animations;
+    var __moduleName = context_32 && context_32.id;
+    return {
+        setters: [
+            function (UIElement_3_1) {
+                UIElement_3 = UIElement_3_1;
+            },
+            function (Core_3_1) {
+                Core_3 = Core_3_1;
+            }
+        ],
+        execute: function () {
+            Animations = class Animations extends UIElement_3.UIElement {
+                get Animations() { return this._animations; }
+                set Animations(value) { this._animations = value; }
+                constructor() {
+                    super();
+                    this._animations = new Core_3.AnimationCollection();
+                }
+                LoadFromNode(node) {
+                    super.LoadFromNode(node);
+                }
+                TrySetParent(parent) {
+                    if (super.TrySetParent(parent)) {
+                        parent.Animations = this;
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            exports_32("Animations", Animations);
         }
     };
 });
@@ -2464,6 +2478,13 @@ System.register("Xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], functio
                     }
                     catch (_b) { }
                 }
+                TrySetParent(parent) {
+                    if (super.TrySetParent(parent)) {
+                        parent.KeyFrames.add(this);
+                        return true;
+                    }
+                    return false;
+                }
             };
             exports_35("KeyFrame", KeyFrame);
         }
@@ -2501,6 +2522,13 @@ System.register("Xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "X
                         });
                     });
                     return keys;
+                }
+                TrySetParent(parent) {
+                    if (super.TrySetParent(parent)) {
+                        parent.KeyFrames = this;
+                        return true;
+                    }
+                    return false;
                 }
             };
             exports_36("KeyFrames", KeyFrames);
@@ -3409,6 +3437,16 @@ System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], func
                     catch (e) { }
                     super.LoadFromNode(node);
                 }
+                TrySetParent(parent) {
+                    if (super.TrySetParent(parent)) {
+                        if (this.HasScript) {
+                            parent.HasScript = true;
+                            parent.Code = this.Code;
+                        }
+                        return true;
+                    }
+                    return false;
+                }
             };
             exports_52("Script", Script);
         }
@@ -3708,7 +3746,6 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.VT = Core_11.DIContainer.get(VisualTree_2.VisualTree);
                     this._uniqueId = Guid_1.Guid.newGuid();
                 }
-                get Parent() { return this._parent; }
                 get IsVisible() { return this._isVisible; }
                 get IsDirty() { return this._isDirty; }
                 get UniqueID() { return this._uniqueId; }
@@ -3716,13 +3753,18 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 get Position() { return this._position; }
                 get Code() { return this._code; }
                 get HasScript() { return this._hasScript; }
-                set Parent(value) { this._parent = value; }
                 set IsVisible(value) { this._isVisible = value; }
                 set IsDirty(value) { this._isDirty = value; }
                 set UniqueID(value) { this._uniqueId = value; }
                 set Name(value) { this._name = value; this.VT.Add(value, this); }
                 set Code(value) { this._code = value; }
                 set HasScript(value) { this._hasScript = value; }
+                TrySetParent(parent) {
+                    if (parent == null)
+                        return false;
+                    this.Parent = parent;
+                    return true;
+                }
                 LoadFromNode(node) {
                     try {
                         this._position = eval(`new BABYLON.${node.attributes["Position"].value};`);
@@ -3770,18 +3812,14 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/jupiter/Core"], function (exports_60, context_60) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_60, context_60) {
     "use strict";
-    var _controls, Core_12, Core_13, XamlParser;
+    var _controls, XamlParser;
     var __moduleName = context_60 && context_60.id;
     return {
         setters: [
             function (_controls_1) {
                 _controls = _controls_1;
-                Core_13 = _controls_1;
-            },
-            function (Core_12_1) {
-                Core_12 = Core_12_1;
             }
         ],
         execute: function () {
@@ -3802,20 +3840,8 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
                 }
                 static ProcessNode(el, parent) {
                     let nodeAsAFrameWorkElement = this.GetFrameworkElementByNode(el);
-                    if (nodeAsAFrameWorkElement != null && parent != null) {
-                        nodeAsAFrameWorkElement.Parent = parent;
-                        if (nodeAsAFrameWorkElement instanceof Core_13.Animations && parent instanceof Core_12.AnimatableUIElement)
-                            parent.Animations = nodeAsAFrameWorkElement;
-                        if (nodeAsAFrameWorkElement instanceof Core_13.KeyFrames && parent instanceof Core_13.Animation)
-                            parent.KeyFrames = nodeAsAFrameWorkElement;
-                        if (nodeAsAFrameWorkElement instanceof Core_13.Animation && parent instanceof Core_13.Animations)
-                            parent.Animations.add(nodeAsAFrameWorkElement);
-                        if (nodeAsAFrameWorkElement instanceof Core_13.KeyFrame && parent instanceof Core_13.KeyFrames)
-                            parent.KeyFrames.add(nodeAsAFrameWorkElement);
-                        if (nodeAsAFrameWorkElement instanceof Core_13.Script && nodeAsAFrameWorkElement.HasScript) {
-                            parent.HasScript = true;
-                            parent.Code = nodeAsAFrameWorkElement.Code;
-                        }
+                    if (nodeAsAFrameWorkElement != null) {
+                        nodeAsAFrameWorkElement.TrySetParent(parent);
                     }
                     if (nodeAsAFrameWorkElement != null && el != null && el.childNodes != null && el.childNodes.length > 0) {
                         this.ProcessNodeWithChildren(nodeAsAFrameWorkElement, el.childNodes);
@@ -3872,24 +3898,24 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
 });
 System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "Xaml/Core"], function (exports_61, context_61) {
     "use strict";
-    var XamlParser_1, Core_14, Core_15, VisualTree_3, Core_16, App;
+    var XamlParser_1, Core_12, Core_13, VisualTree_3, Core_14, App;
     var __moduleName = context_61 && context_61.id;
     return {
         setters: [
             function (XamlParser_1_1) {
                 XamlParser_1 = XamlParser_1_1;
             },
-            function (Core_14_1) {
-                Core_14 = Core_14_1;
+            function (Core_12_1) {
+                Core_12 = Core_12_1;
             },
-            function (Core_15_1) {
-                Core_15 = Core_15_1;
+            function (Core_13_1) {
+                Core_13 = Core_13_1;
             },
             function (VisualTree_3_1) {
                 VisualTree_3 = VisualTree_3_1;
             },
-            function (Core_16_1) {
-                Core_16 = Core_16_1;
+            function (Core_14_1) {
+                Core_14 = Core_14_1;
             }
         ],
         execute: function () {
@@ -3908,15 +3934,15 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     this.RenderScene();
                 }
                 InitializeDIContainer(rootCanvas, rootEngine) {
-                    Core_16.DIContainer.bind(VisualTree_3.VisualTree).to(VisualTree_3.VisualTree).inSingletonScope();
-                    Core_16.DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
-                    Core_16.DIContainer.bind("rootEngine").toConstantValue(rootEngine);
+                    Core_14.DIContainer.bind(VisualTree_3.VisualTree).to(VisualTree_3.VisualTree).inSingletonScope();
+                    Core_14.DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
+                    Core_14.DIContainer.bind("rootEngine").toConstantValue(rootEngine);
                 }
                 BuildVisualTree() {
                     this._rootElement = XamlParser_1.XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
                 }
                 RenderScene() {
-                    if (this._rootElement instanceof Core_15.Panel) {
+                    if (this._rootElement instanceof Core_13.Panel) {
                         let vt = this._rootElement;
                         if (vt.Children)
                             this.InitializeChildren(vt.Children);
@@ -3926,7 +3952,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 }
                 AnimateChildren(col) {
                     col.forEach((k, v) => {
-                        if (v instanceof Core_14.AnimatableUIElement) {
+                        if (v instanceof Core_12.AnimatableUIElement) {
                             let animateableCHild = v;
                             animateableCHild.StartAnimation();
                         }
@@ -3935,7 +3961,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 InitializeChildren(col) {
                     col.forEach((k, v) => {
                         v.Initialize();
-                        if (v instanceof Core_15.Panel) {
+                        if (v instanceof Core_13.Panel) {
                             let childWithChildren = v;
                             if (childWithChildren.Children.size() > 0) {
                                 this.InitializeChildren(childWithChildren.Children);

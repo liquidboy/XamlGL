@@ -1,5 +1,6 @@
 ﻿import { UIElement } from "../UIElement";
 import { AnimationCollection } from "./Core";
+import { AnimatableUIElement } from "../Core";
 
 export class Animations extends UIElement {
     private _animations: AnimationCollection;
@@ -15,5 +16,13 @@ export class Animations extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
+    }
+
+    TrySetParent(parent: UIElement): boolean {
+        if (super.TrySetParent(parent)) {
+            (parent as AnimatableUIElement).Animations = this;
+            return true;
+        }
+        return false;
     }
 }

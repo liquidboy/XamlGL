@@ -16,9 +16,18 @@ export class Script extends UIElement {
             let scriptFound: Document = parser.parseFromString(node.innerHTML, "text/html");
             this.Code = scriptFound.body.innerText;
             this.HasScript = true;
-            
         } catch (e) { }
-
         super.LoadFromNode(node);
+    }
+
+    TrySetParent(parent: UIElement): boolean {
+        if (super.TrySetParent(parent)) {
+            if (this.HasScript) {
+                parent.HasScript = true;
+                parent.Code = this.Code;
+            }
+            return true;
+        }
+        return false;
     }
 }

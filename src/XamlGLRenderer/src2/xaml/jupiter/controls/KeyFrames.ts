@@ -1,5 +1,5 @@
 ﻿import { UIElement } from "../UIElement";
-import { KeyFrameCollection } from "./Core";
+import { KeyFrameCollection, Animation } from "./Core";
 import { KeyFrame } from "./KeyFrame";
 
 export class KeyFrames extends UIElement {
@@ -27,5 +27,13 @@ export class KeyFrames extends UIElement {
             });
         });
         return keys;
+    }
+
+    TrySetParent(parent: UIElement): boolean {
+        if (super.TrySetParent(parent)) {
+            (parent as Animation).KeyFrames = this;
+            return true;
+        }
+        return false;
     }
 }

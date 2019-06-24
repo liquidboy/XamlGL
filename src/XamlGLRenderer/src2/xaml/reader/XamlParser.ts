@@ -25,29 +25,8 @@ export class XamlParser {
     private static ProcessNode(el: Node, parent: UIElement): FrameworkElement {
         let nodeAsAFrameWorkElement: FrameworkElement = this.GetFrameworkElementByNode(el);
 
-        if (nodeAsAFrameWorkElement != null && parent != null) {
-            //link parent to node
-            nodeAsAFrameWorkElement.Parent = parent as FrameworkElement;
-
-            //link animations to parent if applicable
-            if (nodeAsAFrameWorkElement instanceof Animations && parent instanceof AnimatableUIElement)
-                (parent as AnimatableUIElement).Animations = nodeAsAFrameWorkElement;
-
-            //link keyframes to parent if applicable
-            if (nodeAsAFrameWorkElement instanceof KeyFrames && parent instanceof Animation)
-                (parent as Animation).KeyFrames = nodeAsAFrameWorkElement;
-
-            //add animation to animations collection on node
-            if (nodeAsAFrameWorkElement instanceof Animation && parent instanceof Animations) (parent as Animations).Animations.add(nodeAsAFrameWorkElement);
-
-            //add keyframe to keyframes collection on node
-            if (nodeAsAFrameWorkElement instanceof KeyFrame && parent instanceof KeyFrames) (parent as KeyFrames).KeyFrames.add(nodeAsAFrameWorkElement);
-
-            //if script node then let parent know it has script and pass up the code
-            if (nodeAsAFrameWorkElement instanceof Script && nodeAsAFrameWorkElement.HasScript) {
-                parent.HasScript = true;
-                parent.Code = nodeAsAFrameWorkElement.Code;
-            }
+        if (nodeAsAFrameWorkElement != null) {
+            nodeAsAFrameWorkElement.TrySetParent(parent);
         }
 
         //VisualTreeHelper.AddFrameworkElement(newFE, parentUId);
