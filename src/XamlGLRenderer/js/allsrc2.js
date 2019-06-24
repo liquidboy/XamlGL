@@ -2151,7 +2151,7 @@ System.register("Xaml/jupiter/UIElementCollection", ["libs/typescript-collection
         }
     };
 });
-System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_23, context_23) {
+System.register("xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_23, context_23) {
     "use strict";
     var UIElement_1, Core_1, Animation;
     var __moduleName = context_23 && context_23.id;
@@ -2205,7 +2205,7 @@ System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement", "X
         }
     };
 });
-System.register("Xaml/jupiter/controls/AnimationCollection", ["libs/typescript-collections/src/lib/index"], function (exports_24, context_24) {
+System.register("xaml/jupiter/controls/AnimationCollection", ["libs/typescript-collections/src/lib/index"], function (exports_24, context_24) {
     "use strict";
     var lib_1, AnimationCollection;
     var __moduleName = context_24 && context_24.id;
@@ -2222,7 +2222,7 @@ System.register("Xaml/jupiter/controls/AnimationCollection", ["libs/typescript-c
         }
     };
 });
-System.register("Xaml/jupiter/controls/Animations", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_25, context_25) {
+System.register("xaml/jupiter/controls/Animations", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_25, context_25) {
     "use strict";
     var UIElement_2, Core_2, Animations;
     var __moduleName = context_25 && context_25.id;
@@ -2251,7 +2251,7 @@ System.register("Xaml/jupiter/controls/Animations", ["Xaml/jupiter/UIElement", "
         }
     };
 });
-System.register("Xaml/jupiter/IAnimatableElement", [], function (exports_26, context_26) {
+System.register("xaml/jupiter/IAnimatableElement", [], function (exports_26, context_26) {
     "use strict";
     var __moduleName = context_26 && context_26.id;
     return {
@@ -2260,7 +2260,7 @@ System.register("Xaml/jupiter/IAnimatableElement", [], function (exports_26, con
         }
     };
 });
-System.register("Xaml/jupiter/AnimatableUIElement", ["Xaml/jupiter/Core"], function (exports_27, context_27) {
+System.register("xaml/jupiter/AnimatableUIElement", ["Xaml/jupiter/Core"], function (exports_27, context_27) {
     "use strict";
     var Core_3, AnimatableUIElement;
     var __moduleName = context_27 && context_27.id;
@@ -2287,7 +2287,7 @@ System.register("Xaml/jupiter/AnimatableUIElement", ["Xaml/jupiter/Core"], funct
         }
     };
 });
-System.register("Xaml/jupiter/IChildrensElement", [], function (exports_28, context_28) {
+System.register("xaml/jupiter/IChildrensElement", [], function (exports_28, context_28) {
     "use strict";
     var __moduleName = context_28 && context_28.id;
     return {
@@ -2323,7 +2323,7 @@ System.register("Xaml/jupiter/IScript", [], function (exports_31, context_31) {
         }
     };
 });
-System.register("Xaml/jupiter/Core", ["Xaml/jupiter/AnimatableUIElement", "Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_32, context_32) {
+System.register("Xaml/jupiter/Core", ["xaml/jupiter/AnimatableUIElement", "Xaml/jupiter/DependencyObject", "Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElement", "Xaml/jupiter/UIElementCollection"], function (exports_32, context_32) {
     "use strict";
     var __moduleName = context_32 && context_32.id;
     function exportStar_1(m) {
@@ -2355,7 +2355,7 @@ System.register("Xaml/jupiter/Core", ["Xaml/jupiter/AnimatableUIElement", "Xaml/
         }
     };
 });
-System.register("Xaml/behaviors/MeshNormalLines", [], function (exports_33, context_33) {
+System.register("xaml/behaviors/MeshNormalLines", [], function (exports_33, context_33) {
     "use strict";
     var MeshNormalLines;
     var __moduleName = context_33 && context_33.id;
@@ -2388,7 +2388,7 @@ System.register("Xaml/behaviors/MeshNormalLines", [], function (exports_33, cont
         }
     };
 });
-System.register("Xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], function (exports_34, context_34) {
+System.register("xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], function (exports_34, context_34) {
     "use strict";
     var Core_4, KeyFrame;
     var __moduleName = context_34 && context_34.id;
@@ -2420,7 +2420,7 @@ System.register("Xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], functio
         }
     };
 });
-System.register("Xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_35, context_35) {
+System.register("xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "Xaml/jupiter/controls/Core"], function (exports_35, context_35) {
     "use strict";
     var UIElement_4, Core_5, KeyFrames;
     var __moduleName = context_35 && context_35.id;
@@ -2458,7 +2458,7 @@ System.register("Xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "X
         }
     };
 });
-System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_36, context_36) {
+System.register("xaml/jupiter/controls/Box", ["xaml/behaviors/MeshNormalLines", "xaml/jupiter/AnimatableUIElement"], function (exports_36, context_36) {
     "use strict";
     var MeshNormalLines_1, AnimatableUIElement_2, Box;
     var __moduleName = context_36 && context_36.id;
@@ -2707,7 +2707,7 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         }
     };
 });
-System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function (exports_40, context_40) {
+System.register("xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function (exports_40, context_40) {
     "use strict";
     var Core_7, Texture;
     var __moduleName = context_40 && context_40.id;
@@ -2904,7 +2904,7 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
         }
     };
 });
-System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_43, context_43) {
+System.register("xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_43, context_43) {
     "use strict";
     var lib_2, KeyFrameCollection;
     var __moduleName = context_43 && context_43.id;
@@ -2993,7 +2993,7 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         }
     };
 });
-System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_45, context_45) {
+System.register("xaml/behaviors/SceneMouseWheelZoom", [], function (exports_45, context_45) {
     "use strict";
     var SceneMouseWheelZoom;
     var __moduleName = context_45 && context_45.id;
@@ -3066,7 +3066,7 @@ System.register("services/VisualTree", ["inversify", "libs/typescript-collection
         }
     };
 });
-System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/VisualTree"], function (exports_47, context_47) {
+System.register("xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/VisualTree"], function (exports_47, context_47) {
     "use strict";
     var Core_8, VisualTree_1, MoveSelectedMesh;
     var __moduleName = context_47 && context_47.id;
@@ -3142,7 +3142,7 @@ System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/Visua
         }
     };
 });
-System.register("Xaml/behaviors/CustomScript", [], function (exports_48, context_48) {
+System.register("xaml/behaviors/CustomScript", [], function (exports_48, context_48) {
     "use strict";
     var CustomScript;
     var __moduleName = context_48 && context_48.id;
@@ -3160,7 +3160,7 @@ System.register("Xaml/behaviors/CustomScript", [], function (exports_48, context
         }
     };
 });
-System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/behaviors/SceneMouseWheelZoom", "Xaml/behaviors/MoveSelectedMesh", "Xaml/Core", "Xaml/behaviors/CustomScript"], function (exports_49, context_49) {
+System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "xaml/behaviors/SceneMouseWheelZoom", "xaml/behaviors/MoveSelectedMesh", "Xaml/Core", "xaml/behaviors/CustomScript"], function (exports_49, context_49) {
     "use strict";
     var UIElement_9, SceneMouseWheelZoom_1, MoveSelectedMesh_1, Core_9, CustomScript_1, Scene;
     var __moduleName = context_49 && context_49.id;
@@ -3244,7 +3244,7 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
         }
     };
 });
-System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], function (exports_50, context_50) {
+System.register("xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], function (exports_50, context_50) {
     "use strict";
     var UIElement_10, Script;
     var __moduleName = context_50 && context_50.id;
@@ -3276,7 +3276,7 @@ System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], func
         }
     };
 });
-System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_51, context_51) {
+System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "xaml/behaviors/MeshNormalLines"], function (exports_51, context_51) {
     "use strict";
     var UIElement_11, MeshNormalLines_2, Sphere;
     var __moduleName = context_51 && context_51.id;
@@ -3334,7 +3334,7 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
         }
     };
 });
-System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_52, context_52) {
+System.register("xaml/jupiter/controls/Torus", ["xaml/behaviors/MeshNormalLines", "xaml/jupiter/AnimatableUIElement"], function (exports_52, context_52) {
     "use strict";
     var MeshNormalLines_3, AnimatableUIElement_3, Torus;
     var __moduleName = context_52 && context_52.id;
@@ -3415,7 +3415,7 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_53, context_53) {
+System.register("Xaml/jupiter/controls/Core", ["xaml/jupiter/controls/Animation", "xaml/jupiter/controls/AnimationCollection", "xaml/jupiter/controls/Animations", "xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "xaml/jupiter/controls/KeyFrame", "xaml/jupiter/controls/KeyFrameCollection", "xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "xaml/jupiter/controls/Script", "Xaml/jupiter/controls/Sphere", "xaml/jupiter/controls/Texture", "xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_53, context_53) {
     "use strict";
     var __moduleName = context_53 && context_53.id;
     function exportStar_2(m) {
@@ -3575,18 +3575,14 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/jupiter/Core"], function (exports_57, context_57) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_57, context_57) {
     "use strict";
-    var _controls, Core_11, Core_12, XamlParser;
+    var _controls, XamlParser;
     var __moduleName = context_57 && context_57.id;
     return {
         setters: [
             function (_controls_1) {
                 _controls = _controls_1;
-                Core_12 = _controls_1;
-            },
-            function (Core_11_1) {
-                Core_11 = Core_11_1;
             }
         ],
         execute: function () {
@@ -3607,36 +3603,23 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
                 }
                 static ProcessNode(el, parent) {
                     let nodeAsAFrameWorkElement = this.GetFrameworkElementByNode(el);
-                    if (nodeAsAFrameWorkElement != null && parent != null) {
+                    if (nodeAsAFrameWorkElement != null) {
                         nodeAsAFrameWorkElement.Parent = parent;
-                        if (nodeAsAFrameWorkElement instanceof Core_12.Animations && parent instanceof Core_11.AnimatableUIElement)
-                            parent.Animations = nodeAsAFrameWorkElement;
-                        if (nodeAsAFrameWorkElement instanceof Core_12.KeyFrames && parent instanceof Core_12.Animation)
-                            parent.KeyFrames = nodeAsAFrameWorkElement;
-                        if (nodeAsAFrameWorkElement instanceof Core_12.Animation && parent instanceof Core_12.Animations)
-                            parent.Animations.add(nodeAsAFrameWorkElement);
-                        if (nodeAsAFrameWorkElement instanceof Core_12.KeyFrame && parent instanceof Core_12.KeyFrames)
-                            parent.KeyFrames.add(nodeAsAFrameWorkElement);
-                        if (nodeAsAFrameWorkElement instanceof Core_12.Script && nodeAsAFrameWorkElement.HasScript) {
-                            parent.HasScript = true;
-                            parent.Code = nodeAsAFrameWorkElement.Code;
-                        }
                     }
-                    if (nodeAsAFrameWorkElement != null && el != null && el.childNodes != null && el.childNodes.length > 0) {
-                        this.ProcessNodeWithChildren(nodeAsAFrameWorkElement, el.childNodes);
+                    if (nodeAsAFrameWorkElement != null && nodeAsAFrameWorkElement instanceof _controls.Panel && el != null && el.childNodes != null && el.childNodes.length > 0) {
+                        this.ProcessCollectionNodes(nodeAsAFrameWorkElement, el.childNodes);
                     }
                     return nodeAsAFrameWorkElement;
                 }
-                static ProcessNodeWithChildren(root, nodeCollection) {
-                    if (!nodeCollection) {
+                static ProcessCollectionNodes(root, col) {
+                    if (!col) {
                         return;
                     }
-                    for (let x = 0; x < nodeCollection.length; x++) {
-                        let node = nodeCollection.item(x);
+                    for (let x = 0; x < col.length; x++) {
+                        let node = col.item(x);
                         let newFE = this.ProcessNode(node, root);
                         if (newFE !== null) {
-                            if ('Children' in root)
-                                root.Children.setValue(newFE.Name, newFE);
+                            root.Children.setValue(newFE.Name, newFE);
                         }
                     }
                 }
@@ -3647,8 +3630,7 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
                         let newObject = eval(`new _controls.${node.nodeName}();`);
                         if (this.HasAttribute(node, "x:Name"))
                             newObject.Name = this.TryGetAttribute(node, "x:Name");
-                        if ('LoadFromNode' in newObject)
-                            newObject.LoadFromNode(node);
+                        newObject.LoadFromNode(node);
                         return newObject;
                     }
                     catch (ex) {
@@ -3677,24 +3659,24 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core", "Xaml/j
 });
 System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "Xaml/Core"], function (exports_58, context_58) {
     "use strict";
-    var XamlParser_1, Core_13, Core_14, VisualTree_3, Core_15, App;
+    var XamlParser_1, Core_11, Core_12, VisualTree_3, Core_13, App;
     var __moduleName = context_58 && context_58.id;
     return {
         setters: [
             function (XamlParser_1_1) {
                 XamlParser_1 = XamlParser_1_1;
             },
-            function (Core_13_1) {
-                Core_13 = Core_13_1;
+            function (Core_11_1) {
+                Core_11 = Core_11_1;
             },
-            function (Core_14_1) {
-                Core_14 = Core_14_1;
+            function (Core_12_1) {
+                Core_12 = Core_12_1;
             },
             function (VisualTree_3_1) {
                 VisualTree_3 = VisualTree_3_1;
             },
-            function (Core_15_1) {
-                Core_15 = Core_15_1;
+            function (Core_13_1) {
+                Core_13 = Core_13_1;
             }
         ],
         execute: function () {
@@ -3713,15 +3695,15 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     this.RenderScene();
                 }
                 InitializeDIContainer(rootCanvas, rootEngine) {
-                    Core_15.DIContainer.bind(VisualTree_3.VisualTree).to(VisualTree_3.VisualTree).inSingletonScope();
-                    Core_15.DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
-                    Core_15.DIContainer.bind("rootEngine").toConstantValue(rootEngine);
+                    Core_13.DIContainer.bind(VisualTree_3.VisualTree).to(VisualTree_3.VisualTree).inSingletonScope();
+                    Core_13.DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
+                    Core_13.DIContainer.bind("rootEngine").toConstantValue(rootEngine);
                 }
                 BuildVisualTree() {
                     this._rootElement = XamlParser_1.XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
                 }
                 RenderScene() {
-                    if (this._rootElement instanceof Core_14.Panel) {
+                    if (this._rootElement instanceof Core_12.Panel) {
                         let vt = this._rootElement;
                         if (vt.Children)
                             this.InitializeChildren(vt.Children);
@@ -3731,7 +3713,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 }
                 AnimateChildren(col) {
                     col.forEach((k, v) => {
-                        if (v instanceof Core_13.AnimatableUIElement) {
+                        if (v instanceof Core_11.AnimatableUIElement) {
                             let animateableCHild = v;
                             animateableCHild.StartAnimation();
                         }
@@ -3740,7 +3722,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 InitializeChildren(col) {
                     col.forEach((k, v) => {
                         v.Initialize();
-                        if (v instanceof Core_14.Panel) {
+                        if (v instanceof Core_12.Panel) {
                             let childWithChildren = v;
                             if (childWithChildren.Children.size() > 0) {
                                 this.InitializeChildren(childWithChildren.Children);

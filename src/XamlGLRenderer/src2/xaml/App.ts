@@ -1,8 +1,7 @@
 ﻿import { XamlMarkup } from "./reader/XamlMarkup";
 import { XamlParser } from "./reader/XamlParser";
-import { IFrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement, IRender } from "./jupiter/Core";
-import { Panel, Scene, Camera, Material } from "./jupiter/controls/Core";
-import { Container } from "inversify";
+import { IFrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement } from "./jupiter/Core";
+import { Panel } from "./jupiter/controls/Core";
 import { VisualTree } from "../services/VisualTree";
 import { DIContainer } from "./Core";
 
