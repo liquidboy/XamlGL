@@ -1,7 +1,5 @@
-﻿import { Scene, Light, Sphere } from "../jupiter/controls/Core";
-import { UIElement } from "../jupiter/Core";
-import { VisualTree } from "../Core";
-import { PointLight } from "babylonjs";
+﻿import { VisualTree } from "../Core";
+import { Container } from "inversify";
 
 export class CustomScript {
 
@@ -9,10 +7,10 @@ export class CustomScript {
 
     }
 
-    public static Install(vt: VisualTree, code: string): void {
+    //important : any param injected here wil be available as is in the eval'd script code
+    public static Install(vt: VisualTree, di: Container, code: string): void {
         //https://stackoverflow.com/questions/13906161/javascript-pass-eval-variables
         ////eval(vt.ParseScript(code));
         eval(code);
     }
-
 }

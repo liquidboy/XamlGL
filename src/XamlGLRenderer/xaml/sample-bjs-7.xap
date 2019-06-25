@@ -8,13 +8,13 @@
           var scene = vt.Get("mainScene");
           var camera = vt.Get("arcRotateCamera");
           var start_time = Date.now();
-          var canvas = DIContainer.get("rootCanvas");
-
+          var canvas = di.get("rootCanvas");
+          
           scene.Scene.beforeRender = () => {
             var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
             camera.Camera.position.z = cameraDepth;
           };
-
+          
           let plane;
           let pickOrigin;
           let isPanning = false;
