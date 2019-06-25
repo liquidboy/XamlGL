@@ -46,6 +46,8 @@ export class Material extends UIElement {
             };
         } else if (this.Type === "ShaderMaterial") {
             this._material = new BABYLON.ShaderMaterial("cloud", scene.Scene, this.ShaderPath, this.Options);
+        } else if (this.Type === "GridMaterial") {
+            this._material = new BABYLON.GridMaterial("cloud", scene.Scene);
         }
         
         this.PostInitialize();

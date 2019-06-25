@@ -425,6 +425,7 @@
     <Content Include="xaml\sample-bjs-4.xap" />
     <Content Include="xaml\sample-bjs-5.xap" />
     <Content Include="xaml\sample-bjs-6.xap" />
+    <Content Include="xaml\sample-bjs-7.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

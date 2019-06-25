@@ -1,0 +1,79 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+    <Grid x:Name="layoutRoot">
+      <Scene x:Name="mainScene">
+        <Script>
+          var scene = vt.Get("mainScene");
+          var camera = vt.Get("freeCamera");
+          var start_time = Date.now();
+
+          scene.Scene.beforeRender = () => {
+          var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
+          camera.Camera.position.z = cameraDepth;
+          };
+
+          let plane;
+          let pickOrigin;
+          let isPanning = false;
+          scene.Scene.onPointerDown = (evt) => {
+            if (evt.ctrlKey) {
+              var pickResult = scene.Scene.pick(scene.Scene.pointerX, scene.Scene.pointerY);
+              if (pickResult.pickedMesh) {
+                let normal = camera.Camera.position.subtract(pickResult.pickedPoint).normalize();
+                plane = BABYLON.Plane.FromPositionAndNormal(pickResult.pickedPoint, normal);
+                pickOrigin = pickResult.pickedPoint;
+                isPanning = true;
+                camera.Camera.detachControl(canvas);
+              }
+            }
+          };
+
+          scene.Scene.onPointerUp = () => {
+            isPanning = false;
+            camera.Camera.attachControl(canvas, true, true);
+          };
+
+          const identity = BABYLON.Matrix.Identity();
+          scene.Scene.onPointerMove = (evt) => {
+            if (isPanning) {
+              let ray = scene.Scene.createPickingRay(scene.Scene.pointerX, scene.Scene.pointerY, identity, camera, false);
+              let distance = ray.intersectsPlane(plane);
+
+              if (distance === null) {
+                return;
+              }
+              let pickedPoint = ray.direction.scale(distance).add(ray.origin);
+              let diff = pickedPoint.subtract(pickOrigin);
+              camera.Camera.target.subtractInPlace(diff);
+            }
+          };
+        </Script>
+      </Scene>
+
+      <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  Alpha="-0.8706742189221193" Beta="1.1903662489867926" Radius="12"
+              Target="Vector3.Zero()" PanningSensibility="200" Scene="mainScene"></Camera>
+
+      <Light x:Name="light" Type="HemisphericLight" Scene="mainScene" Direction="Vector3.Up()"></Light>
+
+      <Material x:Name="groundMaterial" Type="GridMaterial" Scene="mainScene">
+          <Script>
+            var groundMaterial = vt.Get("groundMaterial");
+            groundMaterial.Material.majorUnitFrequency = 5;
+            groundMaterial.Material.minorUnitVisibility = 0.45;
+            groundMaterial.Material.gridRatio = 1;
+            groundMaterial.Material.backFaceCulling = false;
+            groundMaterial.Material.mainColor = new BABYLON.Color3.FromHexString('#6C6C6C');
+            groundMaterial.Material.lineColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+            groundMaterial.Material.opacity = 0.48;
+          </Script>
+      </Material>
+
+      <Ground x:Name="ground" Scene="mainScene" Width="50" Height="50" Material="groundMaterial"></Ground>
+
+      <Box x:Name="box" Scene="mainScene" Width="2"></Box>
+
+    </Grid>
+    <!-- https://playground.babylonjs.com/#GD4NPB#1 -->
+</Application>
