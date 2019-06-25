@@ -1,6 +1,7 @@
 ﻿import { UIElement } from "../UIElement";
 import { Scene } from "./Core";
 import { Texture } from "./Texture";
+import 'babylonjs-materials';
 
 export class Material extends UIElement {
     private _material: BABYLON.Material;
@@ -47,7 +48,7 @@ export class Material extends UIElement {
         } else if (this.Type === "ShaderMaterial") {
             this._material = new BABYLON.ShaderMaterial("cloud", scene.Scene, this.ShaderPath, this.Options);
         } else if (this.Type === "GridMaterial") {
-            this._material = new BABYLON.GridMaterial("cloud", scene.Scene);
+            this._material= new BABYLON.GridMaterial(this.Name, scene.Scene);            
         }
         
         this.PostInitialize();

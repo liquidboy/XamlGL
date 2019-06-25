@@ -2561,7 +2561,8 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                     let material = this.VT.Get(this.MaterialName);
                     this._scene = this.VT.Get(this.SceneName);
                     this._mesh = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Scene);
-                    this._mesh.material = material.Material;
+                    if (material && material.Material)
+                        this._mesh.material = material.Material;
                     if (this.Position != undefined)
                         this._mesh.position = this.Position;
                     if (this.InfiniteDistance !== undefined)
@@ -2644,6 +2645,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 get FOV() { return this._fov; }
                 get MinZ() { return this._minz; }
                 get MaxZ() { return this._maxz; }
+                get PanningSensibility() { return this._panningSensibility; }
                 Initialize() {
                     let canvas = Core_7.DIContainer.get("rootCanvas");
                     let scene = this.VT.Get(this.SceneName);
@@ -2657,10 +2659,12 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                             this.GetFreeCamera(this._camera).minZ = this.MinZ;
                         if (this.MaxZ !== undefined)
                             this.GetFreeCamera(this._camera).maxZ = this.MaxZ;
+                        this._camera.attachControl(canvas, true);
                     }
                     else if (this._type === "UniversalCamera") {
                         this._camera = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Scene);
                         this._camera.setTarget(this._target);
+                        this._camera.attachControl(canvas, true);
                     }
                     else if (this._type === "ArcRotateCamera") {
                         let arcCampera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius, this._target, scene.Scene);
@@ -2670,9 +2674,11 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                             arcCampera.upperBetaLimit = this._upperBetaLimit;
                         if (this._lowerRadiusLimit)
                             arcCampera.lowerRadiusLimit = this._lowerRadiusLimit;
+                        if (this._panningSensibility)
+                            arcCampera.panningSensibility = this._panningSensibility;
+                        arcCampera.attachControl(canvas, true, true);
                         this._camera = arcCampera;
                     }
-                    this._camera.attachControl(canvas, true);
                     this.PostInitialize();
                 }
                 LoadFromNode(node) {
@@ -2723,6 +2729,10 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                     catch (e) { }
                     try {
                         this._maxz = parseFloat(node.attributes["MaxZ"].value);
+                    }
+                    catch (e) { }
+                    try {
+                        this._panningSensibility = parseFloat(node.attributes["PanningSensibility"].value);
                     }
                     catch (e) { }
                 }
@@ -2855,7 +2865,7 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function
         }
     };
 });
-System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], function (exports_42, context_42) {
+System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "babylonjs-materials"], function (exports_42, context_42) {
     "use strict";
     var UIElement_6, Material;
     var __moduleName = context_42 && context_42.id;
@@ -2863,6 +2873,8 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
         setters: [
             function (UIElement_6_1) {
                 UIElement_6 = UIElement_6_1;
+            },
+            function (_1) {
             }
         ],
         execute: function () {
@@ -2903,6 +2915,9 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement"], fu
                     }
                     else if (this.Type === "ShaderMaterial") {
                         this._material = new BABYLON.ShaderMaterial("cloud", scene.Scene, this.ShaderPath, this.Options);
+                    }
+                    else if (this.Type === "GridMaterial") {
+                        this._material = new BABYLON.GridMaterial(this.Name, scene.Scene);
                     }
                     this.PostInitialize();
                 }
@@ -4061,7 +4076,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
     var __moduleName = context_64 && context_64.id;
     return {
         setters: [
-            function (_1) {
+            function (_2) {
             },
             function (XamlGLCore_1) {
                 XamlGLCore = XamlGLCore_1;

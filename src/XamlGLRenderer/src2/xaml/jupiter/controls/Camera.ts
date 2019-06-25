@@ -17,6 +17,7 @@ export class Camera extends UIElement {
     private _fov: number;
     private _minz: number;
     private _maxz: number;
+    private _panningSensibility: number;
 
     get Camera(): BABYLON.Camera { return this._camera; }
     get SceneName(): string { return this._sceneName; }
@@ -31,6 +32,7 @@ export class Camera extends UIElement {
     get FOV(): number { return this._fov; }
     get MinZ(): number { return this._minz; }
     get MaxZ(): number { return this._maxz; }
+    get PanningSensibility(): number { return this._panningSensibility; }
 
     public Initialize(): void {
         let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
@@ -41,21 +43,25 @@ export class Camera extends UIElement {
             if (this.FOV !== undefined) this.GetFreeCamera(this._camera).fov = this.FOV;
             if (this.MinZ !== undefined) this.GetFreeCamera(this._camera).minZ = this.MinZ;
             if (this.MaxZ !== undefined) this.GetFreeCamera(this._camera).maxZ = this.MaxZ;
+            this._camera.attachControl(canvas, true);
         }
         else if (this._type === "UniversalCamera") {
             this._camera = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Scene);
             (this._camera as BABYLON.UniversalCamera).setTarget(this._target);
+            this._camera.attachControl(canvas, true);
         }
         else if (this._type === "ArcRotateCamera") {
-            let arcCampera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius,
+            let arcCampera: BABYLON.ArcRotateCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius,
                 this._target, scene.Scene);
             if (this._lowerBetaLimit) arcCampera.lowerBetaLimit = this._lowerBetaLimit;
             if (this._upperBetaLimit) arcCampera.upperBetaLimit = this._upperBetaLimit;
             if (this._lowerRadiusLimit) arcCampera.lowerRadiusLimit = this._lowerRadiusLimit;
+            if (this._panningSensibility) arcCampera.panningSensibility = this._panningSensibility;
+            arcCampera.attachControl(canvas, true, true);
             this._camera = arcCampera;
         }
         
-        this._camera.attachControl(canvas, true);
+        
         this.PostInitialize();
     }
 
@@ -73,6 +79,7 @@ export class Camera extends UIElement {
         try { this._fov = parseFloat(node.attributes["FOV"].value); } catch (e) { }
         try { this._minz= parseFloat(node.attributes["MinZ"].value); } catch (e) { }
         try { this._maxz = parseFloat(node.attributes["MaxZ"].value); } catch (e) { }
+        try { this._panningSensibility = parseFloat(node.attributes["PanningSensibility"].value); } catch (e) { }
     }
 
 

@@ -30,7 +30,7 @@ export class Light extends UIElement {
             if (this._diffuseColor) pl.diffuse = this._diffuseColor;
             if (this._specularColor) pl.specular = this._specularColor;
             this._light = pl;
-        }
+        } 
         this.PostInitialize();
     }
 

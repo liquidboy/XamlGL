@@ -6,12 +6,13 @@
       <Scene x:Name="mainScene">
         <Script>
           var scene = vt.Get("mainScene");
-          var camera = vt.Get("freeCamera");
+          var camera = vt.Get("arcRotateCamera");
           var start_time = Date.now();
+          var canvas = DIContainer.get("rootCanvas");
 
           scene.Scene.beforeRender = () => {
-          var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
-          camera.Camera.position.z = cameraDepth;
+            var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
+            camera.Camera.position.z = cameraDepth;
           };
 
           let plane;
@@ -38,7 +39,7 @@
           const identity = BABYLON.Matrix.Identity();
           scene.Scene.onPointerMove = (evt) => {
             if (isPanning) {
-              let ray = scene.Scene.createPickingRay(scene.Scene.pointerX, scene.Scene.pointerY, identity, camera, false);
+              let ray = scene.Scene.createPickingRay(scene.Scene.pointerX, scene.Scene.pointerY, identity, camera.Camera, false);
               let distance = ray.intersectsPlane(plane);
 
               if (distance === null) {

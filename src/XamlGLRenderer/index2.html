@@ -24,9 +24,10 @@
 
     <script src="./node_modules/systemjs/dist/system.js"></script>
     <script src="./js/jquery.min.js"></script>
-    
-    <script src="https://preview.babylonjs.com/babylon.js"></script>
-    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+
+    <!--<script src="https://preview.babylonjs.com/babylon.js"></script>-->
+    <!--<script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>-->
+    <!--<script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>-->
     <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
 
     <script src="js/allsrc2.js?v=5"></script>
@@ -36,7 +37,7 @@
             var el = document.getElementById('content');
 
             ////configure system loader
-    
+
             System.config({
                 defaultExtension: "js",
                 packages: {
@@ -47,6 +48,8 @@
                 map: {
                     'reflect-metadata': './node_modules/reflect-metadata/Reflect.js',
                     'inversify': './node_modules/inversify/lib/inversify.js',
+                    'babylonjs': './node_modules/babylonjs/babylon.max.js',
+                    'babylonjs-materials': './node_modules/babylonjs-materials/babylonjs.materials.min.js',
                     'crypto': '@empty'
                 }
             });

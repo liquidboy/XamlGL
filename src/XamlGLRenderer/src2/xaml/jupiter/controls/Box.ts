@@ -27,7 +27,7 @@ export class Box extends AnimatableUIElement {
 
         this._scene = this.VT.Get(this.SceneName) as Scene;
         this._mesh = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Scene);
-        this._mesh.material = material.Material;
+        if (material && material.Material) this._mesh.material = material.Material;
         if (this.Position != undefined) this._mesh.position = this.Position;
         if (this.InfiniteDistance !== undefined) this._mesh.infiniteDistance = this._infiniteDistance;
         if (this._showNormalLines !== undefined && this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);

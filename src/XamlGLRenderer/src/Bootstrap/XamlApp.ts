@@ -1,4 +1,7 @@
 ﻿/// <reference path="../../node_modules/babylonjs/babylon.module.d.ts" />
+/// <reference path="../../node_modules/babylonjs-materials/babylonjs.materials.module.d.ts" />
+/// <reference path="../../node_modules/babylonjs-gui/babylon.gui.module.d.ts" />
+
 import * as XamlGLCore from "./../XamlGL/Core";
 
 export class XamlApp {
