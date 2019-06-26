@@ -1,0 +1,52 @@
+﻿import { UIElement } from "../UIElement";
+import { ParticleSystem, Mesh } from "./Core";
+
+export class ParticleSystemShape extends UIElement {
+    
+    private _sceneName: string;
+    private _meshName: string;
+    private _nb: number;
+
+    get SceneName(): string { return this._sceneName; }
+    get MeshName(): string { return this._meshName; }
+    get NB(): number { return this._nb; }
+
+    constructor() {
+        super();
+    }
+
+    public Initialize(): void {
+        let ps: ParticleSystem = this.Parent as ParticleSystem;
+        let mesh: Mesh = this.VT.Get(this.MeshName) as Mesh;
+        let posFn: any = eval(this.Code);
+        ps.ParticleSystem.addShape(mesh.Mesh, this.NB, { positionFunction: posFn });
+        let newMesh = ps.ParticleSystem.buildMesh();
+        mesh.Mesh.dispose();
+    }
+
+    public LoadFromNode(node: any): void {
+        try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
+        try { this._meshName = node.attributes["Mesh"].value; } catch (e) { }
+        try { this._nb = parseInt(node.attributes["NB"].value); } catch (e) { }
+
+        try {
+            let parser: DOMParser = new DOMParser();
+            let scriptFound: Document = parser.parseFromString(node.innerHTML, "text/html");
+            this.Code = node.childNodes[1].wholeText;
+            //this.Code = scriptFound.body.innerText;
+            this.HasScript = true;
+        } catch (e) { }
+        super.LoadFromNode(node);
+    }
+
+    TrySetParent(parent: UIElement): boolean {
+        if (super.TrySetParent(parent)) {
+            if (this.HasScript) {
+                let ps: ParticleSystem = parent as ParticleSystem;
+                ps.Children.setValue(this.Name, this);
+            }
+            return true;
+        }
+        return false;
+    }
+}

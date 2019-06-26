@@ -8,6 +8,7 @@ export class Light extends UIElement {
     private _type: string;
     private _diffuseColor: BABYLON.Color3;
     private _specularColor: BABYLON.Color3;
+    private _intensity: number;
 
     get Light(): BABYLON.Light { return this._light; }
     get SceneName(): string { return this._sceneName; }
@@ -15,6 +16,7 @@ export class Light extends UIElement {
     get Type(): string { return this._type; }
     get DiffuseColor(): BABYLON.Color3 { return this._diffuseColor; }
     get SpecularColor(): BABYLON.Color3 { return this._specularColor; }
+    get Intensity(): number { return this._intensity; }
     
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
@@ -24,6 +26,7 @@ export class Light extends UIElement {
             let pl: BABYLON.Light = new BABYLON.PointLight(this.Name, this._direction, scene.Scene);
             if (this._diffuseColor) pl.diffuse = this._diffuseColor; 
             if (this._specularColor) pl.specular = this._specularColor;
+            if (this._intensity) pl.intensity = this._intensity;
             this._light = pl;
         } else if (this._type === "DirectionalLight") {
             let pl: BABYLON.Light = new BABYLON.DirectionalLight(this.Name, this._direction, scene.Scene);
@@ -41,6 +44,7 @@ export class Light extends UIElement {
         try { this._type = node.attributes["Type"].value; } catch (e) { }
         try { this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value)); } catch (e) { }
         try { this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value)); } catch (e) { }
+        try { this._intensity= parseFloat(node.attributes["Intensity"].value); } catch (e) { }
     }
 
     private cleanBabylonColor3Attribute(color3: string): string {
