@@ -71,6 +71,7 @@ export class Camera extends UIElement {
         try { this._target = eval(`new BABYLON.${node.attributes["Target"].value};`); } catch (e) { }
         try { this._type = node.attributes["Type"].value; } catch (e) { }
         try { this._alpha = parseFloat(node.attributes["Alpha"].value); } catch (e) { }
+        try { this._alpha = eval(node.attributes["AlphaCalculated"].value); } catch (e) { } //hack to allow alpha to support both a number and a calculated field
         try { this._beta = parseFloat(node.attributes["Beta"].value); } catch (e) { }
         try { this._radius = parseFloat(node.attributes["Radius"].value); } catch (e) { }
         try { this._lowerBetaLimit = eval(`${node.attributes["LowerBetaLimit"].value};`); } catch (e) { }

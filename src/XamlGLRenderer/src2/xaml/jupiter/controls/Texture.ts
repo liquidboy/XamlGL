@@ -4,6 +4,7 @@ import { AnimatableUIElement } from "../AnimatableUIElement";
 import { Animation } from "./Animation";
 import { KeyFrames } from "./KeyFrames";
 import { UIElement } from "../Core";
+import 'babylonjs-gui';
 
 export class Texture extends UIElement {
     private _texture: BABYLON.BaseTexture;
@@ -32,6 +33,8 @@ export class Texture extends UIElement {
             this._texture = new BABYLON.DynamicTexture(this.Name, 512, scene.Scene, this.GeneratingMipMaps);
         } else if (this._type === "Texture") {
             this._texture = new BABYLON.Texture(this.RootUrl, scene.Scene);
+        } else if (this._type === "AdvancedDynamicTexture") {
+            this._texture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
         }
 
         if (this._texture !== undefined) {

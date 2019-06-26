@@ -2702,6 +2702,10 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                     }
                     catch (e) { }
                     try {
+                        this._alpha = eval(node.attributes["AlphaCalculated"].value);
+                    }
+                    catch (e) { }
+                    try {
                         this._beta = parseFloat(node.attributes["Beta"].value);
                     }
                     catch (e) { }
@@ -2935,7 +2939,7 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         }
     };
 });
-System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function (exports_43, context_43) {
+System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonjs-gui"], function (exports_43, context_43) {
     "use strict";
     var Core_8, Texture;
     var __moduleName = context_43 && context_43.id;
@@ -2943,6 +2947,8 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function
         setters: [
             function (Core_8_1) {
                 Core_8 = Core_8_1;
+            },
+            function (_1) {
             }
         ],
         execute: function () {
@@ -2964,6 +2970,9 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core"], function
                     }
                     else if (this._type === "Texture") {
                         this._texture = new BABYLON.Texture(this.RootUrl, scene.Scene);
+                    }
+                    else if (this._type === "AdvancedDynamicTexture") {
+                        this._texture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
                     }
                     if (this._texture !== undefined) {
                         if (this._coordinatesMode !== undefined)
@@ -3012,7 +3021,7 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "ba
             function (UIElement_7_1) {
                 UIElement_7 = UIElement_7_1;
             },
-            function (_1) {
+            function (_2) {
             }
         ],
         execute: function () {
@@ -3033,7 +3042,8 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "ba
                     let scene = this.VT.Get(this.SceneName);
                     if (this.Type === "StandardMaterial") {
                         this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
-                        this._material.wireframe = this._wireframe;
+                        if (this._wireframe)
+                            this._material.wireframe = this._wireframe;
                         if (this._diffuseColor !== undefined)
                             this.GetStandardMaterial(this._material).diffuseColor = this._diffuseColor;
                         if (this._specularColor !== undefined)
@@ -3207,6 +3217,10 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         ],
         execute: function () {
             Light = class Light extends UIElement_9.UIElement {
+                constructor() {
+                    super(...arguments);
+                    this._direction = BABYLON.Vector3.Zero();
+                }
                 get Light() { return this._light; }
                 get SceneName() { return this._sceneName; }
                 get Direction() { return this._direction; }
@@ -3797,7 +3811,7 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
-                    this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
+                    this._mesh = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Scene);
                     this._mesh.position = this.Position;
                     this._mesh.material = material.Material;
                     if (this._showNormalLines)
@@ -4368,7 +4382,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
     var __moduleName = context_68 && context_68.id;
     return {
         setters: [
-            function (_2) {
+            function (_3) {
             },
             function (XamlGLCore_1) {
                 XamlGLCore = XamlGLCore_1;

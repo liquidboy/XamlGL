@@ -4,7 +4,7 @@ import { Scene } from "./Core";
 export class Light extends UIElement {
     private _light: BABYLON.Light;
     private _sceneName: string;
-    private _direction: BABYLON.Vector3;
+    private _direction: BABYLON.Vector3 = BABYLON.Vector3.Zero(); //defaults to zero
     private _type: string;
     private _diffuseColor: BABYLON.Color3;
     private _specularColor: BABYLON.Color3;

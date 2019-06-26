@@ -1,0 +1,30 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+    <Grid x:Name="layoutRoot">
+      <Scene x:Name="mainScene"></Scene>
+
+      <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  AlphaCalculated="-Math.PI / 2" Beta="1.0" 
+              Radius="110" Target="Vector3.Zero()" Scene="mainScene"></Camera>
+
+      <Light x:Name="toto" Type="HemisphericLight" Scene="mainScene"></Light>
+
+      <Material x:Name="sphereMaterial" Type="StandardMaterial" Scene="mainScene" ></Material>
+
+      <Sphere x:Name="sphere1" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(-30,0,0)" Material="sphereMaterial"></Sphere>
+      <Sphere x:Name="sphere2" Segments="2.0" Diameter="9.0" Scene="mainScene"  Position="Vector3(-20,0,0)" Material="sphereMaterial"></Sphere>
+      <Sphere x:Name="sphere3" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(-10,0,0)" Material="sphereMaterial"></Sphere>
+      <Sphere x:Name="sphere4" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(0,0,0)" Material="sphereMaterial"></Sphere>
+      <Sphere x:Name="sphere5" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(10,0,0)" Material="sphereMaterial"></Sphere>
+      <Sphere x:Name="sphere6" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(20,0,0)" Material="sphereMaterial"></Sphere>
+      <Sphere x:Name="sphere7" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(30,0,0)" Material="sphereMaterial"></Sphere>
+
+      <Texture x:Name="ui1" Type="AdvancedDynamicTexture">
+        
+      </Texture>
+
+
+    </Grid>
+    <!-- https://playground.babylonjs.com/#GD4NPB#1 -->
+</Application>

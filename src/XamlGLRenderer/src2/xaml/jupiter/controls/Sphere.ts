@@ -21,7 +21,8 @@ export class Sphere extends UIElement {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         let material: Material = this.VT.Get(this.MaterialName) as Material;
 
-        this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
+        this._mesh = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Scene);
+        //this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
         this._mesh.position = this.Position;
         this._mesh.material = material.Material;
 
