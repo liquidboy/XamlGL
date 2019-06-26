@@ -5,7 +5,7 @@
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene"></Scene>
 
-      <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  AlphaCalculated="-Math.PI / 2" Beta="1.0" 
+      <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  AlphaCalculated="-Math.PI/2" Beta="1.0" 
               Radius="110" Target="Vector3.Zero()" Scene="mainScene"></Camera>
 
       <Light x:Name="toto" Type="HemisphericLight" Scene="mainScene"></Light>
@@ -21,10 +21,33 @@
       <Sphere x:Name="sphere7" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(30,0,0)" Material="sphereMaterial"></Sphere>
 
       <Texture x:Name="ui1" Type="AdvancedDynamicTexture">
-        
-      </Texture>
+        <StackPanel x:Name="area1" Width="0.25" Rotation="0.2" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT">
+          <Button x:Name="but1" Content="Click me" Width="0.2" Height="40px" Color="White" CornerRadius="20" Background="green">
+            <Event EventName="onPointerUpObservable">
+              <![CDATA[
+              ()=>{
+                let circle = vt.Get("circle1");
+                circle.scaleX += 0.1;
+              }
+              ]]>
+            </Event>
+          </Button>
+          <Ellipse x:Name="circle1" Width="50px" Color="white" thickness="5" Height="50px" PaddingTop="2px" PaddingBottom="2px"></Ellipse>
+          <Button x:Name="but2" Content="Click me 2" Width="0.2" Height="40px" Color="white" Background="green">
+            <Event EventName="onPointerUpObservable">
+              <![CDATA[
+              ()=>{
+                let circle = vt.Get("circle1");
+                circle.scaleX -= 0.1;
+              }
+              ]]>
+            </Event>
+          </Button>
+        </StackPanel>
+      
+    </Texture>
 
 
     </Grid>
-    <!-- https://playground.babylonjs.com/#GD4NPB#1 -->
+    <!-- https://www.babylonjs-playground.com/#3VMTI9#0 -->
 </Application>

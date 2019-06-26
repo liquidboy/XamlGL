@@ -118,6 +118,8 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Background.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Mesh.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Event.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Button.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\StackPanel.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\ParticleSystemShape.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\ParticleSystem.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\ShadersStore.ts" />
@@ -433,6 +435,7 @@
     <Content Include="xaml\sample-bjs-8.xap" />
     <Content Include="xaml\sample-bjs-9.xap" />
     <Content Include="xaml\sample-bjs-10.xap" />
+    <Content Include="xaml\sample-bjs-11.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

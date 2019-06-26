@@ -3,6 +3,7 @@ export * from "./AnimationCollection"
 export * from "./Animations";
 export * from "./Background";
 export * from "./Box";
+export * from "./Button";
 export * from "./Camera";
 export * from "./Disc";
 export * from "./Event";
@@ -21,6 +22,7 @@ export * from "./Scene";
 export * from "./Script";
 export * from "./ShadersStore";
 export * from "./Sphere";
+export * from "./StackPanel";
 export * from "./Texture";
 export * from "./Torus";
 export * from "./Material";

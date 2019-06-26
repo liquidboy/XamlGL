@@ -23,6 +23,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     private _code: string;
     private _hasScript: boolean = false;
     private _childEvents: LinkedDictionary<string, Event>;
+    private _childGuis: LinkedDictionary<string, UIElement>;
 
     //get Animations(): Animations { return this._animations; }
     //get Parent(): UIElement { return this._parent; }
@@ -34,6 +35,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     get Code(): string { return this._code; }
     get HasScript(): boolean { return this._hasScript; }
     get ChildrenEvents(): LinkedDictionary<string, Event> { return this._childEvents; }
+    get ChildrenGUIs(): LinkedDictionary<string, UIElement> { return this._childGuis; }
     
     //set Animations(value: Animations) { this._animations = value; }
     //set Parent(value: UIElement) { this._parent = value; }
@@ -51,6 +53,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         super();
         this._uniqueId = Guid.newGuid();
         this._childEvents = new LinkedDictionary<string, Event>();
+        this._childGuis = new LinkedDictionary<string, UIElement>();
         //this._animations = new Animations();
     }
 

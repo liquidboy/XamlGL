@@ -35,6 +35,10 @@ export class Texture extends UIElement {
             this._texture = new BABYLON.Texture(this.RootUrl, scene.Scene);
         } else if (this._type === "AdvancedDynamicTexture") {
             this._texture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
+
+            this.ChildrenGUIs.forEach((key: string, child: UIElement) => {
+                child.Initialize();
+            });
         }
 
         if (this._texture !== undefined) {
