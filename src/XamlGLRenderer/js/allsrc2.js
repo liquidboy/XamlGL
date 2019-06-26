@@ -2667,17 +2667,19 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                         this._camera.attachControl(canvas, true);
                     }
                     else if (this._type === "ArcRotateCamera") {
-                        let arcCampera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius, this._target, scene.Scene);
+                        let arcCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius, this._target, scene.Scene);
                         if (this._lowerBetaLimit)
-                            arcCampera.lowerBetaLimit = this._lowerBetaLimit;
+                            arcCamera.lowerBetaLimit = this._lowerBetaLimit;
                         if (this._upperBetaLimit)
-                            arcCampera.upperBetaLimit = this._upperBetaLimit;
+                            arcCamera.upperBetaLimit = this._upperBetaLimit;
                         if (this._lowerRadiusLimit)
-                            arcCampera.lowerRadiusLimit = this._lowerRadiusLimit;
+                            arcCamera.lowerRadiusLimit = this._lowerRadiusLimit;
                         if (this._panningSensibility)
-                            arcCampera.panningSensibility = this._panningSensibility;
-                        arcCampera.attachControl(canvas, true, true);
-                        this._camera = arcCampera;
+                            arcCamera.panningSensibility = this._panningSensibility;
+                        if (this.Position)
+                            arcCamera.position = this.Position;
+                        arcCamera.attachControl(canvas, true, true);
+                        this._camera = arcCamera;
                     }
                     this.PostInitialize();
                 }
@@ -2759,24 +2761,23 @@ System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines",
         ],
         execute: function () {
             Disc = class Disc extends AnimatableUIElement_3.AnimatableUIElement {
+                get Mesh() { return this._mesh; }
                 get SceneName() { return this._sceneName; }
                 get MaterialName() { return this._materialName; }
                 get ShowNormalLines() { return this._showNormalLines; }
                 get Radius() { return this._radius; }
-                get Tesselation() { return this._tesselation; }
+                get Tessellation() { return this._tessellation; }
                 get Updateable() { return this._updatable; }
                 get SideOrientation() { return this._sideOrieantation; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     this._scene = scene;
-                    this._mesh = BABYLON.Mesh.CreateDisc(this.Name, this.Radius, this.Tesselation, scene.Scene, this.Updateable, this.SideOrientation);
+                    this._mesh = BABYLON.MeshBuilder.CreateDisc(this.Name, { tessellation: this.Tessellation, sideOrientation: this.SideOrientation }, scene.Scene);
                     if (this.MaterialName) {
                         let material = this.VT.Get(this.MaterialName);
                         if (material.Material)
                             this._mesh.material = material.Material;
                     }
-                    if (this._mesh && this.Position)
-                        this._mesh.position = this.Position;
                     if (this._mesh && this._showNormalLines)
                         MeshNormalLines_2.MeshNormalLines.Install(scene, this._mesh);
                     if (this._mesh && this.Animations && this.Animations.Animations)
@@ -2806,7 +2807,7 @@ System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines",
                     }
                     catch (e) { }
                     try {
-                        this._tesselation = parseFloat(node.attributes["Tesselation"].value);
+                        this._tessellation = parseFloat(node.attributes["Tessellation"].value);
                     }
                     catch (e) { }
                     try {

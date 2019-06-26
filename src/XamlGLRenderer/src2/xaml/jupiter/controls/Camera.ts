@@ -51,16 +51,16 @@ export class Camera extends UIElement {
             this._camera.attachControl(canvas, true);
         }
         else if (this._type === "ArcRotateCamera") {
-            let arcCampera: BABYLON.ArcRotateCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius,
+            let arcCamera: BABYLON.ArcRotateCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius,
                 this._target, scene.Scene);
-            if (this._lowerBetaLimit) arcCampera.lowerBetaLimit = this._lowerBetaLimit;
-            if (this._upperBetaLimit) arcCampera.upperBetaLimit = this._upperBetaLimit;
-            if (this._lowerRadiusLimit) arcCampera.lowerRadiusLimit = this._lowerRadiusLimit;
-            if (this._panningSensibility) arcCampera.panningSensibility = this._panningSensibility;
-            arcCampera.attachControl(canvas, true, true);
-            this._camera = arcCampera;
+            if (this._lowerBetaLimit) arcCamera.lowerBetaLimit = this._lowerBetaLimit;
+            if (this._upperBetaLimit) arcCamera.upperBetaLimit = this._upperBetaLimit;
+            if (this._lowerRadiusLimit) arcCamera.lowerRadiusLimit = this._lowerRadiusLimit;
+            if (this._panningSensibility) arcCamera.panningSensibility = this._panningSensibility;
+            if (this.Position) arcCamera.position = this.Position;
+            arcCamera.attachControl(canvas, true, true);
+            this._camera = arcCamera;
         }
-        
         
         this.PostInitialize();
     }

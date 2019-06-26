@@ -3,7 +3,19 @@
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
     <Grid x:Name="layoutRoot">
-      <Scene x:Name="mainScene" ClearColor="Color3.Black"></Scene>
+      <Scene x:Name="mainScene" ClearColor="Color3.Black">
+        <Script>
+          var scene = vt.Get("mainScene");
+          var light = vt.Get("light");
+          var sps = vt.Get("sps");
+          var camera = vt.Get("arcRotateCamera");
+
+          scene.Scene.registerBeforeRender(() => {
+            light.Light.position = camera.Camera.position;
+            sps.ParticleSystem.mesh.rotation.y += 0.01;
+          });
+        </Script>
+      </Scene>
 
       <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  Alpha="0" Beta="0" Radius="0"
               Target="Vector3(0, 0, -0)" Position="Vector3(0, 50, -200)" Scene="mainScene"></Camera>
@@ -17,7 +29,7 @@
         <ParticleSystemShape x:Name="psst" Mesh="triangle" NB="160000">
           <![CDATA[ 
           (particle, i, s) => {
-              let fact = 100;
+              var fact = 100;
               particle.position.x = (Math.random() - 0.5) * fact;
               particle.position.y = (Math.random() - 0.5) * fact;
               particle.position.z = (Math.random() - 0.5) * fact;
