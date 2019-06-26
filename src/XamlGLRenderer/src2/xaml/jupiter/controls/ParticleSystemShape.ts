@@ -18,8 +18,21 @@ export class ParticleSystemShape extends UIElement {
     public Initialize(): void {
         let ps: ParticleSystem = this.Parent as ParticleSystem;
         let mesh: Mesh = this.VT.Get(this.MeshName) as Mesh;
-        let posFn: any = eval(this.Code);
-        ps.ParticleSystem.addShape(mesh.Mesh, this.NB, { positionFunction: posFn });
+
+        if (this.ChildrenEvents.size() > 0) {
+            let options: any = {};
+            if (this.ChildrenEvents.containsKey("positionFunction")) {
+                try { options["positionFunction"] = eval(this.ChildrenEvents.getValue("positionFunction").Code); } catch { }
+            }
+            if (this.ChildrenEvents.containsKey("vertexFunction")) {
+                try { options["vertexFunction"] = eval(this.ChildrenEvents.getValue("vertexFunction").Code); } catch { }
+            }
+            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, options);
+        } else if (this.HasScript) {
+            let posFn: any = eval(this.Code);
+            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, { positionFunction: posFn });
+        } 
+
         let newMesh = ps.ParticleSystem.buildMesh();
         mesh.Mesh.dispose();
     }

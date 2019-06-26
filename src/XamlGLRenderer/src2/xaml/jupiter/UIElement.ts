@@ -7,6 +7,8 @@ import { Container } from "inversify";
 import { DIContainer } from "../Core";
 import { IScript } from "./IScript";
 import { CustomScript } from "../behaviors/CustomScript";
+import { Event } from "./controls/Event";
+import { LinkedDictionary } from "../../libs/typescript-collections/src/lib";
 
 export class UIElement extends DependencyObject implements IUIElement, IRender, IScript {
     Parent: IUIElement;
@@ -20,7 +22,8 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     private _position: BABYLON.Vector3 = new BABYLON.Vector3(0, 0, 0);
     private _code: string;
     private _hasScript: boolean = false;
-    
+    private _childEvents: LinkedDictionary<string, Event>;
+
     //get Animations(): Animations { return this._animations; }
     //get Parent(): UIElement { return this._parent; }
     get IsVisible(): boolean { return this._isVisible; }
@@ -30,7 +33,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     get Position(): BABYLON.Vector3 { return this._position; }
     get Code(): string { return this._code; }
     get HasScript(): boolean { return this._hasScript; }
-
+    get ChildrenEvents(): LinkedDictionary<string, Event> { return this._childEvents; }
     
     //set Animations(value: Animations) { this._animations = value; }
     //set Parent(value: UIElement) { this._parent = value; }
@@ -47,6 +50,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     constructor() {
         super();
         this._uniqueId = Guid.newGuid();
+        this._childEvents = new LinkedDictionary<string, Event>();
         //this._animations = new Animations();
     }
 

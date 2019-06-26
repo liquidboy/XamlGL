@@ -5,6 +5,7 @@ export * from "./Background";
 export * from "./Box";
 export * from "./Camera";
 export * from "./Disc";
+export * from "./Event";
 export * from "./Grid";
 export * from "./Ground";
 export * from "./IAnimationsElement";
