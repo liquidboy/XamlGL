@@ -1,7 +1,8 @@
 ﻿import { UIElement } from "../UIElement";
-import { Scene, ParticleSystemShape } from "./Core";
+import { Scene, ParticleSystemShape, Event } from "./Core";
 import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
+import { CustomScript } from "../../behaviors/CustomScript";
 
 export class Button extends UIElement {
     private _ctrl: BABYLON.GUI.Button;
@@ -41,19 +42,10 @@ export class Button extends UIElement {
         });
 
         if (this.ChildrenEvents.size() > 0) {
-            let options: any = {};
-            if (this.ChildrenEvents.containsKey("positionFunction")) {
-                try { options["positionFunction"] = eval(this.ChildrenEvents.getValue("positionFunction").Code); } catch { }
-            }
-            if (this.ChildrenEvents.containsKey("vertexFunction")) {
-                try { options["vertexFunction"] = eval(this.ChildrenEvents.getValue("vertexFunction").Code); } catch { }
-            }
-            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, options);
-        } else if (this.HasScript) {
-            let posFn: any = eval(this.Code);
-            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, { positionFunction: posFn });
+            this.ChildrenEvents.forEach((key: string, value: Event) => {
+                try { this._ctrl[key].add(CustomScript.InstallRet(this.VT, this.DI, value.Code)); } catch(e) { }
+            });  
         } 
-
 
         this.PostInitialize();
     }

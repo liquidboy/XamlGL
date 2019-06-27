@@ -13,4 +13,8 @@ export class CustomScript {
         ////eval(vt.ParseScript(code));
         eval(code);
     }
+
+    public static InstallRet(vt: VisualTree, di: Container, code: string): any {
+        return eval(code);
+    }
 }

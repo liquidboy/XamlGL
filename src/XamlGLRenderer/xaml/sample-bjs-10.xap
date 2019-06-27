@@ -27,7 +27,7 @@
               <![CDATA[
               ()=>{
                 let circle = vt.Get("circle1");
-                circle.scaleX += 0.1;
+                circle.Ctrl.scaleX += 0.1;
               }
               ]]>
             </Event>
@@ -38,7 +38,7 @@
               <![CDATA[
               ()=>{
                 let circle = vt.Get("circle1");
-                circle.scaleX -= 0.1;
+                circle.Ctrl.scaleX -= 0.1;
               }
               ]]>
             </Event>
