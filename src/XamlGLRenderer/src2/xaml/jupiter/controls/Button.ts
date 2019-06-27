@@ -4,7 +4,7 @@ import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
 
 export class Button extends UIElement {
-    private _button: BABYLON.GUI.Button;
+    private _ctrl: BABYLON.GUI.Button;
     private _children: LinkedDictionary<string, UIElement>;
     private _content: string;
     private _width: any;
@@ -13,7 +13,7 @@ export class Button extends UIElement {
     private _color: string;
     private _background: string;
 
-    get Button(): BABYLON.GUI.Button { return this._button; }
+    get Ctrl(): BABYLON.GUI.Button { return this._ctrl; }
     get Children(): LinkedDictionary<string, UIElement> { return this._children; }
     get Content(): string { return this._content; }
     get Color(): string { return this._color; }
@@ -28,17 +28,32 @@ export class Button extends UIElement {
     }
 
     public Initialize(): void {
-        this._button = BABYLON.GUI.Button.CreateSimpleButton(this.Name, this.Content);
-        this._button.width = this.Width;
-        this._button.height = this.Height;
-        this._button.color = this.Color;
-        this._button.cornerRadius = this.CornerRadius;
-        this._button.background = this.Background;
-        (this.Parent as any).StackPanel.addControl(this._button);
+        this._ctrl = BABYLON.GUI.Button.CreateSimpleButton(this.Name, this.Content);
+        this._ctrl.width = this.Width;
+        this._ctrl.height = this.Height;
+        this._ctrl.color = this.Color;
+        this._ctrl.cornerRadius = this.CornerRadius;
+        this._ctrl.background = this.Background;
+        (this.Parent as any).Ctrl.addControl(this._ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();
         });
+
+        if (this.ChildrenEvents.size() > 0) {
+            let options: any = {};
+            if (this.ChildrenEvents.containsKey("positionFunction")) {
+                try { options["positionFunction"] = eval(this.ChildrenEvents.getValue("positionFunction").Code); } catch { }
+            }
+            if (this.ChildrenEvents.containsKey("vertexFunction")) {
+                try { options["vertexFunction"] = eval(this.ChildrenEvents.getValue("vertexFunction").Code); } catch { }
+            }
+            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, options);
+        } else if (this.HasScript) {
+            let posFn: any = eval(this.Code);
+            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, { positionFunction: posFn });
+        } 
+
 
         this.PostInitialize();
     }

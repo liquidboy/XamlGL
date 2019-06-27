@@ -32,7 +32,7 @@
               ]]>
             </Event>
           </Button>
-          <Ellipse x:Name="circle1" Width="50px" Color="white" thickness="5" Height="50px" PaddingTop="2px" PaddingBottom="2px"></Ellipse>
+          <Ellipse x:Name="circle1" Width="50px" Color="white" Thickness="5" Height="50px" PaddingTop="2px" PaddingBottom="2px"></Ellipse>
           <Button x:Name="but2" Content="Click me 2" Width="0.2" Height="40px" Color="white" Background="green">
             <Event EventName="onPointerUpObservable">
               <![CDATA[

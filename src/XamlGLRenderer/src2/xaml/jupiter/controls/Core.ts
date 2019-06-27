@@ -6,6 +6,7 @@ export * from "./Box";
 export * from "./Button";
 export * from "./Camera";
 export * from "./Disc";
+export * from "./Ellipse";
 export * from "./Event";
 export * from "./Grid";
 export * from "./Ground";

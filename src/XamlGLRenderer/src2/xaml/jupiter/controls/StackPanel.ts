@@ -4,14 +4,14 @@ import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
 
 export class StackPanel extends UIElement {
-    private _stackPanel: BABYLON.GUI.StackPanel;
+    private _ctrl: BABYLON.GUI.StackPanel;
     private _children: LinkedDictionary<string, UIElement>;
     
     private _width: number;
     private _rotation: number;
     private _horizontalAlignment: number;
     
-    get StackPanel(): BABYLON.GUI.StackPanel { return this._stackPanel; }
+    get Ctrl(): BABYLON.GUI.StackPanel { return this._ctrl; }
     get Children(): LinkedDictionary<string, UIElement> { return this._children; }
     get Rotation(): number { return this._rotation; }
     get Width(): number { return this._width ; }
@@ -23,11 +23,11 @@ export class StackPanel extends UIElement {
     }
 
     public Initialize(): void {
-        this._stackPanel = new BABYLON.GUI.StackPanel();  
-        this._stackPanel.width = this.Width;
-        this._stackPanel.rotation = this.Rotation;
-        this._stackPanel.horizontalAlignment = this.HorizontalAlignment;
-        (this.Parent as any).Texture.addControl(this._stackPanel);
+        this._ctrl = new BABYLON.GUI.StackPanel();  
+        this._ctrl.width = this.Width;
+        this._ctrl.rotation = this.Rotation;
+        this._ctrl.horizontalAlignment = this.HorizontalAlignment;
+        (this.Parent as any).Texture.addControl(this._ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();
