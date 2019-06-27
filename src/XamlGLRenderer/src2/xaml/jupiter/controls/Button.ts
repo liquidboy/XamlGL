@@ -52,7 +52,7 @@ export class Button extends UIElement {
         try { this._content = node.attributes["Content"].value; } catch { }
         try { this._color = node.attributes["Color"].value; } catch { }
         try { this._background = node.attributes["Background"].value; } catch { }
-        try { this._width = node.attributes["Width"].value; } catch { }
+        try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
         try { this._height = node.attributes["Height"].value; } catch { }
         try { this._cornerRadius = node.attributes["CornerRadius"].value; } catch { }
     }

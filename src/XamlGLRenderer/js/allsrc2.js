@@ -2701,7 +2701,7 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "baby
                     }
                     catch (_c) { }
                     try {
-                        this._width = node.attributes["Width"].value;
+                        this._width = parseFloat(node.attributes["Width"].value);
                     }
                     catch (_d) { }
                     try {
