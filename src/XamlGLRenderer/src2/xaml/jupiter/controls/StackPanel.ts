@@ -5,21 +5,17 @@ import "babylonjs-gui"
 
 export class StackPanel extends UIElement {
     private _ctrl: BABYLON.GUI.StackPanel;
-    private _children: LinkedDictionary<string, UIElement>;
-    
     private _width: number;
     private _rotation: number;
     private _horizontalAlignment: number;
     
     get Ctrl(): BABYLON.GUI.StackPanel { return this._ctrl; }
-    get Children(): LinkedDictionary<string, UIElement> { return this._children; }
     get Rotation(): number { return this._rotation; }
     get Width(): number { return this._width ; }
     get HorizontalAlignment(): number { return this._horizontalAlignment; }
 
     constructor() {
         super();
-        this._children = new LinkedDictionary();
     }
 
     public Initialize(): void {

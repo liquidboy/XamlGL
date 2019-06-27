@@ -5,14 +5,12 @@ import "babylonjs-gui"
 
 export class Ellipse extends UIElement {
     private _ctrl: BABYLON.GUI.Ellipse;
-    private _children: LinkedDictionary<string, UIElement>;
     private _width: string | number;
     private _height: string | number;
     private _thickness: number;
     private _color: string;
 
     get Ctrl(): BABYLON.GUI.Ellipse { return this._ctrl; }
-    get Children(): LinkedDictionary<string, UIElement> { return this._children; }
     get Color(): string { return this._color; }
     get Thickness(): number { return this._thickness; }
     get Width(): string | number { return this._width ; }
@@ -20,7 +18,6 @@ export class Ellipse extends UIElement {
 
     constructor() {
         super();
-        this._children = new LinkedDictionary();
     }
 
     public Initialize(): void {

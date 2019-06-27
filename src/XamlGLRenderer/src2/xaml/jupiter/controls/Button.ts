@@ -6,7 +6,6 @@ import { CustomScript } from "../../behaviors/CustomScript";
 
 export class Button extends UIElement {
     private _ctrl: BABYLON.GUI.Button;
-    private _children: LinkedDictionary<string, UIElement>;
     private _content: string;
     private _width: any;
     private _height: any;
@@ -15,7 +14,6 @@ export class Button extends UIElement {
     private _background: string;
 
     get Ctrl(): BABYLON.GUI.Button { return this._ctrl; }
-    get Children(): LinkedDictionary<string, UIElement> { return this._children; }
     get Content(): string { return this._content; }
     get Color(): string { return this._color; }
     get Background(): string { return this._background; }
@@ -25,7 +23,6 @@ export class Button extends UIElement {
 
     constructor() {
         super();
-        this._children = new LinkedDictionary();
     }
 
     public Initialize(): void {

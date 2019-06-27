@@ -2638,17 +2638,14 @@ System.register("Xaml/behaviors/CustomScript", [], function (exports_38, context
         }
     };
 });
-System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index", "babylonjs-gui", "Xaml/behaviors/CustomScript"], function (exports_39, context_39) {
+System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "babylonjs-gui", "Xaml/behaviors/CustomScript"], function (exports_39, context_39) {
     "use strict";
-    var UIElement_5, lib_2, CustomScript_1, Button;
+    var UIElement_5, CustomScript_1, Button;
     var __moduleName = context_39 && context_39.id;
     return {
         setters: [
             function (UIElement_5_1) {
                 UIElement_5 = UIElement_5_1;
-            },
-            function (lib_2_1) {
-                lib_2 = lib_2_1;
             },
             function (_1) {
             },
@@ -2659,7 +2656,6 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "libs
         execute: function () {
             Button = class Button extends UIElement_5.UIElement {
                 get Ctrl() { return this._ctrl; }
-                get Children() { return this._children; }
                 get Content() { return this._content; }
                 get Color() { return this._color; }
                 get Background() { return this._background; }
@@ -2668,7 +2664,6 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "libs
                 get Height() { return this._height; }
                 constructor() {
                     super();
-                    this._children = new lib_2.LinkedDictionary();
                 }
                 Initialize() {
                     this._ctrl = BABYLON.GUI.Button.CreateSimpleButton(this.Name, this.Content);
@@ -2953,17 +2948,14 @@ System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines",
         }
     };
 });
-System.register("Xaml/jupiter/controls/Ellipse", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index", "babylonjs-gui"], function (exports_42, context_42) {
+System.register("Xaml/jupiter/controls/Ellipse", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_42, context_42) {
     "use strict";
-    var UIElement_7, lib_3, Ellipse;
+    var UIElement_7, Ellipse;
     var __moduleName = context_42 && context_42.id;
     return {
         setters: [
             function (UIElement_7_1) {
                 UIElement_7 = UIElement_7_1;
-            },
-            function (lib_3_1) {
-                lib_3 = lib_3_1;
             },
             function (_2) {
             }
@@ -2971,14 +2963,12 @@ System.register("Xaml/jupiter/controls/Ellipse", ["Xaml/jupiter/UIElement", "lib
         execute: function () {
             Ellipse = class Ellipse extends UIElement_7.UIElement {
                 get Ctrl() { return this._ctrl; }
-                get Children() { return this._children; }
                 get Color() { return this._color; }
                 get Thickness() { return this._thickness; }
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 constructor() {
                     super();
-                    this._children = new lib_3.LinkedDictionary();
                 }
                 Initialize() {
                     this._ctrl = new BABYLON.GUI.Ellipse();
@@ -3376,16 +3366,16 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
 });
 System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_49, context_49) {
     "use strict";
-    var lib_4, KeyFrameCollection;
+    var lib_2, KeyFrameCollection;
     var __moduleName = context_49 && context_49.id;
     return {
         setters: [
-            function (lib_4_1) {
-                lib_4 = lib_4_1;
+            function (lib_2_1) {
+                lib_2 = lib_2_1;
             }
         ],
         execute: function () {
-            KeyFrameCollection = class KeyFrameCollection extends lib_4.LinkedList {
+            KeyFrameCollection = class KeyFrameCollection extends lib_2.LinkedList {
             };
             exports_49("KeyFrameCollection", KeyFrameCollection);
         }
@@ -3531,15 +3521,15 @@ System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], functi
 });
 System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index"], function (exports_52, context_52) {
     "use strict";
-    var UIElement_13, lib_5, ParticleSystem;
+    var UIElement_13, lib_3, ParticleSystem;
     var __moduleName = context_52 && context_52.id;
     return {
         setters: [
             function (UIElement_13_1) {
                 UIElement_13 = UIElement_13_1;
             },
-            function (lib_5_1) {
-                lib_5 = lib_5_1;
+            function (lib_3_1) {
+                lib_3 = lib_3_1;
             }
         ],
         execute: function () {
@@ -3547,7 +3537,7 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                 constructor() {
                     super();
                     this._updateable = false;
-                    this._childParticles = new lib_5.LinkedDictionary();
+                    this._childParticles = new lib_3.LinkedDictionary();
                 }
                 get ParticleSystem() { return this._particleSystem; }
                 get Children() { return this._childParticles; }
@@ -3692,21 +3682,21 @@ System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_54, 
 });
 System.register("services/VisualTree", ["inversify", "libs/typescript-collections/src/lib/index"], function (exports_55, context_55) {
     "use strict";
-    var inversify_1, lib_6, VisualTree;
+    var inversify_1, lib_4, VisualTree;
     var __moduleName = context_55 && context_55.id;
     return {
         setters: [
             function (inversify_1_1) {
                 inversify_1 = inversify_1_1;
             },
-            function (lib_6_1) {
-                lib_6 = lib_6_1;
+            function (lib_4_1) {
+                lib_4 = lib_4_1;
             }
         ],
         execute: function () {
             VisualTree = class VisualTree {
                 constructor() {
-                    this._flatList = new lib_6.Dictionary();
+                    this._flatList = new lib_4.Dictionary();
                 }
                 Add(key, value) {
                     if (key === undefined || key === null) {
@@ -4014,17 +4004,14 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
         }
     };
 });
-System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index", "babylonjs-gui"], function (exports_61, context_61) {
+System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_61, context_61) {
     "use strict";
-    var UIElement_19, lib_7, StackPanel;
+    var UIElement_19, StackPanel;
     var __moduleName = context_61 && context_61.id;
     return {
         setters: [
             function (UIElement_19_1) {
                 UIElement_19 = UIElement_19_1;
-            },
-            function (lib_7_1) {
-                lib_7 = lib_7_1;
             },
             function (_5) {
             }
@@ -4032,13 +4019,11 @@ System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "
         execute: function () {
             StackPanel = class StackPanel extends UIElement_19.UIElement {
                 get Ctrl() { return this._ctrl; }
-                get Children() { return this._children; }
                 get Rotation() { return this._rotation; }
                 get Width() { return this._width; }
                 get HorizontalAlignment() { return this._horizontalAlignment; }
                 constructor() {
                     super();
-                    this._children = new lib_7.LinkedDictionary();
                 }
                 Initialize() {
                     this._ctrl = new BABYLON.GUI.StackPanel();
@@ -4272,7 +4257,7 @@ System.register("Xaml/jupiter/IRender", [], function (exports_64, context_64) {
 });
 System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core", "Xaml/behaviors/CustomScript", "libs/typescript-collections/src/lib/index"], function (exports_65, context_65) {
     "use strict";
-    var DependencyObject_2, Guid_1, VisualTree_2, Core_11, CustomScript_2, lib_8, UIElement;
+    var DependencyObject_2, Guid_1, VisualTree_2, Core_11, CustomScript_2, lib_5, UIElement;
     var __moduleName = context_65 && context_65.id;
     return {
         setters: [
@@ -4291,8 +4276,8 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
             function (CustomScript_2_1) {
                 CustomScript_2 = CustomScript_2_1;
             },
-            function (lib_8_1) {
-                lib_8 = lib_8_1;
+            function (lib_5_1) {
+                lib_5 = lib_5_1;
             }
         ],
         execute: function () {
@@ -4305,8 +4290,8 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.VT = Core_11.DIContainer.get(VisualTree_2.VisualTree);
                     this.DI = Core_11.DIContainer;
                     this._uniqueId = Guid_1.Guid.newGuid();
-                    this._childEvents = new lib_8.LinkedDictionary();
-                    this._childGuis = new lib_8.LinkedDictionary();
+                    this._childEvents = new lib_5.LinkedDictionary();
+                    this._childGuis = new lib_5.LinkedDictionary();
                 }
                 get IsVisible() { return this._isVisible; }
                 get IsDirty() { return this._isDirty; }
