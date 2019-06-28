@@ -27,14 +27,14 @@ export class ParticleSystemShape extends UIElement {
             if (this.ChildrenEvents.containsKey("vertexFunction")) {
                 try { options["vertexFunction"] = eval(this.ChildrenEvents.getValue("vertexFunction").Code); } catch { }
             }
-            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, options);
+            ps.Ctrl.addShape(mesh.Ctrl, this.NB, options);
         } else if (this.HasScript) {
             let posFn: any = eval(this.Code);
-            ps.ParticleSystem.addShape(mesh.Mesh, this.NB, { positionFunction: posFn });
+            ps.Ctrl.addShape(mesh.Ctrl, this.NB, { positionFunction: posFn });
         } 
 
-        let newMesh = ps.ParticleSystem.buildMesh();
-        mesh.Mesh.dispose();
+        let newMesh = ps.Ctrl.buildMesh();
+        mesh.Ctrl.dispose();
     }
 
     public LoadFromNode(node: any): void {

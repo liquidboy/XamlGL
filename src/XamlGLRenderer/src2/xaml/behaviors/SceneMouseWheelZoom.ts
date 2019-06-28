@@ -8,7 +8,7 @@ export class SceneMouseWheelZoom {
 
     public static Install(scene: Scene): void {
         //Wire up Mouse wheel 
-        scene.Scene.onPrePointerObservable.add((pointerInfo: any, eventState: any) => {
+        scene.Ctrl.onPrePointerObservable.add((pointerInfo: any, eventState: any) => {
             // console.log(pointerInfo);
             var event = pointerInfo.event;
             var delta = 0;
@@ -18,10 +18,10 @@ export class SceneMouseWheelZoom {
 
             if (delta) {
                 // console.log(delta);
-                var dir = scene.Scene.activeCamera.getDirection(BABYLON.Axis.Z);
+                var dir = scene.Ctrl.activeCamera.getDirection(BABYLON.Axis.Z);
                 // console.log("dir: ", dir);
-                if (delta > 0) scene.Scene.activeCamera.position.addInPlace(dir);
-                else scene.Scene.activeCamera.position.subtractInPlace(dir);
+                if (delta > 0) scene.Ctrl.activeCamera.position.addInPlace(dir);
+                else scene.Ctrl.activeCamera.position.subtractInPlace(dir);
             }
         }, BABYLON.PointerEventTypes.POINTERWHEEL, false);
     }

@@ -7,7 +7,6 @@ import { UIElement } from "../Core";
 import 'babylonjs-gui';
 
 export class Texture extends UIElement {
-    private _texture: BABYLON.BaseTexture;
     private _sceneName: string;
     private _rootUrl: string;
     private _type: string;
@@ -15,7 +14,6 @@ export class Texture extends UIElement {
     private _options: string;
     private _generatingMipMaps: boolean;
 
-    get Texture(): BABYLON.BaseTexture { return this._texture; }
     get SceneName(): string { return this._sceneName; }
     get RootUrl(): string { return this._rootUrl; }
     get Type(): string { return this._type; }
@@ -27,22 +25,22 @@ export class Texture extends UIElement {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
 
         if (this._type === "CubeTexture") {
-            this._texture = new BABYLON.CubeTexture(this.RootUrl, scene.Scene);
+            this.Ctrl = new BABYLON.CubeTexture(this.RootUrl, scene.Ctrl);
         } else if (this._type === "DynamicTexture") {
             //this._texture = new BABYLON.DynamicTexture(this.Name, this.Options, scene.Scene, this.GeneratingMipMaps);
-            this._texture = new BABYLON.DynamicTexture(this.Name, 512, scene.Scene, this.GeneratingMipMaps);
+            this.Ctrl = new BABYLON.DynamicTexture(this.Name, 512, scene.Ctrl, this.GeneratingMipMaps);
         } else if (this._type === "Texture") {
-            this._texture = new BABYLON.Texture(this.RootUrl, scene.Scene);
+            this.Ctrl = new BABYLON.Texture(this.RootUrl, scene.Ctrl);
         } else if (this._type === "AdvancedDynamicTexture") {
-            this._texture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
+            this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
 
             this.ChildrenGUIs.forEach((key: string, child: UIElement) => {
                 child.Initialize();
             });
         }
 
-        if (this._texture !== undefined) {
-            if (this._coordinatesMode !== undefined) this._texture.coordinatesMode = this._coordinatesMode;
+        if (this.Ctrl !== undefined) {
+            if (this._coordinatesMode !== undefined) this.Ctrl.coordinatesMode = this._coordinatesMode;
         }
         this.PostInitialize();
     }

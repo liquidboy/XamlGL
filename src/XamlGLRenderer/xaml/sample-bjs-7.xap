@@ -10,36 +10,36 @@
           var start_time = Date.now();
           var canvas = di.get("rootCanvas");
           
-          scene.Scene.beforeRender = () => {
+          scene.Ctrl.beforeRender = () => {
             var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
-            camera.Camera.position.z = cameraDepth;
+            camera.Ctrl.position.z = cameraDepth;
           };
           
           let plane;
           let pickOrigin;
           let isPanning = false;
-          scene.Scene.onPointerDown = (evt) => {
+          scene.Ctrl.onPointerDown = (evt) => {
             if (evt.ctrlKey) {
-              var pickResult = scene.Scene.pick(scene.Scene.pointerX, scene.Scene.pointerY);
+              var pickResult = scene.Ctrl.pick(scene.Ctrl.pointerX, scene.Ctrl.pointerY);
               if (pickResult.pickedMesh) {
-                let normal = camera.Camera.position.subtract(pickResult.pickedPoint).normalize();
+                let normal = camera.Ctrl.position.subtract(pickResult.pickedPoint).normalize();
                 plane = BABYLON.Plane.FromPositionAndNormal(pickResult.pickedPoint, normal);
                 pickOrigin = pickResult.pickedPoint;
                 isPanning = true;
-                camera.Camera.detachControl(canvas);
+                camera.Ctrl.detachControl(canvas);
               }
             }
           };
 
-          scene.Scene.onPointerUp = () => {
+          scene.Ctrl.onPointerUp = () => {
             isPanning = false;
-            camera.Camera.attachControl(canvas, true, true);
+            camera.Ctrl.attachControl(canvas, true, true);
           };
 
           const identity = BABYLON.Matrix.Identity();
-          scene.Scene.onPointerMove = (evt) => {
+          scene.Ctrl.onPointerMove = (evt) => {
             if (isPanning) {
-              let ray = scene.Scene.createPickingRay(scene.Scene.pointerX, scene.Scene.pointerY, identity, camera.Camera, false);
+              let ray = scene.Ctrl.createPickingRay(scene.Ctrl.pointerX, scene.Ctrl.pointerY, identity, camera.Ctrl, false);
               let distance = ray.intersectsPlane(plane);
 
               if (distance === null) {
@@ -47,7 +47,7 @@
               }
               let pickedPoint = ray.direction.scale(distance).add(ray.origin);
               let diff = pickedPoint.subtract(pickOrigin);
-              camera.Camera.target.subtractInPlace(diff);
+              camera.Ctrl.target.subtractInPlace(diff);
             }
           };
         </Script>
@@ -61,13 +61,13 @@
       <Material x:Name="groundMaterial" Type="GridMaterial" Scene="mainScene">
           <Script>
             var groundMaterial = vt.Get("groundMaterial");
-            groundMaterial.Material.majorUnitFrequency = 5;
-            groundMaterial.Material.minorUnitVisibility = 0.45;
-            groundMaterial.Material.gridRatio = 1;
-            groundMaterial.Material.backFaceCulling = false;
-            groundMaterial.Material.mainColor = new BABYLON.Color3.FromHexString('#6C6C6C');
-            groundMaterial.Material.lineColor = new BABYLON.Color3(1.0, 1.0, 1.0);
-            groundMaterial.Material.opacity = 0.48;
+            groundMaterial.Ctrl.majorUnitFrequency = 5;
+            groundMaterial.Ctrl.minorUnitVisibility = 0.45;
+            groundMaterial.Ctrl.gridRatio = 1;
+            groundMaterial.Ctrl.backFaceCulling = false;
+            groundMaterial.Ctrl.mainColor = new BABYLON.Color3.FromHexString('#6C6C6C');
+            groundMaterial.Ctrl.lineColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+            groundMaterial.Ctrl.opacity = 0.48;
           </Script>
       </Material>
 

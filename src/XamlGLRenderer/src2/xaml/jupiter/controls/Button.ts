@@ -5,7 +5,6 @@ import "babylonjs-gui"
 import { CustomScript } from "../../behaviors/CustomScript";
 
 export class Button extends UIElement {
-    private _ctrl: BABYLON.GUI.Button;
     private _content: string;
     private _width: string | number;
     private _height: string | number;
@@ -13,7 +12,6 @@ export class Button extends UIElement {
     private _color: string;
     private _background: string;
 
-    get Ctrl(): BABYLON.GUI.Button { return this._ctrl; }
     get Content(): string { return this._content; }
     get Color(): string { return this._color; }
     get Background(): string { return this._background; }
@@ -26,13 +24,13 @@ export class Button extends UIElement {
     }
 
     public Initialize(): void {
-        this._ctrl = BABYLON.GUI.Button.CreateSimpleButton(this.Name, this.Content);
-        this._ctrl.width = this.Width;
-        this._ctrl.height = this.Height;
-        this._ctrl.color = this.Color;
-        this._ctrl.cornerRadius = this.CornerRadius;
-        this._ctrl.background = this.Background;
-        (this.Parent as any).Ctrl.addControl(this._ctrl);
+        this.Ctrl = BABYLON.GUI.Button.CreateSimpleButton(this.Name, this.Content);
+        this.Ctrl.width = this.Width;
+        this.Ctrl.height = this.Height;
+        this.Ctrl.color = this.Color;
+        this.Ctrl.cornerRadius = this.CornerRadius;
+        this.Ctrl.background = this.Background;
+        (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();
@@ -40,7 +38,7 @@ export class Button extends UIElement {
 
         if (this.ChildrenEvents.size() > 0) {
             this.ChildrenEvents.forEach((key: string, value: Event) => {
-                try { this._ctrl[key].add(CustomScript.InstallRet(this.VT, this.DI, value.Code)); } catch(e) { }
+                try { this.Ctrl[key].add(CustomScript.InstallRet(this.VT, this.DI, value.Code)); } catch(e) { }
             });  
         } 
 

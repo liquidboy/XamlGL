@@ -7,15 +7,11 @@ import { DIContainer } from "../../Core";
 import { CustomScript } from "../../behaviors/CustomScript";
 
 export class Scene extends UIElement {
-    
-
-    private _scene: BABYLON.Scene;
     private _groundName: string;
     private _cameraName: string;
     private _lightName: string;
     private _clearColor: BABYLON.Color3;
 
-    get Scene(): BABYLON.Scene { return this._scene; }
     get GroundName(): string { return this._groundName; }
     get CameraName(): string { return this._cameraName; }
     get LightName(): string { return this._lightName; }
@@ -29,15 +25,15 @@ export class Scene extends UIElement {
         let engine: BABYLON.Engine = DIContainer.get("rootEngine") as BABYLON.Engine;
         let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
 
-        this._scene = new BABYLON.Scene(engine);
+        this.Ctrl = new BABYLON.Scene(engine);
         
-        if (this._clearColor) this._scene.clearColor = this.convertColor3ToColor4(this._clearColor);
+        if (this._clearColor) this.Ctrl.clearColor = this.convertColor3ToColor4(this._clearColor);
 
         SceneMouseWheelZoom.Install(this);
         new MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
 
         engine.runRenderLoop(() => {
-            this._scene.render();
+            this.Ctrl.render();
         });
 
         this.PostInitialize();

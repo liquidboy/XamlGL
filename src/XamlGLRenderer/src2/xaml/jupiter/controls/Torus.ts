@@ -5,7 +5,6 @@ import { Animation } from "./Animation";
 import { KeyFrames } from "./KeyFrames";
 
 export class Torus extends AnimatableUIElement {
-    private _mesh: BABYLON.Mesh;
     private _scene: Scene;
 
     private _sceneName: string;
@@ -27,17 +26,17 @@ export class Torus extends AnimatableUIElement {
         let material: Material = this.VT.Get(this.MaterialName) as Material;
 
         this._scene = scene;
-        this._mesh = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Scene);
-        this._mesh.material = material.Material;
-        this._mesh.position = this.Position;
-        if (this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+        this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Ctrl);
+        this.Ctrl.material = material.Ctrl;
+        this.Ctrl.position = this.Position;
+        if (this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
 
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
                 var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS,
                     animation.DataType, animation.LoopMode);
                 animationBox.setKeys(animation.KeyFrames.GetArray());
-                this._mesh.animations.push(animationBox);
+                this.Ctrl.animations.push(animationBox);
             });
         this.PostInitialize();
     }
@@ -55,14 +54,14 @@ export class Torus extends AnimatableUIElement {
     StartAnimation(): void {
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
-                this._scene.Scene.beginAnimation(this._mesh, 1, 100, true);
+                this._scene.Ctrl.beginAnimation(this.Ctrl, 1, 100, true);
             });
     }
 
     StopAnimation(): void {
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
-                this._scene.Scene.stopAnimation(this._mesh);
+                this._scene.Ctrl.stopAnimation(this.Ctrl);
             });
     }
 }

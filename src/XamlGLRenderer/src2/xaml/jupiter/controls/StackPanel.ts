@@ -4,12 +4,10 @@ import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
 
 export class StackPanel extends UIElement {
-    private _ctrl: BABYLON.GUI.StackPanel;
     private _width: number;
     private _rotation: number;
     private _horizontalAlignment: number;
     
-    get Ctrl(): BABYLON.GUI.StackPanel { return this._ctrl; }
     get Rotation(): number { return this._rotation; }
     get Width(): number { return this._width ; }
     get HorizontalAlignment(): number { return this._horizontalAlignment; }
@@ -19,11 +17,11 @@ export class StackPanel extends UIElement {
     }
 
     public Initialize(): void {
-        this._ctrl = new BABYLON.GUI.StackPanel();  
-        this._ctrl.width = this.Width;
-        this._ctrl.rotation = this.Rotation;
-        this._ctrl.horizontalAlignment = this.HorizontalAlignment;
-        (this.Parent as any).Texture.addControl(this._ctrl);
+        this.Ctrl = new BABYLON.GUI.StackPanel();  
+        this.Ctrl.width = this.Width;
+        this.Ctrl.rotation = this.Rotation;
+        this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+        (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();

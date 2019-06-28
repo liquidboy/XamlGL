@@ -3,12 +3,10 @@ import { Scene, ParticleSystemShape } from "./Core";
 import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 
 export class ParticleSystem extends UIElement {
-    private _particleSystem: BABYLON.SolidParticleSystem;
     private _childParticles: LinkedDictionary<string, ParticleSystemShape>;
     private _sceneName: string;
     private _updateable: boolean = false;
 
-    get ParticleSystem(): BABYLON.SolidParticleSystem { return this._particleSystem; }
     get Children(): LinkedDictionary<string, ParticleSystemShape> { return this._childParticles; }
     get SceneName(): string { return this._sceneName; }
     get Updateable(): boolean { return this._updateable; }
@@ -21,7 +19,7 @@ export class ParticleSystem extends UIElement {
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
 
-        this._particleSystem = new BABYLON.SolidParticleSystem(this.Name, scene.Scene, { updatable: this.Updateable });
+        this.Ctrl = new BABYLON.SolidParticleSystem(this.Name, scene.Ctrl, { updatable: this.Updateable });
 
         this.Children.forEach((key:string, child: ParticleSystemShape) => {
             child.Initialize();

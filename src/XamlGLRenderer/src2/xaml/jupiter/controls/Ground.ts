@@ -3,15 +3,12 @@ import { Scene } from "./Core";
 import { Material } from "./Material";
 
 export class Ground extends UIElement {
-    private _mesh: BABYLON.Mesh;
-
     private _sceneName: string;
     private _width: number;
     private _height: number;
     private _subdivisions: number;
     private _materialName: string;
 
-    get Mesh(): BABYLON.Mesh { return this._mesh; }
     get SceneName(): string { return this._sceneName; }
     get Width(): number { return this._width; }
     get Height(): number { return this._height; }
@@ -23,8 +20,8 @@ export class Ground extends UIElement {
         let material: Material = this.VT.Get(this.MaterialName) as Material;
 
         //this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: this._width, height: this._height, subdivisions: this._subdivisions }, scene.Scene);
-        this._mesh = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Scene, false);
-        if (material && material.Material) this._mesh.material = material.Material;
+        this.Ctrl = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Ctrl, false);
+        if (material && material.Ctrl) this.Ctrl.material = material.Ctrl;
         this.PostInitialize();
     }
 

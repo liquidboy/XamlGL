@@ -14,14 +14,14 @@
           var sphere1 = vt.Get("sphere1");
           var sphere2 = vt.Get("sphere2");
           
-          scene.Scene.beforeRender = () => {
-            omni0.Light.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, 10 * Math.cos(alpha));
-            omni1.Light.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, -10 * Math.cos(alpha));
-            omni2.Light.position = new BABYLON.Vector3(10 * Math.cos(alpha), 0, 10 * Math.sin(alpha));
+          scene.Ctrl.beforeRender = () => {
+            omni0.Ctrl.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, 10 * Math.cos(alpha));
+            omni1.Ctrl.position = new BABYLON.Vector3(10 * Math.sin(alpha), 0, -10 * Math.cos(alpha));
+            omni2.Ctrl.position = new BABYLON.Vector3(10 * Math.cos(alpha), 0, 10 * Math.sin(alpha));
 
-            sphere0.Mesh.position = omni0.Light.position;
-            sphere1.Mesh.position = omni1.Light.position;
-            sphere2.Mesh.position = omni2.Light.position;
+            sphere0.Ctrl.position = omni0.Ctrl.position;
+            sphere1.Ctrl.position = omni1.Ctrl.position;
+            sphere2.Ctrl.position = omni2.Ctrl.position;
 
             alpha += 0.01;
           };

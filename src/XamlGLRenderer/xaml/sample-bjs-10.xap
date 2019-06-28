@@ -4,13 +4,13 @@
     ThemeName="Metro">
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene">
-        <Script>
+        <Code>
           let scene = vt.Get("mainScene");
           let panel = vt.Get("panel");
-          scene.Scene.beforeRender = () => {
+          scene.Ctrl.beforeRender = () => {
             panel.Ctrl.rotation += 0.01;
           }
-        </Script>
+        </Code>
       </Scene>
 
       <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  AlphaCalculated="-Math.PI/2" Beta="1.0" 

@@ -4,14 +4,12 @@ import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
 
 export class Line extends UIElement {
-    private _ctrl: BABYLON.GUI.Line;
     private _lineWidth: number;
     private _alpha: number;
     private _dash: number[];
     private _meshName: string;
     private _connectedControlName: string;
 
-    get Ctrl(): BABYLON.GUI.Line { return this._ctrl; }
     get Dash(): number[] { return this._dash; }
     get LineWidth(): number { return this._lineWidth; }
     get Alpha(): number { return this._alpha ; }
@@ -26,15 +24,15 @@ export class Line extends UIElement {
         let mesh: Mesh = this.VT.Get(this.MeshName) as Mesh;
         let connecteControl: any = this.VT.Get(this.ConnectedControlName);
 
-        this._ctrl = new BABYLON.GUI.Line();
-        this._ctrl.alpha = 0.5;
-        this._ctrl.lineWidth = 5;
-        this._ctrl.dash = [5, 10];
+        this.Ctrl = new BABYLON.GUI.Line();
+        this.Ctrl.alpha = 0.5;
+        this.Ctrl.lineWidth = 5;
+        this.Ctrl.dash = [5, 10];
         
-        (this.Parent as any).Texture.addControl(this._ctrl);
+        (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
-        this._ctrl.linkWithMesh(mesh.Mesh);
-        this._ctrl.connectedControl = connecteControl.Ctrl;
+        this.Ctrl.linkWithMesh(mesh.Ctrl);
+        this.Ctrl.connectedControl = connecteControl.Ctrl;
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();

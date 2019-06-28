@@ -4,7 +4,6 @@ import { Texture } from "./Texture";
 import 'babylonjs-materials';
 
 export class Material extends UIElement {
-    private _material: BABYLON.Material;
     private _sceneName: string;
     private _type: string;
     private _wireframe: boolean;
@@ -17,7 +16,6 @@ export class Material extends UIElement {
     private _shaderPath: any;
     private _options: any;
 
-    get Material(): BABYLON.Material { return this._material; }
     get SceneName(): string { return this._sceneName; }
     get Type(): string { return this._type; }
     get Wireframe(): boolean { return this._wireframe; }
@@ -33,22 +31,22 @@ export class Material extends UIElement {
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         if (this.Type === "StandardMaterial") {
-            this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
-            if (this._wireframe !== undefined) this._material.wireframe = this._wireframe;
-            if (this._diffuseColor !== undefined) this.GetStandardMaterial(this._material).diffuseColor = this._diffuseColor;
-            if (this._specularColor !== undefined) this.GetStandardMaterial(this._material).specularColor = this._specularColor;
-            if (this._emissiveColor !== undefined) this.GetStandardMaterial(this._material).emissiveColor = this._emissiveColor;
-            if (this._disableLighting !== undefined) this.GetStandardMaterial(this._material).disableLighting = this._disableLighting;
-            if (this._backFaceCulling !== undefined) this.GetStandardMaterial(this._material).backFaceCulling = this._backFaceCulling;
+            this.Ctrl = new BABYLON.StandardMaterial(this.Name, scene.Ctrl);
+            if (this._wireframe !== undefined) this.Ctrl.wireframe = this._wireframe;
+            if (this._diffuseColor !== undefined) this.GetStandardMaterial(this.Ctrl).diffuseColor = this._diffuseColor;
+            if (this._specularColor !== undefined) this.GetStandardMaterial(this.Ctrl).specularColor = this._specularColor;
+            if (this._emissiveColor !== undefined) this.GetStandardMaterial(this.Ctrl).emissiveColor = this._emissiveColor;
+            if (this._disableLighting !== undefined) this.GetStandardMaterial(this.Ctrl).disableLighting = this._disableLighting;
+            if (this._backFaceCulling !== undefined) this.GetStandardMaterial(this.Ctrl).backFaceCulling = this._backFaceCulling;
             if (this._reflectionTextureName !== undefined) {
                 let rt: Texture = this.VT.Get(this.ReflectionTextureName) as Texture;
-                if (rt.Texture !== undefined && rt.Texture.isReadyOrNotBlocking)
-                    this.GetStandardMaterial(this._material).reflectionTexture = rt.Texture;
+                if (rt.Ctrl !== undefined && rt.Ctrl.isReadyOrNotBlocking)
+                    this.GetStandardMaterial(this.Ctrl).reflectionTexture = rt.Ctrl;
             };
         } else if (this.Type === "ShaderMaterial") {
-            this._material = new BABYLON.ShaderMaterial("cloud", scene.Scene, this.ShaderPath, this.Options);
+            this.Ctrl = new BABYLON.ShaderMaterial("cloud", scene.Ctrl, this.ShaderPath, this.Options);
         } else if (this.Type === "GridMaterial") {
-            this._material= new BABYLON.GridMaterial(this.Name, scene.Scene);            
+            this.Ctrl = new BABYLON.GridMaterial(this.Name, scene.Ctrl);            
         }
         
         this.PostInitialize();

@@ -4,9 +4,7 @@ import { AnimatableUIElement } from "../AnimatableUIElement";
 import { Animation } from "./Animation";
 
 export class Disc extends AnimatableUIElement {
-    private _mesh: BABYLON.Mesh;
     private _scene: Scene;
-
     private _sceneName: string;
     private _materialName: string;
     private _showNormalLines: boolean;
@@ -15,7 +13,6 @@ export class Disc extends AnimatableUIElement {
     private _sideOrieantation: any;
     private _updatable: boolean;
 
-    get Mesh(): BABYLON.Mesh { return this._mesh; }
     get SceneName(): string { return this._sceneName; }
     get MaterialName(): string { return this._materialName; }
     get ShowNormalLines(): boolean { return this._showNormalLines; }
@@ -28,21 +25,21 @@ export class Disc extends AnimatableUIElement {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         this._scene = scene;
 
-        this._mesh = BABYLON.MeshBuilder.CreateDisc(this.Name, { tessellation: this.Tessellation, sideOrientation: this.SideOrientation }, scene.Scene);
+        this.Ctrl = BABYLON.MeshBuilder.CreateDisc(this.Name, { tessellation: this.Tessellation, sideOrientation: this.SideOrientation }, scene.Ctrl);
 
         if (this.MaterialName) {
             let material: Material = this.VT.Get(this.MaterialName) as Material;
-            if (material.Material) this._mesh.material = material.Material;
+            if (material.Ctrl) this.Ctrl.material = material.Ctrl;
         }
         //if (this._mesh && this.Position) this._mesh.position = this.Position;
-        if (this._mesh && this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+        if (this.Ctrl && this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
 
-        if (this._mesh && this.Animations && this.Animations.Animations)
+        if (this.Ctrl && this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
                 var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS,
                     animation.DataType, animation.LoopMode);
                 animationBox.setKeys(animation.KeyFrames.GetArray());
-                this._mesh.animations.push(animationBox);
+                this.Ctrl.animations.push(animationBox);
             });
 
         this.PostInitialize();
@@ -62,14 +59,14 @@ export class Disc extends AnimatableUIElement {
     StartAnimation(): void {
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
-                this._scene.Scene.beginAnimation(this._mesh, 1, 100, true);
+                this._scene.Ctrl.beginAnimation(this.Ctrl, 1, 100, true);
             });
     }
 
     StopAnimation(): void {
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
-                this._scene.Scene.stopAnimation(this._mesh);
+                this._scene.Ctrl.stopAnimation(this.Ctrl);
             });
     }
 }

@@ -10,9 +10,9 @@
           var sps = vt.Get("sps");
           var camera = vt.Get("arcRotateCamera");
 
-          scene.Scene.registerBeforeRender(() => {
-            light.Light.position = camera.Camera.position;
-            sps.ParticleSystem.mesh.rotation.y += 0.01;
+          scene.Ctrl.registerBeforeRender(() => {
+            light.Ctrl.position = camera.Ctrl.position;
+            sps.Ctrl.mesh.rotation.y += 0.01;
           });
         </Script>
       </Scene>

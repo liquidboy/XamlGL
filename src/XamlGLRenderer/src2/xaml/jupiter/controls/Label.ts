@@ -4,7 +4,6 @@ import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
 
 export class Label extends UIElement {
-    private _ctrl: BABYLON.GUI.Rectangle;
     private _width: string | number;
     private _height: string | number;
     private _thickness: number;
@@ -19,7 +18,6 @@ export class Label extends UIElement {
     private _verticalAlignment: number;
     private _zIndex: number;
 
-    get Ctrl(): BABYLON.GUI.Rectangle { return this._ctrl; }
     get Text(): string { return this._text; }
     get Foreground(): string { return this._foreground; }
     get Background(): string { return this._background; }
@@ -40,29 +38,29 @@ export class Label extends UIElement {
 
     public Initialize(): void {
         
-        this._ctrl = new BABYLON.GUI.Rectangle(this.Name);
-        this._ctrl.background = this.Background;
-        this._ctrl.height = this.Height;
-        this._ctrl.alpha = this.Alpha;
-        this._ctrl.width = this.Width;
-        this._ctrl.cornerRadius = this.CornerRadius;
-        this._ctrl.thickness = this.Thickness;
-        this._ctrl.linkOffsetY = this.LinkOffsetY;
-        if (this.Top !== undefined) this._ctrl.top = this.Top;
-        if (this.VerticalAlignment !== undefined) this._ctrl.verticalAlignment = this.VerticalAlignment;
-        if (this.ZIndex !== undefined) this._ctrl.zIndex = this.ZIndex;
+        this.Ctrl = new BABYLON.GUI.Rectangle(this.Name);
+        this.Ctrl.background = this.Background;
+        this.Ctrl.height = this.Height;
+        this.Ctrl.alpha = this.Alpha;
+        this.Ctrl.width = this.Width;
+        this.Ctrl.cornerRadius = this.CornerRadius;
+        this.Ctrl.thickness = this.Thickness;
+        this.Ctrl.linkOffsetY = this.LinkOffsetY;
+        if (this.Top !== undefined) this.Ctrl.top = this.Top;
+        if (this.VerticalAlignment !== undefined) this.Ctrl.verticalAlignment = this.VerticalAlignment;
+        if (this.ZIndex !== undefined) this.Ctrl.zIndex = this.ZIndex;
         
-        (this.Parent as any).Texture.addControl(this._ctrl);
+        (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         if (this.MeshName !== undefined) {
             let mesh: Mesh = this.VT.Get(this.MeshName) as Mesh;
-            this._ctrl.linkWithMesh(mesh.Mesh);
+            this.Ctrl.linkWithMesh(mesh.Ctrl);
         }
 
         let text1 = new BABYLON.GUI.TextBlock();
         text1.text = this.Text;
         text1.color = this.Foreground;
-        this._ctrl.addControl(text1);  
+        this.Ctrl.addControl(text1);  
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();

@@ -9,9 +9,9 @@
           var camera = vt.Get("freeCamera");
           var start_time = Date.now();
 
-          scene.Scene.beforeRender = () => {
+          scene.Ctrl.beforeRender = () => {
             var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
-            camera.Camera.position.z = cameraDepth;
+            camera.Ctrl.position.z = cameraDepth;
           };
         </Script>
       </Scene>
@@ -22,8 +22,8 @@
         <Script>
           var back0 = vt.Get("back0");
 
-          var textureContext = back0.Layer.texture.getContext();
-          var size = back0.Layer.texture.getSize();
+          var textureContext = back0.Ctrl.texture.getContext();
+          var size = back0.Ctrl.texture.getSize();
 
           textureContext.clearRect(0, 0, size.width, size.height);
 
@@ -33,7 +33,7 @@
 
           textureContext.fillStyle = gradient;
           textureContext.fillRect(0, 0, 512, 512);
-          back0.Layer.texture.update();
+          back0.Ctrl.texture.update();
         </Script>
       </Background>
       
@@ -96,10 +96,10 @@
         <Script>
           var textureSampler = vt.Get("textureSampler");
           var cloudMaterial = vt.Get("cloud");
-          cloudMaterial.Material.setTexture("textureSampler", textureSampler.Texture);
-          cloudMaterial.Material.setFloat("fogNear", -100);
-          cloudMaterial.Material.setFloat("fogFar", 3000);
-          cloudMaterial.Material.setColor3("fogColor", BABYLON.Color3.FromInts(69, 132, 180));
+          cloudMaterial.Ctrl.setTexture("textureSampler", textureSampler.Ctrl);
+          cloudMaterial.Ctrl.setFloat("fogNear", -100);
+          cloudMaterial.Ctrl.setFloat("fogFar", 3000);
+          cloudMaterial.Ctrl.setColor3("fogColor", BABYLON.Color3.FromInts(69, 132, 180));
         </Script>
       </Material>
 
@@ -131,9 +131,9 @@
 		        }
           }
 
-          globalVertexData.applyToMesh(clouds.Mesh);
+          globalVertexData.applyToMesh(clouds.Ctrl);
 
-          var clouds2 = clouds.Mesh.clone();
+          var clouds2 = clouds.Ctrl.clone();
           clouds2.position.z = -500;
         </Script>
       </Mesh>

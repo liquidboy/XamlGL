@@ -4,13 +4,11 @@ import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
 
 export class Ellipse extends UIElement {
-    private _ctrl: BABYLON.GUI.Ellipse;
     private _width: string | number;
     private _height: string | number;
     private _thickness: number;
     private _color: string;
 
-    get Ctrl(): BABYLON.GUI.Ellipse { return this._ctrl; }
     get Color(): string { return this._color; }
     get Thickness(): number { return this._thickness; }
     get Width(): string | number { return this._width ; }
@@ -21,15 +19,15 @@ export class Ellipse extends UIElement {
     }
 
     public Initialize(): void {
-        this._ctrl = new BABYLON.GUI.Ellipse();
-        this._ctrl.width = this.Width;
-        this._ctrl.color = this.Color;
-        this._ctrl.thickness = this.Thickness;
-        this._ctrl.height = this.Height;
-        //this._ctrl.paddingTop = this.;
-        //this._ctrl.paddingBottom = "2px";
+        this.Ctrl = new BABYLON.GUI.Ellipse();
+        this.Ctrl.width = this.Width;
+        this.Ctrl.color = this.Color;
+        this.Ctrl.thickness = this.Thickness;
+        this.Ctrl.height = this.Height;
+        //this.Ctrl.paddingTop = this.;
+        //this.Ctrl.paddingBottom = "2px";
 
-        (this.Parent as any).Ctrl.addControl(this._ctrl);
+        (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();

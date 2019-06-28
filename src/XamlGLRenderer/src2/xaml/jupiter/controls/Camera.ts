@@ -3,8 +3,6 @@ import { Scene } from "./Core";
 import { DIContainer } from "../../Core";
 
 export class Camera extends UIElement {
-    private _camera: BABYLON.Camera;
-
     private _sceneName: string;
     private _target: BABYLON.Vector3;
     private _type: string;
@@ -19,7 +17,6 @@ export class Camera extends UIElement {
     private _maxz: number;
     private _panningSensibility: number;
 
-    get Camera(): BABYLON.Camera { return this._camera; }
     get SceneName(): string { return this._sceneName; }
     get Target(): BABYLON.Vector3 { return this._target; }
     get Type(): string { return this._type; }
@@ -38,28 +35,28 @@ export class Camera extends UIElement {
         let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
         let scene = this.VT.Get(this.SceneName) as Scene;
         if (this._type === "FreeCamera") {
-            this._camera = new BABYLON.FreeCamera(this.Name, this.Position, scene.Scene);
-            if (this._target !== undefined) this.GetFreeCamera(this._camera).setTarget(this._target);
-            if (this.FOV !== undefined) this.GetFreeCamera(this._camera).fov = this.FOV;
-            if (this.MinZ !== undefined) this.GetFreeCamera(this._camera).minZ = this.MinZ;
-            if (this.MaxZ !== undefined) this.GetFreeCamera(this._camera).maxZ = this.MaxZ;
-            this._camera.attachControl(canvas, true);
+            this.Ctrl = new BABYLON.FreeCamera(this.Name, this.Position, scene.Ctrl);
+            if (this._target !== undefined) this.GetFreeCamera(this.Ctrl).setTarget(this._target);
+            if (this.FOV !== undefined) this.GetFreeCamera(this.Ctrl).fov = this.FOV;
+            if (this.MinZ !== undefined) this.GetFreeCamera(this.Ctrl).minZ = this.MinZ;
+            if (this.MaxZ !== undefined) this.GetFreeCamera(this.Ctrl).maxZ = this.MaxZ;
+            this.Ctrl.attachControl(canvas, true);
         }
         else if (this._type === "UniversalCamera") {
-            this._camera = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Scene);
-            (this._camera as BABYLON.UniversalCamera).setTarget(this._target);
-            this._camera.attachControl(canvas, true);
+            this.Ctrl = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Ctrl);
+            (this.Ctrl as BABYLON.UniversalCamera).setTarget(this._target);
+            this.Ctrl.attachControl(canvas, true);
         }
         else if (this._type === "ArcRotateCamera") {
             let arcCamera: BABYLON.ArcRotateCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius,
-                this._target, scene.Scene);
+                this._target, scene.Ctrl);
             if (this._lowerBetaLimit !== undefined) arcCamera.lowerBetaLimit = this._lowerBetaLimit;
             if (this._upperBetaLimit !== undefined) arcCamera.upperBetaLimit = this._upperBetaLimit;
             if (this._lowerRadiusLimit !== undefined) arcCamera.lowerRadiusLimit = this._lowerRadiusLimit;
             if (this._panningSensibility !== undefined) arcCamera.panningSensibility = this._panningSensibility;
             if (this.Position !== undefined) arcCamera.position = this.Position;
             arcCamera.attachControl(canvas, true, true);
-            this._camera = arcCamera;
+            this.Ctrl = arcCamera;
         }
         
         this.PostInitialize();

@@ -5,6 +5,7 @@ export * from "./Background";
 export * from "./Box";
 export * from "./Button";
 export * from "./Camera";
+export * from "./Code";
 export * from "./Disc";
 export * from "./Ellipse";
 export * from "./Event";

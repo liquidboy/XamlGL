@@ -25,7 +25,7 @@ export class MoveSelectedMesh {
         canvas.addEventListener("pointerup", () => { this.onPointerUp(); }, false);
         canvas.addEventListener("pointermove", (evt) => { this.onPointerMove(evt); }, false);
 
-        scene.Scene.onDispose = function () {
+        scene.Ctrl.onDispose = function () {
             canvas.removeEventListener("pointerdown", this.onPointerDown);
             canvas.removeEventListener("pointerup", this.onPointerUp);
             canvas.removeEventListener("pointermove", this.onPointerMove);
@@ -34,8 +34,8 @@ export class MoveSelectedMesh {
 
     private getGroundPosition(): BABYLON.Vector3 {
         // Use a predicate to get position on the ground
-        var pickinfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY,
-            (mesh) => { return mesh == this.ground.Mesh; });
+        var pickinfo = this.scene.Ctrl.pick(this.scene.Ctrl.pointerX, this.scene.Ctrl.pointerY,
+            (mesh) => { return mesh == this.ground.Ctrl; });
         if (pickinfo.hit) return pickinfo.pickedPoint;
 
         return null;
@@ -47,15 +47,15 @@ export class MoveSelectedMesh {
         // check if we are under a mesh
         if (this.ground === undefined || this.ground === null) return;
 
-        var pickInfo = this.scene.Scene.pick(this.scene.Scene.pointerX, this.scene.Scene.pointerY,
-            (mesh) => { return mesh !== this.ground.Mesh; });
+        var pickInfo = this.scene.Ctrl.pick(this.scene.Ctrl.pointerX, this.scene.Ctrl.pointerY,
+            (mesh) => { return mesh !== this.ground.Ctrl; });
         if (pickInfo.hit) {
             this.currentMesh = pickInfo.pickedMesh;
             this.startingPoint = this.getGroundPosition();
 
             if (this.startingPoint) { // we need to disconnect camera from canvas
                 setTimeout(() => {
-                    this.camera.Camera.detachControl(this.canvas);
+                    this.camera.Ctrl.detachControl(this.canvas);
                 }, 0);
             }
         }
@@ -63,7 +63,7 @@ export class MoveSelectedMesh {
 
     private onPointerUp(): void {
         if (this.startingPoint) {
-            this.camera.Camera.attachControl(this.canvas, true);
+            this.camera.Ctrl.attachControl(this.canvas, true);
             this.startingPoint = null;
             return;
         }

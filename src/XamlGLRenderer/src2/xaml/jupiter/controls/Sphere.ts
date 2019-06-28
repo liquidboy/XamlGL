@@ -3,14 +3,12 @@ import { Scene, Material } from "./Core";
 import { MeshNormalLines } from "../../behaviors/MeshNormalLines";
 
 export class Sphere extends UIElement {
-    private _mesh: BABYLON.Mesh;
     private _sceneName: string;
     private _materialName: string;
     private _showNormalLines: boolean;
     private _segments: number;
     private _diameter: number;
 
-    get Mesh(): BABYLON.Mesh { return this._mesh; }
     get SceneName(): string { return this._sceneName; }
     get MaterialName(): string { return this._materialName; }
     get ShowNormalLines(): boolean { return this._showNormalLines; }
@@ -21,12 +19,12 @@ export class Sphere extends UIElement {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         let material: Material = this.VT.Get(this.MaterialName) as Material;
 
-        this._mesh = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Scene);
+        this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Ctrl);
         //this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
-        if (this.Position !== undefined) this._mesh.position = this.Position;
-        if (material !== undefined) this._mesh.material = material.Material;
+        if (this.Position !== undefined) this.Ctrl.position = this.Position;
+        if (material !== undefined) this.Ctrl.material = material.Ctrl;
 
-        if (this._showNormalLines) MeshNormalLines.Install(scene, this._mesh);
+        if (this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
         this.PostInitialize();
     }
 
