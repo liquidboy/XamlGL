@@ -15,6 +15,9 @@ export class Label extends UIElement {
     private _foreground: string;
     private _background: string;
     private _meshName: string;
+    private _top: string | number;
+    private _verticalAlignment: number;
+    private _zIndex: number;
 
     get Ctrl(): BABYLON.GUI.Rectangle { return this._ctrl; }
     get Text(): string { return this._text; }
@@ -27,14 +30,16 @@ export class Label extends UIElement {
     get Height(): string | number { return this._height; }
     get MeshName(): string { return this._meshName; }
     get LinkOffsetY(): string | number { return this._linkOffsetY; }
+    get Top(): string | number { return this._top; }
+    get VerticalAlignment(): number { return this._verticalAlignment; }
+    get ZIndex(): number { return this._zIndex; }
 
     constructor() {
         super();
     }
 
     public Initialize(): void {
-        let mesh: Mesh = this.VT.Get(this.MeshName) as Mesh;
-
+        
         this._ctrl = new BABYLON.GUI.Rectangle(this.Name);
         this._ctrl.background = this.Background;
         this._ctrl.height = this.Height;
@@ -43,10 +48,16 @@ export class Label extends UIElement {
         this._ctrl.cornerRadius = this.CornerRadius;
         this._ctrl.thickness = this.Thickness;
         this._ctrl.linkOffsetY = this.LinkOffsetY;
+        if (this.Top !== undefined) this._ctrl.top = this.Top;
+        if (this.VerticalAlignment !== undefined) this._ctrl.verticalAlignment = this.VerticalAlignment;
+        if (this.ZIndex !== undefined) this._ctrl.zIndex = this.ZIndex;
         
         (this.Parent as any).Texture.addControl(this._ctrl);
 
-        this._ctrl.linkWithMesh(mesh.Mesh);
+        if (this.MeshName !== undefined) {
+            let mesh: Mesh = this.VT.Get(this.MeshName) as Mesh;
+            this._ctrl.linkWithMesh(mesh.Mesh);
+        }
 
         let text1 = new BABYLON.GUI.TextBlock();
         text1.text = this.Text;
@@ -75,6 +86,9 @@ export class Label extends UIElement {
         try { this._linkOffsetY = parseFloat(node.attributes["LinkOffsetY"].value); } catch { }
         try { this._meshName = node.attributes["Mesh"].value; } catch { }
         try { this._text = node.attributes["Text"].value; } catch { }
+        try { this._top = node.attributes["Top"].value; } catch { }
+        try { this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value); } catch { }
+        try { this._zIndex = parseFloat(node.attributes["ZIndex"].value); } catch { }
     }
 
     TrySetParent(parent: UIElement): boolean {

@@ -34,7 +34,7 @@ export class Material extends UIElement {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         if (this.Type === "StandardMaterial") {
             this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
-            if (this._wireframe) this._material.wireframe = this._wireframe;
+            if (this._wireframe !== undefined) this._material.wireframe = this._wireframe;
             if (this._diffuseColor !== undefined) this.GetStandardMaterial(this._material).diffuseColor = this._diffuseColor;
             if (this._specularColor !== undefined) this.GetStandardMaterial(this._material).specularColor = this._specularColor;
             if (this._emissiveColor !== undefined) this.GetStandardMaterial(this._material).emissiveColor = this._emissiveColor;

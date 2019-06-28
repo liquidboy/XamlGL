@@ -16,6 +16,7 @@ export * from "./KeyFrameCollection";
 export * from "./KeyFrames";
 export * from "./Label";
 export * from "./Light";
+export * from "./Line";
 export * from "./Mesh";
 export * from "./ParticleSystem";
 export * from "./ParticleSystemShape";

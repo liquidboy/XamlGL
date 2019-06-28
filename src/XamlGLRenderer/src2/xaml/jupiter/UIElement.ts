@@ -19,7 +19,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     private _isDirty: boolean = true;
     private _uniqueId: string;
     private _name: string;
-    private _position: BABYLON.Vector3 = new BABYLON.Vector3(0, 0, 0);
+    private _position: BABYLON.Vector3; // = new BABYLON.Vector3(0, 0, 0);
     private _code: string;
     private _hasScript: boolean = false;
     private _childEvents: LinkedDictionary<string, Event>;

@@ -2776,15 +2776,15 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                     }
                     else if (this._type === "ArcRotateCamera") {
                         let arcCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius, this._target, scene.Scene);
-                        if (this._lowerBetaLimit)
+                        if (this._lowerBetaLimit !== undefined)
                             arcCamera.lowerBetaLimit = this._lowerBetaLimit;
-                        if (this._upperBetaLimit)
+                        if (this._upperBetaLimit !== undefined)
                             arcCamera.upperBetaLimit = this._upperBetaLimit;
-                        if (this._lowerRadiusLimit)
+                        if (this._lowerRadiusLimit !== undefined)
                             arcCamera.lowerRadiusLimit = this._lowerRadiusLimit;
-                        if (this._panningSensibility)
+                        if (this._panningSensibility !== undefined)
                             arcCamera.panningSensibility = this._panningSensibility;
-                        if (this.Position)
+                        if (this.Position !== undefined)
                             arcCamera.position = this.Position;
                         arcCamera.attachControl(canvas, true, true);
                         this._camera = arcCamera;
@@ -3218,7 +3218,7 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "ba
                     let scene = this.VT.Get(this.SceneName);
                     if (this.Type === "StandardMaterial") {
                         this._material = new BABYLON.StandardMaterial(this.Name, scene.Scene);
-                        if (this._wireframe)
+                        if (this._wireframe !== undefined)
                             this._material.wireframe = this._wireframe;
                         if (this._diffuseColor !== undefined)
                             this.GetStandardMaterial(this._material).diffuseColor = this._diffuseColor;
@@ -3406,11 +3406,13 @@ System.register("Xaml/jupiter/controls/Label", ["Xaml/jupiter/UIElement", "babyl
                 get Height() { return this._height; }
                 get MeshName() { return this._meshName; }
                 get LinkOffsetY() { return this._linkOffsetY; }
+                get Top() { return this._top; }
+                get VerticalAlignment() { return this._verticalAlignment; }
+                get ZIndex() { return this._zIndex; }
                 constructor() {
                     super();
                 }
                 Initialize() {
-                    let mesh = this.VT.Get(this.MeshName);
                     this._ctrl = new BABYLON.GUI.Rectangle(this.Name);
                     this._ctrl.background = this.Background;
                     this._ctrl.height = this.Height;
@@ -3419,8 +3421,17 @@ System.register("Xaml/jupiter/controls/Label", ["Xaml/jupiter/UIElement", "babyl
                     this._ctrl.cornerRadius = this.CornerRadius;
                     this._ctrl.thickness = this.Thickness;
                     this._ctrl.linkOffsetY = this.LinkOffsetY;
+                    if (this.Top !== undefined)
+                        this._ctrl.top = this.Top;
+                    if (this.VerticalAlignment !== undefined)
+                        this._ctrl.verticalAlignment = this.VerticalAlignment;
+                    if (this.ZIndex !== undefined)
+                        this._ctrl.zIndex = this.ZIndex;
                     this.Parent.Texture.addControl(this._ctrl);
-                    this._ctrl.linkWithMesh(mesh.Mesh);
+                    if (this.MeshName !== undefined) {
+                        let mesh = this.VT.Get(this.MeshName);
+                        this._ctrl.linkWithMesh(mesh.Mesh);
+                    }
                     let text1 = new BABYLON.GUI.TextBlock();
                     text1.text = this.Text;
                     text1.color = this.Foreground;
@@ -3476,6 +3487,18 @@ System.register("Xaml/jupiter/controls/Label", ["Xaml/jupiter/UIElement", "babyl
                         this._text = node.attributes["Text"].value;
                     }
                     catch (_l) { }
+                    try {
+                        this._top = node.attributes["Top"].value;
+                    }
+                    catch (_m) { }
+                    try {
+                        this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value);
+                    }
+                    catch (_o) { }
+                    try {
+                        this._zIndex = parseFloat(node.attributes["ZIndex"].value);
+                    }
+                    catch (_p) { }
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -3514,19 +3537,19 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                         this._light = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Scene);
                     else if (this._type === "PointLight") {
                         let pl = new BABYLON.PointLight(this.Name, this._direction, scene.Scene);
-                        if (this._diffuseColor)
+                        if (this._diffuseColor !== undefined)
                             pl.diffuse = this._diffuseColor;
-                        if (this._specularColor)
+                        if (this._specularColor !== undefined)
                             pl.specular = this._specularColor;
-                        if (this._intensity)
+                        if (this._intensity !== undefined)
                             pl.intensity = this._intensity;
                         this._light = pl;
                     }
                     else if (this._type === "DirectionalLight") {
                         let pl = new BABYLON.DirectionalLight(this.Name, this._direction, scene.Scene);
-                        if (this._diffuseColor)
+                        if (this._diffuseColor !== undefined)
                             pl.diffuse = this._diffuseColor;
-                        if (this._specularColor)
+                        if (this._specularColor !== undefined)
                             pl.specular = this._specularColor;
                         this._light = pl;
                     }
@@ -3569,18 +3592,95 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         }
     };
 });
-System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], function (exports_52, context_52) {
+System.register("Xaml/jupiter/controls/Line", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_52, context_52) {
     "use strict";
-    var UIElement_13, Mesh;
+    var UIElement_13, Line;
     var __moduleName = context_52 && context_52.id;
     return {
         setters: [
             function (UIElement_13_1) {
                 UIElement_13 = UIElement_13_1;
+            },
+            function (_6) {
             }
         ],
         execute: function () {
-            Mesh = class Mesh extends UIElement_13.UIElement {
+            Line = class Line extends UIElement_13.UIElement {
+                get Ctrl() { return this._ctrl; }
+                get Dash() { return this._dash; }
+                get LineWidth() { return this._lineWidth; }
+                get Alpha() { return this._alpha; }
+                get MeshName() { return this._meshName; }
+                get ConnectedControlName() { return this._connectedControlName; }
+                constructor() {
+                    super();
+                }
+                Initialize() {
+                    let mesh = this.VT.Get(this.MeshName);
+                    let connecteControl = this.VT.Get(this.ConnectedControlName);
+                    this._ctrl = new BABYLON.GUI.Line();
+                    this._ctrl.alpha = 0.5;
+                    this._ctrl.lineWidth = 5;
+                    this._ctrl.dash = [5, 10];
+                    this.Parent.Texture.addControl(this._ctrl);
+                    this._ctrl.linkWithMesh(mesh.Mesh);
+                    this._ctrl.connectedControl = connecteControl.Ctrl;
+                    this.ChildrenGUIs.forEach((key, child) => {
+                        child.Initialize();
+                    });
+                    this.PostInitialize();
+                }
+                LoadFromNode(node) {
+                    super.LoadFromNode(node);
+                    try {
+                        this._dash = eval(node.attributes["Dash"].value);
+                    }
+                    catch (_a) { }
+                    try {
+                        this._meshName = node.attributes["Mesh"].value;
+                    }
+                    catch (_b) { }
+                    try {
+                        this._alpha = parseFloat(node.attributes["Alpha"].value);
+                    }
+                    catch (_c) { }
+                    try {
+                        this._lineWidth = parseFloat(node.attributes["LineWidth"].value);
+                    }
+                    catch (_d) { }
+                    try {
+                        this._meshName = node.attributes["Mesh"].value;
+                    }
+                    catch (_e) { }
+                    try {
+                        this._connectedControlName = node.attributes["ConnectedControl"].value;
+                    }
+                    catch (_f) { }
+                }
+                TrySetParent(parent) {
+                    if (super.TrySetParent(parent)) {
+                        parent.ChildrenGUIs.setValue(this.Name, this);
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            exports_52("Line", Line);
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], function (exports_53, context_53) {
+    "use strict";
+    var UIElement_14, Mesh;
+    var __moduleName = context_53 && context_53.id;
+    return {
+        setters: [
+            function (UIElement_14_1) {
+                UIElement_14 = UIElement_14_1;
+            }
+        ],
+        execute: function () {
+            Mesh = class Mesh extends UIElement_14.UIElement {
                 get Mesh() { return this._mesh; }
                 get SceneName() { return this._sceneName; }
                 get Width() { return this._width; }
@@ -3619,25 +3719,25 @@ System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], functi
                     catch (_e) { }
                 }
             };
-            exports_52("Mesh", Mesh);
+            exports_53("Mesh", Mesh);
         }
     };
 });
-System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index"], function (exports_53, context_53) {
+System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index"], function (exports_54, context_54) {
     "use strict";
-    var UIElement_14, lib_3, ParticleSystem;
-    var __moduleName = context_53 && context_53.id;
+    var UIElement_15, lib_3, ParticleSystem;
+    var __moduleName = context_54 && context_54.id;
     return {
         setters: [
-            function (UIElement_14_1) {
-                UIElement_14 = UIElement_14_1;
+            function (UIElement_15_1) {
+                UIElement_15 = UIElement_15_1;
             },
             function (lib_3_1) {
                 lib_3 = lib_3_1;
             }
         ],
         execute: function () {
-            ParticleSystem = class ParticleSystem extends UIElement_14.UIElement {
+            ParticleSystem = class ParticleSystem extends UIElement_15.UIElement {
                 constructor() {
                     super();
                     this._updateable = false;
@@ -3667,22 +3767,22 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                     catch (e) { }
                 }
             };
-            exports_53("ParticleSystem", ParticleSystem);
+            exports_54("ParticleSystem", ParticleSystem);
         }
     };
 });
-System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIElement"], function (exports_54, context_54) {
+System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIElement"], function (exports_55, context_55) {
     "use strict";
-    var UIElement_15, ParticleSystemShape;
-    var __moduleName = context_54 && context_54.id;
+    var UIElement_16, ParticleSystemShape;
+    var __moduleName = context_55 && context_55.id;
     return {
         setters: [
-            function (UIElement_15_1) {
-                UIElement_15 = UIElement_15_1;
+            function (UIElement_16_1) {
+                UIElement_16 = UIElement_16_1;
             }
         ],
         execute: function () {
-            ParticleSystemShape = class ParticleSystemShape extends UIElement_15.UIElement {
+            ParticleSystemShape = class ParticleSystemShape extends UIElement_16.UIElement {
                 get SceneName() { return this._sceneName; }
                 get MeshName() { return this._meshName; }
                 get NB() { return this._nb; }
@@ -3748,14 +3848,14 @@ System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIEl
                     return false;
                 }
             };
-            exports_54("ParticleSystemShape", ParticleSystemShape);
+            exports_55("ParticleSystemShape", ParticleSystemShape);
         }
     };
 });
-System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_55, context_55) {
+System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_56, context_56) {
     "use strict";
     var SceneMouseWheelZoom;
-    var __moduleName = context_55 && context_55.id;
+    var __moduleName = context_56 && context_56.id;
     return {
         setters: [],
         execute: function () {
@@ -3780,14 +3880,14 @@ System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_55, 
                     }, BABYLON.PointerEventTypes.POINTERWHEEL, false);
                 }
             };
-            exports_55("SceneMouseWheelZoom", SceneMouseWheelZoom);
+            exports_56("SceneMouseWheelZoom", SceneMouseWheelZoom);
         }
     };
 });
-System.register("services/VisualTree", ["inversify", "libs/typescript-collections/src/lib/index"], function (exports_56, context_56) {
+System.register("services/VisualTree", ["inversify", "libs/typescript-collections/src/lib/index"], function (exports_57, context_57) {
     "use strict";
     var inversify_1, lib_4, VisualTree;
-    var __moduleName = context_56 && context_56.id;
+    var __moduleName = context_57 && context_57.id;
     return {
         setters: [
             function (inversify_1_1) {
@@ -3821,14 +3921,14 @@ System.register("services/VisualTree", ["inversify", "libs/typescript-collection
                 inversify_1.injectable(),
                 __metadata("design:paramtypes", [])
             ], VisualTree);
-            exports_56("VisualTree", VisualTree);
+            exports_57("VisualTree", VisualTree);
         }
     };
 });
-System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/VisualTree"], function (exports_57, context_57) {
+System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/VisualTree"], function (exports_58, context_58) {
     "use strict";
     var Core_9, VisualTree_1, MoveSelectedMesh;
-    var __moduleName = context_57 && context_57.id;
+    var __moduleName = context_58 && context_58.id;
     return {
         setters: [
             function (Core_9_1) {
@@ -3897,18 +3997,18 @@ System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/Visua
                     this.startingPoint = current;
                 }
             };
-            exports_57("MoveSelectedMesh", MoveSelectedMesh);
+            exports_58("MoveSelectedMesh", MoveSelectedMesh);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/behaviors/SceneMouseWheelZoom", "Xaml/behaviors/MoveSelectedMesh", "Xaml/Core"], function (exports_58, context_58) {
+System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/behaviors/SceneMouseWheelZoom", "Xaml/behaviors/MoveSelectedMesh", "Xaml/Core"], function (exports_59, context_59) {
     "use strict";
-    var UIElement_16, SceneMouseWheelZoom_1, MoveSelectedMesh_1, Core_10, Scene;
-    var __moduleName = context_58 && context_58.id;
+    var UIElement_17, SceneMouseWheelZoom_1, MoveSelectedMesh_1, Core_10, Scene;
+    var __moduleName = context_59 && context_59.id;
     return {
         setters: [
-            function (UIElement_16_1) {
-                UIElement_16 = UIElement_16_1;
+            function (UIElement_17_1) {
+                UIElement_17 = UIElement_17_1;
             },
             function (SceneMouseWheelZoom_1_1) {
                 SceneMouseWheelZoom_1 = SceneMouseWheelZoom_1_1;
@@ -3921,7 +4021,7 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
             }
         ],
         execute: function () {
-            Scene = class Scene extends UIElement_16.UIElement {
+            Scene = class Scene extends UIElement_17.UIElement {
                 get Scene() { return this._scene; }
                 get GroundName() { return this._groundName; }
                 get CameraName() { return this._cameraName; }
@@ -3971,22 +4071,22 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     return new BABYLON.Color4(color.r, color.g, color.b, 1);
                 }
             };
-            exports_58("Scene", Scene);
+            exports_59("Scene", Scene);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], function (exports_59, context_59) {
+System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], function (exports_60, context_60) {
     "use strict";
-    var UIElement_17, Script;
-    var __moduleName = context_59 && context_59.id;
+    var UIElement_18, Script;
+    var __moduleName = context_60 && context_60.id;
     return {
         setters: [
-            function (UIElement_17_1) {
-                UIElement_17 = UIElement_17_1;
+            function (UIElement_18_1) {
+                UIElement_18 = UIElement_18_1;
             }
         ],
         execute: function () {
-            Script = class Script extends UIElement_17.UIElement {
+            Script = class Script extends UIElement_18.UIElement {
                 constructor() {
                     super();
                 }
@@ -4013,22 +4113,22 @@ System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], func
                     return false;
                 }
             };
-            exports_59("Script", Script);
+            exports_60("Script", Script);
         }
     };
 });
-System.register("Xaml/jupiter/controls/ShadersStore", ["Xaml/jupiter/UIElement"], function (exports_60, context_60) {
+System.register("Xaml/jupiter/controls/ShadersStore", ["Xaml/jupiter/UIElement"], function (exports_61, context_61) {
     "use strict";
-    var UIElement_18, ShadersStore;
-    var __moduleName = context_60 && context_60.id;
+    var UIElement_19, ShadersStore;
+    var __moduleName = context_61 && context_61.id;
     return {
         setters: [
-            function (UIElement_18_1) {
-                UIElement_18 = UIElement_18_1;
+            function (UIElement_19_1) {
+                UIElement_19 = UIElement_19_1;
             }
         ],
         execute: function () {
-            ShadersStore = class ShadersStore extends UIElement_18.UIElement {
+            ShadersStore = class ShadersStore extends UIElement_19.UIElement {
                 constructor() {
                     super();
                 }
@@ -4045,25 +4145,25 @@ System.register("Xaml/jupiter/controls/ShadersStore", ["Xaml/jupiter/UIElement"]
                     super.LoadFromNode(node);
                 }
             };
-            exports_60("ShadersStore", ShadersStore);
+            exports_61("ShadersStore", ShadersStore);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_61, context_61) {
+System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_62, context_62) {
     "use strict";
-    var UIElement_19, MeshNormalLines_3, Sphere;
-    var __moduleName = context_61 && context_61.id;
+    var UIElement_20, MeshNormalLines_3, Sphere;
+    var __moduleName = context_62 && context_62.id;
     return {
         setters: [
-            function (UIElement_19_1) {
-                UIElement_19 = UIElement_19_1;
+            function (UIElement_20_1) {
+                UIElement_20 = UIElement_20_1;
             },
             function (MeshNormalLines_3_1) {
                 MeshNormalLines_3 = MeshNormalLines_3_1;
             }
         ],
         execute: function () {
-            Sphere = class Sphere extends UIElement_19.UIElement {
+            Sphere = class Sphere extends UIElement_20.UIElement {
                 get Mesh() { return this._mesh; }
                 get SceneName() { return this._sceneName; }
                 get MaterialName() { return this._materialName; }
@@ -4074,8 +4174,10 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
                     this._mesh = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Scene);
-                    this._mesh.position = this.Position;
-                    this._mesh.material = material.Material;
+                    if (this.Position !== undefined)
+                        this._mesh.position = this.Position;
+                    if (material !== undefined)
+                        this._mesh.material = material.Material;
                     if (this._showNormalLines)
                         MeshNormalLines_3.MeshNormalLines.Install(scene, this._mesh);
                     this.PostInitialize();
@@ -4104,24 +4206,24 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     catch (e) { }
                 }
             };
-            exports_61("Sphere", Sphere);
+            exports_62("Sphere", Sphere);
         }
     };
 });
-System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_62, context_62) {
+System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_63, context_63) {
     "use strict";
-    var UIElement_20, StackPanel;
-    var __moduleName = context_62 && context_62.id;
+    var UIElement_21, StackPanel;
+    var __moduleName = context_63 && context_63.id;
     return {
         setters: [
-            function (UIElement_20_1) {
-                UIElement_20 = UIElement_20_1;
+            function (UIElement_21_1) {
+                UIElement_21 = UIElement_21_1;
             },
-            function (_6) {
+            function (_7) {
             }
         ],
         execute: function () {
-            StackPanel = class StackPanel extends UIElement_20.UIElement {
+            StackPanel = class StackPanel extends UIElement_21.UIElement {
                 get Ctrl() { return this._ctrl; }
                 get Rotation() { return this._rotation; }
                 get Width() { return this._width; }
@@ -4163,14 +4265,14 @@ System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "
                     return false;
                 }
             };
-            exports_62("StackPanel", StackPanel);
+            exports_63("StackPanel", StackPanel);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_63, context_63) {
+System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_64, context_64) {
     "use strict";
     var MeshNormalLines_4, AnimatableUIElement_4, Torus;
-    var __moduleName = context_63 && context_63.id;
+    var __moduleName = context_64 && context_64.id;
     return {
         setters: [
             function (MeshNormalLines_4_1) {
@@ -4245,19 +4347,19 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                         });
                 }
             };
-            exports_63("Torus", Torus);
+            exports_64("Torus", Torus);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Ellipse", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/StackPanel", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_64, context_64) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Ellipse", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Line", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/StackPanel", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_65, context_65) {
     "use strict";
-    var __moduleName = context_64 && context_64.id;
+    var __moduleName = context_65 && context_65.id;
     function exportStar_2(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_64(exports);
+        exports_65(exports);
     }
     return {
         setters: [
@@ -4312,6 +4414,9 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation"
             function (Light_1_1) {
                 exportStar_2(Light_1_1);
             },
+            function (Line_1_1) {
+                exportStar_2(Line_1_1);
+            },
             function (Mesh_1_1) {
                 exportStar_2(Mesh_1_1);
             },
@@ -4353,19 +4458,19 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation"
         }
     };
 });
-System.register("Xaml/jupiter/IRender", [], function (exports_65, context_65) {
+System.register("Xaml/jupiter/IRender", [], function (exports_66, context_66) {
     "use strict";
-    var __moduleName = context_65 && context_65.id;
+    var __moduleName = context_66 && context_66.id;
     return {
         setters: [],
         execute: function () {
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core", "Xaml/behaviors/CustomScript", "libs/typescript-collections/src/lib/index"], function (exports_66, context_66) {
+System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core", "Xaml/behaviors/CustomScript", "libs/typescript-collections/src/lib/index"], function (exports_67, context_67) {
     "use strict";
     var DependencyObject_2, Guid_1, VisualTree_2, Core_11, CustomScript_2, lib_5, UIElement;
-    var __moduleName = context_66 && context_66.id;
+    var __moduleName = context_67 && context_67.id;
     return {
         setters: [
             function (DependencyObject_2_1) {
@@ -4392,7 +4497,6 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 constructor() {
                     super();
                     this._isDirty = true;
-                    this._position = new BABYLON.Vector3(0, 0, 0);
                     this._hasScript = false;
                     this.VT = Core_11.DIContainer.get(VisualTree_2.VisualTree);
                     this.DI = Core_11.DIContainer;
@@ -4440,22 +4544,22 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     }
                 }
             };
-            exports_66("UIElement", UIElement);
+            exports_67("UIElement", UIElement);
         }
     };
 });
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_67, context_67) {
+System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_68, context_68) {
     "use strict";
-    var UIElement_21, FrameworkElement;
-    var __moduleName = context_67 && context_67.id;
+    var UIElement_22, FrameworkElement;
+    var __moduleName = context_68 && context_68.id;
     return {
         setters: [
-            function (UIElement_21_1) {
-                UIElement_21 = UIElement_21_1;
+            function (UIElement_22_1) {
+                UIElement_22 = UIElement_22_1;
             }
         ],
         execute: function () {
-            FrameworkElement = class FrameworkElement extends UIElement_21.UIElement {
+            FrameworkElement = class FrameworkElement extends UIElement_22.UIElement {
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 set Width(value) { this._width = value; }
@@ -4464,14 +4568,14 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
                     super();
                 }
             };
-            exports_67("FrameworkElement", FrameworkElement);
+            exports_68("FrameworkElement", FrameworkElement);
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_68, context_68) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_69, context_69) {
     "use strict";
     var _controls, XamlParser;
-    var __moduleName = context_68 && context_68.id;
+    var __moduleName = context_69 && context_69.id;
     return {
         setters: [
             function (_controls_1) {
@@ -4548,14 +4652,14 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                     return null;
                 }
             };
-            exports_68("XamlParser", XamlParser);
+            exports_69("XamlParser", XamlParser);
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "Xaml/Core"], function (exports_69, context_69) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "Xaml/Core"], function (exports_70, context_70) {
     "use strict";
     var XamlParser_1, Core_12, Core_13, VisualTree_3, Core_14, App;
-    var __moduleName = context_69 && context_69.id;
+    var __moduleName = context_70 && context_70.id;
     return {
         setters: [
             function (XamlParser_1_1) {
@@ -4627,14 +4731,14 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     });
                 }
             };
-            exports_69("App", App);
+            exports_70("App", App);
         }
     };
 });
-System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_70, context_70) {
+System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_71, context_71) {
     "use strict";
     var XamlMarkup_1, XamlReader;
-    var __moduleName = context_70 && context_70.id;
+    var __moduleName = context_71 && context_71.id;
     return {
         setters: [
             function (XamlMarkup_1_1) {
@@ -4659,14 +4763,14 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
                     return this._xm;
                 }
             };
-            exports_70("XamlReader", XamlReader);
+            exports_71("XamlReader", XamlReader);
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_71, context_71) {
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_72, context_72) {
     "use strict";
     var _controls, inversify_2, Controls, DIContainer;
-    var __moduleName = context_71 && context_71.id;
+    var __moduleName = context_72 && context_72.id;
     var exportedNames_1 = {
         "Controls": true,
         "DIContainer": true
@@ -4676,7 +4780,7 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
         for (var n in m) {
             if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
         }
-        exports_71(exports);
+        exports_72(exports);
     }
     return {
         setters: [
@@ -4706,18 +4810,18 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             }
         ],
         execute: function () {
-            exports_71("Controls", Controls = _controls);
-            exports_71("DIContainer", DIContainer = new inversify_2.Container());
+            exports_72("Controls", Controls = _controls);
+            exports_72("DIContainer", DIContainer = new inversify_2.Container());
         }
     };
 });
-System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_72, context_72) {
+System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_73, context_73) {
     "use strict";
     var XamlGLCore, XamlApp;
-    var __moduleName = context_72 && context_72.id;
+    var __moduleName = context_73 && context_73.id;
     return {
         setters: [
-            function (_7) {
+            function (_8) {
             },
             function (XamlGLCore_1) {
                 XamlGLCore = XamlGLCore_1;
@@ -4748,7 +4852,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                     return urlParams;
                 }
             };
-            exports_72("XamlApp", XamlApp);
+            exports_73("XamlApp", XamlApp);
         }
     };
 });

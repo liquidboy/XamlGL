@@ -24,14 +24,14 @@ export class Light extends UIElement {
         if (this._type === "HemisphericLight") this._light = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Scene);
         else if (this._type === "PointLight") {
             let pl: BABYLON.Light = new BABYLON.PointLight(this.Name, this._direction, scene.Scene);
-            if (this._diffuseColor) pl.diffuse = this._diffuseColor; 
-            if (this._specularColor) pl.specular = this._specularColor;
-            if (this._intensity) pl.intensity = this._intensity;
+            if (this._diffuseColor !== undefined) pl.diffuse = this._diffuseColor; 
+            if (this._specularColor !== undefined) pl.specular = this._specularColor;
+            if (this._intensity !== undefined) pl.intensity = this._intensity;
             this._light = pl;
         } else if (this._type === "DirectionalLight") {
             let pl: BABYLON.Light = new BABYLON.DirectionalLight(this.Name, this._direction, scene.Scene);
-            if (this._diffuseColor) pl.diffuse = this._diffuseColor;
-            if (this._specularColor) pl.specular = this._specularColor;
+            if (this._diffuseColor !== undefined) pl.diffuse = this._diffuseColor;
+            if (this._specularColor !== undefined) pl.specular = this._specularColor;
             this._light = pl;
         } 
         this.PostInitialize();
