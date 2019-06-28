@@ -3,7 +3,15 @@
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
     <Grid x:Name="layoutRoot">
-      <Scene x:Name="mainScene"></Scene>
+      <Scene x:Name="mainScene">
+        <Script>
+          let scene = vt.Get("mainScene");
+          let panel = vt.Get("panel");
+          scene.Scene.beforeRender = () => {
+            panel.Ctrl.rotation += 0.01;
+          }
+        </Script>
+      </Scene>
 
       <Camera x:Name="arcRotateCamera" Type="ArcRotateCamera"  AlphaCalculated="-Math.PI/2" Beta="1.0" 
               Radius="110" Target="Vector3.Zero()" Scene="mainScene"></Camera>
@@ -21,7 +29,7 @@
       <Sphere x:Name="sphere7" Segments="10.0" Diameter="9.0" Scene="mainScene" Position="Vector3(30,0,0)" Material="sphereMaterial"></Sphere>
 
       <Texture x:Name="ui1" Type="AdvancedDynamicTexture">
-        <StackPanel x:Name="area1" Width="0.25" Rotation="0.2" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT">
+        <StackPanel x:Name="panel" Width="0.25" Rotation="0.2" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT">
           <Button x:Name="but1" Content="Click me" Width="0.2" Height="40px" Color="White" CornerRadius="20" Background="green">
             <Event EventName="onPointerUpObservable">
               <![CDATA[

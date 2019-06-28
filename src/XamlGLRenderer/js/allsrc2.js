@@ -3393,10 +3393,6 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         ],
         execute: function () {
             Light = class Light extends UIElement_11.UIElement {
-                constructor() {
-                    super(...arguments);
-                    this._direction = BABYLON.Vector3.Zero();
-                }
                 get Light() { return this._light; }
                 get SceneName() { return this._sceneName; }
                 get Direction() { return this._direction; }
