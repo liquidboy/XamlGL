@@ -52,9 +52,15 @@
             </Event>
           </Button>
         </StackPanel>
-      
-    </Texture>
+        <Label x:Name="lblSphere1" Mesh="sphere1" Text="sphere1" Background="black" Height="30px" Alpha="0.5" Width="100px" CornerRadius="20" Thickness="1" LinkOffsetY="30" Foreground="White"></Label>
+        <Label x:Name="lblSphere2" Mesh="sphere2" Text="sphere2" Background="black" Height="30px" Alpha="0.5" Width="100px" CornerRadius="20" Thickness="1" LinkOffsetY="30" Foreground="White"></Label>
+        <Label x:Name="lblSphere3" Mesh="sphere3" Text="sphere3" Background="black" Height="30px" Alpha="0.5" Width="100px" CornerRadius="20" Thickness="1" LinkOffsetY="30" Foreground="White"></Label>
+        <Label x:Name="lblSphere4" Mesh="sphere4" Text="sphere4" Background="black" Height="30px" Alpha="0.5" Width="100px" CornerRadius="20" Thickness="1" LinkOffsetY="30" Foreground="White"></Label>
+        <Label x:Name="lblSphere5" Mesh="sphere5" Text="sphere5" Background="black" Height="30px" Alpha="0.5" Width="100px" CornerRadius="20" Thickness="1" LinkOffsetY="30" Foreground="White"></Label>
+        <Label x:Name="lblSphere6" Mesh="sphere6" Text="sphere6" Background="black" Height="30px" Alpha="0.5" Width="100px" CornerRadius="20" Thickness="1" LinkOffsetY="30" Foreground="White"></Label>
+      </Texture>
 
+      
 
     </Grid>
     <!-- https://www.babylonjs-playground.com/#3VMTI9#0 -->

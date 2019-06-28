@@ -7,8 +7,8 @@ import { CustomScript } from "../../behaviors/CustomScript";
 export class Button extends UIElement {
     private _ctrl: BABYLON.GUI.Button;
     private _content: string;
-    private _width: any;
-    private _height: any;
+    private _width: string | number;
+    private _height: string | number;
     private _cornerRadius: number;
     private _color: string;
     private _background: string;
@@ -18,8 +18,8 @@ export class Button extends UIElement {
     get Color(): string { return this._color; }
     get Background(): string { return this._background; }
     get CornerRadius(): number { return this._cornerRadius; }
-    get Width(): any { return this._width ; }
-    get Height(): any { return this._height; }
+    get Width(): string | number { return this._width ; }
+    get Height(): string | number { return this._height; }
 
     constructor() {
         super();

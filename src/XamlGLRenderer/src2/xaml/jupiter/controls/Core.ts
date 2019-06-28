@@ -14,6 +14,7 @@ export * from "./IAnimationsElement";
 export * from "./KeyFrame";
 export * from "./KeyFrameCollection";
 export * from "./KeyFrames";
+export * from "./Label";
 export * from "./Light";
 export * from "./Mesh";
 export * from "./ParticleSystem";
