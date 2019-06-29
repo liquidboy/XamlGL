@@ -3,30 +3,52 @@
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
     <Grid x:Name="layoutRoot">
-      <Scene x:Name="main🎬"></Scene>
-      <Scene x:Name="loading🎬"></Scene>
+      <Scene x:Name="main🎬" ClearColor="Color3.Black()"></Scene>
+    
+      <Camera x:Name="arcRotate📷" Type="ArcRotateCamera"  AlphaCalculated="0" Beta="0" Radius="10" Target="Vector3.Zero()" 
+              Scene="main🎬" LowerBetaLimit="0.1" UpperBetaLimit="(Math.PI / 2) * 0.99" LowerRadiusLimit="5"></Camera>
 
-      <Camera x:Name="arcRotate📷" Type="ArcRotateCamera"  
-          AlphaCalculated="-Math.PI / 2" Beta="1.0" 
-          Radius="110" Target="Vector3.Zero()" Scene="main🎬"></Camera>
 
-      <Light x:Name="main💡" Type="HemisphericLight" Scene="main🎬"></Light>
-
-      <Material x:Name="▨▨▨sphere" Type="StandardMaterial" Scene="main🎬" ></Material>
-
-      <Sphere x:Name="◯1" Segments="10.0" Diameter="9.0" Scene="main🎬" Position="Vector3(-30,0,0)" Material="▨▨▨sphere"></Sphere>
-      <Sphere x:Name="◯2" Segments="2.0"  Diameter="9.0" Scene="main🎬" Position="Vector3(-20,0,0)" Material="▨▨▨sphere"></Sphere>
-      <Sphere x:Name="◯3" Segments="10.0" Diameter="9.0" Scene="main🎬" Position="Vector3(-10,0,0)" Material="▨▨▨sphere"></Sphere>
-      <Sphere x:Name="◯4" Segments="10.0" Diameter="9.0" Scene="main🎬" Position="Vector3(0,0,0)"   Material="▨▨▨sphere"></Sphere>
-      <Sphere x:Name="◯5" Segments="10.0" Diameter="9.0" Scene="main🎬" Position="Vector3(10,0,0)"  Material="▨▨▨sphere"></Sphere>
-      <Sphere x:Name="◯6" Segments="10.0" Diameter="9.0" Scene="main🎬" Position="Vector3(20,0,0)"  Material="▨▨▨sphere"></Sphere>
-      <Sphere x:Name="◯7" Segments="10.0" Diameter="9.0" Scene="main🎬" Position="Vector3(30,0,0)"  Material="▨▨▨sphere"></Sphere>
-
-      <Texture x:Name="ui1" Type="AdvancedDynamicTexture">
+      <ParticleSystem x:Name="particles" Scene="main🎬" Capacity="10000" Type="ParticleSystem">
         
+      </ParticleSystem>
+
+
+      <Texture x:Name="ui1" Type="AdvancedDynamicTexture" IdealHeight="1100">
+        <StackPanel x:Name="panel" Width="300px" IsVertical="true" PaddingRight="20px" 
+                    HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT" 
+                    VerticalAlignment="BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER"
+                    FontSize="16">
+          <StackPanel x:Name="spEmitRate" Width="270px" Height="30px" IsVertical="false">
+            <TextBlock x:Name="lblEmitRate" Content="emitRate:" Width="150px" Color="white" TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblEmitRateValue" Content="0" Width="150px" Color="white" TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slEmitRate" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" Maximum="10000"
+                  Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+            <Code>
+              <![CDATA[
+                let ps = this.VisualTreeHelper.FindByName("particles");
+                var lblEmitRateValue = this.VisualTreeHelper.FindByName("lblEmitRateValue");
+                this.bjsCtrl.onSync = () => {
+                  this.bjsCtrl.value = ps.bjsCtrl["emitRate"];
+                }
+                this.bjsCtrl.onSync();
+                this.bjsCtrl.onValueChangedObservable.add((value) => {
+                  //console.log(lblEmitRateValue.bjsCtrl["text"]);
+                  try{
+                    //lblEmitRateValue.bjsCtrl["text"] = value;
+                  } catch{}
+                  
+                  ps.bjsCtrl["emitRate"] = value;
+                });
+              ]]>
+            </Code>
+          </Slider>
+        </StackPanel>
       </Texture>
 
 
+
     </Grid>
-    <!-- https://www.babylonjs-playground.com/#3VMTI9#0 -->
+    <!-- https://www.babylonjs-playground.com/#NNL67B#1 -->
 </Application>

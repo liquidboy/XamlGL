@@ -3259,6 +3259,7 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                 get CoordinatesMode() { return this._coordinatesMode; }
                 get Options() { return this._options; }
                 get GeneratingMipMaps() { return this._generatingMipMaps; }
+                get IdealHeight() { return this._idealHeight; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     if (this._type === "CubeTexture") {
@@ -3313,6 +3314,10 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                         this._generatingMipMaps = node.attributes["GeneratingMipMaps"].value.toLowerCase() === 'true';
                     }
                     catch (e) { }
+                    try {
+                        this._idealHeight = parseInt(node.attributes["IdealHeight"].value);
+                    }
+                    catch (_e) { }
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -4057,9 +4062,38 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                 get Children() { return this._childParticles; }
                 get SceneName() { return this._sceneName; }
                 get Updateable() { return this._updateable; }
+                get Type() { return this._type; }
+                get Capacity() { return this._capacity; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    this.Ctrl = new BABYLON.SolidParticleSystem(this.Name, scene.Ctrl, { updatable: this.Updateable });
+                    if (this.Type === "SolidParticleSystem") {
+                        this.Ctrl = new BABYLON.SolidParticleSystem(this.Name, scene.Ctrl, { updatable: this.Updateable });
+                    }
+                    else if (this.Type === "ParticleSystem") {
+                        var emitter0 = BABYLON.Mesh.CreateBox("emitter0", 0.1, scene.Ctrl);
+                        emitter0.isVisible = false;
+                        this.Ctrl = new BABYLON.ParticleSystem(this.Name, this.Capacity, scene.Ctrl);
+                        this.Ctrl.particleTexture = new BABYLON.Texture("/assets/textures/flare.png", scene.Ctrl);
+                        this.Ctrl.minAngularSpeed = -0.5;
+                        this.Ctrl.maxAngularSpeed = 0.5;
+                        this.Ctrl.minSize = 0.1;
+                        this.Ctrl.maxSize = 0.5;
+                        this.Ctrl.minLifeTime = 0.5;
+                        this.Ctrl.maxLifeTime = 2.0;
+                        this.Ctrl.minEmitPower = 0.5;
+                        this.Ctrl.maxEmitPower = 4.0;
+                        this.Ctrl.emitter = emitter0;
+                        this.Ctrl.emitRate = 400;
+                        this.Ctrl.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
+                        this.Ctrl.minEmitBox = new BABYLON.Vector3(0, 0, 0);
+                        this.Ctrl.maxEmitBox = new BABYLON.Vector3(0, 0, 0);
+                        this.Ctrl.direction1 = new BABYLON.Vector3(-1, 1, -1);
+                        this.Ctrl.direction2 = new BABYLON.Vector3(1, 1, 1);
+                        this.Ctrl.color1 = new BABYLON.Color3(1, 0, 0);
+                        this.Ctrl.color2 = new BABYLON.Color3(0, 1, 1);
+                        this.Ctrl.gravity = new BABYLON.Vector3(0, -2.0, 0);
+                        this.Ctrl.start();
+                    }
                     this.Children.forEach((key, child) => {
                         child.Initialize();
                     });
@@ -4075,6 +4109,14 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                         this._updateable = node.attributes["Updateable"].value.toLowerCase() === 'true';
                     }
                     catch (e) { }
+                    try {
+                        this._type = node.attributes["Type"].value;
+                    }
+                    catch (_b) { }
+                    try {
+                        this._capacity = parseInt(node.attributes["Capacity"].value);
+                    }
+                    catch (_c) { }
                 }
             };
             exports_58("ParticleSystem", ParticleSystem);
@@ -4577,6 +4619,7 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                 get Max() { return this._max; }
                 get Value() { return this._value; }
                 get Color() { return this._color; }
+                get Background() { return this._background; }
                 get HorizontalAlignment() { return this._horizontalAlignment; }
                 constructor() {
                     super();
@@ -4585,11 +4628,13 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                     this.Ctrl = new BABYLON.GUI.Slider(this.Name);
                     this.Ctrl.height = this.Height;
                     this.Ctrl.width = this.Width;
-                    this.Ctrl.min = this.Min;
-                    this.Ctrl.max = this.Max;
+                    this.Ctrl.minimum = this.Min;
+                    this.Ctrl.maximum = this.Max;
                     this.Ctrl.value = this.Value;
                     if (this.Color !== undefined)
                         this.Ctrl.color = this.Color;
+                    if (this.Background !== undefined)
+                        this.Ctrl.background = this.Background;
                     if (this.HorizontalAlignment !== undefined)
                         this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
                     this.Ctrl.text = this.Value;
@@ -4626,9 +4671,13 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                     }
                     catch (_f) { }
                     try {
-                        this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value);
+                        this._background = node.attributes["Background"].value;
                     }
                     catch (_g) { }
+                    try {
+                        this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value);
+                    }
+                    catch (_h) { }
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -4717,8 +4766,11 @@ System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "
         execute: function () {
             StackPanel = class StackPanel extends UIElement_27.UIElement {
                 get Rotation() { return this._rotation; }
+                get Height() { return this._height; }
                 get Width() { return this._width; }
+                get IsVertical() { return this._isVertical; }
                 get Top() { return this._top; }
+                get PaddingRight() { return this._paddingRight; }
                 get FontSize() { return this._fontSize; }
                 get HorizontalAlignment() { return this._horizontalAlignment; }
                 get VerticalAlignment() { return this._verticalAlignment; }
@@ -4726,7 +4778,9 @@ System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "
                     super();
                 }
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.StackPanel();
+                    this.Ctrl = new BABYLON.GUI.StackPanel(this.Name);
+                    if (this.Height !== undefined)
+                        this.Ctrl.height = this.Height;
                     if (this.Width !== undefined)
                         this.Ctrl.width = this.Width;
                     if (this.Top !== undefined)
@@ -4739,6 +4793,10 @@ System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "
                         this.Ctrl.verticalAlignment = this.VerticalAlignment;
                     if (this.FontSize !== undefined)
                         this.Ctrl.fontSize = this.FontSize;
+                    if (this.PaddingRight !== undefined)
+                        this.Ctrl.paddingRight = this.PaddingRight;
+                    if (this.IsVertical !== undefined)
+                        this.Ctrl.isVertical = this.IsVertical;
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
@@ -4748,29 +4806,41 @@ System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                     try {
-                        this._width = node.attributes["Width"].value;
+                        this._height = node.attributes["Height"].value;
                     }
                     catch (_a) { }
                     try {
-                        this._top = node.attributes["Top"].value;
+                        this._width = node.attributes["Width"].value;
                     }
                     catch (_b) { }
                     try {
-                        this._rotation = parseFloat(node.attributes["Rotation"].value);
+                        this._top = node.attributes["Top"].value;
                     }
                     catch (_c) { }
                     try {
-                        this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value);
+                        this._rotation = parseFloat(node.attributes["Rotation"].value);
                     }
                     catch (_d) { }
                     try {
-                        this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value);
+                        this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value);
                     }
                     catch (_e) { }
                     try {
-                        this._fontSize = node.attributes["FontSize"].value;
+                        this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value);
                     }
                     catch (_f) { }
+                    try {
+                        this._fontSize = node.attributes["FontSize"].value;
+                    }
+                    catch (_g) { }
+                    try {
+                        this._paddingRight = node.attributes["PaddingRight"].value;
+                    }
+                    catch (_h) { }
+                    try {
+                        this._isVertical = node.attributes["IsVertical"].value.toLowerCase() === 'true';
+                    }
+                    catch (e) { }
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -4799,6 +4869,7 @@ System.register("Xaml/jupiter/controls/TextBlock", ["Xaml/jupiter/UIElement", "b
         execute: function () {
             TextBlock = class TextBlock extends UIElement_28.UIElement {
                 get Height() { return this._height; }
+                get Width() { return this._height; }
                 get FontSize() { return this._fontSize; }
                 get Content() { return this._content; }
                 get Color() { return this._color; }
@@ -4808,7 +4879,10 @@ System.register("Xaml/jupiter/controls/TextBlock", ["Xaml/jupiter/UIElement", "b
                 }
                 Initialize() {
                     this.Ctrl = new BABYLON.GUI.TextBlock(this.Name);
-                    this.Ctrl.height = this.Height;
+                    if (this.Height !== undefined)
+                        this.Ctrl.height = this.Height;
+                    if (this.Width !== undefined)
+                        this.Ctrl.width = this.Width;
                     if (this.FontSize !== undefined)
                         this.Ctrl.fontSize = this.FontSize;
                     if (this.Color !== undefined)
@@ -4829,21 +4903,25 @@ System.register("Xaml/jupiter/controls/TextBlock", ["Xaml/jupiter/UIElement", "b
                     }
                     catch (_a) { }
                     try {
-                        this._fontSize = parseFloat(node.attributes["FontSize"].value);
+                        this._width = node.attributes["Width"].value;
                     }
                     catch (_b) { }
                     try {
-                        this._content = node.attributes["Content"].value;
+                        this._fontSize = parseFloat(node.attributes["FontSize"].value);
                     }
                     catch (_c) { }
                     try {
-                        this._color = node.attributes["Color"].value;
+                        this._content = node.attributes["Content"].value;
                     }
                     catch (_d) { }
                     try {
-                        this._textHorizontalAlignment = eval(node.attributes["TextHorizontalAlignment"].value);
+                        this._color = node.attributes["Color"].value;
                     }
                     catch (_e) { }
+                    try {
+                        this._textHorizontalAlignment = eval(node.attributes["TextHorizontalAlignment"].value);
+                    }
+                    catch (_f) { }
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {

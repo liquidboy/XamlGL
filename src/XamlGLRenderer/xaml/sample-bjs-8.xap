@@ -25,7 +25,7 @@
       
       <Disc x:Name="triangle" Scene="mainScene" Tessellation="3" SideOrientation="BABYLON.Mesh.DOUBLESIDE"></Disc>
 
-      <ParticleSystem x:Name="sps" Scene="mainScene" Updateable="false">
+      <ParticleSystem x:Name="sps" Scene="mainScene" Updateable="false" Type="SolidParticleSystem">
         <ParticleSystemShape x:Name="psst" Mesh="triangle" NB="160000">
           <![CDATA[ 
           (particle, i, s) => {

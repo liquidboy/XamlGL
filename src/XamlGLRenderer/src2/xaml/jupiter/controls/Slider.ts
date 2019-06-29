@@ -10,6 +10,7 @@ export class Slider extends UIElement {
     private _width: string | number;
     private _value: any;
     private _color: string;
+    private _background: string;
     private _horizontalAlignment: number;
     
     get Height(): number | string { return this._height; }
@@ -18,6 +19,7 @@ export class Slider extends UIElement {
     get Max(): number { return this._max; }
     get Value(): any { return this._value; }
     get Color(): string { return this._color; }
+    get Background(): string { return this._background; }
     get HorizontalAlignment(): number { return this._horizontalAlignment; }
 
     constructor() {
@@ -28,11 +30,12 @@ export class Slider extends UIElement {
         this.Ctrl = new BABYLON.GUI.Slider(this.Name);  
         this.Ctrl.height = this.Height;
         this.Ctrl.width = this.Width;
-        this.Ctrl.min = this.Min;
-        this.Ctrl.max = this.Max;
+        this.Ctrl.minimum = this.Min;
+        this.Ctrl.maximum = this.Max;
         this.Ctrl.value = this.Value;
         
         if (this.Color !== undefined) this.Ctrl.color = this.Color;
+        if (this.Background !== undefined) this.Ctrl.background = this.Background;
         if (this.HorizontalAlignment !== undefined) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
         this.Ctrl.text = this.Value;
 
@@ -53,6 +56,7 @@ export class Slider extends UIElement {
         try { this._max = parseFloat(node.attributes["Maximum"].value); } catch { }
         try { this._value = node.attributes["Value"].value; } catch { }
         try { this._color = node.attributes["Color"].value; } catch { }
+        try { this._background= node.attributes["Background"].value; } catch { }
         try { this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value); } catch { }
     }
 

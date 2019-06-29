@@ -10,6 +10,7 @@ export class Texture extends UIElement {
     private _coordinatesMode: number;
     private _options: string;
     private _generatingMipMaps: boolean;
+    private _idealHeight: number;
 
     get SceneName(): string { return this._sceneName; }
     get RootUrl(): string { return this._rootUrl; }
@@ -17,6 +18,7 @@ export class Texture extends UIElement {
     get CoordinatesMode(): number { return this._coordinatesMode; }
     get Options(): string { return this._options; }
     get GeneratingMipMaps(): boolean { return this._generatingMipMaps; }
+    get IdealHeight(): number { return this._idealHeight; }
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
@@ -57,6 +59,7 @@ export class Texture extends UIElement {
         try { this._options = node.attributes["Options"].value; } catch { }
         try { this._coordinatesMode = eval(`BABYLON.${node.attributes["CoordinatesMode"].value};`); } catch (e) { }
         try { this._generatingMipMaps = node.attributes["GeneratingMipMaps"].value.toLowerCase() === 'true'; } catch (e) { }
+        try { this._idealHeight = parseInt(node.attributes["IdealHeight"].value); } catch { }
     }
 
     TrySetParent(parent: UIElement): boolean {

@@ -59,6 +59,9 @@
     <Content Include="assets\Silverlight-logo.png" />
     <Content Include="assets\silverlight_anims.jpg" />
     <Content Include="assets\textures\cloud.png" />
+    <Content Include="assets\textures\flare.png" />
+    <Content Include="assets\textures\Flare2.png" />
+    <Content Include="assets\textures\flare3.png" />
     <Content Include="assets\textures\skybox_nx.jpg" />
     <Content Include="assets\textures\skybox_ny.jpg" />
     <Content Include="assets\textures\skybox_nz.jpg" />
