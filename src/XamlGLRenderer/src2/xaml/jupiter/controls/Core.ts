@@ -7,6 +7,7 @@ export * from "./Button";
 export * from "./Camera";
 export * from "./CheckBox";
 export * from "./Code";
+export * from "./ColorPicker";
 export * from "./Disc";
 export * from "./Ellipse";
 export * from "./Event";

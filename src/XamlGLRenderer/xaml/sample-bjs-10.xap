@@ -144,11 +144,22 @@
                     VerticalAlignment="BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER">
           <CheckBox x:Name="cbMain" Content="checkbox1" Width="20px" Height="20px" IsChecked="true" Color="white" 
                     Background="transparent" HeaderSize="400px" HeaderHeight="20px" FontSize="16px"></CheckBox>
-          <TextBlock x:Name="lblMain" Content="Slider:" Height="40px" Color="white" 
+          <TextBlock x:Name="lblMain1" Content="Slider:" Height="40px" Color="white" 
                      TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" PaddingTop="10px"></TextBlock>
           <Slider x:Name="slMain" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" Maximum="2 * Math.PI" 
-                  Color="green" Value="0" Height="20px" Width="200px" ></Slider>
-
+                  Color="white" Value="0" Height="20px" Width="200px" ></Slider>
+          <TextBlock x:Name="lblMain2" Content="Sphere diffuse:" Height="40px" Color="white"
+                     TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" PaddingTop="10px"></TextBlock>
+          <ColorPicker x:Name="colorPicker1" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Height="150px" Width="150px" >
+            <Code>
+              <![CDATA[
+                let sphereMaterial = this.VisualTreeHelper.FindByName("sphereMaterial");
+                this.bjsCtrl.onValueChangedObservable.add((value) => {
+                  sphereMaterial.bjsCtrl.diffuseColor = value;
+                });
+              ]]>
+            </Code>
+          </ColorPicker>
         </StackPanel>
       </Texture>
     </Grid>
