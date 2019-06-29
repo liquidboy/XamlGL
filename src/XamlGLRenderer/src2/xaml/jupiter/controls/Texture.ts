@@ -32,7 +32,10 @@ export class Texture extends UIElement {
             if (this.Parent instanceof Plane) {
                 this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(this.Parent.Ctrl);
             }
-            else this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
+            else {
+                this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
+                //this.Ctrl.layer.layerMask = 2;   <-- from sample 10, checkbox
+            }
         }
 
         if (this.Ctrl !== undefined) {

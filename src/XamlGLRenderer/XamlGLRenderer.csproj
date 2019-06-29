@@ -123,6 +123,7 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Event.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Button.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Code.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\CheckBox.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\RadioButton.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\TextBlock.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Plane.ts" />

@@ -139,6 +139,11 @@
         </Texture>
       </Plane>
 
+      <Texture x:Name="ui2" Type="AdvancedDynamicTexture">       
+        <StackPanel x:Name="panelRight" Width="220px" FontSize="14px" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT" VerticalAlignment="BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER">
+          <CheckBox x:Name="cbMain" Content="checkbox1" Width="20px" Height="20px" IsChecked="true" Color="white" Background="transparent" HeaderSize="400px" HeaderHeight="20px" FontSize="16px"></CheckBox>
+        </StackPanel>
+      </Texture>
     </Grid>
     <!-- https://www.babylonjs-playground.com/#3VMTI9#0 -->
 </Application>
