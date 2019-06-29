@@ -15,15 +15,15 @@ export class Code extends UIElement {
             let parser: DOMParser = new DOMParser();
             let scriptFound: Document = parser.parseFromString(node.innerHTML, "text/html");
             this.Code = scriptFound.body.innerText;
-            this.HasScript = true;
+            this.HasCode = true;
         } catch (e) { }
         super.LoadFromNode(node);
     }
 
     TrySetParent(parent: UIElement): boolean {
         if (super.TrySetParent(parent)) {
-            if (this.HasScript) {
-                parent.HasScript = true;
+            if (this.HasCode) {
+                parent.HasCode = true;
                 parent.Code = this.Code;
             }
             return true;

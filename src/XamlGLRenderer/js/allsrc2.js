@@ -2631,6 +2631,9 @@ System.register("Xaml/behaviors/CustomScript", [], function (exports_38, context
                 static InstallRet(vt, di, code) {
                     return eval(code);
                 }
+                static InstallWithThis(vt, di, code) {
+                    eval(code).bind(vt);
+                }
             };
             exports_38("CustomScript", CustomScript);
         }
@@ -2854,7 +2857,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
         }
     };
 });
-System.register("Xaml/jupiter/controls/Code", ["Xaml/jupiter/UIElement"], function (exports_41, context_41) {
+System.register("xaml/jupiter/controls/Code", ["Xaml/jupiter/UIElement"], function (exports_41, context_41) {
     "use strict";
     var UIElement_7, Code;
     var __moduleName = context_41 && context_41.id;
@@ -2876,15 +2879,15 @@ System.register("Xaml/jupiter/controls/Code", ["Xaml/jupiter/UIElement"], functi
                         let parser = new DOMParser();
                         let scriptFound = parser.parseFromString(node.innerHTML, "text/html");
                         this.Code = scriptFound.body.innerText;
-                        this.HasScript = true;
+                        this.HasCode = true;
                     }
                     catch (e) { }
                     super.LoadFromNode(node);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
-                        if (this.HasScript) {
-                            parent.HasScript = true;
+                        if (this.HasCode) {
+                            parent.HasCode = true;
                             parent.Code = this.Code;
                         }
                         return true;
@@ -3623,7 +3626,7 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         }
     };
 });
-System.register("Xaml/jupiter/controls/Line", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_53, context_53) {
+System.register("xaml/jupiter/controls/Line", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_53, context_53) {
     "use strict";
     var UIElement_14, Line;
     var __moduleName = context_53 && context_53.id;
@@ -3935,6 +3938,10 @@ System.register("services/VisualTree", ["inversify", "libs/typescript-collection
                         return;
                     }
                     this._flatList.setValue(key, value);
+                }
+                FindByName(key) {
+                    var found = this.Get(key);
+                    return found.Ctrl;
                 }
                 Get(key) { return this._flatList.getValue(key); }
                 ParseScript(codeTemplate) {
@@ -4376,7 +4383,7 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Code", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Ellipse", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Line", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/StackPanel", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_66, context_66) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "xaml/jupiter/controls/Code", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Ellipse", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Label", "Xaml/jupiter/controls/Light", "xaml/jupiter/controls/Line", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/StackPanel", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_66, context_66) {
     "use strict";
     var __moduleName = context_66 && context_66.id;
     function exportStar_2(m) {
@@ -4569,9 +4576,15 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 PostInitialize() {
                     if (this.HasScript || this.HasCode) {
                         try {
-                            if (this.HasCode)
-                                eval(`var this=vt.Get("${this.Name}").Ctrl;`);
-                            CustomScript_2.CustomScript.Install(this.VT, this.DI, this.Code);
+                            if (this.HasCode) {
+                                function evalInContext(js, context) { return function () { return eval(js); }.call(context); }
+                                let ctx = this.Ctrl;
+                                ctx["VisualTreeHelper"] = this.VT;
+                                ctx["Container"] = this.DI;
+                                evalInContext(this.Code, ctx);
+                            }
+                            else
+                                CustomScript_2.CustomScript.Install(this.VT, this.DI, this.Code);
                         }
                         catch (e) {
                             var found = e;

@@ -17,4 +17,10 @@ export class CustomScript {
     public static InstallRet(vt: VisualTree, di: Container, code: string): any {
         return eval(code);
     }
+
+    public static InstallWithThis(vt: VisualTree, di: Container, code: string): any {
+        //https://stackoverflow.com/questions/13906161/javascript-pass-eval-variables
+        ////eval(vt.ParseScript(code));
+        eval(code).bind(vt);
+    }
 }

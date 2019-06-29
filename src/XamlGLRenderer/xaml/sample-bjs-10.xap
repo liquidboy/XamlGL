@@ -5,9 +5,10 @@
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene">
         <Code>
-          let scene = vt.Get("mainScene");
-          let panel = vt.Get("panel");
-          scene.Ctrl.beforeRender = () => {
+          let panel2 = this.VisualTreeHelper.FindByName("panel");
+          let panel = this.VisualTreeHelper.Get("panel");
+          this.beforeRender = () => {
+            console.log(panel2.Value);
             panel.Ctrl.rotation += 0.01;
           }
         </Code>
@@ -75,7 +76,7 @@
 
       </Texture>
 
-      
+
 
     </Grid>
     <!-- https://www.babylonjs-playground.com/#3VMTI9#0 -->

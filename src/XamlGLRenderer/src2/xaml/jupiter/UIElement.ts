@@ -81,8 +81,15 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     PostInitialize(): void {
         if (this.HasScript || this.HasCode) {
             try {
-                if (this.HasCode) eval(`var this=vt.Get("${this.Name}").Ctrl;`);
-                CustomScript.Install(this.VT, this.DI, this.Code);
+                if (this.HasCode) {
+                    function evalInContext(js, context) { return function () { return eval(js); }.call(context); }
+                    let ctx: {} = this.Ctrl;
+                    ctx["VisualTreeHelper"] = this.VT;
+                    ctx["Container"] = this.DI;
+                    evalInContext(this.Code, ctx);
+                    //CustomScript.InstallWithThis.call(this.Ctrl, [this.VT, this.DI]);
+                }
+                else CustomScript.Install(this.VT, this.DI, this.Code);
                 //var found = eval(this.VT.ParseScript(this.Code));
             } catch (e) {
                 var found = e;
