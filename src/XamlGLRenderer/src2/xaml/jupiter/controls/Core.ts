@@ -28,6 +28,7 @@ export * from "./RadioButton";
 export * from "./Scene";
 export * from "./Script";
 export * from "./ShadersStore";
+export * from "./Slider";
 export * from "./Sphere";
 export * from "./StackPanel";
 export * from "./TextBlock";

@@ -7,12 +7,14 @@ export class StackPanel extends UIElement {
     private _width: number;
     private _top: string | number;
     private _rotation: number;
+    private _fontSize: string;
     private _horizontalAlignment: number;
     private _verticalAlignment: number;
     
     get Rotation(): number { return this._rotation; }
     get Width(): number { return this._width; }
     get Top(): string | number { return this._top; }
+    get FontSize(): string  { return this._fontSize; }
     get HorizontalAlignment(): number { return this._horizontalAlignment; }
     get VerticalAlignment(): number { return this._verticalAlignment; }
 
@@ -27,6 +29,7 @@ export class StackPanel extends UIElement {
         if (this.Rotation !== undefined) this.Ctrl.rotation = this.Rotation;
         if (this.HorizontalAlignment !== undefined) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
         if (this.VerticalAlignment !== undefined) this.Ctrl.verticalAlignment = this.VerticalAlignment;
+        if (this.FontSize !== undefined) this.Ctrl.fontSize = this.FontSize;
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
@@ -43,6 +46,7 @@ export class StackPanel extends UIElement {
         try { this._rotation = parseFloat(node.attributes["Rotation"].value); } catch { }
         try { this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value); } catch { }
         try { this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value); } catch { }
+        try { this._fontSize = node.attributes["FontSize"].value; } catch { }
     }
 
     TrySetParent(parent: UIElement): boolean {

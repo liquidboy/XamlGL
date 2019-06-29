@@ -140,8 +140,15 @@
       </Plane>
 
       <Texture x:Name="ui2" Type="AdvancedDynamicTexture">       
-        <StackPanel x:Name="panelRight" Width="220px" FontSize="14px" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT" VerticalAlignment="BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER">
-          <CheckBox x:Name="cbMain" Content="checkbox1" Width="20px" Height="20px" IsChecked="true" Color="white" Background="transparent" HeaderSize="400px" HeaderHeight="20px" FontSize="16px"></CheckBox>
+        <StackPanel x:Name="panelRight" Width="220px" FontSize="14px" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT" 
+                    VerticalAlignment="BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER">
+          <CheckBox x:Name="cbMain" Content="checkbox1" Width="20px" Height="20px" IsChecked="true" Color="white" 
+                    Background="transparent" HeaderSize="400px" HeaderHeight="20px" FontSize="16px"></CheckBox>
+          <TextBlock x:Name="lblMain" Content="Slider:" Height="40px" Color="white" 
+                     TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" PaddingTop="10px"></TextBlock>
+          <Slider x:Name="slMain" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" Maximum="2 * Math.PI" 
+                  Color="green" Value="0" Height="20px" Width="200px" ></Slider>
+
         </StackPanel>
       </Texture>
     </Grid>
