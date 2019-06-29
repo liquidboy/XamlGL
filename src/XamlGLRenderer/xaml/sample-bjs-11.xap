@@ -5,32 +5,33 @@
     <Grid x:Name="layoutRoot">
       <Scene x:Name="main🎬" ClearColor="Color3.Black()"></Scene>
     
-      <Camera x:Name="arcRotate📷" Type="ArcRotateCamera"  AlphaCalculated="0" Beta="0" Radius="10" Target="Vector3.Zero()" 
-              Scene="main🎬" LowerBetaLimit="0.1" UpperBetaLimit="(Math.PI / 2) * 0.99" LowerRadiusLimit="5"></Camera>
-
+      <Camera x:Name="arcRotate📷" Type="ArcRotateCamera" AlphaCalculated="0" Beta="0" Radius="10" 
+              Target="Vector3.Zero()" Scene="main🎬" LowerBetaLimit="0.1" UpperBetaLimit="(Math.PI / 2) * 0.99" 
+              LowerRadiusLimit="5"></Camera>
 
       <Box x:Name="emitter🎆" Width="0.1" Scene="main🎬" IsVisible="false"></Box>
       
       <ParticleSystem x:Name="particles" Scene="main🎬" Capacity="10000" Type="ParticleSystem" 
-                      ParticleTexture= "/assets/textures/flare.png" MinAngularSpeed="-0.5" MaxAngularSpeed="0.5" 
-                      MinSize="0.1" MaxSize="0.5" MinLifeTime="0.5" MaxLifeTime="2.0" MinEmitPower="0.5" 
+                      ParticleTexture= "/assets/textures/flare.png" MinAngularSpeed="-0.5" 
+                      MaxAngularSpeed="0.5" MinSize="0.1" MaxSize="0.5" MinLifeTime="0.5" MaxLifeTime="2.0" MinEmitPower="0.5" 
                       MaxEmitPower="4.0" EmitterName="emitter🎆" EmitRate="400" BlendMode="ParticleSystem.BLENDMODE_ONEONE" 
                       MinEmitBox="Vector3(0, 0, 0)" MaxEmitBox="Vector3(0, 0, 0)" Direction1="Vector3(-1, 1, -1)" 
                       Direction2="Vector3(1, 1, 1)" Color1="Color3(1, 0, 0)" Color2="Color3(0, 1, 1)" Gravity="Vector3(0, -2.0, 0)">
       </ParticleSystem>
 
-
       <Texture x:Name="ui1" Type="AdvancedDynamicTexture" IdealHeight="1100">
-        <StackPanel x:Name="panel" Width="300px" IsVertical="true" PaddingRight="20px" 
+        <StackPanel x:Name="panel" Width="300px" IsVertical="true" 
                     HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT" 
                     VerticalAlignment="BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER"
                     FontSize="16">
-          <StackPanel x:Name="spEmitRate" Width="270px" Height="30px" IsVertical="false">
-            <TextBlock x:Name="lblEmitRate" Content="emitRate:" Width="150px" Color="white" TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-            <TextBlock x:Name="lblEmitRateValue" Content="0" Width="150px" Color="white" TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          <StackPanel x:Name="spEmitRate" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblEmitRate" Content="emitRate:" Width="150px" Color="white" 
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblEmitRateValue" Content="0" Width="150px" Color="white" 
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
           </StackPanel>
-          <Slider x:Name="slEmitRate" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" Maximum="10000"
-                  Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          <Slider x:Name="slEmitRate" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" 
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
             <Code>
               <![CDATA[
                 let ps = this.VisualTreeHelper.FindByName("particles");

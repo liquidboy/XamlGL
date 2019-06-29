@@ -4874,25 +4874,28 @@ System.register("Xaml/jupiter/controls/StackPanel", ["Xaml/jupiter/UIElement", "
                     super();
                 }
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.StackPanel(this.Name);
+                    let sp = new BABYLON.GUI.StackPanel(this.Name);
                     if (this.Height !== undefined)
-                        this.Ctrl.height = this.Height;
+                        sp.height = this.Height;
                     if (this.Width !== undefined)
-                        this.Ctrl.width = this.Width;
+                        sp.width = this.Width;
+                    else if (this.Parent instanceof StackPanel && this.Parent.Width !== undefined)
+                        sp.width = this.Parent.Width;
                     if (this.Top !== undefined)
-                        this.Ctrl.top = this.Top;
+                        sp.top = this.Top;
                     if (this.Rotation !== undefined)
-                        this.Ctrl.rotation = this.Rotation;
+                        sp.rotation = this.Rotation;
                     if (this.HorizontalAlignment !== undefined)
-                        this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+                        sp.horizontalAlignment = this.HorizontalAlignment;
                     if (this.VerticalAlignment !== undefined)
-                        this.Ctrl.verticalAlignment = this.VerticalAlignment;
+                        sp.verticalAlignment = this.VerticalAlignment;
                     if (this.FontSize !== undefined)
-                        this.Ctrl.fontSize = this.FontSize;
+                        sp.fontSize = this.FontSize;
                     if (this.PaddingRight !== undefined)
-                        this.Ctrl.paddingRight = this.PaddingRight;
+                        sp.paddingRight = this.PaddingRight;
                     if (this.IsVertical !== undefined)
-                        this.Ctrl.isVertical = this.IsVertical;
+                        sp.isVertical = this.IsVertical;
+                    this.Ctrl = sp;
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();

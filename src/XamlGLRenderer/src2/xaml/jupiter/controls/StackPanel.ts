@@ -30,17 +30,22 @@ export class StackPanel extends UIElement {
     }
 
     public Initialize(): void {
-        this.Ctrl = new BABYLON.GUI.StackPanel(this.Name);  
+        let sp: BABYLON.GUI.StackPanel = new BABYLON.GUI.StackPanel(this.Name);  
 
-        if (this.Height !== undefined) this.Ctrl.height = this.Height;
-        if (this.Width !== undefined) this.Ctrl.width = this.Width;
-        if (this.Top !== undefined) this.Ctrl.top = this.Top;
-        if (this.Rotation !== undefined) this.Ctrl.rotation = this.Rotation;
-        if (this.HorizontalAlignment !== undefined) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
-        if (this.VerticalAlignment !== undefined) this.Ctrl.verticalAlignment = this.VerticalAlignment;
-        if (this.FontSize !== undefined) this.Ctrl.fontSize = this.FontSize;
-        if (this.PaddingRight !== undefined) this.Ctrl.paddingRight = this.PaddingRight;
-        if (this.IsVertical !== undefined) this.Ctrl.isVertical = this.IsVertical;
+        if (this.Height !== undefined) sp.height = this.Height;
+
+        if (this.Width !== undefined) sp.width = this.Width;
+        else if (this.Parent instanceof StackPanel && this.Parent.Width !== undefined) sp.width = this.Parent.Width;
+
+        if (this.Top !== undefined) sp.top = this.Top;
+        if (this.Rotation !== undefined) sp.rotation = this.Rotation;
+        if (this.HorizontalAlignment !== undefined) sp.horizontalAlignment = this.HorizontalAlignment;
+        if (this.VerticalAlignment !== undefined) sp.verticalAlignment = this.VerticalAlignment;
+        if (this.FontSize !== undefined) sp.fontSize = this.FontSize;
+        if (this.PaddingRight !== undefined) sp.paddingRight = this.PaddingRight;
+        if (this.IsVertical !== undefined) sp.isVertical = this.IsVertical;
+
+        this.Ctrl = sp;
 
         this.Parent.Ctrl.addControl(this.Ctrl);
 
