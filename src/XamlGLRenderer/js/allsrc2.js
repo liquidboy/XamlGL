@@ -2857,7 +2857,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
         }
     };
 });
-System.register("xaml/jupiter/controls/Code", ["Xaml/jupiter/UIElement"], function (exports_41, context_41) {
+System.register("Xaml/jupiter/controls/Code", ["Xaml/jupiter/UIElement"], function (exports_41, context_41) {
     "use strict";
     var UIElement_7, Code;
     var __moduleName = context_41 && context_41.id;
@@ -3626,7 +3626,7 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
         }
     };
 });
-System.register("xaml/jupiter/controls/Line", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_53, context_53) {
+System.register("Xaml/jupiter/controls/Line", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_53, context_53) {
     "use strict";
     var UIElement_14, Line;
     var __moduleName = context_53 && context_53.id;
@@ -3939,10 +3939,7 @@ System.register("services/VisualTree", ["inversify", "libs/typescript-collection
                     }
                     this._flatList.setValue(key, value);
                 }
-                FindByName(key) {
-                    var found = this.Get(key);
-                    return found.Ctrl;
-                }
+                FindByName(key) { return this.Get(key); }
                 Get(key) { return this._flatList.getValue(key); }
                 ParseScript(codeTemplate) {
                     let finalCode = codeTemplate;
@@ -4383,7 +4380,7 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "xaml/jupiter/controls/Code", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Ellipse", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Label", "Xaml/jupiter/controls/Light", "xaml/jupiter/controls/Line", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/StackPanel", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_66, context_66) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Code", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Ellipse", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Line", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/StackPanel", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_66, context_66) {
     "use strict";
     var __moduleName = context_66 && context_66.id;
     function exportStar_2(m) {
@@ -4551,6 +4548,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 get HasCode() { return this._hasCode; }
                 get ChildrenEvents() { return this._childEvents; }
                 get ChildrenGUIs() { return this._childGuis; }
+                get bjsCtrl() { return this._ctrl; }
                 set Ctrl(value) { this._ctrl = value; }
                 set IsVisible(value) { this._isVisible = value; }
                 set IsDirty(value) { this._isDirty = value; }

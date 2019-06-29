@@ -5,11 +5,9 @@
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene">
         <Code>
-          let panel2 = this.VisualTreeHelper.FindByName("panel");
-          let panel = this.VisualTreeHelper.Get("panel");
+          let panel = this.VisualTreeHelper.FindByName("panel");
           this.beforeRender = () => {
-            console.log(panel2.Value);
-            panel.Ctrl.rotation += 0.01;
+            panel.bjsCtrl.rotation += 0.01;
           }
         </Code>
       </Scene>

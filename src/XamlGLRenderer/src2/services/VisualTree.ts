@@ -15,10 +15,7 @@ export class VisualTree {
         if (key === undefined || key === null) { return; }
         this._flatList.setValue(key, value);
     }
-    public FindByName(key: string): any {
-        var found = this.Get(key);
-        return found.Ctrl;
-    }
+    public FindByName(key: string): any { return this.Get(key); }
     public Get(key: string): UIElement { return this._flatList.getValue(key); }
     public ParseScript(codeTemplate: string): string {
         let finalCode: string = codeTemplate;

@@ -40,6 +40,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     get HasCode(): boolean { return this._hasCode; }
     get ChildrenEvents(): LinkedDictionary<string, Event> { return this._childEvents; }
     get ChildrenGUIs(): LinkedDictionary<string, UIElement> { return this._childGuis; }
+    get bjsCtrl(): any { return this._ctrl; }
     
     //set Animations(value: Animations) { this._animations = value; }
     //set Parent(value: UIElement) { this._parent = value; }
