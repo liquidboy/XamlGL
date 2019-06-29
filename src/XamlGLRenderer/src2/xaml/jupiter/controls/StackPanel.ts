@@ -5,11 +5,13 @@ import "babylonjs-gui"
 
 export class StackPanel extends UIElement {
     private _width: number;
+    private _top: string | number;
     private _rotation: number;
     private _horizontalAlignment: number;
     
     get Rotation(): number { return this._rotation; }
-    get Width(): number { return this._width ; }
+    get Width(): number { return this._width; }
+    get Top(): string | number { return this._top; }
     get HorizontalAlignment(): number { return this._horizontalAlignment; }
 
     constructor() {
@@ -18,9 +20,10 @@ export class StackPanel extends UIElement {
 
     public Initialize(): void {
         this.Ctrl = new BABYLON.GUI.StackPanel();  
-        this.Ctrl.width = this.Width;
-        this.Ctrl.rotation = this.Rotation;
-        this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+        if (this.Width !== undefined) this.Ctrl.width = this.Width;
+        if (this.Top !== undefined) this.Ctrl.top = this.Top;
+        if (this.Rotation !== undefined) this.Ctrl.rotation = this.Rotation;
+        if (this.HorizontalAlignment !== undefined) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
@@ -33,6 +36,7 @@ export class StackPanel extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
         try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
+        try { this._top = node.attributes["Top"].value; } catch { }
         try { this._rotation = parseFloat(node.attributes["Rotation"].value); } catch { }
         try { this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value); } catch { }
     }

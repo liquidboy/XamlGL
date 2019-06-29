@@ -1,10 +1,7 @@
-﻿import { Scene, Material } from "./Core";
-import { MeshNormalLines } from "../../behaviors/MeshNormalLines";
-import { AnimatableUIElement } from "../AnimatableUIElement";
-import { Animation } from "./Animation";
-import { KeyFrames } from "./KeyFrames";
+﻿import { Scene } from "./Core";
 import { UIElement } from "../Core";
 import 'babylonjs-gui';
+import { Plane } from "./Plane";
 
 export class Texture extends UIElement {
     private _sceneName: string;
@@ -32,16 +29,20 @@ export class Texture extends UIElement {
         } else if (this._type === "Texture") {
             this.Ctrl = new BABYLON.Texture(this.RootUrl, scene.Ctrl);
         } else if (this._type === "AdvancedDynamicTexture") {
-            this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
-
-            this.ChildrenGUIs.forEach((key: string, child: UIElement) => {
-                child.Initialize();
-            });
+            if (this.Parent instanceof Plane) {
+                this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(this.Parent.Ctrl);
+            }
+            else this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
         }
 
         if (this.Ctrl !== undefined) {
             if (this._coordinatesMode !== undefined) this.Ctrl.coordinatesMode = this._coordinatesMode;
         }
+
+        this.ChildrenGUIs.forEach((key: string, child: UIElement) => {
+            child.Initialize();
+        });
+
         this.PostInitialize();
     }
 
@@ -53,5 +54,13 @@ export class Texture extends UIElement {
         try { this._options = node.attributes["Options"].value; } catch { }
         try { this._coordinatesMode = eval(`BABYLON.${node.attributes["CoordinatesMode"].value};`); } catch (e) { }
         try { this._generatingMipMaps = node.attributes["GeneratingMipMaps"].value.toLowerCase() === 'true'; } catch (e) { }
+    }
+
+    TrySetParent(parent: UIElement): boolean {
+        if (super.TrySetParent(parent)) {
+            parent.ChildrenGUIs.setValue(this.Name, this);
+            return true;
+        }
+        return false;
     }
 }

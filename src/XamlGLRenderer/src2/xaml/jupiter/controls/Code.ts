@@ -13,8 +13,12 @@ export class Code extends UIElement {
     public LoadFromNode(node: any): void {
         try {
             let parser: DOMParser = new DOMParser();
-            let scriptFound: Document = parser.parseFromString(node.innerHTML, "text/html");
-            this.Code = scriptFound.body.innerText;
+            if (node.childNodes.length === 1) {
+                let scriptFound: Document = parser.parseFromString(node.innerHTML, "text/html");
+                this.Code = scriptFound.body.innerText;
+            } else {
+                this.Code = node.childNodes[1].wholeText;
+            }
             this.HasCode = true;
         } catch (e) { }
         super.LoadFromNode(node);

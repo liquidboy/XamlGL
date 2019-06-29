@@ -9,6 +9,7 @@ export class Button extends UIElement {
     private _width: string | number;
     private _height: string | number;
     private _cornerRadius: number;
+    private _fontSize: number;
     private _color: string;
     private _background: string;
 
@@ -18,6 +19,7 @@ export class Button extends UIElement {
     get CornerRadius(): number { return this._cornerRadius; }
     get Width(): string | number { return this._width ; }
     get Height(): string | number { return this._height; }
+    get FontSize(): number { return this._fontSize; }
 
     constructor() {
         super();
@@ -30,6 +32,7 @@ export class Button extends UIElement {
         this.Ctrl.color = this.Color;
         this.Ctrl.cornerRadius = this.CornerRadius;
         this.Ctrl.background = this.Background;
+        if (this.FontSize !== undefined) this.Ctrl.fontSize = this.FontSize;
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
@@ -53,6 +56,7 @@ export class Button extends UIElement {
         try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
         try { this._height = node.attributes["Height"].value; } catch { }
         try { this._cornerRadius = node.attributes["CornerRadius"].value; } catch { }
+        try { this._fontSize = parseFloat(node.attributes["FontSize"].value); } catch { }
     }
 
     TrySetParent(parent: UIElement): boolean {

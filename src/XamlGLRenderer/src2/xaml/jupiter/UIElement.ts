@@ -11,7 +11,7 @@ import { Event } from "./controls/Event";
 import { LinkedDictionary } from "../../libs/typescript-collections/src/lib";
 
 export class UIElement extends DependencyObject implements IUIElement, IRender, IScript {
-    Parent: IUIElement;
+    Parent: UIElement;
 
     //private _animations: Animations;
     private _parent: UIElement;
@@ -64,7 +64,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         //this._animations = new Animations();
     }
 
-    TrySetParent(parent: IUIElement): boolean {
+    TrySetParent(parent: UIElement): boolean {
         if (parent == null) return false;
         this.Parent = parent;
         return true;
@@ -84,7 +84,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
             try {
                 if (this.HasCode) {
                     function evalInContext(js, context) { return function () { return eval(js); }.call(context); }
-                    let ctx: {} = this.Ctrl;
+                    let ctx: {} = this;
                     ctx["VisualTreeHelper"] = this.VT;
                     ctx["Container"] = this.DI;
                     evalInContext(this.Code, ctx);

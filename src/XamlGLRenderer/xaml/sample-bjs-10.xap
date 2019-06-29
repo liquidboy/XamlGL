@@ -6,7 +6,7 @@
       <Scene x:Name="mainScene">
         <Code>
           let panel = this.VisualTreeHelper.FindByName("panel");
-          this.beforeRender = () => {
+          this.bjsCtrl.beforeRender = () => {
             panel.bjsCtrl.rotation += 0.01;
           }
         </Code>
@@ -73,7 +73,71 @@
 
       </Texture>
 
+      <Plane x:Name="plane" Size="20" Mesh="sphere4" Position="Vector3(0,-10,0)" Scene="mainScene">
+        <Texture x:Name="uiPlane" Type="AdvancedDynamicTexture">
+          <StackPanel x:Name="panel2" Top="100px">
+            <Button x:Name="but3" Content="Click Me" Width="1" Height="100px" Color="white" FontSize="50" Background="green" ></Button>
+            <TextBlock x:Name="tbMain" Height="150px" FontSize="100" Content="please pick an option"></TextBlock>
 
+            <RadioButton x:Name="rb1" Content="Option 1" Height="40px" Width="40px" Color="white" Background="green" HeaderSize="400px" HeaderHeight="100px" FontSize="80">
+              <Code>
+                <![CDATA[
+                  this.bjsCtrl.onIsCheckedChangedObservable.add((state) => {
+                    if (state) {
+                        this.VisualTreeHelper.Get("tbMain").Ctrl.text = "You selected " + this.Content;
+                    }
+                  });
+                ]]>
+              </Code>
+            </RadioButton>
+            <RadioButton x:Name="rb2" Content="Option 2"  Height="40px" Width="40px" Color="white" Background="green" HeaderSize="400px" HeaderHeight="100px" FontSize="80">
+              <Code>
+                <![CDATA[
+                  this.bjsCtrl.onIsCheckedChangedObservable.add((state) => {
+                    if (state) {
+                        this.VisualTreeHelper.Get("tbMain").Ctrl.text = "You selected " + this.Content;
+                    }
+                  });
+                ]]>
+              </Code>
+            </RadioButton>
+            <RadioButton x:Name="rb3" Content="Option 3"  Height="40px" Width="40px" Color="white" Background="green" HeaderSize="400px" HeaderHeight="100px" FontSize="80">
+              <Code>
+                <![CDATA[
+                  this.bjsCtrl.onIsCheckedChangedObservable.add((state) => {
+                    if (state) {
+                        this.VisualTreeHelper.Get("tbMain").Ctrl.text = "You selected " + this.Content;
+                    }
+                  });
+                ]]>
+              </Code>
+            </RadioButton>
+            <RadioButton x:Name="rb4" Content="Option 4"  Height="40px" Width="40px" Color="white" Background="green" HeaderSize="400px" HeaderHeight="100px" FontSize="80">
+              <Code>
+                <![CDATA[
+                  this.bjsCtrl.onIsCheckedChangedObservable.add((state) => {
+                    if (state) {
+                        this.VisualTreeHelper.Get("tbMain").Ctrl.text = "You selected " + this.Content;
+                    }
+                  });
+                ]]>
+              </Code>
+            </RadioButton>
+            <RadioButton x:Name="rb5" Content="Option 5"  Height="40px" Width="40px" Color="white" Background="green" HeaderSize="400px" HeaderHeight="100px" FontSize="80">
+              <Code>
+                <![CDATA[
+                  this.bjsCtrl.onIsCheckedChangedObservable.add((state) => {
+                    if (state) {
+                        this.VisualTreeHelper.Get("tbMain").Ctrl.text = "You selected " + this.Content;
+                    }
+                  });
+                ]]>
+              </Code>
+            </RadioButton>
+            
+          </StackPanel>
+        </Texture>
+      </Plane>
 
     </Grid>
     <!-- https://www.babylonjs-playground.com/#3VMTI9#0 -->
