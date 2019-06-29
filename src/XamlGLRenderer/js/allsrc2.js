@@ -2555,18 +2555,21 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                 get Width() { return this._width; }
                 get InfiniteDistance() { return this._infiniteDistance; }
                 Initialize() {
-                    let scene = this.VT.Get(this.SceneName);
-                    let material = this.VT.Get(this.MaterialName);
                     this._scene = this.VT.Get(this.SceneName);
-                    this.Ctrl = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Ctrl);
-                    if (material && material.Ctrl)
-                        this.Ctrl.material = material.Ctrl;
+                    this.Ctrl = BABYLON.Mesh.CreateBox(this.Name, this._width, this._scene.Ctrl);
+                    if (this.MaterialName !== undefined) {
+                        let material = this.VT.Get(this.MaterialName);
+                        if (material && material.Ctrl)
+                            this.Ctrl.material = material.Ctrl;
+                    }
                     if (this.Position != undefined)
                         this.Ctrl.position = this.Position;
                     if (this.InfiniteDistance !== undefined)
                         this.Ctrl.infiniteDistance = this._infiniteDistance;
                     if (this._showNormalLines !== undefined && this._showNormalLines)
-                        MeshNormalLines_1.MeshNormalLines.Install(scene, this.Ctrl);
+                        MeshNormalLines_1.MeshNormalLines.Install(this._scene, this.Ctrl);
+                    if (this.IsVisible !== undefined)
+                        this.Ctrl.isVisible = this.IsVisible;
                     if (this.Animations && this.Animations.Animations)
                         this.Animations.Animations.forEach((animation) => {
                             var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS, animation.DataType, animation.LoopMode);
@@ -4064,34 +4067,51 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                 get Updateable() { return this._updateable; }
                 get Type() { return this._type; }
                 get Capacity() { return this._capacity; }
+                get ParticleTexture() { return this._particleTexture; }
+                get MinAngularSpeed() { return this._minAngularSpeed; }
+                get MaxAngularSpeed() { return this._maxAngularSpeed; }
+                get MinSize() { return this._minSize; }
+                get MaxSize() { return this._maxSize; }
+                get MinLifeTime() { return this._minLifeTime; }
+                get MaxLifeTime() { return this._maxLifeTime; }
+                get MinEmitPower() { return this._minEmitPower; }
+                get MaxEmitPower() { return this._maxEmitPower; }
+                get EmitterName() { return this._emitterName; }
+                get EmitRate() { return this._emitRate; }
+                get BlendMode() { return this._blendMode; }
+                get MinEmitBox() { return this._minEmitBox; }
+                get MaxEmitBox() { return this._maxEmitBox; }
+                get Direction1() { return this._direction1; }
+                get Direction2() { return this._direction2; }
+                get Color1() { return this._color1; }
+                get Color2() { return this._color2; }
+                get Gravity() { return this._gravity; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     if (this.Type === "SolidParticleSystem") {
                         this.Ctrl = new BABYLON.SolidParticleSystem(this.Name, scene.Ctrl, { updatable: this.Updateable });
                     }
                     else if (this.Type === "ParticleSystem") {
-                        var emitter0 = BABYLON.Mesh.CreateBox("emitter0", 0.1, scene.Ctrl);
-                        emitter0.isVisible = false;
                         this.Ctrl = new BABYLON.ParticleSystem(this.Name, this.Capacity, scene.Ctrl);
-                        this.Ctrl.particleTexture = new BABYLON.Texture("/assets/textures/flare.png", scene.Ctrl);
-                        this.Ctrl.minAngularSpeed = -0.5;
-                        this.Ctrl.maxAngularSpeed = 0.5;
-                        this.Ctrl.minSize = 0.1;
-                        this.Ctrl.maxSize = 0.5;
-                        this.Ctrl.minLifeTime = 0.5;
-                        this.Ctrl.maxLifeTime = 2.0;
-                        this.Ctrl.minEmitPower = 0.5;
-                        this.Ctrl.maxEmitPower = 4.0;
-                        this.Ctrl.emitter = emitter0;
-                        this.Ctrl.emitRate = 400;
-                        this.Ctrl.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
-                        this.Ctrl.minEmitBox = new BABYLON.Vector3(0, 0, 0);
-                        this.Ctrl.maxEmitBox = new BABYLON.Vector3(0, 0, 0);
-                        this.Ctrl.direction1 = new BABYLON.Vector3(-1, 1, -1);
-                        this.Ctrl.direction2 = new BABYLON.Vector3(1, 1, 1);
-                        this.Ctrl.color1 = new BABYLON.Color3(1, 0, 0);
-                        this.Ctrl.color2 = new BABYLON.Color3(0, 1, 1);
-                        this.Ctrl.gravity = new BABYLON.Vector3(0, -2.0, 0);
+                        this.Ctrl.particleTexture = new BABYLON.Texture(this.ParticleTexture, scene.Ctrl);
+                        this.Ctrl.minAngularSpeed = this.MinAngularSpeed;
+                        this.Ctrl.maxAngularSpeed = this.MaxAngularSpeed;
+                        this.Ctrl.minSize = this.MinSize;
+                        this.Ctrl.maxSize = this.MaxSize;
+                        this.Ctrl.minLifeTime = this.MinLifeTime;
+                        this.Ctrl.maxLifeTime = this.MaxLifeTime;
+                        this.Ctrl.minEmitPower = this.MinEmitPower;
+                        this.Ctrl.maxEmitPower = this.MaxEmitPower;
+                        this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
+                        this.Ctrl.emitRate = this.EmitRate;
+                        this.Ctrl.blendMode = this.BlendMode;
+                        this.Ctrl.minEmitBox = this.MinEmitBox;
+                        this.Ctrl.maxEmitBox = this.MaxEmitBox;
+                        this.Ctrl.direction1 = this.Direction1;
+                        this.Ctrl.direction2 = this.Direction2;
+                        this.Ctrl.color1 = this.Color1;
+                        this.Ctrl.color2 = this.Color2;
+                        this.Ctrl.gravity = this.Gravity;
                         this.Ctrl.start();
                     }
                     this.Children.forEach((key, child) => {
@@ -4117,6 +4137,82 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                         this._capacity = parseInt(node.attributes["Capacity"].value);
                     }
                     catch (_c) { }
+                    try {
+                        this._particleTexture = node.attributes["ParticleTexture"].value;
+                    }
+                    catch (_d) { }
+                    try {
+                        this._minAngularSpeed = parseFloat(node.attributes["MinAngularSpeed"].value);
+                    }
+                    catch (_e) { }
+                    try {
+                        this._maxAngularSpeed = parseFloat(node.attributes["MaxAngularSpeed"].value);
+                    }
+                    catch (_f) { }
+                    try {
+                        this._minSize = parseFloat(node.attributes["MinSize"].value);
+                    }
+                    catch (_g) { }
+                    try {
+                        this._maxSize = parseFloat(node.attributes["MaxSize"].value);
+                    }
+                    catch (_h) { }
+                    try {
+                        this._minLifeTime = parseFloat(node.attributes["MinLifeTime"].value);
+                    }
+                    catch (_j) { }
+                    try {
+                        this._maxLifeTime = parseFloat(node.attributes["MaxLifeTime"].value);
+                    }
+                    catch (_k) { }
+                    try {
+                        this._minEmitPower = parseFloat(node.attributes["MinEmitPower"].value);
+                    }
+                    catch (_l) { }
+                    try {
+                        this._maxEmitPower = parseFloat(node.attributes["MaxEmitPower"].value);
+                    }
+                    catch (_m) { }
+                    try {
+                        this._emitterName = node.attributes["EmitterName"].value;
+                    }
+                    catch (_o) { }
+                    try {
+                        this._emitRate = parseInt(node.attributes["EmitRate"].value);
+                    }
+                    catch (_p) { }
+                    try {
+                        this._blendMode = eval(`BABYLON.${node.attributes["BlendMode"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._minEmitBox = eval(`new BABYLON.${node.attributes["MinEmitBox"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._maxEmitBox = eval(`new BABYLON.${node.attributes["MaxEmitBox"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._direction1 = eval(`new BABYLON.${node.attributes["Direction1"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._direction2 = eval(`new BABYLON.${node.attributes["Direction2"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._color1 = eval(`new BABYLON.${node.attributes["Color1"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._color2 = eval(`new BABYLON.${node.attributes["Color2"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._gravity = eval(`new BABYLON.${node.attributes["Gravity"].value};`);
+                    }
+                    catch (e) { }
                 }
             };
             exports_58("ParticleSystem", ParticleSystem);
@@ -5221,6 +5317,10 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 LoadFromNode(node) {
                     try {
                         this._position = eval(`new BABYLON.${node.attributes["Position"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true';
                     }
                     catch (e) { }
                 }

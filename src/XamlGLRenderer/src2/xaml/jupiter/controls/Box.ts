@@ -19,15 +19,17 @@ export class Box extends AnimatableUIElement {
     get InfiniteDistance(): boolean { return this._infiniteDistance; }
 
     public Initialize(): void {
-        let scene: Scene = this.VT.Get(this.SceneName) as Scene;
-        let material: Material = this.VT.Get(this.MaterialName) as Material;
-
         this._scene = this.VT.Get(this.SceneName) as Scene;
-        this.Ctrl = BABYLON.Mesh.CreateBox(this.Name, this._width, scene.Ctrl);
-        if (material && material.Ctrl) this.Ctrl.material = material.Ctrl;
+        this.Ctrl = BABYLON.Mesh.CreateBox(this.Name, this._width, this._scene.Ctrl);
+
+        if (this.MaterialName !== undefined) {
+            let material: Material = this.VT.Get(this.MaterialName) as Material;
+            if (material && material.Ctrl) this.Ctrl.material = material.Ctrl;
+        }
         if (this.Position != undefined) this.Ctrl.position = this.Position;
         if (this.InfiniteDistance !== undefined) this.Ctrl.infiniteDistance = this._infiniteDistance;
-        if (this._showNormalLines !== undefined && this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
+        if (this._showNormalLines !== undefined && this._showNormalLines) MeshNormalLines.Install(this._scene, this.Ctrl);
+        if (this.IsVisible !== undefined) this.Ctrl.isVisible = this.IsVisible;
 
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {

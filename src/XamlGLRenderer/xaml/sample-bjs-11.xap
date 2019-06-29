@@ -9,8 +9,14 @@
               Scene="main🎬" LowerBetaLimit="0.1" UpperBetaLimit="(Math.PI / 2) * 0.99" LowerRadiusLimit="5"></Camera>
 
 
-      <ParticleSystem x:Name="particles" Scene="main🎬" Capacity="10000" Type="ParticleSystem">
-        
+      <Box x:Name="emitter🎆" Width="0.1" Scene="main🎬" IsVisible="false"></Box>
+      
+      <ParticleSystem x:Name="particles" Scene="main🎬" Capacity="10000" Type="ParticleSystem" 
+                      ParticleTexture= "/assets/textures/flare.png" MinAngularSpeed="-0.5" MaxAngularSpeed="0.5" 
+                      MinSize="0.1" MaxSize="0.5" MinLifeTime="0.5" MaxLifeTime="2.0" MinEmitPower="0.5" 
+                      MaxEmitPower="4.0" EmitterName="emitter🎆" EmitRate="400" BlendMode="ParticleSystem.BLENDMODE_ONEONE" 
+                      MinEmitBox="Vector3(0, 0, 0)" MaxEmitBox="Vector3(0, 0, 0)" Direction1="Vector3(-1, 1, -1)" 
+                      Direction2="Vector3(1, 1, 1)" Color1="Color3(1, 0, 0)" Color2="Color3(0, 1, 1)" Gravity="Vector3(0, -2.0, 0)">
       </ParticleSystem>
 
 
@@ -29,16 +35,16 @@
               <![CDATA[
                 let ps = this.VisualTreeHelper.FindByName("particles");
                 var lblEmitRateValue = this.VisualTreeHelper.FindByName("lblEmitRateValue");
+
                 this.bjsCtrl.onSync = () => {
                   this.bjsCtrl.value = ps.bjsCtrl["emitRate"];
+                  lblEmitRateValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
                 }
+                
                 this.bjsCtrl.onSync();
+                
                 this.bjsCtrl.onValueChangedObservable.add((value) => {
-                  //console.log(lblEmitRateValue.bjsCtrl["text"]);
-                  try{
-                    //lblEmitRateValue.bjsCtrl["text"] = value;
-                  } catch{}
-                  
+                  lblEmitRateValue.bjsCtrl["text"] = value.toFixed(2).toString();
                   ps.bjsCtrl["emitRate"] = value;
                 });
               ]]>

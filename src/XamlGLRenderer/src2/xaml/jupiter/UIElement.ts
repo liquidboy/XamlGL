@@ -72,6 +72,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
 
     LoadFromNode(node: any): void {
         try { this._position = eval(`new BABYLON.${node.attributes["Position"].value};`); } catch (e) { }
+        try { this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true'; } catch (e) { }
     }
 
     // always call this after the parents initialize has run
