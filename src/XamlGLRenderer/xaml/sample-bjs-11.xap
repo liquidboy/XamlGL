@@ -51,6 +51,100 @@
               ]]>
             </Code>
           </Slider>
+          
+          <StackPanel x:Name="spColor1" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblColor1" Content="color 1:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+          </StackPanel>
+          <ColorPicker x:Name="colorPicker1" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Height="100px" Width="100px" ></ColorPicker>
+          
+          <StackPanel x:Name="spColor2" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblColor2" Content="color 2:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+          </StackPanel>
+          <ColorPicker x:Name="colorPicker2" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Height="100px" Width="100px" ></ColorPicker>
+          
+          <StackPanel x:Name="spMinEmitPower" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMinEmitPower" Content="MinEmitPower:" Width="150px" Color="white" 
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMinEmitPowerValue" Content="0" Width="150px" Color="white" 
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMinEmitPower" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" 
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
+          <StackPanel x:Name="spMaxEmitPower" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMaxEmitPower" Content="MaxEmitPower:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMaxEmitPowerValue" Content="0" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMaxEmitPower" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
+
+          <StackPanel x:Name="spMinLifetime" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMinLifetime" Content="MinLifetime:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMinLifetimeValue" Content="0" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMinLifetime" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
+          <StackPanel x:Name="spMaxLifetime" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMaxLifetime" Content="MaxLifetime:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMaxLifetimeValue" Content="0" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMaxLifetime" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
+          <StackPanel x:Name="spMinSize" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMinSize" Content="MinSize:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMinSizeValue" Content="0" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMinSize" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
+          <StackPanel x:Name="spMaxSize" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMaxSize" Content="MaxSize:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMaxSizeValue" Content="0" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMaxSize" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
+          <StackPanel x:Name="spMinAngularSpeed" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMinAngularSpeed" Content="MinAngularSpeed:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMinAngularSpeedValue" Content="0" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMinAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
+          <StackPanel x:Name="spMaxAngularSpeed" Height="30px" IsVertical="false" PaddingRight="20px">
+            <TextBlock x:Name="lblMaxAngularSpeed" Content="MaxAngularSpeed:" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+            <TextBlock x:Name="lblMaxAngularSpeedValue" Content="0" Width="150px" Color="white"
+                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+          </StackPanel>
+          <Slider x:Name="slMaxAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
+                  Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          </Slider>
+
         </StackPanel>
       </Texture>
 
