@@ -4,37 +4,41 @@
     ThemeName="Metro">
     <Grid x:Name="layoutRoot">
       <Scene x:Name="mainScene">
-        <Script>
-          var scene = vt.Get("mainScene");
-          var camera = vt.Get("freeCamera");
-          var start_time = Date.now();
+        <Code>
+          <![CDATA[
+            var scene = this.VisualTreeHelper.FindByName("mainScene");
+            var camera = this.VisualTreeHelper.FindByName("freeCamera");
+            var start_time = Date.now();
 
-          scene.Ctrl.beforeRender = () => {
-            var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
-            camera.Ctrl.position.z = cameraDepth;
-          };
-        </Script>
+            scene.Ctrl.beforeRender = () => {
+              var cameraDepth = ((Date.now() - start_time) * 0.03) % 8000;
+              camera.Ctrl.position.z = cameraDepth;
+            };
+          ]]>
+        </Code>
       </Scene>
 
       
       <Texture x:Name="backgroundTexture" Type="DynamicTexture" GeneratingMipMaps="true" Scene="mainScene" Options="512"></Texture>
       <Background x:Name="back0" Scene="mainScene" Texture="backgroundTexture">
-        <Script>
-          var back0 = vt.Get("back0");
+        <Code>
+          <![CDATA[
+            var back0 = this.VisualTreeHelper.FindByName("back0");
 
-          var textureContext = back0.Ctrl.texture.getContext();
-          var size = back0.Ctrl.texture.getSize();
+            var textureContext = back0.Ctrl.texture.getContext();
+            var size = back0.Ctrl.texture.getSize();
 
-          textureContext.clearRect(0, 0, size.width, size.height);
+            textureContext.clearRect(0, 0, size.width, size.height);
 
-          var gradient = textureContext.createLinearGradient(0, 0, 0, 512);
-          gradient.addColorStop(0, "#1e4877");
-          gradient.addColorStop(0.5, "#4584b4");
+            var gradient = textureContext.createLinearGradient(0, 0, 0, 512);
+            gradient.addColorStop(0, "#1e4877");
+            gradient.addColorStop(0.5, "#4584b4");
 
-          textureContext.fillStyle = gradient;
-          textureContext.fillRect(0, 0, 512, 512);
-          back0.Ctrl.texture.update();
-        </Script>
+            textureContext.fillStyle = gradient;
+            textureContext.fillRect(0, 0, 512, 512);
+            back0.Ctrl.texture.update();
+          ]]>
+        </Code>
       </Background>
       
       
@@ -93,49 +97,53 @@
       <Material x:Name="cloud" Type="ShaderMaterial" Scene="mainScene" 
                 ShaderPath="{`vertexElement`: `cloud`, `fragmentElement`: `cloud` }"
                 Options="{`needAlphaBlending`: true, `attributes`: [`position`, `uv`], `uniforms`: [`worldViewProjection`], `samplers`: [`textureSampler`]}">
-        <Script>
-          var textureSampler = vt.Get("textureSampler");
-          var cloudMaterial = vt.Get("cloud");
-          cloudMaterial.Ctrl.setTexture("textureSampler", textureSampler.Ctrl);
-          cloudMaterial.Ctrl.setFloat("fogNear", -100);
-          cloudMaterial.Ctrl.setFloat("fogFar", 3000);
-          cloudMaterial.Ctrl.setColor3("fogColor", BABYLON.Color3.FromInts(69, 132, 180));
-        </Script>
+        <Code>
+          <![CDATA[
+            var textureSampler = this.VisualTreeHelper.FindByName("textureSampler");
+            var cloudMaterial = this.VisualTreeHelper.FindByName("cloud");
+            cloudMaterial.Ctrl.setTexture("textureSampler", textureSampler.Ctrl);
+            cloudMaterial.Ctrl.setFloat("fogNear", -100);
+            cloudMaterial.Ctrl.setFloat("fogFar", 3000);
+            cloudMaterial.Ctrl.setColor3("fogColor", BABYLON.Color3.FromInts(69, 132, 180));
+          ]]>
+        </Code>
       </Material>
 
       <Mesh x:Name="Clouds" Scene="mainScene" Material="cloud">
-        <Script>
-          var clouds = vt.Get("Clouds");
+        <Code>
+          <![CDATA[
+            var clouds = this.VisualTreeHelper.FindByName("Clouds");
           
-          var size = 128;
-          var count = 8000;
-          var globalVertexData;
+            var size = 128;
+            var count = 8000;
+            var globalVertexData;
 
-          for (var i = 0; i &lt; count; i++) {
-            var planeVertexData = BABYLON.VertexData.CreatePlane({ size: 128 });
+            for (var i = 0; i < count; i++) {
+              var planeVertexData = BABYLON.VertexData.CreatePlane({ size: 128 });
 
-            delete planeVertexData.normals; // We do not need normals
+              delete planeVertexData.normals; // We do not need normals
 
-            // Transform
-            var randomScaling = Math.random() * Math.random() * 1.5 + 0.5;
-            var transformMatrix = BABYLON.Matrix.Scaling(randomScaling, randomScaling, 1.0);
-            transformMatrix = transformMatrix.multiply(BABYLON.Matrix.RotationZ(Math.random() * Math.PI));
-            transformMatrix = transformMatrix.multiply(BABYLON.Matrix.Translation(Math.random() * 1000 - 500, -Math.random() * Math.random() * 100, count - i));
+              // Transform
+              var randomScaling = Math.random() * Math.random() * 1.5 + 0.5;
+              var transformMatrix = BABYLON.Matrix.Scaling(randomScaling, randomScaling, 1.0);
+              transformMatrix = transformMatrix.multiply(BABYLON.Matrix.RotationZ(Math.random() * Math.PI));
+              transformMatrix = transformMatrix.multiply(BABYLON.Matrix.Translation(Math.random() * 1000 - 500, -Math.random() * Math.random() * 100, count - i));
 
-            planeVertexData.transform(transformMatrix);
+              planeVertexData.transform(transformMatrix);
 
-		        if (!globalVertexData) {
-			        globalVertexData = planeVertexData;
-		        } else {
-			        globalVertexData.merge(planeVertexData);
-		        }
-          }
+		          if (!globalVertexData) {
+			          globalVertexData = planeVertexData;
+		          } else {
+			          globalVertexData.merge(planeVertexData);
+		          }
+            }
 
-          globalVertexData.applyToMesh(clouds.Ctrl);
+            globalVertexData.applyToMesh(clouds.Ctrl);
 
-          var clouds2 = clouds.Ctrl.clone();
-          clouds2.position.z = -500;
-        </Script>
+            var clouds2 = clouds.Ctrl.clone();
+            clouds2.position.z = -500;
+          ]]>
+        </Code>
       </Mesh>
 
 

@@ -449,6 +449,10 @@
     <Content Include="xaml\sample-bjs-9.xap" />
     <Content Include="xaml\sample-bjs-10.xap" />
     <Content Include="xaml\sample-bjs-11.xap" />
+    <None Include="xaml\header-01.xap">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

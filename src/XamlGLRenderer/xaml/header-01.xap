@@ -1,0 +1,11 @@
+﻿<UserControl 
+  xmlns="http://schemas.xamlgl.com/xamlgl"
+  xmlns:x="http://schemas.xamlgl.com/xamlgl/x">
+  <StackPanel x:Name="sp{Tag}" Height="30px" IsVertical="false" PaddingRight="20px">
+    <TextBlock x:Name="lbl{Tag}" Content="{Tag}:" Width="150px" Color="white"
+                TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
+    <TextBlock x:Name="lbl{Tag}Value" Content="0" Width="150px" Color="white"
+                TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
+  </StackPanel>
+</UserControl>
+
