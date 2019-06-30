@@ -1,6 +1,6 @@
-﻿import { UIElement } from "../UIElement";
-import { Scene, ParticleSystemShape, Mesh } from "./Core";
-import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
+﻿import { UIElement } from "../../UIElement";
+import { Scene, ParticleSystemShape, Mesh } from "../Core";
+import { LinkedDictionary } from "../../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
 
 export class Label extends UIElement {

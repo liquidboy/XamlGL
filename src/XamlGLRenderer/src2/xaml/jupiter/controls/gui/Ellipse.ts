@@ -1,8 +1,8 @@
-﻿import { UIElement } from "../UIElement";
-import { Scene, ParticleSystemShape } from "./Core";
-import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
+﻿import { UIElement } from "../../UIElement";
+import { Scene, ParticleSystemShape } from "../Core";
+import { LinkedDictionary } from "../../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
-import { Mesh } from "./Mesh";
+import { Mesh } from "../Mesh";
 
 
 export class Ellipse extends UIElement {

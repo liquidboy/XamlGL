@@ -25,7 +25,7 @@
       
       <Disc x:Name="triangle" Scene="mainScene" Tessellation="3" SideOrientation="BABYLON.Mesh.DOUBLESIDE"></Disc>
 
-      <ParticleSystem x:Name="sps" Scene="mainScene" Updateable="false">
+      <ParticleSystem x:Name="sps" Type="SolidParticleSystem" Scene="mainScene" Updateable="false">
         <ParticleSystemShape x:Name="psst" Mesh="triangle" NB="160000">
           <Event EventName="positionFunction">
             <![CDATA[ 
