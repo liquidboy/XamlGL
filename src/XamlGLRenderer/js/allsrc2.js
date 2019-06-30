@@ -2753,14 +2753,9 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                         this.Ctrl.scaling = this.Scaling;
                     if (this.IsVisible !== undefined)
                         this.Ctrl.isVisible = this.IsVisible;
-                    if (this.AddToRenderList !== undefined && this.Ctrl !== undefined && this.Ctrl.material !== undefined) {
-                        let parts = this.AddToRenderList.split(",");
-                        parts.forEach((v, i, a) => {
-                            let foundUIElement = this.VT.FindByName(v);
-                            if (foundUIElement !== undefined && foundUIElement.Ctrl !== undefined && this.Ctrl.material.reflectionTexture !== undefined) {
-                                this.Ctrl.material.reflectionTexture.renderList.push(foundUIElement.Ctrl);
-                            }
-                        });
+                    if (this.AddToRenderList !== undefined && this.Ctrl !== undefined) {
+                        let tex = this.VT.FindByName(this.AddToRenderList);
+                        tex.Ctrl.renderList.push(this.Ctrl);
                     }
                     if (this.Animations && this.Animations.Animations)
                         this.Animations.Animations.forEach((animation) => {
@@ -3960,7 +3955,7 @@ System.register("Xaml/jupiter/controls/gui/RadioButton", ["Xaml/jupiter/UIElemen
         }
     };
 });
-System.register("xaml/jupiter/controls/gui/Resources", ["Xaml/jupiter/UIElement", "Xaml/jupiter/Core"], function (exports_56, context_56) {
+System.register("Xaml/jupiter/controls/gui/Resources", ["Xaml/jupiter/UIElement", "Xaml/jupiter/Core"], function (exports_56, context_56) {
     "use strict";
     var UIElement_18, Core_9, Resources;
     var __moduleName = context_56 && context_56.id;
@@ -3989,7 +3984,7 @@ System.register("xaml/jupiter/controls/gui/Resources", ["Xaml/jupiter/UIElement"
         }
     };
 });
-System.register("xaml/jupiter/controls/gui/Resource", ["Xaml/jupiter/UIElement"], function (exports_57, context_57) {
+System.register("Xaml/jupiter/controls/gui/Resource", ["Xaml/jupiter/UIElement"], function (exports_57, context_57) {
     "use strict";
     var UIElement_19, Resource;
     var __moduleName = context_57 && context_57.id;
@@ -5256,7 +5251,7 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/gui/CheckBox", "Xaml/jupiter/controls/gui/Code", "Xaml/jupiter/controls/gui/ColorPicker", "Xaml/jupiter/controls/gui/Ellipse", "Xaml/jupiter/controls/gui/Line", "Xaml/jupiter/controls/gui/RadioButton", "xaml/jupiter/controls/gui/Resources", "xaml/jupiter/controls/gui/Resource", "Xaml/jupiter/controls/gui/StackPanel", "Xaml/jupiter/controls/gui/TextBlock", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/gui/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Plane", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Slider", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_74, context_74) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/gui/CheckBox", "Xaml/jupiter/controls/gui/Code", "Xaml/jupiter/controls/gui/ColorPicker", "Xaml/jupiter/controls/gui/Ellipse", "Xaml/jupiter/controls/gui/Line", "Xaml/jupiter/controls/gui/RadioButton", "Xaml/jupiter/controls/gui/Resources", "Xaml/jupiter/controls/gui/Resource", "Xaml/jupiter/controls/gui/StackPanel", "Xaml/jupiter/controls/gui/TextBlock", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/gui/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Plane", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Slider", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_74, context_74) {
     "use strict";
     var __moduleName = context_74 && context_74.id;
     function exportStar_2(m) {

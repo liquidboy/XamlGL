@@ -37,14 +37,9 @@ export class Box extends AnimatableUIElement {
         if (this._showNormalLines !== undefined && this._showNormalLines) MeshNormalLines.Install(this._scene, this.Ctrl);
         if (this.Scaling !== undefined) this.Ctrl.scaling = this.Scaling;
         if (this.IsVisible !== undefined) this.Ctrl.isVisible = this.IsVisible;
-        if (this.AddToRenderList !== undefined && this.Ctrl !== undefined && this.Ctrl.material !== undefined) {
-            let parts = this.AddToRenderList.split(",");
-            parts.forEach((v, i, a) => {
-                let foundUIElement = this.VT.FindByName(v);
-                if (foundUIElement !== undefined && foundUIElement.Ctrl !== undefined && this.Ctrl.material.reflectionTexture !== undefined) {
-                    this.Ctrl.material.reflectionTexture.renderList.push(foundUIElement.Ctrl);
-                }
-            });
+        if (this.AddToRenderList !== undefined && this.Ctrl !== undefined) {
+            let tex: Texture = this.VT.FindByName(this.AddToRenderList);
+            (tex.Ctrl as BABYLON.MirrorTexture).renderList.push(this.Ctrl);
         }
 
         if (this.Animations && this.Animations.Animations)
