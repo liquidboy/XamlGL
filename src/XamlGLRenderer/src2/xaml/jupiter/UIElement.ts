@@ -48,10 +48,10 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     set IsVisible(value: boolean) { this._isVisible = value; }
     set IsDirty(value: boolean) { this._isDirty = value; }
     set UniqueID(value: string) { this._uniqueId = value; }
-    set Name(value: string) { this._name = value; this.VT.Add(value, this); }
     set Code(value: string) { this._code = value; }
     set HasScript(value: boolean) { this._hasScript = value; }
     set HasCode(value: boolean) { this._hasCode = value; }
+    set Name(value: string) { this._name = value; this.VT.Add(value, this); }
 
     protected VT: VisualTree = DIContainer.get(VisualTree);
     protected DI: Container = DIContainer;

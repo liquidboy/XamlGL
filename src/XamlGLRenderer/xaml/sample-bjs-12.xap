@@ -1,0 +1,57 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+  <Grid x:Name="layoutRoot">
+    <Scene x:Name="main🎬">
+      <Code>
+        <![CDATA[
+          let emitter1 = this.VisualTreeHelper.FindByName("emitter0🎆");
+          let alpha = 0;
+          this.bjsCtrl.registerBeforeRender(() => {
+              emitter1.bjsCtrl.position.x = 3 * Math.cos(alpha);
+              emitter1.bjsCtrl.position.y = 1.0;
+              emitter1.bjsCtrl.position.z = 3 * Math.sin(alpha);
+
+              alpha += 0.05 * this.bjsCtrl.getAnimationRatio();
+          });
+        ]]>
+      </Code>
+    </Scene>
+
+    <Camera x:Name="arcRotate📷" Type="ArcRotateCamera" AlphaCalculated="0" Beta="0" Radius="10" 
+            Target="Vector3.Zero()" Scene="main🎬" LowerBetaLimit="0.1" UpperBetaLimit="(Math.PI / 2) * 0.99" 
+            LowerRadiusLimit="5"></Camera>
+    
+    <Box x:Name="emitter0🎆" Width="0.1" Scene="main🎬" IsVisible="false"></Box>
+    <Box x:Name="emitter1🎆" Width="0.1" Scene="main🎬" IsVisible="false"></Box>
+
+    <Texture x:Name="mirrorTexture" Type="MirrorTexture" Scene="main🎬" Size="512" GeneratingMipMaps="true" MirrorPlane="Plane(0, -1.0, 0, 0.0)" Level="0.2"></Texture>
+    <Material x:Name="mirrorMaterial" Type="StandardMaterial" Scene="main🎬" DiffuseColor="Color3(0.4, 0.4, 0.4)" SpecularColor="Color3(0, 0, 0)" 
+              ReflectionTexture="mirrorTexture" ></Material>
+    <Box x:Name="mirror🎆" Width="1.0" Scene="main🎬" IsVisible="false" Scaling="Vector3(100.0, 0.01, 100.0)" Material="mirrorMaterial" 
+         Position="Vector3(0,0.0,0)" AddToRenderList="emitter0🎆,emitter1🎆"></Box>
+    
+
+
+    <ParticleSystem x:Name="particles0" Scene="main🎬" Capacity="10000" Type="ParticleSystem"
+                ParticleTexture= "/assets/textures/flare.png" MinSize="0.1" MaxSize="0.3" MinLifeTime="0.5" MaxLifeTime="1.0" MinEmitPower="1.0"
+                MaxEmitPower="2.0" EmitterName="emitter0🎆" EmitRate="500" BlendMode="ParticleSystem.BLENDMODE_ONEONE"
+                MinEmitBox="Vector3(0, 0, 0)" MaxEmitBox="Vector3(0, 0, 0)" Direction1="Vector3(0, 0, 0)"
+                Direction2="Vector3(0, 0, 0)" Gravity="Vector3(0, -0.5, 0)">
+    </ParticleSystem>
+
+
+    <ParticleSystem x:Name="particles1" Scene="main🎬" Capacity="10000" Type="ParticleSystem"
+                    ParticleTexture= "/assets/textures/flare.png" MinAngularSpeed="-0.5"
+                    MaxAngularSpeed="0.5" MinSize="0.1" MaxSize="0.5" MinLifeTime="0.5" MaxLifeTime="2.0" MinEmitPower="0.5"
+                    MaxEmitPower="4.0" EmitterName="emitter1🎆" EmitRate="400" BlendMode="ParticleSystem.BLENDMODE_ONEONE"
+                    MinEmitBox="Vector3(0, 0, 0)" MaxEmitBox="Vector3(0, 0, 0)" Direction1="Vector3(-1, 1, -1)"
+                    Direction2="Vector3(1, 1, 1)" Color1="Color3(1, 0, 0)" Color2="Color3(0, 1, 1)" Gravity="Vector3(0, -2.0, 0)">
+    </ParticleSystem>
+
+
+
+  </Grid>
+    <!-- https://www.babylonjs-playground.com/#65MUMZ#1 -->
+</Application>

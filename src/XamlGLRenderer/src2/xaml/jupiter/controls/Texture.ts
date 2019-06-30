@@ -2,6 +2,7 @@
 import { UIElement } from "../Core";
 import 'babylonjs-gui';
 import { Plane } from "./Plane";
+import { reflectionFunction } from "babylonjs/Shaders/ShadersInclude/reflectionFunction";
 
 export class Texture extends UIElement {
     private _sceneName: string;
@@ -11,6 +12,9 @@ export class Texture extends UIElement {
     private _options: string;
     private _generatingMipMaps: boolean;
     private _idealHeight: number;
+    private _size: number;
+    private _level: number;
+    private _mirrorPlane: BABYLON.Plane;
 
     get SceneName(): string { return this._sceneName; }
     get RootUrl(): string { return this._rootUrl; }
@@ -19,6 +23,9 @@ export class Texture extends UIElement {
     get Options(): string { return this._options; }
     get GeneratingMipMaps(): boolean { return this._generatingMipMaps; }
     get IdealHeight(): number { return this._idealHeight; }
+    get Size(): number { return this._size; }
+    get Level(): number { return this._level; }
+    get MirrorPlane(): BABYLON.Plane { return this._mirrorPlane; }
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
@@ -38,6 +45,11 @@ export class Texture extends UIElement {
                 this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
                 //this.Ctrl.layer.layerMask = 2;   <-- from sample 10, checkbox
             }
+        } else if (this._type === "MirrorTexture") {
+            let reflectionTexture = new BABYLON.MirrorTexture(this.Name, this.Size, scene.Ctrl, this.GeneratingMipMaps);
+            reflectionTexture.mirrorPlane = this.MirrorPlane;
+            reflectionTexture.level = this.Level;
+            this.Ctrl = reflectionTexture;
         }
 
         if (this.Ctrl !== undefined) {
@@ -60,6 +72,9 @@ export class Texture extends UIElement {
         try { this._coordinatesMode = eval(`BABYLON.${node.attributes["CoordinatesMode"].value};`); } catch (e) { }
         try { this._generatingMipMaps = node.attributes["GeneratingMipMaps"].value.toLowerCase() === 'true'; } catch (e) { }
         try { this._idealHeight = parseInt(node.attributes["IdealHeight"].value); } catch { }
+        try { this._size = parseInt(node.attributes["Size"].value); } catch { }
+        try { this._level = parseFloat(node.attributes["Level"].value); } catch { }
+        try { this._mirrorPlane = eval(`new BABYLON.${node.attributes["MirrorPlane"].value};`); } catch (e) { }
     }
 
     TrySetParent(parent: UIElement): boolean {

@@ -66,24 +66,24 @@ export class ParticleSystem extends UIElement {
         } else if (this.Type === "ParticleSystem") {
             this.Ctrl = new BABYLON.ParticleSystem(this.Name, this.Capacity, scene.Ctrl);
             this.Ctrl.particleTexture = new BABYLON.Texture(this.ParticleTexture, scene.Ctrl);
-            this.Ctrl.minAngularSpeed = this.MinAngularSpeed;
-            this.Ctrl.maxAngularSpeed = this.MaxAngularSpeed;
-            this.Ctrl.minSize = this.MinSize;
-            this.Ctrl.maxSize = this.MaxSize;
-            this.Ctrl.minLifeTime = this.MinLifeTime;
-            this.Ctrl.maxLifeTime = this.MaxLifeTime;
-            this.Ctrl.minEmitPower = this.MinEmitPower;
-            this.Ctrl.maxEmitPower = this.MaxEmitPower;
-            this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
-            this.Ctrl.emitRate = this.EmitRate;
-            this.Ctrl.blendMode = this.BlendMode;
-            this.Ctrl.minEmitBox = this.MinEmitBox;
-            this.Ctrl.maxEmitBox = this.MaxEmitBox;
-            this.Ctrl.direction1 = this.Direction1;
-            this.Ctrl.direction2 = this.Direction2;
-            this.Ctrl.color1 = this.Color1;
-            this.Ctrl.color2 = this.Color2;
-            this.Ctrl.gravity = this.Gravity;
+            if (this.MinAngularSpeed !== undefined) this.Ctrl.minAngularSpeed = this.MinAngularSpeed;
+            if (this.MaxAngularSpeed !== undefined) this.Ctrl.maxAngularSpeed = this.MaxAngularSpeed;
+            if (this.MinSize !== undefined) this.Ctrl.minSize = this.MinSize;
+            if (this.MaxSize !== undefined) this.Ctrl.maxSize = this.MaxSize;
+            if (this.MinLifeTime !== undefined) this.Ctrl.minLifeTime = this.MinLifeTime;
+            if (this.MaxLifeTime !== undefined) this.Ctrl.maxLifeTime = this.MaxLifeTime;
+            if (this.MinEmitPower !== undefined) this.Ctrl.minEmitPower = this.MinEmitPower;
+            if (this.MaxEmitPower !== undefined) this.Ctrl.maxEmitPower = this.MaxEmitPower;
+            if (this.EmitterName !== undefined) this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
+            if (this.EmitRate !== undefined) this.Ctrl.emitRate = this.EmitRate;
+            if (this.BlendMode !== undefined) this.Ctrl.blendMode = this.BlendMode;
+            if (this.MinEmitBox !== undefined) this.Ctrl.minEmitBox = this.MinEmitBox;
+            if (this.MaxEmitBox !== undefined) this.Ctrl.maxEmitBox = this.MaxEmitBox;
+            if (this.Direction1 !== undefined) this.Ctrl.direction1 = this.Direction1;
+            if (this.Direction2 !== undefined) this.Ctrl.direction2 = this.Direction2;
+            if (this.Color1 !== undefined) this.Ctrl.color1 = this.Color1;
+            if (this.Color2 !== undefined) this.Ctrl.color2 = this.Color2;
+            if (this.Gravity !== undefined) this.Ctrl.gravity = this.Gravity;
             this.Ctrl.start();
         }
         

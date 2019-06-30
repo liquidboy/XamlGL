@@ -15,6 +15,8 @@ export * from "./gui/ColorPicker";
 export * from "./gui/Ellipse";
 export * from "./gui/Line";
 export * from "./gui/RadioButton";
+export * from "./gui/Resources";
+export * from "./gui/Resource";
 export * from "./gui/StackPanel";
 export * from "./gui/TextBlock";
 export * from "./IAnimationsElement";

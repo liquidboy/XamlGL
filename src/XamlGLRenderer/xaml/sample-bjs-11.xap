@@ -2,8 +2,8 @@
     xmlns="http://schemas.xamlgl.com/xamlgl"
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
-  <Resources>
-    <Resource Tag="FieldHeader">
+  <Resources x:Name="Resources">
+    <Resource x:Name="FieldHeader1">
       <![CDATA[
         <StackPanel x:Name="sp{Tag}" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lbl{Tag}" Content="{Tag}:" Width="150px" Color="white"
@@ -156,10 +156,6 @@
         <Slider x:Name="slMaxAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
                 Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
         </Slider>
-
-
-        <FieldHeader x:Name="MaxAngularSpeed" Label="MaxAngularSpeed"></FieldHeader>
-        
         
       </StackPanel>
     </Texture>

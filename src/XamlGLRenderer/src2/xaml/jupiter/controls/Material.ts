@@ -41,7 +41,8 @@ export class Material extends UIElement {
             if (this._reflectionTextureName !== undefined) {
                 let rt: Texture = this.VT.Get(this.ReflectionTextureName) as Texture;
                 if (rt.Ctrl !== undefined && rt.Ctrl.isReadyOrNotBlocking)
-                    this.GetStandardMaterial(this.Ctrl).reflectionTexture = rt.Ctrl;
+                    this.Ctrl.reflectionTexture = rt.Ctrl;
+                    //this.GetStandardMaterial(this.Ctrl).reflectionTexture = rt.Ctrl;
             };
         } else if (this.Type === "ShaderMaterial") {
             this.Ctrl = new BABYLON.ShaderMaterial("cloud", scene.Ctrl, this.ShaderPath, this.Options);
@@ -55,6 +56,7 @@ export class Material extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
         try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
+        try { this._reflectionTextureName = node.attributes["ReflectionTexture"].value; } catch (e) { }
         try { this._type= node.attributes["Type"].value; } catch (e) { }
         try { this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true'; } catch (e) { }
         try { this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value)); } catch (e) { }

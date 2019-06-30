@@ -119,6 +119,8 @@
     <TypeScriptCompile Include="src2\xaml\behaviors\SceneMouseWheelZoom.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\AnimationCollection.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Background.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Resources.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Resource.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Line.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Label.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Ellipse.ts" />
@@ -453,6 +455,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <Content Include="xaml\sample-bjs-12.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
