@@ -1,0 +1,78 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+  <Grid x:Name="layoutRoot">
+    <Scene x:Name="main🎬">
+      <Code>
+        <![CDATA[
+        
+          let time = 0;
+          let order = 0.1;
+          let effect = this.VisualTreeHelper.FindByName("myParticleEffect");
+          this.bjsCtrl.registerBeforeRender(() => {
+            // Waiting for effect to be compiled
+            if (!effect.bjsCtrl) {
+                return;
+            }
+
+            effect.bjsCtrl.setFloat("time", time);
+
+            time += order;
+
+            if (time > 100 || time < 0) {
+                order *= -1;
+            }
+          });
+        ]]>
+      </Code>
+    </Scene>
+
+    <Camera x:Name="arcRotate📷" Type="ArcRotateCamera" AlphaCalculated="0" Beta="0" Radius="10" 
+            Target="Vector3.Zero()" Scene="main🎬" LowerBetaLimit="0.1" UpperBetaLimit="(Math.PI / 2) * 0.95" 
+            LowerRadiusLimit="5" Position="Vector3(-5, 5, 0)"></Camera>
+
+    <Box x:Name="emitter0🎆" Width="0.1" Scene="main🎬" IsVisible="false"></Box>
+
+    <ShadersStore x:Name="myParticleEffectFragmentShader">
+      #ifdef GL_ES
+      precision highp float;
+      #endif
+
+      varying vec2 vUV;
+      varying vec4 vColor;
+
+      uniform sampler2D diffuseSampler;
+      uniform float time;
+
+      void main(void) {
+        vec2 position = vUV;
+
+        float color = 0.0;
+        vec2 center = vec2(0.5, 0.5);
+
+        color = sin(distance(position, center) * 10.0+ time * vColor.g);
+
+        vec4 baseColor = texture2D(diffuseSampler, vUV);
+
+        gl_FragColor = baseColor * vColor * vec4( vec3(color, color, color), 1.0 );
+      }
+    </ShadersStore>
+
+    <Effect x:Name="myParticleEffect" UniformNames="[`time`]"></Effect>
+
+    <ParticleSystem x:Name="particles0" Scene="main🎬" Capacity="4000" Type="ParticleSystem"
+                ParticleTexture= "/assets/textures/flare.png" 
+                MinSize="0.1" MaxSize="1.0" MinLifeTime="0.5" MaxLifeTime="5.0" 
+                MinEmitPower="0.5" MaxEmitPower="3.0" EmitterName="emitter0🎆" EmitRate="100" 
+                BlendMode="ParticleSystem.BLENDMODE_ONEONE" 
+                Direction1="Vector3(-1, 1, -1)" Direction2="Vector3(1, 1, 1)" 
+                Gravity="Vector3(0, -1.0, 0)" 
+                Color1="Color4(1, 1, 0, 1)" Color2="Color4(1, 0.5, 0, 1)">
+    </ParticleSystem>
+
+
+
+  </Grid>
+    <!-- https://www.babylonjs-playground.com/#807QEP#0 -->
+</Application>

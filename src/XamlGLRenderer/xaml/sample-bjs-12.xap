@@ -40,7 +40,6 @@
                 Direction2="Vector3(0, 0, 0)" Gravity="Vector3(0, -0.5, 0)">
     </ParticleSystem>
 
-
     <ParticleSystem x:Name="particles1" Scene="main🎬" Capacity="10000" Type="ParticleSystem"
                     ParticleTexture= "/assets/textures/flare.png" MinAngularSpeed="-0.5"
                     MaxAngularSpeed="0.5" MinSize="0.1" MaxSize="0.5" MinLifeTime="0.5" MaxLifeTime="2.0" MinEmitPower="0.5"

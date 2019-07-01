@@ -131,6 +131,7 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\CheckBox.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\RadioButton.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\ColorPicker.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Effect.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Slider.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\TextBlock.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Plane.ts" />
@@ -456,6 +457,7 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <Content Include="xaml\sample-bjs-12.xap" />
+    <Content Include="xaml\sample-bjs-13.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
