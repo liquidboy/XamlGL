@@ -1,0 +1,29 @@
+﻿<Project Sdk="Mono.WebAssembly.Sdk/0.1.0">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <MonoWasmLinkMode>None</MonoWasmLinkMode>
+    <MonoWasmLinkSkip>WasmSample</MonoWasmLinkSkip>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="server.py" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="server.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XamlLinker\XamlLinker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

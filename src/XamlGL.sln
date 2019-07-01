@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29021.104
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlGLRenderer", "XamlGLRenderer\XamlGLRenderer.csproj", "{F1C130E8-0891-433C-9F37-123A6B653C36}"
 EndProject
@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamlWRenderer", "XamlWRende
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamlAzRenderer", "XamlAzRenderer\XamlAzRenderer.csproj", "{8DB037AE-3035-4E04-8743-FAF377B4C6FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlFn", "XamlFn\XamlFn.csproj", "{820F2144-B4EA-4FEE-9003-E96B8C8FC2E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamlFn", "XamlFn\XamlFn.csproj", "{820F2144-B4EA-4FEE-9003-E96B8C8FC2E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlLinker", "XamlLinker\XamlLinker.csproj", "{CB947CB5-AF54-4CF5-85A9-345420E3E972}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlBGL", "XamlBGL\XamlBGL.csproj", "{54300BBF-3172-4A6A-8DE6-C3572631D0B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{820F2144-B4EA-4FEE-9003-E96B8C8FC2E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{820F2144-B4EA-4FEE-9003-E96B8C8FC2E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{820F2144-B4EA-4FEE-9003-E96B8C8FC2E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB947CB5-AF54-4CF5-85A9-345420E3E972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB947CB5-AF54-4CF5-85A9-345420E3E972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB947CB5-AF54-4CF5-85A9-345420E3E972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB947CB5-AF54-4CF5-85A9-345420E3E972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54300BBF-3172-4A6A-8DE6-C3572631D0B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54300BBF-3172-4A6A-8DE6-C3572631D0B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54300BBF-3172-4A6A-8DE6-C3572631D0B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54300BBF-3172-4A6A-8DE6-C3572631D0B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
