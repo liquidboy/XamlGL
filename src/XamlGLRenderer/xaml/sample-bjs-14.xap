@@ -1,0 +1,74 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+  <Grid x:Name="layoutRoot">
+    <Scene x:Name="main🎬">
+      <Code>
+        <![CDATA[
+          // Toggle system on and off
+          var toggle = false;
+          var particleSystem = this.VisualTreeHelper.FindByName("particleSystem");
+          document.onkeydown = (e)=>{
+              if(e.key == "a"){
+                  if(!toggle){
+                      particleSystem.bjsCtrl.start();
+                  }else{
+                      particleSystem.bjsCtrl.stop();
+                  }
+                  toggle = !toggle;
+              }
+          }
+        ]]>
+      </Code>
+    </Scene>
+
+    <Camera x:Name="arcRotate📷" Type="ArcRotateCamera" AlphaCalculated="-Math.PI / 2" Beta="Math.PI / 4" Radius="3" 
+            Target="Vector3(0, 3, 0)" Scene="main🎬"></Camera>
+
+    <Light x:Name="light1" Type="HemisphericLight" Direction="Vector3(0, 1, 0)" Intensity="0.7"></Light>
+
+    <Box x:Name="emitter0🎆" Width="0.1" Scene="main🎬" IsVisible="false"></Box>
+
+    subEmitter.particleSystem.emitter = new BABYLON.Mesh("", scene);
+    subEmitter.particleSystem.createDirectedCylinderEmitter(0.1, 0, 0)
+
+    <ParticleSystem x:Name="particles0" Scene="main🎬" Capacity="300" Type="ParticleSystem"
+                    ParticleTexture= "/assets/textures/flare.png"
+                    MinSize="0.1" MaxSize="0.1" 
+                    MinEmitPower="0" MaxEmitPower="0" EmitterName="emitter0🎆" 
+                    MinEmitBox="BABYLON.Vector3(0, 0, 0)" MaxEmitBox="Vector3(0, 0, 0)"
+                    Direction1="Vector3(-1, 1, -1)" Direction2="Vector3(1, 1, 1)"
+                    Color1="Color4(1, 1, 0, 1)" Color2="Color4(1, 0.5, 0, 1)">
+      <ColorGradients>
+        <ColorGradient Position="0" Color="Color4(0,1,0,0)"></ColorGradient>
+        <ColorGradient Position="0.5" Color="Color4(1,0,0,1)"></ColorGradient>
+      </ColorGradients>
+    </ParticleSystem>
+    <SubEmitter x:Name="subEmitter0" ParticleSystem="particles0" Type="SubEmitterType.ATTACHED" InheritDirection="true" InheritedVelocityAmount="1"></SubEmitter>
+  
+    subEmitter2.particleSystem.particleTexture = new BABYLON.Texture("textures/flare.png", scene);
+    subEmitter2.particleSystem.emitter = new BABYLON.AbstractMesh("", scene);
+    
+    <ParticleSystem x:Name="particles2" Scene="main🎬" Capacity="50" Type="ParticleSystem"
+                  ParticleTexture= "/assets/textures/flare.png"
+                  MinSize="0.1" MaxSize="0.1" 
+                  maxEmitBox="Vector3(0, 0, 0)" minEmitBox="Vector3(0, 0, 0)"
+                  MinEmitPower="-10" MaxEmitPower="-10" EmitterName="emitter0🎆" 
+                  Direction1="Vector3(0,1,0)" Direction2="Vector3(0,1, 0)"
+                  Color1="Color4(1, 1, 0, 1)" Color2="Color4(1, 0.5, 0, 1)">
+      <ColorGradients>
+        <ColorGradient Position="0" Color="Color4(0,1,1,0)"></ColorGradient>
+        <ColorGradient Position="0.5" Color="Color4(1,1,0,1)"></ColorGradient>
+      </ColorGradients>
+    </ParticleSystem>
+    <SubEmitter x:Name="subEmitter2" ParticleSystem="particles2" Type="SubEmitterType.ATTACHED" InheritDirection="true"></SubEmitter>
+
+    <Effect x:Name="myParticleEffect" UniformNames="[`time`]"></Effect>
+
+
+
+
+  </Grid>
+    <!-- https://www.babylonjs-playground.com/#807QEP#0 -->
+</Application>

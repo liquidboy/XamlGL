@@ -19,8 +19,11 @@ export class Light extends UIElement {
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
 
-        if (this._type === "HemisphericLight") this.Ctrl = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
-        else if (this._type === "PointLight") {
+        if (this._type === "HemisphericLight") {
+            let pl: BABYLON.HemisphericLight  = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
+            if (this._intensity !== undefined) pl.intensity = this._intensity;
+            this.Ctrl = pl;
+        } else if (this._type === "PointLight") {
             let pl: BABYLON.Light = new BABYLON.PointLight(this.Name, this._direction, scene.Ctrl);
             if (this._diffuseColor !== undefined) pl.diffuse = this._diffuseColor; 
             if (this._specularColor !== undefined) pl.specular = this._specularColor;
@@ -32,6 +35,7 @@ export class Light extends UIElement {
             if (this._specularColor !== undefined) pl.specular = this._specularColor;
             this.Ctrl = pl;
         } 
+
         this.PostInitialize();
     }
 

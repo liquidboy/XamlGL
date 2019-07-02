@@ -4425,8 +4425,12 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                 get Intensity() { return this._intensity; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    if (this._type === "HemisphericLight")
-                        this.Ctrl = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
+                    if (this._type === "HemisphericLight") {
+                        let pl = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
+                        if (this._intensity !== undefined)
+                            pl.intensity = this._intensity;
+                        this.Ctrl = pl;
+                    }
                     else if (this._type === "PointLight") {
                         let pl = new BABYLON.PointLight(this.Name, this._direction, scene.Ctrl);
                         if (this._diffuseColor !== undefined)
