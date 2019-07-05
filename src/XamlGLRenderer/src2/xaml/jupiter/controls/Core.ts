@@ -36,6 +36,7 @@ export * from "./Script";
 export * from "./ShadersStore";
 export * from "./Slider";
 export * from "./Sphere";
+export * from "./SubEmitter";
 export * from "./Texture";
 export * from "./Torus";
 export * from "./Material";

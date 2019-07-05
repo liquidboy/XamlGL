@@ -5213,10 +5213,68 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
         }
     };
 });
-System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_74, context_74) {
+System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], function (exports_74, context_74) {
+    "use strict";
+    var UIElement_32, SubEmitter;
+    var __moduleName = context_74 && context_74.id;
+    return {
+        setters: [
+            function (UIElement_32_1) {
+                UIElement_32 = UIElement_32_1;
+            }
+        ],
+        execute: function () {
+            SubEmitter = class SubEmitter extends UIElement_32.UIElement {
+                get Type() { return this._type; }
+                get ParticleSystemName() { return this._particleSystemName; }
+                get SceneName() { return this._sceneName; }
+                get InheritDirection() { return this._inheritDirection; }
+                get InheritedVelocityAmount() { return this._inheritedVelocityAmount; }
+                constructor() {
+                    super();
+                }
+                Initialize() {
+                    let scene = this.VT.FindByName(this.SceneName);
+                    let particleSystem = this.VT.FindByName(this.ParticleSystemName);
+                    this.Ctrl = new BABYLON.SubEmitter(particleSystem.Ctrl);
+                    this.Ctrl.type = this.Type;
+                    this.Ctrl.inheritDirection = this.InheritDirection;
+                    if (this.InheritedVelocityAmount !== undefined)
+                        this.Ctrl.inheritedVelocityAmount = this.InheritedVelocityAmount;
+                    this.PostInitialize();
+                }
+                LoadFromNode(node) {
+                    super.LoadFromNode(node);
+                    try {
+                        this._type = eval("BABYLON." + node.attributes["Type"].value);
+                    }
+                    catch (_a) { }
+                    try {
+                        this._particleSystemName = node.attributes["ParticleSystem"].value;
+                    }
+                    catch (_b) { }
+                    try {
+                        this._sceneName = node.attributes["Scene"].value;
+                    }
+                    catch (_c) { }
+                    try {
+                        this._inheritDirection = node.attributes["InheritDirection"].value.toLowerCase() === 'true';
+                    }
+                    catch (e) { }
+                    try {
+                        this._inheritedVelocityAmount = node.attributes["InheritedVelocityAmount"].value;
+                    }
+                    catch (_d) { }
+                }
+            };
+            exports_74("SubEmitter", SubEmitter);
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_75, context_75) {
     "use strict";
     var MeshNormalLines_4, AnimatableUIElement_4, Torus;
-    var __moduleName = context_74 && context_74.id;
+    var __moduleName = context_75 && context_75.id;
     return {
         setters: [
             function (MeshNormalLines_4_1) {
@@ -5291,19 +5349,19 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                         });
                 }
             };
-            exports_74("Torus", Torus);
+            exports_75("Torus", Torus);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Effect", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/gui/CheckBox", "Xaml/jupiter/controls/gui/Code", "Xaml/jupiter/controls/gui/ColorPicker", "Xaml/jupiter/controls/gui/Ellipse", "Xaml/jupiter/controls/gui/Line", "Xaml/jupiter/controls/gui/RadioButton", "Xaml/jupiter/controls/gui/Resources", "Xaml/jupiter/controls/gui/Resource", "Xaml/jupiter/controls/gui/StackPanel", "Xaml/jupiter/controls/gui/TextBlock", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/gui/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Plane", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Slider", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_75, context_75) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Effect", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/gui/CheckBox", "Xaml/jupiter/controls/gui/Code", "Xaml/jupiter/controls/gui/ColorPicker", "Xaml/jupiter/controls/gui/Ellipse", "Xaml/jupiter/controls/gui/Line", "Xaml/jupiter/controls/gui/RadioButton", "Xaml/jupiter/controls/gui/Resources", "Xaml/jupiter/controls/gui/Resource", "Xaml/jupiter/controls/gui/StackPanel", "Xaml/jupiter/controls/gui/TextBlock", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/gui/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Plane", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Slider", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/SubEmitter", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_76, context_76) {
     "use strict";
-    var __moduleName = context_75 && context_75.id;
+    var __moduleName = context_76 && context_76.id;
     function exportStar_2(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_75(exports);
+        exports_76(exports);
     }
     return {
         setters: [
@@ -5418,6 +5476,9 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation"
             function (Sphere_1_1) {
                 exportStar_2(Sphere_1_1);
             },
+            function (SubEmitter_1_1) {
+                exportStar_2(SubEmitter_1_1);
+            },
             function (Texture_1_1) {
                 exportStar_2(Texture_1_1);
             },
@@ -5432,19 +5493,19 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation"
         }
     };
 });
-System.register("Xaml/jupiter/IRender", [], function (exports_76, context_76) {
+System.register("Xaml/jupiter/IRender", [], function (exports_77, context_77) {
     "use strict";
-    var __moduleName = context_76 && context_76.id;
+    var __moduleName = context_77 && context_77.id;
     return {
         setters: [],
         execute: function () {
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core", "Xaml/behaviors/CustomScript", "libs/typescript-collections/src/lib/index"], function (exports_77, context_77) {
+System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core", "Xaml/behaviors/CustomScript", "libs/typescript-collections/src/lib/index"], function (exports_78, context_78) {
     "use strict";
     var DependencyObject_2, Guid_1, VisualTree_2, Core_13, CustomScript_2, lib_5, UIElement;
-    var __moduleName = context_77 && context_77.id;
+    var __moduleName = context_78 && context_78.id;
     return {
         setters: [
             function (DependencyObject_2_1) {
@@ -5536,22 +5597,22 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     }
                 }
             };
-            exports_77("UIElement", UIElement);
+            exports_78("UIElement", UIElement);
         }
     };
 });
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_78, context_78) {
+System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_79, context_79) {
     "use strict";
-    var UIElement_32, FrameworkElement;
-    var __moduleName = context_78 && context_78.id;
+    var UIElement_33, FrameworkElement;
+    var __moduleName = context_79 && context_79.id;
     return {
         setters: [
-            function (UIElement_32_1) {
-                UIElement_32 = UIElement_32_1;
+            function (UIElement_33_1) {
+                UIElement_33 = UIElement_33_1;
             }
         ],
         execute: function () {
-            FrameworkElement = class FrameworkElement extends UIElement_32.UIElement {
+            FrameworkElement = class FrameworkElement extends UIElement_33.UIElement {
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 set Width(value) { this._width = value; }
@@ -5560,14 +5621,14 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
                     super();
                 }
             };
-            exports_78("FrameworkElement", FrameworkElement);
+            exports_79("FrameworkElement", FrameworkElement);
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_79, context_79) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_80, context_80) {
     "use strict";
     var _controls, Core_14, XamlParser;
-    var __moduleName = context_79 && context_79.id;
+    var __moduleName = context_80 && context_80.id;
     return {
         setters: [
             function (_controls_1) {
@@ -5652,14 +5713,14 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                     return null;
                 }
             };
-            exports_79("XamlParser", XamlParser);
+            exports_80("XamlParser", XamlParser);
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "Xaml/Core"], function (exports_80, context_80) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "Xaml/Core"], function (exports_81, context_81) {
     "use strict";
     var XamlParser_1, Core_15, Core_16, VisualTree_3, Core_17, App;
-    var __moduleName = context_80 && context_80.id;
+    var __moduleName = context_81 && context_81.id;
     return {
         setters: [
             function (XamlParser_1_1) {
@@ -5731,14 +5792,14 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     });
                 }
             };
-            exports_80("App", App);
+            exports_81("App", App);
         }
     };
 });
-System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_81, context_81) {
+System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_82, context_82) {
     "use strict";
     var XamlMarkup_1, XamlReader;
-    var __moduleName = context_81 && context_81.id;
+    var __moduleName = context_82 && context_82.id;
     return {
         setters: [
             function (XamlMarkup_1_1) {
@@ -5763,14 +5824,14 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
                     return this._xm;
                 }
             };
-            exports_81("XamlReader", XamlReader);
+            exports_82("XamlReader", XamlReader);
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_82, context_82) {
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_83, context_83) {
     "use strict";
     var _controls, inversify_2, Controls, DIContainer;
-    var __moduleName = context_82 && context_82.id;
+    var __moduleName = context_83 && context_83.id;
     var exportedNames_1 = {
         "Controls": true,
         "DIContainer": true
@@ -5780,7 +5841,7 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
         for (var n in m) {
             if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
         }
-        exports_82(exports);
+        exports_83(exports);
     }
     return {
         setters: [
@@ -5810,15 +5871,15 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             }
         ],
         execute: function () {
-            exports_82("Controls", Controls = _controls);
-            exports_82("DIContainer", DIContainer = new inversify_2.Container());
+            exports_83("Controls", Controls = _controls);
+            exports_83("DIContainer", DIContainer = new inversify_2.Container());
         }
     };
 });
-System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_83, context_83) {
+System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_84, context_84) {
     "use strict";
     var XamlGLCore, XamlApp;
-    var __moduleName = context_83 && context_83.id;
+    var __moduleName = context_84 && context_84.id;
     return {
         setters: [
             function (_14) {
@@ -5852,7 +5913,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                     return urlParams;
                 }
             };
-            exports_83("XamlApp", XamlApp);
+            exports_84("XamlApp", XamlApp);
         }
     };
 });
