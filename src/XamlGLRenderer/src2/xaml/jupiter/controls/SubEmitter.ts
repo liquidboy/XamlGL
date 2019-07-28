@@ -37,6 +37,6 @@ export class SubEmitter extends UIElement {
         try { this._particleSystemName = node.attributes["ParticleSystem"].value; } catch { }
         try { this._sceneName = node.attributes["Scene"].value; } catch { }
         try { this._inheritDirection = node.attributes["InheritDirection"].value.toLowerCase() === 'true'; } catch (e) { }
-        try { this._inheritedVelocityAmount = node.attributes["InheritedVelocityAmount"].value; } catch { }   
+        try { this._inheritedVelocityAmount = parseFloat(node.attributes["InheritedVelocityAmount"].value); } catch { }   
     }
 }

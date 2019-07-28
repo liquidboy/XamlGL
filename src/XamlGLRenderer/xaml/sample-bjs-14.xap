@@ -11,6 +11,8 @@
           var particles = this.VisualTreeHelper.FindByName("particles");
           document.onkeydown = (e)=>{
               if(e.key == "a"){
+                  console.log("toggle = " + toggle);
+                  //console.log(particles.bjsCtrl);
                   if(!toggle){
                       particles.bjsCtrl.start();
                   }else{
@@ -28,42 +30,55 @@
 
     <Light x:Name="light1" Type="HemisphericLight" Direction="Vector3(0, 1, 0)" Intensity="0.7" Scene="main🎬" ></Light>
 
-    <Box x:Name="emitter0🎆" Width="0.1" Scene="main🎬" IsVisible="false"></Box>
+    
+    
+    
+    <Mesh x:Name="emitter1🎆" Scene="main🎬"></Mesh>
 
     <ParticleSystem x:Name="ps1" Scene="main🎬" Capacity="300" Type="ParticleSystem"
                     ParticleTexture= "/assets/textures/flare.png"
                     MinSize="0.1" MaxSize="0.1" 
-                    MinEmitPower="0" MaxEmitPower="0" EmitterName="emitter0🎆" 
-                    MinEmitBox="BABYLON.Vector3(0, 0, 0)" MaxEmitBox="Vector3(0, 0, 0)"
-                    Direction1="Vector3(-1, 1, -1)" Direction2="Vector3(1, 1, 1)">
+                    MinEmitPower="0" MaxEmitPower="0" EmitterName="emitter1🎆" 
+                    MinEmitBox="Vector3(0, 0, 0)" MaxEmitBox="Vector3(0, 0, 0)"
+                    AutoStart="false">
       <Code>
         <![CDATA[
+          console.log("ParticleSystem.code " + this.Name);
           let scene = this.VisualTreeHelper.FindByName("main🎬");
         
-          this.bjsCtrl.emitter = new BABYLON.Mesh("", scene.bjsCtrl);
-          this.bjsCtrl.createDirectedCylinderEmitter(0.1, 0, 0)
+          //this.bjsCtrl.emitter = new BABYLON.Mesh("", scene.bjsCtrl);
+          this.bjsCtrl.createDirectedCylinderEmitter(0.1, 0, 0);
           this.bjsCtrl.addColorGradient(0, new BABYLON.Color4(0,1,0,0));
           this.bjsCtrl.addColorGradient(0.5, new BABYLON.Color4(1,0,0,1));
+          console.log("initialised ParticleSystem  " + this.Name);
         ]]>
       </Code>
     </ParticleSystem>
 
-    <SubEmitter x:Name="subEmitter0" ParticleSystem="ps1" Type="SubEmitterType.ATTACHED" 
+    <SubEmitter x:Name="subEmitter1" ParticleSystem="ps1" Type="SubEmitterType.ATTACHED" 
                 InheritDirection="true" InheritedVelocityAmount="1" Scene="main🎬" ></SubEmitter>
 
+    
+    
+    
+
+    <Mesh x:Name="emitter2🎆" Scene="main🎬"></Mesh>
+
     <ParticleSystem x:Name="ps2" Scene="main🎬" Capacity="50" Type="ParticleSystem"
-                  ParticleTexture= "/assets/textures/flare.png"
+                  ParticleTexture="/assets/textures/flare.png"
                   MinSize="0.1" MaxSize="0.1" 
                   maxEmitBox="Vector3(0, 0, 0)" minEmitBox="Vector3(0, 0, 0)"
-                  MinEmitPower="-10" MaxEmitPower="-10" EmitterName="emitter0🎆" 
-                  Direction1="Vector3(0,1,0)" Direction2="Vector3(0,1, 0)">
+                  MinEmitPower="-10" MaxEmitPower="-10" EmitterName="emitter2🎆" 
+                  Direction1="Vector3(0,1,0)" Direction2="Vector3(0,1,0)" AutoStart="false">
       <Code>
         <![CDATA[
+          console.log("ParticleSystem.code " + this.Name);
           let scene = this.VisualTreeHelper.FindByName("main🎬");
         
-          this.bjsCtrl.emitter = new BABYLON.AbstractMesh("", scene.bjsCtrl);
+          //this.bjsCtrl.emitter = new BABYLON.AbstractMesh("", scene.bjsCtrl);
           this.bjsCtrl.addColorGradient(0, new BABYLON.Color4(0,1,1,0));
           this.bjsCtrl.addColorGradient(0.5, new BABYLON.Color4(1,1,0,1));
+          console.log("initialised ParticleSystem " + this.Name);
         ]]>
       </Code>
     </ParticleSystem>
@@ -71,29 +86,35 @@
     <SubEmitter x:Name="subEmitter2" ParticleSystem="ps2" Type="SubEmitterType.ATTACHED" 
                 InheritDirection="true" Scene="main🎬" ></SubEmitter>
     
+    
+    
+    
 
     <ParticleSystem x:Name="particles" Scene="main🎬" Capacity="2000" Type="ParticleSystem"
                     ParticleTexture="/assets/textures/flare.png"
-                    Emitter="Vector3(0, 0, 0)" Color1="Color4(1, 0.1, 0.1, 1.0)"
+                    Color1="Color4(1, 0.1, 0.1, 1.0)"
                     Color2="Color4(1, 0.1, 0.1, 1.0)" ColorDead="Color4(.2, 0, 0, 0.0)"
                     MinSize="0.2" MaxSize="0.2"
                     MinLifeTime="0.9" MaxLifeTime="0.9"
                     EmitRate="30"
-                    BlendMode="BABYLON.ParticleSystem.BLENDMODE_ONEONE"
-                    MinAngularSpeed="0" MaxAngularSpeed="Math.PI"
+                    Emitter="Vector3(0,0,0)"
+                    BlendMode="ParticleSystem.BLENDMODE_ONEONE"
+                    MinAngularSpeed="0" MaxAngularSpeed="3.1415"
                     MinEmitPower="5" MaxEmitPower="5"
                     UpdateSpeed="0.005"
                     Direction1="Vector3(0.5,0.5,0.5).normalize()" Direction2="Vector3(-0.5,0.5,-0.5).normalize()"
                     MaxEmitBox="Vector3(0, 0, 0)" MinEmitBox="Vector3(0, 0, 0)"
-                    >
+                    AutoStart="false">
       <Code>
         <![CDATA[
           let scene = this.VisualTreeHelper.FindByName("main🎬");
-          let subEmitter0 = this.VisualTreeHelper.FindByName("subEmitter0");
+          let subEmitter1 = this.VisualTreeHelper.FindByName("subEmitter1");
           let subEmitter2 = this.VisualTreeHelper.FindByName("subEmitter2");
 
           let createFireworkSubEmitter = (color, type, name) => {
-              var particleSystem1 = new BABYLON.ParticleSystem(name, 2000, scene.bjsCtrl);
+              console.log("createFireworkSubEmitter = " + name);
+              //console.log(scene);
+              let particleSystem1 = new BABYLON.ParticleSystem(name, 2000, scene.bjsCtrl);
               particleSystem1.emitter = new BABYLON.Mesh("", scene.bjsCtrl);
               //Texture of each particle
               particleSystem1.particleTexture = new BABYLON.Texture("/assets/textures/flare.png", scene.bjsCtrl);
@@ -118,14 +139,15 @@
               particleSystem1.minEmitPower = 5;
               particleSystem1.maxEmitPower = 6;
               particleSystem1.updateSpeed = 0.005;
-              var se = new BABYLON.SubEmitter(particleSystem1)
-              se.inheritDirection = true
+
+              let se = new BABYLON.SubEmitter(particleSystem1);
+              se.inheritDirection = true;
               return se;
           };
-        
+
           this.bjsCtrl.subEmitters = [
-            [subEmitter0, subEmitter2, createFireworkSubEmitter(new BABYLON.Color4(0, 1, 0, 1.0), 0,"first")], 
-            [subEmitter0, subEmitter2, createFireworkSubEmitter(new BABYLON.Color4(0, 0, 1, 1.0), 1,"second")]
+            [subEmitter1.bjsCtrl, subEmitter2.bjsCtrl, createFireworkSubEmitter(new BABYLON.Color4(0, 1, 0, 1.0), 0,"first")], 
+            [subEmitter1.bjsCtrl, subEmitter2.bjsCtrl, createFireworkSubEmitter(new BABYLON.Color4(0, 0, 1, 1.0), 1,"second")]
           ];
         
         

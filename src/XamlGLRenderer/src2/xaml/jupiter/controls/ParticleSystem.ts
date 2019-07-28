@@ -1,5 +1,5 @@
 ﻿import { UIElement } from "../UIElement";
-import { Scene, ParticleSystemShape } from "./Core";
+import { Scene, ParticleSystemShape, Mesh } from "./Core";
 import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 
 export class ParticleSystem extends UIElement {
@@ -19,14 +19,18 @@ export class ParticleSystem extends UIElement {
     private _maxEmitPower: number;
     private _emitterName:string;
     private _emitRate: number;
+    private _updateSpeed: number;
     private _blendMode: number;
+    private _emitter: BABYLON.Vector3;
     private _minEmitBox: BABYLON.Vector3;
     private _maxEmitBox: BABYLON.Vector3;
     private _direction1: BABYLON.Vector3;
     private _direction2: BABYLON.Vector3;
-    private _color1: BABYLON.Color3;
-    private _color2: BABYLON.Color3;
+    private _color1: BABYLON.Color3 | BABYLON.Color4;
+    private _color2: BABYLON.Color3 | BABYLON.Color4;
+    private _colorDead: BABYLON.Color4;
     private _gravity: BABYLON.Vector3;
+    private _autoStart: boolean = true;
 
     get Children(): LinkedDictionary<string, ParticleSystemShape> { return this._childParticles; }
     get SceneName(): string { return this._sceneName; }
@@ -44,14 +48,18 @@ export class ParticleSystem extends UIElement {
     get MaxEmitPower(): number { return this._maxEmitPower; }
     get EmitterName(): string { return this._emitterName; }
     get EmitRate(): number { return this._emitRate; }
+    get UpdateSpeed(): number { return this._updateSpeed; }
     get BlendMode(): number { return this._blendMode; }
     get MinEmitBox(): BABYLON.Vector3 { return this._minEmitBox; }
     get MaxEmitBox(): BABYLON.Vector3 { return this._maxEmitBox; }
     get Direction1(): BABYLON.Vector3 { return this._direction1; }
     get Direction2(): BABYLON.Vector3 { return this._direction2; }
-    get Color1(): BABYLON.Color3 { return this._color1; }
-    get Color2(): BABYLON.Color3 { return this._color2; }
+    get Color1(): BABYLON.Color3 | BABYLON.Color4 { return this._color1; }
+    get Color2(): BABYLON.Color3 | BABYLON.Color4 { return this._color2; }
+    get ColorDead(): BABYLON.Color4 { return this._colorDead; }
     get Gravity(): BABYLON.Vector3 { return this._gravity; }
+    get AutoStart(): boolean { return this._autoStart; }
+    get Emitter(): BABYLON.Vector3 { return this._emitter; }
 
     constructor() {
         super();
@@ -74,7 +82,6 @@ export class ParticleSystem extends UIElement {
             if (this.MaxLifeTime !== undefined) this.Ctrl.maxLifeTime = this.MaxLifeTime;
             if (this.MinEmitPower !== undefined) this.Ctrl.minEmitPower = this.MinEmitPower;
             if (this.MaxEmitPower !== undefined) this.Ctrl.maxEmitPower = this.MaxEmitPower;
-            if (this.EmitterName !== undefined) this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
             if (this.EmitRate !== undefined) this.Ctrl.emitRate = this.EmitRate;
             if (this.BlendMode !== undefined) this.Ctrl.blendMode = this.BlendMode;
             if (this.MinEmitBox !== undefined) this.Ctrl.minEmitBox = this.MinEmitBox;
@@ -83,10 +90,21 @@ export class ParticleSystem extends UIElement {
             if (this.Direction2 !== undefined) this.Ctrl.direction2 = this.Direction2;
             if (this.Color1 !== undefined) this.Ctrl.color1 = this.Color1;
             if (this.Color2 !== undefined) this.Ctrl.color2 = this.Color2;
+            if (this.ColorDead !== undefined) this.Ctrl.colorDead = this.ColorDead;
             if (this.Gravity !== undefined) this.Ctrl.gravity = this.Gravity;
-            this.Ctrl.start();
+            if (this.UpdateSpeed !== undefined) this.Ctrl.updateSpeed = this.UpdateSpeed;
+
+
+            if (this.Emitter !== undefined || this.EmitterName !== undefined)
+                this.Ctrl.emitter = this.EmitterName !== undefined ? this.VT.Get(this.EmitterName).Ctrl : this.Emitter;
+            //if (this.Emitter !== undefined && this.EmitterName === undefined) this.Ctrl.emitter = this.Emitter;
+            //if (this.EmitterName !== undefined && this.Emitter === undefined) this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
+
+            if (this.AutoStart !== undefined && this.AutoStart === true) {
+                console.log("autostarted the particlesystem");
+                this.Ctrl.start();
+            }
         }
-        
 
         this.Children.forEach((key:string, child: ParticleSystemShape) => {
             child.Initialize();
@@ -109,8 +127,7 @@ export class ParticleSystem extends UIElement {
         try { this._minLifeTime = parseFloat(node.attributes["MinLifeTime"].value); } catch { }
         try { this._maxLifeTime = parseFloat(node.attributes["MaxLifeTime"].value); } catch { }
         try { this._minEmitPower = parseFloat(node.attributes["MinEmitPower"].value); } catch { }
-        try { this._maxEmitPower = parseFloat(node.attributes["MaxEmitPower"].value); } catch { }
-        try { this._emitterName = node.attributes["EmitterName"].value; } catch { }
+        try { this._maxEmitPower = parseFloat(node.attributes["MaxEmitPower"].value); } catch { }        
         try { this._emitRate = parseInt(node.attributes["EmitRate"].value); } catch { }
         try { this._blendMode = eval(`BABYLON.${node.attributes["BlendMode"].value};`); } catch (e) { }
         try { this._minEmitBox = eval(`new BABYLON.${node.attributes["MinEmitBox"].value};`); } catch (e) { }
@@ -119,6 +136,13 @@ export class ParticleSystem extends UIElement {
         try { this._direction2 = eval(`new BABYLON.${node.attributes["Direction2"].value};`); } catch (e) { }
         try { this._color1 = eval(`new BABYLON.${node.attributes["Color1"].value};`); } catch (e) { }
         try { this._color2 = eval(`new BABYLON.${node.attributes["Color2"].value};`); } catch (e) { }
+        try { this._colorDead = eval(`new BABYLON.${node.attributes["ColorDead"].value};`); } catch (e) { }
         try { this._gravity = eval(`new BABYLON.${node.attributes["Gravity"].value};`); } catch (e) { }
+        try { this._updateSpeed = parseFloat(node.attributes["UpdateSpeed"].value); } catch { }
+        try { this._autoStart = node.attributes["AutoStart"].value.toLowerCase() === 'true'; } catch (e) { }
+
+        try { this._emitterName = node.attributes["EmitterName"].value; } catch { }
+        try { this._emitter = eval(`new BABYLON.${node.attributes["Emitter"].value};`); } catch (e) { }
+
     }
 }

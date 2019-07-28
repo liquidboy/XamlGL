@@ -17,10 +17,12 @@ export class Mesh extends UIElement {
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
-        let material: Material = this.VT.Get(this.MaterialName) as Material;
-
+        
         this.Ctrl = new BABYLON.Mesh(this.Name, scene.Ctrl);
-        if (material && material.Ctrl) this.Ctrl.material = material.Ctrl;
+        if (this.MaterialName !== undefined) {
+            let material: Material = this.VT.Get(this.MaterialName) as Material;
+            if (material && material.Ctrl) this.Ctrl.material = material.Ctrl;
+        }
         this.PostInitialize();
     }
 
