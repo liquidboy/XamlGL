@@ -100,8 +100,10 @@ export class ParticleSystem extends UIElement {
             //if (this.Emitter !== undefined && this.EmitterName === undefined) this.Ctrl.emitter = this.Emitter;
             //if (this.EmitterName !== undefined && this.Emitter === undefined) this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
 
+            //console.log(this.Ctrl);
+
             if (this.AutoStart !== undefined && this.AutoStart === true) {
-                console.log("autostarted the particlesystem");
+                //console.log("autostarted the particlesystem");
                 this.Ctrl.start();
             }
         }

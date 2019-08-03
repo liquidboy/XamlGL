@@ -11,8 +11,6 @@
           var particles = this.VisualTreeHelper.FindByName("particles");
           document.onkeydown = (e)=>{
               if(e.key == "a"){
-                  console.log("toggle = " + toggle);
-                  //console.log(particles.bjsCtrl);
                   if(!toggle){
                       particles.bjsCtrl.start();
                   }else{
@@ -25,7 +23,7 @@
       </Code>
     </Scene>
 
-    <Camera x:Name="arcRotate📷" Type="ArcRotateCamera" AlphaCalculated="-Math.PI / 2" Beta="Math.PI / 4" Radius="3" 
+    <Camera x:Name="arcRotate📷" Type="ArcRotateCamera" AlphaCalculated="-Math.PI / 2" BetaCalculated="Math.PI / 4" Radius="3" 
             Target="Vector3(0, 3, 0)" Scene="main🎬"></Camera>
 
     <Light x:Name="light1" Type="HemisphericLight" Direction="Vector3(0, 1, 0)" Intensity="0.7" Scene="main🎬" ></Light>
@@ -43,14 +41,11 @@
                     AutoStart="false">
       <Code>
         <![CDATA[
-          console.log("ParticleSystem.code " + this.Name);
           let scene = this.VisualTreeHelper.FindByName("main🎬");
-        
-          //this.bjsCtrl.emitter = new BABYLON.Mesh("", scene.bjsCtrl);
+
           this.bjsCtrl.createDirectedCylinderEmitter(0.1, 0, 0);
           this.bjsCtrl.addColorGradient(0, new BABYLON.Color4(0,1,0,0));
           this.bjsCtrl.addColorGradient(0.5, new BABYLON.Color4(1,0,0,1));
-          console.log("initialised ParticleSystem  " + this.Name);
         ]]>
       </Code>
     </ParticleSystem>
@@ -72,13 +67,10 @@
                   Direction1="Vector3(0,1,0)" Direction2="Vector3(0,1,0)" AutoStart="false">
       <Code>
         <![CDATA[
-          console.log("ParticleSystem.code " + this.Name);
           let scene = this.VisualTreeHelper.FindByName("main🎬");
         
-          //this.bjsCtrl.emitter = new BABYLON.AbstractMesh("", scene.bjsCtrl);
           this.bjsCtrl.addColorGradient(0, new BABYLON.Color4(0,1,1,0));
           this.bjsCtrl.addColorGradient(0.5, new BABYLON.Color4(1,1,0,1));
-          console.log("initialised ParticleSystem " + this.Name);
         ]]>
       </Code>
     </ParticleSystem>
@@ -112,10 +104,9 @@
           let subEmitter2 = this.VisualTreeHelper.FindByName("subEmitter2");
 
           let createFireworkSubEmitter = (color, type, name) => {
-              console.log("createFireworkSubEmitter = " + name);
-              //console.log(scene);
               let particleSystem1 = new BABYLON.ParticleSystem(name, 2000, scene.bjsCtrl);
               particleSystem1.emitter = new BABYLON.Mesh("", scene.bjsCtrl);
+
               //Texture of each particle
               particleSystem1.particleTexture = new BABYLON.Texture("/assets/textures/flare.png", scene.bjsCtrl);
               if (type === 0) {
@@ -149,8 +140,7 @@
             [subEmitter1.bjsCtrl, subEmitter2.bjsCtrl, createFireworkSubEmitter(new BABYLON.Color4(0, 1, 0, 1.0), 0,"first")], 
             [subEmitter1.bjsCtrl, subEmitter2.bjsCtrl, createFireworkSubEmitter(new BABYLON.Color4(0, 0, 1, 1.0), 1,"second")]
           ];
-        
-        
+
         ]]>
       </Code>
     </ParticleSystem>
