@@ -3022,6 +3022,10 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                     }
                     catch (e) { }
                     try {
+                        this._beta = eval(node.attributes["BetaCalculated"].value);
+                    }
+                    catch (e) { }
+                    try {
                         this._radius = parseFloat(node.attributes["Radius"].value);
                     }
                     catch (e) { }
@@ -3707,10 +3711,12 @@ System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], functi
                 get MaterialName() { return this._materialName; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    let material = this.VT.Get(this.MaterialName);
                     this.Ctrl = new BABYLON.Mesh(this.Name, scene.Ctrl);
-                    if (material && material.Ctrl)
-                        this.Ctrl.material = material.Ctrl;
+                    if (this.MaterialName !== undefined) {
+                        let material = this.VT.Get(this.MaterialName);
+                        if (material && material.Ctrl)
+                            this.Ctrl.material = material.Ctrl;
+                    }
                     this.PostInitialize();
                 }
                 LoadFromNode(node) {
@@ -4506,6 +4512,7 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                 constructor() {
                     super();
                     this._updateable = false;
+                    this._autoStart = true;
                     this._childParticles = new lib_3.LinkedDictionary();
                 }
                 get Children() { return this._childParticles; }
@@ -4524,6 +4531,7 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                 get MaxEmitPower() { return this._maxEmitPower; }
                 get EmitterName() { return this._emitterName; }
                 get EmitRate() { return this._emitRate; }
+                get UpdateSpeed() { return this._updateSpeed; }
                 get BlendMode() { return this._blendMode; }
                 get MinEmitBox() { return this._minEmitBox; }
                 get MaxEmitBox() { return this._maxEmitBox; }
@@ -4531,7 +4539,10 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                 get Direction2() { return this._direction2; }
                 get Color1() { return this._color1; }
                 get Color2() { return this._color2; }
+                get ColorDead() { return this._colorDead; }
                 get Gravity() { return this._gravity; }
+                get AutoStart() { return this._autoStart; }
+                get Emitter() { return this._emitter; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     if (this.Type === "SolidParticleSystem") {
@@ -4556,8 +4567,6 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                             this.Ctrl.minEmitPower = this.MinEmitPower;
                         if (this.MaxEmitPower !== undefined)
                             this.Ctrl.maxEmitPower = this.MaxEmitPower;
-                        if (this.EmitterName !== undefined)
-                            this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
                         if (this.EmitRate !== undefined)
                             this.Ctrl.emitRate = this.EmitRate;
                         if (this.BlendMode !== undefined)
@@ -4574,9 +4583,17 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                             this.Ctrl.color1 = this.Color1;
                         if (this.Color2 !== undefined)
                             this.Ctrl.color2 = this.Color2;
+                        if (this.ColorDead !== undefined)
+                            this.Ctrl.colorDead = this.ColorDead;
                         if (this.Gravity !== undefined)
                             this.Ctrl.gravity = this.Gravity;
-                        this.Ctrl.start();
+                        if (this.UpdateSpeed !== undefined)
+                            this.Ctrl.updateSpeed = this.UpdateSpeed;
+                        if (this.Emitter !== undefined || this.EmitterName !== undefined)
+                            this.Ctrl.emitter = this.EmitterName !== undefined ? this.VT.Get(this.EmitterName).Ctrl : this.Emitter;
+                        if (this.AutoStart !== undefined && this.AutoStart === true) {
+                            this.Ctrl.start();
+                        }
                     }
                     this.Children.forEach((key, child) => {
                         child.Initialize();
@@ -4638,13 +4655,9 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                     }
                     catch (_m) { }
                     try {
-                        this._emitterName = node.attributes["EmitterName"].value;
-                    }
-                    catch (_o) { }
-                    try {
                         this._emitRate = parseInt(node.attributes["EmitRate"].value);
                     }
-                    catch (_p) { }
+                    catch (_o) { }
                     try {
                         this._blendMode = eval(`BABYLON.${node.attributes["BlendMode"].value};`);
                     }
@@ -4674,7 +4687,27 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                     }
                     catch (e) { }
                     try {
+                        this._colorDead = eval(`new BABYLON.${node.attributes["ColorDead"].value};`);
+                    }
+                    catch (e) { }
+                    try {
                         this._gravity = eval(`new BABYLON.${node.attributes["Gravity"].value};`);
+                    }
+                    catch (e) { }
+                    try {
+                        this._updateSpeed = parseFloat(node.attributes["UpdateSpeed"].value);
+                    }
+                    catch (_p) { }
+                    try {
+                        this._autoStart = node.attributes["AutoStart"].value.toLowerCase() === 'true';
+                    }
+                    catch (e) { }
+                    try {
+                        this._emitterName = node.attributes["EmitterName"].value;
+                    }
+                    catch (_q) { }
+                    try {
+                        this._emitter = eval(`new BABYLON.${node.attributes["Emitter"].value};`);
                     }
                     catch (e) { }
                 }
@@ -5227,6 +5260,7 @@ System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], 
             SubEmitter = class SubEmitter extends UIElement_32.UIElement {
                 get Type() { return this._type; }
                 get ParticleSystemName() { return this._particleSystemName; }
+                get ParticleCount() { return this._particleCount; }
                 get SceneName() { return this._sceneName; }
                 get InheritDirection() { return this._inheritDirection; }
                 get InheritedVelocityAmount() { return this._inheritedVelocityAmount; }
@@ -5235,8 +5269,13 @@ System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], 
                 }
                 Initialize() {
                     let scene = this.VT.FindByName(this.SceneName);
-                    let particleSystem = this.VT.FindByName(this.ParticleSystemName);
-                    this.Ctrl = new BABYLON.SubEmitter(particleSystem.Ctrl);
+                    if (this.ParticleSystemName !== undefined) {
+                        let particleSystem = this.VT.FindByName(this.ParticleSystemName);
+                        this.Ctrl = new BABYLON.SubEmitter(particleSystem.Ctrl);
+                    }
+                    else if (this.ParticleCount !== undefined) {
+                        this.Ctrl = new BABYLON.SubEmitter(new BABYLON.ParticleSystem(`ps${this.Name}`, this.ParticleCount, scene.Ctrl));
+                    }
                     this.Ctrl.type = this.Type;
                     this.Ctrl.inheritDirection = this.InheritDirection;
                     if (this.InheritedVelocityAmount !== undefined)
@@ -5254,17 +5293,21 @@ System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], 
                     }
                     catch (_b) { }
                     try {
-                        this._sceneName = node.attributes["Scene"].value;
+                        this._particleCount = parseInt(node.attributes["ParticleCount"].value);
                     }
                     catch (_c) { }
+                    try {
+                        this._sceneName = node.attributes["Scene"].value;
+                    }
+                    catch (_d) { }
                     try {
                         this._inheritDirection = node.attributes["InheritDirection"].value.toLowerCase() === 'true';
                     }
                     catch (e) { }
                     try {
-                        this._inheritedVelocityAmount = node.attributes["InheritedVelocityAmount"].value;
+                        this._inheritedVelocityAmount = parseFloat(node.attributes["InheritedVelocityAmount"].value);
                     }
-                    catch (_d) { }
+                    catch (_e) { }
                 }
             };
             exports_74("SubEmitter", SubEmitter);
