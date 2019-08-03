@@ -5732,13 +5732,11 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                         return newObject;
                     }
                     catch (ex) {
-                        console.log(`could not find class ${node.nodeName}, so attempt to load from resources`);
                         return this.GetFrameworkElementByNodeFromResources(node);
                     }
                     return null;
                 }
                 static GetFrameworkElementByNodeFromResources(node) {
-                    console.log("todo : implement resources");
                     return null;
                 }
                 static HasAttribute(node, attributeName) {

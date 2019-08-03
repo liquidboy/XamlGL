@@ -67,14 +67,14 @@ export class XamlParser {
 
             return newObject;
         } catch (ex) {
-            console.log(`could not find class ${node.nodeName}, so attempt to load from resources`);
+            //console.log(`could not find class ${node.nodeName}, so attempt to load from resources`);
             return this.GetFrameworkElementByNodeFromResources(node);
         }
         return null;
     }
     private static GetFrameworkElementByNodeFromResources(node: any): FrameworkElement {
         //todo : implement resources
-        console.log("todo : implement resources");
+        //console.log("todo : implement resources");
         return null;
     }
     private static HasAttribute(node: any, attributeName: string): any {

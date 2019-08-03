@@ -82,6 +82,65 @@
     <Content Include="js\jquery.slim.min.js" />
     <Content Include="js\pixi.min.js" />
     <Content Include="js\typescript-collections\umd.min.js" />
+    <Content Include="node_modules\babylonjs-gui\babylon.gui.js" />
+    <Content Include="node_modules\babylonjs-gui\babylon.gui.min.js" />
+    <Content Include="node_modules\babylonjs-materials\babylonjs.materials.js" />
+    <Content Include="node_modules\babylonjs-materials\babylonjs.materials.min.js" />
+    <Content Include="node_modules\babylonjs\babylon.js" />
+    <Content Include="node_modules\babylonjs\babylon.max.js" />
+    <Content Include="node_modules\babylonjs\Oimo.js" />
+    <Content Include="node_modules\inversify\lib\annotation\decorator_utils.js" />
+    <Content Include="node_modules\inversify\lib\annotation\inject.js" />
+    <Content Include="node_modules\inversify\lib\annotation\injectable.js" />
+    <Content Include="node_modules\inversify\lib\annotation\multi_inject.js" />
+    <Content Include="node_modules\inversify\lib\annotation\named.js" />
+    <Content Include="node_modules\inversify\lib\annotation\optional.js" />
+    <Content Include="node_modules\inversify\lib\annotation\post_construct.js" />
+    <Content Include="node_modules\inversify\lib\annotation\tagged.js" />
+    <Content Include="node_modules\inversify\lib\annotation\target_name.js" />
+    <Content Include="node_modules\inversify\lib\annotation\unmanaged.js" />
+    <Content Include="node_modules\inversify\lib\bindings\binding.js" />
+    <Content Include="node_modules\inversify\lib\bindings\binding_count.js" />
+    <Content Include="node_modules\inversify\lib\constants\error_msgs.js" />
+    <Content Include="node_modules\inversify\lib\constants\literal_types.js" />
+    <Content Include="node_modules\inversify\lib\constants\metadata_keys.js" />
+    <Content Include="node_modules\inversify\lib\container\container.js" />
+    <Content Include="node_modules\inversify\lib\container\container_module.js" />
+    <Content Include="node_modules\inversify\lib\container\container_snapshot.js" />
+    <Content Include="node_modules\inversify\lib\container\lookup.js" />
+    <Content Include="node_modules\inversify\lib\interfaces\interfaces.js" />
+    <Content Include="node_modules\inversify\lib\inversify.js" />
+    <Content Include="node_modules\inversify\lib\planning\context.js" />
+    <Content Include="node_modules\inversify\lib\planning\metadata.js" />
+    <Content Include="node_modules\inversify\lib\planning\metadata_reader.js" />
+    <Content Include="node_modules\inversify\lib\planning\plan.js" />
+    <Content Include="node_modules\inversify\lib\planning\planner.js" />
+    <Content Include="node_modules\inversify\lib\planning\queryable_string.js" />
+    <Content Include="node_modules\inversify\lib\planning\reflection_utils.js" />
+    <Content Include="node_modules\inversify\lib\planning\request.js" />
+    <Content Include="node_modules\inversify\lib\planning\target.js" />
+    <Content Include="node_modules\inversify\lib\resolution\instantiation.js" />
+    <Content Include="node_modules\inversify\lib\resolution\resolver.js" />
+    <Content Include="node_modules\inversify\lib\syntax\binding_in_syntax.js" />
+    <Content Include="node_modules\inversify\lib\syntax\binding_in_when_on_syntax.js" />
+    <Content Include="node_modules\inversify\lib\syntax\binding_on_syntax.js" />
+    <Content Include="node_modules\inversify\lib\syntax\binding_to_syntax.js" />
+    <Content Include="node_modules\inversify\lib\syntax\binding_when_on_syntax.js" />
+    <Content Include="node_modules\inversify\lib\syntax\binding_when_syntax.js" />
+    <Content Include="node_modules\inversify\lib\syntax\constraint_helpers.js" />
+    <Content Include="node_modules\inversify\lib\utils\binding_utils.js" />
+    <Content Include="node_modules\inversify\lib\utils\exceptions.js" />
+    <Content Include="node_modules\inversify\lib\utils\id.js" />
+    <Content Include="node_modules\inversify\lib\utils\serialization.js" />
+    <Content Include="node_modules\reflect-metadata\CopyrightNotice.txt" />
+    <Content Include="node_modules\reflect-metadata\docs\ecmarkup.css" />
+    <Content Include="node_modules\reflect-metadata\docs\ecmarkup.js" />
+    <Content Include="node_modules\reflect-metadata\docs\index.html" />
+    <Content Include="node_modules\reflect-metadata\Reflect.js" />
+    <Content Include="node_modules\systemjs\dist\system-production.js" />
+    <Content Include="node_modules\systemjs\dist\system-production.src.js" />
+    <Content Include="node_modules\systemjs\dist\system.js" />
+    <Content Include="node_modules\systemjs\dist\system.src.js" />
     <Content Include="rivets.bundled.min.js" />
     <Content Include="src\Libs\tink\tink.js" />
     <Content Include="views\pixi-home.html" />
@@ -92,6 +151,14 @@
   <ItemGroup>
     <TypeScriptCompile Include="js\allsrc.d.ts" />
     <TypeScriptCompile Include="js\allsrc2.d.ts" />
+    <TypeScriptCompile Include="node_modules\babylonjs-gui\babylon.gui.module.d.ts" />
+    <TypeScriptCompile Include="node_modules\babylonjs-materials\babylonjs.materials.module.d.ts" />
+    <TypeScriptCompile Include="node_modules\babylonjs\babylon.module.d.ts" />
+    <TypeScriptCompile Include="node_modules\reflect-metadata\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\reflect-metadata\reflect-metadata.d.ts" />
+    <TypeScriptCompile Include="node_modules\reflect-metadata\Reflect.d.ts" />
+    <TypeScriptCompile Include="node_modules\reflect-metadata\standalone.d.ts" />
+    <TypeScriptCompile Include="node_modules\reflect-metadata\typings.d.ts" />
     <TypeScriptCompile Include="src2\bootstrap\XamlApp.ts" />
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\arrays.ts" />
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\Bag.ts" />
@@ -335,6 +402,25 @@
     <Content Include="libman.json" />
     <Content Include="js\allsrc.js.map" />
     <Content Include="js\allsrc2.js.map" />
+    <None Include="as-xamlgl - Web Deploy.pubxml" />
+    <Content Include="node_modules\systemjs\dist\system-production.js.map" />
+    <Content Include="node_modules\systemjs\dist\system-production.src.js.map" />
+    <Content Include="node_modules\systemjs\dist\system.js.map" />
+    <Content Include="node_modules\systemjs\dist\system.src.js.map" />
+    <Content Include="node_modules\reflect-metadata\AUTHORS.md" />
+    <Content Include="node_modules\reflect-metadata\docs\spec.biblio.json" />
+    <Content Include="node_modules\reflect-metadata\LICENSE" />
+    <Content Include="node_modules\reflect-metadata\package.json" />
+    <Content Include="node_modules\reflect-metadata\README.md" />
+    <Content Include="node_modules\babylonjs-materials\babylonjs.materials.js.map" />
+    <Content Include="node_modules\babylonjs-materials\package.json" />
+    <Content Include="node_modules\babylonjs-materials\readme.md" />
+    <Content Include="node_modules\babylonjs-gui\babylon.gui.js.map" />
+    <Content Include="node_modules\babylonjs-gui\package.json" />
+    <Content Include="node_modules\babylonjs-gui\readme.md" />
+    <Content Include="node_modules\babylonjs\babylon.max.js.map" />
+    <Content Include="node_modules\babylonjs\package.json" />
+    <Content Include="node_modules\babylonjs\readme.md" />
     <None Include="packages.config" />
     <Content Include="src2\tsconfig.json" />
     <None Include="web.Debug.config">
@@ -343,7 +429,6 @@
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
-    <None Include="XamlGL - Web Deploy.pubxml" />
     <Content Include="assets\glitter-20a.jpg" />
     <Content Include="xaml\sample-6.xap" />
     <Content Include="xaml\sample-7.xap" />
@@ -414,7 +499,6 @@
     <Content Include="xaml\sample-49.xap">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="XamlGL2 - Web Deploy.pubxml" />
     <Content Include="xaml\sample-50.xap">
       <SubType>Designer</SubType>
     </Content>
@@ -470,7 +554,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="node_modules\" />
     <Folder Include="Scripts\" />
     <Folder Include="src\XamlGL\Jupiter\Platform\Html\Controls\" />
   </ItemGroup>
