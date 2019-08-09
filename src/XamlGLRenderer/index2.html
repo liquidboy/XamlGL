@@ -69,6 +69,10 @@
         .samples a, .samples a:visited {
             color: white;
         }
+
+        .code-editor-link, code-editor-link:hover, code-editor-link:visited {
+            color: white;
+        }
     </style>
 
     <script src="./node_modules/systemjs/dist/system.js"></script>
@@ -84,7 +88,7 @@
 
     <script src="js/allsrc2.js?v=5"></script>
     <script type="text/javascript">
-        loadApp = (editor) => {
+        loadApp = (renderElement, renderDetailsLayerElement, codeEditorElement, aXamlCodeEditor) => {
             var el = document.getElementById('content');
 
             System.config({
@@ -105,7 +109,7 @@
 
             System.import('bootstrap/XamlApp').then(function (m) {
                 let app = new m.XamlApp(el);
-                app.Start("renderCanvas", editor);
+                app.Start(renderElement, renderDetailsLayerElement, codeEditorElement, aXamlCodeEditor);
                 specialSampleInstructions();
             }, console.log.bind(console));
         }
@@ -127,38 +131,37 @@
         //window.onload = () => { loadApp(); };
         require( [ 'vs/editor/editor.main' ], () =>
         { 
-            let monacoEditor = monaco.editor.create(document.getElementById('codeEditor'), {});
-            loadApp(monacoEditor);
+            //let monacoEditor = monaco.editor.create(document.getElementById('codeEditor'), {});
+            loadApp("renderCanvas", "renderCanvasDetailsLayer", "codeEditor", "xamlCodeEditor");
         })
-
     </script>
 
 
 </head>
 <body xamlgl-app="rectangle">
     <canvas id="renderCanvas"></canvas>
-
-    <div id="sampleTitle" class="samples-base sample-title"></div>
-    <div id="sampleHelp" class="samples-base sample-help"></div>
-    <div class="samples-base samples">
-        <a href="/index2.html?xaml=sample-bjs-1.xap&v=1&t=1">1</a>
-        <a href="/index2.html?xaml=sample-bjs-2.xap&v=1&t=2">2</a>
-        <a href="/index2.html?xaml=sample-bjs-3.xap&v=1&t=3">3</a>
-        <a href="/index2.html?xaml=sample-bjs-4.xap&v=1&t=4">4</a>
-        <a href="/index2.html?xaml=sample-bjs-5.xap&v=1&t=5">5</a>
-        <a href="/index2.html?xaml=sample-bjs-6.xap&v=1&t=6">6</a>
-        <a href="/index2.html?xaml=sample-bjs-7.xap&v=1&t=7">7</a>
-        <a href="/index2.html?xaml=sample-bjs-8.xap&v=1&t=8">8</a>
-        <a href="/index2.html?xaml=sample-bjs-9.xap&v=1&t=9">9</a>
-        <a href="/index2.html?xaml=sample-bjs-10.xap&v=1&t=10">10</a>
-        <a href="/index2.html?xaml=sample-bjs-11.xap&v=1&t=11">11</a>
-        <a href="/index2.html?xaml=sample-bjs-12.xap&v=1&t=12">12</a>
-        <a href="/index2.html?xaml=sample-bjs-13.xap&v=1&t=13">13</a>
-        <a href="/index2.html?xaml=sample-bjs-14.xap&v=1&t=14">14</a>
+    <div id="renderCanvasDetailsLayer">
+        <div id="sampleTitle" class="samples-base sample-title"></div>
+        <div id="sampleHelp" class="samples-base sample-help"></div>
+        <div class="samples-base samples">
+            <a href="/index2.html?xaml=sample-bjs-1.xap&v=1&t=1">1</a>
+            <a href="/index2.html?xaml=sample-bjs-2.xap&v=1&t=2">2</a>
+            <a href="/index2.html?xaml=sample-bjs-3.xap&v=1&t=3">3</a>
+            <a href="/index2.html?xaml=sample-bjs-4.xap&v=1&t=4">4</a>
+            <a href="/index2.html?xaml=sample-bjs-5.xap&v=1&t=5">5</a>
+            <a href="/index2.html?xaml=sample-bjs-6.xap&v=1&t=6">6</a>
+            <a href="/index2.html?xaml=sample-bjs-7.xap&v=1&t=7">7</a>
+            <a href="/index2.html?xaml=sample-bjs-8.xap&v=1&t=8">8</a>
+            <a href="/index2.html?xaml=sample-bjs-9.xap&v=1&t=9">9</a>
+            <a href="/index2.html?xaml=sample-bjs-10.xap&v=1&t=10">10</a>
+            <a href="/index2.html?xaml=sample-bjs-11.xap&v=1&t=11">11</a>
+            <a href="/index2.html?xaml=sample-bjs-12.xap&v=1&t=12">12</a>
+            <a href="/index2.html?xaml=sample-bjs-13.xap&v=1&t=13">13</a>
+            <a href="/index2.html?xaml=sample-bjs-14.xap&v=1&t=14">14</a>
+        </div>
+        <div class="samples-base copyright">BabylonJS + XAML  </div>
+        <div class="samples-base copyright-note"><a id="xamlCodeEditor" href="#" target="_blank" class="code-editor-link">click to see the xaml code</a></div>
     </div>
-    <div class="samples-base copyright">BabylonJS + XAML  </div>
-    <div class="samples-base copyright-note">see the xaml in the F12 dev console :)</div>
-
-    <div id="codeEditor" style="height:300px; width:300px"></div>
+    <div id="codeEditor" style="height:100%; width:100%"></div>
 </body>
 </html>

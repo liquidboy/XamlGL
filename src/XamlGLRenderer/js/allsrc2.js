@@ -27,10 +27,13 @@ System.register("Xaml/reader/XamlMarkup", [], function (exports_1, context_1) {
                 LoadRoot(data, done) {
                     var doc = parser.parseFromString(data, "text/xml");
                     if (done) {
+                        this.rawData = data;
                         this.rootElement = doc.documentElement;
                         done.call(this, doc.documentElement);
                     }
                 }
+                get RawData() { return this.rawData; }
+                get RootElement() { return this.rootElement; }
             };
             exports_1("XamlMarkup", XamlMarkup);
         }
@@ -5683,7 +5686,7 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
             XamlParser = class XamlParser {
                 static XamlMarkupToUIElement(xaml) {
                     let nnn = new _controls.Panel();
-                    return this.ProcessRoot(xaml.rootElement);
+                    return this.ProcessRoot(xaml.RootElement);
                 }
                 static ProcessRoot(el) {
                     let col = el.childNodes;
@@ -5784,7 +5787,9 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
             App = class App {
                 constructor() {
                 }
-                Start(xaml, canvasElement) {
+                Start(xaml, canvasElement, displayMode) {
+                    if (displayMode == Core_17.DisplayMode.CodeMode)
+                        return;
                     this.xamlMarkup = xaml;
                     let _canvas = document.getElementById(canvasElement);
                     let _engine = new BABYLON.Engine(_canvas, true);
@@ -5871,11 +5876,12 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
 });
 System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_83, context_83) {
     "use strict";
-    var _controls, inversify_2, Controls, DIContainer;
+    var _controls, inversify_2, Controls, DIContainer, DisplayMode;
     var __moduleName = context_83 && context_83.id;
     var exportedNames_1 = {
         "Controls": true,
-        "DIContainer": true
+        "DIContainer": true,
+        "DisplayMode": true
     };
     function exportStar_3(m) {
         var exports = {};
@@ -5914,6 +5920,11 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
         execute: function () {
             exports_83("Controls", Controls = _controls);
             exports_83("DIContainer", DIContainer = new inversify_2.Container());
+            (function (DisplayMode) {
+                DisplayMode[DisplayMode["RenderMode"] = 0] = "RenderMode";
+                DisplayMode[DisplayMode["CodeMode"] = 1] = "CodeMode";
+            })(DisplayMode || (DisplayMode = {}));
+            exports_83("DisplayMode", DisplayMode);
         }
     };
 });
@@ -5931,22 +5942,43 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
         ],
         execute: function () {
             XamlApp = class XamlApp {
-                Start(canvasElement, editor) {
+                Start(renderElement, renderDetailsLayerElement, editorElement, editorLinkElement) {
                     this.Configure();
-                    this.ConfigureEditor(editor);
                     let xaml = this.parseQueryString(location.search).xaml;
                     if (!xaml) {
                         console.warn("No application specified.");
                         return;
                     }
                     let xm = XamlGLCore.XamlReader.LoadUri(`/xaml/${xaml}`, (el) => {
-                        console.log(xm.rootElement);
+                        console.log(xm.RootElement);
+                        let displayModeAsString = this.parseQueryString(location.search).d;
+                        let displayMode = XamlGLCore.DisplayMode.RenderMode;
+                        if (displayModeAsString !== undefined)
+                            displayMode = parseInt(displayModeAsString);
                         let app = new XamlGLCore.App();
-                        app.Start(xm, canvasElement);
+                        app.Start(xm, renderElement, displayMode);
+                        this.ConfigureEditorLink(editorLinkElement);
+                        if (displayMode === XamlGLCore.DisplayMode.CodeMode) {
+                            this.HideRenderStack(renderElement, renderDetailsLayerElement);
+                            this.ConfigureEditor(editorElement, editorLinkElement, xm.RawData);
+                        }
                     });
                 }
-                ConfigureEditor(editor) {
-                    editor.setValue("function hello() {\n\talert('Hello world!');\n}");
+                ConfigureEditor(codeEditorElement, string, data) {
+                    let codeEditorEl = document.getElementById(codeEditorElement);
+                    let editor = monaco.editor.create(codeEditorEl);
+                    let xamlModel = monaco.editor.createModel(data, "html");
+                    editor.setModel(xamlModel);
+                }
+                ConfigureEditorLink(xamlCodeEditorLinkElement) {
+                    let aXamlCodeEditorLink = document.getElementById(xamlCodeEditorLinkElement);
+                    aXamlCodeEditorLink.href = `${location.search}&d=1`;
+                }
+                HideRenderStack(canvasElement, canvasDetailsLayerElement) {
+                    let canvasEl = document.getElementById(canvasElement);
+                    let canvasDetailsLayerEl = document.getElementById(canvasDetailsLayerElement);
+                    canvasEl.style.display = "none";
+                    canvasDetailsLayerEl.style.display = "none";
                 }
                 Configure() {
                 }

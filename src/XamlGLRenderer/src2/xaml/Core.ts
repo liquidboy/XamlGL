@@ -12,3 +12,5 @@ export let Controls: any = _controls;
 export * from "./datatypes/Guid";
 
 export const DIContainer = new Container();
+
+export enum DisplayMode { RenderMode = 0, CodeMode }

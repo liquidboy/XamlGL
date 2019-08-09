@@ -2,7 +2,8 @@
 ﻿let parser: DOMParser = new DOMParser();
 
 export class XamlMarkup {
-    rootElement: HTMLElement;
+    private rootElement: HTMLElement;
+    private rawData: string;
 
     constructor() {
         
@@ -16,10 +17,12 @@ export class XamlMarkup {
     LoadRoot(data: string, done: (xamlDom: HTMLElement)=> void): void {
         var doc = parser.parseFromString(data, "text/xml");
         if (done) {
+            this.rawData = data;
             this.rootElement = doc.documentElement;
             done.call(this, doc.documentElement);
         }
     }
 
-
+    get RawData(): string { return this.rawData; }
+    get RootElement(): HTMLElement { return this.rootElement; }
 }

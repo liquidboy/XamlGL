@@ -3,7 +3,7 @@ import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement } from "./jupiter/Core";
 import { Panel } from "./jupiter/controls/Core";
 import { VisualTree } from "../services/VisualTree";
-import { DIContainer } from "./Core";
+import { DIContainer, DisplayMode } from "./Core";
 
 export class App {
     private xamlMarkup: XamlMarkup;
@@ -13,7 +13,8 @@ export class App {
 
     }
 
-    public Start(xaml: XamlMarkup, canvasElement: string): void {
+    public Start(xaml: XamlMarkup, canvasElement: string, displayMode: DisplayMode): void {
+        if (displayMode == DisplayMode.CodeMode) return; //just codeeditor view
         this.xamlMarkup = xaml;
         let _canvas = document.getElementById(canvasElement) as HTMLCanvasElement;
         let _engine = new BABYLON.Engine(_canvas, true);

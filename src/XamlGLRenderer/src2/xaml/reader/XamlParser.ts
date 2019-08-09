@@ -9,7 +9,7 @@ export class XamlParser {
     public static XamlMarkupToUIElement(xaml: XamlMarkup): FrameworkElement {
         // ConsoleHelper.Log("XamlHelper.XamlMarkupToUIElement");
         let nnn = new _controls.Panel();  // HACK : need to do this to init _controls :(
-        return this.ProcessRoot(xaml.rootElement);
+        return this.ProcessRoot(xaml.RootElement);
     }
     private static ProcessRoot(el: HTMLElement): FrameworkElement {
         // normally Application root xaml comes back as  #Text #Grid #Text , we only care about #Grid . 
