@@ -1,10 +1,13 @@
 ﻿/// <reference path="../../node_modules/babylonjs/babylon.module.d.ts" />
+
 import "reflect-metadata";  // <--- needs to be done before xaml framework is imported because they use it
 import * as XamlGLCore from "../Xaml/Core";
+import { editor, Position } from "monaco-editor";
 
 export class XamlApp {
-    public Start(canvasElement: string): void {
+    public Start(canvasElement: string, editor: editor.ICodeEditor): void {
         this.Configure();
+        this.ConfigureEditor(editor);
 
         // let url: string = document.body.getAttribute("xamlgl-app");
         let xaml: string = this.parseQueryString(location.search).xaml;
@@ -23,8 +26,14 @@ export class XamlApp {
                 let app: XamlGLCore.App = new XamlGLCore.App();
                 app.Start(xm, canvasElement);
             });
+    }
 
+    public ConfigureEditor(editor: editor.ICodeEditor): void {
+        //let codeEditorEl = document.getElementById(codeElement) as HTMLElement;
+        //let rrr = require;
+        //let codeEditor = monaco.editor.create(codeEditorEl);
 
+        editor.setValue("function hello() {\n\talert('Hello world!');\n}");
     }
 
     public Configure(): void {

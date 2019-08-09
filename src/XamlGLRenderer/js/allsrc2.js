@@ -5931,8 +5931,9 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
         ],
         execute: function () {
             XamlApp = class XamlApp {
-                Start(canvasElement) {
+                Start(canvasElement, editor) {
                     this.Configure();
+                    this.ConfigureEditor(editor);
                     let xaml = this.parseQueryString(location.search).xaml;
                     if (!xaml) {
                         console.warn("No application specified.");
@@ -5943,6 +5944,9 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                         let app = new XamlGLCore.App();
                         app.Start(xm, canvasElement);
                     });
+                }
+                ConfigureEditor(editor) {
+                    editor.setValue("function hello() {\n\talert('Hello world!');\n}");
                 }
                 Configure() {
                 }

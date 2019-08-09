@@ -21,59 +21,76 @@
             touch-action: none;
         }
 
+        .samples-base {
+            position: absolute;
+        }
+
         .samples {
-            position: absolute;  font-size: 18px; color: white; height: 30px; 
-            left: 15px; 
+            font-size: 18px;
+            color: white;
+            height: 30px;
+            left: 15px;
             bottom: 20px;
         }
 
         .copyright {
-            position: absolute; font-size: 20px; color: whitesmoke; height: 30px; 
-            right: 10px; 
+            font-size: 20px;
+            color: whitesmoke;
+            height: 30px;
+            right: 10px;
             bottom: 35px;
         }
 
         .copyright-note {
-            position: absolute; font-size: 15px; color: whitesmoke; height: 30px; 
-            right: 10px; 
+            font-size: 15px;
+            color: whitesmoke;
+            height: 30px;
+            right: 10px;
             bottom: 10px;
         }
 
         .sample-help {
-            position: absolute; font-size: 26px; color: yellow; height: 30px; 
-            right: 15px; 
+            font-size: 26px;
+            color: yellow;
+            height: 30px;
+            right: 15px;
             top: 15px;
         }
 
         .sample-title {
-            position: absolute; font-size: 20px; color: whitesmoke;  opacity:0.5; height: 30px; 
-            left: 15px; 
+            font-size: 20px;
+            color: whitesmoke;
+            opacity: 0.5;
+            height: 30px;
+            left: 15px;
             top: 15px;
         }
 
-        .samples a,.samples a:visited {
-            color:white;
-
+        .samples a, .samples a:visited {
+            color: white;
         }
     </style>
 
     <script src="./node_modules/systemjs/dist/system.js"></script>
     <script src="./js/jquery.min.js"></script>
 
+    <!-- https://stackoverflow.com/questions/38736637/monaco-editor-in-electron-with-angularjs/41722598#41722598 -->
+    <script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+    <script type="text/javascript">
+        require.config({ baseUrl: './node_modules/monaco-editor/min/' });
+    </script>
+
+
+
     <script src="js/allsrc2.js?v=5"></script>
     <script type="text/javascript">
-        window.onload = () => {
-
+        loadApp = (editor) => {
             var el = document.getElementById('content');
-
-            ////configure system loader
 
             System.config({
                 defaultExtension: "js",
                 packages: {
-                    './node_modules/inversify': {
-                        defaultExtension: 'js'
-                    }
+                    './node_modules/inversify': { defaultExtension: 'js' }
                 },
                 map: {
                     'reflect-metadata': './node_modules/reflect-metadata/Reflect.js',
@@ -81,18 +98,19 @@
                     'babylonjs': './node_modules/babylonjs/babylon.max.js',
                     'babylonjs-materials': './node_modules/babylonjs-materials/babylonjs.materials.min.js',
                     'babylonjs-gui': './node_modules/babylonjs-gui/babylon.gui.min.js',
+                    'monaco-editor': './node_modules/monaco-editor/min/vs/loader.js',
                     'crypto': '@empty'
                 }
             });
 
             System.import('bootstrap/XamlApp').then(function (m) {
                 let app = new m.XamlApp(el);
-                app.Start("renderCanvas");
+                app.Start("renderCanvas", editor);
                 specialSampleInstructions();
             }, console.log.bind(console));
-        };
+        }
 
-        function specialSampleInstructions() {
+        specialSampleInstructions = () => {
             var urlParams = new URLSearchParams(window.location.search);
 
             var title = urlParams.get("t");
@@ -105,16 +123,24 @@
             var sampleHelp = document.getElementById("sampleHelp");
             sampleHelp.innerHTML = titleHelp;
         }
+
+        //window.onload = () => { loadApp(); };
+        require( [ 'vs/editor/editor.main' ], () =>
+        { 
+            let monacoEditor = monaco.editor.create(document.getElementById('codeEditor'), {});
+            loadApp(monacoEditor);
+        })
+
     </script>
 
-    
+
 </head>
 <body xamlgl-app="rectangle">
     <canvas id="renderCanvas"></canvas>
 
-    <div id="sampleTitle" class="sample-title"></div>
-    <div id="sampleHelp" class="sample-help"></div>
-    <div class="samples">
+    <div id="sampleTitle" class="samples-base sample-title"></div>
+    <div id="sampleHelp" class="samples-base sample-help"></div>
+    <div class="samples-base samples">
         <a href="/index2.html?xaml=sample-bjs-1.xap&v=1&t=1">1</a>
         <a href="/index2.html?xaml=sample-bjs-2.xap&v=1&t=2">2</a>
         <a href="/index2.html?xaml=sample-bjs-3.xap&v=1&t=3">3</a>
@@ -130,7 +156,9 @@
         <a href="/index2.html?xaml=sample-bjs-13.xap&v=1&t=13">13</a>
         <a href="/index2.html?xaml=sample-bjs-14.xap&v=1&t=14">14</a>
     </div>
-    <div class="copyright">BabylonJS + XAML  </div>
-    <div class="copyright-note">see the xaml in the F12 dev console :)</div>
+    <div class="samples-base copyright">BabylonJS + XAML  </div>
+    <div class="samples-base copyright-note">see the xaml in the F12 dev console :)</div>
+
+    <div id="codeEditor" style="height:300px; width:300px"></div>
 </body>
 </html>
