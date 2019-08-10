@@ -45,10 +45,160 @@ export class XamlApp {
         let xamlModel = monaco.editor.createModel(data, "html");
         //editor.setValue("function hello() {\n\talert('Hello world!');\n}");
         editor.setModel(xamlModel);
+        xamlModel.onDidChangeContent((e: monaco.editor.IModelContentChangedEvent) => {
+            console.log(e);
+        });
+        editor.onDidChangeCursorPosition((e: monaco.editor.ICursorPositionChangedEvent) => {
+            console.log(xamlModel.getWordAtPosition(e.position));
+            console.log(this.getValueAtPosition(xamlModel, e.position));
+            //console.log(this.getAttributeNameAtPosition(xamlModel, e.position));
+            console.log(this.findTagAtPosition(xamlModel, "attribute.name.html", e.position.lineNumber, e.position.column));
+            console.log(this.findTagAtPosition(xamlModel, "tag.html", e.position.lineNumber, e.position.column));
+        });
+
         //monaco.editor.setModelLanguage(text)
+        //https://stackoverflow.com/questions/49449401/monaco-editor-hoverprovider-get-the-word-mouse-hovers-over
         //https://github.com/Microsoft/monaco-editor/issues/539
         //https://stackoverflow.com/questions/49431915/adding-a-padding-to-monaco-editor-area-lines-content?rq=1
     }
+
+    private findTagAtPosition(model, typeToSearchFor , lineNumber, column): any {
+        let data: any = this.getTokensAtLine(lineNumber, model);
+        let dataLength: number = data.tokens1.length;
+
+        let token1Index = 0;
+        for (let i = dataLength - 1; i >= 0; i--) {
+            let t = data.tokens1[i];
+            if (column - 1 >= t.offset) {
+                token1Index = i;
+                break;
+            }
+        }
+
+        let associatedAttributeNameTokenIndex = null;
+        let associatedAttributeNameToken = null;
+        for (let i = token1Index - 1; i >= 0; i--) {
+            let t = data.tokens1[i];
+            if (t.type === typeToSearchFor) {
+                associatedAttributeNameToken = t;
+                associatedAttributeNameTokenIndex = i;
+                break;
+            }
+        }
+
+        if (associatedAttributeNameToken === null)
+            return this.findTagAtPosition(model ,typeToSearchFor ,lineNumber - 1, column);
+
+        let tokenText = this.getTokenText(model, lineNumber, associatedAttributeNameTokenIndex, data);
+
+        return {
+            associatedAttributeNameToken: associatedAttributeNameToken,
+            associatedAttributeNameTokenIndex: associatedAttributeNameTokenIndex,
+            tokenText: tokenText
+        };
+    }
+
+    private getTokenText(model, lineNumber, index, data) {
+        let lineContent: any = model.getLineContent(lineNumber);
+        let dataLength: number = data.tokens1.length;
+        let tokenText = '';
+        if (index < dataLength) {
+            let tokenStartIndex = data.tokens1[index].offset;
+            let tokenEndIndex = index + 1 < dataLength ? data.tokens1[index + 1].offset : lineContent.length;
+            tokenText = lineContent.substring(tokenStartIndex, tokenEndIndex);
+        }
+        return tokenText;
+    }
+
+    private getAttributeNameAtPosition(model, position): any {
+        let data: any = this.getTokensAtLine(position.lineNumber, model);
+        let dataLength: number = data.tokens1.length;
+
+        let token1Index = 0;
+        for (let i = dataLength - 1; i >= 0; i--) {
+            let t = data.tokens1[i];
+            if (position.column - 1 >= t.offset) {
+                token1Index = i;
+                break;
+            }
+        }
+
+        let associatedAttributeNameTokenIndex = null;
+        let associatedAttributeNameToken = null;
+        for (let i = token1Index - 1; i >= 0; i--) {
+            let t = data.tokens1[i];
+            if (t.type === "attribute.name.html") {
+                associatedAttributeNameToken = t;
+                associatedAttributeNameTokenIndex = i;
+                break;
+            }
+        }
+
+        if (associatedAttributeNameTokenIndex !== null) associatedAttributeNameToken = data.tokens1[associatedAttributeNameTokenIndex];
+        if (associatedAttributeNameToken === null) return "[error not found]";
+
+        let lineContent: any;
+        if (associatedAttributeNameTokenIndex >= 0) {
+            lineContent = model.getLineContent(position.lineNumber);
+        } else {
+            lineContent = model.getLineContent(position.lineNumber-1);
+        }
+        
+        let tokenText = '';
+        if (associatedAttributeNameTokenIndex < dataLength) {
+            let tokenStartIndex = data.tokens1[associatedAttributeNameTokenIndex].offset;
+            let tokenEndIndex = associatedAttributeNameTokenIndex + 1 < dataLength ? data.tokens1[associatedAttributeNameTokenIndex + 1].offset : lineContent.length;
+            tokenText = lineContent.substring(tokenStartIndex, tokenEndIndex);
+        }
+        return tokenText;
+    }
+
+    private getValueAtPosition(model, position): any {
+        let data: any = this.getTokensAtLine(position.lineNumber, model);
+        let dataLength: number = data.tokens1.length;
+
+        let token1Index = 0;
+        for (let i = dataLength - 1; i >= 0; i--) {
+            let t = data.tokens1[i];
+            if (position.column - 1 >= t.offset) {
+                token1Index = i;
+                break;
+            }
+        }
+
+        return this.getTokenText(model, position.lineNumber, token1Index, data);
+    }
+
+
+    private  getTokensAtLine(lineNumber, model): any {
+        let tokenizationSupport = model._tokens.tokenizationSupport;
+        let state = tokenizationSupport.getInitialState();
+
+        for (let i = 1; i < lineNumber; i++) {
+            let tokenizationResult = tokenizationSupport.tokenize(model.getLineContent(i), state, 0);
+            state = tokenizationResult.endState;
+        }
+
+        let stateBeforeLine = state;
+        let tokenizationResult1 = tokenizationSupport.tokenize(model.getLineContent(lineNumber), stateBeforeLine, 0);
+        let tokenizationResult2 = tokenizationSupport.tokenize2(model.getLineContent(lineNumber), stateBeforeLine, 0);
+
+        return {
+            startState: stateBeforeLine,
+            tokens1: tokenizationResult1.tokens,
+            tokens2: tokenizationResult2.tokens,
+            endState: tokenizationResult1.endState
+        };
+    }
+
+
+
+
+
+
+
+
+
 
     public ConfigureEditorLink(xamlCodeEditorLinkElement: string): void {
         let aXamlCodeEditorLink = document.getElementById(xamlCodeEditorLinkElement) as HTMLAnchorElement;

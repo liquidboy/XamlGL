@@ -128,10 +128,8 @@
             sampleHelp.innerHTML = titleHelp;
         }
 
-        //window.onload = () => { loadApp(); };
         require( [ 'vs/editor/editor.main' ], () =>
         { 
-            //let monacoEditor = monaco.editor.create(document.getElementById('codeEditor'), {});
             loadApp("renderCanvas", "renderCanvasDetailsLayer", "codeEditor", "xamlCodeEditor");
         })
     </script>

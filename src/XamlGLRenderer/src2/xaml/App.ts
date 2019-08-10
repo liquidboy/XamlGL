@@ -38,7 +38,6 @@ export class App {
 
     private BuildVisualTree(): void {
         this._rootElement = XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
-        //console.log(this._rootElement);
     }
 
     private RenderScene(): void {
