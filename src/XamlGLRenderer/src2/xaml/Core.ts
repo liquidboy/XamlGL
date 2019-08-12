@@ -4,6 +4,7 @@ export * from "./reader/XamlParser";
 export * from "./reader/XamlMarkup";
 
 export * from "../services/VisualTree";
+export * from "../services/CodeEditor";
 
 import * as _controls from "./jupiter/controls/Core";
 import { Container } from "inversify";

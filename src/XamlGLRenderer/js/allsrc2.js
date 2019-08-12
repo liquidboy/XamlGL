@@ -5874,97 +5874,21 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_83, context_83) {
+System.register("services/CodeEditor", ["inversify"], function (exports_83, context_83) {
     "use strict";
-    var _controls, inversify_2, Controls, DIContainer, DisplayMode;
+    var inversify_2, CodeEditor;
     var __moduleName = context_83 && context_83.id;
-    var exportedNames_1 = {
-        "Controls": true,
-        "DIContainer": true,
-        "DisplayMode": true
-    };
-    function exportStar_3(m) {
-        var exports = {};
-        for (var n in m) {
-            if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
-        }
-        exports_83(exports);
-    }
     return {
         setters: [
-            function (App_1_1) {
-                exportStar_3(App_1_1);
-            },
-            function (XamlReader_1_1) {
-                exportStar_3(XamlReader_1_1);
-            },
-            function (XamlParser_2_1) {
-                exportStar_3(XamlParser_2_1);
-            },
-            function (XamlMarkup_2_1) {
-                exportStar_3(XamlMarkup_2_1);
-            },
-            function (VisualTree_4_1) {
-                exportStar_3(VisualTree_4_1);
-            },
-            function (_controls_2) {
-                _controls = _controls_2;
-            },
             function (inversify_2_1) {
                 inversify_2 = inversify_2_1;
-            },
-            function (Guid_2_1) {
-                exportStar_3(Guid_2_1);
             }
         ],
         execute: function () {
-            exports_83("Controls", Controls = _controls);
-            exports_83("DIContainer", DIContainer = new inversify_2.Container());
-            (function (DisplayMode) {
-                DisplayMode[DisplayMode["RenderMode"] = 0] = "RenderMode";
-                DisplayMode[DisplayMode["CodeMode"] = 1] = "CodeMode";
-            })(DisplayMode || (DisplayMode = {}));
-            exports_83("DisplayMode", DisplayMode);
-        }
-    };
-});
-System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_84, context_84) {
-    "use strict";
-    var XamlGLCore, XamlApp;
-    var __moduleName = context_84 && context_84.id;
-    return {
-        setters: [
-            function (_14) {
-            },
-            function (XamlGLCore_1) {
-                XamlGLCore = XamlGLCore_1;
-            }
-        ],
-        execute: function () {
-            XamlApp = class XamlApp {
-                Start(renderElement, renderDetailsLayerElement, editorElement, editorLinkElement) {
-                    this.Configure();
-                    let xaml = this.parseQueryString(location.search).xaml;
-                    if (!xaml) {
-                        console.warn("No application specified.");
-                        return;
-                    }
-                    let xm = XamlGLCore.XamlReader.LoadUri(`/xaml/${xaml}`, (el) => {
-                        console.log(xm.RootElement);
-                        let displayModeAsString = this.parseQueryString(location.search).d;
-                        let displayMode = XamlGLCore.DisplayMode.RenderMode;
-                        if (displayModeAsString !== undefined)
-                            displayMode = parseInt(displayModeAsString);
-                        let app = new XamlGLCore.App();
-                        app.Start(xm, renderElement, displayMode);
-                        this.ConfigureEditorLink(editorLinkElement);
-                        if (displayMode === XamlGLCore.DisplayMode.CodeMode) {
-                            this.HideRenderStack(renderElement, renderDetailsLayerElement);
-                            this.ConfigureEditor(editorElement, editorLinkElement, xm.RawData);
-                        }
-                    });
+            CodeEditor = class CodeEditor {
+                constructor() {
                 }
-                ConfigureEditor(codeEditorElement, string, data) {
+                static ConfigureEditor(codeEditorElement, string, data) {
                     let codeEditorEl = document.getElementById(codeEditorElement);
                     let editor = monaco.editor.create(codeEditorEl);
                     let xamlModel = monaco.editor.createModel(data, "html");
@@ -5973,26 +5897,42 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                         console.log(e);
                     });
                     editor.onDidChangeCursorPosition((e) => {
-                        console.log(xamlModel.getWordAtPosition(e.position));
-                        console.log(this.getValueAtPosition(xamlModel, e.position));
-                        console.log(this.findTagAtPosition(xamlModel, "attribute.name.html", e.position.lineNumber, e.position.column));
-                        console.log(this.findTagAtPosition(xamlModel, "tag.html", e.position.lineNumber, e.position.column));
+                        console.log(this.GetValueAtPosition(xamlModel, e.position));
                     });
                 }
-                findTagAtPosition(model, typeToSearchFor, lineNumber, column) {
+                static GetValueAtPosition(xamlModel, position) {
+                    let valueObj = this.getValueAtPosition(xamlModel, position);
+                    if (valueObj.tokenType === "attribute.value.html") {
+                        let typeObj = this.findTagAtPosition(xamlModel, "attribute.name.html", position);
+                        let classObj = this.findTagAtPosition(xamlModel, "tag.html", position);
+                        return {
+                            IsValue: true,
+                            Value: valueObj.tokenText,
+                            Attribute: typeObj.tokenText,
+                            Class: classObj.tokenText
+                        };
+                    }
+                    return {
+                        IsValue: false
+                    };
+                }
+                static ConfigureEditorLink(xamlCodeEditorLinkElement) {
+                    let aXamlCodeEditorLink = document.getElementById(xamlCodeEditorLinkElement);
+                    aXamlCodeEditorLink.href = `${location.search}&d=1`;
+                }
+                static findTagAtPosition(model, typeToSearchFor, position) {
+                    let lineNumber = position.lineNumber;
+                    let column = position.column;
+                    return this.findTagAtLineColumn(model, typeToSearchFor, lineNumber, column);
+                }
+                static findTagAtLineColumn(model, typeToSearchFor, lineNumber, column) {
                     let data = this.getTokensAtLine(lineNumber, model);
                     let dataLength = data.tokens1.length;
-                    let token1Index = 0;
-                    for (let i = dataLength - 1; i >= 0; i--) {
-                        let t = data.tokens1[i];
-                        if (column - 1 >= t.offset) {
-                            token1Index = i;
-                            break;
-                        }
-                    }
+                    let tokenIndex = this.getTokenIndex(data, column);
+                    let tokenType = data.tokens1[tokenIndex].type;
                     let associatedAttributeNameTokenIndex = null;
                     let associatedAttributeNameToken = null;
-                    for (let i = token1Index - 1; i >= 0; i--) {
+                    for (let i = tokenIndex - 1; i >= 0; i--) {
                         let t = data.tokens1[i];
                         if (t.type === typeToSearchFor) {
                             associatedAttributeNameToken = t;
@@ -6001,15 +5941,28 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                         }
                     }
                     if (associatedAttributeNameToken === null)
-                        return this.findTagAtPosition(model, typeToSearchFor, lineNumber - 1, column);
+                        return this.findTagAtLineColumn(model, typeToSearchFor, lineNumber - 1, column);
                     let tokenText = this.getTokenText(model, lineNumber, associatedAttributeNameTokenIndex, data);
                     return {
                         associatedAttributeNameToken: associatedAttributeNameToken,
                         associatedAttributeNameTokenIndex: associatedAttributeNameTokenIndex,
-                        tokenText: tokenText
+                        tokenText: tokenText,
+                        tokenType: associatedAttributeNameToken.type
                     };
                 }
-                getTokenText(model, lineNumber, index, data) {
+                static getTokenIndex(data, column) {
+                    let dataLength = data.tokens1.length;
+                    let tokenIndex = 0;
+                    for (let i = dataLength - 1; i >= 0; i--) {
+                        let t = data.tokens1[i];
+                        if (column - 1 >= t.offset) {
+                            tokenIndex = i;
+                            break;
+                        }
+                    }
+                    return tokenIndex;
+                }
+                static getTokenText(model, lineNumber, index, data) {
                     let lineContent = model.getLineContent(lineNumber);
                     let dataLength = data.tokens1.length;
                     let tokenText = '';
@@ -6020,7 +5973,34 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                     }
                     return tokenText;
                 }
-                getAttributeNameAtPosition(model, position) {
+                static getValueAtPosition(model, position) {
+                    let data = this.getTokensAtLine(position.lineNumber, model);
+                    let dataLength = data.tokens1.length;
+                    let tokenIndex = this.getTokenIndex(data, position.column);
+                    let tokenType = data.tokens1[tokenIndex].type;
+                    return {
+                        tokenType: tokenType,
+                        tokenText: this.getTokenText(model, position.lineNumber, tokenIndex, data)
+                    };
+                }
+                static getTokensAtLine(lineNumber, model) {
+                    let tokenizationSupport = model._tokens.tokenizationSupport;
+                    let state = tokenizationSupport.getInitialState();
+                    for (let i = 1; i < lineNumber; i++) {
+                        let tokenizationResult = tokenizationSupport.tokenize(model.getLineContent(i), state, 0);
+                        state = tokenizationResult.endState;
+                    }
+                    let stateBeforeLine = state;
+                    let tokenizationResult1 = tokenizationSupport.tokenize(model.getLineContent(lineNumber), stateBeforeLine, 0);
+                    let tokenizationResult2 = tokenizationSupport.tokenize2(model.getLineContent(lineNumber), stateBeforeLine, 0);
+                    return {
+                        startState: stateBeforeLine,
+                        tokens1: tokenizationResult1.tokens,
+                        tokens2: tokenizationResult2.tokens,
+                        endState: tokenizationResult1.endState
+                    };
+                }
+                static getAttributeNameAtPosition(model, position) {
                     let data = this.getTokensAtLine(position.lineNumber, model);
                     let dataLength = data.tokens1.length;
                     let token1Index = 0;
@@ -6060,39 +6040,107 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                     }
                     return tokenText;
                 }
-                getValueAtPosition(model, position) {
-                    let data = this.getTokensAtLine(position.lineNumber, model);
-                    let dataLength = data.tokens1.length;
-                    let token1Index = 0;
-                    for (let i = dataLength - 1; i >= 0; i--) {
-                        let t = data.tokens1[i];
-                        if (position.column - 1 >= t.offset) {
-                            token1Index = i;
-                            break;
+            };
+            CodeEditor = __decorate([
+                inversify_2.injectable(),
+                __metadata("design:paramtypes", [])
+            ], CodeEditor);
+            exports_83("CodeEditor", CodeEditor);
+        }
+    };
+});
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "services/CodeEditor", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_84, context_84) {
+    "use strict";
+    var _controls, inversify_3, Controls, DIContainer, DisplayMode;
+    var __moduleName = context_84 && context_84.id;
+    var exportedNames_1 = {
+        "Controls": true,
+        "DIContainer": true,
+        "DisplayMode": true
+    };
+    function exportStar_3(m) {
+        var exports = {};
+        for (var n in m) {
+            if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
+        }
+        exports_84(exports);
+    }
+    return {
+        setters: [
+            function (App_1_1) {
+                exportStar_3(App_1_1);
+            },
+            function (XamlReader_1_1) {
+                exportStar_3(XamlReader_1_1);
+            },
+            function (XamlParser_2_1) {
+                exportStar_3(XamlParser_2_1);
+            },
+            function (XamlMarkup_2_1) {
+                exportStar_3(XamlMarkup_2_1);
+            },
+            function (VisualTree_4_1) {
+                exportStar_3(VisualTree_4_1);
+            },
+            function (CodeEditor_1_1) {
+                exportStar_3(CodeEditor_1_1);
+            },
+            function (_controls_2) {
+                _controls = _controls_2;
+            },
+            function (inversify_3_1) {
+                inversify_3 = inversify_3_1;
+            },
+            function (Guid_2_1) {
+                exportStar_3(Guid_2_1);
+            }
+        ],
+        execute: function () {
+            exports_84("Controls", Controls = _controls);
+            exports_84("DIContainer", DIContainer = new inversify_3.Container());
+            (function (DisplayMode) {
+                DisplayMode[DisplayMode["RenderMode"] = 0] = "RenderMode";
+                DisplayMode[DisplayMode["CodeMode"] = 1] = "CodeMode";
+            })(DisplayMode || (DisplayMode = {}));
+            exports_84("DisplayMode", DisplayMode);
+        }
+    };
+});
+System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_85, context_85) {
+    "use strict";
+    var XamlGLCore, XamlApp;
+    var __moduleName = context_85 && context_85.id;
+    return {
+        setters: [
+            function (_14) {
+            },
+            function (XamlGLCore_1) {
+                XamlGLCore = XamlGLCore_1;
+            }
+        ],
+        execute: function () {
+            XamlApp = class XamlApp {
+                Start(renderElement, renderDetailsLayerElement, editorElement, editorLinkElement) {
+                    this.Configure();
+                    let xaml = this.parseQueryString(location.search).xaml;
+                    if (!xaml) {
+                        console.warn("No application specified.");
+                        return;
+                    }
+                    let xm = XamlGLCore.XamlReader.LoadUri(`/xaml/${xaml}`, (el) => {
+                        console.log(xm.RootElement);
+                        let displayModeAsString = this.parseQueryString(location.search).d;
+                        let displayMode = XamlGLCore.DisplayMode.RenderMode;
+                        if (displayModeAsString !== undefined)
+                            displayMode = parseInt(displayModeAsString);
+                        let app = new XamlGLCore.App();
+                        app.Start(xm, renderElement, displayMode);
+                        XamlGLCore.CodeEditor.ConfigureEditorLink(editorLinkElement);
+                        if (displayMode === XamlGLCore.DisplayMode.CodeMode) {
+                            this.HideRenderStack(renderElement, renderDetailsLayerElement);
+                            XamlGLCore.CodeEditor.ConfigureEditor(editorElement, editorLinkElement, xm.RawData);
                         }
-                    }
-                    return this.getTokenText(model, position.lineNumber, token1Index, data);
-                }
-                getTokensAtLine(lineNumber, model) {
-                    let tokenizationSupport = model._tokens.tokenizationSupport;
-                    let state = tokenizationSupport.getInitialState();
-                    for (let i = 1; i < lineNumber; i++) {
-                        let tokenizationResult = tokenizationSupport.tokenize(model.getLineContent(i), state, 0);
-                        state = tokenizationResult.endState;
-                    }
-                    let stateBeforeLine = state;
-                    let tokenizationResult1 = tokenizationSupport.tokenize(model.getLineContent(lineNumber), stateBeforeLine, 0);
-                    let tokenizationResult2 = tokenizationSupport.tokenize2(model.getLineContent(lineNumber), stateBeforeLine, 0);
-                    return {
-                        startState: stateBeforeLine,
-                        tokens1: tokenizationResult1.tokens,
-                        tokens2: tokenizationResult2.tokens,
-                        endState: tokenizationResult1.endState
-                    };
-                }
-                ConfigureEditorLink(xamlCodeEditorLinkElement) {
-                    let aXamlCodeEditorLink = document.getElementById(xamlCodeEditorLinkElement);
-                    aXamlCodeEditorLink.href = `${location.search}&d=1`;
+                    });
                 }
                 HideRenderStack(canvasElement, canvasDetailsLayerElement) {
                     let canvasEl = document.getElementById(canvasElement);
@@ -6110,7 +6158,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                     return urlParams;
                 }
             };
-            exports_84("XamlApp", XamlApp);
+            exports_85("XamlApp", XamlApp);
         }
     };
 });
