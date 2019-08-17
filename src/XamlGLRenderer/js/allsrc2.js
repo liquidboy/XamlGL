@@ -4975,6 +4975,10 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                 get CameraName() { return this._cameraName; }
                 get LightName() { return this._lightName; }
                 get ClearColor() { return this._clearColor; }
+                set GroundName(value) { this._groundName = value; }
+                set CameraName(value) { this._cameraName = value; }
+                set LightName(value) { this._lightName = value; }
+                set ClearColor(value) { this._clearColor = value; }
                 constructor() {
                     super();
                 }
@@ -4994,13 +4998,13 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                     if (node.hasAttribute("Camera"))
-                        this._cameraName = node.attributes["Camera"].value;
+                        this.SetValue("CameraName", node.attributes["Camera"].value);
                     if (node.hasAttribute("Light"))
-                        this._lightName = node.attributes["Light"].value;
+                        this.SetValue("LightName", node.attributes["Light"].value);
                     if (node.hasAttribute("Ground"))
-                        this._groundName = node.attributes["Ground"].value;
+                        this.SetValue("GroundName", node.attributes["Ground"].value);
                     if (node.hasAttribute("ClearColor"))
-                        this._clearColor = eval(this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value));
+                        this.SetValue("ClearColor", eval(this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value)));
                 }
                 cleanBabylonColor3Attribute(color3) {
                     if (color3.includes("Color3."))
@@ -5613,6 +5617,9 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                         this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true';
                     }
                     catch (e) { }
+                }
+                SetValue(property, value) {
+                    this[property] = value;
                 }
                 Initialize() {
                 }

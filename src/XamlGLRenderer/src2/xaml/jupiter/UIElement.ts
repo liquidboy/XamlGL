@@ -75,6 +75,10 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         try { this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true'; } catch (e) { }
     }
 
+    protected SetValue(property: string, value: any): void {
+        this[property] = value;
+    } 
+
     // always call this after the parents initialize has run
     Initialize(): void {
         
