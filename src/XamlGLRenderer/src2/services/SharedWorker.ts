@@ -6,10 +6,10 @@ declare var TabUtils: any;
 export class SharedWorker {
 
     constructor() {
-
+        this.Init();
     }
 
-    public Init() {
+    private Init() {
         try {
             // console.log("SharedWorker:init");
             TabUtils.OnBroadcastMessage("storage-event", (topicStr: string, data: any) => {

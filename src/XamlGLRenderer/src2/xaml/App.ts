@@ -3,7 +3,9 @@ import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement } from "./jupiter/Core";
 import { Panel } from "./jupiter/controls/Core";
 import { VisualTree } from "../services/VisualTree";
-import { DIContainer, DisplayMode, Worker } from "./Core";
+import { SharedWorker } from "../services/SharedWorker";
+import { DIContainer, DisplayMode } from "./Core";
+
 
 export class App {
     private xamlMarkup: XamlMarkup;
@@ -14,6 +16,7 @@ export class App {
     }
 
     public Start(xaml: XamlMarkup, canvasElement: string, displayMode: DisplayMode): void {
+        this.InitializeDIContainerCore();
         if (displayMode == DisplayMode.CodeMode) return; //just codeeditor view
         this.xamlMarkup = xaml;
         let _canvas = document.getElementById(canvasElement) as HTMLCanvasElement;
@@ -24,14 +27,15 @@ export class App {
             _engine.resize();
         });
 
-        Worker.Init();
-        this.InitializeDIContainer(_canvas, _engine);
+        this.InitializeDIContainerXaml(_canvas, _engine);
         this.BuildVisualTree();
         this.RenderScene();
         
     }
-
-    private InitializeDIContainer(rootCanvas: HTMLCanvasElement, rootEngine: BABYLON.Engine): void {
+    private InitializeDIContainerCore(): void {
+        DIContainer.bind<SharedWorker>(SharedWorker).to(SharedWorker).inSingletonScope();
+    }
+    private InitializeDIContainerXaml(rootCanvas: HTMLCanvasElement, rootEngine: BABYLON.Engine): void {
         DIContainer.bind<VisualTree>(VisualTree).to(VisualTree).inSingletonScope();
         DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
         DIContainer.bind("rootEngine").toConstantValue(rootEngine);

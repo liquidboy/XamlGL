@@ -3,6 +3,7 @@
 
 import "reflect-metadata";  // <--- needs to be done before xaml framework is imported because they use it
 import * as XamlGLCore from "../Xaml/Core";
+//import { SharedWorker } from "../Xaml/Core";
 //import { editor, Position } from "monaco-editor";
 
 export class XamlApp {
@@ -31,10 +32,11 @@ export class XamlApp {
                 let app: XamlGLCore.App = new XamlGLCore.App();
                 app.Start(xm, renderElement, displayMode);
 
+                let worker: XamlGLCore.SharedWorker = XamlGLCore.DIContainer.get(XamlGLCore.SharedWorker);
                 XamlGLCore.CodeEditor.ConfigureEditorLink(editorLinkElement);
                 if (displayMode === XamlGLCore.DisplayMode.CodeMode) {
                     this.HideRenderStack(renderElement, renderDetailsLayerElement);
-                    XamlGLCore.CodeEditor.ConfigureEditor(editorElement, editorLinkElement, xm.RawData, XamlGLCore.Worker);
+                    XamlGLCore.CodeEditor.ConfigureEditor(editorElement, editorLinkElement, xm.RawData, worker);
                     //this.ConfigureEditor(editorElement, editorLinkElement, xm.RawData);
                 }
             });
