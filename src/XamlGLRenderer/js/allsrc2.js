@@ -5905,11 +5905,13 @@ System.register("services/CodeEditor", ["inversify"], function (exports_83, cont
                     if (valueObj.tokenType === "attribute.value.html") {
                         let typeObj = this.findTagAtPosition(xamlModel, "attribute.name.html", position);
                         let classObj = this.findTagAtPosition(xamlModel, "tag.html", position);
+                        let xName = this.findXNameAttribute(xamlModel, classObj.tokenLinePosition, classObj.associatedAttributeNameTokenIndex);
                         return {
                             IsValue: true,
                             Value: valueObj.tokenText,
                             Attribute: typeObj.tokenText,
-                            Class: classObj.tokenText
+                            Class: classObj.tokenText,
+                            XName: xName
                         };
                     }
                     return {
@@ -5919,6 +5921,41 @@ System.register("services/CodeEditor", ["inversify"], function (exports_83, cont
                 static ConfigureEditorLink(xamlCodeEditorLinkElement) {
                     let aXamlCodeEditorLink = document.getElementById(xamlCodeEditorLinkElement);
                     aXamlCodeEditorLink.href = `${location.search}&d=1`;
+                }
+                static findXNameAttribute(model, lineToStartFrom, positionOnLineToStartFrom) {
+                    let data = this.getTokensAtLine(lineToStartFrom, model);
+                    let dataLength = data.tokens1.length;
+                    for (let i = positionOnLineToStartFrom; i <= dataLength - 1; i++) {
+                        let t = data.tokens1[i];
+                        if (t.type === "attribute.name.html") {
+                            let tokenText = this.getTokenText(model, lineToStartFrom, i, data);
+                            if (tokenText === "x") {
+                                let found = true;
+                                let j = i;
+                                j++;
+                                j++;
+                                if (j > dataLength - 1)
+                                    break;
+                                let x = data.tokens1[j];
+                                if (x.type === "attribute.name.html") {
+                                    let tokenTextX = this.getTokenText(model, lineToStartFrom, j, data);
+                                    if (tokenTextX === "Name") {
+                                        let found2 = true;
+                                        j++;
+                                        j++;
+                                        if (j > dataLength - 1)
+                                            break;
+                                        x = data.tokens1[j];
+                                        if (x.type === "attribute.value.html") {
+                                            return this.getTokenText(model, lineToStartFrom, j, data);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return null;
                 }
                 static findTagAtPosition(model, typeToSearchFor, position) {
                     let lineNumber = position.lineNumber;
@@ -5932,12 +5969,18 @@ System.register("services/CodeEditor", ["inversify"], function (exports_83, cont
                     let tokenType = data.tokens1[tokenIndex].type;
                     let associatedAttributeNameTokenIndex = null;
                     let associatedAttributeNameToken = null;
-                    for (let i = tokenIndex - 1; i >= 0; i--) {
-                        let t = data.tokens1[i];
-                        if (t.type === typeToSearchFor) {
-                            associatedAttributeNameToken = t;
-                            associatedAttributeNameTokenIndex = i;
-                            break;
+                    if (tokenType === typeToSearchFor) {
+                        associatedAttributeNameTokenIndex = tokenIndex;
+                        associatedAttributeNameToken = data.tokens1[tokenIndex];
+                    }
+                    else {
+                        for (let i = tokenIndex - 1; i >= 0; i--) {
+                            let t = data.tokens1[i];
+                            if (t.type === typeToSearchFor) {
+                                associatedAttributeNameToken = t;
+                                associatedAttributeNameTokenIndex = i;
+                                break;
+                            }
                         }
                     }
                     if (associatedAttributeNameToken === null)
@@ -5947,7 +5990,8 @@ System.register("services/CodeEditor", ["inversify"], function (exports_83, cont
                         associatedAttributeNameToken: associatedAttributeNameToken,
                         associatedAttributeNameTokenIndex: associatedAttributeNameTokenIndex,
                         tokenText: tokenText,
-                        tokenType: associatedAttributeNameToken.type
+                        tokenType: associatedAttributeNameToken.type,
+                        tokenLinePosition: lineNumber
                     };
                 }
                 static getTokenIndex(data, column) {
