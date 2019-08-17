@@ -4986,8 +4986,8 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     let engine = Core_12.DIContainer.get("rootEngine");
                     let canvas = Core_12.DIContainer.get("rootCanvas");
                     this.Ctrl = new BABYLON.Scene(engine);
-                    if (this._clearColor)
-                        this.Ctrl.clearColor = this.convertColor3ToColor4(this._clearColor);
+                    if (this.HasValue(this.ClearColor))
+                        this.Ctrl.clearColor = this.convertColor3ToColor4(this.ClearColor);
                     SceneMouseWheelZoom_1.SceneMouseWheelZoom.Install(this);
                     new MoveSelectedMesh_1.MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
                     engine.runRenderLoop(() => {
@@ -5004,12 +5004,10 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     if (node.hasAttribute("Ground"))
                         this.SetValue("GroundName", node.attributes["Ground"].value);
                     if (node.hasAttribute("ClearColor"))
-                        this.SetValue("ClearColor", eval(this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value)));
+                        this.SetValue("ClearColor", this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value));
                 }
                 cleanBabylonColor3Attribute(color3) {
-                    if (color3.includes("Color3."))
-                        return `BABYLON.${color3};`;
-                    return `new BABYLON.${color3};`;
+                    return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`);
                 }
                 convertColor3ToColor4(color) {
                     return new BABYLON.Color4(color.r, color.g, color.b, 1);
@@ -5205,6 +5203,11 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 get ShowNormalLines() { return this._showNormalLines; }
                 get Segments() { return this._segments; }
                 get Diameter() { return this._diameter; }
+                set SceneName(value) { this._sceneName = value; }
+                set MaterialName(value) { this._materialName = value; }
+                set ShowNormalLines(value) { this._showNormalLines = value; }
+                set Segments(value) { this._segments = value; }
+                set Diameter(value) { this._diameter = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
@@ -5219,26 +5222,16 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._materialName = node.attributes["Material"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._segments = parseInt(node.attributes["Segments"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._diameter = parseFloat(node.attributes["Diameter"].value);
-                    }
-                    catch (e) { }
+                    if (node.hasAttribute("Scene"))
+                        this.SetValue("SceneName", node.attributes["Scene"].value);
+                    if (node.hasAttribute("Material"))
+                        this.SetValue("MaterialName", node.attributes["Material"].value);
+                    if (node.hasAttribute("ShowNormalLines"))
+                        this.SetValue("ShowNormalLines", node.attributes["ShowNormalLines"].value.toLowerCase() === 'true');
+                    if (node.hasAttribute("Segments"))
+                        this.SetValue("Segments", parseInt(node.attributes["Segments"].value));
+                    if (node.hasAttribute("Diameter"))
+                        this.SetValue("Diameter", parseFloat(node.attributes["Diameter"].value));
                 }
             };
             exports_73("Sphere", Sphere);
@@ -5620,6 +5613,9 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 }
                 SetValue(property, value) {
                     this[property] = value;
+                }
+                HasValue(property) {
+                    return (property !== null && property !== undefined) ? true : false;
                 }
                 Initialize() {
                 }

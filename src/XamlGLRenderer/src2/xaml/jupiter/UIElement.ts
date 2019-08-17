@@ -79,6 +79,10 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         this[property] = value;
     } 
 
+    protected HasValue(property: any): boolean {
+        return (property !== null && property !== undefined) ? true : false;
+    }
+
     // always call this after the parents initialize has run
     Initialize(): void {
         

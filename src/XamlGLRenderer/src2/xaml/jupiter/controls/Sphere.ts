@@ -15,6 +15,12 @@ export class Sphere extends UIElement {
     get Segments(): number { return this._segments; }
     get Diameter(): number { return this._diameter; }    
 
+    set SceneName(value: string) { this._sceneName = value; }
+    set MaterialName(value: string) { this._materialName = value; }
+    set ShowNormalLines(value: boolean) { this._showNormalLines = value; }
+    set Segments(value: number) { this._segments = value; }
+    set Diameter(value: number) { this._diameter = value; }    
+
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         let material: Material = this.VT.Get(this.MaterialName) as Material;
@@ -30,10 +36,11 @@ export class Sphere extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
-        try { this._materialName = node.attributes["Material"].value; } catch (e) { }
-        try { this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true'; } catch (e) { }
-        try { this._segments = parseInt(node.attributes["Segments"].value); } catch (e) { }
-        try { this._diameter = parseFloat(node.attributes["Diameter"].value); } catch (e) { }
+
+        if (node.hasAttribute("Scene")) this.SetValue("SceneName", node.attributes["Scene"].value);
+        if (node.hasAttribute("Material")) this.SetValue("MaterialName", node.attributes["Material"].value);
+        if (node.hasAttribute("ShowNormalLines")) this.SetValue("ShowNormalLines", node.attributes["ShowNormalLines"].value.toLowerCase() === 'true');
+        if (node.hasAttribute("Segments")) this.SetValue("Segments", parseInt(node.attributes["Segments"].value));
+        if (node.hasAttribute("Diameter")) this.SetValue("Diameter", parseFloat(node.attributes["Diameter"].value));
     }
 }
