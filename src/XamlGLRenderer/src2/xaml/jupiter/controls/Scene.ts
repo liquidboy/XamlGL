@@ -41,10 +41,11 @@ export class Scene extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._cameraName = node.attributes["Camera"].value; } catch(e) { }
-        try { this._lightName = node.attributes["Light"].value; } catch (e) { }
-        try { this._groundName = node.attributes["Ground"].value; } catch (e) { }
-        try { this._clearColor = eval(this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value)); } catch (e) { }
+
+        if (node.hasAttribute("Camera")) this._cameraName = node.attributes["Camera"].value;
+        if (node.hasAttribute("Light")) this._lightName = node.attributes["Light"].value;
+        if (node.hasAttribute("Ground")) this._groundName = node.attributes["Ground"].value;
+        if (node.hasAttribute("ClearColor")) this._clearColor = eval(this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value));
     }
 
     private cleanBabylonColor3Attribute(color3: string): string {

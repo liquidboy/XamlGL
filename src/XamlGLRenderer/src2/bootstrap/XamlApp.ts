@@ -34,7 +34,7 @@ export class XamlApp {
                 XamlGLCore.CodeEditor.ConfigureEditorLink(editorLinkElement);
                 if (displayMode === XamlGLCore.DisplayMode.CodeMode) {
                     this.HideRenderStack(renderElement, renderDetailsLayerElement);
-                    XamlGLCore.CodeEditor.ConfigureEditor(editorElement, editorLinkElement, xm.RawData);
+                    XamlGLCore.CodeEditor.ConfigureEditor(editorElement, editorLinkElement, xm.RawData, XamlGLCore.Worker);
                     //this.ConfigureEditor(editorElement, editorLinkElement, xm.RawData);
                 }
             });

@@ -75,6 +75,7 @@
         }
     </style>
 
+    <script src="./js/tabutils.js"></script>
     <script src="./node_modules/systemjs/dist/system.js"></script>
     <script src="./js/jquery.min.js"></script>
 
@@ -128,8 +129,7 @@
             sampleHelp.innerHTML = titleHelp;
         }
 
-        require( [ 'vs/editor/editor.main' ], () =>
-        { 
+        require(['vs/editor/editor.main'], () => {
             loadApp("renderCanvas", "renderCanvasDetailsLayer", "codeEditor", "xamlCodeEditor");
         })
     </script>
@@ -156,6 +156,7 @@
             <a href="/index2.html?xaml=sample-bjs-12.xap&v=1&t=12">12</a>
             <a href="/index2.html?xaml=sample-bjs-13.xap&v=1&t=13">13</a>
             <a href="/index2.html?xaml=sample-bjs-14.xap&v=1&t=14">14</a>
+            <a href="/index2.html?xaml=sample-bjs-15.xap&v=1&t=15">15</a>
         </div>
         <div class="samples-base copyright">BabylonJS + XAML  </div>
         <div class="samples-base copyright-note"><a id="xamlCodeEditor" href="#" target="_blank" class="code-editor-link">click to see the xaml code</a></div>

@@ -81,6 +81,7 @@
     <Content Include="js\jquery.min.js" />
     <Content Include="js\jquery.slim.min.js" />
     <Content Include="js\pixi.min.js" />
+    <Content Include="js\tabutils.js" />
     <Content Include="js\typescript-collections\umd.min.js" />
     <Content Include="node_modules\babylonjs-gui\babylon.gui.js" />
     <Content Include="node_modules\babylonjs-gui\babylon.gui.min.js" />
@@ -1143,6 +1144,7 @@
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\Stack.ts" />
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src2\services\CodeEditor.ts" />
+    <TypeScriptCompile Include="src2\services\SharedWorker.ts" />
     <TypeScriptCompile Include="src2\services\VisualTree.ts" />
     <TypeScriptCompile Include="src2\xaml\App.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\CustomScript.ts" />
@@ -1533,6 +1535,7 @@
     <Content Include="xaml\sample-bjs-12.xap" />
     <Content Include="xaml\sample-bjs-13.xap" />
     <Content Include="xaml\sample-bjs-14.xap" />
+    <Content Include="xaml\sample-bjs-15.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

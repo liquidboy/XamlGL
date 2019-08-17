@@ -4993,22 +4993,14 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
+                    if (node.hasAttribute("Camera"))
                         this._cameraName = node.attributes["Camera"].value;
-                    }
-                    catch (e) { }
-                    try {
+                    if (node.hasAttribute("Light"))
                         this._lightName = node.attributes["Light"].value;
-                    }
-                    catch (e) { }
-                    try {
+                    if (node.hasAttribute("Ground"))
                         this._groundName = node.attributes["Ground"].value;
-                    }
-                    catch (e) { }
-                    try {
+                    if (node.hasAttribute("ClearColor"))
                         this._clearColor = eval(this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value));
-                    }
-                    catch (e) { }
                 }
                 cleanBabylonColor3Attribute(color3) {
                     if (color3.includes("Color3."))
@@ -5796,6 +5788,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     window.addEventListener("resize", () => {
                         _engine.resize();
                     });
+                    Core_17.Worker.Init();
                     this.InitializeDIContainer(_canvas, _engine);
                     this.BuildVisualTree();
                     this.RenderScene();
@@ -5874,21 +5867,24 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
         }
     };
 });
-System.register("services/CodeEditor", ["inversify"], function (exports_83, context_83) {
+System.register("services/CodeEditor", ["inversify", "Xaml/Core"], function (exports_83, context_83) {
     "use strict";
-    var inversify_2, CodeEditor;
+    var inversify_2, Core_18, CodeEditor;
     var __moduleName = context_83 && context_83.id;
     return {
         setters: [
             function (inversify_2_1) {
                 inversify_2 = inversify_2_1;
+            },
+            function (Core_18_1) {
+                Core_18 = Core_18_1;
             }
         ],
         execute: function () {
             CodeEditor = class CodeEditor {
                 constructor() {
                 }
-                static ConfigureEditor(codeEditorElement, string, data) {
+                static ConfigureEditor(codeEditorElement, string, data, worker) {
                     let codeEditorEl = document.getElementById(codeEditorElement);
                     let editor = monaco.editor.create(codeEditorEl);
                     let xamlModel = monaco.editor.createModel(data, "html");
@@ -5897,7 +5893,9 @@ System.register("services/CodeEditor", ["inversify"], function (exports_83, cont
                         console.log(e);
                     });
                     editor.onDidChangeCursorPosition((e) => {
-                        console.log(this.GetValueAtPosition(xamlModel, e.position));
+                        let valueUnderPosition = this.GetValueAtPosition(xamlModel, e.position);
+                        console.log(valueUnderPosition);
+                        worker.RaiseTopic(Core_18.Topics.RefreshVisualTree, valueUnderPosition);
                     });
                 }
                 static GetValueAtPosition(xamlModel, position) {
@@ -5911,7 +5909,7 @@ System.register("services/CodeEditor", ["inversify"], function (exports_83, cont
                             Value: valueObj.tokenText,
                             Attribute: typeObj.tokenText,
                             Class: classObj.tokenText,
-                            XName: xName
+                            ClassXName: xName
                         };
                     }
                     return {
@@ -6093,13 +6091,66 @@ System.register("services/CodeEditor", ["inversify"], function (exports_83, cont
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "services/CodeEditor", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_84, context_84) {
+System.register("services/SharedWorker", ["inversify"], function (exports_84, context_84) {
     "use strict";
-    var _controls, inversify_3, Controls, DIContainer, DisplayMode;
+    var inversify_3, SharedWorker, Topics;
     var __moduleName = context_84 && context_84.id;
+    return {
+        setters: [
+            function (inversify_3_1) {
+                inversify_3 = inversify_3_1;
+            }
+        ],
+        execute: function () {
+            SharedWorker = class SharedWorker {
+                constructor() {
+                }
+                Init() {
+                    try {
+                        TabUtils.OnBroadcastMessage("storage-event", (topicStr, data) => {
+                            if (topicStr !== "") {
+                                let topic = Topics[topicStr];
+                                switch (topic) {
+                                    case Topics.ReloadTabs:
+                                        window.location.reload(false);
+                                        break;
+                                    case Topics.RefreshVisualTree:
+                                        console.log(data);
+                                }
+                            }
+                        });
+                    }
+                    catch (e) { }
+                }
+                RaiseTopic(topic, data) {
+                    try {
+                        TabUtils.BroadcastMessageToAllTabs("storage-event", "", "");
+                        TabUtils.BroadcastMessageToAllTabs("storage-event", Topics[topic], data);
+                    }
+                    catch (e) { }
+                }
+            };
+            SharedWorker = __decorate([
+                inversify_3.injectable(),
+                __metadata("design:paramtypes", [])
+            ], SharedWorker);
+            exports_84("SharedWorker", SharedWorker);
+            (function (Topics) {
+                Topics[Topics["RefreshVisualTree"] = 0] = "RefreshVisualTree";
+                Topics[Topics["ReloadTabs"] = 1] = "ReloadTabs";
+            })(Topics || (Topics = {}));
+            exports_84("Topics", Topics);
+        }
+    };
+});
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "services/CodeEditor", "services/SharedWorker", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_85, context_85) {
+    "use strict";
+    var _controls, inversify_4, SharedWorker_1, Controls, DIContainer, Worker, DisplayMode;
+    var __moduleName = context_85 && context_85.id;
     var exportedNames_1 = {
         "Controls": true,
         "DIContainer": true,
+        "Worker": true,
         "DisplayMode": true
     };
     function exportStar_3(m) {
@@ -6107,7 +6158,7 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
         for (var n in m) {
             if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
         }
-        exports_84(exports);
+        exports_85(exports);
     }
     return {
         setters: [
@@ -6129,31 +6180,36 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             function (CodeEditor_1_1) {
                 exportStar_3(CodeEditor_1_1);
             },
+            function (SharedWorker_2_1) {
+                exportStar_3(SharedWorker_2_1);
+                SharedWorker_1 = SharedWorker_2_1;
+            },
             function (_controls_2) {
                 _controls = _controls_2;
             },
-            function (inversify_3_1) {
-                inversify_3 = inversify_3_1;
+            function (inversify_4_1) {
+                inversify_4 = inversify_4_1;
             },
             function (Guid_2_1) {
                 exportStar_3(Guid_2_1);
             }
         ],
         execute: function () {
-            exports_84("Controls", Controls = _controls);
-            exports_84("DIContainer", DIContainer = new inversify_3.Container());
+            exports_85("Controls", Controls = _controls);
+            exports_85("DIContainer", DIContainer = new inversify_4.Container());
+            exports_85("Worker", Worker = new SharedWorker_1.SharedWorker());
             (function (DisplayMode) {
                 DisplayMode[DisplayMode["RenderMode"] = 0] = "RenderMode";
                 DisplayMode[DisplayMode["CodeMode"] = 1] = "CodeMode";
             })(DisplayMode || (DisplayMode = {}));
-            exports_84("DisplayMode", DisplayMode);
+            exports_85("DisplayMode", DisplayMode);
         }
     };
 });
-System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_85, context_85) {
+System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_86, context_86) {
     "use strict";
     var XamlGLCore, XamlApp;
-    var __moduleName = context_85 && context_85.id;
+    var __moduleName = context_86 && context_86.id;
     return {
         setters: [
             function (_14) {
@@ -6182,7 +6238,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                         XamlGLCore.CodeEditor.ConfigureEditorLink(editorLinkElement);
                         if (displayMode === XamlGLCore.DisplayMode.CodeMode) {
                             this.HideRenderStack(renderElement, renderDetailsLayerElement);
-                            XamlGLCore.CodeEditor.ConfigureEditor(editorElement, editorLinkElement, xm.RawData);
+                            XamlGLCore.CodeEditor.ConfigureEditor(editorElement, editorLinkElement, xm.RawData, XamlGLCore.Worker);
                         }
                     });
                 }
@@ -6202,7 +6258,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                     return urlParams;
                 }
             };
-            exports_85("XamlApp", XamlApp);
+            exports_86("XamlApp", XamlApp);
         }
     };
 });

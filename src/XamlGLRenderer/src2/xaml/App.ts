@@ -3,7 +3,7 @@ import { XamlParser } from "./reader/XamlParser";
 import { IFrameworkElement, UIElement, UIElementCollection, IChildrensElement, AnimatableUIElement, IAnimatableUIElement } from "./jupiter/Core";
 import { Panel } from "./jupiter/controls/Core";
 import { VisualTree } from "../services/VisualTree";
-import { DIContainer, DisplayMode } from "./Core";
+import { DIContainer, DisplayMode, Worker } from "./Core";
 
 export class App {
     private xamlMarkup: XamlMarkup;
@@ -24,6 +24,7 @@ export class App {
             _engine.resize();
         });
 
+        Worker.Init();
         this.InitializeDIContainer(_canvas, _engine);
         this.BuildVisualTree();
         this.RenderScene();

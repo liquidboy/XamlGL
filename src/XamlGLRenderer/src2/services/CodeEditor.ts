@@ -1,6 +1,6 @@
-﻿import { injectable } from  "inversify";
-import { Dictionary } from "../libs/typescript-collections/src/lib";
-import { UIElement } from "../Xaml/jupiter/Core";
+﻿import { injectable } from "inversify";
+import { SharedWorker, Topics } from "../Xaml/Core";
+
 
 @injectable()
 export class CodeEditor {
@@ -9,7 +9,7 @@ export class CodeEditor {
     
     }
 
-    public static ConfigureEditor(codeEditorElement: string, string, data: string): void {
+    public static ConfigureEditor(codeEditorElement: string, string, data: string, worker: SharedWorker): void {
         let codeEditorEl = document.getElementById(codeEditorElement) as HTMLElement;
         let editor = monaco.editor.create(codeEditorEl);
         let xamlModel = monaco.editor.createModel(data, "html");
@@ -24,7 +24,9 @@ export class CodeEditor {
             ////console.log(this.getAttributeNameAtPosition(xamlModel, e.position));
             //console.log(this.findTagAtPosition(xamlModel, "attribute.name.html", e.position));
             //console.log(this.findTagAtPosition(xamlModel, "tag.html", e.position));
-            console.log(this.GetValueAtPosition(xamlModel, e.position));
+            let valueUnderPosition = this.GetValueAtPosition(xamlModel, e.position);
+            console.log(valueUnderPosition);
+            worker.RaiseTopic(Topics.RefreshVisualTree, valueUnderPosition);
         });
 
         //monaco.editor.setModelLanguage(text)
@@ -45,7 +47,7 @@ export class CodeEditor {
                 Value: valueObj.tokenText,
                 Attribute: typeObj.tokenText,
                 Class: classObj.tokenText,
-                XName: xName
+                ClassXName: xName
             }
         }
         return {
