@@ -4403,65 +4403,51 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                 get DiffuseColor() { return this._diffuseColor; }
                 get SpecularColor() { return this._specularColor; }
                 get Intensity() { return this._intensity; }
+                set SceneName(value) { this._sceneName = value; }
+                set Direction(value) { this._direction = value; }
+                set Type(value) { this._type = value; }
+                set DiffuseColor(value) { this._diffuseColor = value; }
+                set SpecularColor(value) { this._specularColor = value; }
+                set Intensity(value) { this._intensity = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     if (this._type === "HemisphericLight") {
                         let pl = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
-                        if (this._intensity !== undefined)
-                            pl.intensity = this._intensity;
+                        if (this.HasValue(this.Intensity))
+                            pl.intensity = this.Intensity;
                         this.Ctrl = pl;
                     }
                     else if (this._type === "PointLight") {
                         let pl = new BABYLON.PointLight(this.Name, this._direction, scene.Ctrl);
-                        if (this._diffuseColor !== undefined)
-                            pl.diffuse = this._diffuseColor;
-                        if (this._specularColor !== undefined)
-                            pl.specular = this._specularColor;
-                        if (this._intensity !== undefined)
-                            pl.intensity = this._intensity;
+                        if (this.HasValue(this.DiffuseColor))
+                            pl.diffuse = this.DiffuseColor;
+                        if (this.HasValue(this.SpecularColor))
+                            pl.specular = this.SpecularColor;
+                        if (this.HasValue(this.Intensity))
+                            pl.intensity = this.Intensity;
                         this.Ctrl = pl;
                     }
                     else if (this._type === "DirectionalLight") {
                         let pl = new BABYLON.DirectionalLight(this.Name, this._direction, scene.Ctrl);
-                        if (this._diffuseColor !== undefined)
-                            pl.diffuse = this._diffuseColor;
-                        if (this._specularColor !== undefined)
-                            pl.specular = this._specularColor;
+                        if (this.HasValue(this.DiffuseColor))
+                            pl.diffuse = this.DiffuseColor;
+                        if (this.HasValue(this.SpecularColor))
+                            pl.specular = this.SpecularColor;
                         this.Ctrl = pl;
                     }
                     this.PostInitialize();
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (_a) { }
+                    this.SetValueFromNode(node, "Scene", "SceneName");
                     try {
                         this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`);
                     }
                     catch (e) { }
-                    try {
-                        this._type = node.attributes["Type"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value));
-                    }
-                    catch (e) { }
-                    try {
-                        this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value));
-                    }
-                    catch (e) { }
-                    try {
-                        this._intensity = parseFloat(node.attributes["Intensity"].value);
-                    }
-                    catch (e) { }
-                }
-                cleanBabylonColor3Attribute(color3) {
-                    if (color3.includes("Color3."))
-                        return `BABYLON.${color3};`;
-                    return `new BABYLON.${color3};`;
+                    this.SetValueFromNode(node, "Type", "Type");
+                    this.SetFnValueFromNode(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
+                    this.SetFnValueFromNode(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
+                    this.SetFnValueFromNode(node, "Intensity", "Intensity", parseFloat);
                 }
             };
             exports_63("Light", Light);

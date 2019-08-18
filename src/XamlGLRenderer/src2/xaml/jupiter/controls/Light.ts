@@ -15,24 +15,31 @@ export class Light extends UIElement {
     get DiffuseColor(): BABYLON.Color3 { return this._diffuseColor; }
     get SpecularColor(): BABYLON.Color3 { return this._specularColor; }
     get Intensity(): number { return this._intensity; }
-    
+
+    set SceneName(value: string) { this._sceneName = value; }
+    set Direction(value: BABYLON.Vector3) { this._direction = value; }
+    set Type(value: string) { this._type = value; }
+    set DiffuseColor(value: BABYLON.Color3) { this._diffuseColor = value; }
+    set SpecularColor(value: BABYLON.Color3) { this._specularColor = value; }
+    set Intensity(value: number) { this._intensity = value; }
+
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
 
         if (this._type === "HemisphericLight") {
             let pl: BABYLON.HemisphericLight  = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
-            if (this._intensity !== undefined) pl.intensity = this._intensity;
+            if (this.HasValue(this.Intensity)) pl.intensity = this.Intensity;
             this.Ctrl = pl;
         } else if (this._type === "PointLight") {
             let pl: BABYLON.Light = new BABYLON.PointLight(this.Name, this._direction, scene.Ctrl);
-            if (this._diffuseColor !== undefined) pl.diffuse = this._diffuseColor; 
-            if (this._specularColor !== undefined) pl.specular = this._specularColor;
-            if (this._intensity !== undefined) pl.intensity = this._intensity;
+            if (this.HasValue(this.DiffuseColor)) pl.diffuse = this.DiffuseColor; 
+            if (this.HasValue(this.SpecularColor)) pl.specular = this.SpecularColor;
+            if (this.HasValue(this.Intensity)) pl.intensity = this.Intensity;
             this.Ctrl = pl;
         } else if (this._type === "DirectionalLight") {
             let pl: BABYLON.Light = new BABYLON.DirectionalLight(this.Name, this._direction, scene.Ctrl);
-            if (this._diffuseColor !== undefined) pl.diffuse = this._diffuseColor;
-            if (this._specularColor !== undefined) pl.specular = this._specularColor;
+            if (this.HasValue(this.DiffuseColor)) pl.diffuse = this.DiffuseColor;
+            if (this.HasValue(this.SpecularColor)) pl.specular = this.SpecularColor;
             this.Ctrl = pl;
         } 
 
@@ -41,16 +48,21 @@ export class Light extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._sceneName = node.attributes["Scene"].value; } catch { }
+        this.SetValueFromNode(node, "Scene", "SceneName");
         try { this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`); } catch (e) { }
-        try { this._type = node.attributes["Type"].value; } catch (e) { }
-        try { this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value)); } catch (e) { }
-        try { this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value)); } catch (e) { }
-        try { this._intensity= parseFloat(node.attributes["Intensity"].value); } catch (e) { }
+        this.SetValueFromNode(node, "Type", "Type");
+
+        this.SetFnValueFromNode(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
+        this.SetFnValueFromNode(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
+        //try { this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value)); } catch (e) { }
+        //try { this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value)); } catch (e) { }
+
+
+        this.SetFnValueFromNode(node, "Intensity", "Intensity", parseFloat);
     }
 
-    private cleanBabylonColor3Attribute(color3: string): string {
-        if (color3.includes("Color3.")) return `BABYLON.${color3};`;
-        return `new BABYLON.${color3};`;
-    }
+    //private cleanBabylonColor3Attribute(color3: string): string {
+    //    if (color3.includes("Color3.")) return `BABYLON.${color3};`;
+    //    return `new BABYLON.${color3};`;
+    //}
 }
