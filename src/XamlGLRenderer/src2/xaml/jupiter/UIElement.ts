@@ -99,7 +99,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         }
     }
 
-    protected SetValue = (property: string, value: any) : any => { this[property] = value; }
+    private SetValue = (property: string, value: any) : any => { this[property] = value; }
 
     protected HasValue = (property: any): boolean => { return (property !== null && property !== undefined) ? true : false; }
 
