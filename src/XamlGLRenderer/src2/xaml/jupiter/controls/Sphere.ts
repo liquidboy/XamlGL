@@ -30,7 +30,7 @@ export class Sphere extends UIElement {
         if (this.Position !== undefined) this.Ctrl.position = this.Position;
         if (material !== undefined) this.Ctrl.material = material.Ctrl;
 
-        if (this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
+        if (this.ShowNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
         this.PostInitialize();
     }
 
@@ -39,7 +39,7 @@ export class Sphere extends UIElement {
 
         this.SetValueFromNode(node, "Scene", "SceneName");
         this.SetValueFromNode(node, "Material", "MaterialName");
-        this.SetValueFromNode(node, "ShowNormalLines", "ShowNormalLines");
+        this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
         this.SetFnValueFromNode(node, "Segments", "Segments", parseInt);
         this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
 

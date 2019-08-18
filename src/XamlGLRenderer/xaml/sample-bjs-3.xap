@@ -22,7 +22,7 @@
       
       <Material x:Name="redColor" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
           SpecularColor="Color3(0.4, 0.4, 0.4)" EmissiveColor="Color3.Red()"></Material>
-      <Sphere x:Name="redSphere" Scene="mainScene" Material="redColor" ShowNormalLines="False" Segments="32"
+      <Sphere x:Name="redSphere" Scene="mainScene" Material="redColor" ShowNormalLines="true" Segments="32"
               Diameter="20" Position="Vector3(-100,10,0)"></Sphere>
 
 
@@ -39,7 +39,7 @@
 
       <Material x:Name="purpleColor" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
     SpecularColor="Color3(0.4, 0.4, 0.4)" EmissiveColor="Color3.Purple()"></Material>
-      <Torus x:Name="purpleTorus" Scene="mainScene" Material="purpleColor" ShowNormalLines="True" Diameter="30"
+      <Torus x:Name="purpleTorus" Scene="mainScene" Material="purpleColor" ShowNormalLines="false" Diameter="30"
              Thickness="10" Tesselation="32" Position="Vector3(0,10,100)"></Torus>
 
     </Grid>

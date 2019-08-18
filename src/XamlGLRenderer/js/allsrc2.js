@@ -2954,25 +2954,38 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 get Alpha() { return this._alpha; }
                 get Beta() { return this._beta; }
                 get Radius() { return this._radius; }
-                get lowerBetaLimit() { return this._lowerBetaLimit; }
-                get upperBetaLimit() { return this._upperBetaLimit; }
-                get lowerRadiusLimit() { return this._lowerRadiusLimit; }
+                get LowerBetaLimit() { return this._lowerBetaLimit; }
+                get UpperBetaLimit() { return this._upperBetaLimit; }
+                get LowerRadiusLimit() { return this._lowerRadiusLimit; }
                 get FOV() { return this._fov; }
                 get MinZ() { return this._minz; }
                 get MaxZ() { return this._maxz; }
                 get PanningSensibility() { return this._panningSensibility; }
+                set SceneName(value) { this._sceneName = value; }
+                set Target(value) { this._target = value; }
+                set Type(value) { this._type = value; }
+                set Alpha(value) { this._alpha = value; }
+                set Beta(value) { this._beta = value; }
+                set Radius(value) { this._radius = value; }
+                set LowerBetaLimit(value) { this._lowerBetaLimit = value; }
+                set UpperBetaLimit(value) { this._upperBetaLimit = value; }
+                set LowerRadiusLimit(value) { this._lowerRadiusLimit = value; }
+                set FOV(value) { this._fov = value; }
+                set MinZ(value) { this._minz = value; }
+                set MaxZ(value) { this._maxz = value; }
+                set PanningSensibility(value) { this._panningSensibility = value; }
                 Initialize() {
                     let canvas = Core_8.DIContainer.get("rootCanvas");
                     let scene = this.VT.Get(this.SceneName);
                     if (this._type === "FreeCamera") {
                         this.Ctrl = new BABYLON.FreeCamera(this.Name, this.Position, scene.Ctrl);
-                        if (this._target !== undefined)
-                            this.GetFreeCamera(this.Ctrl).setTarget(this._target);
-                        if (this.FOV !== undefined)
+                        if (this.HasValue(this.Target))
+                            this.GetFreeCamera(this.Ctrl).setTarget(this.Target);
+                        if (this.HasValue(this.FOV))
                             this.GetFreeCamera(this.Ctrl).fov = this.FOV;
-                        if (this.MinZ !== undefined)
+                        if (this.HasValue(this.MinZ))
                             this.GetFreeCamera(this.Ctrl).minZ = this.MinZ;
-                        if (this.MaxZ !== undefined)
+                        if (this.HasValue(this.MaxZ))
                             this.GetFreeCamera(this.Ctrl).maxZ = this.MaxZ;
                         this.Ctrl.attachControl(canvas, true);
                     }
@@ -2983,15 +2996,15 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                     }
                     else if (this._type === "ArcRotateCamera") {
                         let arcCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius, this._target, scene.Ctrl);
-                        if (this._lowerBetaLimit !== undefined)
-                            arcCamera.lowerBetaLimit = this._lowerBetaLimit;
-                        if (this._upperBetaLimit !== undefined)
-                            arcCamera.upperBetaLimit = this._upperBetaLimit;
-                        if (this._lowerRadiusLimit !== undefined)
-                            arcCamera.lowerRadiusLimit = this._lowerRadiusLimit;
-                        if (this._panningSensibility !== undefined)
-                            arcCamera.panningSensibility = this._panningSensibility;
-                        if (this.Position !== undefined)
+                        if (this.HasValue(this.LowerBetaLimit))
+                            arcCamera.lowerBetaLimit = this.LowerBetaLimit;
+                        if (this.HasValue(this.UpperBetaLimit))
+                            arcCamera.upperBetaLimit = this.UpperBetaLimit;
+                        if (this.HasValue(this.LowerRadiusLimit))
+                            arcCamera.lowerRadiusLimit = this.LowerRadiusLimit;
+                        if (this.HasValue(this.PanningSensibility))
+                            arcCamera.panningSensibility = this.PanningSensibility;
+                        if (this.HasValue(this.Position))
                             arcCamera.position = this.Position;
                         arcCamera.attachControl(canvas, true, true);
                         this.Ctrl = arcCamera;
@@ -3000,66 +3013,24 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (e) { }
+                    this.SetValueFromNode(node, "Scene", "SceneName");
                     try {
                         this._target = eval(`new BABYLON.${node.attributes["Target"].value};`);
                     }
                     catch (e) { }
-                    try {
-                        this._type = node.attributes["Type"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._alpha = parseFloat(node.attributes["Alpha"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._alpha = eval(node.attributes["AlphaCalculated"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._beta = parseFloat(node.attributes["Beta"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._beta = eval(node.attributes["BetaCalculated"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._radius = parseFloat(node.attributes["Radius"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._lowerBetaLimit = eval(`${node.attributes["LowerBetaLimit"].value};`);
-                    }
-                    catch (e) { }
-                    try {
-                        this._upperBetaLimit = eval(`${node.attributes["UpperBetaLimit"].value};`);
-                    }
-                    catch (e) { }
-                    try {
-                        this._lowerRadiusLimit = eval(`${node.attributes["LowerRadiusLimit"].value};`);
-                    }
-                    catch (e) { }
-                    try {
-                        this._fov = parseFloat(node.attributes["FOV"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._minz = parseFloat(node.attributes["MinZ"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._maxz = parseFloat(node.attributes["MaxZ"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._panningSensibility = parseFloat(node.attributes["PanningSensibility"].value);
-                    }
-                    catch (e) { }
+                    this.SetValueFromNode(node, "Type", "Type");
+                    this.SetFnValueFromNode(node, "Alpha", "Alpha", parseFloat);
+                    this.SetFnValueFromNode(node, "AlphaCalculated", "Alpha", eval);
+                    this.SetFnValueFromNode(node, "Beta", "Beta", parseFloat);
+                    this.SetFnValueFromNode(node, "BetaCalculated", "Beta", eval);
+                    this.SetFnValueFromNode(node, "Radius", "Radius", parseFloat);
+                    this.SetFnValueFromNode(node, "LowerBetaLimit", "LowerBetaLimit", eval);
+                    this.SetFnValueFromNode(node, "UpperBetaLimit", "UpperBetaLimit", eval);
+                    this.SetFnValueFromNode(node, "LowerRadiusLimit", "LowerRadiusLimit", eval);
+                    this.SetFnValueFromNode(node, "FOV", "FOV", parseFloat);
+                    this.SetFnValueFromNode(node, "MinZ", "MinZ", parseFloat);
+                    this.SetFnValueFromNode(node, "MaxZ", "MaxZ", parseFloat);
+                    this.SetFnValueFromNode(node, "PanningSensibility", "PanningSensibility", parseFloat);
                 }
                 GetFreeCamera(camera) {
                     return camera;
@@ -5206,7 +5177,7 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                         this.Ctrl.position = this.Position;
                     if (material !== undefined)
                         this.Ctrl.material = material.Ctrl;
-                    if (this._showNormalLines)
+                    if (this.ShowNormalLines)
                         MeshNormalLines_3.MeshNormalLines.Install(scene, this.Ctrl);
                     this.PostInitialize();
                 }
@@ -5214,7 +5185,7 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     super.LoadFromNode(node);
                     this.SetValueFromNode(node, "Scene", "SceneName");
                     this.SetValueFromNode(node, "Material", "MaterialName");
-                    this.SetValueFromNode(node, "ShowNormalLines", "ShowNormalLines");
+                    this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
                     this.SetFnValueFromNode(node, "Segments", "Segments", parseInt);
                     this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
                 }
@@ -5548,9 +5519,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.HasValue = (property) => { return (property !== null && property !== undefined) ? true : false; };
                     this.CleanBabylonColor3Attribute = (color3) => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); };
                     this.ConvertColor3ToColor4 = (color) => { return new BABYLON.Color4(color.r, color.g, color.b, 1); };
-                    this.ConvertToBoolean = (value) => {
-                        return value.toLowerCase() === 'true' ? true : false;
-                    };
+                    this.ConvertToBoolean = (value) => { return value.toLowerCase() === 'true' ? true : false; };
                     this.SetValueFromNode = (node, attributeName, propertyName) => {
                         if (node.hasAttribute(attributeName))
                             this.SetValue(propertyName, node.attributes[attributeName].value);
@@ -5583,6 +5552,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 set HasScript(value) { this._hasScript = value; }
                 set HasCode(value) { this._hasCode = value; }
                 set Name(value) { this._name = value; this.VT.Add(value, this); }
+                set Position(value) { this._position = value; }
                 TrySetParent(parent) {
                     if (parent == null)
                         return false;

@@ -52,6 +52,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     set HasScript(value: boolean) { this._hasScript = value; }
     set HasCode(value: boolean) { this._hasCode = value; }
     set Name(value: string) { this._name = value; this.VT.Add(value, this); }
+    set Position(value: BABYLON.Vector3) { this._position = value; }
 
     protected VT: VisualTree = DIContainer.get(VisualTree);
     protected DI: Container = DIContainer;
@@ -107,9 +108,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
 
     protected ConvertColor3ToColor4 = (color: BABYLON.Color3): BABYLON.Color4 => { return new BABYLON.Color4(color.r, color.g, color.b, 1); }
 
-    protected ConvertToBoolean = (value: string): boolean => {
-        return value.toLowerCase() === 'true' ? true : false; 
-    }
+    protected ConvertToBoolean = (value: string): boolean => { return value.toLowerCase() === 'true' ? true : false; }
 
     protected SetValueFromNode: Function = (node: any, attributeName: string, propertyName: string): void => {
         if (node.hasAttribute(attributeName)) this.SetValue(propertyName, node.attributes[attributeName].value);
