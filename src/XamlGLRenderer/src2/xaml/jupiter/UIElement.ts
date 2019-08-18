@@ -75,14 +75,6 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         try { this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true'; } catch (e) { }
     }
 
-    protected SetValue(property: string, value: any): void {
-        this[property] = value;
-    } 
-
-    protected HasValue(property: any): boolean {
-        return (property !== null && property !== undefined) ? true : false;
-    }
-
     // always call this after the parents initialize has run
     Initialize(): void {
         
@@ -105,5 +97,21 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
                 var found = e;
             }
         }
+    }
+
+    protected SetValue = (property: string, value: any) : any => { this[property] = value; }
+
+    protected HasValue = (property: any): boolean => { return (property !== null && property !== undefined) ? true : false; }
+
+    protected CleanBabylonColor3Attribute = (color3: string): any => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); }
+
+    protected ConvertColor3ToColor4 = (color: BABYLON.Color3): BABYLON.Color4 => { return new BABYLON.Color4(color.r, color.g, color.b, 1); }
+
+    protected SetValueFromNode: Function = (node: any, attributeName: string, propertyName: string): void => {
+        if (node.hasAttribute(attributeName)) this.SetValue(propertyName, node.attributes[attributeName].value);
+    }
+
+    protected SetFnValueFromNode: Function = (node: any, attributeName: string, propertyName: string, fn: Function): void => {
+        if (node.hasAttribute(attributeName)) this.SetValue(propertyName, fn(node.attributes[attributeName].value));
     }
 }

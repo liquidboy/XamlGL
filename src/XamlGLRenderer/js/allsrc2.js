@@ -4987,7 +4987,7 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     let canvas = Core_12.DIContainer.get("rootCanvas");
                     this.Ctrl = new BABYLON.Scene(engine);
                     if (this.HasValue(this.ClearColor))
-                        this.Ctrl.clearColor = this.convertColor3ToColor4(this.ClearColor);
+                        this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
                     SceneMouseWheelZoom_1.SceneMouseWheelZoom.Install(this);
                     new MoveSelectedMesh_1.MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
                     engine.runRenderLoop(() => {
@@ -4997,20 +4997,10 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    if (node.hasAttribute("Camera"))
-                        this.SetValue("CameraName", node.attributes["Camera"].value);
-                    if (node.hasAttribute("Light"))
-                        this.SetValue("LightName", node.attributes["Light"].value);
-                    if (node.hasAttribute("Ground"))
-                        this.SetValue("GroundName", node.attributes["Ground"].value);
-                    if (node.hasAttribute("ClearColor"))
-                        this.SetValue("ClearColor", this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value));
-                }
-                cleanBabylonColor3Attribute(color3) {
-                    return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`);
-                }
-                convertColor3ToColor4(color) {
-                    return new BABYLON.Color4(color.r, color.g, color.b, 1);
+                    this.SetValueFromNode(node, "Camera", "CameraName");
+                    this.SetValueFromNode(node, "Light", "LightName");
+                    this.SetValueFromNode(node, "Ground", "GroundName");
+                    this.SetFnValueFromNode(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
                 }
             };
             exports_69("Scene", Scene);
@@ -5571,6 +5561,18 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this._hasCode = false;
                     this.VT = Core_13.DIContainer.get(VisualTree_2.VisualTree);
                     this.DI = Core_13.DIContainer;
+                    this.SetValue = (property, value) => { this[property] = value; };
+                    this.HasValue = (property) => { return (property !== null && property !== undefined) ? true : false; };
+                    this.CleanBabylonColor3Attribute = (color3) => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); };
+                    this.ConvertColor3ToColor4 = (color) => { return new BABYLON.Color4(color.r, color.g, color.b, 1); };
+                    this.SetValueFromNode = (node, attributeName, propertyName) => {
+                        if (node.hasAttribute(attributeName))
+                            this.SetValue(propertyName, node.attributes[attributeName].value);
+                    };
+                    this.SetFnValueFromNode = (node, attributeName, propertyName, fn) => {
+                        if (node.hasAttribute(attributeName))
+                            this.SetValue(propertyName, fn(node.attributes[attributeName].value));
+                    };
                     this._uniqueId = Guid_1.Guid.newGuid();
                     this._childEvents = new lib_5.LinkedDictionary();
                     this._childGuis = new lib_5.LinkedDictionary();
@@ -5610,12 +5612,6 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                         this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true';
                     }
                     catch (e) { }
-                }
-                SetValue(property, value) {
-                    this[property] = value;
-                }
-                HasValue(property) {
-                    return (property !== null && property !== undefined) ? true : false;
                 }
                 Initialize() {
                 }

@@ -32,7 +32,7 @@ export class Scene extends UIElement {
 
         this.Ctrl = new BABYLON.Scene(engine);
         
-        if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.convertColor3ToColor4(this.ClearColor);
+        if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
 
         SceneMouseWheelZoom.Install(this);
         new MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
@@ -46,19 +46,9 @@ export class Scene extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-
-        if (node.hasAttribute("Camera")) this.SetValue("CameraName", node.attributes["Camera"].value);
-        if (node.hasAttribute("Light")) this.SetValue("LightName", node.attributes["Light"].value);
-        if (node.hasAttribute("Ground")) this.SetValue("GroundName", node.attributes["Ground"].value);
-        if (node.hasAttribute("ClearColor")) this.SetValue("ClearColor", this.cleanBabylonColor3Attribute(node.attributes["ClearColor"].value));
+        this.SetValueFromNode(node, "Camera", "CameraName");
+        this.SetValueFromNode(node, "Light", "LightName");
+        this.SetValueFromNode(node, "Ground", "GroundName");
+        this.SetFnValueFromNode(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
     }
-
-    private cleanBabylonColor3Attribute(color3: string): any {
-        return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`);
-    }
-
-    private convertColor3ToColor4(color: BABYLON.Color3): BABYLON.Color4 {
-        return new BABYLON.Color4(color.r, color.g, color.b, 1);
-    }
-
 }
