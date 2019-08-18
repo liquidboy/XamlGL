@@ -39,7 +39,7 @@
 
       <Material x:Name="purpleColor" Type="StandardMaterial" Scene="mainScene" Wireframe="False" DiffuseColor="Color3(0.4, 0.4, 0.4)"
     SpecularColor="Color3(0.4, 0.4, 0.4)" EmissiveColor="Color3.Purple()"></Material>
-      <Torus x:Name="purpleTorus" Scene="mainScene" Material="purpleColor" ShowNormalLines="False" Diameter="30"
+      <Torus x:Name="purpleTorus" Scene="mainScene" Material="purpleColor" ShowNormalLines="True" Diameter="30"
              Thickness="10" Tesselation="32" Position="Vector3(0,10,100)"></Torus>
 
     </Grid>

@@ -46,6 +46,7 @@ export class Scene extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
+
         this.SetValueFromNode(node, "Camera", "CameraName");
         this.SetValueFromNode(node, "Light", "LightName");
         this.SetValueFromNode(node, "Ground", "GroundName");

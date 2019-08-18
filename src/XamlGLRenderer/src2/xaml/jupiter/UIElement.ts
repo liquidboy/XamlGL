@@ -107,6 +107,10 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
 
     protected ConvertColor3ToColor4 = (color: BABYLON.Color3): BABYLON.Color4 => { return new BABYLON.Color4(color.r, color.g, color.b, 1); }
 
+    protected ConvertToBoolean = (value: string): boolean => {
+        return value.toLowerCase() === 'true' ? true : false; 
+    }
+
     protected SetValueFromNode: Function = (node: any, attributeName: string, propertyName: string): void => {
         if (node.hasAttribute(attributeName)) this.SetValue(propertyName, node.attributes[attributeName].value);
     }

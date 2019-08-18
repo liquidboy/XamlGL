@@ -21,6 +21,13 @@ export class Torus extends AnimatableUIElement {
     get Thickness(): number { return this._thickness; }
     get Tesselation(): number { return this._tesselation; }
 
+    set SceneName(value: string) { this._sceneName = value; }
+    set MaterialName(value: string) { this._materialName = value; }
+    set ShowNormalLines(value: boolean) { this._showNormalLines = value; }
+    set Diameter(value: number) { this._diameter = value; }
+    set Thickness(value: number) { this._thickness = value; }
+    set Tesselation(value: number) { this._tesselation = value; }
+
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         let material: Material = this.VT.Get(this.MaterialName) as Material;
@@ -43,12 +50,13 @@ export class Torus extends AnimatableUIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
-        try { this._materialName = node.attributes["Material"].value; } catch (e) { }
-        try { this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true'; } catch (e) { }
-        try { this._diameter = parseFloat(node.attributes["Diameter"].value); } catch (e) { }
-        try { this._thickness = parseFloat(node.attributes["Thickness"].value); } catch (e) { }
-        try { this._tesselation = parseFloat(node.attributes["Tesselation"].value); } catch (e) { }
+
+        this.SetValueFromNode(node, "Scene", "SceneName");
+        this.SetValueFromNode(node, "Material", "MaterialName");
+        this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+        this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
+        this.SetFnValueFromNode(node, "Thickness", "Thickness", parseFloat);
+        this.SetFnValueFromNode(node, "Tesselation", "Tesselation", parseFloat);
     }
 
     StartAnimation(): void {

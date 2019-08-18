@@ -5312,6 +5312,12 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                 get Diameter() { return this._diameter; }
                 get Thickness() { return this._thickness; }
                 get Tesselation() { return this._tesselation; }
+                set SceneName(value) { this._sceneName = value; }
+                set MaterialName(value) { this._materialName = value; }
+                set ShowNormalLines(value) { this._showNormalLines = value; }
+                set Diameter(value) { this._diameter = value; }
+                set Thickness(value) { this._thickness = value; }
+                set Tesselation(value) { this._tesselation = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
@@ -5331,30 +5337,12 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._materialName = node.attributes["Material"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._diameter = parseFloat(node.attributes["Diameter"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._thickness = parseFloat(node.attributes["Thickness"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._tesselation = parseFloat(node.attributes["Tesselation"].value);
-                    }
-                    catch (e) { }
+                    this.SetValueFromNode(node, "Scene", "SceneName");
+                    this.SetValueFromNode(node, "Material", "MaterialName");
+                    this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+                    this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
+                    this.SetFnValueFromNode(node, "Thickness", "Thickness", parseFloat);
+                    this.SetFnValueFromNode(node, "Tesselation", "Tesselation", parseFloat);
                 }
                 StartAnimation() {
                     if (this.Animations && this.Animations.Animations)
@@ -5560,6 +5548,9 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.HasValue = (property) => { return (property !== null && property !== undefined) ? true : false; };
                     this.CleanBabylonColor3Attribute = (color3) => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); };
                     this.ConvertColor3ToColor4 = (color) => { return new BABYLON.Color4(color.r, color.g, color.b, 1); };
+                    this.ConvertToBoolean = (value) => {
+                        return value.toLowerCase() === 'true' ? true : false;
+                    };
                     this.SetValueFromNode = (node, attributeName, propertyName) => {
                         if (node.hasAttribute(attributeName))
                             this.SetValue(propertyName, node.attributes[attributeName].value);
