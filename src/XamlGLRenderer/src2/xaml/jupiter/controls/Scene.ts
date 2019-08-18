@@ -52,4 +52,11 @@ export class Scene extends UIElement {
         this.SetValueFromNode(node, "Ground", "GroundName");
         this.SetFnValueFromNode(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
     }
+
+    public ChangeValue(propertyName: string, value: any): void {
+        if (propertyName === "ClearColor") {
+            this.SetFnValueFromValue(value, propertyName, this.CleanBabylonColor3Attribute);
+            if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
+        }
+    }
 }

@@ -4959,6 +4959,13 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     this.SetValueFromNode(node, "Ground", "GroundName");
                     this.SetFnValueFromNode(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
                 }
+                ChangeValue(propertyName, value) {
+                    if (propertyName === "ClearColor") {
+                        this.SetFnValueFromValue(value, propertyName, this.CleanBabylonColor3Attribute);
+                        if (this.HasValue(this.ClearColor))
+                            this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
+                    }
+                }
             };
             exports_69("Scene", Scene);
         }
@@ -5512,7 +5519,10 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     };
                     this.SetFnValueFromNode = (node, attributeName, propertyName, fn) => {
                         if (node.hasAttribute(attributeName))
-                            this.SetValue(propertyName, fn(node.attributes[attributeName].value));
+                            this.SetFnValueFromValue(node.attributes[attributeName].value, propertyName, fn);
+                    };
+                    this.SetFnValueFromValue = (value, propertyName, fn) => {
+                        this.SetValue(propertyName, fn(value));
                     };
                     this._uniqueId = Guid_1.Guid.newGuid();
                     this._childEvents = new lib_5.LinkedDictionary();
@@ -5694,14 +5704,20 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
         }
     };
 });
-System.register("services/SharedWorker", ["inversify"], function (exports_81, context_81) {
+System.register("services/SharedWorker", ["inversify", "services/VisualTree", "Xaml/Core"], function (exports_81, context_81) {
     "use strict";
-    var inversify_2, SharedWorker, Topics;
+    var inversify_2, VisualTree_3, Core_15, SharedWorker, Topics;
     var __moduleName = context_81 && context_81.id;
     return {
         setters: [
             function (inversify_2_1) {
                 inversify_2 = inversify_2_1;
+            },
+            function (VisualTree_3_1) {
+                VisualTree_3 = VisualTree_3_1;
+            },
+            function (Core_15_1) {
+                Core_15 = Core_15_1;
             }
         ],
         execute: function () {
@@ -5719,12 +5735,17 @@ System.register("services/SharedWorker", ["inversify"], function (exports_81, co
                                         window.location.reload(false);
                                         break;
                                     case Topics.RefreshVisualTree:
-                                        console.log(data);
+                                        let vt = Core_15.DIContainer.get(VisualTree_3.VisualTree);
+                                        var foundItem = vt.FindByName(this.CleanData(data.ClassXName));
+                                        foundItem.ChangeValue(data.Attribute, this.CleanData(data.Value));
                                 }
                             }
                         });
                     }
                     catch (e) { }
+                }
+                CleanData(value) {
+                    return value.replace('"', '').replace('"', '');
                 }
                 RaiseTopic(topic, data) {
                     try {
@@ -5749,27 +5770,27 @@ System.register("services/SharedWorker", ["inversify"], function (exports_81, co
 });
 System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "services/SharedWorker", "Xaml/Core"], function (exports_82, context_82) {
     "use strict";
-    var XamlParser_1, Core_15, Core_16, VisualTree_3, SharedWorker_1, Core_17, App;
+    var XamlParser_1, Core_16, Core_17, VisualTree_4, SharedWorker_1, Core_18, App;
     var __moduleName = context_82 && context_82.id;
     return {
         setters: [
             function (XamlParser_1_1) {
                 XamlParser_1 = XamlParser_1_1;
             },
-            function (Core_15_1) {
-                Core_15 = Core_15_1;
-            },
             function (Core_16_1) {
                 Core_16 = Core_16_1;
             },
-            function (VisualTree_3_1) {
-                VisualTree_3 = VisualTree_3_1;
+            function (Core_17_1) {
+                Core_17 = Core_17_1;
+            },
+            function (VisualTree_4_1) {
+                VisualTree_4 = VisualTree_4_1;
             },
             function (SharedWorker_1_1) {
                 SharedWorker_1 = SharedWorker_1_1;
             },
-            function (Core_17_1) {
-                Core_17 = Core_17_1;
+            function (Core_18_1) {
+                Core_18 = Core_18_1;
             }
         ],
         execute: function () {
@@ -5778,7 +5799,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 }
                 Start(xaml, canvasElement, displayMode) {
                     this.InitializeDIContainerCore();
-                    if (displayMode == Core_17.DisplayMode.CodeMode)
+                    if (displayMode == Core_18.DisplayMode.CodeMode)
                         return;
                     this.xamlMarkup = xaml;
                     let _canvas = document.getElementById(canvasElement);
@@ -5791,18 +5812,18 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     this.RenderScene();
                 }
                 InitializeDIContainerCore() {
-                    Core_17.DIContainer.bind(SharedWorker_1.SharedWorker).to(SharedWorker_1.SharedWorker).inSingletonScope();
+                    Core_18.DIContainer.bind(SharedWorker_1.SharedWorker).to(SharedWorker_1.SharedWorker).inSingletonScope();
                 }
                 InitializeDIContainerXaml(rootCanvas, rootEngine) {
-                    Core_17.DIContainer.bind(VisualTree_3.VisualTree).to(VisualTree_3.VisualTree).inSingletonScope();
-                    Core_17.DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
-                    Core_17.DIContainer.bind("rootEngine").toConstantValue(rootEngine);
+                    Core_18.DIContainer.bind(VisualTree_4.VisualTree).to(VisualTree_4.VisualTree).inSingletonScope();
+                    Core_18.DIContainer.bind("rootCanvas").toConstantValue(rootCanvas);
+                    Core_18.DIContainer.bind("rootEngine").toConstantValue(rootEngine);
                 }
                 BuildVisualTree() {
                     this._rootElement = XamlParser_1.XamlParser.XamlMarkupToUIElement(this.xamlMarkup);
                 }
                 RenderScene() {
-                    if (this._rootElement instanceof Core_16.Panel) {
+                    if (this._rootElement instanceof Core_17.Panel) {
                         let vt = this._rootElement;
                         if (vt.Children)
                             this.InitializeChildren(vt.Children);
@@ -5812,7 +5833,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 }
                 AnimateChildren(col) {
                     col.forEach((k, v) => {
-                        if (v instanceof Core_15.AnimatableUIElement) {
+                        if (v instanceof Core_16.AnimatableUIElement) {
                             let animateableCHild = v;
                             animateableCHild.StartAnimation();
                         }
@@ -5821,7 +5842,7 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                 InitializeChildren(col) {
                     col.forEach((k, v) => {
                         v.Initialize();
-                        if (v instanceof Core_16.Panel) {
+                        if (v instanceof Core_17.Panel) {
                             let childWithChildren = v;
                             if (childWithChildren.Children.size() > 0) {
                                 this.InitializeChildren(childWithChildren.Children);
@@ -5869,15 +5890,15 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
 });
 System.register("services/CodeEditor", ["inversify", "Xaml/Core"], function (exports_84, context_84) {
     "use strict";
-    var inversify_3, Core_18, CodeEditor;
+    var inversify_3, Core_19, CodeEditor;
     var __moduleName = context_84 && context_84.id;
     return {
         setters: [
             function (inversify_3_1) {
                 inversify_3 = inversify_3_1;
             },
-            function (Core_18_1) {
-                Core_18 = Core_18_1;
+            function (Core_19_1) {
+                Core_19 = Core_19_1;
             }
         ],
         execute: function () {
@@ -5895,7 +5916,7 @@ System.register("services/CodeEditor", ["inversify", "Xaml/Core"], function (exp
                     editor.onDidChangeCursorPosition((e) => {
                         let valueUnderPosition = this.GetValueAtPosition(xamlModel, e.position);
                         console.log(valueUnderPosition);
-                        worker.RaiseTopic(Core_18.Topics.RefreshVisualTree, valueUnderPosition);
+                        worker.RaiseTopic(Core_19.Topics.RefreshVisualTree, valueUnderPosition);
                     });
                 }
                 static GetValueAtPosition(xamlModel, position) {
@@ -6121,8 +6142,8 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             function (XamlMarkup_2_1) {
                 exportStar_3(XamlMarkup_2_1);
             },
-            function (VisualTree_4_1) {
-                exportStar_3(VisualTree_4_1);
+            function (VisualTree_5_1) {
+                exportStar_3(VisualTree_5_1);
             },
             function (CodeEditor_1_1) {
                 exportStar_3(CodeEditor_1_1);

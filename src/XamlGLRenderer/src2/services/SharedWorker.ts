@@ -1,4 +1,6 @@
 ﻿import { injectable } from "inversify";
+import { VisualTree } from "./VisualTree";
+import { DIContainer } from "../Xaml/Core";
 
 declare var TabUtils: any;
 
@@ -10,6 +12,7 @@ export class SharedWorker {
     }
 
     private Init() {
+        
         try {
             // console.log("SharedWorker:init");
             TabUtils.OnBroadcastMessage("storage-event", (topicStr: string, data: any) => {
@@ -25,13 +28,22 @@ export class SharedWorker {
                             window.location.reload(false);
                             break;
                         case Topics.RefreshVisualTree:
-                            console.log(data);
+                            let vt: VisualTree = DIContainer.get<VisualTree>(VisualTree);
+                            //console.log(vt);
+                            //console.log(data);
+                            var foundItem = vt.FindByName(this.CleanData(data.ClassXName));
+                            //console.log(foundItem);
+                            foundItem.ChangeValue(data.Attribute, this.CleanData(data.Value));
                             // this.pubSub.publish(Topics.RefreshUserInfo);
                     }
                 }
             });
         } catch (e) { }
 
+    }
+
+    private CleanData(value: string): string {
+        return value.replace('"', '').replace('"', '');
     }
 
     public RaiseTopic(topic: Topics, data: any): void {

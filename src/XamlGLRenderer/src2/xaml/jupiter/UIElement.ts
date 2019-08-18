@@ -115,6 +115,10 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     }
 
     protected SetFnValueFromNode: Function = (node: any, attributeName: string, propertyName: string, fn: Function): void => {
-        if (node.hasAttribute(attributeName)) this.SetValue(propertyName, fn(node.attributes[attributeName].value));
+        if (node.hasAttribute(attributeName)) this.SetFnValueFromValue(node.attributes[attributeName].value, propertyName, fn);
+    }
+
+    public SetFnValueFromValue: Function = (value: any, propertyName: string, fn: Function): void => {
+        this.SetValue(propertyName, fn(value));
     }
 }
