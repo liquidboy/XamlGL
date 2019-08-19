@@ -32,7 +32,7 @@ export class Scene extends UIElement {
 
         this.Ctrl = new BABYLON.Scene(engine);
 
-        this.UpdateCtrl("ClearColor");
+        this.RefreshCtrlProperty("ClearColor");
 
         SceneMouseWheelZoom.Install(this);
         new MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
@@ -47,20 +47,20 @@ export class Scene extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
 
-        this.SetValueFromNode(node, "Camera", "CameraName");
-        this.SetValueFromNode(node, "Light", "LightName");
-        this.SetValueFromNode(node, "Ground", "GroundName");
-        this.SetFnValueFromNode(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
+        this.UpdatePropertyByNode(node, "Camera", "CameraName");
+        this.UpdatePropertyByNode(node, "Light", "LightName");
+        this.UpdatePropertyByNode(node, "Ground", "GroundName");
+        this.UpdatePropertyByNodeAndFunction(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
     }
 
-    public ChangeValue(propertyName: string, value: any): void {
-        if (propertyName === "ClearColor") {
-            this.SetValue(value, propertyName, this.CleanBabylonColor3Attribute);
-            this.UpdateCtrl(propertyName);
+    public SetValue(propertyName: string, value: any): void {
+        switch (propertyName) {
+            case "ClearColor": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
         }
+        this.RefreshCtrlProperty(propertyName);
     }
 
-    public UpdateCtrl(propertyName: string): void {
+    private RefreshCtrlProperty(propertyName: string): void {
         switch (propertyName) {
             case "ClearColor": if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor); break;
         }

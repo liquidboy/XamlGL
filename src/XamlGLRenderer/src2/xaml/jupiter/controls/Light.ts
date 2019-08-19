@@ -48,17 +48,17 @@ export class Light extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        this.SetValueFromNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
         try { this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`); } catch (e) { }
-        this.SetValueFromNode(node, "Type", "Type");
+        this.UpdatePropertyByNode(node, "Type", "Type");
 
-        this.SetFnValueFromNode(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
-        this.SetFnValueFromNode(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
+        this.UpdatePropertyByNodeAndFunction(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
+        this.UpdatePropertyByNodeAndFunction(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
         //try { this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value)); } catch (e) { }
         //try { this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value)); } catch (e) { }
 
 
-        this.SetFnValueFromNode(node, "Intensity", "Intensity", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Intensity", "Intensity", parseFloat);
     }
 
     //private cleanBabylonColor3Attribute(color3: string): string {

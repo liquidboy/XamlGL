@@ -3013,24 +3013,24 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    this.SetValueFromNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
                     try {
                         this._target = eval(`new BABYLON.${node.attributes["Target"].value};`);
                     }
                     catch (e) { }
-                    this.SetValueFromNode(node, "Type", "Type");
-                    this.SetFnValueFromNode(node, "Alpha", "Alpha", parseFloat);
-                    this.SetFnValueFromNode(node, "AlphaCalculated", "Alpha", eval);
-                    this.SetFnValueFromNode(node, "Beta", "Beta", parseFloat);
-                    this.SetFnValueFromNode(node, "BetaCalculated", "Beta", eval);
-                    this.SetFnValueFromNode(node, "Radius", "Radius", parseFloat);
-                    this.SetFnValueFromNode(node, "LowerBetaLimit", "LowerBetaLimit", eval);
-                    this.SetFnValueFromNode(node, "UpperBetaLimit", "UpperBetaLimit", eval);
-                    this.SetFnValueFromNode(node, "LowerRadiusLimit", "LowerRadiusLimit", eval);
-                    this.SetFnValueFromNode(node, "FOV", "FOV", parseFloat);
-                    this.SetFnValueFromNode(node, "MinZ", "MinZ", parseFloat);
-                    this.SetFnValueFromNode(node, "MaxZ", "MaxZ", parseFloat);
-                    this.SetFnValueFromNode(node, "PanningSensibility", "PanningSensibility", parseFloat);
+                    this.UpdatePropertyByNode(node, "Type", "Type");
+                    this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "AlphaCalculated", "Alpha", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "Beta", "Beta", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "BetaCalculated", "Beta", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "Radius", "Radius", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "LowerBetaLimit", "LowerBetaLimit", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "UpperBetaLimit", "UpperBetaLimit", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "LowerRadiusLimit", "LowerRadiusLimit", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "FOV", "FOV", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "MinZ", "MinZ", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "MaxZ", "MaxZ", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "PanningSensibility", "PanningSensibility", parseFloat);
                 }
                 GetFreeCamera(camera) {
                     return camera;
@@ -4439,15 +4439,15 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    this.SetValueFromNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
                     try {
                         this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`);
                     }
                     catch (e) { }
-                    this.SetValueFromNode(node, "Type", "Type");
-                    this.SetFnValueFromNode(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
-                    this.SetFnValueFromNode(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
-                    this.SetFnValueFromNode(node, "Intensity", "Intensity", parseFloat);
+                    this.UpdatePropertyByNode(node, "Type", "Type");
+                    this.UpdatePropertyByNodeAndFunction(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
+                    this.UpdatePropertyByNodeAndFunction(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
+                    this.UpdatePropertyByNodeAndFunction(node, "Intensity", "Intensity", parseFloat);
                 }
             };
             exports_63("Light", Light);
@@ -4943,7 +4943,7 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     let engine = Core_12.DIContainer.get("rootEngine");
                     let canvas = Core_12.DIContainer.get("rootCanvas");
                     this.Ctrl = new BABYLON.Scene(engine);
-                    this.UpdateCtrl("ClearColor");
+                    this.RefreshCtrlProperty("ClearColor");
                     SceneMouseWheelZoom_1.SceneMouseWheelZoom.Install(this);
                     new MoveSelectedMesh_1.MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
                     engine.runRenderLoop(() => {
@@ -4953,18 +4953,20 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    this.SetValueFromNode(node, "Camera", "CameraName");
-                    this.SetValueFromNode(node, "Light", "LightName");
-                    this.SetValueFromNode(node, "Ground", "GroundName");
-                    this.SetFnValueFromNode(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
+                    this.UpdatePropertyByNode(node, "Camera", "CameraName");
+                    this.UpdatePropertyByNode(node, "Light", "LightName");
+                    this.UpdatePropertyByNode(node, "Ground", "GroundName");
+                    this.UpdatePropertyByNodeAndFunction(node, "ClearColor", "ClearColor", this.CleanBabylonColor3Attribute);
                 }
-                ChangeValue(propertyName, value) {
-                    if (propertyName === "ClearColor") {
-                        this.SetValue(value, propertyName, this.CleanBabylonColor3Attribute);
-                        this.UpdateCtrl(propertyName);
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "ClearColor":
+                            this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute);
+                            break;
                     }
+                    this.RefreshCtrlProperty(propertyName);
                 }
-                UpdateCtrl(propertyName) {
+                RefreshCtrlProperty(propertyName) {
                     switch (propertyName) {
                         case "ClearColor":
                             if (this.HasValue(this.ClearColor))
@@ -5182,11 +5184,11 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    this.SetValueFromNode(node, "Scene", "SceneName");
-                    this.SetValueFromNode(node, "Material", "MaterialName");
-                    this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
-                    this.SetFnValueFromNode(node, "Segments", "Segments", parseInt);
-                    this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Material", "MaterialName");
+                    this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+                    this.UpdatePropertyByNodeAndFunction(node, "Segments", "Segments", parseInt);
+                    this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
                 }
             };
             exports_73("Sphere", Sphere);
@@ -5307,12 +5309,12 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    this.SetValueFromNode(node, "Scene", "SceneName");
-                    this.SetValueFromNode(node, "Material", "MaterialName");
-                    this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
-                    this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
-                    this.SetFnValueFromNode(node, "Thickness", "Thickness", parseFloat);
-                    this.SetFnValueFromNode(node, "Tesselation", "Tesselation", parseFloat);
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Material", "MaterialName");
+                    this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+                    this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Tesselation", "Tesselation", parseFloat);
                 }
                 StartAnimation() {
                     if (this.Animations && this.Animations.Animations)
@@ -5519,15 +5521,15 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.CleanBabylonColor3Attribute = (color3) => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); };
                     this.ConvertColor3ToColor4 = (color) => { return new BABYLON.Color4(color.r, color.g, color.b, 1); };
                     this.ConvertToBoolean = (value) => { return value.toLowerCase() === 'true' ? true : false; };
-                    this.SetValueFromNode = (node, attributeName, propertyName) => {
+                    this.UpdatePropertyByNode = (node, attributeName, propertyName) => {
                         if (node.hasAttribute(attributeName))
-                            this.SetValue(node.attributes[attributeName].value, propertyName, null);
+                            this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, null);
                     };
-                    this.SetFnValueFromNode = (node, attributeName, propertyName, fn) => {
+                    this.UpdatePropertyByNodeAndFunction = (node, attributeName, propertyName, valueConverterFn) => {
                         if (node.hasAttribute(attributeName))
-                            this.SetValue(node.attributes[attributeName].value, propertyName, fn);
+                            this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, valueConverterFn);
                     };
-                    this.SetValue = (value, propertyName, valueConverterFunction) => {
+                    this.UpdatePropertyByValue = (propertyName, value, valueConverterFunction) => {
                         if (valueConverterFunction === null || valueConverterFunction === undefined)
                             this.UpdateProperty(propertyName, value);
                         else
@@ -5746,7 +5748,7 @@ System.register("services/SharedWorker", ["inversify", "services/VisualTree", "X
                                     case Topics.RefreshVisualTree:
                                         let vt = Core_15.DIContainer.get(VisualTree_3.VisualTree);
                                         var foundItem = vt.FindByName(this.CleanData(data.ClassXName));
-                                        foundItem.ChangeValue(data.Attribute, this.CleanData(data.Value));
+                                        foundItem.SetValue(data.Attribute, this.CleanData(data.Value));
                                 }
                             }
                         });

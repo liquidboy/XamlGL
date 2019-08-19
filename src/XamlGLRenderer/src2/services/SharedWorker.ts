@@ -33,7 +33,7 @@ export class SharedWorker {
                             //console.log(data);
                             var foundItem = vt.FindByName(this.CleanData(data.ClassXName));
                             //console.log(foundItem);
-                            foundItem.ChangeValue(data.Attribute, this.CleanData(data.Value));
+                            foundItem.SetValue(data.Attribute, this.CleanData(data.Value));
                             // this.pubSub.publish(Topics.RefreshUserInfo);
                     }
                 }

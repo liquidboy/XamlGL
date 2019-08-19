@@ -37,11 +37,11 @@ export class Sphere extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
 
-        this.SetValueFromNode(node, "Scene", "SceneName");
-        this.SetValueFromNode(node, "Material", "MaterialName");
-        this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
-        this.SetFnValueFromNode(node, "Segments", "Segments", parseInt);
-        this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "Material", "MaterialName");
+        this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+        this.UpdatePropertyByNodeAndFunction(node, "Segments", "Segments", parseInt);
+        this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
 
     }
 }

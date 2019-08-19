@@ -51,12 +51,12 @@ export class Torus extends AnimatableUIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
 
-        this.SetValueFromNode(node, "Scene", "SceneName");
-        this.SetValueFromNode(node, "Material", "MaterialName");
-        this.SetFnValueFromNode(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
-        this.SetFnValueFromNode(node, "Diameter", "Diameter", parseFloat);
-        this.SetFnValueFromNode(node, "Thickness", "Thickness", parseFloat);
-        this.SetFnValueFromNode(node, "Tesselation", "Tesselation", parseFloat);
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "Material", "MaterialName");
+        this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+        this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Tesselation", "Tesselation", parseFloat);
     }
 
     StartAnimation(): void {

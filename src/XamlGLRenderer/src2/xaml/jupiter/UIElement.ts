@@ -110,15 +110,15 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
 
     protected ConvertToBoolean = (value: string): boolean => { return value.toLowerCase() === 'true' ? true : false; }
 
-    protected SetValueFromNode: Function = (node: any, attributeName: string, propertyName: string): void => {
-        if (node.hasAttribute(attributeName)) this.SetValue(node.attributes[attributeName].value, propertyName, null);
+    protected UpdatePropertyByNode: Function = (node: any, attributeName: string, propertyName: string): void => {
+        if (node.hasAttribute(attributeName)) this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, null);
     }
 
-    protected SetFnValueFromNode: Function = (node: any, attributeName: string, propertyName: string, fn: Function): void => {
-        if (node.hasAttribute(attributeName)) this.SetValue(node.attributes[attributeName].value, propertyName, fn);
+    protected UpdatePropertyByNodeAndFunction: Function = (node: any, attributeName: string, propertyName: string, valueConverterFn: Function): void => {
+        if (node.hasAttribute(attributeName)) this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, valueConverterFn);
     }
 
-    public SetValue: Function = (value: any, propertyName: string, valueConverterFunction: Function): void => {
+    protected UpdatePropertyByValue: Function = (propertyName: string, value: any, valueConverterFunction: Function): void => {
         if (valueConverterFunction === null || valueConverterFunction === undefined) this.UpdateProperty(propertyName, value);
         else this.UpdateProperty(propertyName, valueConverterFunction(value));
     }

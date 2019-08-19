@@ -79,26 +79,26 @@ export class Camera extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
 
-        this.SetValueFromNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
         try { this._target = eval(`new BABYLON.${node.attributes["Target"].value};`); } catch (e) { }
-        this.SetValueFromNode(node, "Type", "Type");
+        this.UpdatePropertyByNode(node, "Type", "Type");
 
-        this.SetFnValueFromNode(node, "Alpha", "Alpha", parseFloat);
-        this.SetFnValueFromNode(node, "AlphaCalculated", "Alpha", eval);
+        this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "AlphaCalculated", "Alpha", eval);
         
-        this.SetFnValueFromNode(node, "Beta", "Beta", parseFloat);
-        this.SetFnValueFromNode(node, "BetaCalculated", "Beta", eval);
+        this.UpdatePropertyByNodeAndFunction(node, "Beta", "Beta", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "BetaCalculated", "Beta", eval);
         
-        this.SetFnValueFromNode(node, "Radius", "Radius", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Radius", "Radius", parseFloat);
 
-        this.SetFnValueFromNode(node, "LowerBetaLimit", "LowerBetaLimit", eval);
-        this.SetFnValueFromNode(node, "UpperBetaLimit", "UpperBetaLimit", eval);
-        this.SetFnValueFromNode(node, "LowerRadiusLimit", "LowerRadiusLimit", eval);
+        this.UpdatePropertyByNodeAndFunction(node, "LowerBetaLimit", "LowerBetaLimit", eval);
+        this.UpdatePropertyByNodeAndFunction(node, "UpperBetaLimit", "UpperBetaLimit", eval);
+        this.UpdatePropertyByNodeAndFunction(node, "LowerRadiusLimit", "LowerRadiusLimit", eval);
         
-        this.SetFnValueFromNode(node, "FOV", "FOV", parseFloat);
-        this.SetFnValueFromNode(node, "MinZ", "MinZ", parseFloat);
-        this.SetFnValueFromNode(node, "MaxZ", "MaxZ", parseFloat);
-        this.SetFnValueFromNode(node, "PanningSensibility", "PanningSensibility", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "FOV", "FOV", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MinZ", "MinZ", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MaxZ", "MaxZ", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "PanningSensibility", "PanningSensibility", parseFloat);
     }
 
 
