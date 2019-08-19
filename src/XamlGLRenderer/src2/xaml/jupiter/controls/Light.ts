@@ -26,21 +26,18 @@ export class Light extends UIElement {
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
 
-        if (this._type === "HemisphericLight") {
-            let pl: BABYLON.HemisphericLight  = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
-            if (this.HasValue(this.Intensity)) pl.intensity = this.Intensity;
-            this.Ctrl = pl;
-        } else if (this._type === "PointLight") {
-            let pl: BABYLON.Light = new BABYLON.PointLight(this.Name, this._direction, scene.Ctrl);
-            if (this.HasValue(this.DiffuseColor)) pl.diffuse = this.DiffuseColor; 
-            if (this.HasValue(this.SpecularColor)) pl.specular = this.SpecularColor;
-            if (this.HasValue(this.Intensity)) pl.intensity = this.Intensity;
-            this.Ctrl = pl;
-        } else if (this._type === "DirectionalLight") {
-            let pl: BABYLON.Light = new BABYLON.DirectionalLight(this.Name, this._direction, scene.Ctrl);
-            if (this.HasValue(this.DiffuseColor)) pl.diffuse = this.DiffuseColor;
-            if (this.HasValue(this.SpecularColor)) pl.specular = this.SpecularColor;
-            this.Ctrl = pl;
+        if (this.Type === "HemisphericLight") {
+            this.Ctrl = new BABYLON.HemisphericLight(this.Name, this.Direction, scene.Ctrl);
+            this.RefreshCtrlProperty("Intensity");
+        } else if (this.Type === "PointLight") {
+            this.Ctrl = new BABYLON.PointLight(this.Name, this.Direction, scene.Ctrl);
+            this.RefreshCtrlProperty("DiffuseColor");
+            this.RefreshCtrlProperty("SpecularColor");
+            this.RefreshCtrlProperty("Intensity");
+        } else if (this.Type === "DirectionalLight") {
+            this.Ctrl = new BABYLON.DirectionalLight(this.Name, this.Direction, scene.Ctrl);
+            this.RefreshCtrlProperty("DiffuseColor");
+            this.RefreshCtrlProperty("SpecularColor");
         } 
 
         this.PostInitialize();
@@ -49,20 +46,53 @@ export class Light extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
         this.UpdatePropertyByNode(node, "Scene", "SceneName");
-        try { this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`); } catch (e) { }
+        this.UpdatePropertyByNodeAndFunction(node, "Direction", "Direction", this.ConvertToBabylonObject);
         this.UpdatePropertyByNode(node, "Type", "Type");
-
         this.UpdatePropertyByNodeAndFunction(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
         this.UpdatePropertyByNodeAndFunction(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
-        //try { this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value)); } catch (e) { }
-        //try { this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value)); } catch (e) { }
-
-
         this.UpdatePropertyByNodeAndFunction(node, "Intensity", "Intensity", parseFloat);
     }
 
-    //private cleanBabylonColor3Attribute(color3: string): string {
-    //    if (color3.includes("Color3.")) return `BABYLON.${color3};`;
-    //    return `new BABYLON.${color3};`;
-    //}
+    public SetValue(propertyName: string, value: any): void {
+        switch (propertyName) {
+            case "Direction": this.UpdatePropertyByValue(propertyName, value, this.ConvertToBabylonObject); break;
+            case "DiffuseColor": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
+            case "SpecularColor": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
+            case "Intensity": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
+        }
+        this.RefreshCtrlProperty(propertyName);
+    }
+
+    private RefreshCtrlProperty(propertyName: string): void {
+        switch (propertyName) {
+            case "Direction": 
+                if (this.HasValue(this.Direction)) {
+                    if (this.Type === "HemisphericLight") (this.Ctrl as BABYLON.HemisphericLight).setDirectionToTarget(this.Direction);
+                    else if (this.Type === "PointLight") (this.Ctrl as BABYLON.PointLight).setDirectionToTarget(this.Direction);
+                    else if (this.Type === "DirectionalLight") (this.Ctrl as BABYLON.DirectionalLight).setDirectionToTarget(this.Direction);
+                }
+                break;
+            case "DiffuseColor":
+                if (this.HasValue(this.DiffuseColor)) {
+                    if (this.Type === "HemisphericLight") (this.Ctrl as BABYLON.HemisphericLight).diffuse = this.DiffuseColor;
+                    else if (this.Type === "PointLight") (this.Ctrl as BABYLON.PointLight).diffuse = this.DiffuseColor;
+                    else if (this.Type === "DirectionalLight") (this.Ctrl as BABYLON.DirectionalLight).diffuse = this.DiffuseColor;
+                }
+                break;
+            case "SpecularColor": 
+                if (this.HasValue(this.SpecularColor)) {
+                    if (this.Type === "HemisphericLight") (this.Ctrl as BABYLON.HemisphericLight).specular = this.SpecularColor;
+                    else if (this.Type === "PointLight") (this.Ctrl as BABYLON.PointLight).specular = this.SpecularColor;
+                    else if (this.Type === "DirectionalLight") (this.Ctrl as BABYLON.DirectionalLight).specular = this.SpecularColor;
+                }
+                break;
+            case "Intensity": 
+                if (this.HasValue(this.Intensity)) {
+                    if (this.Type === "HemisphericLight") (this.Ctrl as BABYLON.HemisphericLight).intensity = this.Intensity;
+                    else if (this.Type === "PointLight") (this.Ctrl as BABYLON.PointLight).intensity = this.Intensity;
+                    else if (this.Type === "DirectionalLight") (this.Ctrl as BABYLON.DirectionalLight).intensity = this.Intensity;
+                }
+                break;
+        }
+    }
 }

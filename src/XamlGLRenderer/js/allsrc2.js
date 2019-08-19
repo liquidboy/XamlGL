@@ -4469,43 +4469,92 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                 set Intensity(value) { this._intensity = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    if (this._type === "HemisphericLight") {
-                        let pl = new BABYLON.HemisphericLight(this.Name, this._direction, scene.Ctrl);
-                        if (this.HasValue(this.Intensity))
-                            pl.intensity = this.Intensity;
-                        this.Ctrl = pl;
+                    if (this.Type === "HemisphericLight") {
+                        this.Ctrl = new BABYLON.HemisphericLight(this.Name, this.Direction, scene.Ctrl);
+                        this.RefreshCtrlProperty("Intensity");
                     }
-                    else if (this._type === "PointLight") {
-                        let pl = new BABYLON.PointLight(this.Name, this._direction, scene.Ctrl);
-                        if (this.HasValue(this.DiffuseColor))
-                            pl.diffuse = this.DiffuseColor;
-                        if (this.HasValue(this.SpecularColor))
-                            pl.specular = this.SpecularColor;
-                        if (this.HasValue(this.Intensity))
-                            pl.intensity = this.Intensity;
-                        this.Ctrl = pl;
+                    else if (this.Type === "PointLight") {
+                        this.Ctrl = new BABYLON.PointLight(this.Name, this.Direction, scene.Ctrl);
+                        this.RefreshCtrlProperty("DiffuseColor");
+                        this.RefreshCtrlProperty("SpecularColor");
+                        this.RefreshCtrlProperty("Intensity");
                     }
-                    else if (this._type === "DirectionalLight") {
-                        let pl = new BABYLON.DirectionalLight(this.Name, this._direction, scene.Ctrl);
-                        if (this.HasValue(this.DiffuseColor))
-                            pl.diffuse = this.DiffuseColor;
-                        if (this.HasValue(this.SpecularColor))
-                            pl.specular = this.SpecularColor;
-                        this.Ctrl = pl;
+                    else if (this.Type === "DirectionalLight") {
+                        this.Ctrl = new BABYLON.DirectionalLight(this.Name, this.Direction, scene.Ctrl);
+                        this.RefreshCtrlProperty("DiffuseColor");
+                        this.RefreshCtrlProperty("SpecularColor");
                     }
                     this.PostInitialize();
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                     this.UpdatePropertyByNode(node, "Scene", "SceneName");
-                    try {
-                        this._direction = eval(`new BABYLON.${node.attributes["Direction"].value};`);
-                    }
-                    catch (e) { }
+                    this.UpdatePropertyByNodeAndFunction(node, "Direction", "Direction", this.ConvertToBabylonObject);
                     this.UpdatePropertyByNode(node, "Type", "Type");
                     this.UpdatePropertyByNodeAndFunction(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
                     this.UpdatePropertyByNodeAndFunction(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
                     this.UpdatePropertyByNodeAndFunction(node, "Intensity", "Intensity", parseFloat);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Direction":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBabylonObject);
+                            break;
+                        case "DiffuseColor":
+                            this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute);
+                            break;
+                        case "SpecularColor":
+                            this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute);
+                            break;
+                        case "Intensity":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Direction":
+                            if (this.HasValue(this.Direction)) {
+                                if (this.Type === "HemisphericLight")
+                                    this.Ctrl.setDirectionToTarget(this.Direction);
+                                else if (this.Type === "PointLight")
+                                    this.Ctrl.setDirectionToTarget(this.Direction);
+                                else if (this.Type === "DirectionalLight")
+                                    this.Ctrl.setDirectionToTarget(this.Direction);
+                            }
+                            break;
+                        case "DiffuseColor":
+                            if (this.HasValue(this.DiffuseColor)) {
+                                if (this.Type === "HemisphericLight")
+                                    this.Ctrl.diffuse = this.DiffuseColor;
+                                else if (this.Type === "PointLight")
+                                    this.Ctrl.diffuse = this.DiffuseColor;
+                                else if (this.Type === "DirectionalLight")
+                                    this.Ctrl.diffuse = this.DiffuseColor;
+                            }
+                            break;
+                        case "SpecularColor":
+                            if (this.HasValue(this.SpecularColor)) {
+                                if (this.Type === "HemisphericLight")
+                                    this.Ctrl.specular = this.SpecularColor;
+                                else if (this.Type === "PointLight")
+                                    this.Ctrl.specular = this.SpecularColor;
+                                else if (this.Type === "DirectionalLight")
+                                    this.Ctrl.specular = this.SpecularColor;
+                            }
+                            break;
+                        case "Intensity":
+                            if (this.HasValue(this.Intensity)) {
+                                if (this.Type === "HemisphericLight")
+                                    this.Ctrl.intensity = this.Intensity;
+                                else if (this.Type === "PointLight")
+                                    this.Ctrl.intensity = this.Intensity;
+                                else if (this.Type === "DirectionalLight")
+                                    this.Ctrl.intensity = this.Intensity;
+                            }
+                            break;
+                    }
                 }
             };
             exports_63("Light", Light);
