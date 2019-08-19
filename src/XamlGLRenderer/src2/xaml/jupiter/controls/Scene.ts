@@ -31,8 +31,8 @@ export class Scene extends UIElement {
         let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
 
         this.Ctrl = new BABYLON.Scene(engine);
-        
-        if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
+
+        this.UpdateCtrl("ClearColor");
 
         SceneMouseWheelZoom.Install(this);
         new MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
@@ -55,8 +55,14 @@ export class Scene extends UIElement {
 
     public ChangeValue(propertyName: string, value: any): void {
         if (propertyName === "ClearColor") {
-            this.SetFnValueFromValue(value, propertyName, this.CleanBabylonColor3Attribute);
-            if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
+            this.SetValue(value, propertyName, this.CleanBabylonColor3Attribute);
+            this.UpdateCtrl(propertyName);
+        }
+    }
+
+    public UpdateCtrl(propertyName: string): void {
+        switch (propertyName) {
+            case "ClearColor": if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor); break;
         }
     }
 }

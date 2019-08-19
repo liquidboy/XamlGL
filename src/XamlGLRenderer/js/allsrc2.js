@@ -4943,8 +4943,7 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     let engine = Core_12.DIContainer.get("rootEngine");
                     let canvas = Core_12.DIContainer.get("rootCanvas");
                     this.Ctrl = new BABYLON.Scene(engine);
-                    if (this.HasValue(this.ClearColor))
-                        this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
+                    this.UpdateCtrl("ClearColor");
                     SceneMouseWheelZoom_1.SceneMouseWheelZoom.Install(this);
                     new MoveSelectedMesh_1.MoveSelectedMesh().Install(this, canvas, this.GroundName, this.CameraName);
                     engine.runRenderLoop(() => {
@@ -4961,9 +4960,16 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                 }
                 ChangeValue(propertyName, value) {
                     if (propertyName === "ClearColor") {
-                        this.SetFnValueFromValue(value, propertyName, this.CleanBabylonColor3Attribute);
-                        if (this.HasValue(this.ClearColor))
-                            this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
+                        this.SetValue(value, propertyName, this.CleanBabylonColor3Attribute);
+                        this.UpdateCtrl(propertyName);
+                    }
+                }
+                UpdateCtrl(propertyName) {
+                    switch (propertyName) {
+                        case "ClearColor":
+                            if (this.HasValue(this.ClearColor))
+                                this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor);
+                            break;
                     }
                 }
             };
@@ -5508,21 +5514,24 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this._hasCode = false;
                     this.VT = Core_13.DIContainer.get(VisualTree_2.VisualTree);
                     this.DI = Core_13.DIContainer;
-                    this.SetValue = (property, value) => { this[property] = value; };
+                    this.UpdateProperty = (property, value) => { this[property] = value; };
                     this.HasValue = (property) => { return (property !== null && property !== undefined) ? true : false; };
                     this.CleanBabylonColor3Attribute = (color3) => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); };
                     this.ConvertColor3ToColor4 = (color) => { return new BABYLON.Color4(color.r, color.g, color.b, 1); };
                     this.ConvertToBoolean = (value) => { return value.toLowerCase() === 'true' ? true : false; };
                     this.SetValueFromNode = (node, attributeName, propertyName) => {
                         if (node.hasAttribute(attributeName))
-                            this.SetValue(propertyName, node.attributes[attributeName].value);
+                            this.SetValue(node.attributes[attributeName].value, propertyName, null);
                     };
                     this.SetFnValueFromNode = (node, attributeName, propertyName, fn) => {
                         if (node.hasAttribute(attributeName))
-                            this.SetFnValueFromValue(node.attributes[attributeName].value, propertyName, fn);
+                            this.SetValue(node.attributes[attributeName].value, propertyName, fn);
                     };
-                    this.SetFnValueFromValue = (value, propertyName, fn) => {
-                        this.SetValue(propertyName, fn(value));
+                    this.SetValue = (value, propertyName, valueConverterFunction) => {
+                        if (valueConverterFunction === null || valueConverterFunction === undefined)
+                            this.UpdateProperty(propertyName, value);
+                        else
+                            this.UpdateProperty(propertyName, valueConverterFunction(value));
                     };
                     this._uniqueId = Guid_1.Guid.newGuid();
                     this._childEvents = new lib_5.LinkedDictionary();

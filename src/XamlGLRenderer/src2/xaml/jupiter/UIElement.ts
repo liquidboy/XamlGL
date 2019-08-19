@@ -100,7 +100,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
         }
     }
 
-    private SetValue = (property: string, value: any) : any => { this[property] = value; }
+    private UpdateProperty = (property: string, value: any) : any => { this[property] = value; }
 
     protected HasValue = (property: any): boolean => { return (property !== null && property !== undefined) ? true : false; }
 
@@ -111,14 +111,15 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     protected ConvertToBoolean = (value: string): boolean => { return value.toLowerCase() === 'true' ? true : false; }
 
     protected SetValueFromNode: Function = (node: any, attributeName: string, propertyName: string): void => {
-        if (node.hasAttribute(attributeName)) this.SetValue(propertyName, node.attributes[attributeName].value);
+        if (node.hasAttribute(attributeName)) this.SetValue(node.attributes[attributeName].value, propertyName, null);
     }
 
     protected SetFnValueFromNode: Function = (node: any, attributeName: string, propertyName: string, fn: Function): void => {
-        if (node.hasAttribute(attributeName)) this.SetFnValueFromValue(node.attributes[attributeName].value, propertyName, fn);
+        if (node.hasAttribute(attributeName)) this.SetValue(node.attributes[attributeName].value, propertyName, fn);
     }
 
-    public SetFnValueFromValue: Function = (value: any, propertyName: string, fn: Function): void => {
-        this.SetValue(propertyName, fn(value));
+    public SetValue: Function = (value: any, propertyName: string, valueConverterFunction: Function): void => {
+        if (valueConverterFunction === null || valueConverterFunction === undefined) this.UpdateProperty(propertyName, value);
+        else this.UpdateProperty(propertyName, valueConverterFunction(value));
     }
 }
