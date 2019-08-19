@@ -2979,35 +2979,25 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                     let scene = this.VT.Get(this.SceneName);
                     if (this.Type === "FreeCamera") {
                         this.Ctrl = new BABYLON.FreeCamera(this.Name, this.Position, scene.Ctrl);
-                        if (this.HasValue(this.Target))
-                            this.GetFreeCamera(this.Ctrl).setTarget(this.Target);
-                        if (this.HasValue(this.FOV))
-                            this.GetFreeCamera(this.Ctrl).fov = this.FOV;
-                        if (this.HasValue(this.MinZ))
-                            this.GetFreeCamera(this.Ctrl).minZ = this.MinZ;
-                        if (this.HasValue(this.MaxZ))
-                            this.GetFreeCamera(this.Ctrl).maxZ = this.MaxZ;
+                        this.RefreshCtrlProperty("Target");
+                        this.RefreshCtrlProperty("FOV");
+                        this.RefreshCtrlProperty("MinZ");
+                        this.RefreshCtrlProperty("MaxZ");
                         this.Ctrl.attachControl(canvas, true);
                     }
                     else if (this.Type === "UniversalCamera") {
                         this.Ctrl = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Ctrl);
-                        this.Ctrl.setTarget(this._target);
+                        this.Ctrl.setTarget(this.Target);
                         this.Ctrl.attachControl(canvas, true);
                     }
                     else if (this.Type === "ArcRotateCamera") {
-                        let arcCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius, this._target, scene.Ctrl);
-                        if (this.HasValue(this.LowerBetaLimit))
-                            arcCamera.lowerBetaLimit = this.LowerBetaLimit;
-                        if (this.HasValue(this.UpperBetaLimit))
-                            arcCamera.upperBetaLimit = this.UpperBetaLimit;
-                        if (this.HasValue(this.LowerRadiusLimit))
-                            arcCamera.lowerRadiusLimit = this.LowerRadiusLimit;
-                        if (this.HasValue(this.PanningSensibility))
-                            arcCamera.panningSensibility = this.PanningSensibility;
-                        if (this.HasValue(this.Position))
-                            arcCamera.position = this.Position;
-                        arcCamera.attachControl(canvas, true, true);
-                        this.Ctrl = arcCamera;
+                        this.Ctrl = new BABYLON.ArcRotateCamera(this.Name, this.Alpha, this.Beta, this.Radius, this.Target, scene.Ctrl);
+                        this.RefreshCtrlProperty("LowerBetaLimit");
+                        this.RefreshCtrlProperty("UpperBetaLimit");
+                        this.RefreshCtrlProperty("LowerRadiusLimit");
+                        this.RefreshCtrlProperty("PanningSensibility");
+                        this.RefreshCtrlProperty("Position");
+                        this.Ctrl.attachControl(canvas, true, true);
                     }
                     this.PostInitialize();
                 }
@@ -3029,9 +3019,80 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                     this.UpdatePropertyByNodeAndFunction(node, "MaxZ", "MaxZ", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "PanningSensibility", "PanningSensibility", parseFloat);
                 }
-                GetFreeCamera(camera) {
-                    return camera;
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Target":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBabylonObject);
+                            break;
+                        case "FOV":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "MinZ":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "MaxZ":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "LowerBetaLimit":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        case "UpperBetaLimit":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        case "LowerRadiusLimit":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        case "PanningSensibility":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "Position":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
                 }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Target":
+                            if (this.HasValue(this.Target))
+                                this.GetFreeCamera(this.Ctrl).setTarget(this.Target);
+                            break;
+                        case "FOV":
+                            if (this.HasValue(this.FOV))
+                                this.GetFreeCamera(this.Ctrl).fov = this.FOV;
+                            break;
+                        case "MinZ":
+                            if (this.HasValue(this.MinZ))
+                                this.GetFreeCamera(this.Ctrl).minZ = this.MinZ;
+                            break;
+                        case "MaxZ":
+                            if (this.HasValue(this.MaxZ))
+                                this.GetFreeCamera(this.Ctrl).maxZ = this.MaxZ;
+                            break;
+                        case "LowerBetaLimit":
+                            if (this.HasValue(this.LowerBetaLimit))
+                                this.GetArcCamera().lowerBetaLimit = this.LowerBetaLimit;
+                            break;
+                        case "UpperBetaLimit":
+                            if (this.HasValue(this.UpperBetaLimit))
+                                this.GetArcCamera().upperBetaLimit = this.UpperBetaLimit;
+                            break;
+                        case "LowerRadiusLimit":
+                            if (this.HasValue(this.LowerRadiusLimit))
+                                this.GetArcCamera().lowerRadiusLimit = this.LowerRadiusLimit;
+                            break;
+                        case "PanningSensibility":
+                            if (this.HasValue(this.PanningSensibility))
+                                this.GetArcCamera().panningSensibility = this.PanningSensibility;
+                            break;
+                        case "Position":
+                            if (this.HasValue(this.Position))
+                                this.GetArcCamera().position = this.Position;
+                            break;
+                    }
+                }
+                GetFreeCamera(camera) { return camera; }
+                GetArcCamera() { return this.Ctrl; }
             };
             exports_42("Camera", Camera);
         }
