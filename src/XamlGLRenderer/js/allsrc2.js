@@ -2977,7 +2977,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 Initialize() {
                     let canvas = Core_8.DIContainer.get("rootCanvas");
                     let scene = this.VT.Get(this.SceneName);
-                    if (this._type === "FreeCamera") {
+                    if (this.Type === "FreeCamera") {
                         this.Ctrl = new BABYLON.FreeCamera(this.Name, this.Position, scene.Ctrl);
                         if (this.HasValue(this.Target))
                             this.GetFreeCamera(this.Ctrl).setTarget(this.Target);
@@ -2989,12 +2989,12 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                             this.GetFreeCamera(this.Ctrl).maxZ = this.MaxZ;
                         this.Ctrl.attachControl(canvas, true);
                     }
-                    else if (this._type === "UniversalCamera") {
+                    else if (this.Type === "UniversalCamera") {
                         this.Ctrl = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Ctrl);
                         this.Ctrl.setTarget(this._target);
                         this.Ctrl.attachControl(canvas, true);
                     }
-                    else if (this._type === "ArcRotateCamera") {
+                    else if (this.Type === "ArcRotateCamera") {
                         let arcCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius, this._target, scene.Ctrl);
                         if (this.HasValue(this.LowerBetaLimit))
                             arcCamera.lowerBetaLimit = this.LowerBetaLimit;
@@ -3014,10 +3014,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                     this.UpdatePropertyByNode(node, "Scene", "SceneName");
-                    try {
-                        this._target = eval(`new BABYLON.${node.attributes["Target"].value};`);
-                    }
-                    catch (e) { }
+                    this.UpdatePropertyByNodeAndFunction(node, "Target", "Target", this.ConvertToBabylonObject);
                     this.UpdatePropertyByNode(node, "Type", "Type");
                     this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "AlphaCalculated", "Alpha", eval);
@@ -5521,6 +5518,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.CleanBabylonColor3Attribute = (color3) => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); };
                     this.ConvertColor3ToColor4 = (color) => { return new BABYLON.Color4(color.r, color.g, color.b, 1); };
                     this.ConvertToBoolean = (value) => { return value.toLowerCase() === 'true' ? true : false; };
+                    this.ConvertToBabylonObject = (value) => { return eval(`new BABYLON.${value};`); };
                     this.UpdatePropertyByNode = (node, attributeName, propertyName) => {
                         if (node.hasAttribute(attributeName))
                             this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, null);

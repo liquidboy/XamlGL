@@ -48,20 +48,24 @@ export class Camera extends UIElement {
     public Initialize(): void {
         let canvas: HTMLCanvasElement = DIContainer.get("rootCanvas") as HTMLCanvasElement;
         let scene = this.VT.Get(this.SceneName) as Scene;
-        if (this._type === "FreeCamera") {
+        if (this.Type === "FreeCamera") {
             this.Ctrl = new BABYLON.FreeCamera(this.Name, this.Position, scene.Ctrl);
+
+            //this.RefreshCtrlProperty("Target");
             if (this.HasValue(this.Target)) this.GetFreeCamera(this.Ctrl).setTarget(this.Target);
+
+
             if (this.HasValue(this.FOV)) this.GetFreeCamera(this.Ctrl).fov = this.FOV;
             if (this.HasValue(this.MinZ)) this.GetFreeCamera(this.Ctrl).minZ = this.MinZ;
             if (this.HasValue(this.MaxZ)) this.GetFreeCamera(this.Ctrl).maxZ = this.MaxZ;
             this.Ctrl.attachControl(canvas, true);
         }
-        else if (this._type === "UniversalCamera") {
+        else if (this.Type === "UniversalCamera") {
             this.Ctrl = new BABYLON.UniversalCamera(this.Name, this.Position, scene.Ctrl);
             (this.Ctrl as BABYLON.UniversalCamera).setTarget(this._target);
             this.Ctrl.attachControl(canvas, true);
         }
-        else if (this._type === "ArcRotateCamera") {
+        else if (this.Type === "ArcRotateCamera") {
             let arcCamera: BABYLON.ArcRotateCamera = new BABYLON.ArcRotateCamera(this.Name, this._alpha, this._beta, this._radius,
                 this._target, scene.Ctrl);
             if (this.HasValue(this.LowerBetaLimit)) arcCamera.lowerBetaLimit = this.LowerBetaLimit;
@@ -80,7 +84,8 @@ export class Camera extends UIElement {
         super.LoadFromNode(node);
 
         this.UpdatePropertyByNode(node, "Scene", "SceneName");
-        try { this._target = eval(`new BABYLON.${node.attributes["Target"].value};`); } catch (e) { }
+
+        this.UpdatePropertyByNodeAndFunction(node, "Target", "Target", this.ConvertToBabylonObject);
         this.UpdatePropertyByNode(node, "Type", "Type");
 
         this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
@@ -101,6 +106,18 @@ export class Camera extends UIElement {
         this.UpdatePropertyByNodeAndFunction(node, "PanningSensibility", "PanningSensibility", parseFloat);
     }
 
+    //public SetValue(propertyName: string, value: any): void {
+    //    switch (propertyName) {
+    //        case "Target": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
+    //    }
+    //    this.RefreshCtrlProperty(propertyName);
+    //}
+
+    //private RefreshCtrlProperty(propertyName: string): void {
+    //    switch (propertyName) {
+    //        case "Target": if (this.HasValue(this.Target)) this.GetFreeCamera(this.Ctrl).setTarget(this.Target); break;
+    //    }
+    //}
 
     private GetFreeCamera(camera: BABYLON.Camera): BABYLON.FreeCamera{
         return camera as BABYLON.FreeCamera;
