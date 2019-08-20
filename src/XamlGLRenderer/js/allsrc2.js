@@ -3091,17 +3091,24 @@ System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines",
                 get Radius() { return this._radius; }
                 get Tessellation() { return this._tessellation; }
                 get Updateable() { return this._updatable; }
-                get SideOrientation() { return this._sideOrieantation; }
+                get SideOrientation() { return this._sideOrientation; }
+                set SceneName(value) { this._sceneName = value; }
+                set MaterialName(value) { this._materialName = value; }
+                set ShowNormalLines(value) { this._showNormalLines = value; }
+                set Radius(value) { this._radius = value; }
+                set Tessellation(value) { this._tessellation = value; }
+                set Updateable(value) { this._updatable = value; }
+                set SideOrientation(value) { this._sideOrientation = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     this._scene = scene;
                     this.Ctrl = BABYLON.MeshBuilder.CreateDisc(this.Name, { tessellation: this.Tessellation, sideOrientation: this.SideOrientation }, scene.Ctrl);
-                    if (this.MaterialName) {
+                    if (this.HasValue(this.MaterialName)) {
                         let material = this.VT.Get(this.MaterialName);
                         if (material.Ctrl)
                             this.Ctrl.material = material.Ctrl;
                     }
-                    if (this.Ctrl && this._showNormalLines)
+                    if (this.Ctrl && this.HasValue(this.ShowNormalLines) && this.ShowNormalLines)
                         MeshNormalLines_2.MeshNormalLines.Install(scene, this.Ctrl);
                     if (this.Ctrl && this.Animations && this.Animations.Animations)
                         this.Animations.Animations.forEach((animation) => {
@@ -3113,34 +3120,13 @@ System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines",
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._materialName = node.attributes["Material"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._radius = parseFloat(node.attributes["Radius"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._tessellation = parseFloat(node.attributes["Tessellation"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._sideOrieantation = eval(node.attributes["SideOrientation"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._updatable = node.attributes["Updateable"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Material", "MaterialName");
+                    this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+                    this.UpdatePropertyByNodeAndFunction(node, "Radius", "Radius", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Tessellation", "Tessellation", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "SideOrientation", "SideOrientation", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "Updateable", "Updateable", this.ConvertToBoolean);
                 }
                 StartAnimation() {
                     if (this.Animations && this.Animations.Animations)
@@ -3440,6 +3426,11 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                 get Height() { return this._height; }
                 get SubDivisions() { return this._subdivisions; }
                 get MaterialName() { return this._materialName; }
+                set SceneName(value) { this._sceneName = value; }
+                set Width(value) { this._width = value; }
+                set Height(value) { this._height = value; }
+                set SubDivisions(value) { this._subdivisions = value; }
+                set MaterialName(value) { this._materialName = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
@@ -3450,26 +3441,11 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._width = parseFloat(node.attributes["Width"].value);
-                    }
-                    catch (_b) { }
-                    try {
-                        this._height = parseFloat(node.attributes["Height"].value);
-                    }
-                    catch (_c) { }
-                    try {
-                        this._subdivisions = parseInt(node.attributes["SubDivisions"].value);
-                    }
-                    catch (_d) { }
-                    try {
-                        this._materialName = node.attributes["Material"].value;
-                    }
-                    catch (_e) { }
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Material", "MaterialName");
+                    this.UpdatePropertyByNodeAndFunction(node, "Width", "Width", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Height", "Height", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "SubDivisions", "SubDivisions", parseInt);
                 }
             };
             exports_49("Ground", Ground);

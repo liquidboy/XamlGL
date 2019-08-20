@@ -10,7 +10,7 @@ export class Disc extends AnimatableUIElement {
     private _showNormalLines: boolean;
     private _radius: number;
     private _tessellation: number;
-    private _sideOrieantation: any;
+    private _sideOrientation: any;
     private _updatable: boolean;
 
     get SceneName(): string { return this._sceneName; }
@@ -19,7 +19,15 @@ export class Disc extends AnimatableUIElement {
     get Radius(): number { return this._radius; }
     get Tessellation(): number { return this._tessellation; }
     get Updateable(): boolean { return this._updatable; }
-    get SideOrientation(): number { return this._sideOrieantation; }
+    get SideOrientation(): number { return this._sideOrientation; }
+
+    set SceneName(value: string) { this._sceneName = value; }
+    set MaterialName(value: string) { this._materialName = value; }
+    set ShowNormalLines(value: boolean) { this._showNormalLines = value; }
+    set Radius(value: number) { this._radius = value; }
+    set Tessellation(value: number) { this._tessellation = value; }
+    set Updateable(value: boolean) { this._updatable = value; }
+    set SideOrientation(value: number) { this._sideOrientation = value; }
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
@@ -27,12 +35,12 @@ export class Disc extends AnimatableUIElement {
 
         this.Ctrl = BABYLON.MeshBuilder.CreateDisc(this.Name, { tessellation: this.Tessellation, sideOrientation: this.SideOrientation }, scene.Ctrl);
 
-        if (this.MaterialName) {
+        if (this.HasValue(this.MaterialName)) {
             let material: Material = this.VT.Get(this.MaterialName) as Material;
             if (material.Ctrl) this.Ctrl.material = material.Ctrl;
         }
         //if (this._mesh && this.Position) this._mesh.position = this.Position;
-        if (this.Ctrl && this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
+        if (this.Ctrl && this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
 
         if (this.Ctrl && this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
@@ -47,13 +55,13 @@ export class Disc extends AnimatableUIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
-        try { this._materialName = node.attributes["Material"].value; } catch (e) { }
-        try { this._showNormalLines = node.attributes["ShowNormalLines"].value.toLowerCase() === 'true'; } catch (e) { }
-        try { this._radius = parseFloat(node.attributes["Radius"].value); } catch (e) { }
-        try { this._tessellation = parseFloat(node.attributes["Tessellation"].value); } catch (e) { }
-        try { this._sideOrieantation = eval(node.attributes["SideOrientation"].value); } catch (e) { }
-        try { this._updatable = node.attributes["Updateable"].value.toLowerCase() === 'true'; } catch (e) { }
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "Material", "MaterialName");
+        this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
+        this.UpdatePropertyByNodeAndFunction(node, "Radius", "Radius", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Tessellation", "Tessellation", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "SideOrientation", "SideOrientation", eval);
+        this.UpdatePropertyByNodeAndFunction(node, "Updateable", "Updateable", this.ConvertToBoolean);
     }
 
     StartAnimation(): void {
