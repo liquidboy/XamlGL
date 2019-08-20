@@ -11,6 +11,10 @@ export class ParticleSystemShape extends UIElement {
     get MeshName(): string { return this._meshName; }
     get NB(): number { return this._nb; }
 
+    set SceneName(value: string) { this._sceneName = value; }
+    set MeshName(value: string) { this._meshName = value; }
+    set NB(value: number) { this._nb = value; }
+
     constructor() {
         super();
     }
@@ -38,9 +42,9 @@ export class ParticleSystemShape extends UIElement {
     }
 
     public LoadFromNode(node: any): void {
-        try { this._sceneName = node.attributes["Scene"].value; } catch (e) { }
-        try { this._meshName = node.attributes["Mesh"].value; } catch (e) { }
-        try { this._nb = parseInt(node.attributes["NB"].value); } catch (e) { }
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "Mesh", "MeshName");
+        this.UpdatePropertyByNodeAndFunction(node, "NB", "NB", parseInt);
 
         try {
             let parser: DOMParser = new DOMParser();

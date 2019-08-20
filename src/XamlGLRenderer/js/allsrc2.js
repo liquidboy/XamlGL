@@ -4701,6 +4701,9 @@ System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIEl
                 get SceneName() { return this._sceneName; }
                 get MeshName() { return this._meshName; }
                 get NB() { return this._nb; }
+                set SceneName(value) { this._sceneName = value; }
+                set MeshName(value) { this._meshName = value; }
+                set NB(value) { this._nb = value; }
                 constructor() {
                     super();
                 }
@@ -4731,18 +4734,9 @@ System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIEl
                     mesh.Ctrl.dispose();
                 }
                 LoadFromNode(node) {
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._meshName = node.attributes["Mesh"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._nb = parseInt(node.attributes["NB"].value);
-                    }
-                    catch (e) { }
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Mesh", "MeshName");
+                    this.UpdatePropertyByNodeAndFunction(node, "NB", "NB", parseInt);
                     try {
                         let parser = new DOMParser();
                         let scriptFound = parser.parseFromString(node.innerHTML, "text/html");
