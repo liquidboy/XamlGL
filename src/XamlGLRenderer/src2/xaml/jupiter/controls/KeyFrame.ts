@@ -8,14 +8,17 @@ export class KeyFrame extends UIElement {
 
     get Frame(): number { return this._frame; }
     get Value(): number { return this._value; }
-    
+
+    set Frame(value: number) { this._frame = value; }
+    set Value(value: number) { this._value = value; }
+
     constructor() {
         super();
     }
 
     public LoadFromNode(node: any): void {
-        try { this._frame = parseInt(node.attributes["Frame"].value); } catch { }
-        try { this._value = parseFloat(node.attributes["Value"].value); } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "Frame", "Frame", parseInt);
+        this.UpdatePropertyByNodeAndFunction(node, "Value", "Value", parseFloat);
     }
 
     TrySetParent(parent: UIElement): boolean {

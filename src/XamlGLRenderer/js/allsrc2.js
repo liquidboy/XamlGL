@@ -2467,18 +2467,14 @@ System.register("Xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], functio
             KeyFrame = class KeyFrame extends Core_5.UIElement {
                 get Frame() { return this._frame; }
                 get Value() { return this._value; }
+                set Frame(value) { this._frame = value; }
+                set Value(value) { this._value = value; }
                 constructor() {
                     super();
                 }
                 LoadFromNode(node) {
-                    try {
-                        this._frame = parseInt(node.attributes["Frame"].value);
-                    }
-                    catch (_a) { }
-                    try {
-                        this._value = parseFloat(node.attributes["Value"].value);
-                    }
-                    catch (_b) { }
+                    this.UpdatePropertyByNodeAndFunction(node, "Frame", "Frame", parseInt);
+                    this.UpdatePropertyByNodeAndFunction(node, "Value", "Value", parseFloat);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -3309,23 +3305,34 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "ba
                 get ReflectionTextureName() { return this._reflectionTextureName; }
                 get ShaderPath() { return this._shaderPath; }
                 get Options() { return this._options; }
+                set SceneName(value) { this._sceneName = value; }
+                set Type(value) { this._type = value; }
+                set Wireframe(value) { this._wireframe = value; }
+                set DiffuseColor(value) { this._diffuseColor = value; }
+                set SpecularColor(value) { this._specularColor = value; }
+                set EmissiveColor(value) { this._emissiveColor = value; }
+                set DisableLighting(value) { this._disableLighting = value; }
+                set BackFaceCulling(value) { this._backFaceCulling = value; }
+                set ReflectionTextureName(value) { this._reflectionTextureName = value; }
+                set ShaderPath(value) { this._shaderPath = value; }
+                set Options(value) { this._options = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     if (this.Type === "StandardMaterial") {
                         this.Ctrl = new BABYLON.StandardMaterial(this.Name, scene.Ctrl);
-                        if (this._wireframe !== undefined)
-                            this.Ctrl.wireframe = this._wireframe;
-                        if (this._diffuseColor !== undefined)
-                            this.GetStandardMaterial(this.Ctrl).diffuseColor = this._diffuseColor;
-                        if (this._specularColor !== undefined)
-                            this.GetStandardMaterial(this.Ctrl).specularColor = this._specularColor;
-                        if (this._emissiveColor !== undefined)
-                            this.GetStandardMaterial(this.Ctrl).emissiveColor = this._emissiveColor;
-                        if (this._disableLighting !== undefined)
-                            this.GetStandardMaterial(this.Ctrl).disableLighting = this._disableLighting;
-                        if (this._backFaceCulling !== undefined)
-                            this.GetStandardMaterial(this.Ctrl).backFaceCulling = this._backFaceCulling;
-                        if (this._reflectionTextureName !== undefined) {
+                        if (this.HasValue(this.Wireframe))
+                            this.Ctrl.wireframe = this.Wireframe;
+                        if (this.HasValue(this.DiffuseColor))
+                            this.GetStandardMaterial(this.Ctrl).diffuseColor = this.DiffuseColor;
+                        if (this.HasValue(this.SpecularColor))
+                            this.GetStandardMaterial(this.Ctrl).specularColor = this.SpecularColor;
+                        if (this.HasValue(this.EmissiveColor))
+                            this.GetStandardMaterial(this.Ctrl).emissiveColor = this.EmissiveColor;
+                        if (this.HasValue(this.DisableLighting))
+                            this.GetStandardMaterial(this.Ctrl).disableLighting = this.DisableLighting;
+                        if (this.HasValue(this.BackFaceCulling))
+                            this.GetStandardMaterial(this.Ctrl).backFaceCulling = this.BackFaceCulling;
+                        if (this.HasValue(this.ReflectionTextureName)) {
                             let rt = this.VT.Get(this.ReflectionTextureName);
                             if (rt.Ctrl !== undefined && rt.Ctrl.isReadyOrNotBlocking)
                                 this.Ctrl.reflectionTexture = rt.Ctrl;
@@ -3342,64 +3349,22 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "ba
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._reflectionTextureName = node.attributes["ReflectionTexture"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._type = node.attributes["Type"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._wireframe = node.attributes["Wireframe"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._diffuseColor = eval(this.cleanBabylonColor3Attribute(node.attributes["DiffuseColor"].value));
-                    }
-                    catch (e) { }
-                    try {
-                        this._specularColor = eval(this.cleanBabylonColor3Attribute(node.attributes["SpecularColor"].value));
-                    }
-                    catch (e) { }
-                    try {
-                        this._emissiveColor = eval(this.cleanBabylonColor3Attribute(node.attributes["EmissiveColor"].value));
-                    }
-                    catch (e) { }
-                    try {
-                        this._reflectionTextureName = node.attributes["ReflectionTexture"].value;
-                    }
-                    catch (e) { }
-                    try {
-                        this._disableLighting = node.attributes["DisableLighting"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._backFaceCulling = node.attributes["BackFaceCulling"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._shaderPath = this.CleanJSONObject(node.attributes["ShaderPath"].value);
-                    }
-                    catch (e) { }
-                    try {
-                        this._options = this.CleanJSONObject(node.attributes["Options"].value);
-                    }
-                    catch (e) { }
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "Type", "Type");
+                    this.UpdatePropertyByNodeAndFunction(node, "Wireframe", "Wireframe", this.ConvertToBoolean);
+                    this.UpdatePropertyByNodeAndFunction(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
+                    this.UpdatePropertyByNodeAndFunction(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
+                    this.UpdatePropertyByNodeAndFunction(node, "EmissiveColor", "EmissiveColor", this.CleanBabylonColor3Attribute);
+                    this.UpdatePropertyByNode(node, "ReflectionTexture", "ReflectionTextureName");
+                    this.UpdatePropertyByNodeAndFunction(node, "DisableLighting", "DisableLighting", this.ConvertToBoolean);
+                    this.UpdatePropertyByNodeAndFunction(node, "BackFaceCulling", "BackFaceCulling", this.ConvertToBoolean);
+                    this.UpdatePropertyByNodeAndFunction(node, "ShaderPath", "ShaderPath", this.CleanJSONObject);
+                    this.UpdatePropertyByNodeAndFunction(node, "Options", "Options", this.CleanJSONObject);
                 }
                 CleanJSONObject(stringToClean) {
                     var cleanString = stringToClean.replace(/`/g, "\"");
                     var newObject = JSON.parse(cleanString);
                     return newObject;
-                }
-                cleanBabylonColor3Attribute(color3) {
-                    if (color3.includes("Color3."))
-                        return `BABYLON.${color3};`;
-                    return `new BABYLON.${color3};`;
                 }
                 GetStandardMaterial(material) {
                     return material;
