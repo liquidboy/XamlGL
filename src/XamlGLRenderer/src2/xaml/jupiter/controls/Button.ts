@@ -21,6 +21,14 @@ export class Button extends UIElement {
     get Height(): string | number { return this._height; }
     get FontSize(): number { return this._fontSize; }
 
+    set Content(value: string) { this._content = value; }
+    set Color(value: string) { this._color = value; }
+    set Background(value: string) { this._background = value; }
+    set CornerRadius(value: number) { this._cornerRadius = value; }
+    set Width(value: string | number) { this._width = value; }
+    set Height(value: string | number) { this._height = value; }
+    set FontSize(value: number) { this._fontSize = value; }
+
     constructor() {
         super();
     }
@@ -32,7 +40,7 @@ export class Button extends UIElement {
         this.Ctrl.color = this.Color;
         this.Ctrl.cornerRadius = this.CornerRadius;
         this.Ctrl.background = this.Background;
-        if (this.FontSize !== undefined) this.Ctrl.fontSize = this.FontSize;
+        if ( this.HasValue(this.FontSize)) this.Ctrl.fontSize = this.FontSize;
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
@@ -50,13 +58,13 @@ export class Button extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._content = node.attributes["Content"].value; } catch { }
-        try { this._color = node.attributes["Color"].value; } catch { }
-        try { this._background = node.attributes["Background"].value; } catch { }
-        try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
-        try { this._height = node.attributes["Height"].value; } catch { }
-        try { this._cornerRadius = node.attributes["CornerRadius"].value; } catch { }
-        try { this._fontSize = parseFloat(node.attributes["FontSize"].value); } catch { }
+        this.UpdatePropertyByNode(node, "Content", "Content");
+        this.UpdatePropertyByNode(node, "Color", "Color");
+        this.UpdatePropertyByNode(node, "Background", "Background");
+        this.UpdatePropertyByNode(node, "Width", "Width");
+        this.UpdatePropertyByNode(node, "Height", "Height");
+        this.UpdatePropertyByNodeAndFunction(node, "CornerRadius", "CornerRadius", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "FontSize", "FontSize", parseFloat);
     }
 
     TrySetParent(parent: UIElement): boolean {

@@ -2850,6 +2850,13 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "baby
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 get FontSize() { return this._fontSize; }
+                set Content(value) { this._content = value; }
+                set Color(value) { this._color = value; }
+                set Background(value) { this._background = value; }
+                set CornerRadius(value) { this._cornerRadius = value; }
+                set Width(value) { this._width = value; }
+                set Height(value) { this._height = value; }
+                set FontSize(value) { this._fontSize = value; }
                 constructor() {
                     super();
                 }
@@ -2860,7 +2867,7 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "baby
                     this.Ctrl.color = this.Color;
                     this.Ctrl.cornerRadius = this.CornerRadius;
                     this.Ctrl.background = this.Background;
-                    if (this.FontSize !== undefined)
+                    if (this.HasValue(this.FontSize))
                         this.Ctrl.fontSize = this.FontSize;
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.ChildrenGUIs.forEach((key, child) => {
@@ -2878,34 +2885,13 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "baby
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._content = node.attributes["Content"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._color = node.attributes["Color"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._background = node.attributes["Background"].value;
-                    }
-                    catch (_c) { }
-                    try {
-                        this._width = parseFloat(node.attributes["Width"].value);
-                    }
-                    catch (_d) { }
-                    try {
-                        this._height = node.attributes["Height"].value;
-                    }
-                    catch (_e) { }
-                    try {
-                        this._cornerRadius = node.attributes["CornerRadius"].value;
-                    }
-                    catch (_f) { }
-                    try {
-                        this._fontSize = parseFloat(node.attributes["FontSize"].value);
-                    }
-                    catch (_g) { }
+                    this.UpdatePropertyByNode(node, "Content", "Content");
+                    this.UpdatePropertyByNode(node, "Color", "Color");
+                    this.UpdatePropertyByNode(node, "Background", "Background");
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNodeAndFunction(node, "CornerRadius", "CornerRadius", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "FontSize", "FontSize", parseFloat);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -3727,10 +3713,15 @@ System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], functi
                 get Height() { return this._height; }
                 get SubDivisions() { return this._subdivisions; }
                 get MaterialName() { return this._materialName; }
+                set SceneName(value) { this._sceneName = value; }
+                set Width(value) { this._width = value; }
+                set Height(value) { this._height = value; }
+                set SubDivisions(value) { this._subdivisions = value; }
+                set MaterialName(value) { this._materialName = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     this.Ctrl = new BABYLON.Mesh(this.Name, scene.Ctrl);
-                    if (this.MaterialName !== undefined) {
+                    if (this.HasValue(this.MaterialName)) {
                         let material = this.VT.Get(this.MaterialName);
                         if (material && material.Ctrl)
                             this.Ctrl.material = material.Ctrl;
@@ -3739,26 +3730,11 @@ System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], functi
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._width = parseFloat(node.attributes["Width"].value);
-                    }
-                    catch (_b) { }
-                    try {
-                        this._height = parseFloat(node.attributes["Height"].value);
-                    }
-                    catch (_c) { }
-                    try {
-                        this._subdivisions = parseInt(node.attributes["SubDivisions"].value);
-                    }
-                    catch (_d) { }
-                    try {
-                        this._materialName = node.attributes["Material"].value;
-                    }
-                    catch (_e) { }
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNodeAndFunction(node, "Width", "Width", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Height", "Height", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "SubDivisions", "SubDivisions", parseInt);
+                    this.UpdatePropertyByNode(node, "Material", "MaterialName");
                 }
             };
             exports_53("Mesh", Mesh);

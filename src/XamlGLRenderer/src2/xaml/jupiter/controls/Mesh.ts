@@ -15,11 +15,17 @@ export class Mesh extends UIElement {
     get SubDivisions(): number { return this._subdivisions; }
     get MaterialName(): string { return this._materialName; }
 
+    set SceneName(value: string) { this._sceneName = value; }
+    set Width(value: number) { this._width = value; }
+    set Height(value: number) { this._height = value; }
+    set SubDivisions(value: number) { this._subdivisions = value; }
+    set MaterialName(value: string) { this._materialName = value; }
+
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         
         this.Ctrl = new BABYLON.Mesh(this.Name, scene.Ctrl);
-        if (this.MaterialName !== undefined) {
+        if (this.HasValue(this.MaterialName)) {
             let material: Material = this.VT.Get(this.MaterialName) as Material;
             if (material && material.Ctrl) this.Ctrl.material = material.Ctrl;
         }
@@ -28,10 +34,10 @@ export class Mesh extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._sceneName = node.attributes["Scene"].value; } catch { }
-        try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
-        try { this._height = parseFloat(node.attributes["Height"].value); } catch { }
-        try { this._subdivisions = parseInt(node.attributes["SubDivisions"].value); } catch { }
-        try { this._materialName = node.attributes["Material"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNodeAndFunction(node, "Width", "Width", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Height", "Height", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "SubDivisions", "SubDivisions", parseInt);
+        this.UpdatePropertyByNode(node, "Material", "MaterialName");
     }
 }
