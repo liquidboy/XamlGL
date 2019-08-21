@@ -5059,6 +5059,14 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                 get Color() { return this._color; }
                 get Background() { return this._background; }
                 get HorizontalAlignment() { return this._horizontalAlignment; }
+                set Height(value) { this._height = value; }
+                set Width(value) { this._width = value; }
+                set Min(value) { this._min = value; }
+                set Max(value) { this._max = value; }
+                set Value(value) { this._value = value; }
+                set Color(value) { this._color = value; }
+                set Background(value) { this._background = value; }
+                set HorizontalAlignment(value) { this._horizontalAlignment = value; }
                 constructor() {
                     super();
                 }
@@ -5069,11 +5077,11 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                     this.Ctrl.minimum = this.Min;
                     this.Ctrl.maximum = this.Max;
                     this.Ctrl.value = this.Value;
-                    if (this.Color !== undefined)
+                    if (this.HasValue(this.Color))
                         this.Ctrl.color = this.Color;
-                    if (this.Background !== undefined)
+                    if (this.HasValue(this.Background))
                         this.Ctrl.background = this.Background;
-                    if (this.HorizontalAlignment !== undefined)
+                    if (this.HasValue(this.HorizontalAlignment))
                         this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
                     this.Ctrl.text = this.Value;
                     this.Parent.Ctrl.addControl(this.Ctrl);
@@ -5084,38 +5092,14 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._height = node.attributes["Height"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._width = node.attributes["Width"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._min = parseFloat(node.attributes["Minimum"].value);
-                    }
-                    catch (_c) { }
-                    try {
-                        this._max = parseFloat(node.attributes["Maximum"].value);
-                    }
-                    catch (_d) { }
-                    try {
-                        this._value = node.attributes["Value"].value;
-                    }
-                    catch (_e) { }
-                    try {
-                        this._color = node.attributes["Color"].value;
-                    }
-                    catch (_f) { }
-                    try {
-                        this._background = node.attributes["Background"].value;
-                    }
-                    catch (_g) { }
-                    try {
-                        this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value);
-                    }
-                    catch (_h) { }
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", parseFloat);
+                    this.UpdatePropertyByNode(node, "Value", "Value");
+                    this.UpdatePropertyByNode(node, "Color", "Color");
+                    this.UpdatePropertyByNode(node, "Background", "Background");
+                    this.UpdatePropertyByNodeAndFunction(node, "HorizontalAlignment", "HorizontalAlignment", eval);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {

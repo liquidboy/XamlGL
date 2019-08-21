@@ -22,6 +22,15 @@ export class Slider extends UIElement {
     get Background(): string { return this._background; }
     get HorizontalAlignment(): number { return this._horizontalAlignment; }
 
+    set Height(value: number | string) { this._height = value; }
+    set Width(value: number | string) { this._width = value; }
+    set Min(value: number) { this._min = value; }
+    set Max(value: number) { this._max = value; }
+    set Value(value: any) { this._value = value; }
+    set Color(value: string) { this._color = value; }
+    set Background(value: string) { this._background = value; }
+    set HorizontalAlignment(value: number) { this._horizontalAlignment = value; }
+
     constructor() {
         super();
     }
@@ -34,9 +43,9 @@ export class Slider extends UIElement {
         this.Ctrl.maximum = this.Max;
         this.Ctrl.value = this.Value;
         
-        if (this.Color !== undefined) this.Ctrl.color = this.Color;
-        if (this.Background !== undefined) this.Ctrl.background = this.Background;
-        if (this.HorizontalAlignment !== undefined) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+        if (this.HasValue(this.Color)) this.Ctrl.color = this.Color;
+        if (this.HasValue(this.Background)) this.Ctrl.background = this.Background;
+        if (this.HasValue(this.HorizontalAlignment)) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
         this.Ctrl.text = this.Value;
 
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
@@ -50,14 +59,15 @@ export class Slider extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._height = node.attributes["Height"].value; } catch { }
-        try { this._width = node.attributes["Width"].value; } catch { }
-        try { this._min = parseFloat(node.attributes["Minimum"].value); } catch { }
-        try { this._max = parseFloat(node.attributes["Maximum"].value); } catch { }
-        try { this._value = node.attributes["Value"].value; } catch { }
-        try { this._color = node.attributes["Color"].value; } catch { }
-        try { this._background= node.attributes["Background"].value; } catch { }
-        try { this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value); } catch { }
+
+        this.UpdatePropertyByNode(node, "Height", "Height");
+        this.UpdatePropertyByNode(node, "Width", "Width");
+        this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", parseFloat);
+        this.UpdatePropertyByNode(node, "Value", "Value");
+        this.UpdatePropertyByNode(node, "Color", "Color");
+        this.UpdatePropertyByNode(node, "Background", "Background");
+        this.UpdatePropertyByNodeAndFunction(node, "HorizontalAlignment", "HorizontalAlignment", eval);
     }
 
     TrySetParent(parent: UIElement): boolean {
