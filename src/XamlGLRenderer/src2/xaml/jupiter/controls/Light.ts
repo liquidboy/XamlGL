@@ -46,7 +46,7 @@ export class Light extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
         this.UpdatePropertyByNode(node, "Scene", "SceneName");
-        this.UpdatePropertyByNodeAndFunction(node, "Direction", "Direction", this.ConvertToBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Direction", "Direction", this.ConvertToNewBabylonObject);
         this.UpdatePropertyByNode(node, "Type", "Type");
         this.UpdatePropertyByNodeAndFunction(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
         this.UpdatePropertyByNodeAndFunction(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
@@ -55,7 +55,7 @@ export class Light extends UIElement {
 
     public SetValue(propertyName: string, value: any): void {
         switch (propertyName) {
-            case "Direction": this.UpdatePropertyByValue(propertyName, value, this.ConvertToBabylonObject); break;
+            case "Direction": this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject); break;
             case "DiffuseColor": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
             case "SpecularColor": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
             case "Intensity": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;

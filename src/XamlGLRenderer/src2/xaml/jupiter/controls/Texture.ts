@@ -27,6 +27,17 @@ export class Texture extends UIElement {
     get Level(): number { return this._level; }
     get MirrorPlane(): BABYLON.Plane { return this._mirrorPlane; }
 
+    set SceneName(value: string) { this._sceneName = value; }
+    set RootUrl(value: string) { this._rootUrl = value; }
+    set Type(value: string) { this._type = value; }
+    set CoordinatesMode(value: number) { this._coordinatesMode = value; }
+    set Options(value: string) { this._options = value; }
+    set GeneratingMipMaps(value: boolean) { this._generatingMipMaps = value; }
+    set IdealHeight(value: number) { this._idealHeight = value; }
+    set Size(value: number) { this._size = value; }
+    set Level(value: number) { this._level = value; }
+    set MirrorPlane(value: BABYLON.Plane) { this._mirrorPlane = value; }
+
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
 
@@ -53,7 +64,7 @@ export class Texture extends UIElement {
         }
 
         if (this.Ctrl !== undefined) {
-            if (this._coordinatesMode !== undefined) this.Ctrl.coordinatesMode = this._coordinatesMode;
+            if (this.HasValue(this.CoordinatesMode)) this.Ctrl.coordinatesMode = this.CoordinatesMode;
         }
 
         this.ChildrenGUIs.forEach((key: string, child: UIElement) => {
@@ -65,16 +76,16 @@ export class Texture extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._sceneName = node.attributes["Scene"].value; } catch { }
-        try { this._rootUrl = node.attributes["RootUrl"].value; } catch { }
-        try { this._type = node.attributes["Type"].value; } catch { }
-        try { this._options = node.attributes["Options"].value; } catch { }
-        try { this._coordinatesMode = eval(`BABYLON.${node.attributes["CoordinatesMode"].value};`); } catch (e) { }
-        try { this._generatingMipMaps = node.attributes["GeneratingMipMaps"].value.toLowerCase() === 'true'; } catch (e) { }
-        try { this._idealHeight = parseInt(node.attributes["IdealHeight"].value); } catch { }
-        try { this._size = parseInt(node.attributes["Size"].value); } catch { }
-        try { this._level = parseFloat(node.attributes["Level"].value); } catch { }
-        try { this._mirrorPlane = eval(`new BABYLON.${node.attributes["MirrorPlane"].value};`); } catch (e) { }
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "RootUrl", "RootUrl");
+        this.UpdatePropertyByNode(node, "Type", "Type");
+        this.UpdatePropertyByNode(node, "Options", "Options");
+        this.UpdatePropertyByNodeAndFunction(node, "CoordinatesMode", "CoordinatesMode", this.ConvertToBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "GeneratingMipMaps", "GeneratingMipMaps", this.ConvertToBoolean);
+        this.UpdatePropertyByNodeAndFunction(node, "IdealHeight", "IdealHeight", parseInt);
+        this.UpdatePropertyByNodeAndFunction(node, "Size", "Size", parseInt);
+        this.UpdatePropertyByNodeAndFunction(node, "Level", "Level", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MirrorPlane", "MirrorPlane", this.ConvertToNewBabylonObject);
     }
 
     TrySetParent(parent: UIElement): boolean {

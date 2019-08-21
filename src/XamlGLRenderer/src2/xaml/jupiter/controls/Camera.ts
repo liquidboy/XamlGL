@@ -78,7 +78,7 @@ export class Camera extends UIElement {
         super.LoadFromNode(node);
 
         this.UpdatePropertyByNode(node, "Scene", "SceneName");
-        this.UpdatePropertyByNodeAndFunction(node, "Target", "Target", this.ConvertToBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Target", "Target", this.ConvertToNewBabylonObject);
         this.UpdatePropertyByNode(node, "Type", "Type");
         this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
         this.UpdatePropertyByNodeAndFunction(node, "AlphaCalculated", "Alpha", eval);
@@ -96,7 +96,7 @@ export class Camera extends UIElement {
 
     public SetValue(propertyName: string, value: any): void {
         switch (propertyName) {
-            case "Target": this.UpdatePropertyByValue(propertyName, value, this.ConvertToBabylonObject); break;
+            case "Target": this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject); break;
             case "FOV": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
             case "MinZ": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
             case "MaxZ": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;

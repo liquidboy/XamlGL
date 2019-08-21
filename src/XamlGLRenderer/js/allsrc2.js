@@ -2623,6 +2623,16 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                 get Size() { return this._size; }
                 get Level() { return this._level; }
                 get MirrorPlane() { return this._mirrorPlane; }
+                set SceneName(value) { this._sceneName = value; }
+                set RootUrl(value) { this._rootUrl = value; }
+                set Type(value) { this._type = value; }
+                set CoordinatesMode(value) { this._coordinatesMode = value; }
+                set Options(value) { this._options = value; }
+                set GeneratingMipMaps(value) { this._generatingMipMaps = value; }
+                set IdealHeight(value) { this._idealHeight = value; }
+                set Size(value) { this._size = value; }
+                set Level(value) { this._level = value; }
+                set MirrorPlane(value) { this._mirrorPlane = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     if (this._type === "CubeTexture") {
@@ -2649,8 +2659,8 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                         this.Ctrl = reflectionTexture;
                     }
                     if (this.Ctrl !== undefined) {
-                        if (this._coordinatesMode !== undefined)
-                            this.Ctrl.coordinatesMode = this._coordinatesMode;
+                        if (this.HasValue(this.CoordinatesMode))
+                            this.Ctrl.coordinatesMode = this.CoordinatesMode;
                     }
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
@@ -2659,46 +2669,16 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._rootUrl = node.attributes["RootUrl"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._type = node.attributes["Type"].value;
-                    }
-                    catch (_c) { }
-                    try {
-                        this._options = node.attributes["Options"].value;
-                    }
-                    catch (_d) { }
-                    try {
-                        this._coordinatesMode = eval(`BABYLON.${node.attributes["CoordinatesMode"].value};`);
-                    }
-                    catch (e) { }
-                    try {
-                        this._generatingMipMaps = node.attributes["GeneratingMipMaps"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._idealHeight = parseInt(node.attributes["IdealHeight"].value);
-                    }
-                    catch (_e) { }
-                    try {
-                        this._size = parseInt(node.attributes["Size"].value);
-                    }
-                    catch (_f) { }
-                    try {
-                        this._level = parseFloat(node.attributes["Level"].value);
-                    }
-                    catch (_g) { }
-                    try {
-                        this._mirrorPlane = eval(`new BABYLON.${node.attributes["MirrorPlane"].value};`);
-                    }
-                    catch (e) { }
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "RootUrl", "RootUrl");
+                    this.UpdatePropertyByNode(node, "Type", "Type");
+                    this.UpdatePropertyByNode(node, "Options", "Options");
+                    this.UpdatePropertyByNodeAndFunction(node, "CoordinatesMode", "CoordinatesMode", this.ConvertToBabylonObject);
+                    this.UpdatePropertyByNodeAndFunction(node, "GeneratingMipMaps", "GeneratingMipMaps", this.ConvertToBoolean);
+                    this.UpdatePropertyByNodeAndFunction(node, "IdealHeight", "IdealHeight", parseInt);
+                    this.UpdatePropertyByNodeAndFunction(node, "Size", "Size", parseInt);
+                    this.UpdatePropertyByNodeAndFunction(node, "Level", "Level", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "MirrorPlane", "MirrorPlane", this.ConvertToNewBabylonObject);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -2778,7 +2758,7 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                     this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
                     this.UpdatePropertyByNode(node, "Width", "Width");
                     this.UpdatePropertyByNodeAndFunction(node, "InfiniteDistance", "InfiniteDistance", this.ConvertToBoolean);
-                    this.UpdatePropertyByNodeAndFunction(node, "Scaling", "Scaling", this.ConvertToBabylonObject);
+                    this.UpdatePropertyByNodeAndFunction(node, "Scaling", "Scaling", this.ConvertToNewBabylonObject);
                     this.UpdatePropertyByNode(node, "AddToRenderList", "AddToRenderList");
                 }
                 StartAnimation() {
@@ -2972,7 +2952,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                     this.UpdatePropertyByNode(node, "Scene", "SceneName");
-                    this.UpdatePropertyByNodeAndFunction(node, "Target", "Target", this.ConvertToBabylonObject);
+                    this.UpdatePropertyByNodeAndFunction(node, "Target", "Target", this.ConvertToNewBabylonObject);
                     this.UpdatePropertyByNode(node, "Type", "Type");
                     this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "AlphaCalculated", "Alpha", eval);
@@ -2990,7 +2970,7 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 SetValue(propertyName, value) {
                     switch (propertyName) {
                         case "Target":
-                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBabylonObject);
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject);
                             break;
                         case "FOV":
                             this.UpdatePropertyByValue(propertyName, value, parseFloat);
@@ -4392,7 +4372,7 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                     this.UpdatePropertyByNode(node, "Scene", "SceneName");
-                    this.UpdatePropertyByNodeAndFunction(node, "Direction", "Direction", this.ConvertToBabylonObject);
+                    this.UpdatePropertyByNodeAndFunction(node, "Direction", "Direction", this.ConvertToNewBabylonObject);
                     this.UpdatePropertyByNode(node, "Type", "Type");
                     this.UpdatePropertyByNodeAndFunction(node, "DiffuseColor", "DiffuseColor", this.CleanBabylonColor3Attribute);
                     this.UpdatePropertyByNodeAndFunction(node, "SpecularColor", "SpecularColor", this.CleanBabylonColor3Attribute);
@@ -4401,7 +4381,7 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                 SetValue(propertyName, value) {
                     switch (propertyName) {
                         case "Direction":
-                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBabylonObject);
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject);
                             break;
                         case "DiffuseColor":
                             this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute);
@@ -5525,7 +5505,8 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.CleanBabylonColor3Attribute = (color3) => { return (color3.includes("Color3.")) ? eval(`BABYLON.${color3};`) : eval(`new BABYLON.${color3};`); };
                     this.ConvertColor3ToColor4 = (color) => { return new BABYLON.Color4(color.r, color.g, color.b, 1); };
                     this.ConvertToBoolean = (value) => { return value.toLowerCase() === 'true' ? true : false; };
-                    this.ConvertToBabylonObject = (value) => { return eval(`new BABYLON.${value};`); };
+                    this.ConvertToNewBabylonObject = (value) => { return eval(`new BABYLON.${value};`); };
+                    this.ConvertToBabylonObject = (value) => { return eval(`BABYLON.${value};`); };
                     this.UpdatePropertyByNode = (node, attributeName, propertyName) => {
                         if (node.hasAttribute(attributeName))
                             this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, null);

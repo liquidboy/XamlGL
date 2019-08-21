@@ -110,7 +110,9 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
 
     protected ConvertToBoolean = (value: string): boolean => { return value.toLowerCase() === 'true' ? true : false; }
 
-    protected ConvertToBabylonObject = (value: string): any => { return eval(`new BABYLON.${value};`); }
+    protected ConvertToNewBabylonObject = (value: string): any => { return eval(`new BABYLON.${value};`); }
+
+    protected ConvertToBabylonObject = (value: string): any => { return eval(`BABYLON.${value};`); }
 
     protected UpdatePropertyByNode: Function = (node: any, attributeName: string, propertyName: string): void => {
         if (node.hasAttribute(attributeName)) this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, null);

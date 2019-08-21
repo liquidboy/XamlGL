@@ -68,7 +68,7 @@ export class Box extends AnimatableUIElement {
         this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
         this.UpdatePropertyByNode(node, "Width", "Width");
         this.UpdatePropertyByNodeAndFunction(node, "InfiniteDistance", "InfiniteDistance", this.ConvertToBoolean);
-        this.UpdatePropertyByNodeAndFunction(node, "Scaling", "Scaling", this.ConvertToBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Scaling", "Scaling", this.ConvertToNewBabylonObject);
         this.UpdatePropertyByNode(node, "AddToRenderList", "AddToRenderList");
     }
 
