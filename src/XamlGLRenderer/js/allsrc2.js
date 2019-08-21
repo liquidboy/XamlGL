@@ -2550,16 +2550,19 @@ System.register("Xaml/jupiter/controls/Plane", ["Xaml/jupiter/UIElement", "babyl
                 get Size() { return this._size; }
                 get MeshName() { return this._meshName; }
                 get SceneName() { return this._sceneName; }
+                set Size(value) { this._size = value; }
+                set MeshName(value) { this._meshName = value; }
+                set SceneName(value) { this._sceneName = value; }
                 constructor() {
                     super();
                 }
                 Initialize() {
-                    if (this.SceneName !== undefined) {
+                    if (this.HasValue(this.SceneName)) {
                         let scene = this.VT.FindByName(this.SceneName);
                         this.Ctrl = BABYLON.Mesh.CreatePlane(this.Name, this.Size, scene.Ctrl);
                         this.Ctrl.Size = this.Size;
                         this.Ctrl.position = this.Position;
-                        if (this.MeshName !== undefined) {
+                        if (this.HasValue(this.MeshName)) {
                             let mesh = this.VT.FindByName(this.MeshName);
                             this.Ctrl.parent = mesh.Ctrl;
                         }
@@ -2571,18 +2574,9 @@ System.register("Xaml/jupiter/controls/Plane", ["Xaml/jupiter/UIElement", "babyl
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._size = parseFloat(node.attributes["Size"].value);
-                    }
-                    catch (_a) { }
-                    try {
-                        this._meshName = node.attributes["Mesh"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (_c) { }
+                    this.UpdatePropertyByNodeAndFunction(node, "Size", "Size", parseFloat);
+                    this.UpdatePropertyByNode(node, "Mesh", "MeshName");
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {

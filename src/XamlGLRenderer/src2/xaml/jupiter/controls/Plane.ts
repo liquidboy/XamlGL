@@ -12,18 +12,22 @@ export class Plane extends UIElement {
     get MeshName(): string { return this._meshName; }
     get SceneName(): string { return this._sceneName; }
 
+    set Size(value: number) { this._size = value; }
+    set MeshName(value: string) { this._meshName = value; }
+    set SceneName(value: string) { this._sceneName = value; }
+
     constructor() {
         super();
     }
 
     public Initialize(): void {
-        if (this.SceneName !== undefined) {
+        if (this.HasValue(this.SceneName)) {
             let scene = this.VT.FindByName(this.SceneName);
             this.Ctrl = BABYLON.Mesh.CreatePlane(this.Name, this.Size, scene.Ctrl);  
             this.Ctrl.Size = this.Size;
             this.Ctrl.position = this.Position;
 
-            if (this.MeshName !== undefined) {
+            if (this.HasValue(this.MeshName)) {
                 let mesh = this.VT.FindByName(this.MeshName);
                 this.Ctrl.parent = mesh.Ctrl;
             }
@@ -38,9 +42,9 @@ export class Plane extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._size = parseFloat(node.attributes["Size"].value); } catch { }
-        try { this._meshName = node.attributes["Mesh"].value; } catch { }
-        try { this._sceneName = node.attributes["Scene"].value; } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "Size", "Size", parseFloat);
+        this.UpdatePropertyByNode(node, "Mesh", "MeshName");
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
     }
 
     TrySetParent(parent: UIElement): boolean {
