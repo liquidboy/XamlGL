@@ -27,10 +27,10 @@ export class Sphere extends UIElement {
 
         this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Ctrl);
         //this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
-        if (this.Position !== undefined) this.Ctrl.position = this.Position;
-        if (material !== undefined) this.Ctrl.material = material.Ctrl;
+        if (this.HasValue(this.Position)) this.Ctrl.position = this.Position;
+        if (this.HasValue(material)) this.Ctrl.material = material.Ctrl;
 
-        if (this.ShowNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
+        if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
         this.PostInitialize();
     }
 

@@ -16,7 +16,14 @@ export class SubEmitter extends UIElement {
     get SceneName(): string { return this._sceneName; }
     get InheritDirection(): boolean { return this._inheritDirection; }
     get InheritedVelocityAmount(): number { return this._inheritedVelocityAmount; }
-    
+
+    set Type(value: string) { this._type = value; }
+    set ParticleSystemName(value: string) { this._particleSystemName = value; }
+    set ParticleCount(value: number) { this._particleCount = value; }
+    set SceneName(value: string) { this._sceneName = value; }
+    set InheritDirection(value: boolean) { this._inheritDirection = value; }
+    set InheritedVelocityAmount(value: number) { this._inheritedVelocityAmount = value; }
+
     constructor() {
         super();
     }
@@ -25,15 +32,15 @@ export class SubEmitter extends UIElement {
         //console.log("subemitter initialize start " + this.Name);
 
         let scene = this.VT.FindByName(this.SceneName);
-        if (this.ParticleSystemName !== undefined) {
+        if (this.HasValue(this.ParticleSystemName)) {
             let particleSystem = this.VT.FindByName(this.ParticleSystemName);
             this.Ctrl = new BABYLON.SubEmitter(particleSystem.Ctrl);
-        } else if (this.ParticleCount !== undefined) {
+        } else if (this.HasValue(this.ParticleCount)) {
             this.Ctrl = new BABYLON.SubEmitter(new BABYLON.ParticleSystem(`ps${this.Name}`, this.ParticleCount, scene.Ctrl));
         }
         this.Ctrl.type = this.Type;
         this.Ctrl.inheritDirection = this.InheritDirection;
-        if(this.InheritedVelocityAmount !== undefined) this.Ctrl.inheritedVelocityAmount = this.InheritedVelocityAmount;
+        if(this.HasValue(this.InheritedVelocityAmount)) this.Ctrl.inheritedVelocityAmount = this.InheritedVelocityAmount;
 
         //console.log("subemitter initialize end " + this.Name);
         //console.log(this.Ctrl);
@@ -44,11 +51,11 @@ export class SubEmitter extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._type = eval("BABYLON." + node.attributes["Type"].value); } catch { }
-        try { this._particleSystemName = node.attributes["ParticleSystem"].value; } catch { }
-        try { this._particleCount= parseInt(node.attributes["ParticleCount"].value); } catch { }   
-        try { this._sceneName = node.attributes["Scene"].value; } catch { }
-        try { this._inheritDirection = node.attributes["InheritDirection"].value.toLowerCase() === 'true'; } catch (e) { }
-        try { this._inheritedVelocityAmount = parseFloat(node.attributes["InheritedVelocityAmount"].value); } catch { }   
+        this.UpdatePropertyByNodeAndFunction(node, "Type", "Type", this.ConvertToBabylonObject);
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNode(node, "ParticleSystem", "ParticleSystemName");
+        this.UpdatePropertyByNodeAndFunction(node, "ParticleCount", "ParticleCount", parseInt);
+        this.UpdatePropertyByNodeAndFunction(node, "InheritedVelocityAmount", "InheritedVelocityAmount", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "InheritDirection", "InheritDirection", this.ConvertToBoolean);
     }
 }

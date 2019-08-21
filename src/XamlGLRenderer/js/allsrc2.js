@@ -5158,11 +5158,11 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
                     this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Ctrl);
-                    if (this.Position !== undefined)
+                    if (this.HasValue(this.Position))
                         this.Ctrl.position = this.Position;
-                    if (material !== undefined)
+                    if (this.HasValue(material))
                         this.Ctrl.material = material.Ctrl;
-                    if (this.ShowNormalLines)
+                    if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines)
                         MeshNormalLines_3.MeshNormalLines.Install(scene, this.Ctrl);
                     this.PostInitialize();
                 }
@@ -5197,50 +5197,38 @@ System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], 
                 get SceneName() { return this._sceneName; }
                 get InheritDirection() { return this._inheritDirection; }
                 get InheritedVelocityAmount() { return this._inheritedVelocityAmount; }
+                set Type(value) { this._type = value; }
+                set ParticleSystemName(value) { this._particleSystemName = value; }
+                set ParticleCount(value) { this._particleCount = value; }
+                set SceneName(value) { this._sceneName = value; }
+                set InheritDirection(value) { this._inheritDirection = value; }
+                set InheritedVelocityAmount(value) { this._inheritedVelocityAmount = value; }
                 constructor() {
                     super();
                 }
                 Initialize() {
                     let scene = this.VT.FindByName(this.SceneName);
-                    if (this.ParticleSystemName !== undefined) {
+                    if (this.HasValue(this.ParticleSystemName)) {
                         let particleSystem = this.VT.FindByName(this.ParticleSystemName);
                         this.Ctrl = new BABYLON.SubEmitter(particleSystem.Ctrl);
                     }
-                    else if (this.ParticleCount !== undefined) {
+                    else if (this.HasValue(this.ParticleCount)) {
                         this.Ctrl = new BABYLON.SubEmitter(new BABYLON.ParticleSystem(`ps${this.Name}`, this.ParticleCount, scene.Ctrl));
                     }
                     this.Ctrl.type = this.Type;
                     this.Ctrl.inheritDirection = this.InheritDirection;
-                    if (this.InheritedVelocityAmount !== undefined)
+                    if (this.HasValue(this.InheritedVelocityAmount))
                         this.Ctrl.inheritedVelocityAmount = this.InheritedVelocityAmount;
                     this.PostInitialize();
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._type = eval("BABYLON." + node.attributes["Type"].value);
-                    }
-                    catch (_a) { }
-                    try {
-                        this._particleSystemName = node.attributes["ParticleSystem"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._particleCount = parseInt(node.attributes["ParticleCount"].value);
-                    }
-                    catch (_c) { }
-                    try {
-                        this._sceneName = node.attributes["Scene"].value;
-                    }
-                    catch (_d) { }
-                    try {
-                        this._inheritDirection = node.attributes["InheritDirection"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._inheritedVelocityAmount = parseFloat(node.attributes["InheritedVelocityAmount"].value);
-                    }
-                    catch (_e) { }
+                    this.UpdatePropertyByNodeAndFunction(node, "Type", "Type", this.ConvertToBabylonObject);
+                    this.UpdatePropertyByNode(node, "Scene", "SceneName");
+                    this.UpdatePropertyByNode(node, "ParticleSystem", "ParticleSystemName");
+                    this.UpdatePropertyByNodeAndFunction(node, "ParticleCount", "ParticleCount", parseInt);
+                    this.UpdatePropertyByNodeAndFunction(node, "InheritedVelocityAmount", "InheritedVelocityAmount", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "InheritDirection", "InheritDirection", this.ConvertToBoolean);
                 }
             };
             exports_74("SubEmitter", SubEmitter);
