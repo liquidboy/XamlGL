@@ -61,6 +61,35 @@ export class ParticleSystem extends UIElement {
     get AutoStart(): boolean { return this._autoStart; }
     get Emitter(): BABYLON.Vector3 { return this._emitter; }
 
+    set Children(value: LinkedDictionary<string, ParticleSystemShape>) { this._childParticles = value; }
+    set SceneName(value: string) { this._sceneName = value; }
+    set Updateable(value: boolean) { this._updateable = value; }
+    set Type(value: string) { this._type = value; }
+    set Capacity(value: number) { this._capacity = value; }
+    set ParticleTexture(value: string) { this._particleTexture = value; }
+    set MinAngularSpeed(value: number) { this._minAngularSpeed = value; }
+    set MaxAngularSpeed(value: number) { this._maxAngularSpeed = value; }
+    set MinSize(value: number) { this._minSize = value; }
+    set MaxSize(value: number) { this._maxSize = value; }
+    set MinLifeTime(value: number) { this._minLifeTime = value; }
+    set MaxLifeTime(value: number) { this._maxLifeTime = value; }
+    set MinEmitPower(value: number) { this._minEmitPower = value; }
+    set MaxEmitPower(value: number) { this._maxEmitPower = value; }
+    set EmitterName(value: string) { this._emitterName = value; }
+    set EmitRate(value: number) { this._emitRate = value; }
+    set UpdateSpeed(value: number) { this._updateSpeed = value; }
+    set BlendMode(value: number) { this._blendMode = value; }
+    set MinEmitBox(value: BABYLON.Vector3) { this._minEmitBox = value; }
+    set MaxEmitBox(value: BABYLON.Vector3) { this._maxEmitBox = value; }
+    set Direction1(value: BABYLON.Vector3) { this._direction1 = value; }
+    set Direction2(value: BABYLON.Vector3) { this._direction2 = value; }
+    set Color1(value: BABYLON.Color3 | BABYLON.Color4) { this._color1 = value; }
+    set Color2(value: BABYLON.Color3 | BABYLON.Color4) { this._color2 = value; }
+    set ColorDead(value: BABYLON.Color4) { this._colorDead = value; }
+    set Gravity(value: BABYLON.Vector3) { this._gravity = value; }
+    set AutoStart(value: boolean) { this._autoStart = value; }
+    set Emitter(value: BABYLON.Vector3) { this._emitter = value; }
+
     constructor() {
         super();
         this._childParticles = new LinkedDictionary();
@@ -74,35 +103,33 @@ export class ParticleSystem extends UIElement {
         } else if (this.Type === "ParticleSystem") {
             this.Ctrl = new BABYLON.ParticleSystem(this.Name, this.Capacity, scene.Ctrl);
             this.Ctrl.particleTexture = new BABYLON.Texture(this.ParticleTexture, scene.Ctrl);
-            if (this.MinAngularSpeed !== undefined) this.Ctrl.minAngularSpeed = this.MinAngularSpeed;
-            if (this.MaxAngularSpeed !== undefined) this.Ctrl.maxAngularSpeed = this.MaxAngularSpeed;
-            if (this.MinSize !== undefined) this.Ctrl.minSize = this.MinSize;
-            if (this.MaxSize !== undefined) this.Ctrl.maxSize = this.MaxSize;
-            if (this.MinLifeTime !== undefined) this.Ctrl.minLifeTime = this.MinLifeTime;
-            if (this.MaxLifeTime !== undefined) this.Ctrl.maxLifeTime = this.MaxLifeTime;
-            if (this.MinEmitPower !== undefined) this.Ctrl.minEmitPower = this.MinEmitPower;
-            if (this.MaxEmitPower !== undefined) this.Ctrl.maxEmitPower = this.MaxEmitPower;
-            if (this.EmitRate !== undefined) this.Ctrl.emitRate = this.EmitRate;
-            if (this.BlendMode !== undefined) this.Ctrl.blendMode = this.BlendMode;
-            if (this.MinEmitBox !== undefined) this.Ctrl.minEmitBox = this.MinEmitBox;
-            if (this.MaxEmitBox !== undefined) this.Ctrl.maxEmitBox = this.MaxEmitBox;
-            if (this.Direction1 !== undefined) this.Ctrl.direction1 = this.Direction1;
-            if (this.Direction2 !== undefined) this.Ctrl.direction2 = this.Direction2;
-            if (this.Color1 !== undefined) this.Ctrl.color1 = this.Color1;
-            if (this.Color2 !== undefined) this.Ctrl.color2 = this.Color2;
-            if (this.ColorDead !== undefined) this.Ctrl.colorDead = this.ColorDead;
-            if (this.Gravity !== undefined) this.Ctrl.gravity = this.Gravity;
-            if (this.UpdateSpeed !== undefined) this.Ctrl.updateSpeed = this.UpdateSpeed;
+            if (this.HasValue(this.MinAngularSpeed)) this.Ctrl.minAngularSpeed = this.MinAngularSpeed;
+            if (this.HasValue(this.MaxAngularSpeed)) this.Ctrl.maxAngularSpeed = this.MaxAngularSpeed;
+            if (this.HasValue(this.MinSize)) this.Ctrl.minSize = this.MinSize;
+            if (this.HasValue(this.MaxSize)) this.Ctrl.maxSize = this.MaxSize;
+            if (this.HasValue(this.MinLifeTime)) this.Ctrl.minLifeTime = this.MinLifeTime;
+            if (this.HasValue(this.MaxLifeTime)) this.Ctrl.maxLifeTime = this.MaxLifeTime;
+            if (this.HasValue(this.MinEmitPower)) this.Ctrl.minEmitPower = this.MinEmitPower;
+            if (this.HasValue(this.MaxEmitPower)) this.Ctrl.maxEmitPower = this.MaxEmitPower;
+            if (this.HasValue(this.EmitRate)) this.Ctrl.emitRate = this.EmitRate;
+            if (this.HasValue(this.BlendMode)) this.Ctrl.blendMode = this.BlendMode;
+            if (this.HasValue(this.MinEmitBox)) this.Ctrl.minEmitBox = this.MinEmitBox;
+            if (this.HasValue(this.MaxEmitBox)) this.Ctrl.maxEmitBox = this.MaxEmitBox;
+            if (this.HasValue(this.Direction1)) this.Ctrl.direction1 = this.Direction1;
+            if (this.HasValue(this.Direction2)) this.Ctrl.direction2 = this.Direction2;
+            if (this.HasValue(this.Color1)) this.Ctrl.color1 = this.Color1;
+            if (this.HasValue(this.Color2)) this.Ctrl.color2 = this.Color2;
+            if (this.HasValue(this.ColorDead)) this.Ctrl.colorDead = this.ColorDead;
+            if (this.HasValue(this.Gravity)) this.Ctrl.gravity = this.Gravity;
+            if (this.HasValue(this.UpdateSpeed)) this.Ctrl.updateSpeed = this.UpdateSpeed;
 
 
-            if (this.Emitter !== undefined || this.EmitterName !== undefined)
-                this.Ctrl.emitter = this.EmitterName !== undefined ? this.VT.Get(this.EmitterName).Ctrl : this.Emitter;
-            //if (this.Emitter !== undefined && this.EmitterName === undefined) this.Ctrl.emitter = this.Emitter;
-            //if (this.EmitterName !== undefined && this.Emitter === undefined) this.Ctrl.emitter = this.VT.Get(this.EmitterName).Ctrl;
-
+            if (this.HasValue(this.Emitter) || this.HasValue(this.EmitterName))
+                this.Ctrl.emitter = this.HasValue(this.EmitterName) ? this.VT.Get(this.EmitterName).Ctrl : this.Emitter;
+            
             //console.log(this.Ctrl);
 
-            if (this.AutoStart !== undefined && this.AutoStart === true) {
+            if (this.HasValue(this.AutoStart) && this.AutoStart === true) {
                 //console.log("autostarted the particlesystem");
                 this.Ctrl.start();
             }
@@ -117,34 +144,36 @@ export class ParticleSystem extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._sceneName = node.attributes["Scene"].value; } catch { }
-        try { this._updateable = node.attributes["Updateable"].value.toLowerCase() === 'true'; } catch (e) { }
-        try { this._type = node.attributes["Type"].value; } catch { }
-        try { this._capacity = parseInt(node.attributes["Capacity"].value); } catch {}
-        try { this._particleTexture = node.attributes["ParticleTexture"].value; } catch { }
-        try { this._minAngularSpeed = parseFloat(node.attributes["MinAngularSpeed"].value); } catch { }
-        try { this._maxAngularSpeed = parseFloat(node.attributes["MaxAngularSpeed"].value); } catch { }
-        try { this._minSize = parseFloat(node.attributes["MinSize"].value); } catch { }
-        try { this._maxSize = parseFloat(node.attributes["MaxSize"].value); } catch { }
-        try { this._minLifeTime = parseFloat(node.attributes["MinLifeTime"].value); } catch { }
-        try { this._maxLifeTime = parseFloat(node.attributes["MaxLifeTime"].value); } catch { }
-        try { this._minEmitPower = parseFloat(node.attributes["MinEmitPower"].value); } catch { }
-        try { this._maxEmitPower = parseFloat(node.attributes["MaxEmitPower"].value); } catch { }        
-        try { this._emitRate = parseInt(node.attributes["EmitRate"].value); } catch { }
-        try { this._blendMode = eval(`BABYLON.${node.attributes["BlendMode"].value};`); } catch (e) { }
-        try { this._minEmitBox = eval(`new BABYLON.${node.attributes["MinEmitBox"].value};`); } catch (e) { }
-        try { this._maxEmitBox = eval(`new BABYLON.${node.attributes["MaxEmitBox"].value};`); } catch (e) { }
-        try { this._direction1 = eval(`new BABYLON.${node.attributes["Direction1"].value};`); } catch (e) { }
-        try { this._direction2 = eval(`new BABYLON.${node.attributes["Direction2"].value};`); } catch (e) { }
-        try { this._color1 = eval(`new BABYLON.${node.attributes["Color1"].value};`); } catch (e) { }
-        try { this._color2 = eval(`new BABYLON.${node.attributes["Color2"].value};`); } catch (e) { }
-        try { this._colorDead = eval(`new BABYLON.${node.attributes["ColorDead"].value};`); } catch (e) { }
-        try { this._gravity = eval(`new BABYLON.${node.attributes["Gravity"].value};`); } catch (e) { }
-        try { this._updateSpeed = parseFloat(node.attributes["UpdateSpeed"].value); } catch { }
-        try { this._autoStart = node.attributes["AutoStart"].value.toLowerCase() === 'true'; } catch (e) { }
+        this.UpdatePropertyByNode(node, "Scene", "SceneName");
+        this.UpdatePropertyByNodeAndFunction(node, "Updateable", "Updateable", this.ConvertToBoolean);
+        this.UpdatePropertyByNode(node, "Type", "Type");
+        this.UpdatePropertyByNodeAndFunction(node, "Capacity", "Capacity", parseInt);
+        this.UpdatePropertyByNode(node, "ParticleTexture", "ParticleTexture");
 
-        try { this._emitterName = node.attributes["EmitterName"].value; } catch { }
-        try { this._emitter = eval(`new BABYLON.${node.attributes["Emitter"].value};`); } catch (e) { }
+        this.UpdatePropertyByNodeAndFunction(node, "MinAngularSpeed", "MinAngularSpeed", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MaxAngularSpeed", "MaxAngularSpeed", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MinSize", "MinSize", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MaxSize", "MaxSize", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MinLifeTime", "MinLifeTime", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MaxLifeTime", "MaxLifeTime", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MinEmitPower", "MinEmitPower", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "MaxEmitPower", "MaxEmitPower", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "EmitRate", "EmitRate", parseInt);
+
+        this.UpdatePropertyByNodeAndFunction(node, "BlendMode", "BlendMode", this.ConvertToBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "MinEmitBox", "MinEmitBox", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "MaxEmitBox", "MaxEmitBox", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Direction1", "Direction1", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Direction2", "Direction2", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Color1", "Color1", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Color2", "Color2", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "ColorDead", "ColorDead", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "Gravity", "Gravity", this.ConvertToNewBabylonObject);
+        this.UpdatePropertyByNodeAndFunction(node, "UpdateSpeed", "UpdateSpeed", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "AutoStart", "AutoStart", this.ConvertToBoolean);
+
+        this.UpdatePropertyByNode(node, "EmitterName", "EmitterName");
+        this.UpdatePropertyByNodeAndFunction(node, "Emitter", "Emitter", this.ConvertToNewBabylonObject);
 
     }
 }
