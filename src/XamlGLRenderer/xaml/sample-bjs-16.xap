@@ -1,0 +1,14 @@
+﻿<Application
+    xmlns="http://schemas.xamlgl.com/xamlgl"
+    xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
+    ThemeName="Metro">
+  <Grid x:Name="layoutRoot">
+    <Scene x:Name="main🎬" ClearColor="Color3.Gray()"></Scene>
+
+    <Camera x:Name="camera1📷" Type="FreeCamera" Position="Vector3(0, 150, -150)" Target="Vector3(0,0,0)" Scene="main🎬"></Camera>
+
+    <Light x:Name="light" Type="HemisphericLight" Direction="Vector3(0, 1, 0)" Intensity="0.7" Scene="main🎬" ></Light>
+
+  </Grid>
+    <!-- https://playground.babylonjs.com/#N7PGG3#2 -->
+</Application>
