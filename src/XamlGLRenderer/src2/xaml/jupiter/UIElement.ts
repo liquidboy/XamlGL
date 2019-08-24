@@ -26,6 +26,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     private _hasCode: boolean = false;
     private _childEvents: LinkedDictionary<string, Event>;
     private _childGuis: LinkedDictionary<string, UIElement>;
+    private _enabled: boolean;
 
     //get Animations(): Animations { return this._animations; }
     //get Parent(): UIElement { return this._parent; }
@@ -41,7 +42,8 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     get ChildrenEvents(): LinkedDictionary<string, Event> { return this._childEvents; }
     get ChildrenGUIs(): LinkedDictionary<string, UIElement> { return this._childGuis; }
     get bjsCtrl(): any { return this._ctrl; }
-    
+    get Enabled(): boolean { return this._enabled; }
+
     //set Animations(value: Animations) { this._animations = value; }
     //set Parent(value: UIElement) { this._parent = value; }
     set Ctrl(value: any) { this._ctrl = value; }
@@ -53,6 +55,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     set HasCode(value: boolean) { this._hasCode = value; }
     set Name(value: string) { this._name = value; this.VT.Add(value, this); }
     set Position(value: BABYLON.Vector3) { this._position = value; }
+    set Enabled(value: boolean) { this._enabled = value; }
 
     protected VT: VisualTree = DIContainer.get(VisualTree);
     protected DI: Container = DIContainer;
@@ -74,6 +77,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
     LoadFromNode(node: any): void {
         try { this._position = eval(`new BABYLON.${node.attributes["Position"].value};`); } catch (e) { }
         try { this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true'; } catch (e) { }
+        this.UpdatePropertyByNodeAndFunction(node, "Enabled", "Enabled", this.ConvertToBoolean);
     }
 
     // always call this after the parents initialize has run

@@ -27,7 +27,7 @@ export class Ground extends UIElement {
 
         //this._mesh = BABYLON.MeshBuilder.CreateGround(this.Name, { width: this._width, height: this._height, subdivisions: this._subdivisions }, scene.Scene);
         this.Ctrl = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Ctrl, false);
-        if (material && material.Ctrl) this.Ctrl.material = material.Ctrl;
+        if (this.HasValue(this.MaterialName) && material && material.Ctrl) this.Ctrl.material = material.Ctrl;
         this.PostInitialize();
     }
 

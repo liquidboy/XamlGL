@@ -14,7 +14,8 @@ export class Box extends AnimatableUIElement {
     private _showNormalLines: boolean;
     private _width: number;
     private _infiniteDistance: boolean;
-    private _scaling : BABYLON.Vector3;
+    private _scaling: BABYLON.Vector3;
+    private _rotationQuaternion: BABYLON.Quaternion;
 
     get SceneName(): string { return this._sceneName; }
     get MaterialName(): string { return this._materialName; }
@@ -23,6 +24,7 @@ export class Box extends AnimatableUIElement {
     get Width(): number { return this._width; }
     get InfiniteDistance(): boolean { return this._infiniteDistance; }
     get Scaling(): BABYLON.Vector3 { return this._scaling; }
+    get RotationQuaternion(): BABYLON.Quaternion { return this._rotationQuaternion; }
 
     set SceneName(value: string) { this._sceneName = value; }
     set MaterialName(value: string) { this._materialName = value; }
@@ -31,6 +33,7 @@ export class Box extends AnimatableUIElement {
     set Width(value: number) { this._width = value; }
     set InfiniteDistance(value: boolean) { this._infiniteDistance = value; }
     set Scaling(value: BABYLON.Vector3) { this._scaling = value; }
+    set RotationQuaternion(value: BABYLON.Quaternion) { this._rotationQuaternion = value; }
 
     public Initialize(): void {
         this._scene = this.VT.Get(this.SceneName) as Scene;
@@ -49,6 +52,8 @@ export class Box extends AnimatableUIElement {
             let tex: Texture = this.VT.FindByName(this.AddToRenderList);
             (tex.Ctrl as BABYLON.MirrorTexture).renderList.push(this.Ctrl);
         }
+        if (this.HasValue(this.Enabled)) this.Ctrl.setEnabled(this.Enabled);
+        if (this.HasValue(this.RotationQuaternion)) this.Ctrl.rotationQuaternion = this.RotationQuaternion;
 
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
@@ -70,6 +75,7 @@ export class Box extends AnimatableUIElement {
         this.UpdatePropertyByNodeAndFunction(node, "InfiniteDistance", "InfiniteDistance", this.ConvertToBoolean);
         this.UpdatePropertyByNodeAndFunction(node, "Scaling", "Scaling", this.ConvertToNewBabylonObject);
         this.UpdatePropertyByNode(node, "AddToRenderList", "AddToRenderList");
+        this.UpdatePropertyByNodeAndFunction(node, "RotationQuaternion", "RotationQuaternion", this.ConvertToNewBabylonObject);
     }
 
     StartAnimation(): void {

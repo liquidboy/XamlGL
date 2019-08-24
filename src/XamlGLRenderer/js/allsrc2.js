@@ -2708,6 +2708,7 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                 get Width() { return this._width; }
                 get InfiniteDistance() { return this._infiniteDistance; }
                 get Scaling() { return this._scaling; }
+                get RotationQuaternion() { return this._rotationQuaternion; }
                 set SceneName(value) { this._sceneName = value; }
                 set MaterialName(value) { this._materialName = value; }
                 set AddToRenderList(value) { this._addToRenderList = value; }
@@ -2715,6 +2716,7 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                 set Width(value) { this._width = value; }
                 set InfiniteDistance(value) { this._infiniteDistance = value; }
                 set Scaling(value) { this._scaling = value; }
+                set RotationQuaternion(value) { this._rotationQuaternion = value; }
                 Initialize() {
                     this._scene = this.VT.Get(this.SceneName);
                     this.Ctrl = BABYLON.Mesh.CreateBox(this.Name, this.Width, this._scene.Ctrl);
@@ -2737,6 +2739,10 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                         let tex = this.VT.FindByName(this.AddToRenderList);
                         tex.Ctrl.renderList.push(this.Ctrl);
                     }
+                    if (this.HasValue(this.Enabled))
+                        this.Ctrl.setEnabled(this.Enabled);
+                    if (this.HasValue(this.RotationQuaternion))
+                        this.Ctrl.rotationQuaternion = this.RotationQuaternion;
                     if (this.Animations && this.Animations.Animations)
                         this.Animations.Animations.forEach((animation) => {
                             var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS, animation.DataType, animation.LoopMode);
@@ -2754,6 +2760,7 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                     this.UpdatePropertyByNodeAndFunction(node, "InfiniteDistance", "InfiniteDistance", this.ConvertToBoolean);
                     this.UpdatePropertyByNodeAndFunction(node, "Scaling", "Scaling", this.ConvertToNewBabylonObject);
                     this.UpdatePropertyByNode(node, "AddToRenderList", "AddToRenderList");
+                    this.UpdatePropertyByNodeAndFunction(node, "RotationQuaternion", "RotationQuaternion", this.ConvertToNewBabylonObject);
                 }
                 StartAnimation() {
                     if (this.Animations && this.Animations.Animations)
@@ -3374,7 +3381,7 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
                     this.Ctrl = BABYLON.Mesh.CreateGround(this.Name, this._width, this._height, this._subdivisions, scene.Ctrl, false);
-                    if (material && material.Ctrl)
+                    if (this.HasValue(this.MaterialName) && material && material.Ctrl)
                         this.Ctrl.material = material.Ctrl;
                     this.PostInitialize();
                 }
@@ -5074,11 +5081,13 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 get ShowNormalLines() { return this._showNormalLines; }
                 get Segments() { return this._segments; }
                 get Diameter() { return this._diameter; }
+                get RotationQuaternion() { return this._rotationQuaternion; }
                 set SceneName(value) { this._sceneName = value; }
                 set MaterialName(value) { this._materialName = value; }
                 set ShowNormalLines(value) { this._showNormalLines = value; }
                 set Segments(value) { this._segments = value; }
                 set Diameter(value) { this._diameter = value; }
+                set RotationQuaternion(value) { this._rotationQuaternion = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
@@ -5087,6 +5096,10 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                         this.Ctrl.position = this.Position;
                     if (this.HasValue(material))
                         this.Ctrl.material = material.Ctrl;
+                    if (this.HasValue(this.RotationQuaternion))
+                        this.Ctrl.rotationQuaternion = this.RotationQuaternion;
+                    if (this.HasValue(this.Enabled))
+                        this.Ctrl.setEnabled(this.Enabled);
                     if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines)
                         MeshNormalLines_3.MeshNormalLines.Install(scene, this.Ctrl);
                     this.PostInitialize();
@@ -5098,6 +5111,7 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     this.UpdatePropertyByNodeAndFunction(node, "ShowNormalLines", "ShowNormalLines", this.ConvertToBoolean);
                     this.UpdatePropertyByNodeAndFunction(node, "Segments", "Segments", parseInt);
                     this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "RotationQuaternion", "RotationQuaternion", this.ConvertToNewBabylonObject);
                 }
             };
             exports_73("Sphere", Sphere);
@@ -5450,6 +5464,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 get ChildrenEvents() { return this._childEvents; }
                 get ChildrenGUIs() { return this._childGuis; }
                 get bjsCtrl() { return this._ctrl; }
+                get Enabled() { return this._enabled; }
                 set Ctrl(value) { this._ctrl = value; }
                 set IsVisible(value) { this._isVisible = value; }
                 set IsDirty(value) { this._isDirty = value; }
@@ -5459,6 +5474,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                 set HasCode(value) { this._hasCode = value; }
                 set Name(value) { this._name = value; this.VT.Add(value, this); }
                 set Position(value) { this._position = value; }
+                set Enabled(value) { this._enabled = value; }
                 TrySetParent(parent) {
                     if (parent == null)
                         return false;
@@ -5474,6 +5490,7 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                         this._isVisible = node.attributes["IsVisible"].value.toLowerCase() === 'true';
                     }
                     catch (e) { }
+                    this.UpdatePropertyByNodeAndFunction(node, "Enabled", "Enabled", this.ConvertToBoolean);
                 }
                 Initialize() {
                 }
