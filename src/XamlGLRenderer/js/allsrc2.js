@@ -5243,7 +5243,7 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
                     this._scene = scene;
-                    this.CreateTorus();
+                    this.CreateCtrl();
                     if (this.Animations && this.Animations.Animations)
                         this.Animations.Animations.forEach((animation) => {
                             var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS, animation.DataType, animation.LoopMode);
@@ -5278,19 +5278,19 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                     switch (propertyName) {
                         case "Diameter":
                             if (this.HasValue(this.Diameter))
-                                this.CreateTorus();
+                                this.CreateCtrl();
                             break;
                         case "Thickness":
                             if (this.HasValue(this.Thickness))
-                                this.CreateTorus();
+                                this.CreateCtrl();
                             break;
                         case "Tesselation":
                             if (this.HasValue(this.Tesselation))
-                                this.CreateTorus();
+                                this.CreateCtrl();
                             break;
                         case "ShowNormalLines":
                             if (this.HasValue(this.ShowNormalLines))
-                                this.CreateTorus();
+                                this.CreateCtrl();
                             break;
                     }
                 }
@@ -5300,7 +5300,7 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                     this.bjsCtrl.dispose();
                     this.Ctrl = null;
                 }
-                CreateTorus() {
+                CreateCtrl() {
                     if (!this.HasValue(this.MaterialName))
                         return;
                     if (!this.HasValue(this._scene))

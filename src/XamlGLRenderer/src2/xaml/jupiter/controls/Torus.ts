@@ -37,7 +37,7 @@ export class Torus extends AnimatableUIElement {
         //this.Ctrl.material = material.Ctrl;
         //this.Ctrl.position = this.Position;
 
-        this.CreateTorus();
+        this.CreateCtrl();
 
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
@@ -72,10 +72,10 @@ export class Torus extends AnimatableUIElement {
 
     private RefreshCtrlProperty(propertyName: string): void {
         switch (propertyName) {
-            case "Diameter": if (this.HasValue(this.Diameter)) this.CreateTorus(); break;
-            case "Thickness": if (this.HasValue(this.Thickness)) this.CreateTorus(); break;
-            case "Tesselation": if (this.HasValue(this.Tesselation)) this.CreateTorus(); break;
-            case "ShowNormalLines": if (this.HasValue(this.ShowNormalLines)) this.CreateTorus(); break;
+            case "Diameter": if (this.HasValue(this.Diameter)) this.CreateCtrl(); break;
+            case "Thickness": if (this.HasValue(this.Thickness)) this.CreateCtrl(); break;
+            case "Tesselation": if (this.HasValue(this.Tesselation)) this.CreateCtrl(); break;
+            case "ShowNormalLines": if (this.HasValue(this.ShowNormalLines)) this.CreateCtrl(); break;
         }
     }
 
@@ -86,7 +86,7 @@ export class Torus extends AnimatableUIElement {
         this.Ctrl = null;
     }
 
-    private CreateTorus(): void {
+    private CreateCtrl(): void {
         if (!this.HasValue(this.MaterialName)) return;
         if (!this.HasValue(this._scene)) return;
 
