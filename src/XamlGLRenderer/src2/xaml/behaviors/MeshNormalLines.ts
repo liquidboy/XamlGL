@@ -7,8 +7,8 @@ export class MeshNormalLines {
 
     }
 
-    public static Install(scene: Scene, mesh: BABYLON.Mesh): void {
-        this.ShowNormals(mesh, 0.25, new BABYLON.Color3(1, 0, 0), scene.Ctrl);
+    public static Install(scene: Scene, mesh: BABYLON.Mesh): BABYLON.LinesMesh {
+        return this.ShowNormals(mesh, 0.25, new BABYLON.Color3(1, 0, 0), scene.Ctrl);
     }
 
     private static ShowNormals(mesh: BABYLON.Mesh, size, color, sc: BABYLON.Scene): BABYLON.LinesMesh {

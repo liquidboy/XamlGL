@@ -6,7 +6,8 @@ import { KeyFrames } from "./KeyFrames";
 
 export class Torus extends AnimatableUIElement {
     private _scene: Scene;
-
+    private _normalLines: BABYLON.LinesMesh;
+    
     private _sceneName: string;
     private _materialName: string;
     private _showNormalLines: boolean;
@@ -30,12 +31,7 @@ export class Torus extends AnimatableUIElement {
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
-        let material: Material = this.VT.Get(this.MaterialName) as Material;
         this._scene = scene;
-
-        //this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Ctrl);
-        //this.Ctrl.material = material.Ctrl;
-        //this.Ctrl.position = this.Position;
 
         this.CreateCtrl();
 
@@ -82,6 +78,11 @@ export class Torus extends AnimatableUIElement {
     private ClearCtrl(): void {
         if (!this.HasValue(this.Ctrl)) return;
 
+        if (this.HasValue(this._normalLines)) {
+            this._normalLines.dispose();
+            this._normalLines = null;
+        }
+
         this.bjsCtrl.dispose();
         this.Ctrl = null;
     }
@@ -97,7 +98,10 @@ export class Torus extends AnimatableUIElement {
         this.Ctrl.material = material.Ctrl;
         this.Ctrl.position = this.Position;
 
-        if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) MeshNormalLines.Install(this._scene, this.Ctrl);
+        if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines)
+        {
+            this._normalLines = MeshNormalLines.Install(this._scene, this.Ctrl);
+        }
     }
 
     StartAnimation(): void {

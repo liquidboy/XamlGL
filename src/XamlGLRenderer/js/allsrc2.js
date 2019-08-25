@@ -2431,7 +2431,7 @@ System.register("Xaml/behaviors/MeshNormalLines", [], function (exports_34, cont
                 constructor() {
                 }
                 static Install(scene, mesh) {
-                    this.ShowNormals(mesh, 0.25, new BABYLON.Color3(1, 0, 0), scene.Ctrl);
+                    return this.ShowNormals(mesh, 0.25, new BABYLON.Color3(1, 0, 0), scene.Ctrl);
                 }
                 static ShowNormals(mesh, size, color, sc) {
                     var normals = mesh.getVerticesData(BABYLON.VertexBuffer.NormalKind);
@@ -5241,7 +5241,6 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                 set Tesselation(value) { this._tesselation = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    let material = this.VT.Get(this.MaterialName);
                     this._scene = scene;
                     this.CreateCtrl();
                     if (this.Animations && this.Animations.Animations)
@@ -5297,6 +5296,10 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                 ClearCtrl() {
                     if (!this.HasValue(this.Ctrl))
                         return;
+                    if (this.HasValue(this._normalLines)) {
+                        this._normalLines.dispose();
+                        this._normalLines = null;
+                    }
                     this.bjsCtrl.dispose();
                     this.Ctrl = null;
                 }
@@ -5310,8 +5313,9 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                     this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, this._scene.Ctrl);
                     this.Ctrl.material = material.Ctrl;
                     this.Ctrl.position = this.Position;
-                    if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines)
-                        MeshNormalLines_4.MeshNormalLines.Install(this._scene, this.Ctrl);
+                    if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) {
+                        this._normalLines = MeshNormalLines_4.MeshNormalLines.Install(this._scene, this.Ctrl);
+                    }
                 }
                 StartAnimation() {
                     if (this.Animations && this.Animations.Animations)
