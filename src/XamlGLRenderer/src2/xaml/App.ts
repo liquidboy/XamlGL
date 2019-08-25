@@ -5,6 +5,7 @@ import { Panel } from "./jupiter/controls/Core";
 import { VisualTree } from "../services/VisualTree";
 import { SharedWorker } from "../services/SharedWorker";
 import { DIContainer, DisplayMode } from "./Core";
+import { ContainerHelper } from "../helpers/ContainerHelper";
 
 
 export class App {
@@ -34,6 +35,7 @@ export class App {
     }
     private InitializeDIContainerCore(): void {
         DIContainer.bind<SharedWorker>(SharedWorker).to(SharedWorker).inSingletonScope();
+        DIContainer.bind<ContainerHelper>(ContainerHelper).to(ContainerHelper).inSingletonScope();
     }
     private InitializeDIContainerXaml(rootCanvas: HTMLCanvasElement, rootEngine: BABYLON.Engine): void {
         DIContainer.bind<VisualTree>(VisualTree).to(VisualTree).inSingletonScope();

@@ -9,6 +9,7 @@ import { IScript } from "./IScript";
 import { CustomScript } from "../behaviors/CustomScript";
 import { Event } from "./controls/Event";
 import { LinkedDictionary } from "../../libs/typescript-collections/src/lib";
+import { ContainerHelper } from "../../helpers/ContainerHelper";
 
 export class UIElement extends DependencyObject implements IUIElement, IRender, IScript {
     Parent: UIElement;
@@ -93,6 +94,7 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
                     let ctx: {} = this;
                     ctx["VisualTreeHelper"] = this.VT;
                     ctx["Container"] = this.DI;
+                    ctx["ContainerHelper"] = this.DI.get(ContainerHelper);
                     evalInContext(this.Code, ctx);
                     //CustomScript.InstallWithThis.call(this.Ctrl, [this.VT, this.DI]);
                 }

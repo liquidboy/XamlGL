@@ -3,9 +3,254 @@
     xmlns:x="http://schemas.xamlgl.com/xamlgl/x"
     ThemeName="Metro">
   <Grid x:Name="layoutRoot">
-    <Scene x:Name="main🎬" ClearColor="Color3.Gray()"></Scene>
+    <Scene x:Name="main🎬" ClearColor="Color3.Gray()">
+      <Code>
+        <![CDATA[
 
-    <Camera x:Name="camera1📷" Type="FreeCamera" Position="Vector3(0, 20, -20)" Target="Vector3(0,0,0)" 
+          var babylonMeshes = [];
+          //console.log("started scene code");
+          let box = this.VisualTreeHelper.FindByName("box");
+          let sphere = this.VisualTreeHelper.FindByName("sphere");
+          let Ammo = window["Ammo"];
+          //console.log(this.ContainerHelper);
+          //console.log(this.ContainerHelper.GetSharedWorker());
+          let newWorker = this.ContainerHelper.GetSharedWorker().AnonymousFunctionWorker; //this.Container.get(XamlGLCore.SharedWorker);
+          //console.log(newWorker);
+          
+          let inlineWorkerFunction = () => {
+              //console.log("inlineWorkerFunction");
+              var megaWorkerScope = {self:self};
+              megaWorkerScope.messageTypes = {
+                  loaded:1,
+                  meshes:2
+              };
+              megaWorkerScope.interval = null;
+              megaWorkerScope.bodies = [];
+
+              self.onmessage = function(e){
+                 if(e.data instanceof ArrayBuffer){
+                      //Trans
+                  } else {
+                      switch (e.data.type) {
+                          case megaWorkerScope.messageTypes.loaded:
+                      break;
+                          case megaWorkerScope.messageTypes.meshes:
+                              console.log("meshes to load", e.data.m)
+                              createBodies(e.data.m);
+
+                      break; 
+
+                
+                    
+                      default:
+                
+                      } 
+                  }
+              }
+
+              let loadAmmo = (url, callback) => {
+                  //console.log("loadAmmo")
+                  importScripts(url);
+
+                  
+                  Ammo().then(function(Ammo) {
+                      //console.log('Ammo loaded In worker');
+                      megaWorkerScope.Ammo = Ammo;
+                      callback();
+                  });
+              }
+
+        
+
+
+              let createBodies = (arr) => {
+                  //console.log("createBodies");
+                  for(let i=0;i<arr.length;i++){
+            
+                      let b = arr[i];
+
+                      let groundShape = b.bType == 1 ? new Ammo.btBoxShape(new Ammo.btVector3(b.scaling.x/2, b.scaling.y/2, b.scaling.z/2)) : new Ammo.btSphereShape( b.radius )
+
+                      let groundTransform = new Ammo.btTransform();
+                      groundTransform.setIdentity();
+                      groundTransform.setOrigin(new Ammo.btVector3(b.position.x, b.position.y, b.position.z));
+                      groundTransform.setRotation(new Ammo.btQuaternion(b.quaternion.x,b.quaternion.y,b.quaternion.z,b.quaternion.w));
+           
+                      let localInertia = new Ammo.btVector3(0, 0, 0);
+                      groundShape.calculateLocalInertia(b.mass, localInertia);
+                      let myMotionState = new Ammo.btDefaultMotionState(groundTransform);
+                      let rbInfo = new Ammo.btRigidBodyConstructionInfo(b.mass, myMotionState, groundShape, localInertia);
+                      let body = new Ammo.btRigidBody(rbInfo);
+                      body.uniqueId = b.id;
+                      megaWorkerScope.dynamicsWorld.addRigidBody(body);
+                
+                      megaWorkerScope.bodies.push(body);
+             
+                        
+                  }
+
+
+                  if (megaWorkerScope.interval){ 
+                      clearInterval(megaWorkerScope.interval);
+                  }
+
+                  megaWorkerScope.interval = setInterval(mainLoop, 1000/60);
+
+              }
+
+      
+              let last = Date.now();
+              let mainLoop = () => {
+                  var now = Date.now();
+                  megaWorkerScope.dynamicsWorld.stepSimulation(now - last, 2);
+                  const array = [];
+            
+            
+                     for(let i=0;i<megaWorkerScope.bodies.length;i++){
+                          const body = megaWorkerScope.bodies[i];
+                          const position = body.getWorldTransform().getOrigin();
+                          const rotation = body.getWorldTransform().getRotation();
+                          array[i*8+0] = body.uniqueId;
+                          array[i*8+1] = position.x();
+                          array[i*8+2] = position.y();
+                          array[i*8+3] = position.z();
+                
+                          array[i*8+4] = rotation.x();
+                          array[i*8+5] = rotation.y();
+                          array[i*8+6] = rotation.z();
+                          array[i*8+7] = rotation.w();
+                   
+                      } 
+
+
+                      self.postMessage({type:3,m:array});
+
+
+         
+                  last = now;
+                 // console.log("loo")
+              }
+
+    
+        
+
+              let createWorld = () => {
+                  //console.log("create world");
+                  megaWorkerScope.collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
+                  megaWorkerScope.dispatcher = new Ammo.btCollisionDispatcher(megaWorkerScope.collisionConfiguration);
+                  megaWorkerScope.overlappingPairCache = new Ammo.btDbvtBroadphase();
+                  megaWorkerScope.solver = new Ammo.btSequentialImpulseConstraintSolver();
+                  megaWorkerScope.dynamicsWorld = new Ammo.btDiscreteDynamicsWorld(megaWorkerScope.dispatcher, megaWorkerScope.overlappingPairCache, megaWorkerScope.solver, megaWorkerScope.collisionConfiguration);
+                  megaWorkerScope.dynamicsWorld.setGravity(new Ammo.btVector3(0, -10, 0));
+                  self.postMessage({type:megaWorkerScope.messageTypes.loaded});
+
+              }
+              //console.log("about to load ammo.js");
+              loadAmmo('https://as-xamlgl.azurewebsites.net/js/ammo.js', createWorld);
+          }
+   
+          var megaScope = {self:self};
+          megaScope.messageTypes = {
+              loaded:1,
+              update:3
+          };
+          let worker = newWorker(inlineWorkerFunction);
+
+          worker.onmessage = (e) => {
+              if(e.data instanceof ArrayBuffer){
+                  //Trans
+              } else {
+                  switch (e.data.type) {
+                      case megaScope.messageTypes.loaded:
+                          console.log("Ammo Ready");
+                          const meshes = createMeshes();
+                          worker.postMessage({type:2,m:meshes});
+                          break;
+                      case megaScope.messageTypes.update:
+                         // console.log("got bodies");
+                          updateMeshesTransforms(e.data.m);
+                          break;    
+                      default:
+            
+                  } 
+              }
+        
+          }
+
+
+          let createMeshes = () => {
+              const meshes = [];
+
+              const ground = createBox(250,2,250,0,-2,0,0,0,0,-1);
+              meshes.push({id:ground.uniqueId, position:ground.position,quaternion:ground.rotationQuaternion,scaling:ground.scaling,mass:0, bType:1})
+              babylonMeshes.push(ground);
+
+
+              for(let i=0;i<50;i++){
+                  const ball = createSphere(2,2,2,Math.random()*100-50,50,Math.random()*100-50,0,0,0,-1);
+                  meshes.push({id:ball.uniqueId, position:ball.position,quaternion:ball.rotationQuaternion,radius:ball.scaling.x, mass:10, bType:2})
+                  babylonMeshes.push(ball);
+              }
+
+              for(let i=0;i<50;i++){
+                  let box2 = createBox(Math.random()*10,Math.random()*10,Math.random()*10,Math.random()*100-50,50,Math.random()*100-50,Math.random(),Math.random(),Math.random(),Math.random());
+                  meshes.push({id:box2.uniqueId, position:box2.position,quaternion:box2.rotationQuaternion,scaling:box2.scaling, mass:20, bType:1})
+                  babylonMeshes.push(box2);
+              }
+        
+        
+              return meshes;
+          }
+
+          let createBox = (scalingX,scalingY,scalingZ,positionX,positionY,positionZ,quaternionX,quaternionY,quaternionZ,quaternionW) => {
+              const bo = box.bjsCtrl.createInstance("bo");
+              bo.scaling.set(scalingX,scalingY,scalingZ);
+              bo.position.set(positionX,positionY,positionZ);
+              bo.rotationQuaternion.set(quaternionX,quaternionY,quaternionZ,quaternionW);
+              return bo;
+          }
+
+
+          let createSphere = (scalingX,scalingY,scalingZ,positionX,positionY,positionZ,quaternionX,quaternionY,quaternionZ,quaternionW) => {
+              const sp = sphere.bjsCtrl.createInstance("sp");
+              sp.scaling.set(scalingX,scalingY,scalingZ);
+              sp.position.set(positionX,positionY,positionZ);
+              sp.rotationQuaternion.set(quaternionX,quaternionY,quaternionZ,quaternionW);
+              return sp;
+          }
+
+  
+          let updateMeshesTransforms = (arr) => {
+    
+              for(let i=0;i<arr.length;i+=8){
+            
+                  const meshId = arr[i];
+                  const mesh = meshFromId(meshId);
+                  if(mesh){
+               
+                      mesh.rotationQuaternion.set(arr[i+4],arr[i+5],arr[i+6],arr[i+7]);
+                      mesh.position.set(arr[i+1],arr[i+2],arr[i+3]);
+                
+                  }
+              }
+          }
+
+
+          let meshFromId = (id) => {
+              for(let i=0;i<babylonMeshes.length;i++){
+                  if(babylonMeshes[i].uniqueId === id){
+                      return babylonMeshes[i];
+                  }
+              }
+
+              return false;
+          }
+
+        ]]>
+      </Code>
+    </Scene>
+
+    <Camera x:Name="camera1📷" Type="FreeCamera" Position="Vector3(0, 150, -150)" Target="Vector3(0,0,0)" 
             Scene="main🎬"></Camera>
 
     <Light x:Name="light" Type="HemisphericLight" Direction="Vector3(0, 1, 0)" Intensity="0.7" 

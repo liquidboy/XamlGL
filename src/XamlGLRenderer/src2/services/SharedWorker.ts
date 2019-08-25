@@ -54,6 +54,18 @@ export class SharedWorker {
         } catch (e) { }
     }
 
+    public AnonymousFunctionWorker(funcObj): Worker {
+    // Build a worker from an anonymous function body
+    var blobURL = URL.createObjectURL(new Blob(['(',
+        funcObj.toString(),
+        ')()'], {
+            type: 'application/javascript'
+        })),
+
+        worker = new Worker(blobURL);
+        URL.revokeObjectURL(blobURL);
+        return worker;
+    }
 }
 
 

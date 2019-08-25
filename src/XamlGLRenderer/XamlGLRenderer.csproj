@@ -77,6 +77,9 @@
     <Content Include="index.html" />
     <Content Include="js\allsrc.js" />
     <Content Include="js\allsrc2.js" />
+    <Content Include="js\ammo.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="js\filters.min.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="js\jquery.slim.min.js" />
@@ -1145,6 +1148,7 @@
     <TypeScriptCompile Include="src2\libs\typescript-collections\src\lib\util.ts" />
     <TypeScriptCompile Include="src2\services\CodeEditor.ts" />
     <TypeScriptCompile Include="src2\services\SharedWorker.ts" />
+    <TypeScriptCompile Include="src2\helpers\ContainerHelper.ts" />
     <TypeScriptCompile Include="src2\services\VisualTree.ts" />
     <TypeScriptCompile Include="src2\xaml\App.ts" />
     <TypeScriptCompile Include="src2\xaml\behaviors\CustomScript.ts" />
