@@ -34,6 +34,7 @@ export class Torus extends AnimatableUIElement {
 
         this._scene = scene;
         this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Ctrl);
+        
         this.Ctrl.material = material.Ctrl;
         this.Ctrl.position = this.Position;
         if (this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
@@ -58,6 +59,19 @@ export class Torus extends AnimatableUIElement {
         this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
         this.UpdatePropertyByNodeAndFunction(node, "Tesselation", "Tesselation", parseFloat);
     }
+
+    //public SetValue(propertyName: string, value: any): void {
+    //    switch (propertyName) {
+    //        case "ClearColor": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
+    //    }
+    //    this.RefreshCtrlProperty(propertyName);
+    //}
+
+    //private RefreshCtrlProperty(propertyName: string): void {
+    //    switch (propertyName) {
+    //        case "ClearColor": if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor); break;
+    //    }
+    //}
 
     StartAnimation(): void {
         if (this.Animations && this.Animations.Animations)
