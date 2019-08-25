@@ -2590,10 +2590,19 @@ System.register("Xaml/jupiter/controls/Plane", ["Xaml/jupiter/UIElement", "babyl
         }
     };
 });
-System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonjs-gui", "Xaml/jupiter/controls/Plane"], function (exports_38, context_38) {
+System.register("Xaml/jupiter/controls/ISetValue", [], function (exports_38, context_38) {
+    "use strict";
+    var __moduleName = context_38 && context_38.id;
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonjs-gui", "Xaml/jupiter/controls/Plane"], function (exports_39, context_39) {
     "use strict";
     var Core_7, Plane_1, Texture;
-    var __moduleName = context_38 && context_38.id;
+    var __moduleName = context_39 && context_39.id;
     return {
         setters: [
             function (Core_7_1) {
@@ -2629,33 +2638,9 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                 set MirrorPlane(value) { this._mirrorPlane = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    if (this._type === "CubeTexture") {
-                        this.Ctrl = new BABYLON.CubeTexture(this.RootUrl, scene.Ctrl);
-                    }
-                    else if (this._type === "DynamicTexture") {
-                        this.Ctrl = new BABYLON.DynamicTexture(this.Name, 512, scene.Ctrl, this.GeneratingMipMaps);
-                    }
-                    else if (this._type === "Texture") {
-                        this.Ctrl = new BABYLON.Texture(this.RootUrl, scene.Ctrl);
-                    }
-                    else if (this._type === "AdvancedDynamicTexture") {
-                        if (this.Parent instanceof Plane_1.Plane) {
-                            this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(this.Parent.Ctrl);
-                        }
-                        else {
-                            this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
-                        }
-                    }
-                    else if (this._type === "MirrorTexture") {
-                        let reflectionTexture = new BABYLON.MirrorTexture(this.Name, this.Size, scene.Ctrl, this.GeneratingMipMaps);
-                        reflectionTexture.mirrorPlane = this.MirrorPlane;
-                        reflectionTexture.level = this.Level;
-                        this.Ctrl = reflectionTexture;
-                    }
-                    if (this.Ctrl !== undefined) {
-                        if (this.HasValue(this.CoordinatesMode))
-                            this.Ctrl.coordinatesMode = this.CoordinatesMode;
-                    }
+                    this._scene = scene;
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("CoordinatesMode");
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
                     });
@@ -2674,6 +2659,100 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                     this.UpdatePropertyByNodeAndFunction(node, "Level", "Level", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "MirrorPlane", "MirrorPlane", this.ConvertToNewBabylonObject);
                 }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "IdealHeight":
+                        case "Size":
+                            this.UpdatePropertyByValue(propertyName, value, parseInt);
+                            break;
+                        case "GeneratingMipMaps":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean);
+                            break;
+                        case "Level":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "MirrorPlane":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject);
+                            break;
+                        case "Type":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        default: return;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "IdealHeight": break;
+                        case "Type":
+                            if (this.HasValue(this.Type))
+                                this.CreateCtrl();
+                            break;
+                        case "Size":
+                            if (this.HasValue(this.Size))
+                                this.CreateCtrl();
+                            break;
+                        case "MirrorPlane":
+                            if (this.HasValue(this.MirrorPlane))
+                                this.GetReflectionTexture().mirrorPlane = this.MirrorPlane;
+                            break;
+                        case "Level":
+                            if (this.HasValue(this.Level))
+                                this.GetReflectionTexture().level = this.Level;
+                            break;
+                        case "GeneratingMipMaps":
+                            if (this.HasValue(this.GeneratingMipMaps))
+                                this.CreateCtrl();
+                            break;
+                        case "CoordinatesMode":
+                            if (this.HasValue(this.CoordinatesMode))
+                                this.Ctrl.coordinatesMode = this.CoordinatesMode;
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    if (this._type === "CubeTexture") {
+                        if (!this.HasValue(this._scene))
+                            return;
+                        this.Ctrl = new BABYLON.CubeTexture(this.RootUrl, this._scene.Ctrl);
+                    }
+                    else if (this._type === "DynamicTexture") {
+                        if (!this.HasValue(this._scene))
+                            return;
+                        this.Ctrl = new BABYLON.DynamicTexture(this.Name, 512, this._scene.Ctrl, this.GeneratingMipMaps);
+                    }
+                    else if (this._type === "Texture") {
+                        if (!this.HasValue(this._scene))
+                            return;
+                        this.Ctrl = new BABYLON.Texture(this.RootUrl, this._scene.Ctrl);
+                    }
+                    else if (this._type === "AdvancedDynamicTexture") {
+                        if (this.Parent instanceof Plane_1.Plane) {
+                            this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(this.Parent.Ctrl);
+                        }
+                        else {
+                            this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
+                        }
+                    }
+                    else if (this._type === "MirrorTexture") {
+                        if (!this.HasValue(this._scene))
+                            return;
+                        let reflectionTexture = new BABYLON.MirrorTexture(this.Name, this.Size, this._scene.Ctrl, this.GeneratingMipMaps);
+                        reflectionTexture.mirrorPlane = this.MirrorPlane;
+                        reflectionTexture.level = this.Level;
+                        this.Ctrl = reflectionTexture;
+                    }
+                }
+                GetReflectionTexture() {
+                    return this.Ctrl;
+                }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
                         parent.ChildrenGUIs.setValue(this.Name, this);
@@ -2682,14 +2761,14 @@ System.register("Xaml/jupiter/controls/Texture", ["Xaml/jupiter/Core", "babylonj
                     return false;
                 }
             };
-            exports_38("Texture", Texture);
+            exports_39("Texture", Texture);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_39, context_39) {
+System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_40, context_40) {
     "use strict";
     var MeshNormalLines_1, AnimatableUIElement_2, Box;
-    var __moduleName = context_39 && context_39.id;
+    var __moduleName = context_40 && context_40.id;
     return {
         setters: [
             function (MeshNormalLines_1_1) {
@@ -2775,14 +2854,14 @@ System.register("Xaml/jupiter/controls/Box", ["Xaml/behaviors/MeshNormalLines", 
                         });
                 }
             };
-            exports_39("Box", Box);
+            exports_40("Box", Box);
         }
     };
 });
-System.register("Xaml/behaviors/CustomScript", [], function (exports_40, context_40) {
+System.register("Xaml/behaviors/CustomScript", [], function (exports_41, context_41) {
     "use strict";
     var CustomScript;
-    var __moduleName = context_40 && context_40.id;
+    var __moduleName = context_41 && context_41.id;
     return {
         setters: [],
         execute: function () {
@@ -2799,14 +2878,14 @@ System.register("Xaml/behaviors/CustomScript", [], function (exports_40, context
                     eval(code).bind(vt);
                 }
             };
-            exports_40("CustomScript", CustomScript);
+            exports_41("CustomScript", CustomScript);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "babylonjs-gui", "Xaml/behaviors/CustomScript"], function (exports_41, context_41) {
+System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "babylonjs-gui", "Xaml/behaviors/CustomScript"], function (exports_42, context_42) {
     "use strict";
     var UIElement_6, CustomScript_1, Button;
-    var __moduleName = context_41 && context_41.id;
+    var __moduleName = context_42 && context_42.id;
     return {
         setters: [
             function (UIElement_6_1) {
@@ -2878,14 +2957,14 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "baby
                     return false;
                 }
             };
-            exports_41("Button", Button);
+            exports_42("Button", Button);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml/Core"], function (exports_42, context_42) {
+System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml/Core"], function (exports_43, context_43) {
     "use strict";
     var UIElement_7, Core_8, Camera;
-    var __moduleName = context_42 && context_42.id;
+    var __moduleName = context_43 && context_43.id;
     return {
         setters: [
             function (UIElement_7_1) {
@@ -3043,14 +3122,14 @@ System.register("Xaml/jupiter/controls/Camera", ["Xaml/jupiter/UIElement", "Xaml
                 GetFreeCamera(camera) { return camera; }
                 GetArcCamera() { return this.Ctrl; }
             };
-            exports_42("Camera", Camera);
+            exports_43("Camera", Camera);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_43, context_43) {
+System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_44, context_44) {
     "use strict";
     var MeshNormalLines_2, AnimatableUIElement_3, Disc;
-    var __moduleName = context_43 && context_43.id;
+    var __moduleName = context_44 && context_44.id;
     return {
         setters: [
             function (MeshNormalLines_2_1) {
@@ -3118,14 +3197,14 @@ System.register("Xaml/jupiter/controls/Disc", ["Xaml/behaviors/MeshNormalLines",
                         });
                 }
             };
-            exports_43("Disc", Disc);
+            exports_44("Disc", Disc);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Effect", ["Xaml/jupiter/UIElement", "Xaml/Core"], function (exports_44, context_44) {
+System.register("Xaml/jupiter/controls/Effect", ["Xaml/jupiter/UIElement", "Xaml/Core"], function (exports_45, context_45) {
     "use strict";
     var UIElement_8, Core_9, Effect;
-    var __moduleName = context_44 && context_44.id;
+    var __moduleName = context_45 && context_45.id;
     return {
         setters: [
             function (UIElement_8_1) {
@@ -3158,14 +3237,14 @@ System.register("Xaml/jupiter/controls/Effect", ["Xaml/jupiter/UIElement", "Xaml
                     return newObject;
                 }
             };
-            exports_44("Effect", Effect);
+            exports_45("Effect", Effect);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Event", ["Xaml/jupiter/UIElement"], function (exports_45, context_45) {
+System.register("Xaml/jupiter/controls/Event", ["Xaml/jupiter/UIElement"], function (exports_46, context_46) {
     "use strict";
     var UIElement_9, Event;
-    var __moduleName = context_45 && context_45.id;
+    var __moduleName = context_46 && context_46.id;
     return {
         setters: [
             function (UIElement_9_1) {
@@ -3204,14 +3283,14 @@ System.register("Xaml/jupiter/controls/Event", ["Xaml/jupiter/UIElement"], funct
                     return false;
                 }
             };
-            exports_45("Event", Event);
+            exports_46("Event", Event);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElementCollection"], function (exports_46, context_46) {
+System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement", "Xaml/jupiter/UIElementCollection"], function (exports_47, context_47) {
     "use strict";
     var FrameworkElement_2, UIElementCollection_2, Panel;
-    var __moduleName = context_46 && context_46.id;
+    var __moduleName = context_47 && context_47.id;
     return {
         setters: [
             function (FrameworkElement_2_1) {
@@ -3240,14 +3319,14 @@ System.register("Xaml/jupiter/controls/Panel", ["Xaml/jupiter/FrameworkElement",
                 set OffsetX(value) { this._offsetX = value; }
                 set OffsetY(value) { this._offsetY = value; }
             };
-            exports_46("Panel", Panel);
+            exports_47("Panel", Panel);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], function (exports_47, context_47) {
+System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], function (exports_48, context_48) {
     "use strict";
     var Panel_1, Grid;
-    var __moduleName = context_47 && context_47.id;
+    var __moduleName = context_48 && context_48.id;
     return {
         setters: [
             function (Panel_1_1) {
@@ -3257,14 +3336,14 @@ System.register("Xaml/jupiter/controls/Grid", ["Xaml/jupiter/controls/Panel"], f
         execute: function () {
             Grid = class Grid extends Panel_1.Panel {
             };
-            exports_47("Grid", Grid);
+            exports_48("Grid", Grid);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "babylonjs-materials"], function (exports_48, context_48) {
+System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "babylonjs-materials"], function (exports_49, context_49) {
     "use strict";
     var UIElement_10, Material;
-    var __moduleName = context_48 && context_48.id;
+    var __moduleName = context_49 && context_49.id;
     return {
         setters: [
             function (UIElement_10_1) {
@@ -3389,14 +3468,14 @@ System.register("Xaml/jupiter/controls/Material", ["Xaml/jupiter/UIElement", "ba
                     return material;
                 }
             };
-            exports_48("Material", Material);
+            exports_49("Material", Material);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_49, context_49) {
+System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], function (exports_50, context_50) {
     "use strict";
     var UIElement_11, Ground;
-    var __moduleName = context_49 && context_49.id;
+    var __moduleName = context_50 && context_50.id;
     return {
         setters: [
             function (UIElement_11_1) {
@@ -3432,14 +3511,14 @@ System.register("Xaml/jupiter/controls/Ground", ["Xaml/jupiter/UIElement"], func
                     this.UpdatePropertyByNodeAndFunction(node, "SubDivisions", "SubDivisions", parseInt);
                 }
             };
-            exports_49("Ground", Ground);
+            exports_50("Ground", Ground);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/CheckBox", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_50, context_50) {
+System.register("Xaml/jupiter/controls/gui/CheckBox", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_51, context_51) {
     "use strict";
     var UIElement_12, CheckBox;
-    var __moduleName = context_50 && context_50.id;
+    var __moduleName = context_51 && context_51.id;
     return {
         setters: [
             function (UIElement_12_1) {
@@ -3540,14 +3619,14 @@ System.register("Xaml/jupiter/controls/gui/CheckBox", ["Xaml/jupiter/UIElement",
                     return false;
                 }
             };
-            exports_50("CheckBox", CheckBox);
+            exports_51("CheckBox", CheckBox);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/Code", ["Xaml/jupiter/UIElement"], function (exports_51, context_51) {
+System.register("Xaml/jupiter/controls/gui/Code", ["Xaml/jupiter/UIElement"], function (exports_52, context_52) {
     "use strict";
     var UIElement_13, Code;
-    var __moduleName = context_51 && context_51.id;
+    var __moduleName = context_52 && context_52.id;
     return {
         setters: [
             function (UIElement_13_1) {
@@ -3587,14 +3666,14 @@ System.register("Xaml/jupiter/controls/gui/Code", ["Xaml/jupiter/UIElement"], fu
                     return false;
                 }
             };
-            exports_51("Code", Code);
+            exports_52("Code", Code);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/ColorPicker", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_52, context_52) {
+System.register("Xaml/jupiter/controls/gui/ColorPicker", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_53, context_53) {
     "use strict";
     var UIElement_14, ColorPicker;
-    var __moduleName = context_52 && context_52.id;
+    var __moduleName = context_53 && context_53.id;
     return {
         setters: [
             function (UIElement_14_1) {
@@ -3652,14 +3731,14 @@ System.register("Xaml/jupiter/controls/gui/ColorPicker", ["Xaml/jupiter/UIElemen
                     return false;
                 }
             };
-            exports_52("ColorPicker", ColorPicker);
+            exports_53("ColorPicker", ColorPicker);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], function (exports_53, context_53) {
+System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], function (exports_54, context_54) {
     "use strict";
     var UIElement_15, Mesh;
-    var __moduleName = context_53 && context_53.id;
+    var __moduleName = context_54 && context_54.id;
     return {
         setters: [
             function (UIElement_15_1) {
@@ -3697,14 +3776,14 @@ System.register("Xaml/jupiter/controls/Mesh", ["Xaml/jupiter/UIElement"], functi
                     this.UpdatePropertyByNode(node, "Material", "MaterialName");
                 }
             };
-            exports_53("Mesh", Mesh);
+            exports_54("Mesh", Mesh);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/Ellipse", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_54, context_54) {
+System.register("Xaml/jupiter/controls/gui/Ellipse", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_55, context_55) {
     "use strict";
     var UIElement_16, Ellipse;
-    var __moduleName = context_54 && context_54.id;
+    var __moduleName = context_55 && context_55.id;
     return {
         setters: [
             function (UIElement_16_1) {
@@ -3777,14 +3856,14 @@ System.register("Xaml/jupiter/controls/gui/Ellipse", ["Xaml/jupiter/UIElement", 
                     return false;
                 }
             };
-            exports_54("Ellipse", Ellipse);
+            exports_55("Ellipse", Ellipse);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/Line", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_55, context_55) {
+System.register("Xaml/jupiter/controls/gui/Line", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_56, context_56) {
     "use strict";
     var UIElement_17, Line;
-    var __moduleName = context_55 && context_55.id;
+    var __moduleName = context_56 && context_56.id;
     return {
         setters: [
             function (UIElement_17_1) {
@@ -3853,14 +3932,14 @@ System.register("Xaml/jupiter/controls/gui/Line", ["Xaml/jupiter/UIElement", "ba
                     return false;
                 }
             };
-            exports_55("Line", Line);
+            exports_56("Line", Line);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/RadioButton", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_56, context_56) {
+System.register("Xaml/jupiter/controls/gui/RadioButton", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_57, context_57) {
     "use strict";
     var UIElement_18, RadioButton;
-    var __moduleName = context_56 && context_56.id;
+    var __moduleName = context_57 && context_57.id;
     return {
         setters: [
             function (UIElement_18_1) {
@@ -3951,14 +4030,14 @@ System.register("Xaml/jupiter/controls/gui/RadioButton", ["Xaml/jupiter/UIElemen
                     return false;
                 }
             };
-            exports_56("RadioButton", RadioButton);
+            exports_57("RadioButton", RadioButton);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/Resources", ["Xaml/jupiter/UIElement", "Xaml/jupiter/Core"], function (exports_57, context_57) {
+System.register("Xaml/jupiter/controls/gui/Resources", ["Xaml/jupiter/UIElement", "Xaml/jupiter/Core"], function (exports_58, context_58) {
     "use strict";
     var UIElement_19, Core_10, Resources;
-    var __moduleName = context_57 && context_57.id;
+    var __moduleName = context_58 && context_58.id;
     return {
         setters: [
             function (UIElement_19_1) {
@@ -3980,14 +4059,14 @@ System.register("Xaml/jupiter/controls/gui/Resources", ["Xaml/jupiter/UIElement"
                     super.LoadFromNode(node);
                 }
             };
-            exports_57("Resources", Resources);
+            exports_58("Resources", Resources);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/Resource", ["Xaml/jupiter/UIElement"], function (exports_58, context_58) {
+System.register("Xaml/jupiter/controls/gui/Resource", ["Xaml/jupiter/UIElement"], function (exports_59, context_59) {
     "use strict";
     var UIElement_20, Resource;
-    var __moduleName = context_58 && context_58.id;
+    var __moduleName = context_59 && context_59.id;
     return {
         setters: [
             function (UIElement_20_1) {
@@ -4027,14 +4106,14 @@ System.register("Xaml/jupiter/controls/gui/Resource", ["Xaml/jupiter/UIElement"]
                     return false;
                 }
             };
-            exports_58("Resource", Resource);
+            exports_59("Resource", Resource);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/StackPanel", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_59, context_59) {
+System.register("Xaml/jupiter/controls/gui/StackPanel", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_60, context_60) {
     "use strict";
     var UIElement_21, StackPanel;
-    var __moduleName = context_59 && context_59.id;
+    var __moduleName = context_60 && context_60.id;
     return {
         setters: [
             function (UIElement_21_1) {
@@ -4133,14 +4212,14 @@ System.register("Xaml/jupiter/controls/gui/StackPanel", ["Xaml/jupiter/UIElement
                     return false;
                 }
             };
-            exports_59("StackPanel", StackPanel);
+            exports_60("StackPanel", StackPanel);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_60, context_60) {
+System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_61, context_61) {
     "use strict";
     var UIElement_22, TextBlock;
-    var __moduleName = context_60 && context_60.id;
+    var __moduleName = context_61 && context_61.id;
     return {
         setters: [
             function (UIElement_22_1) {
@@ -4214,14 +4293,14 @@ System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement"
                     return false;
                 }
             };
-            exports_60("TextBlock", TextBlock);
+            exports_61("TextBlock", TextBlock);
         }
     };
 });
-System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_61, context_61) {
+System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-collections/src/lib/index"], function (exports_62, context_62) {
     "use strict";
     var lib_2, KeyFrameCollection;
-    var __moduleName = context_61 && context_61.id;
+    var __moduleName = context_62 && context_62.id;
     return {
         setters: [
             function (lib_2_1) {
@@ -4231,14 +4310,14 @@ System.register("Xaml/jupiter/controls/KeyFrameCollection", ["libs/typescript-co
         execute: function () {
             KeyFrameCollection = class KeyFrameCollection extends lib_2.LinkedList {
             };
-            exports_61("KeyFrameCollection", KeyFrameCollection);
+            exports_62("KeyFrameCollection", KeyFrameCollection);
         }
     };
 });
-System.register("Xaml/jupiter/controls/gui/Label", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_62, context_62) {
+System.register("Xaml/jupiter/controls/gui/Label", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_63, context_63) {
     "use strict";
     var UIElement_23, Label;
-    var __moduleName = context_62 && context_62.id;
+    var __moduleName = context_63 && context_63.id;
     return {
         setters: [
             function (UIElement_23_1) {
@@ -4361,14 +4440,14 @@ System.register("Xaml/jupiter/controls/gui/Label", ["Xaml/jupiter/UIElement", "b
                     return false;
                 }
             };
-            exports_62("Label", Label);
+            exports_63("Label", Label);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_63, context_63) {
+System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], function (exports_64, context_64) {
     "use strict";
     var UIElement_24, Light;
-    var __moduleName = context_63 && context_63.id;
+    var __moduleName = context_64 && context_64.id;
     return {
         setters: [
             function (UIElement_24_1) {
@@ -4479,14 +4558,14 @@ System.register("Xaml/jupiter/controls/Light", ["Xaml/jupiter/UIElement"], funct
                     }
                 }
             };
-            exports_63("Light", Light);
+            exports_64("Light", Light);
         }
     };
 });
-System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index"], function (exports_64, context_64) {
+System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement", "libs/typescript-collections/src/lib/index"], function (exports_65, context_65) {
     "use strict";
     var UIElement_25, lib_3, ParticleSystem;
-    var __moduleName = context_64 && context_64.id;
+    var __moduleName = context_65 && context_65.id;
     return {
         setters: [
             function (UIElement_25_1) {
@@ -4648,14 +4727,14 @@ System.register("Xaml/jupiter/controls/ParticleSystem", ["Xaml/jupiter/UIElement
                     this.UpdatePropertyByNodeAndFunction(node, "Emitter", "Emitter", this.ConvertToNewBabylonObject);
                 }
             };
-            exports_64("ParticleSystem", ParticleSystem);
+            exports_65("ParticleSystem", ParticleSystem);
         }
     };
 });
-System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIElement"], function (exports_65, context_65) {
+System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIElement"], function (exports_66, context_66) {
     "use strict";
     var UIElement_26, ParticleSystemShape;
-    var __moduleName = context_65 && context_65.id;
+    var __moduleName = context_66 && context_66.id;
     return {
         setters: [
             function (UIElement_26_1) {
@@ -4723,14 +4802,14 @@ System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIEl
                     return false;
                 }
             };
-            exports_65("ParticleSystemShape", ParticleSystemShape);
+            exports_66("ParticleSystemShape", ParticleSystemShape);
         }
     };
 });
-System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_66, context_66) {
+System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_67, context_67) {
     "use strict";
     var SceneMouseWheelZoom;
-    var __moduleName = context_66 && context_66.id;
+    var __moduleName = context_67 && context_67.id;
     return {
         setters: [],
         execute: function () {
@@ -4755,14 +4834,14 @@ System.register("Xaml/behaviors/SceneMouseWheelZoom", [], function (exports_66, 
                     }, BABYLON.PointerEventTypes.POINTERWHEEL, false);
                 }
             };
-            exports_66("SceneMouseWheelZoom", SceneMouseWheelZoom);
+            exports_67("SceneMouseWheelZoom", SceneMouseWheelZoom);
         }
     };
 });
-System.register("services/VisualTree", ["inversify", "libs/typescript-collections/src/lib/index"], function (exports_67, context_67) {
+System.register("services/VisualTree", ["inversify", "libs/typescript-collections/src/lib/index"], function (exports_68, context_68) {
     "use strict";
     var inversify_1, lib_4, VisualTree;
-    var __moduleName = context_67 && context_67.id;
+    var __moduleName = context_68 && context_68.id;
     return {
         setters: [
             function (inversify_1_1) {
@@ -4797,14 +4876,14 @@ System.register("services/VisualTree", ["inversify", "libs/typescript-collection
                 inversify_1.injectable(),
                 __metadata("design:paramtypes", [])
             ], VisualTree);
-            exports_67("VisualTree", VisualTree);
+            exports_68("VisualTree", VisualTree);
         }
     };
 });
-System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/VisualTree"], function (exports_68, context_68) {
+System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/VisualTree"], function (exports_69, context_69) {
     "use strict";
     var Core_11, VisualTree_1, MoveSelectedMesh;
-    var __moduleName = context_68 && context_68.id;
+    var __moduleName = context_69 && context_69.id;
     return {
         setters: [
             function (Core_11_1) {
@@ -4873,14 +4952,14 @@ System.register("Xaml/behaviors/MoveSelectedMesh", ["Xaml/Core", "services/Visua
                     this.startingPoint = current;
                 }
             };
-            exports_68("MoveSelectedMesh", MoveSelectedMesh);
+            exports_69("MoveSelectedMesh", MoveSelectedMesh);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/behaviors/SceneMouseWheelZoom", "Xaml/behaviors/MoveSelectedMesh", "Xaml/Core"], function (exports_69, context_69) {
+System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/behaviors/SceneMouseWheelZoom", "Xaml/behaviors/MoveSelectedMesh", "Xaml/Core"], function (exports_70, context_70) {
     "use strict";
     var UIElement_27, SceneMouseWheelZoom_1, MoveSelectedMesh_1, Core_12, Scene;
-    var __moduleName = context_69 && context_69.id;
+    var __moduleName = context_70 && context_70.id;
     return {
         setters: [
             function (UIElement_27_1) {
@@ -4945,14 +5024,14 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                     }
                 }
             };
-            exports_69("Scene", Scene);
+            exports_70("Scene", Scene);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], function (exports_70, context_70) {
+System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], function (exports_71, context_71) {
     "use strict";
     var UIElement_28, Script;
-    var __moduleName = context_70 && context_70.id;
+    var __moduleName = context_71 && context_71.id;
     return {
         setters: [
             function (UIElement_28_1) {
@@ -4987,14 +5066,14 @@ System.register("Xaml/jupiter/controls/Script", ["Xaml/jupiter/UIElement"], func
                     return false;
                 }
             };
-            exports_70("Script", Script);
+            exports_71("Script", Script);
         }
     };
 });
-System.register("Xaml/jupiter/controls/ShadersStore", ["Xaml/jupiter/UIElement"], function (exports_71, context_71) {
+System.register("Xaml/jupiter/controls/ShadersStore", ["Xaml/jupiter/UIElement"], function (exports_72, context_72) {
     "use strict";
     var UIElement_29, ShadersStore;
-    var __moduleName = context_71 && context_71.id;
+    var __moduleName = context_72 && context_72.id;
     return {
         setters: [
             function (UIElement_29_1) {
@@ -5019,14 +5098,14 @@ System.register("Xaml/jupiter/controls/ShadersStore", ["Xaml/jupiter/UIElement"]
                     super.LoadFromNode(node);
                 }
             };
-            exports_71("ShadersStore", ShadersStore);
+            exports_72("ShadersStore", ShadersStore);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_72, context_72) {
+System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "babylonjs-gui"], function (exports_73, context_73) {
     "use strict";
     var UIElement_30, Slider;
-    var __moduleName = context_72 && context_72.id;
+    var __moduleName = context_73 && context_73.id;
     return {
         setters: [
             function (UIElement_30_1) {
@@ -5095,14 +5174,14 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                     return false;
                 }
             };
-            exports_72("Slider", Slider);
+            exports_73("Slider", Slider);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_73, context_73) {
+System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml/behaviors/MeshNormalLines"], function (exports_74, context_74) {
     "use strict";
     var UIElement_31, MeshNormalLines_3, Sphere;
-    var __moduleName = context_73 && context_73.id;
+    var __moduleName = context_74 && context_74.id;
     return {
         setters: [
             function (UIElement_31_1) {
@@ -5152,14 +5231,14 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     this.UpdatePropertyByNodeAndFunction(node, "RotationQuaternion", "RotationQuaternion", this.ConvertToNewBabylonObject);
                 }
             };
-            exports_73("Sphere", Sphere);
+            exports_74("Sphere", Sphere);
         }
     };
 });
-System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], function (exports_74, context_74) {
+System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], function (exports_75, context_75) {
     "use strict";
     var UIElement_32, SubEmitter;
-    var __moduleName = context_74 && context_74.id;
+    var __moduleName = context_75 && context_75.id;
     return {
         setters: [
             function (UIElement_32_1) {
@@ -5208,14 +5287,14 @@ System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], 
                     this.UpdatePropertyByNodeAndFunction(node, "InheritDirection", "InheritDirection", this.ConvertToBoolean);
                 }
             };
-            exports_74("SubEmitter", SubEmitter);
+            exports_75("SubEmitter", SubEmitter);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_75, context_75) {
+System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines", "Xaml/jupiter/AnimatableUIElement"], function (exports_76, context_76) {
     "use strict";
     var MeshNormalLines_4, AnimatableUIElement_4, Torus;
-    var __moduleName = context_75 && context_75.id;
+    var __moduleName = context_76 && context_76.id;
     return {
         setters: [
             function (MeshNormalLines_4_1) {
@@ -5330,19 +5409,19 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                         });
                 }
             };
-            exports_75("Torus", Torus);
+            exports_76("Torus", Torus);
         }
     };
 });
-System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Effect", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/gui/CheckBox", "Xaml/jupiter/controls/gui/Code", "Xaml/jupiter/controls/gui/ColorPicker", "Xaml/jupiter/controls/gui/Ellipse", "Xaml/jupiter/controls/gui/Line", "Xaml/jupiter/controls/gui/RadioButton", "Xaml/jupiter/controls/gui/Resources", "Xaml/jupiter/controls/gui/Resource", "Xaml/jupiter/controls/gui/StackPanel", "Xaml/jupiter/controls/gui/TextBlock", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/gui/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Plane", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Slider", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/SubEmitter", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_76, context_76) {
+System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation", "Xaml/jupiter/controls/AnimationCollection", "Xaml/jupiter/controls/Animations", "Xaml/jupiter/controls/Background", "Xaml/jupiter/controls/Box", "Xaml/jupiter/controls/Button", "Xaml/jupiter/controls/Camera", "Xaml/jupiter/controls/Disc", "Xaml/jupiter/controls/Effect", "Xaml/jupiter/controls/Event", "Xaml/jupiter/controls/Grid", "Xaml/jupiter/controls/Ground", "Xaml/jupiter/controls/gui/CheckBox", "Xaml/jupiter/controls/gui/Code", "Xaml/jupiter/controls/gui/ColorPicker", "Xaml/jupiter/controls/gui/Ellipse", "Xaml/jupiter/controls/gui/Line", "Xaml/jupiter/controls/gui/RadioButton", "Xaml/jupiter/controls/gui/Resources", "Xaml/jupiter/controls/gui/Resource", "Xaml/jupiter/controls/gui/StackPanel", "Xaml/jupiter/controls/gui/TextBlock", "Xaml/jupiter/controls/KeyFrame", "Xaml/jupiter/controls/KeyFrameCollection", "Xaml/jupiter/controls/KeyFrames", "Xaml/jupiter/controls/gui/Label", "Xaml/jupiter/controls/Light", "Xaml/jupiter/controls/Mesh", "Xaml/jupiter/controls/ParticleSystem", "Xaml/jupiter/controls/ParticleSystemShape", "Xaml/jupiter/controls/Plane", "Xaml/jupiter/controls/Panel", "Xaml/jupiter/controls/Scene", "Xaml/jupiter/controls/Script", "Xaml/jupiter/controls/ShadersStore", "Xaml/jupiter/controls/Slider", "Xaml/jupiter/controls/Sphere", "Xaml/jupiter/controls/SubEmitter", "Xaml/jupiter/controls/Texture", "Xaml/jupiter/controls/Torus", "Xaml/jupiter/controls/Material"], function (exports_77, context_77) {
     "use strict";
-    var __moduleName = context_76 && context_76.id;
+    var __moduleName = context_77 && context_77.id;
     function exportStar_2(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_76(exports);
+        exports_77(exports);
     }
     return {
         setters: [
@@ -5474,19 +5553,19 @@ System.register("Xaml/jupiter/controls/Core", ["Xaml/jupiter/controls/Animation"
         }
     };
 });
-System.register("Xaml/jupiter/IRender", [], function (exports_77, context_77) {
+System.register("Xaml/jupiter/IRender", [], function (exports_78, context_78) {
     "use strict";
-    var __moduleName = context_77 && context_77.id;
+    var __moduleName = context_78 && context_78.id;
     return {
         setters: [],
         execute: function () {
         }
     };
 });
-System.register("helpers/ContainerHelper", ["inversify", "Xaml/Core"], function (exports_78, context_78) {
+System.register("helpers/ContainerHelper", ["inversify", "Xaml/Core"], function (exports_79, context_79) {
     "use strict";
     var inversify_2, Core_13, ContainerHelper;
-    var __moduleName = context_78 && context_78.id;
+    var __moduleName = context_79 && context_79.id;
     return {
         setters: [
             function (inversify_2_1) {
@@ -5508,14 +5587,14 @@ System.register("helpers/ContainerHelper", ["inversify", "Xaml/Core"], function 
                 inversify_2.injectable(),
                 __metadata("design:paramtypes", [])
             ], ContainerHelper);
-            exports_78("ContainerHelper", ContainerHelper);
+            exports_79("ContainerHelper", ContainerHelper);
         }
     };
 });
-System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core", "Xaml/behaviors/CustomScript", "libs/typescript-collections/src/lib/index", "helpers/ContainerHelper"], function (exports_79, context_79) {
+System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xaml/DataTypes/Guid", "services/VisualTree", "Xaml/Core", "Xaml/behaviors/CustomScript", "libs/typescript-collections/src/lib/index", "helpers/ContainerHelper"], function (exports_80, context_80) {
     "use strict";
     var DependencyObject_2, Guid_1, VisualTree_2, Core_14, CustomScript_2, lib_5, ContainerHelper_1, UIElement;
-    var __moduleName = context_79 && context_79.id;
+    var __moduleName = context_80 && context_80.id;
     return {
         setters: [
             function (DependencyObject_2_1) {
@@ -5636,14 +5715,14 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     }
                 }
             };
-            exports_79("UIElement", UIElement);
+            exports_80("UIElement", UIElement);
         }
     };
 });
-System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_80, context_80) {
+System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], function (exports_81, context_81) {
     "use strict";
     var UIElement_33, FrameworkElement;
-    var __moduleName = context_80 && context_80.id;
+    var __moduleName = context_81 && context_81.id;
     return {
         setters: [
             function (UIElement_33_1) {
@@ -5660,14 +5739,14 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
                     super();
                 }
             };
-            exports_80("FrameworkElement", FrameworkElement);
+            exports_81("FrameworkElement", FrameworkElement);
         }
     };
 });
-System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_81, context_81) {
+System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], function (exports_82, context_82) {
     "use strict";
     var _controls, Core_15, XamlParser;
-    var __moduleName = context_81 && context_81.id;
+    var __moduleName = context_82 && context_82.id;
     return {
         setters: [
             function (_controls_1) {
@@ -5750,14 +5829,14 @@ System.register("Xaml/reader/XamlParser", ["Xaml/jupiter/controls/Core"], functi
                     return null;
                 }
             };
-            exports_81("XamlParser", XamlParser);
+            exports_82("XamlParser", XamlParser);
         }
     };
 });
-System.register("services/SharedWorker", ["inversify", "services/VisualTree", "Xaml/Core"], function (exports_82, context_82) {
+System.register("services/SharedWorker", ["inversify", "services/VisualTree", "Xaml/Core"], function (exports_83, context_83) {
     "use strict";
     var inversify_3, VisualTree_3, Core_16, SharedWorker, Topics;
-    var __moduleName = context_82 && context_82.id;
+    var __moduleName = context_83 && context_83.id;
     return {
         setters: [
             function (inversify_3_1) {
@@ -5818,19 +5897,19 @@ System.register("services/SharedWorker", ["inversify", "services/VisualTree", "X
                 inversify_3.injectable(),
                 __metadata("design:paramtypes", [])
             ], SharedWorker);
-            exports_82("SharedWorker", SharedWorker);
+            exports_83("SharedWorker", SharedWorker);
             (function (Topics) {
                 Topics[Topics["RefreshVisualTree"] = 0] = "RefreshVisualTree";
                 Topics[Topics["ReloadTabs"] = 1] = "ReloadTabs";
             })(Topics || (Topics = {}));
-            exports_82("Topics", Topics);
+            exports_83("Topics", Topics);
         }
     };
 });
-System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "services/SharedWorker", "Xaml/Core", "helpers/ContainerHelper"], function (exports_83, context_83) {
+System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xaml/jupiter/controls/Core", "services/VisualTree", "services/SharedWorker", "Xaml/Core", "helpers/ContainerHelper"], function (exports_84, context_84) {
     "use strict";
     var XamlParser_1, Core_17, Core_18, VisualTree_4, SharedWorker_1, Core_19, ContainerHelper_2, App;
-    var __moduleName = context_83 && context_83.id;
+    var __moduleName = context_84 && context_84.id;
     return {
         setters: [
             function (XamlParser_1_1) {
@@ -5915,14 +5994,14 @@ System.register("Xaml/App", ["Xaml/reader/XamlParser", "Xaml/jupiter/Core", "Xam
                     });
                 }
             };
-            exports_83("App", App);
+            exports_84("App", App);
         }
     };
 });
-System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_84, context_84) {
+System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (exports_85, context_85) {
     "use strict";
     var XamlMarkup_1, XamlReader;
-    var __moduleName = context_84 && context_84.id;
+    var __moduleName = context_85 && context_85.id;
     return {
         setters: [
             function (XamlMarkup_1_1) {
@@ -5947,14 +6026,14 @@ System.register("Xaml/reader/XamlReader", ["Xaml/reader/XamlMarkup"], function (
                     return this._xm;
                 }
             };
-            exports_84("XamlReader", XamlReader);
+            exports_85("XamlReader", XamlReader);
         }
     };
 });
-System.register("services/CodeEditor", ["inversify", "Xaml/Core"], function (exports_85, context_85) {
+System.register("services/CodeEditor", ["inversify", "Xaml/Core"], function (exports_86, context_86) {
     "use strict";
     var inversify_4, Core_20, CodeEditor;
-    var __moduleName = context_85 && context_85.id;
+    var __moduleName = context_86 && context_86.id;
     return {
         setters: [
             function (inversify_4_1) {
@@ -6171,14 +6250,14 @@ System.register("services/CodeEditor", ["inversify", "Xaml/Core"], function (exp
                 inversify_4.injectable(),
                 __metadata("design:paramtypes", [])
             ], CodeEditor);
-            exports_85("CodeEditor", CodeEditor);
+            exports_86("CodeEditor", CodeEditor);
         }
     };
 });
-System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "services/CodeEditor", "services/SharedWorker", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_86, context_86) {
+System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader/XamlParser", "Xaml/reader/XamlMarkup", "services/VisualTree", "services/CodeEditor", "services/SharedWorker", "Xaml/jupiter/controls/Core", "inversify", "Xaml/DataTypes/Guid"], function (exports_87, context_87) {
     "use strict";
     var _controls, inversify_5, Controls, DIContainer, DisplayMode;
-    var __moduleName = context_86 && context_86.id;
+    var __moduleName = context_87 && context_87.id;
     var exportedNames_1 = {
         "Controls": true,
         "DIContainer": true,
@@ -6189,7 +6268,7 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
         for (var n in m) {
             if (n !== "default" && !exportedNames_1.hasOwnProperty(n)) exports[n] = m[n];
         }
-        exports_86(exports);
+        exports_87(exports);
     }
     return {
         setters: [
@@ -6225,20 +6304,20 @@ System.register("Xaml/Core", ["Xaml/App", "Xaml/reader/XamlReader", "Xaml/reader
             }
         ],
         execute: function () {
-            exports_86("Controls", Controls = _controls);
-            exports_86("DIContainer", DIContainer = new inversify_5.Container());
+            exports_87("Controls", Controls = _controls);
+            exports_87("DIContainer", DIContainer = new inversify_5.Container());
             (function (DisplayMode) {
                 DisplayMode[DisplayMode["RenderMode"] = 0] = "RenderMode";
                 DisplayMode[DisplayMode["CodeMode"] = 1] = "CodeMode";
             })(DisplayMode || (DisplayMode = {}));
-            exports_86("DisplayMode", DisplayMode);
+            exports_87("DisplayMode", DisplayMode);
         }
     };
 });
-System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_87, context_87) {
+System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function (exports_88, context_88) {
     "use strict";
     var XamlGLCore, XamlApp;
-    var __moduleName = context_87 && context_87.id;
+    var __moduleName = context_88 && context_88.id;
     return {
         setters: [
             function (_14) {
@@ -6288,7 +6367,7 @@ System.register("bootstrap/XamlApp", ["reflect-metadata", "Xaml/Core"], function
                     return urlParams;
                 }
             };
-            exports_87("XamlApp", XamlApp);
+            exports_88("XamlApp", XamlApp);
         }
     };
 });

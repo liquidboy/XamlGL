@@ -3,8 +3,9 @@ import { MeshNormalLines } from "../../behaviors/MeshNormalLines";
 import { AnimatableUIElement } from "../AnimatableUIElement";
 import { Animation } from "./Animation";
 import { KeyFrames } from "./KeyFrames";
+import { ISetValue } from "./ISetValue";
 
-export class Torus extends AnimatableUIElement {
+export class Torus extends AnimatableUIElement implements ISetValue {
     private _scene: Scene;
     private _normalLines: BABYLON.LinesMesh;
     
@@ -66,7 +67,7 @@ export class Torus extends AnimatableUIElement {
         this.RefreshCtrlProperty(propertyName);
     }
 
-    private RefreshCtrlProperty(propertyName: string): void {
+    public RefreshCtrlProperty(propertyName: string): void {
         switch (propertyName) {
             case "Diameter": if (this.HasValue(this.Diameter)) this.CreateCtrl(); break;
             case "Thickness": if (this.HasValue(this.Thickness)) this.CreateCtrl(); break;
@@ -75,7 +76,7 @@ export class Torus extends AnimatableUIElement {
         }
     }
 
-    private ClearCtrl(): void {
+    public ClearCtrl(): void {
         if (!this.HasValue(this.Ctrl)) return;
 
         if (this.HasValue(this._normalLines)) {
@@ -87,7 +88,7 @@ export class Torus extends AnimatableUIElement {
         this.Ctrl = null;
     }
 
-    private CreateCtrl(): void {
+    public CreateCtrl(): void {
         if (!this.HasValue(this.MaterialName)) return;
         if (!this.HasValue(this._scene)) return;
 

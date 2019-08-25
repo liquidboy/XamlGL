@@ -3,8 +3,11 @@ import { UIElement } from "../Core";
 import 'babylonjs-gui';
 import { Plane } from "./Plane";
 import { reflectionFunction } from "babylonjs/Shaders/ShadersInclude/reflectionFunction";
+import { ISetValue } from "./ISetValue";
 
-export class Texture extends UIElement {
+export class Texture extends UIElement implements ISetValue {
+    private _scene: Scene;
+
     private _sceneName: string;
     private _rootUrl: string;
     private _type: string;
@@ -40,32 +43,11 @@ export class Texture extends UIElement {
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
+        this._scene = scene;
 
-        if (this._type === "CubeTexture") {
-            this.Ctrl = new BABYLON.CubeTexture(this.RootUrl, scene.Ctrl);
-        } else if (this._type === "DynamicTexture") {
-            //this._texture = new BABYLON.DynamicTexture(this.Name, this.Options, scene.Scene, this.GeneratingMipMaps);
-            this.Ctrl = new BABYLON.DynamicTexture(this.Name, 512, scene.Ctrl, this.GeneratingMipMaps);
-        } else if (this._type === "Texture") {
-            this.Ctrl = new BABYLON.Texture(this.RootUrl, scene.Ctrl);
-        } else if (this._type === "AdvancedDynamicTexture") {
-            if (this.Parent instanceof Plane) {
-                this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(this.Parent.Ctrl);
-            }
-            else {
-                this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
-                //this.Ctrl.layer.layerMask = 2;   <-- from sample 10, checkbox
-            }
-        } else if (this._type === "MirrorTexture") {
-            let reflectionTexture = new BABYLON.MirrorTexture(this.Name, this.Size, scene.Ctrl, this.GeneratingMipMaps);
-            reflectionTexture.mirrorPlane = this.MirrorPlane;
-            reflectionTexture.level = this.Level;
-            this.Ctrl = reflectionTexture;
-        }
+        this.CreateCtrl();
 
-        if (this.Ctrl !== undefined) {
-            if (this.HasValue(this.CoordinatesMode)) this.Ctrl.coordinatesMode = this.CoordinatesMode;
-        }
+        this.RefreshCtrlProperty("CoordinatesMode");
 
         this.ChildrenGUIs.forEach((key: string, child: UIElement) => {
             child.Initialize();
@@ -86,6 +68,70 @@ export class Texture extends UIElement {
         this.UpdatePropertyByNodeAndFunction(node, "Size", "Size", parseInt);
         this.UpdatePropertyByNodeAndFunction(node, "Level", "Level", parseFloat);
         this.UpdatePropertyByNodeAndFunction(node, "MirrorPlane", "MirrorPlane", this.ConvertToNewBabylonObject);
+    }
+
+    public SetValue(propertyName: string, value: any): void {
+        switch (propertyName) {
+            case "IdealHeight":
+            case "Size":
+                this.UpdatePropertyByValue(propertyName, value, parseInt); break;
+            case "GeneratingMipMaps": this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean); break;
+            case "Level": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
+            case "MirrorPlane": this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject); break;
+            case "Type": this.UpdatePropertyByValue(propertyName, value, null); break;
+            default: return;
+        }
+        this.RefreshCtrlProperty(propertyName);
+    }
+    public RefreshCtrlProperty(propertyName: string): void {
+        switch (propertyName) {
+            case "IdealHeight": break;
+            case "Type": if (this.HasValue(this.Type)) this.CreateCtrl(); break;
+            case "Size": if (this.HasValue(this.Size)) this.CreateCtrl(); break;
+            case "MirrorPlane": if (this.HasValue(this.MirrorPlane)) this.GetReflectionTexture().mirrorPlane = this.MirrorPlane; break;
+            case "Level": if (this.HasValue(this.Level)) this.GetReflectionTexture().level = this.Level; break;
+            case "GeneratingMipMaps": if (this.HasValue(this.GeneratingMipMaps)) this.CreateCtrl(); break;
+            case "CoordinatesMode": if (this.HasValue(this.CoordinatesMode)) this.Ctrl.coordinatesMode = this.CoordinatesMode; break;
+        }
+    }
+    public ClearCtrl(): void {
+        if (!this.HasValue(this.Ctrl)) return;
+
+        this.bjsCtrl.dispose();
+        this.Ctrl = null;
+    }
+    public CreateCtrl(): void {
+        this.ClearCtrl();
+
+        if (this._type === "CubeTexture") {
+            if (!this.HasValue(this._scene)) return;
+            this.Ctrl = new BABYLON.CubeTexture(this.RootUrl, this._scene.Ctrl);
+        } else if (this._type === "DynamicTexture") {
+            if (!this.HasValue(this._scene)) return;
+            //this._texture = new BABYLON.DynamicTexture(this.Name, this.Options, scene.Scene, this.GeneratingMipMaps);
+            this.Ctrl = new BABYLON.DynamicTexture(this.Name, 512, this._scene.Ctrl, this.GeneratingMipMaps);
+        } else if (this._type === "Texture") {
+            if (!this.HasValue(this._scene)) return;
+            this.Ctrl = new BABYLON.Texture(this.RootUrl, this._scene.Ctrl);
+        } else if (this._type === "AdvancedDynamicTexture") {
+            if (this.Parent instanceof Plane) {
+                this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(this.Parent.Ctrl);
+            }
+            else {
+                this.Ctrl = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI(this.Name);
+                //this.Ctrl.layer.layerMask = 2;   <-- from sample 10, checkbox
+            }
+        } else if (this._type === "MirrorTexture") {
+            if (!this.HasValue(this._scene)) return;
+            let reflectionTexture = new BABYLON.MirrorTexture(this.Name, this.Size, this._scene.Ctrl, this.GeneratingMipMaps);
+            reflectionTexture.mirrorPlane = this.MirrorPlane;
+            reflectionTexture.level = this.Level;
+            this.Ctrl = reflectionTexture;
+        }
+    }
+
+    private GetReflectionTexture(): BABYLON.MirrorTexture {
+        return this.Ctrl as BABYLON.MirrorTexture;
     }
 
     TrySetParent(parent: UIElement): boolean {
