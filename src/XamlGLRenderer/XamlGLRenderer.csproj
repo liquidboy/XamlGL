@@ -1541,6 +1541,7 @@
     <Content Include="xaml\sample-bjs-14.xap" />
     <Content Include="xaml\sample-bjs-15.xap" />
     <Content Include="xaml\sample-bjs-16.xap" />
+    <Content Include="xaml\sample-bjs-17.xap" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

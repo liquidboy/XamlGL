@@ -214,13 +214,13 @@
       </Code>
     </Scene>
 
-    <Camera x:Name="camera1📷" Type="FreeCamera" Position="Vector3(0, 150, -150)" Target="Vector3(0,0,0)"
+    <Camera x:Name="camera1📷" Type="FreeCamera" Position="Vector3(0, 150, -150)" Target="Vector3(0,0,0)" 
             Scene="main🎬"></Camera>
 
-    <Light x:Name="light" Type="HemisphericLight" Direction="Vector3(0, 1, 0)" Intensity="0.7"
+    <Light x:Name="light" Type="HemisphericLight" Direction="Vector3(0, 1, 0)" Intensity="0.7" 
            Scene="main🎬" ></Light>
 
-    <Sphere x:Name="sphere" Scene="main🎬" Segments="32" Diameter="2" RotationQuaternion="Quaternion()"
+    <Sphere x:Name="sphere" Scene="main🎬" Segments="32" Diameter="2" RotationQuaternion="Quaternion()" 
             Enabled="False"></Sphere>
 
     <Box x:Name="box" Scene="main🎬" Width="1" RotationQuaternion="Quaternion()" Enabled="False"></Box>
@@ -228,5 +228,5 @@
     <Ground x:Name="ground" Width="6" Height="6" Scene="main🎬"></Ground>
 
   </Grid>
-  <!-- https://playground.babylonjs.com/#N7PGG3#2 -->
+    <!-- https://playground.babylonjs.com/#N7PGG3#2 -->
 </Application>
