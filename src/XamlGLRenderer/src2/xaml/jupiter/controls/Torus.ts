@@ -31,13 +31,13 @@ export class Torus extends AnimatableUIElement {
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
         let material: Material = this.VT.Get(this.MaterialName) as Material;
-
         this._scene = scene;
-        this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Ctrl);
-        
-        this.Ctrl.material = material.Ctrl;
-        this.Ctrl.position = this.Position;
-        if (this._showNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
+
+        //this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Ctrl);
+        //this.Ctrl.material = material.Ctrl;
+        //this.Ctrl.position = this.Position;
+
+        this.CreateTorus();
 
         if (this.Animations && this.Animations.Animations)
             this.Animations.Animations.forEach((animation: Animation) => {
@@ -60,18 +60,45 @@ export class Torus extends AnimatableUIElement {
         this.UpdatePropertyByNodeAndFunction(node, "Tesselation", "Tesselation", parseFloat);
     }
 
-    //public SetValue(propertyName: string, value: any): void {
-    //    switch (propertyName) {
-    //        case "ClearColor": this.UpdatePropertyByValue(propertyName, value, this.CleanBabylonColor3Attribute); break;
-    //    }
-    //    this.RefreshCtrlProperty(propertyName);
-    //}
+    public SetValue(propertyName: string, value: any): void {
+        switch (propertyName) {
+            case "Diameter": 
+            case "Thickness": 
+            case "Tesselation": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
+            case "ShowNormalLines": this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean); break;
+        }
+        this.RefreshCtrlProperty(propertyName);
+    }
 
-    //private RefreshCtrlProperty(propertyName: string): void {
-    //    switch (propertyName) {
-    //        case "ClearColor": if (this.HasValue(this.ClearColor)) this.Ctrl.clearColor = this.ConvertColor3ToColor4(this.ClearColor); break;
-    //    }
-    //}
+    private RefreshCtrlProperty(propertyName: string): void {
+        switch (propertyName) {
+            case "Diameter": if (this.HasValue(this.Diameter)) this.CreateTorus(); break;
+            case "Thickness": if (this.HasValue(this.Thickness)) this.CreateTorus(); break;
+            case "Tesselation": if (this.HasValue(this.Tesselation)) this.CreateTorus(); break;
+            case "ShowNormalLines": if (this.HasValue(this.ShowNormalLines)) this.CreateTorus(); break;
+        }
+    }
+
+    private ClearCtrl(): void {
+        if (!this.HasValue(this.Ctrl)) return;
+
+        this.bjsCtrl.dispose();
+        this.Ctrl = null;
+    }
+
+    private CreateTorus(): void {
+        if (!this.HasValue(this.MaterialName)) return;
+        if (!this.HasValue(this._scene)) return;
+
+        this.ClearCtrl();
+
+        let material: Material = this.VT.Get(this.MaterialName) as Material;
+        this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, this._scene.Ctrl);
+        this.Ctrl.material = material.Ctrl;
+        this.Ctrl.position = this.Position;
+
+        if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) MeshNormalLines.Install(this._scene, this.Ctrl);
+    }
 
     StartAnimation(): void {
         if (this.Animations && this.Animations.Animations)

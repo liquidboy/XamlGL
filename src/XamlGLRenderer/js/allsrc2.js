@@ -5243,11 +5243,7 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                     let scene = this.VT.Get(this.SceneName);
                     let material = this.VT.Get(this.MaterialName);
                     this._scene = scene;
-                    this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, scene.Ctrl);
-                    this.Ctrl.material = material.Ctrl;
-                    this.Ctrl.position = this.Position;
-                    if (this._showNormalLines)
-                        MeshNormalLines_4.MeshNormalLines.Install(scene, this.Ctrl);
+                    this.CreateTorus();
                     if (this.Animations && this.Animations.Animations)
                         this.Animations.Animations.forEach((animation) => {
                             var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS, animation.DataType, animation.LoopMode);
@@ -5264,6 +5260,58 @@ System.register("Xaml/jupiter/controls/Torus", ["Xaml/behaviors/MeshNormalLines"
                     this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "Tesselation", "Tesselation", parseFloat);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Diameter":
+                        case "Thickness":
+                        case "Tesselation":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "ShowNormalLines":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean);
+                            break;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Diameter":
+                            if (this.HasValue(this.Diameter))
+                                this.CreateTorus();
+                            break;
+                        case "Thickness":
+                            if (this.HasValue(this.Thickness))
+                                this.CreateTorus();
+                            break;
+                        case "Tesselation":
+                            if (this.HasValue(this.Tesselation))
+                                this.CreateTorus();
+                            break;
+                        case "ShowNormalLines":
+                            if (this.HasValue(this.ShowNormalLines))
+                                this.CreateTorus();
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateTorus() {
+                    if (!this.HasValue(this.MaterialName))
+                        return;
+                    if (!this.HasValue(this._scene))
+                        return;
+                    this.ClearCtrl();
+                    let material = this.VT.Get(this.MaterialName);
+                    this.Ctrl = BABYLON.Mesh.CreateTorus(this.Name, this._diameter, this._thickness, this._tesselation, this._scene.Ctrl);
+                    this.Ctrl.material = material.Ctrl;
+                    this.Ctrl.position = this.Position;
+                    if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines)
+                        MeshNormalLines_4.MeshNormalLines.Install(this._scene, this.Ctrl);
                 }
                 StartAnimation() {
                     if (this.Animations && this.Animations.Animations)
