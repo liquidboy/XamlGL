@@ -5207,18 +5207,11 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                 set RotationQuaternion(value) { this._rotationQuaternion = value; }
                 Initialize() {
                     let scene = this.VT.Get(this.SceneName);
-                    let material = this.VT.Get(this.MaterialName);
-                    this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Ctrl);
-                    if (this.HasValue(this.Position))
-                        this.Ctrl.position = this.Position;
-                    if (this.HasValue(material))
-                        this.Ctrl.material = material.Ctrl;
-                    if (this.HasValue(this.RotationQuaternion))
-                        this.Ctrl.rotationQuaternion = this.RotationQuaternion;
-                    if (this.HasValue(this.Enabled))
-                        this.Ctrl.setEnabled(this.Enabled);
-                    if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines)
-                        MeshNormalLines_3.MeshNormalLines.Install(scene, this.Ctrl);
+                    this._scene = scene;
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("Position");
+                    this.RefreshCtrlProperty("MaterialName");
+                    this.RefreshCtrlProperty("RotationQuaternion");
                     this.PostInitialize();
                 }
                 LoadFromNode(node) {
@@ -5229,6 +5222,78 @@ System.register("Xaml/jupiter/controls/Sphere", ["Xaml/jupiter/UIElement", "Xaml
                     this.UpdatePropertyByNodeAndFunction(node, "Segments", "Segments", parseInt);
                     this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "RotationQuaternion", "RotationQuaternion", this.ConvertToNewBabylonObject);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Segments":
+                            this.UpdatePropertyByValue(propertyName, value, parseInt);
+                            break;
+                        case "Diameter":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "ShowNormalLines":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean);
+                            break;
+                        case "RotationQuaternion":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject);
+                            break;
+                        case "Type":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "MaterialName":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        default: return;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Segments":
+                            if (this.HasValue(this.Segments))
+                                this.CreateCtrl();
+                            break;
+                        case "Diameter":
+                            if (this.HasValue(this.Diameter))
+                                this.CreateCtrl();
+                            break;
+                        case "Position":
+                            if (this.HasValue(this.Position))
+                                this.Ctrl.position = this.Position;
+                            break;
+                        case "MaterialName": if (this.HasValue(this.MaterialName)) {
+                            let material = this.VT.Get(this.MaterialName);
+                            this.Ctrl.material = material.Ctrl;
+                            break;
+                        }
+                        case "RotationQuaternion":
+                            if (this.HasValue(this.RotationQuaternion))
+                                this.Ctrl.rotationQuaternion = this.RotationQuaternion;
+                            break;
+                        case "ShowNormalLines":
+                            if (this.HasValue(this.ShowNormalLines))
+                                this.CreateCtrl();
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    if (this.HasValue(this._normalLines)) {
+                        this._normalLines.dispose();
+                        this._normalLines = null;
+                    }
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    if (!this.HasValue(this._scene))
+                        return;
+                    this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, this._scene.Ctrl);
+                    if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) {
+                        this._normalLines = MeshNormalLines_3.MeshNormalLines.Install(this._scene, this.Ctrl);
+                    }
                 }
             };
             exports_74("Sphere", Sphere);

@@ -1,8 +1,12 @@
 ﻿import { UIElement } from "../UIElement";
 import { Scene, Material } from "./Core";
 import { MeshNormalLines } from "../../behaviors/MeshNormalLines";
+import { ISetValue } from "./ISetValue";
 
-export class Sphere extends UIElement {
+export class Sphere extends UIElement implements ISetValue {
+    private _scene: Scene;
+    private _normalLines: BABYLON.LinesMesh;
+
     private _sceneName: string;
     private _materialName: string;
     private _showNormalLines: boolean;
@@ -26,16 +30,26 @@ export class Sphere extends UIElement {
 
     public Initialize(): void {
         let scene: Scene = this.VT.Get(this.SceneName) as Scene;
-        let material: Material = this.VT.Get(this.MaterialName) as Material;
+        this._scene = scene;
+        
+        this.CreateCtrl();
+        //this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Ctrl);
+        ////this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
 
-        this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, scene.Ctrl);
-        //this._mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { segments: this._segments, diameter: this._diameter }, scene.Scene);
-        if (this.HasValue(this.Position)) this.Ctrl.position = this.Position;
-        if (this.HasValue(material)) this.Ctrl.material = material.Ctrl;
-        if (this.HasValue(this.RotationQuaternion)) this.Ctrl.rotationQuaternion = this.RotationQuaternion;
-        if (this.HasValue(this.Enabled)) this.Ctrl.setEnabled(this.Enabled);
+        //if (this.HasValue(this.Position)) this.Ctrl.position = this.Position;
+        this.RefreshCtrlProperty("Position");
 
-        if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
+        //let material: Material = this.VT.Get(this.MaterialName) as Material;
+        //if (this.HasValue(material)) this.Ctrl.material = material.Ctrl;
+        this.RefreshCtrlProperty("MaterialName");
+
+        //if (this.HasValue(this.RotationQuaternion)) this.Ctrl.rotationQuaternion = this.RotationQuaternion;
+        this.RefreshCtrlProperty("RotationQuaternion");
+
+        //if (this.HasValue(this.Enabled)) this.Ctrl.setEnabled(this.Enabled);
+
+        //if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
+
         this.PostInitialize();
     }
 
@@ -48,5 +62,55 @@ export class Sphere extends UIElement {
         this.UpdatePropertyByNodeAndFunction(node, "Segments", "Segments", parseInt);
         this.UpdatePropertyByNodeAndFunction(node, "Diameter", "Diameter", parseFloat);
         this.UpdatePropertyByNodeAndFunction(node, "RotationQuaternion", "RotationQuaternion", this.ConvertToNewBabylonObject);
+    }
+
+    SetValue(propertyName: string, value: any): void {
+        switch (propertyName) {
+            case "Segments": this.UpdatePropertyByValue(propertyName, value, parseInt); break;
+            case "Diameter": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
+            case "ShowNormalLines": this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean); break;
+            case "RotationQuaternion": this.UpdatePropertyByValue(propertyName, value, this.ConvertToNewBabylonObject); break;
+            case "Type": this.UpdatePropertyByValue(propertyName, value, null); break;
+            case "MaterialName": this.UpdatePropertyByValue(propertyName, value, null); break;
+            default: return;
+        }
+        this.RefreshCtrlProperty(propertyName);
+    }
+
+    RefreshCtrlProperty(propertyName: string): void {
+        switch (propertyName) {
+            case "Segments": if (this.HasValue(this.Segments)) this.CreateCtrl(); break;
+            case "Diameter": if (this.HasValue(this.Diameter)) this.CreateCtrl(); break;
+            case "Position": if (this.HasValue(this.Position)) this.Ctrl.position = this.Position; break;
+            case "MaterialName": if (this.HasValue(this.MaterialName)) {
+                let material: Material = this.VT.Get(this.MaterialName) as Material;
+                this.Ctrl.material = material.Ctrl;
+                break;
+            }
+            case "RotationQuaternion": if (this.HasValue(this.RotationQuaternion)) this.Ctrl.rotationQuaternion = this.RotationQuaternion; break;
+            case "ShowNormalLines": if (this.HasValue(this.ShowNormalLines)) this.CreateCtrl(); break;
+        }
+    }
+
+    ClearCtrl(): void {
+        if (!this.HasValue(this.Ctrl)) return;
+
+        if (this.HasValue(this._normalLines)) {
+            this._normalLines.dispose();
+            this._normalLines = null;
+        }
+
+        this.bjsCtrl.dispose();
+        this.Ctrl = null;
+    }
+
+    CreateCtrl(): void {
+        this.ClearCtrl();
+        if (!this.HasValue(this._scene)) return;
+        this.Ctrl = BABYLON.Mesh.CreateSphere(this.Name, this.Segments, this.Diameter, this._scene.Ctrl);
+
+        if (this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) {
+            this._normalLines = MeshNormalLines.Install(this._scene, this.Ctrl);
+        }
     }
 }
