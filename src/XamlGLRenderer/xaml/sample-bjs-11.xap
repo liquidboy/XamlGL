@@ -83,7 +83,25 @@
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMinEmitPower" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" 
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="10" Color="white" Background="grey" Value="0.5" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMinEmitPowerValue = this.VisualTreeHelper.FindByName("lblMinEmitPowerValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["minEmitPower"];
+                lblMinEmitPowerValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMinEmitPowerValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["minEmitPower"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
 
         <StackPanel x:Name="spMaxEmitPower" Height="30px" IsVertical="false" PaddingRight="20px">
@@ -93,7 +111,25 @@
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMaxEmitPower" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="10" Color="white" Background="grey" Value="4" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMaxEmitPowerValue = this.VisualTreeHelper.FindByName("lblMaxEmitPowerValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["maxEmitPower"];
+                lblMaxEmitPowerValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMaxEmitPowerValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["maxEmitPower"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
 
 
@@ -103,8 +139,26 @@
           <TextBlock x:Name="lblMinLifetimeValue" Content="0" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
-        <Slider x:Name="slMinLifetime" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+        <Slider x:Name="slMinLifetime" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0.5"
+                Maximum="10" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMinLifetimeValue = this.VisualTreeHelper.FindByName("lblMinLifetimeValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["minLifeTime"];
+                lblMinLifetimeValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMinLifetimeValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["minLifeTime"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
 
         <StackPanel x:Name="spMaxLifetime" Height="30px" IsVertical="false" PaddingRight="20px">
@@ -114,7 +168,25 @@
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMaxLifetime" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="10" Color="white" Background="grey" Value="4" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMaxLifetimeValue = this.VisualTreeHelper.FindByName("lblMaxLifetimeValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["maxLifeTime"];
+                lblMaxLifetimeValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMaxLifetimeValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["maxLifeTime"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
 
         <StackPanel x:Name="spMinSize" Height="30px" IsVertical="false" PaddingRight="20px">
@@ -123,8 +195,26 @@
           <TextBlock x:Name="lblMinSizeValue" Content="0" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
-        <Slider x:Name="slMinSize" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+        <Slider x:Name="slMinSize" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0.5"
+                Maximum="5" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMinSizeValue = this.VisualTreeHelper.FindByName("lblMinSizeValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["minSize"];
+                lblMinSizeValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMinSizeValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["minSize"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
 
         <StackPanel x:Name="spMaxSize" Height="30px" IsVertical="false" PaddingRight="20px">
@@ -134,7 +224,25 @@
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMaxSize" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="5" Color="white" Background="grey" Value="2" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMaxSizeValue = this.VisualTreeHelper.FindByName("lblMaxSizeValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["maxSize"];
+                lblMaxSizeValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMaxSizeValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["maxSize"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
 
         <StackPanel x:Name="spMinAngularSpeed" Height="30px" IsVertical="false" PaddingRight="20px">
