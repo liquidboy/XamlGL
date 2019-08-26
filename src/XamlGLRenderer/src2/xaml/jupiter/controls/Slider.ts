@@ -2,8 +2,10 @@
 import { Scene, ParticleSystemShape } from "./Core";
 import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
+import { ISetValue } from "./ISetValue";
 
-export class Slider extends UIElement {
+export class Slider extends UIElement implements ISetValue {
+   
     private _height: number | string;
     private _min: number;
     private _max: number;
@@ -36,16 +38,18 @@ export class Slider extends UIElement {
     }
 
     public Initialize(): void {
-        this.Ctrl = new BABYLON.GUI.Slider(this.Name);  
-        this.Ctrl.height = this.Height;
-        this.Ctrl.width = this.Width;
-        this.Ctrl.minimum = this.Min;
-        this.Ctrl.maximum = this.Max;
-        this.Ctrl.value = this.Value;
+        this.CreateCtrl();
+
+        this.RefreshCtrlProperty("Height");
+        this.RefreshCtrlProperty("Width");
+        this.RefreshCtrlProperty("Minimum");
+        this.RefreshCtrlProperty("Maximum");
+        this.RefreshCtrlProperty("Value");
         
         if (this.HasValue(this.Color)) this.Ctrl.color = this.Color;
         if (this.HasValue(this.Background)) this.Ctrl.background = this.Background;
         if (this.HasValue(this.HorizontalAlignment)) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+
         this.Ctrl.text = this.Value;
 
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
@@ -60,14 +64,50 @@ export class Slider extends UIElement {
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
 
-        this.UpdatePropertyByNode(node, "Height", "Height");
         this.UpdatePropertyByNode(node, "Width", "Width");
+        this.UpdatePropertyByNode(node, "Height", "Height");
         this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", parseFloat);
         this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", parseFloat);
         this.UpdatePropertyByNode(node, "Value", "Value");
         this.UpdatePropertyByNode(node, "Color", "Color");
         this.UpdatePropertyByNode(node, "Background", "Background");
         this.UpdatePropertyByNodeAndFunction(node, "HorizontalAlignment", "HorizontalAlignment", eval);
+    }
+
+    SetValue(propertyName: string, value: any): void {
+        switch (propertyName) {
+            case "Height":
+            case "Width":
+            case "Color":
+            case "Background":
+            case "Value": this.UpdatePropertyByValue(propertyName, value, null); break;
+            case "Minimum":
+            case "Maximum": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
+            default: return;
+        }
+        this.RefreshCtrlProperty(propertyName);
+    }
+
+    RefreshCtrlProperty(propertyName: string): void {
+        switch (propertyName) {
+            case "Height": if (this.HasValue(this.Height)) this.Ctrl.height = this.Height; break;
+            case "Width": if (this.HasValue(this.Width)) this.Ctrl.width = this.Width; break;
+            case "Minimum": if (this.HasValue(this.Min)) this.Ctrl.minimum = this.Min; break;
+            case "Maximum": if (this.HasValue(this.Max)) this.Ctrl.maximum = this.Max; break;
+            case "Value": if (this.HasValue(this.Value)) this.Ctrl.value = this.Value; break;
+        }
+    }
+
+    ClearCtrl(): void {
+        if (!this.HasValue(this.Ctrl)) return;
+
+        this.bjsCtrl.dispose();
+        this.Ctrl = null;
+    }
+
+    CreateCtrl(): void {
+        this.ClearCtrl();
+        this.Ctrl = new BABYLON.GUI.Slider(this.Name);  
     }
 
     TrySetParent(parent: UIElement): boolean {

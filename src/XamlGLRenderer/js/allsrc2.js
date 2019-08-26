@@ -2590,7 +2590,7 @@ System.register("Xaml/jupiter/controls/Plane", ["Xaml/jupiter/UIElement", "babyl
         }
     };
 });
-System.register("Xaml/jupiter/controls/ISetValue", [], function (exports_38, context_38) {
+System.register("xaml/jupiter/controls/ISetValue", [], function (exports_38, context_38) {
     "use strict";
     var __moduleName = context_38 && context_38.id;
     return {
@@ -5136,12 +5136,12 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                     super();
                 }
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.Slider(this.Name);
-                    this.Ctrl.height = this.Height;
-                    this.Ctrl.width = this.Width;
-                    this.Ctrl.minimum = this.Min;
-                    this.Ctrl.maximum = this.Max;
-                    this.Ctrl.value = this.Value;
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("Height");
+                    this.RefreshCtrlProperty("Width");
+                    this.RefreshCtrlProperty("Minimum");
+                    this.RefreshCtrlProperty("Maximum");
+                    this.RefreshCtrlProperty("Value");
                     if (this.HasValue(this.Color))
                         this.Ctrl.color = this.Color;
                     if (this.HasValue(this.Background))
@@ -5157,14 +5157,65 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    this.UpdatePropertyByNode(node, "Height", "Height");
                     this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNode(node, "Height", "Height");
                     this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", parseFloat);
                     this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", parseFloat);
                     this.UpdatePropertyByNode(node, "Value", "Value");
                     this.UpdatePropertyByNode(node, "Color", "Color");
                     this.UpdatePropertyByNode(node, "Background", "Background");
                     this.UpdatePropertyByNodeAndFunction(node, "HorizontalAlignment", "HorizontalAlignment", eval);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Height":
+                        case "Width":
+                        case "Color":
+                        case "Background":
+                        case "Value":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "Minimum":
+                        case "Maximum":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        default: return;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Height":
+                            if (this.HasValue(this.Height))
+                                this.Ctrl.height = this.Height;
+                            break;
+                        case "Width":
+                            if (this.HasValue(this.Width))
+                                this.Ctrl.width = this.Width;
+                            break;
+                        case "Minimum":
+                            if (this.HasValue(this.Min))
+                                this.Ctrl.minimum = this.Min;
+                            break;
+                        case "Maximum":
+                            if (this.HasValue(this.Max))
+                                this.Ctrl.maximum = this.Max;
+                            break;
+                        case "Value":
+                            if (this.HasValue(this.Value))
+                                this.Ctrl.value = this.Value;
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.Slider(this.Name);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
