@@ -251,8 +251,26 @@
           <TextBlock x:Name="lblMinAngularSpeedValue" Content="0" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
-        <Slider x:Name="slMinAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+        <Slider x:Name="slMinAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="-2"
+                Maximum="2" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMinAngularSpeedValue = this.VisualTreeHelper.FindByName("lblMinAngularSpeedValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["minAngularSpeed"];
+                lblMinAngularSpeedValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMinAngularSpeedValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["minAngularSpeed"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
 
         <StackPanel x:Name="spMaxAngularSpeed" Height="30px" IsVertical="false" PaddingRight="20px">
@@ -261,8 +279,26 @@
           <TextBlock x:Name="lblMaxAngularSpeedValue" Content="0" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
-        <Slider x:Name="slMaxAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+        <Slider x:Name="slMaxAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="-2"
+                Maximum="2" Color="white" Background="grey" Value="1" Height="20px" Width="200px" >
+          <Code>
+            <![CDATA[
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblMaxAngularSpeedValue = this.VisualTreeHelper.FindByName("lblMaxAngularSpeedValue");
+
+              this.bjsCtrl.onSync = () => {
+                this.bjsCtrl.value = ps.bjsCtrl["maxAngularSpeed"];
+                lblMaxAngularSpeedValue.bjsCtrl["text"] = this.bjsCtrl.value.toFixed(2).toString();
+              }
+                
+              this.bjsCtrl.onSync();
+                
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                lblMaxAngularSpeedValue.bjsCtrl["text"] = value.toFixed(2).toString();
+                ps.bjsCtrl["maxAngularSpeed"] = value;
+              });
+            ]]>
+          </Code>
         </Slider>
         
       </StackPanel>
