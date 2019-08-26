@@ -5142,12 +5142,9 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                     this.RefreshCtrlProperty("Minimum");
                     this.RefreshCtrlProperty("Maximum");
                     this.RefreshCtrlProperty("Value");
-                    if (this.HasValue(this.Color))
-                        this.Ctrl.color = this.Color;
-                    if (this.HasValue(this.Background))
-                        this.Ctrl.background = this.Background;
-                    if (this.HasValue(this.HorizontalAlignment))
-                        this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+                    this.RefreshCtrlProperty("Color");
+                    this.RefreshCtrlProperty("Background");
+                    this.RefreshCtrlProperty("HorizontalAlignment");
                     this.Ctrl.text = this.Value;
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.ChildrenGUIs.forEach((key, child) => {
@@ -5176,6 +5173,9 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                         case "Background":
                         case "Value":
                             this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "HorizontalAlignment":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
                             break;
                         case "Minimum":
                             this.UpdatePropertyByValue("Min", value, parseFloat);
@@ -5210,6 +5210,18 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                         case "Value":
                             if (this.HasValue(this.Value))
                                 this.Ctrl.value = this.Value;
+                            break;
+                        case "Color":
+                            if (this.HasValue(this.Color))
+                                this.Ctrl.color = this.Color;
+                            break;
+                        case "Background":
+                            if (this.HasValue(this.Background))
+                                this.Ctrl.background = this.Background;
+                            break;
+                        case "HorizontalAlignment":
+                            if (this.HasValue(this.HorizontalAlignment))
+                                this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
                             break;
                     }
                 }

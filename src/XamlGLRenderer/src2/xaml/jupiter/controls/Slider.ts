@@ -45,11 +45,11 @@ export class Slider extends UIElement implements ISetValue {
         this.RefreshCtrlProperty("Minimum");
         this.RefreshCtrlProperty("Maximum");
         this.RefreshCtrlProperty("Value");
-        
-        if (this.HasValue(this.Color)) this.Ctrl.color = this.Color;
-        if (this.HasValue(this.Background)) this.Ctrl.background = this.Background;
-        if (this.HasValue(this.HorizontalAlignment)) this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
 
+        this.RefreshCtrlProperty("Color");
+        this.RefreshCtrlProperty("Background");
+        this.RefreshCtrlProperty("HorizontalAlignment");
+        
         this.Ctrl.text = this.Value;
 
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
@@ -86,6 +86,7 @@ export class Slider extends UIElement implements ISetValue {
             case "Color":
             case "Background":
             case "Value": this.UpdatePropertyByValue(propertyName, value, null); break;
+            case "HorizontalAlignment": this.UpdatePropertyByValue(propertyName, value, eval); break;
             case "Minimum":
                 this.UpdatePropertyByValue("Min", value, parseFloat);
                 this.UpdatePropertyByValue("Min", value, eval);
@@ -106,6 +107,9 @@ export class Slider extends UIElement implements ISetValue {
             case "Minimum": if (this.HasValue(this.Min)) this.Ctrl.minimum = this.Min; break;
             case "Maximum": if (this.HasValue(this.Max)) this.Ctrl.maximum = this.Max; break;
             case "Value": if (this.HasValue(this.Value)) this.Ctrl.value = this.Value; break;
+            case "Color": if (this.HasValue(this.Color)) this.Ctrl.color = this.Color; break;
+            case "Background": if (this.HasValue(this.Background)) this.Ctrl.background = this.Background; break;
+            case "HorizontalAlignment": if (this.HasValue(this.HorizontalAlignment)) this.Ctrl.horizontalAlignment = this.HorizontalAlignment; break;
         }
     }
 
