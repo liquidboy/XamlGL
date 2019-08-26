@@ -66,8 +66,13 @@ export class Slider extends UIElement implements ISetValue {
 
         this.UpdatePropertyByNode(node, "Width", "Width");
         this.UpdatePropertyByNode(node, "Height", "Height");
+
         this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", eval);
+
         this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", parseFloat);
+        this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", eval);
+
         this.UpdatePropertyByNode(node, "Value", "Value");
         this.UpdatePropertyByNode(node, "Color", "Color");
         this.UpdatePropertyByNode(node, "Background", "Background");
@@ -82,7 +87,13 @@ export class Slider extends UIElement implements ISetValue {
             case "Background":
             case "Value": this.UpdatePropertyByValue(propertyName, value, null); break;
             case "Minimum":
-            case "Maximum": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
+                this.UpdatePropertyByValue("Min", value, parseFloat);
+                this.UpdatePropertyByValue("Min", value, eval);
+                break;
+            case "Maximum":
+                this.UpdatePropertyByValue("Max", value, parseFloat);
+                this.UpdatePropertyByValue("Max", value, eval);
+                break;
             default: return;
         }
         this.RefreshCtrlProperty(propertyName);

@@ -2590,7 +2590,7 @@ System.register("Xaml/jupiter/controls/Plane", ["Xaml/jupiter/UIElement", "babyl
         }
     };
 });
-System.register("xaml/jupiter/controls/ISetValue", [], function (exports_38, context_38) {
+System.register("Xaml/jupiter/controls/ISetValue", [], function (exports_38, context_38) {
     "use strict";
     var __moduleName = context_38 && context_38.id;
     return {
@@ -5160,7 +5160,9 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                     this.UpdatePropertyByNode(node, "Width", "Width");
                     this.UpdatePropertyByNode(node, "Height", "Height");
                     this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Minimum", "Min", eval);
                     this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Maximum", "Max", eval);
                     this.UpdatePropertyByNode(node, "Value", "Value");
                     this.UpdatePropertyByNode(node, "Color", "Color");
                     this.UpdatePropertyByNode(node, "Background", "Background");
@@ -5176,8 +5178,12 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                             this.UpdatePropertyByValue(propertyName, value, null);
                             break;
                         case "Minimum":
+                            this.UpdatePropertyByValue("Min", value, parseFloat);
+                            this.UpdatePropertyByValue("Min", value, eval);
+                            break;
                         case "Maximum":
-                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            this.UpdatePropertyByValue("Max", value, parseFloat);
+                            this.UpdatePropertyByValue("Max", value, eval);
                             break;
                         default: return;
                     }
