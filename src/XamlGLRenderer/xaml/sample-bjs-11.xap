@@ -68,13 +68,53 @@
           <TextBlock x:Name="lblColor1" Content="color 1:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
         </StackPanel>
-        <ColorPicker x:Name="colorPicker1" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Height="100px" Width="100px" ></ColorPicker>
+        <ColorPicker x:Name="colorPicker1" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Height="100px" Width="100px" >
+          <Code>
+            <![CDATA[
+            
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblColor1 = this.VisualTreeHelper.FindByName("lblColor1");
+            
+              this.bjsCtrl.onSync = function() {
+                  this.bjsCtrl.value = ps.bjsCtrl["color1"];
+                  lblColor1.bjsCtrl["text"] = this.bjsCtrl.value.toString();
+              }
+              
+              this.bjsCtrl.onSync();
+
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                  lblColor1.bjsCtrl["text"] = value.toString();
+                  ps.bjsCtrl["color1"] = value;
+              });
+            ]]>
+          </Code>
+        </ColorPicker>
           
         <StackPanel x:Name="spColor2" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblColor2" Content="color 2:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
         </StackPanel>
-        <ColorPicker x:Name="colorPicker2" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Height="100px" Width="100px" ></ColorPicker>
+        <ColorPicker x:Name="colorPicker2" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Height="100px" Width="100px" >
+          <Code>
+            <![CDATA[
+            
+              let ps = this.VisualTreeHelper.FindByName("particles");
+              var lblColor2 = this.VisualTreeHelper.FindByName("lblColor2");
+            
+              this.bjsCtrl.onSync = function() {
+                  this.bjsCtrl.value = ps.bjsCtrl["color2"];
+                  lblColor2.bjsCtrl["text"] = this.bjsCtrl.value.toString();
+              }
+              
+              this.bjsCtrl.onSync();
+
+              this.bjsCtrl.onValueChangedObservable.add((value) => {
+                  lblColor2.bjsCtrl["text"] = value.toString();
+                  ps.bjsCtrl["color2"] = value;
+              });
+            ]]>
+          </Code>
+        </ColorPicker>
           
         <StackPanel x:Name="spMinEmitPower" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMinEmitPower" Content="MinEmitPower:" Width="150px" Color="white" 

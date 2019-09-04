@@ -74,7 +74,6 @@
     <Content Include="assets\zune-logo-sml.png" />
     <Content Include="assets\zune-logo.png" />
     <Content Include="index2.html" />
-    <Content Include="index.html" />
     <Content Include="js\allsrc.js" />
     <Content Include="js\allsrc2.js" />
     <Content Include="js\ammo.js">
@@ -1110,7 +1109,6 @@
     <Content Include="node_modules\systemjs\dist\system.js" />
     <Content Include="node_modules\systemjs\dist\system.src.js" />
     <Content Include="rivets.bundled.min.js" />
-    <Content Include="src\Libs\tink\tink.js" />
     <Content Include="views\pixi-home.html" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
@@ -1217,162 +1215,9 @@
     <TypeScriptCompile Include="src2\xaml\reader\XamlMarkup.ts" />
     <TypeScriptCompile Include="src2\xaml\reader\XamlParser.ts" />
     <TypeScriptCompile Include="src2\xaml\reader\XamlReader.ts" />
-    <TypeScriptCompile Include="src\Bootstrap\XamlApp.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\arrays.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Bag.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\BSTree.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Dictionary.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\FactoryDictionary.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Heap.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\index.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\LinkedDictionary.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\LinkedList.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\MultiDictionary.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\MultiRootTree.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\PriorityQueue.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Queue.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Set.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\Stack.ts" />
-    <TypeScriptCompile Include="src\Libs\typescript-collections\src\lib\util.ts" />
-    <TypeScriptCompile Include="src\Tests\TestBase.ts" />
-    <TypeScriptCompile Include="src\Tests\XamlGL\VisualTree.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\DropdownList.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ComboBox.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ListViewItem.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ScrollViewer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Slider.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\TimePicker.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\DatePicker.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ToggleSwitch.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\PasswordBox.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ListView.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ScrollBar.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\RadioButton.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\CheckBox.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\TextBox.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ToggleButton.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ContentControl.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Frame.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Control.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Core.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Button.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\BezierSegment.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ArcSegment.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\QuadraticBezierSegment.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Path.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\PathGeometry.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\PathFigure.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\PathIcon.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\LineSegment.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\PathSegment.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\PathFigureCollection.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\ToolTip.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\StackPanel.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\TextBlock.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Rectangle.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Grid.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Image.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\Panel.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\PathSegmentCollection.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\CornerRadius.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\DockPosition.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\HorizontalAlignment.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\Orientation.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\Size.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\TextWrappingAlign.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\TextWrapping.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\Point.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\FillRule.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\SweepDirection.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\VerticalAlignment.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Events\Core.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Geometry.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\ITooltip.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Events\KeyPressedEventArgs.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\IRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\Platform.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\PlatformPage.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\Html\Renderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\BaseScrollRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DropdownListRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ScrollViewerRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TimePickerRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PasswordBoxRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ComboBoxRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\SliderRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DatePickerRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ListViewRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ScrollBarRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TextBoxRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToggleSwitchRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToggleRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\PathRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\IRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Shape.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\IconElement.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapImage.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Media\BitmapSource.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Page.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IControlRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IImageRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IPlatformPage.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\Core.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\BaseRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\DefaultRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ButtonRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ToolTipRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\StackPanelRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\TextBlockRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\RectangleRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\GridRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Controls\ImageRenderer.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\PlatformPage.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Stretch.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\ImageSource.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\Thickness.ts" />
-    <TypeScriptCompile Include="src\XamlGL\DataTypes\Guid.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Events\EventDispatcher.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Events\EventList.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Events\IEventArgs.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Events\IEvent.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\DependencyObject.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\IDependencyObject.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\IFrameworkElement.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\IView.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\IUIElement.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IRendererBase.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\IPlatform.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Platform.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\FrameworkElement.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\UIElement.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\DebugSettings.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\ApplicationTheme.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\ResourceDictionary.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Application.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Controls\LoadingBalls.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Core.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Core.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\FrameworkElementCollection.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\UIElementCollection.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Control.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\UserControl.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\View.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Reader\XamlMarkup.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Reader\XamlParser.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Reader\XamlReader.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Utils\ConsoleHelper.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Utils\VisualTreeHelper.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Utils\MiniPathLanguageHelper.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Utils\GroupingHelper.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Utils\RendererHelper.ts" />
-    <TypeScriptCompile Include="src\XamlGL\VisualTree.ts" />
-    <TypeScriptCompile Include="src\XamlGL\App.ts" />
-    <TypeScriptCompile Include="src\XamlGL\ViewManager.ts" />
-    <TypeScriptCompile Include="src\XamlGL\Jupiter\Platform\WebGL\Renderer.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="src\tsconfig.json" />
     <Content Include="libman.json" />
     <Content Include="js\allsrc.js.map" />
     <Content Include="js\allsrc2.js.map" />
@@ -1426,102 +1271,6 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
     <Content Include="assets\glitter-20a.jpg" />
-    <Content Include="xaml\sample-6.xap" />
-    <Content Include="xaml\sample-7.xap" />
-    <Content Include="xaml\sample-1.xap" />
-    <Content Include="xaml\sample-2.xap" />
-    <Content Include="xaml\sample-3.xap" />
-    <Content Include="xaml\sample-4.xap" />
-    <Content Include="xaml\sample-5.xap" />
-    <Content Include="xaml\sample-8.xap" />
-    <Content Include="xaml\sample-9.xap" />
-    <Content Include="xaml\sample-10.xap" />
-    <Content Include="xaml\sample-11.xap" />
-    <Content Include="xaml\sample-12.xap" />
-    <Content Include="xaml\sample-13.xap" />
-    <Content Include="xaml\sample-14.xap" />
-    <Content Include="xaml\sample-15.xap" />
-    <Content Include="xaml\sample-16.xap" />
-    <Content Include="xaml\sample-17.xap" />
-    <Content Include="xaml\sample-18.xap" />
-    <Content Include="xaml\sample-19.xap" />
-    <Content Include="xaml\sample-20.xap" />
-    <Content Include="xaml\sample-21.xap" />
-    <Content Include="xaml\sample-22.xap" />
-    <Content Include="xaml\sample-23.xap" />
-    <Content Include="xaml\sample-24.xap" />
-    <Content Include="xaml\sample-25.xap" />
-    <Content Include="xaml\sample-26.xap" />
-    <Content Include="xaml\sample-27.xap" />
-    <Content Include="xaml\sample-28.xap" />
-    <Content Include="xaml\sample-29.xap" />
-    <Content Include="xaml\sample-30.xap" />
-    <Content Include="xaml\sample-31.xap" />
-    <Content Include="xaml\sample-32.xap" />
-    <Content Include="xaml\sample-33.xap" />
-    <Content Include="xaml\sample-34.xap" />
-    <Content Include="xaml\sample-35.xap" />
-    <Content Include="xaml\sample-36.xap" />
-    <Content Include="xaml\sample-37.xap" />
-    <Content Include="xaml\sample-38.xap" />
-    <Content Include="xaml\sample-39.xap" />
-    <Content Include="xaml\sample-40.xap" />
-    <Content Include="xaml\sample-41.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-42.xap" />
-    <Content Include="xaml\sample-43.xap" />
-    <Content Include="xaml\sample-44.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-45.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-46.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-47.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\editor-1.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\editor-2.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-48.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-49.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-50.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-51.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-52.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-53.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-54.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-55.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-56.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-57.xap">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="xaml\sample-58.xap">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="xaml\sample-bjs-1.xap" />
     <Content Include="xaml\sample-bjs-2.xap" />
     <Content Include="xaml\sample-bjs-3.xap" />
@@ -1533,10 +1282,6 @@
     <Content Include="xaml\sample-bjs-9.xap" />
     <Content Include="xaml\sample-bjs-10.xap" />
     <Content Include="xaml\sample-bjs-11.xap" />
-    <None Include="xaml\header-01.xap">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </None>
     <Content Include="xaml\sample-bjs-12.xap" />
     <Content Include="xaml\sample-bjs-13.xap" />
     <Content Include="xaml\sample-bjs-14.xap" />
@@ -1554,7 +1299,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
-    <Folder Include="src\XamlGL\Jupiter\Platform\Html\Controls\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

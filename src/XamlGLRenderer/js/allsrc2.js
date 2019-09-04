@@ -3688,16 +3688,19 @@ System.register("Xaml/jupiter/controls/gui/ColorPicker", ["Xaml/jupiter/UIElemen
                 get Width() { return this._width; }
                 get Value() { return this._value; }
                 get HorizontalAlignment() { return this._horizontalAlignment; }
+                set Height(value) { this._height = value; }
+                set Width(value) { this._width = value; }
+                set Value(value) { this._value = value; }
+                set HorizontalAlignment(value) { this._horizontalAlignment = value; }
                 constructor() {
                     super();
                 }
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.ColorPicker(this.Name);
-                    this.Ctrl.height = this.Height;
-                    this.Ctrl.width = this.Width;
-                    if (this.Value !== undefined)
-                        this.Ctrl.value = this.Value;
-                    this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("Height");
+                    this.RefreshCtrlProperty("Width");
+                    this.RefreshCtrlProperty("Value");
+                    this.RefreshCtrlProperty("HorizontalAlignment");
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
@@ -3706,22 +3709,54 @@ System.register("Xaml/jupiter/controls/gui/ColorPicker", ["Xaml/jupiter/UIElemen
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._height = node.attributes["Height"].value;
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNode(node, "Value", "Value");
+                    this.UpdatePropertyByNodeAndFunction(node, "HorizontalAlignment", "HorizontalAlignment", eval);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Height":
+                        case "Width":
+                        case "Value":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "HorizontalAlignment":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        default: return;
                     }
-                    catch (_a) { }
-                    try {
-                        this._width = node.attributes["Width"].value;
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Height":
+                            if (this.HasValue(this.Height))
+                                this.Ctrl.height = this.Height;
+                            break;
+                        case "Width":
+                            if (this.HasValue(this.Width))
+                                this.Ctrl.width = this.Width;
+                            break;
+                        case "Value":
+                            if (this.HasValue(this.Value))
+                                this.Ctrl.value = this.Value;
+                            break;
+                        case "HorizontalAlignment":
+                            if (this.HasValue(this.HorizontalAlignment))
+                                this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+                            break;
                     }
-                    catch (_b) { }
-                    try {
-                        this._value = node.attributes["Value"].value;
-                    }
-                    catch (_c) { }
-                    try {
-                        this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value);
-                    }
-                    catch (_d) { }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.ColorPicker(this.Name);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
