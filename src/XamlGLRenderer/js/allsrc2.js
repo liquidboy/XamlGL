@@ -3533,40 +3533,34 @@ System.register("Xaml/jupiter/controls/gui/CheckBox", ["Xaml/jupiter/UIElement",
                     super();
                 }
                 get Width() { return this._width; }
-                ;
                 get Height() { return this._height; }
-                ;
                 get Color() { return this._color; }
-                ;
                 get Background() { return this._background; }
-                ;
                 get FontSize() { return this._fontSize; }
-                ;
                 get Content() { return this._content; }
-                ;
                 get IsChecked() { return this._isChecked; }
-                ;
                 get HeaderSize() { return this._headerSize; }
-                ;
                 get HeaderHeight() { return this._headerHeight; }
-                ;
+                get HorizontalAlignment() { return this._horizontalAlignment; }
+                set Width(value) { this._width = value; }
+                set Height(value) { this._height = value; }
+                set Color(value) { this._color = value; }
+                set Background(value) { this._background = value; }
+                set FontSize(value) { this._fontSize = value; }
+                set Content(value) { this._content = value; }
+                set IsChecked(value) { this._isChecked = value; }
+                set HeaderSize(value) { this._headerSize = value; }
+                set HeaderHeight(value) { this._headerHeight = value; }
+                set HorizontalAlignment(value) { this._horizontalAlignment = value; }
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.Checkbox();
-                    this.Ctrl.width = this.Width;
-                    this.Ctrl.height = this.Height;
-                    this.Ctrl.color = this.Color;
-                    this.Ctrl.isChecked = this.IsChecked;
-                    if (this.Background !== undefined)
-                        this.Ctrl.background = this.Background;
-                    var header = BABYLON.GUI.Control.AddHeader(this.Ctrl, this.Content, this.HeaderSize, { isHorizontal: true, controlFirst: true });
-                    header.color = this.Color;
-                    header.height = this.HeaderHeight;
-                    header.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-                    header.children[1].fontSize = this.FontSize;
-                    header.children[1].onPointerDownObservable.add(() => {
-                        this.Ctrl.isChecked = !this.Ctrl.isChecked;
-                    });
-                    this.Parent.Ctrl.addControl(header);
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("Width");
+                    this.RefreshCtrlProperty("Height");
+                    this.RefreshCtrlProperty("Color");
+                    this.RefreshCtrlProperty("IsChecked");
+                    this.RefreshCtrlProperty("Background");
+                    this.CreateCtrlRelated();
+                    this.Parent.Ctrl.addControl(this._header);
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
                     });
@@ -3574,42 +3568,106 @@ System.register("Xaml/jupiter/controls/gui/CheckBox", ["Xaml/jupiter/UIElement",
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._height = node.attributes["Height"].value;
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNode(node, "Color", "Color");
+                    this.UpdatePropertyByNode(node, "Background", "Background");
+                    this.UpdatePropertyByNodeAndFunction(node, "FontSize", "FontSize", parseFloat);
+                    this.UpdatePropertyByNode(node, "Content", "Content");
+                    this.UpdatePropertyByNode(node, "HeaderSize", "HeaderSize");
+                    this.UpdatePropertyByNodeAndFunction(node, "IsChecked", "IsChecked", this.ConvertToBoolean);
+                    this.UpdatePropertyByNode(node, "HeaderHeight", "HeaderHeight");
+                    this.UpdatePropertyByNodeAndFunction(node, "HorizontalAlignment", "HorizontalAlignment", eval);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Height":
+                        case "Width":
+                        case "Color":
+                        case "Content":
+                        case "HeaderHeight":
+                        case "HeaderSize":
+                        case "Background":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "IsChecked":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean);
+                            break;
+                        case "FontSize":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "HorizontalAlignment":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        default: return;
                     }
-                    catch (_a) { }
-                    try {
-                        this._width = node.attributes["Width"].value;
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Height":
+                            if (this.HasValue(this.Height))
+                                this.Ctrl.height = this.Height;
+                            break;
+                        case "Width":
+                            if (this.HasValue(this.Width))
+                                this.Ctrl.width = this.Width;
+                            break;
+                        case "Color":
+                            if (this.HasValue(this.Color)) {
+                                this.Ctrl.color = this.Color;
+                                if (this.HasValue(this._header)) {
+                                    this._header.color = this.Color;
+                                }
+                            }
+                            break;
+                        case "Background":
+                            if (this.HasValue(this.Background))
+                                this.Ctrl.background = this.Background;
+                            break;
+                        case "IsChecked":
+                            if (this.HasValue(this.IsChecked) && this.HasValue(this.IsChecked))
+                                this.Ctrl.isChecked = this.IsChecked;
+                            break;
+                        case "HeaderSize":
+                            if (this.HasValue(this.HeaderSize))
+                                this._header.size = this.HeaderSize;
+                            break;
+                        case "HeaderHeight":
+                            if (this.HasValue(this.HeaderHeight))
+                                this._header.height = this.HeaderHeight;
+                            break;
+                        case "FontSize":
+                            if (this.HasValue(this.FontSize))
+                                this._header.children[1].fontSize = this.FontSize;
+                            break;
+                        case "HorizontalAlignment":
+                            if (this.HasValue(this.HorizontalAlignment))
+                                this._header.horizontalAlignment = this.HorizontalAlignment;
+                            break;
                     }
-                    catch (_b) { }
-                    try {
-                        this._color = node.attributes["Color"].value;
-                    }
-                    catch (_c) { }
-                    try {
-                        this._background = node.attributes["Background"].value;
-                    }
-                    catch (_d) { }
-                    try {
-                        this._fontSize = parseFloat(node.attributes["FontSize"].value);
-                    }
-                    catch (_e) { }
-                    try {
-                        this._content = node.attributes["Content"].value;
-                    }
-                    catch (_f) { }
-                    try {
-                        this._headerSize = node.attributes["HeaderSize"].value;
-                    }
-                    catch (_g) { }
-                    try {
-                        this._isChecked = node.attributes["IsChecked"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
-                    try {
-                        this._headerHeight = node.attributes["HeaderHeight"].value;
-                    }
-                    catch (_h) { }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                    this._header.dispose();
+                    this._header = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.Checkbox();
+                }
+                CreateCtrlRelated() {
+                    this._header = BABYLON.GUI.Control.AddHeader(this.Ctrl, this.Content, this.HeaderSize, { isHorizontal: true, controlFirst: true });
+                    this.RefreshCtrlProperty("Color");
+                    this.RefreshCtrlProperty("HeaderHeight");
+                    this.RefreshCtrlProperty("HorizontalAlignment");
+                    this.RefreshCtrlProperty("FontSize");
+                    this._header.children[1].onPointerDownObservable.add(() => {
+                        this.Ctrl.isChecked = !this.Ctrl.isChecked;
+                    });
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -6074,13 +6132,13 @@ System.register("Xaml/jupiter/UIElement", ["Xaml/jupiter/DependencyObject", "Xam
                     this.ConvertToBoolean = (value) => { return value.toLowerCase() === 'true' ? true : false; };
                     this.ConvertToNewBabylonObject = (value) => { return eval(`new BABYLON.${value};`); };
                     this.ConvertToBabylonObject = (value) => { return eval(`BABYLON.${value};`); };
-                    this.UpdatePropertyByNode = (node, attributeName, propertyName) => {
-                        if (node.hasAttribute(attributeName))
-                            this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, null);
+                    this.UpdatePropertyByNode = (node, nodeAttributeName, propertyName) => {
+                        if (node.hasAttribute(nodeAttributeName))
+                            this.UpdatePropertyByValue(propertyName, node.attributes[nodeAttributeName].value, null);
                     };
-                    this.UpdatePropertyByNodeAndFunction = (node, attributeName, propertyName, valueConverterFn) => {
-                        if (node.hasAttribute(attributeName))
-                            this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, valueConverterFn);
+                    this.UpdatePropertyByNodeAndFunction = (node, nodeAttributeName, propertyName, valueConverterFn) => {
+                        if (node.hasAttribute(nodeAttributeName))
+                            this.UpdatePropertyByValue(propertyName, node.attributes[nodeAttributeName].value, valueConverterFn);
                     };
                     this.UpdatePropertyByValue = (propertyName, value, valueConverterFunction) => {
                         if (valueConverterFunction === null || valueConverterFunction === undefined)

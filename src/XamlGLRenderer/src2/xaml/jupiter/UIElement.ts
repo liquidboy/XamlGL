@@ -120,12 +120,12 @@ export class UIElement extends DependencyObject implements IUIElement, IRender, 
 
     protected ConvertToBabylonObject = (value: string): any => { return eval(`BABYLON.${value};`); }
 
-    protected UpdatePropertyByNode: Function = (node: any, attributeName: string, propertyName: string): void => {
-        if (node.hasAttribute(attributeName)) this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, null);
+    protected UpdatePropertyByNode: Function = (node: any, nodeAttributeName: string, propertyName: string): void => {
+        if (node.hasAttribute(nodeAttributeName)) this.UpdatePropertyByValue(propertyName, node.attributes[nodeAttributeName].value, null);
     }
 
-    protected UpdatePropertyByNodeAndFunction: Function = (node: any, attributeName: string, propertyName: string, valueConverterFn: Function): void => {
-        if (node.hasAttribute(attributeName)) this.UpdatePropertyByValue(propertyName, node.attributes[attributeName].value, valueConverterFn);
+    protected UpdatePropertyByNodeAndFunction: Function = (node: any, nodeAttributeName: string, propertyName: string, valueConverterFn: Function): void => {
+        if (node.hasAttribute(nodeAttributeName)) this.UpdatePropertyByValue(propertyName, node.attributes[nodeAttributeName].value, valueConverterFn);
     }
 
     protected UpdatePropertyByValue: Function = (propertyName: string, value: any, valueConverterFunction: Function): void => {
