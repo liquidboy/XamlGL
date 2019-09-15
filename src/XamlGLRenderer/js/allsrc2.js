@@ -104,6 +104,10 @@ System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement", "X
         ],
         execute: function () {
             Animation = class Animation extends UIElement_1.UIElement {
+                constructor() {
+                    super();
+                    this._keyFrames = new Core_1.KeyFrames();
+                }
                 get KeyFrames() { return this._keyFrames; }
                 get DataType() { return this._dataType; }
                 get LoopMode() { return this._loopMode; }
@@ -111,10 +115,6 @@ System.register("Xaml/jupiter/controls/Animation", ["Xaml/jupiter/UIElement", "X
                 get TargetProperty() { return this._targetProperty; }
                 get FPS() { return this._fps; }
                 set KeyFrames(value) { this._keyFrames = value; }
-                constructor() {
-                    super();
-                    this._keyFrames = new Core_1.KeyFrames();
-                }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                     try {
@@ -2262,11 +2262,11 @@ System.register("Xaml/jupiter/AnimatableUIElement", ["Xaml/jupiter/Core"], funct
         ],
         execute: function () {
             AnimatableUIElement = class AnimatableUIElement extends Core_2.UIElement {
-                get Animations() { return this._animations; }
-                set Animations(value) { this._animations = value; }
                 constructor() {
                     super();
                 }
+                get Animations() { return this._animations; }
+                set Animations(value) { this._animations = value; }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                 }
@@ -2351,12 +2351,12 @@ System.register("Xaml/jupiter/controls/Animations", ["Xaml/jupiter/UIElement", "
         ],
         execute: function () {
             Animations = class Animations extends UIElement_3.UIElement {
-                get Animations() { return this._animations; }
-                set Animations(value) { this._animations = value; }
                 constructor() {
                     super();
                     this._animations = new Core_3.AnimationCollection();
                 }
+                get Animations() { return this._animations; }
+                set Animations(value) { this._animations = value; }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                 }
@@ -2465,13 +2465,13 @@ System.register("Xaml/jupiter/controls/KeyFrame", ["Xaml/jupiter/Core"], functio
         ],
         execute: function () {
             KeyFrame = class KeyFrame extends Core_5.UIElement {
+                constructor() {
+                    super();
+                }
                 get Frame() { return this._frame; }
                 get Value() { return this._value; }
                 set Frame(value) { this._frame = value; }
                 set Value(value) { this._value = value; }
-                constructor() {
-                    super();
-                }
                 LoadFromNode(node) {
                     this.UpdatePropertyByNodeAndFunction(node, "Frame", "Frame", parseInt);
                     this.UpdatePropertyByNodeAndFunction(node, "Value", "Value", parseFloat);
@@ -2503,12 +2503,12 @@ System.register("Xaml/jupiter/controls/KeyFrames", ["Xaml/jupiter/UIElement", "X
         ],
         execute: function () {
             KeyFrames = class KeyFrames extends UIElement_4.UIElement {
-                get KeyFrames() { return this._keyFrames; }
-                set KeyFrames(value) { this._keyFrames = value; }
                 constructor() {
                     super();
                     this._keyFrames = new Core_6.KeyFrameCollection();
                 }
+                get KeyFrames() { return this._keyFrames; }
+                set KeyFrames(value) { this._keyFrames = value; }
                 LoadFromNode(node) {
                 }
                 GetArray() {
@@ -2547,15 +2547,15 @@ System.register("Xaml/jupiter/controls/Plane", ["Xaml/jupiter/UIElement", "babyl
         ],
         execute: function () {
             Plane = class Plane extends UIElement_5.UIElement {
+                constructor() {
+                    super();
+                }
                 get Size() { return this._size; }
                 get MeshName() { return this._meshName; }
                 get SceneName() { return this._sceneName; }
                 set Size(value) { this._size = value; }
                 set MeshName(value) { this._meshName = value; }
                 set SceneName(value) { this._sceneName = value; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     if (this.HasValue(this.SceneName)) {
                         let scene = this.VT.FindByName(this.SceneName);
@@ -2899,6 +2899,9 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "baby
         ],
         execute: function () {
             Button = class Button extends UIElement_6.UIElement {
+                constructor() {
+                    super();
+                }
                 get Content() { return this._content; }
                 get Color() { return this._color; }
                 get Background() { return this._background; }
@@ -2913,9 +2916,6 @@ System.register("Xaml/jupiter/controls/Button", ["Xaml/jupiter/UIElement", "baby
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
                 set FontSize(value) { this._fontSize = value; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     this.Ctrl = BABYLON.GUI.Button.CreateSimpleButton(this.Name, this.Content);
                     this.Ctrl.width = this.Width;
@@ -3216,10 +3216,10 @@ System.register("Xaml/jupiter/controls/Effect", ["Xaml/jupiter/UIElement", "Xaml
         ],
         execute: function () {
             Effect = class Effect extends UIElement_8.UIElement {
-                get UniformNames() { return this._uniformNames; }
                 constructor() {
                     super();
                 }
+                get UniformNames() { return this._uniformNames; }
                 Initialize() {
                     let engine = Core_9.DIContainer.get("rootEngine");
                     this.Ctrl = engine.createEffectForParticles(this.Name, this.UniformNames, [""], "");
@@ -3253,10 +3253,10 @@ System.register("Xaml/jupiter/controls/Event", ["Xaml/jupiter/UIElement"], funct
         ],
         execute: function () {
             Event = class Event extends UIElement_9.UIElement {
-                get EventName() { return this._eventName; }
                 constructor() {
                     super();
                 }
+                get EventName() { return this._eventName; }
                 Initialize() {
                 }
                 LoadFromNode(node) {
@@ -3529,6 +3529,9 @@ System.register("Xaml/jupiter/controls/gui/CheckBox", ["Xaml/jupiter/UIElement",
         ],
         execute: function () {
             CheckBox = class CheckBox extends UIElement_12.UIElement {
+                constructor() {
+                    super();
+                }
                 get Width() { return this._width; }
                 ;
                 get Height() { return this._height; }
@@ -3547,9 +3550,6 @@ System.register("Xaml/jupiter/controls/gui/CheckBox", ["Xaml/jupiter/UIElement",
                 ;
                 get HeaderHeight() { return this._headerHeight; }
                 ;
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     this.Ctrl = new BABYLON.GUI.Checkbox();
                     this.Ctrl.width = this.Width;
@@ -3684,6 +3684,9 @@ System.register("Xaml/jupiter/controls/gui/ColorPicker", ["Xaml/jupiter/UIElemen
         ],
         execute: function () {
             ColorPicker = class ColorPicker extends UIElement_14.UIElement {
+                constructor() {
+                    super();
+                }
                 get Height() { return this._height; }
                 get Width() { return this._width; }
                 get Value() { return this._value; }
@@ -3692,9 +3695,6 @@ System.register("Xaml/jupiter/controls/gui/ColorPicker", ["Xaml/jupiter/UIElemen
                 set Width(value) { this._width = value; }
                 set Value(value) { this._value = value; }
                 set HorizontalAlignment(value) { this._horizontalAlignment = value; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     this.CreateCtrl();
                     this.RefreshCtrlProperty("Height");
@@ -3829,15 +3829,15 @@ System.register("Xaml/jupiter/controls/gui/Ellipse", ["Xaml/jupiter/UIElement", 
         ],
         execute: function () {
             Ellipse = class Ellipse extends UIElement_16.UIElement {
+                constructor() {
+                    super();
+                }
                 get Color() { return this._color; }
                 get Background() { return this._background; }
                 get Thickness() { return this._thickness; }
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 get MeshName() { return this._meshName; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     this.Ctrl = new BABYLON.GUI.Ellipse();
                     this.Ctrl.width = this.Width;
@@ -3909,21 +3909,26 @@ System.register("Xaml/jupiter/controls/gui/Line", ["Xaml/jupiter/UIElement", "ba
         ],
         execute: function () {
             Line = class Line extends UIElement_17.UIElement {
+                constructor() {
+                    super();
+                }
                 get Dash() { return this._dash; }
                 get LineWidth() { return this._lineWidth; }
                 get Alpha() { return this._alpha; }
                 get MeshName() { return this._meshName; }
                 get ConnectedControlName() { return this._connectedControlName; }
-                constructor() {
-                    super();
-                }
+                set Dash(value) { this._dash = value; }
+                set LineWidth(value) { this._lineWidth = value; }
+                set Alpha(value) { this._alpha = value; }
+                set MeshName(value) { this._meshName = value; }
+                set ConnectedControlName(value) { this._connectedControlName = value; }
                 Initialize() {
                     let mesh = this.VT.Get(this.MeshName);
                     let connecteControl = this.VT.Get(this.ConnectedControlName);
-                    this.Ctrl = new BABYLON.GUI.Line();
-                    this.Ctrl.alpha = 0.5;
-                    this.Ctrl.lineWidth = 5;
-                    this.Ctrl.dash = [5, 10];
+                    this.CreateCtrl();
+                    this.SetValue("Alpha", 0.5);
+                    this.SetValue("LineWidth", 5);
+                    this.SetValue("Dash", [5, 10]);
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.Ctrl.linkWithMesh(mesh.Ctrl);
                     this.Ctrl.connectedControl = connecteControl.Ctrl;
@@ -3951,13 +3956,52 @@ System.register("Xaml/jupiter/controls/gui/Line", ["Xaml/jupiter/UIElement", "ba
                     }
                     catch (_d) { }
                     try {
-                        this._meshName = node.attributes["Mesh"].value;
-                    }
-                    catch (_e) { }
-                    try {
                         this._connectedControlName = node.attributes["ConnectedControl"].value;
                     }
-                    catch (_f) { }
+                    catch (_e) { }
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Mesh":
+                        case "ConnectedControl":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "Alpha":
+                        case "LineWidth":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "Dash":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        default: return;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Dash":
+                            if (this.HasValue(this.Dash))
+                                this.Ctrl.dash = this.Dash;
+                            break;
+                        case "Alpha":
+                            if (this.HasValue(this.Alpha))
+                                this.Ctrl.alpha = this.Alpha;
+                            break;
+                        case "LineWidth":
+                            if (this.HasValue(this.LineWidth))
+                                this.Ctrl.lineWidth = this.LineWidth;
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.Line();
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -3985,6 +4029,9 @@ System.register("Xaml/jupiter/controls/gui/RadioButton", ["Xaml/jupiter/UIElemen
         ],
         execute: function () {
             RadioButton = class RadioButton extends UIElement_18.UIElement {
+                constructor() {
+                    super();
+                }
                 get Width() { return this._width; }
                 ;
                 get Height() { return this._height; }
@@ -4001,22 +4048,26 @@ System.register("Xaml/jupiter/controls/gui/RadioButton", ["Xaml/jupiter/UIElemen
                 ;
                 get HeaderHeight() { return this._headerHeight; }
                 ;
-                constructor() {
-                    super();
-                }
+                set Width(value) { this._width = value; }
+                ;
+                set Height(value) { this._height = value; }
+                ;
+                set Color(value) { this._color = value; }
+                ;
+                set Background(value) { this._background = value; }
+                ;
+                set FontSize(value) { this._fontSize = value; }
+                ;
+                set Content(value) { this._content = value; }
+                ;
+                set HeaderSize(value) { this._headerSize = value; }
+                ;
+                set HeaderHeight(value) { this._headerHeight = value; }
+                ;
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.RadioButton();
-                    this.Ctrl.width = this.Width;
-                    this.Ctrl.height = this.Height;
-                    this.Ctrl.color = this.Color;
-                    this.Ctrl.background = this.Background;
-                    var header = BABYLON.GUI.Control.AddHeader(this.Ctrl, this.Content, this.HeaderSize, { isHorizontal: true, controlFirst: true });
-                    header.height = this.HeaderHeight;
-                    header.children[1].fontSize = this.FontSize;
-                    header.children[1].onPointerDownObservable.add(() => {
-                        this.Ctrl.isChecked = !this.Ctrl.isChecked;
-                    });
-                    this.Parent.Ctrl.addControl(header);
+                    this.CreateCtrl();
+                    this.CreateCtrlRelated();
+                    this.Parent.Ctrl.addControl(this._header);
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
                     });
@@ -4057,6 +4108,76 @@ System.register("Xaml/jupiter/controls/gui/RadioButton", ["Xaml/jupiter/UIElemen
                     }
                     catch (_h) { }
                 }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Height":
+                        case "Width":
+                        case "Color":
+                        case "Background":
+                        case "HeaderSize":
+                        case "HeaderHeight":
+                        case "Content":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "FontSize":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        default: return;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Height":
+                            if (this.HasValue(this.Height))
+                                this.Ctrl.height = this.Height;
+                            break;
+                        case "Width":
+                            if (this.HasValue(this.Width))
+                                this.Ctrl.width = this.Width;
+                            break;
+                        case "Color":
+                            if (this.HasValue(this.Color))
+                                this.Ctrl.color = this.Color;
+                            break;
+                        case "Background":
+                            if (this.HasValue(this.Background))
+                                this.Ctrl.background = this.Background;
+                            break;
+                        case "HeaderHeight":
+                            if (this.HasValue(this.HeaderHeight) && this.HasValue(this._header))
+                                this._header.height = this.HeaderHeight;
+                            break;
+                        case "FontSize":
+                            if (this.HasValue(this.FontSize) && this.HasValue(this._header))
+                                this._header.children[1].fontSize = this.FontSize;
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                    this._header.dispose();
+                    this._header = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.RadioButton();
+                    this.RefreshCtrlProperty("Height");
+                    this.RefreshCtrlProperty("Width");
+                    this.RefreshCtrlProperty("Color");
+                    this.RefreshCtrlProperty("Background");
+                }
+                CreateCtrlRelated() {
+                    this._header = BABYLON.GUI.Control.AddHeader(this.Ctrl, this.Content, this.HeaderSize, { isHorizontal: true, controlFirst: true });
+                    this.RefreshCtrlProperty("HeaderHeight");
+                    this.RefreshCtrlProperty("FontSize");
+                    this._header.children[1].onPointerDownObservable.add(() => {
+                        this.Ctrl.isChecked = !this.Ctrl.isChecked;
+                    });
+                }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
                         parent.ChildrenGUIs.setValue(this.Name, this);
@@ -4084,12 +4205,12 @@ System.register("Xaml/jupiter/controls/gui/Resources", ["Xaml/jupiter/UIElement"
         ],
         execute: function () {
             Resources = class Resources extends UIElement_19.UIElement {
-                get Resources() { return this._resources; }
-                set Resources(value) { this._resources = value; }
                 constructor() {
                     super();
                     this._resources = new Core_10.UIElementCollection();
                 }
+                get Resources() { return this._resources; }
+                set Resources(value) { this._resources = value; }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
                 }
@@ -4159,6 +4280,9 @@ System.register("Xaml/jupiter/controls/gui/StackPanel", ["Xaml/jupiter/UIElement
         ],
         execute: function () {
             StackPanel = class StackPanel extends UIElement_21.UIElement {
+                constructor() {
+                    super();
+                }
                 get Rotation() { return this._rotation; }
                 get Height() { return this._height; }
                 get Width() { return this._width; }
@@ -4168,9 +4292,6 @@ System.register("Xaml/jupiter/controls/gui/StackPanel", ["Xaml/jupiter/UIElement
                 get FontSize() { return this._fontSize; }
                 get HorizontalAlignment() { return this._horizontalAlignment; }
                 get VerticalAlignment() { return this._verticalAlignment; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     let sp = new BABYLON.GUI.StackPanel(this.Name);
                     if (this.Height !== undefined)
@@ -4265,15 +4386,15 @@ System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement"
         ],
         execute: function () {
             TextBlock = class TextBlock extends UIElement_22.UIElement {
+                constructor() {
+                    super();
+                }
                 get Height() { return this._height; }
                 get Width() { return this._height; }
                 get FontSize() { return this._fontSize; }
                 get Content() { return this._content; }
                 get Color() { return this._color; }
                 get TextHorizontalAlignment() { return this._textHorizontalAlignment; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     this.Ctrl = new BABYLON.GUI.TextBlock(this.Name);
                     if (this.Height !== undefined)
@@ -4363,6 +4484,9 @@ System.register("Xaml/jupiter/controls/gui/Label", ["Xaml/jupiter/UIElement", "b
         ],
         execute: function () {
             Label = class Label extends UIElement_23.UIElement {
+                constructor() {
+                    super();
+                }
                 get Text() { return this._text; }
                 get Foreground() { return this._foreground; }
                 get Background() { return this._background; }
@@ -4376,9 +4500,6 @@ System.register("Xaml/jupiter/controls/gui/Label", ["Xaml/jupiter/UIElement", "b
                 get Top() { return this._top; }
                 get VerticalAlignment() { return this._verticalAlignment; }
                 get ZIndex() { return this._zIndex; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     this.Ctrl = new BABYLON.GUI.Rectangle(this.Name);
                     this.Ctrl.background = this.Background;
@@ -4778,15 +4899,15 @@ System.register("Xaml/jupiter/controls/ParticleSystemShape", ["Xaml/jupiter/UIEl
         ],
         execute: function () {
             ParticleSystemShape = class ParticleSystemShape extends UIElement_26.UIElement {
+                constructor() {
+                    super();
+                }
                 get SceneName() { return this._sceneName; }
                 get MeshName() { return this._meshName; }
                 get NB() { return this._nb; }
                 set SceneName(value) { this._sceneName = value; }
                 set MeshName(value) { this._meshName = value; }
                 set NB(value) { this._nb = value; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     let ps = this.Parent;
                     let mesh = this.VT.Get(this.MeshName);
@@ -5012,6 +5133,9 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
         ],
         execute: function () {
             Scene = class Scene extends UIElement_27.UIElement {
+                constructor() {
+                    super();
+                }
                 get GroundName() { return this._groundName; }
                 get CameraName() { return this._cameraName; }
                 get LightName() { return this._lightName; }
@@ -5020,9 +5144,6 @@ System.register("Xaml/jupiter/controls/Scene", ["Xaml/jupiter/UIElement", "Xaml/
                 set CameraName(value) { this._cameraName = value; }
                 set LightName(value) { this._lightName = value; }
                 set ClearColor(value) { this._clearColor = value; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     let engine = Core_12.DIContainer.get("rootEngine");
                     let canvas = Core_12.DIContainer.get("rootCanvas");
@@ -5151,6 +5272,9 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
         ],
         execute: function () {
             Slider = class Slider extends UIElement_30.UIElement {
+                constructor() {
+                    super();
+                }
                 get Height() { return this._height; }
                 get Width() { return this._width; }
                 get Min() { return this._min; }
@@ -5167,9 +5291,6 @@ System.register("Xaml/jupiter/controls/Slider", ["Xaml/jupiter/UIElement", "baby
                 set Color(value) { this._color = value; }
                 set Background(value) { this._background = value; }
                 set HorizontalAlignment(value) { this._horizontalAlignment = value; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     this.CreateCtrl();
                     this.RefreshCtrlProperty("Height");
@@ -5416,6 +5537,9 @@ System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], 
         ],
         execute: function () {
             SubEmitter = class SubEmitter extends UIElement_32.UIElement {
+                constructor() {
+                    super();
+                }
                 get Type() { return this._type; }
                 get ParticleSystemName() { return this._particleSystemName; }
                 get ParticleCount() { return this._particleCount; }
@@ -5428,9 +5552,6 @@ System.register("Xaml/jupiter/controls/SubEmitter", ["Xaml/jupiter/UIElement"], 
                 set SceneName(value) { this._sceneName = value; }
                 set InheritDirection(value) { this._inheritDirection = value; }
                 set InheritedVelocityAmount(value) { this._inheritedVelocityAmount = value; }
-                constructor() {
-                    super();
-                }
                 Initialize() {
                     let scene = this.VT.FindByName(this.SceneName);
                     if (this.HasValue(this.ParticleSystemName)) {
@@ -5900,13 +6021,13 @@ System.register("Xaml/jupiter/FrameworkElement", ["Xaml/jupiter/UIElement"], fun
         ],
         execute: function () {
             FrameworkElement = class FrameworkElement extends UIElement_33.UIElement {
+                constructor() {
+                    super();
+                }
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 set Width(value) { this._width = value; }
                 set Height(value) { this._height = value; }
-                constructor() {
-                    super();
-                }
             };
             exports_81("FrameworkElement", FrameworkElement);
         }

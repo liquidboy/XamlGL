@@ -67,7 +67,7 @@
                CornerRadius="20" Thickness="1" LinkOffsetY="30" Foreground="White" Top="10%" ZIndex="5" 
                VerticalAlignment="BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP"></Label>
 
-        <Line x:Name="lineToSphere7" Alpha = "0.5" LineWidth="5" dash ="[5,10]" Mesh="sphere7" ConnectedControl="lblSphere7"></Line>
+        <Line x:Name="lineToSphere7" Alpha="0.5" LineWidth="5" Dash="[5,10]" Mesh="sphere7" ConnectedControl="lblSphere7"></Line>
 
         <Ellipse x:Name="circle7" Mesh="sphere7" Width="10px" Color="white" Background="black" Height="10px"></Ellipse>
 
