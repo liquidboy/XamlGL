@@ -3838,14 +3838,19 @@ System.register("Xaml/jupiter/controls/gui/Ellipse", ["Xaml/jupiter/UIElement", 
                 get Width() { return this._width; }
                 get Height() { return this._height; }
                 get MeshName() { return this._meshName; }
+                set Color(value) { this._color = value; }
+                set Background(value) { this._background = value; }
+                set Thickness(value) { this._thickness = value; }
+                set Width(value) { this._width = value; }
+                set Height(value) { this._height = value; }
+                set MeshName(value) { this._meshName = value; }
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.Ellipse();
-                    this.Ctrl.width = this.Width;
-                    this.Ctrl.height = this.Height;
-                    this.Ctrl.color = this.Color;
-                    this.Ctrl.background = this.Background;
-                    if (this.Thickness !== undefined)
-                        this.Ctrl.thickness = this.Thickness;
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("Width");
+                    this.RefreshCtrlProperty("Height");
+                    this.RefreshCtrlProperty("Color");
+                    this.RefreshCtrlProperty("Background");
+                    this.RefreshCtrlProperty("Thickness");
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     if (this.MeshName !== undefined) {
                         let mesh = this.VT.Get(this.MeshName);
@@ -3882,6 +3887,55 @@ System.register("Xaml/jupiter/controls/gui/Ellipse", ["Xaml/jupiter/UIElement", 
                         this._meshName = node.attributes["Mesh"].value;
                     }
                     catch (_f) { }
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Height":
+                        case "Width":
+                        case "Background":
+                        case "Color":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "Thickness":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        default: return;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Height":
+                            if (this.HasValue(this.Height))
+                                this.Ctrl.height = this.Height;
+                            break;
+                        case "Width":
+                            if (this.HasValue(this.Width))
+                                this.Ctrl.width = this.Width;
+                            break;
+                        case "Color":
+                            if (this.HasValue(this.Color))
+                                this.Ctrl.color = this.Color;
+                            break;
+                        case "Background":
+                            if (this.HasValue(this.Background))
+                                this.Ctrl.background = this.Background;
+                            break;
+                        case "Thickness":
+                            if (this.HasValue(this.Thickness))
+                                this.Ctrl.thickness = this.Thickness;
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.Ellipse();
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
