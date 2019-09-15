@@ -60,12 +60,19 @@ export class Ellipse extends UIElement implements ISetValue {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._color = node.attributes["Color"].value; } catch { }
-        try { this._background = node.attributes["Background"].value; } catch { }
-        try { this._width = node.attributes["Width"].value; } catch { }
-        try { this._height = node.attributes["Height"].value; } catch { }
-        try { this._thickness = parseFloat(node.attributes["Thickness"].value); } catch { }
-        try { this._meshName = node.attributes["Mesh"].value; } catch { }
+        //try { this._color = node.attributes["Color"].value; } catch { }
+        //try { this._background = node.attributes["Background"].value; } catch { }
+        //try { this._width = node.attributes["Width"].value; } catch { }
+        //try { this._height = node.attributes["Height"].value; } catch { }
+        //try { this._thickness = parseFloat(node.attributes["Thickness"].value); } catch { }
+        //try { this._meshName = node.attributes["Mesh"].value; } catch { }
+
+        this.UpdatePropertyByNode(node, "Color", "Color");
+        this.UpdatePropertyByNode(node, "Background", "Background");
+        this.UpdatePropertyByNode(node, "Width", "Width");
+        this.UpdatePropertyByNode(node, "Height", "Height");
+        this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
+        this.UpdatePropertyByNode(node, "Mesh", "Mesh");
     }
 
     SetValue(propertyName: string, value: any): void {

@@ -3921,30 +3921,12 @@ System.register("Xaml/jupiter/controls/gui/Ellipse", ["Xaml/jupiter/UIElement", 
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._color = node.attributes["Color"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._background = node.attributes["Background"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._width = node.attributes["Width"].value;
-                    }
-                    catch (_c) { }
-                    try {
-                        this._height = node.attributes["Height"].value;
-                    }
-                    catch (_d) { }
-                    try {
-                        this._thickness = parseFloat(node.attributes["Thickness"].value);
-                    }
-                    catch (_e) { }
-                    try {
-                        this._meshName = node.attributes["Mesh"].value;
-                    }
-                    catch (_f) { }
+                    this.UpdatePropertyByNode(node, "Color", "Color");
+                    this.UpdatePropertyByNode(node, "Background", "Background");
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
+                    this.UpdatePropertyByNode(node, "Mesh", "Mesh");
                 }
                 SetValue(propertyName, value) {
                     switch (propertyName) {
@@ -4652,62 +4634,20 @@ System.register("Xaml/jupiter/controls/gui/Label", ["Xaml/jupiter/UIElement", "b
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._foreground = node.attributes["Foreground"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._background = node.attributes["Background"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._width = node.attributes["Width"].value;
-                    }
-                    catch (_c) { }
-                    try {
-                        this._height = node.attributes["Height"].value;
-                    }
-                    catch (_d) { }
-                    try {
-                        this._thickness = parseFloat(node.attributes["Thickness"].value);
-                    }
-                    catch (_e) { }
-                    try {
-                        this._alpha = parseFloat(node.attributes["Alpha"].value);
-                    }
-                    catch (_f) { }
-                    try {
-                        this._cornerRadius = parseFloat(node.attributes["CornerRadius"].value);
-                    }
-                    catch (_g) { }
-                    try {
-                        this._linkOffsetY = node.attributes["LinkOffsetY"].value;
-                    }
-                    catch (_h) { }
-                    try {
-                        this._linkOffsetY = parseFloat(node.attributes["LinkOffsetY"].value);
-                    }
-                    catch (_j) { }
-                    try {
-                        this._meshName = node.attributes["Mesh"].value;
-                    }
-                    catch (_k) { }
-                    try {
-                        this._text = node.attributes["Text"].value;
-                    }
-                    catch (_l) { }
-                    try {
-                        this._top = node.attributes["Top"].value;
-                    }
-                    catch (_m) { }
-                    try {
-                        this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value);
-                    }
-                    catch (_o) { }
-                    try {
-                        this._zIndex = parseFloat(node.attributes["ZIndex"].value);
-                    }
-                    catch (_p) { }
+                    this.UpdatePropertyByNode(node, "Foreground", "Foreground");
+                    this.UpdatePropertyByNode(node, "Background", "Background");
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "CornerRadius", "CornerRadius", parseFloat);
+                    this.UpdatePropertyByNode(node, "LinkOffsetY", "LinkOffsetY");
+                    this.UpdatePropertyByNodeAndFunction(node, "LinkOffsetY", "LinkOffsetY", parseFloat);
+                    this.UpdatePropertyByNode(node, "Mesh", "Mesh");
+                    this.UpdatePropertyByNode(node, "Text", "Text");
+                    this.UpdatePropertyByNode(node, "Top", "Top");
+                    this.UpdatePropertyByNodeAndFunction(node, "VerticalAlignment", "VerticalAlignment", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "ZIndex", "ZIndex", parseFloat);
                 }
                 SetValue(propertyName, value) {
                     switch (propertyName) {

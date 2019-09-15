@@ -89,22 +89,47 @@ export class Label extends UIElement implements ISetValue{
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._foreground = node.attributes["Foreground"].value; } catch { }
-        try { this._background = node.attributes["Background"].value; } catch { }
-        try { this._width = node.attributes["Width"].value; } catch { }
-        //try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
-        try { this._height = node.attributes["Height"].value; } catch { }
-        //try { this._height = parseFloat(node.attributes["Height"].value); } catch { }
-        try { this._thickness = parseFloat(node.attributes["Thickness"].value); } catch { }
-        try { this._alpha = parseFloat(node.attributes["Alpha"].value); } catch { }
-        try { this._cornerRadius = parseFloat(node.attributes["CornerRadius"].value); } catch { }
-        try { this._linkOffsetY = node.attributes["LinkOffsetY"].value; } catch { }
-        try { this._linkOffsetY = parseFloat(node.attributes["LinkOffsetY"].value); } catch { }
-        try { this._meshName = node.attributes["Mesh"].value; } catch { }
-        try { this._text = node.attributes["Text"].value; } catch { }
-        try { this._top = node.attributes["Top"].value; } catch { }
-        try { this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value); } catch { }
-        try { this._zIndex = parseFloat(node.attributes["ZIndex"].value); } catch { }
+        //try { this._foreground = node.attributes["Foreground"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Foreground", "Foreground");
+        //try { this._background = node.attributes["Background"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Background", "Background");
+        //try { this._width = node.attributes["Width"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Width", "Width");
+
+        ////try { this._width = parseFloat(node.attributes["Width"].value); } catch { }
+
+        //try { this._height = node.attributes["Height"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Height", "Height");
+
+        ////try { this._height = parseFloat(node.attributes["Height"].value); } catch { }
+
+        //try { this._thickness = parseFloat(node.attributes["Thickness"].value); } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "Thickness", "Thickness", parseFloat);
+
+        //try { this._alpha = parseFloat(node.attributes["Alpha"].value); } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "Alpha", "Alpha", parseFloat);
+        //try { this._cornerRadius = parseFloat(node.attributes["CornerRadius"].value); } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "CornerRadius", "CornerRadius", parseFloat);
+
+        //try { this._linkOffsetY = node.attributes["LinkOffsetY"].value; } catch { }
+        this.UpdatePropertyByNode(node, "LinkOffsetY", "LinkOffsetY");
+        //try { this._linkOffsetY = parseFloat(node.attributes["LinkOffsetY"].value); } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "LinkOffsetY", "LinkOffsetY", parseFloat);
+
+        //try { this._meshName = node.attributes["Mesh"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Mesh", "Mesh");
+
+        //try { this._text = node.attributes["Text"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Text", "Text");
+
+        //try { this._top = node.attributes["Top"].value; } catch { }
+        this.UpdatePropertyByNode(node, "Top", "Top");
+
+        //try { this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value); } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "VerticalAlignment", "VerticalAlignment", eval);
+
+        //try { this._zIndex = parseFloat(node.attributes["ZIndex"].value); } catch { }
+        this.UpdatePropertyByNodeAndFunction(node, "ZIndex", "ZIndex", parseFloat);
     }
 
     SetValue(propertyName: string, value: any): void {
