@@ -2,8 +2,10 @@
 import { Scene, ParticleSystemShape, Mesh } from "../Core";
 import { LinkedDictionary } from "../../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
+import { ISetValue } from "../ISetValue";
 
-export class Label extends UIElement {
+export class Label extends UIElement implements ISetValue{
+
     private _width: string | number;
     private _height: string | number;
     private _thickness: number;
@@ -17,6 +19,7 @@ export class Label extends UIElement {
     private _top: string | number;
     private _verticalAlignment: number;
     private _zIndex: number;
+    private _textBlock: BABYLON.GUI.TextBlock;
 
     get Text(): string { return this._text; }
     get Foreground(): string { return this._foreground; }
@@ -32,23 +35,39 @@ export class Label extends UIElement {
     get VerticalAlignment(): number { return this._verticalAlignment; }
     get ZIndex(): number { return this._zIndex; }
 
+    set Text(value: string) { this._text = value; }
+    set Foreground(value: string) { this._foreground = value; }
+    set Background(value: string) { this._background = value; }
+    set Thickness(value: number) { this._thickness = value; }
+    set Alpha(value: number) { this._alpha = value; }
+    set CornerRadius(value: number) { this._cornerRadius = value; }
+    set Width(value: string | number) { this._width = value; }
+    set Height(value: string | number) { this._height = value; }
+    set MeshName(value: string) { this._meshName = value; }
+    set LinkOffsetY(value: string | number) { this._linkOffsetY = value; }
+    set Top(value: string | number) { this._top = value; }
+    set VerticalAlignment(value: number) { this._verticalAlignment = value; }
+    set ZIndex(value: number) { this._zIndex = value; }
+
     constructor() {
         super();
     }
 
     public Initialize(): void {
-        
-        this.Ctrl = new BABYLON.GUI.Rectangle(this.Name);
-        this.Ctrl.background = this.Background;
-        this.Ctrl.height = this.Height;
-        this.Ctrl.alpha = this.Alpha;
-        this.Ctrl.width = this.Width;
-        this.Ctrl.cornerRadius = this.CornerRadius;
-        this.Ctrl.thickness = this.Thickness;
-        this.Ctrl.linkOffsetY = this.LinkOffsetY;
-        if (this.Top !== undefined) this.Ctrl.top = this.Top;
+
+        this.CreateCtrl();
+
+        this.RefreshCtrlProperty("Background");
+        this.RefreshCtrlProperty("Height");
+        this.RefreshCtrlProperty("Alpha");
+        this.RefreshCtrlProperty("Width");
+        this.RefreshCtrlProperty("CornerRadius");
+        this.RefreshCtrlProperty("Thickness");
+        this.RefreshCtrlProperty("LinkOffsetY");
+        this.RefreshCtrlProperty("Top");
         if (this.VerticalAlignment !== undefined) this.Ctrl.verticalAlignment = this.VerticalAlignment;
-        if (this.ZIndex !== undefined) this.Ctrl.zIndex = this.ZIndex;
+
+        this.RefreshCtrlProperty("ZIndex");
         
         (this.Parent as any).Ctrl.addControl(this.Ctrl);
 
@@ -57,10 +76,9 @@ export class Label extends UIElement {
             this.Ctrl.linkWithMesh(mesh.Ctrl);
         }
 
-        let text1 = new BABYLON.GUI.TextBlock();
-        text1.text = this.Text;
-        text1.color = this.Foreground;
-        this.Ctrl.addControl(text1);  
+        this.RefreshCtrlProperty("Text");
+        this.RefreshCtrlProperty("Foreground");
+
 
         this.ChildrenGUIs.forEach((key:string, child: UIElement) => {
             child.Initialize();
@@ -87,6 +105,61 @@ export class Label extends UIElement {
         try { this._top = node.attributes["Top"].value; } catch { }
         try { this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value); } catch { }
         try { this._zIndex = parseFloat(node.attributes["ZIndex"].value); } catch { }
+    }
+
+    SetValue(propertyName: string, value: any): void {
+        switch (propertyName) {
+            case "Height":
+            case "Width":
+            case "Foreground":
+            case "Background":
+            case "Mesh":
+            case "Text":
+            case "Top": this.UpdatePropertyByValue(propertyName, value, null); break;
+            case "Alpha":
+            case "CornerRadius":
+            case "LinkOffsetY":
+            case "Thickness":
+            case "ZIndex": this.UpdatePropertyByValue(propertyName, value, parseFloat); break;
+            default: return;
+        }
+        this.RefreshCtrlProperty(propertyName);
+    }
+
+    RefreshCtrlProperty(propertyName: string): void {
+        switch (propertyName) {
+            case "Height": if (this.HasValue(this.Height)) this.Ctrl.height = this.Height; break;
+            case "Width": if (this.HasValue(this.Width)) this.Ctrl.width = this.Width; break;
+            case "Foreground": if (this.HasValue(this.Foreground)) this._textBlock.color = this.Foreground; break;
+            case "Background": if (this.HasValue(this.Background)) this.Ctrl.background = this.Background; break;
+            case "Text": if (this.HasValue(this.Text)) this._textBlock.text = this.Text; break;
+            case "Top": if (this.HasValue(this.Top)) this.Ctrl.top = this.Top; break;
+            case "Alpha": if (this.HasValue(this.Alpha)) this.Ctrl.alpha = this.Alpha; break;
+            case "CornerRadius": if (this.HasValue(this.CornerRadius)) this.Ctrl.cornerRadius = this.CornerRadius; break;
+            case "LinkOffsetY": if (this.HasValue(this.LinkOffsetY)) this.Ctrl.linkOffsetY = this.LinkOffsetY; break;
+            case "Thickness": if (this.HasValue(this.Thickness)) this.Ctrl.thickness = this.Thickness; break;
+            case "ZIndex": if (this.HasValue(this.ZIndex)) this.Ctrl.zIndex = this.ZIndex; break;
+        }
+    }
+
+    ClearCtrl(): void {
+        if (!this.HasValue(this.Ctrl)) return;
+        
+        if (!this.HasValue(this._textBlock)) {
+            this._textBlock.dispose();
+            this._textBlock = null;
+        }
+
+        this.bjsCtrl.dispose();
+        this.Ctrl = null;
+    }
+
+    CreateCtrl(): void {
+        this.ClearCtrl();
+        this.Ctrl = new BABYLON.GUI.Rectangle(this.Name);
+
+        this._textBlock = new BABYLON.GUI.TextBlock();
+        this.Ctrl.addControl(this._textBlock);
     }
 
     TrySetParent(parent: UIElement): boolean {
