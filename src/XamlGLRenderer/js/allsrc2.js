@@ -4386,29 +4386,29 @@ System.register("Xaml/jupiter/controls/gui/StackPanel", ["Xaml/jupiter/UIElement
                 get FontSize() { return this._fontSize; }
                 get HorizontalAlignment() { return this._horizontalAlignment; }
                 get VerticalAlignment() { return this._verticalAlignment; }
+                set Rotation(value) { this._rotation = value; }
+                set Height(value) { this._height = value; }
+                set Width(value) { this._width = value; }
+                set IsVertical(value) { this._isVertical = value; }
+                set Top(value) { this._top = value; }
+                set PaddingRight(value) { this._paddingRight = value; }
+                set FontSize(value) { this._fontSize = value; }
+                set HorizontalAlignment(value) { this._horizontalAlignment = value; }
+                set VerticalAlignment(value) { this._verticalAlignment = value; }
                 Initialize() {
-                    let sp = new BABYLON.GUI.StackPanel(this.Name);
-                    if (this.Height !== undefined)
-                        sp.height = this.Height;
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("Height");
                     if (this.Width !== undefined)
-                        sp.width = this.Width;
+                        this.Ctrl.width = this.Width;
                     else if (this.Parent instanceof StackPanel && this.Parent.Width !== undefined)
-                        sp.width = this.Parent.Width;
-                    if (this.Top !== undefined)
-                        sp.top = this.Top;
-                    if (this.Rotation !== undefined)
-                        sp.rotation = this.Rotation;
-                    if (this.HorizontalAlignment !== undefined)
-                        sp.horizontalAlignment = this.HorizontalAlignment;
-                    if (this.VerticalAlignment !== undefined)
-                        sp.verticalAlignment = this.VerticalAlignment;
-                    if (this.FontSize !== undefined)
-                        sp.fontSize = this.FontSize;
-                    if (this.PaddingRight !== undefined)
-                        sp.paddingRight = this.PaddingRight;
-                    if (this.IsVertical !== undefined)
-                        sp.isVertical = this.IsVertical;
-                    this.Ctrl = sp;
+                        this.Ctrl.width = this.Parent.Width;
+                    this.RefreshCtrlProperty("Top");
+                    this.RefreshCtrlProperty("Rotation");
+                    this.RefreshCtrlProperty("HorizontalAlignment");
+                    this.RefreshCtrlProperty("VerticalAlignment");
+                    this.RefreshCtrlProperty("FontSize");
+                    this.RefreshCtrlProperty("PaddingRight");
+                    this.RefreshCtrlProperty("IsVertical");
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
@@ -4417,42 +4417,88 @@ System.register("Xaml/jupiter/controls/gui/StackPanel", ["Xaml/jupiter/UIElement
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._height = node.attributes["Height"].value;
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNode(node, "Top", "Top");
+                    this.UpdatePropertyByNodeAndFunction(node, "Rotation", "Rotation", parseFloat);
+                    this.UpdatePropertyByNodeAndFunction(node, "HorizontalAlignment", "HorizontalAlignment", eval);
+                    this.UpdatePropertyByNodeAndFunction(node, "VerticalAlignment", "VerticalAlignment", eval);
+                    this.UpdatePropertyByNode(node, "FontSize", "FontSize");
+                    this.UpdatePropertyByNode(node, "PaddingRight", "PaddingRight");
+                    this.UpdatePropertyByNodeAndFunction(node, "IsVertical", "IsVertical", this.ConvertToBoolean);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Height":
+                        case "Width":
+                        case "Top":
+                        case "PaddingRight":
+                        case "FontSize":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "Rotation":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "HorizontalAlignment":
+                        case "VerticalAlignment":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        case "IsVertical":
+                            this.UpdatePropertyByValue(propertyName, value, this.ConvertToBoolean);
+                            break;
+                        default: return;
                     }
-                    catch (_a) { }
-                    try {
-                        this._width = node.attributes["Width"].value;
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Height":
+                            if (this.HasValue(this.Height))
+                                this.Ctrl.height = this.Height;
+                            break;
+                        case "Width":
+                            if (this.HasValue(this.Width))
+                                this.Ctrl.width = this.Width;
+                            break;
+                        case "Top":
+                            if (this.HasValue(this.Top))
+                                this.Ctrl.color = this.Top;
+                            break;
+                        case "PaddingRight":
+                            if (this.HasValue(this.PaddingRight))
+                                this.Ctrl.paddingRight = this.PaddingRight;
+                            break;
+                        case "FontSize":
+                            if (this.HasValue(this.FontSize))
+                                this.Ctrl.fontSize = this.FontSize;
+                            break;
+                        case "Rotation":
+                            if (this.HasValue(this.Rotation))
+                                this.Ctrl.rotation = this.Rotation;
+                            break;
+                        case "HorizontalAlignment":
+                            if (this.HasValue(this.HorizontalAlignment))
+                                this.Ctrl.horizontalAlignment = this.HorizontalAlignment;
+                            break;
+                        case "VerticalAlignment":
+                            if (this.HasValue(this.VerticalAlignment))
+                                this.Ctrl.verticalAlignment = this.VerticalAlignment;
+                            break;
+                        case "IsVertical":
+                            if (this.HasValue(this.IsVertical))
+                                this.Ctrl.isVertical = this.IsVertical;
+                            break;
                     }
-                    catch (_b) { }
-                    try {
-                        this._top = node.attributes["Top"].value;
-                    }
-                    catch (_c) { }
-                    try {
-                        this._rotation = parseFloat(node.attributes["Rotation"].value);
-                    }
-                    catch (_d) { }
-                    try {
-                        this._horizontalAlignment = eval(node.attributes["HorizontalAlignment"].value);
-                    }
-                    catch (_e) { }
-                    try {
-                        this._verticalAlignment = eval(node.attributes["VerticalAlignment"].value);
-                    }
-                    catch (_f) { }
-                    try {
-                        this._fontSize = node.attributes["FontSize"].value;
-                    }
-                    catch (_g) { }
-                    try {
-                        this._paddingRight = node.attributes["PaddingRight"].value;
-                    }
-                    catch (_h) { }
-                    try {
-                        this._isVertical = node.attributes["IsVertical"].value.toLowerCase() === 'true';
-                    }
-                    catch (e) { }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.StackPanel(this.Name);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
@@ -4496,18 +4542,13 @@ System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement"
                 set Color(value) { this._color = value; }
                 set TextHorizontalAlignment(value) { this._textHorizontalAlignment = value; }
                 Initialize() {
-                    this.Ctrl = new BABYLON.GUI.TextBlock(this.Name);
-                    if (this.Height !== undefined)
-                        this.Ctrl.height = this.Height;
-                    if (this.Width !== undefined)
-                        this.Ctrl.width = this.Width;
-                    if (this.FontSize !== undefined)
-                        this.Ctrl.fontSize = this.FontSize;
-                    if (this.Color !== undefined)
-                        this.Ctrl.color = this.Color;
-                    if (this.TextHorizontalAlignment !== undefined)
-                        this.Ctrl.textHorizontalAlignment = this.TextHorizontalAlignment;
-                    this.Ctrl.text = this.Content;
+                    this.CreateCtrl();
+                    this.RefreshCtrlProperty("Width");
+                    this.RefreshCtrlProperty("Height");
+                    this.RefreshCtrlProperty("Color");
+                    this.RefreshCtrlProperty("FontSize");
+                    this.RefreshCtrlProperty("TextHorizontalAlignment");
+                    this.RefreshCtrlProperty("Content");
                     this.Parent.Ctrl.addControl(this.Ctrl);
                     this.ChildrenGUIs.forEach((key, child) => {
                         child.Initialize();
@@ -4522,6 +4563,62 @@ System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement"
                     this.UpdatePropertyByNode(node, "Content", "Content");
                     this.UpdatePropertyByNode(node, "Color", "Color");
                     this.UpdatePropertyByNodeAndFunction(node, "TextHorizontalAlignment", "TextHorizontalAlignment", eval);
+                }
+                SetValue(propertyName, value) {
+                    switch (propertyName) {
+                        case "Height":
+                        case "Width":
+                        case "Content":
+                        case "Color":
+                            this.UpdatePropertyByValue(propertyName, value, null);
+                            break;
+                        case "FontSize":
+                            this.UpdatePropertyByValue(propertyName, value, parseFloat);
+                            break;
+                        case "TextHorizontalAlignment":
+                            this.UpdatePropertyByValue(propertyName, value, eval);
+                            break;
+                        default: return;
+                    }
+                    this.RefreshCtrlProperty(propertyName);
+                }
+                RefreshCtrlProperty(propertyName) {
+                    switch (propertyName) {
+                        case "Height":
+                            if (this.HasValue(this.Height))
+                                this.Ctrl.height = this.Height;
+                            break;
+                        case "Width":
+                            if (this.HasValue(this.Width))
+                                this.Ctrl.width = this.Width;
+                            break;
+                        case "Color":
+                            if (this.HasValue(this.Color))
+                                this.Ctrl.color = this.Color;
+                            break;
+                        case "Content":
+                            if (this.HasValue(this.Content))
+                                this.Ctrl.text = this.Content;
+                            break;
+                        case "FontSize":
+                            if (this.HasValue(this.FontSize))
+                                this.Ctrl.fontSize = this.FontSize;
+                            break;
+                        case "TextHorizontalAlignment":
+                            if (this.HasValue(this.TextHorizontalAlignment))
+                                this.Ctrl.textHorizontalAlignment = this.TextHorizontalAlignment;
+                            break;
+                    }
+                }
+                ClearCtrl() {
+                    if (!this.HasValue(this.Ctrl))
+                        return;
+                    this.bjsCtrl.dispose();
+                    this.Ctrl = null;
+                }
+                CreateCtrl() {
+                    this.ClearCtrl();
+                    this.Ctrl = new BABYLON.GUI.TextBlock(this.Name);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {
