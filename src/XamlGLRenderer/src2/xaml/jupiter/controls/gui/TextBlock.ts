@@ -18,6 +18,13 @@ export class TextBlock extends UIElement {
     get Color(): string { return this._color; }
     get TextHorizontalAlignment(): number { return this._textHorizontalAlignment; }
 
+    set Height(value: number | string) { this._height = value; }
+    set Width(value: number | string) { this._height = value; }
+    set FontSize(value: number) { this._fontSize = value; }
+    set Content(value: string) { this._content = value; }
+    set Color(value: string) { this._color = value; }
+    set TextHorizontalAlignment(value: number) { this._textHorizontalAlignment = value; }
+
     constructor() {
         super();
     }
@@ -42,12 +49,13 @@ export class TextBlock extends UIElement {
 
     public LoadFromNode(node: any): void {
         super.LoadFromNode(node);
-        try { this._height = node.attributes["Height"].value; } catch { }
-        try { this._width = node.attributes["Width"].value; } catch { }
-        try { this._fontSize = parseFloat(node.attributes["FontSize"].value); } catch { }
-        try { this._content = node.attributes["Content"].value; } catch { }
-        try { this._color = node.attributes["Color"].value; } catch { }
-        try { this._textHorizontalAlignment = eval(node.attributes["TextHorizontalAlignment"].value); } catch { }
+
+        this.UpdatePropertyByNode(node, "Height", "Height");
+        this.UpdatePropertyByNode(node, "Width", "Width");
+        this.UpdatePropertyByNodeAndFunction(node, "FontSize", "FontSize", parseFloat);
+        this.UpdatePropertyByNode(node, "Content", "Content");
+        this.UpdatePropertyByNode(node, "Color", "Color");
+        this.UpdatePropertyByNodeAndFunction(node, "TextHorizontalAlignment", "TextHorizontalAlignment", eval);
     }
 
     TrySetParent(parent: UIElement): boolean {

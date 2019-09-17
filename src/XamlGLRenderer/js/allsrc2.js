@@ -4489,6 +4489,12 @@ System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement"
                 get Content() { return this._content; }
                 get Color() { return this._color; }
                 get TextHorizontalAlignment() { return this._textHorizontalAlignment; }
+                set Height(value) { this._height = value; }
+                set Width(value) { this._height = value; }
+                set FontSize(value) { this._fontSize = value; }
+                set Content(value) { this._content = value; }
+                set Color(value) { this._color = value; }
+                set TextHorizontalAlignment(value) { this._textHorizontalAlignment = value; }
                 Initialize() {
                     this.Ctrl = new BABYLON.GUI.TextBlock(this.Name);
                     if (this.Height !== undefined)
@@ -4510,30 +4516,12 @@ System.register("Xaml/jupiter/controls/gui/TextBlock", ["Xaml/jupiter/UIElement"
                 }
                 LoadFromNode(node) {
                     super.LoadFromNode(node);
-                    try {
-                        this._height = node.attributes["Height"].value;
-                    }
-                    catch (_a) { }
-                    try {
-                        this._width = node.attributes["Width"].value;
-                    }
-                    catch (_b) { }
-                    try {
-                        this._fontSize = parseFloat(node.attributes["FontSize"].value);
-                    }
-                    catch (_c) { }
-                    try {
-                        this._content = node.attributes["Content"].value;
-                    }
-                    catch (_d) { }
-                    try {
-                        this._color = node.attributes["Color"].value;
-                    }
-                    catch (_e) { }
-                    try {
-                        this._textHorizontalAlignment = eval(node.attributes["TextHorizontalAlignment"].value);
-                    }
-                    catch (_f) { }
+                    this.UpdatePropertyByNode(node, "Height", "Height");
+                    this.UpdatePropertyByNode(node, "Width", "Width");
+                    this.UpdatePropertyByNodeAndFunction(node, "FontSize", "FontSize", parseFloat);
+                    this.UpdatePropertyByNode(node, "Content", "Content");
+                    this.UpdatePropertyByNode(node, "Color", "Color");
+                    this.UpdatePropertyByNodeAndFunction(node, "TextHorizontalAlignment", "TextHorizontalAlignment", eval);
                 }
                 TrySetParent(parent) {
                     if (super.TrySetParent(parent)) {

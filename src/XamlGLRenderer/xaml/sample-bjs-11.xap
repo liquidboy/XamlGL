@@ -39,11 +39,11 @@
         <StackPanel x:Name="spEmitRate" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblEmitRate" Content="emitRate:" Width="150px" Color="white" 
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblEmitRateValue" Content="0" Width="150px" Color="white" 
+          <TextBlock x:Name="lblEmitRateValue" Content="0" Width="100px" Color="white" 
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slEmitRate" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" 
-                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="10000" Color="white" Background="grey" Value="0" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -119,11 +119,11 @@
         <StackPanel x:Name="spMinEmitPower" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMinEmitPower" Content="MinEmitPower:" Width="150px" Color="white" 
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMinEmitPowerValue" Content="0" Width="150px" Color="white" 
+          <TextBlock x:Name="lblMinEmitPowerValue" Content="0" Width="100px" Color="white" 
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMinEmitPower" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0" 
-                Maximum="10" Color="white" Background="grey" Value="0.5" Height="20px" Width="200px" >
+                Maximum="10" Color="white" Background="grey" Value="0.5" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -147,11 +147,11 @@
         <StackPanel x:Name="spMaxEmitPower" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMaxEmitPower" Content="MaxEmitPower:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMaxEmitPowerValue" Content="0" Width="150px" Color="white"
+          <TextBlock x:Name="lblMaxEmitPowerValue" Content="0" Width="100px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMaxEmitPower" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10" Color="white" Background="grey" Value="4" Height="20px" Width="200px" >
+                Maximum="10" Color="white" Background="grey" Value="4" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -176,11 +176,11 @@
         <StackPanel x:Name="spMinLifetime" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMinLifetime" Content="MinLifetime:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMinLifetimeValue" Content="0" Width="150px" Color="white"
+          <TextBlock x:Name="lblMinLifetimeValue" Content="0" Width="100px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMinLifetime" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0.5"
-                Maximum="10" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="10" Color="white" Background="grey" Value="0" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -204,11 +204,11 @@
         <StackPanel x:Name="spMaxLifetime" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMaxLifetime" Content="MaxLifetime:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMaxLifetimeValue" Content="0" Width="150px" Color="white"
+          <TextBlock x:Name="lblMaxLifetimeValue" Content="0" Width="100px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMaxLifetime" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="10" Color="white" Background="grey" Value="4" Height="20px" Width="200px" >
+                Maximum="10" Color="white" Background="grey" Value="4" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -232,11 +232,11 @@
         <StackPanel x:Name="spMinSize" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMinSize" Content="MinSize:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMinSizeValue" Content="0" Width="150px" Color="white"
+          <TextBlock x:Name="lblMinSizeValue" Content="0" Width="100px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMinSize" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0.5"
-                Maximum="5" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="5" Color="white" Background="grey" Value="0" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -260,11 +260,11 @@
         <StackPanel x:Name="spMaxSize" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMaxSize" Content="MaxSize:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMaxSizeValue" Content="0" Width="150px" Color="white"
+          <TextBlock x:Name="lblMaxSizeValue" Content="0" Width="100px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMaxSize" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="0"
-                Maximum="5" Color="white" Background="grey" Value="2" Height="20px" Width="200px" >
+                Maximum="5" Color="white" Background="grey" Value="2" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -288,11 +288,11 @@
         <StackPanel x:Name="spMinAngularSpeed" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMinAngularSpeed" Content="MinAngularSpeed:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMinAngularSpeedValue" Content="0" Width="150px" Color="white"
+          <TextBlock x:Name="lblMinAngularSpeedValue" Content="0" Width="100px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMinAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="-2"
-                Maximum="2" Color="white" Background="grey" Value="0" Height="20px" Width="200px" >
+                Maximum="2" Color="white" Background="grey" Value="0" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
@@ -316,11 +316,11 @@
         <StackPanel x:Name="spMaxAngularSpeed" Height="30px" IsVertical="false" PaddingRight="20px">
           <TextBlock x:Name="lblMaxAngularSpeed" Content="MaxAngularSpeed:" Width="150px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT"></TextBlock>
-          <TextBlock x:Name="lblMaxAngularSpeedValue" Content="0" Width="150px" Color="white"
+          <TextBlock x:Name="lblMaxAngularSpeedValue" Content="0" Width="100px" Color="white"
                       TextHorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT"></TextBlock>
         </StackPanel>
         <Slider x:Name="slMaxAngularSpeed" HorizontalAlignment="BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT" Minimum="-2"
-                Maximum="2" Color="white" Background="grey" Value="1" Height="20px" Width="200px" >
+                Maximum="2" Color="white" Background="grey" Value="1" Height="20px" Width="260px" >
           <Code>
             <![CDATA[
               let ps = this.VisualTreeHelper.FindByName("particles");
