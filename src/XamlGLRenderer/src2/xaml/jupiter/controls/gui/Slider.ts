@@ -1,8 +1,8 @@
-﻿import { UIElement } from "../UIElement";
-import { Scene, ParticleSystemShape } from "./Core";
-import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
+﻿import { UIElement } from "../../UIElement";
+import { Scene, ParticleSystemShape } from "../Core";
+import { LinkedDictionary } from "../../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
-import { ISetValue } from "./ISetValue";
+import { ISetValue } from "../ISetValue";
 
 export class Slider extends UIElement implements ISetValue {
    

@@ -1166,13 +1166,13 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Ellipse.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Mesh.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Event.ts" />
-    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Button.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Button.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Code.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\CheckBox.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\RadioButton.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\ColorPicker.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Effect.ts" />
-    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Slider.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Slider.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\TextBlock.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Plane.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\StackPanel.ts" />
@@ -1196,7 +1196,7 @@
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Camera.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Light.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Scene.ts" />
-    <TypeScriptCompile Include="src2\xaml\jupiter\controls\Grid.ts" />
+    <TypeScriptCompile Include="src2\xaml\jupiter\controls\gui\Grid.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\controls\Panel.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\Core.ts" />
     <TypeScriptCompile Include="src2\xaml\jupiter\DependencyObject.ts" />

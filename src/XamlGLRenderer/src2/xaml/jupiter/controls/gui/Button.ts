@@ -1,8 +1,8 @@
-﻿import { UIElement } from "../UIElement";
-import { Scene, ParticleSystemShape, Event } from "./Core";
-import { LinkedDictionary } from "../../../libs/typescript-collections/src/lib";
+﻿import { UIElement } from "../../UIElement";
+import { Scene, ParticleSystemShape, Event } from "../Core";
+import { LinkedDictionary } from "../../../../libs/typescript-collections/src/lib";
 import "babylonjs-gui"
-import { CustomScript } from "../../behaviors/CustomScript";
+import { CustomScript } from "../../../behaviors/CustomScript";
 
 export class Button extends UIElement {
     private _content: string;
