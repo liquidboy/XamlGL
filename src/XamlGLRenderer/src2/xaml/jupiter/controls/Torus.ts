@@ -36,13 +36,7 @@ export class Torus extends AnimatableUIElement implements ISetValue {
 
         this.CreateCtrl();
 
-        if (this.Animations && this.Animations.Animations)
-            this.Animations.Animations.forEach((animation: Animation) => {
-                var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS,
-                    animation.DataType, animation.LoopMode);
-                animationBox.setKeys(animation.KeyFrames.GetArray());
-                this.Ctrl.animations.push(animationBox);
-            });
+        this.InitializeAnimation();
         this.PostInitialize();
     }
 

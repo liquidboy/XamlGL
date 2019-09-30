@@ -42,14 +42,7 @@ export class Disc extends AnimatableUIElement {
         //if (this._mesh && this.Position) this._mesh.position = this.Position;
         if (this.Ctrl && this.HasValue(this.ShowNormalLines) && this.ShowNormalLines) MeshNormalLines.Install(scene, this.Ctrl);
 
-        if (this.Ctrl && this.Animations && this.Animations.Animations)
-            this.Animations.Animations.forEach((animation: Animation) => {
-                var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS,
-                    animation.DataType, animation.LoopMode);
-                animationBox.setKeys(animation.KeyFrames.GetArray());
-                this.Ctrl.animations.push(animationBox);
-            });
-
+        this.InitializeAnimation();
         this.PostInitialize();
     }
 

@@ -28,7 +28,7 @@
       <Box x:Name="box2" Scene="mainScene" Material="material2" ShowNormalLines="False" Width="10.0" 
            Position="Vector3(20,0,0)">
         <Animations>
-          <Animation x:Name="autoAnimation2" TargetProperty="scaling.x" FPS="15" 
+          <Animation x:Name="autoAnimation2" TargetProperty="scaling.x" FPS="60" 
                      DataType="BABYLON.Animation.ANIMATIONTYPE_FLOAT" 
                      LoopMode="BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE" EnableBlending="False">
             <KeyFrames>

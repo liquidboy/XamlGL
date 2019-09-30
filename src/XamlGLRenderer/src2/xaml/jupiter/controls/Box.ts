@@ -55,14 +55,7 @@ export class Box extends AnimatableUIElement {
         if (this.HasValue(this.Enabled)) this.Ctrl.setEnabled(this.Enabled);
         if (this.HasValue(this.RotationQuaternion)) this.Ctrl.rotationQuaternion = this.RotationQuaternion;
 
-        if (this.Animations && this.Animations.Animations)
-            this.Animations.Animations.forEach((animation: Animation) => {
-                var animationBox = new BABYLON.Animation(animation.Name, animation.TargetProperty, animation.FPS,
-                    animation.DataType, animation.LoopMode);
-                animationBox.setKeys(animation.KeyFrames.GetArray());
-                this.Ctrl.animations.push(animationBox);
-            });
-
+        this.InitializeAnimation();
         this.PostInitialize();
     }
 

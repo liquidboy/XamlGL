@@ -2,6 +2,7 @@
 
 export interface IAnimatableUIElement {
     Animations: Animations;
+    InitializeAnimation(): void;
     StartAnimation(): void;
     StopAnimation(): void;
 }
